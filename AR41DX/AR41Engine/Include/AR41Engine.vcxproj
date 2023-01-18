@@ -76,6 +76,7 @@
     <ClInclude Include="fmod_errors.h" />
     <ClInclude Include="fmod_output.h" />
     <ClInclude Include="GameObject\GameObject.h" />
+    <ClInclude Include="GameObject\SkySphere.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_impl_dx11.h" />
@@ -227,6 +228,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EngineSetting.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
+    <ClCompile Include="GameObject\SkySphere.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />

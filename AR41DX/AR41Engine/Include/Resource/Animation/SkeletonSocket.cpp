@@ -14,8 +14,7 @@ CSkeletonSocket::~CSkeletonSocket()
 {
 }
 
-void CSkeletonSocket::Update(const OutputBoneInfo& Info, 
-	CAnimationMeshComponent* Owner)
+void CSkeletonSocket::Update(const OutputBoneInfo& Info, CAnimationMeshComponent* Owner)
 {
 	m_PrevWorldPos = m_WorldPos;
 	m_PrevWorldScale = m_WorldScale;
@@ -103,12 +102,11 @@ void CSkeletonSocket::ComputeWorld(CAnimationMeshComponent* Owner)
 {
 	Vector3	ParentRot = Owner->GetWorldRot();
 
-	ParentRot.ConvertAngle();
+	ParentRot = ParentRot.ConvertAngle();
 
-	DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ParentRot.x,
-		ParentRot.y, ParentRot.z);
+	DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ParentRot.x, ParentRot.y, ParentRot.z);
 
-		// 행렬을 구한다.
+	// 행렬을 구한다.
 	Matrix	matRot;
 	matRot.RotationQuaternion(Qut);
 

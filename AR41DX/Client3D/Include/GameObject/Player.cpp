@@ -19,8 +19,7 @@ CPlayer::CPlayer()
 	m_ObjectTypeName = "Player";
 }
 
-CPlayer::CPlayer(const CPlayer& Obj) :
-	CGameObject(Obj)
+CPlayer::CPlayer(const CPlayer& Obj) : CGameObject(Obj)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
@@ -36,25 +35,20 @@ void CPlayer::Start()
 	CGameObject::Start();
 
 	if (m_Scene)
+	{
 		m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
+	}
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveFront", Input_Type::Push,
-		this, &CPlayer::MoveFront, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveBack", Input_Type::Push,
-		this, &CPlayer::MoveBack, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("MoveFront", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("MoveBack", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveLeft", Input_Type::Push,
-		this, &CPlayer::MoveLeft, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveRight", Input_Type::Push,
-		this, &CPlayer::MoveRight, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("MoveLeft", Input_Type::Push, this, &CPlayer::MoveLeft, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("MoveRight", Input_Type::Push, this, &CPlayer::MoveRight, m_Scene);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("Jump", Input_Type::Down,
-		this, &CPlayer::Jump, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("Jump", Input_Type::Down, this, &CPlayer::Jump, m_Scene);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("LButton", Input_Type::Down,
-		this, &CPlayer::AttackKey, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("RButton", Input_Type::Push,
-		this, &CPlayer::CameraRotationKey, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("LButton", Input_Type::Down, this, &CPlayer::AttackKey, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("RButton", Input_Type::Push, this, &CPlayer::CameraRotationKey, m_Scene);
 
 }
 
@@ -121,14 +115,17 @@ void CPlayer::Load(FILE* File)
 
 void CPlayer::MoveFront()
 {
+	AddWorldPosition(GetWorldAxis(AXIS_Z) * 100.f * CEngine::GetInst()->GetDeltaTime());
 }
 
 void CPlayer::MoveBack()
 {
+	AddWorldPosition(GetWorldAxis(AXIS_Z) * -100.f * CEngine::GetInst()->GetDeltaTime());
 }
 
 void CPlayer::MoveLeft()
 {
+	AddWorldRotationY(180.f * CEngine::GetInst()->GetDeltaTime());
 }
 
 void CPlayer::MoveRight()
@@ -155,5 +152,7 @@ void CPlayer::CameraRotationKey()
 	}
 
 	if (MouseMove.y != 0.f)
+	{
 		m_Arm->AddRelativeRotationX(MouseMove.y * DeltaTime * 180.f);
+	}
 }

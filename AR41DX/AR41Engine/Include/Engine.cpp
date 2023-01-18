@@ -399,7 +399,7 @@ LRESULT CEngine::WndProc(HWND hWnd, UINT message, WPARAM wParam,
 	{
 		// wParam의 상위 16비트를 얻어온다.
 		// 이렇게 얻어오면 휠 방향에 따라 120, -120이 들어온다.
-		short	Wheel = HIWORD(wParam);
+		short Wheel = HIWORD(wParam);
 		CInput::GetInst()->SetWheel(Wheel / 120);
 	}
 		break;

@@ -449,8 +449,10 @@ struct InstancingCBuffer
 
 struct OutputBoneInfo
 {
-	Matrix	matBone;
-	Vector3	Pos;
-	Vector3	Scale;
-	Vector4	Rot;
+	Matrix matBone;
+	Vector3 Pos;
+	float Empty1;
+	Vector3 Scale;
+	float Empty2;
+	Vector4 Rot;
 };

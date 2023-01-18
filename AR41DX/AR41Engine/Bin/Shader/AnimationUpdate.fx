@@ -123,11 +123,7 @@ void MatrixRotationQuaternion(in float4 Quaternion, out matrix _outMat)
 }
 
 
-void MatrixAffineTransformation(in float4 Scaling
-    , in float4 RotationOrigin
-    , in float4 RotationQuaternion
-    , in float4 Translation
-    , out matrix _outMat)
+void MatrixAffineTransformation(in float4 Scaling, in float4 RotationOrigin, in float4 RotationQuaternion, in float4 Translation, out matrix _outMat)
 {
     matrix MScaling = (matrix) 0.f;
     MScaling._11_22_33 = Scaling.xyz;
@@ -168,10 +164,7 @@ float4 QuternionLerp(in float4 _vQ1, in float4 _vQ2, float _fRatio)
     float4 SinOmega = float4(1.f, 1.f, 1.f, 1.f) - (CosOmega * CosOmega);
     SinOmega = float4(sqrt(SinOmega.x), sqrt(SinOmega.y), sqrt(SinOmega.z), sqrt(SinOmega.w));
 
-    float4 Omega = float4(atan2(SinOmega.x, CosOmega.x)
-        , atan2(SinOmega.y, CosOmega.y)
-        , atan2(SinOmega.z, CosOmega.z)
-        , atan2(SinOmega.w, CosOmega.w));
+    float4 Omega = float4(atan2(SinOmega.x, CosOmega.x), atan2(SinOmega.y, CosOmega.y), atan2(SinOmega.z, CosOmega.z), atan2(SinOmega.w, CosOmega.w));
 
     float4 SignMask = float4(asfloat(0x80000000U), asfloat(0x80000000U), asfloat(0x80000000U), asfloat(0x80000000U));
     float4 V01 = VectorShiftLeft(vT, Zero, 2);
@@ -207,10 +200,12 @@ struct FrameTrans
 
 struct OutputBoneInfo
 {
-    matrix  matBone;
-    float3  Pos;
-    float3  Scale;
-    float4  Rot;
+    matrix matBone;
+    float3 Pos;
+    float Empty1;
+    float3 Scale;
+    float Empty2;
+    float4 Rot;
 };
 
 StructuredBuffer<FrameTrans> g_FrameTransArray : register(t15);
