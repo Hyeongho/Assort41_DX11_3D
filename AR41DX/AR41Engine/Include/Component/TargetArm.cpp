@@ -41,6 +41,16 @@ void CTargetArm::Destroy()
 void CTargetArm::Start()
 {
 	CSceneComponent::Start();
+
+	SetRelativePosition(m_TargetOffset);
+
+	auto iter = m_vecChild.begin();
+	auto iterEnd = m_vecChild.end();
+
+	for ( ; iter != iterEnd; iter++)
+	{
+		(*iter)->SetRelativePosition(GetWorldAxis(m_TargetDistanceAxis) * -1.f * m_TargetDistance);
+	}
 }
 
 bool CTargetArm::Init()
@@ -56,31 +66,35 @@ void CTargetArm::Update(float DeltaTime)
 
 	if (m_WheelZoomInOutEnable)
 	{
-		short	Wheel = CInput::GetInst()->GetMouseWheel();
+		short Wheel = CInput::GetInst()->GetMouseWheel();
 
 		if (Wheel != 0)
 		{
-			float	Move = m_WheelSensitivity * m_WheelTickMove * Wheel * -1.f;
+			float Move = m_WheelSensitivity * m_WheelTickMove * Wheel * -1.f;
 
 			m_TargetDistance += Move;
 
 			if (m_TargetDistance < m_WheelZoomMin)
+			{
 				m_TargetDistance = m_WheelZoomMin;
+			}
 
 			else if (m_TargetDistance > m_WheelZoomMax)
+			{
 				m_TargetDistance = m_WheelZoomMax;
+			}
 		}
 	}
 
 	if (m_Parent)
 	{
-		auto	iter = m_vecChild.begin();
-		auto	iterEnd = m_vecChild.end();
+		/*auto iter = m_vecChild.begin();
+		auto iterEnd = m_vecChild.end();
 
 		for (; iter != iterEnd; ++iter)
 		{
 			(*iter)->SetOffset(GetWorldAxis(m_TargetDistanceAxis) * -1.f * m_TargetDistance + m_TargetOffset);
-		}
+		}*/
 
 		/*Vector3	ParentPos = m_Parent->GetWorldPos();
 

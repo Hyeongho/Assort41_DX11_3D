@@ -1,4 +1,3 @@
-
 #include "Animation.h"
 #include "../Component/AnimationMeshComponent.h"
 #include "../Scene/Scene.h"
@@ -43,21 +42,27 @@ CAnimation::CAnimation(const CAnimation& Anim) :
 	m_AnimationUpdateShader = Anim.m_AnimationUpdateShader;
 
 	if (Anim.m_AnimationUpdateCBuffer)
+	{
 		m_AnimationUpdateCBuffer = Anim.m_AnimationUpdateCBuffer->Clone();
+	}
 
 
 	if (Anim.m_OutputBuffer)
+	{
 		m_OutputBuffer = Anim.m_OutputBuffer->Clone();
+	}
 
 	if (Anim.m_BoneBuffer)
+	{
 		m_BoneBuffer = Anim.m_BoneBuffer->Clone();
+	}
 
 	m_Skeleton = Anim.m_Skeleton;
 
 	m_mapAnimation.clear();
 
-	auto	iter = Anim.m_mapAnimation.begin();
-	auto	iterEnd = Anim.m_mapAnimation.end();
+	auto iter = Anim.m_mapAnimation.begin();
+	auto iterEnd = Anim.m_mapAnimation.end();
 
 	for (; iter != iterEnd; ++iter)
 	{
@@ -78,8 +83,8 @@ CAnimation::~CAnimation()
 	SAFE_DELETE(m_BoneBuffer);
 	SAFE_DELETE(m_AnimationUpdateCBuffer);
 
-	auto	iter = m_mapAnimation.begin();
-	auto	iterEnd = m_mapAnimation.end();
+	auto iter = m_mapAnimation.begin();
+	auto iterEnd = m_mapAnimation.end();
 
 	for (; iter != iterEnd; ++iter)
 	{
@@ -90,7 +95,9 @@ CAnimation::~CAnimation()
 CScene* CAnimation::GetScene() const
 {
 	if (!m_Owner)
+	{
 		return nullptr;
+	}
 
 	return m_Owner->GetScene();
 }
@@ -114,13 +121,11 @@ void CAnimation::Start()
 
 	m_OutputBuffer = new CStructuredBuffer;
 
-	m_OutputBuffer->Init("OutputBone", sizeof(Matrix),
-		(unsigned int)m_Skeleton->GetBoneCount(), 0);
+	m_OutputBuffer->Init("OutputBone", sizeof(Matrix), (unsigned int)m_Skeleton->GetBoneCount(), 0);
 
 	m_BoneBuffer = new CStructuredBuffer;
 
-	m_BoneBuffer->Init("OutputBone", sizeof(OutputBoneInfo),
-		(unsigned int)m_Skeleton->GetBoneCount(), 1,
+	m_BoneBuffer->Init("OutputBone", sizeof(OutputBoneInfo), (unsigned int)m_Skeleton->GetBoneCount(), 1,
 		D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS,
 		D3D11_CPU_ACCESS_READ);
 }
@@ -132,16 +137,16 @@ bool CAnimation::Init()
 
 void CAnimation::Update(float DeltaTime)
 {
-	if (!m_Play || !m_CurAnimation ||
-		!m_Skeleton ||
-		m_CurAnimation->m_Sequence->GetKeyFrameCount() == 0)
+	if (!m_Play || !m_CurAnimation || !m_Skeleton || m_CurAnimation->m_Sequence->GetKeyFrameCount() == 0)
+	{
 		return;
+	}
 
 	m_GlobalTime += DeltaTime * m_CurAnimation->m_PlayScale;
 
-	bool	Change = false;
-	bool	ChangeEnd = false;
-	bool	AnimEnd = false;
+	bool Change = false;
+	bool ChangeEnd = false;
+	bool AnimEnd = false;
 
 	if (m_ChangeAnimation)
 	{
@@ -180,12 +185,16 @@ void CAnimation::Update(float DeltaTime)
 		int	NextFrameIndex = FrameIndex + 1;
 
 		if (FrameIndex >= EndFrame)
+		{
 			FrameIndex = EndFrame - 1;
+		}
 
 		if (NextFrameIndex >= EndFrame)
-			NextFrameIndex = StartFrame;
+		{
+			NextFrameIndex = StartFrame - 1;
+		}
 
-		float	Ratio = (m_GlobalTime - m_CurAnimation->m_Sequence->m_FrameTime * FrameIndex) / m_CurAnimation->m_Sequence->m_FrameTime;
+		float Ratio = (m_GlobalTime - m_CurAnimation->m_Sequence->m_FrameTime * FrameIndex) / m_CurAnimation->m_Sequence->m_FrameTime;
 
 		m_AnimationUpdateCBuffer->SetFrameCount(EndFrame);
 		m_AnimationUpdateCBuffer->SetCurrentFrame(FrameIndex);
@@ -196,8 +205,7 @@ void CAnimation::Update(float DeltaTime)
 
 		for (size_t i = 0; i < Size; ++i)
 		{
-			if (!m_CurAnimation->m_vecNotify[i]->Call &&
-				m_CurAnimation->m_vecNotify[i]->Frame == FrameIndex)
+			if (!m_CurAnimation->m_vecNotify[i]->Call && m_CurAnimation->m_vecNotify[i]->Frame == FrameIndex)
 			{
 				m_CurAnimation->m_vecNotify[i]->Call = true;
 				m_CurAnimation->m_vecNotify[i]->Function();
@@ -207,7 +215,9 @@ void CAnimation::Update(float DeltaTime)
 		if (AnimEnd)
 		{
 			if (m_CurAnimation->m_EndFunction)
+			{
 				m_CurAnimation->m_EndFunction();
+			}
 
 			if (m_CurAnimation->m_Loop)
 			{
@@ -295,15 +305,21 @@ bool CAnimation::AddAnimation(const std::string& Name,
 	CAnimationData* Anim = FindAnimation(Name);
 
 	if (Anim)
+	{
 		return false;
+	}
 
 	CAnimationSequence* Sequence = nullptr;
 
 	if (m_Owner->GetScene())
+	{
 		Sequence = m_Owner->GetScene()->GetResource()->FindAnimationSequence(SequenceName);
+	}
 
 	else
+	{
 		Sequence = CResourceManager::GetInst()->FindAnimationSequence(SequenceName);
+	}
 
 	Anim = new CAnimationData;
 
@@ -334,7 +350,9 @@ bool CAnimation::AddAnimation(const std::string& Name,
 	CAnimationData* Anim = FindAnimation(Name);
 
 	if (Anim)
+	{
 		return false;
+	}
 
 	Anim = new CAnimationData;
 
@@ -363,7 +381,9 @@ void CAnimation::SetPlayTime(const std::string& Name, float PlayTime)
 	CAnimationData* Anim = FindAnimation(Name);
 
 	if (!Anim)
+	{
 		return;
+	}
 
 	Anim->m_PlayTime = PlayTime;
 }
@@ -373,7 +393,9 @@ void CAnimation::SetPlayScale(const std::string& Name, float PlayScale)
 	CAnimationData* Anim = FindAnimation(Name);
 
 	if (!Anim)
+	{
 		return;
+	}
 
 	Anim->m_PlayScale = PlayScale;
 }
@@ -383,7 +405,9 @@ void CAnimation::SetLoop(const std::string& Name, bool Loop)
 	CAnimationData* Anim = FindAnimation(Name);
 
 	if (!Anim)
+	{
 		return;
+	}
 
 	Anim->m_Loop = Loop;
 }
@@ -393,7 +417,9 @@ void CAnimation::SetReverse(const std::string& Name, bool Reverse)
 	CAnimationData* Anim = FindAnimation(Name);
 
 	if (!Anim)
+	{
 		return;
+	}
 
 	Anim->m_Reverse = Reverse;
 }
@@ -403,14 +429,16 @@ void CAnimation::SetCurrentAnimation(const std::string& Name)
 	CAnimationData* Anim = FindAnimation(Name);
 
 	if (!Anim)
+	{
 		return;
+	}
 
 	m_CurAnimation = Anim;
 
 	m_CurAnimation->m_Time = 0.f;
 	m_GlobalTime = 0.f;
 
-	size_t	Size = m_CurAnimation->m_vecNotify.size();
+	size_t Size = m_CurAnimation->m_vecNotify.size();
 
 	for (size_t i = 0; i < Size; ++i)
 	{
@@ -421,12 +449,16 @@ void CAnimation::SetCurrentAnimation(const std::string& Name)
 void CAnimation::ChangeAnimation(const std::string& Name)
 {
 	if (m_CurAnimation->GetName() == Name)
+	{
 		return;
+	}
 
 	m_ChangeAnimation = FindAnimation(Name);
 
 	if (!m_ChangeAnimation)
+	{
 		return;
+	}
 
 	size_t	Size = m_CurAnimation->m_vecNotify.size();
 
@@ -446,8 +478,8 @@ void CAnimation::Save(FILE* File)
 
 	fwrite(&Count, 4, 1, File);
 
-	auto	iter = m_mapAnimation.begin();
-	auto	iterEnd = m_mapAnimation.end();
+	auto iter = m_mapAnimation.begin();
+	auto iterEnd = m_mapAnimation.end();
 
 	for (; iter != iterEnd; ++iter)
 	{
@@ -464,8 +496,8 @@ void CAnimation::Load(FILE* File)
 {
 	CRef::Load(File);
 
-	auto	iter = m_mapAnimation.begin();
-	auto	iterEnd = m_mapAnimation.end();
+	auto iter = m_mapAnimation.begin();
+	auto iterEnd = m_mapAnimation.end();
 
 	for (; iter != iterEnd; ++iter)
 	{
@@ -492,7 +524,7 @@ void CAnimation::Load(FILE* File)
 	}
 
 	int	Length = 0;
-	char	CurName[256] = {};
+	char CurName[256] = {};
 
 	fread(&Length, 4, 1, File);
 	fread(CurName, 1, Length, File);
@@ -517,10 +549,12 @@ void CAnimation::ResetShader()
 
 CAnimationData* CAnimation::FindAnimation(const std::string& Name)
 {
-	auto	iter = m_mapAnimation.find(Name);
+	auto iter = m_mapAnimation.find(Name);
 
 	if (iter == m_mapAnimation.end())
+	{
 		return nullptr;
+	}
 
 	return iter->second;
 }
