@@ -82,7 +82,7 @@ CTileMapComponent::~CTileMapComponent()
 	auto	iter = m_vecTile.begin();
 	auto	iterEnd = m_vecTile.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		SAFE_DELETE((*iter));
 	}
@@ -311,7 +311,7 @@ void CTileMapComponent::CreateTile(ETileShape Shape, int CountX,
 	auto	iter = m_vecTile.begin();
 	auto	iterEnd = m_vecTile.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		SAFE_DELETE((*iter));
 	}

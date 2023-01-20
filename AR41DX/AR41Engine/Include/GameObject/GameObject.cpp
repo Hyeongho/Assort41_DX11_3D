@@ -39,7 +39,7 @@ CGameObject::CGameObject(const CGameObject& Obj)    :
 		auto	iter = Obj.m_vecObjectComponent.begin();
 		auto	iterEnd = Obj.m_vecObjectComponent.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			CObjectComponent* Component = (*iter)->Clone();
 
@@ -102,7 +102,7 @@ void CGameObject::AddChildToSocket(const std::string& SocketName,
 	auto	iter = m_SceneComponentList.begin();
 	auto	iterEnd = m_SceneComponentList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if ((*iter)->CheckTypeID<CAnimationMeshComponent>())
 		{
@@ -144,7 +144,7 @@ CComponent* CGameObject::FindComponent(const std::string& Name)
 	auto    iter = m_SceneComponentList.begin();
 	auto    iterEnd = m_SceneComponentList.end();
 	
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if ((*iter)->GetName() == Name)
 			return *iter;
@@ -153,7 +153,7 @@ CComponent* CGameObject::FindComponent(const std::string& Name)
 	auto    iter1 = m_vecObjectComponent.begin();
 	auto    iter1End = m_vecObjectComponent.end();
 
-	for (; iter1 != iter1End; ++iter1)
+	for (; iter1 != iter1End; iter1++)
 	{
 		if ((*iter1)->GetName() == Name)
 			return *iter1;
@@ -247,7 +247,7 @@ void CGameObject::Save(FILE* File)
 		auto	iter = m_vecObjectComponent.begin();
 		auto	iterEnd = m_vecObjectComponent.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			int	Length = (int)(*iter)->GetComponentTypeName().length();
 

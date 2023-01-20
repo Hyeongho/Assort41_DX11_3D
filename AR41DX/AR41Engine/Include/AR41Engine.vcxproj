@@ -42,6 +42,7 @@
     <ClInclude Include="Component\SpriteComponent.h" />
     <ClInclude Include="Component\StaticMeshComponent.h" />
     <ClInclude Include="Component\TargetArm.h" />
+    <ClInclude Include="Component\TerrainComponent.h" />
     <ClInclude Include="Component\Tile.h" />
     <ClInclude Include="Component\TileMapComponent.h" />
     <ClInclude Include="Component\Transform.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="Ref.h" />
     <ClInclude Include="Render\BlendState.h" />
     <ClInclude Include="Render\DepthStencilState.h" />
+    <ClInclude Include="Render\RasterizerState.h" />
     <ClInclude Include="Render\RenderInstancing.h" />
     <ClInclude Include="Render\RenderManager.h" />
     <ClInclude Include="Render\RenderState.h" />
@@ -135,9 +137,11 @@
     <ClInclude Include="Resource\Shader\ScreenShader.h" />
     <ClInclude Include="Resource\Shader\Shader.h" />
     <ClInclude Include="Resource\Shader\ShaderManager.h" />
+    <ClInclude Include="Resource\Shader\SkyShader.h" />
     <ClInclude Include="Resource\Shader\SpriteColorShader.h" />
     <ClInclude Include="Resource\Shader\SpriteShader.h" />
     <ClInclude Include="Resource\Shader\StructuredBuffer.h" />
+    <ClInclude Include="Resource\Shader\TerrainShader.h" />
     <ClInclude Include="Resource\Shader\TileMapBackShader.h" />
     <ClInclude Include="Resource\Shader\TileMapConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\TileMapShader.h" />
@@ -208,6 +212,7 @@
     <ClCompile Include="Component\SpriteComponent.cpp" />
     <ClCompile Include="Component\StaticMeshComponent.cpp" />
     <ClCompile Include="Component\TargetArm.cpp" />
+    <ClCompile Include="Component\TerrainComponent.cpp" />
     <ClCompile Include="Component\Tile.cpp" />
     <ClCompile Include="Component\TileMapComponent.cpp" />
     <ClCompile Include="Component\Transform.cpp" />
@@ -242,6 +247,7 @@
     <ClCompile Include="Ref.cpp" />
     <ClCompile Include="Render\BlendState.cpp" />
     <ClCompile Include="Render\DepthStencilState.cpp" />
+    <ClCompile Include="Render\RasterizerState.cpp" />
     <ClCompile Include="Render\RenderInstancing.cpp" />
     <ClCompile Include="Render\RenderManager.cpp" />
     <ClCompile Include="Render\RenderState.cpp" />
@@ -285,9 +291,11 @@
     <ClCompile Include="Resource\Shader\ScreenShader.cpp" />
     <ClCompile Include="Resource\Shader\Shader.cpp" />
     <ClCompile Include="Resource\Shader\ShaderManager.cpp" />
+    <ClCompile Include="Resource\Shader\SkyShader.cpp" />
     <ClCompile Include="Resource\Shader\SpriteColorShader.cpp" />
     <ClCompile Include="Resource\Shader\SpriteShader.cpp" />
     <ClCompile Include="Resource\Shader\StructuredBuffer.cpp" />
+    <ClCompile Include="Resource\Shader\TerrainShader.cpp" />
     <ClCompile Include="Resource\Shader\TileMapBackShader.cpp" />
     <ClCompile Include="Resource\Shader\TileMapConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\TileMapShader.cpp" />
@@ -408,6 +416,20 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="..\Bin\Shader\Sky.fx">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SkyVS</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">SkyVS</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">SkyVS</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SkyVS</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\Bin\Shader\Sprite.fx">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SpriteColorVS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
@@ -419,6 +441,20 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SpriteColorVS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\Terrain.fx">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TerrainVS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TerrainVS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TerrainVS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TerrainVS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>

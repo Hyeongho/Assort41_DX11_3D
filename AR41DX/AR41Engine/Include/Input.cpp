@@ -32,7 +32,7 @@ CInput::~CInput()
 		auto	iter = m_mapKeyState.begin();
 		auto	iterEnd = m_mapKeyState.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			SAFE_DELETE(iter->second);
 		}
@@ -44,7 +44,7 @@ CInput::~CInput()
 		auto	iter = m_mapBindKey.begin();
 		auto	iterEnd = m_mapBindKey.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			for (int i = 0; i < (int)Input_Type::End; ++i)
 			{
@@ -306,7 +306,7 @@ void CInput::UpdateKeyState(float DeltaTime)
 	auto	iter = m_mapKeyState.begin();
 	auto	iterEnd = m_mapKeyState.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		bool	KeyPush = false;
 
@@ -383,7 +383,7 @@ void CInput::UpdateBindKey(float DeltaTime)
 	auto	iter = m_mapBindKey.begin();
 	auto	iterEnd = m_mapBindKey.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if (iter->second->key->Down &&
 			iter->second->Ctrl == m_Ctrl &&
@@ -517,7 +517,7 @@ void CInput::ClearCallback()
 	auto	iter = m_mapBindKey.begin();
 	auto	iterEnd = m_mapBindKey.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		for (int i = 0; i < (int)Input_Type::End; ++i)
 		{
@@ -538,7 +538,7 @@ void CInput::ClearCallback(CScene* Scene)
 	auto	iter = m_mapBindKey.begin();
 	auto	iterEnd = m_mapBindKey.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		for (int i = 0; i < (int)Input_Type::End; ++i)
 		{
@@ -555,7 +555,7 @@ void CInput::ClearCallback(CScene* Scene)
 					continue;
 				}
 
-				++iter1;
+				iter1++;
 			}
 		}
 	}

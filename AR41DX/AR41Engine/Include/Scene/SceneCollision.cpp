@@ -33,7 +33,7 @@ CSceneCollision::~CSceneCollision()
 	auto	iter = m_mapPixelCollision.begin();
 	auto	iterEnd = m_mapPixelCollision.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		--iter->second->RefCount;
 
@@ -100,12 +100,12 @@ void CSceneCollision::Update(float DeltaTime)
 			// 보내야 한다.
 			(*iter)->SendPrevCollisionEnd();
 
-			++iter;
+			iter++;
 			continue;
 		}
 
 		CheckSection(*iter);
-		++iter;
+		iter++;
 	}
 
 	// 현재 충돌영역이 겹치는지 판단한다. 이전프레임에 충돌되고 있던 물체와 충돌영역이 겹치는게 없다면
@@ -114,7 +114,7 @@ void CSceneCollision::Update(float DeltaTime)
 	iter = m_ColliderList.begin();
 	iterEnd = m_ColliderList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if (!(*iter)->GetEnable())
 			continue;
@@ -142,7 +142,7 @@ void CSceneCollision::Update(float DeltaTime)
 	iter = m_ColliderList.begin();
 	iterEnd = m_ColliderList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if (!(*iter)->GetEnable())
 			continue;

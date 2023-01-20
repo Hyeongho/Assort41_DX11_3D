@@ -53,7 +53,7 @@ public:
 		auto	iter = m_mapAnimation.begin();
 		auto	iterEnd = m_mapAnimation.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			vecNames.push_back(iter->first);
 		}

@@ -1,4 +1,3 @@
-
 #pragma once
 
 #define	DIRECTINPUT_VERSION	0x0800
@@ -128,12 +127,7 @@ struct IndexBuffer
 	DXGI_FORMAT	Fmt;	// ÀÎµ¦½º Æ÷¸ä
 	void* Data;			// ÀÎµ¦½º Á¤º¸
 
-	IndexBuffer() :
-		Buffer(nullptr),
-		Size(0),
-		Count(0),
-		Fmt(DXGI_FORMAT_UNKNOWN),
-		Data(nullptr)
+	IndexBuffer() : Buffer(nullptr), Size(0), Count(0), Fmt(DXGI_FORMAT_UNKNOWN), Data(nullptr)
 	{
 	}
 
@@ -146,16 +140,16 @@ struct IndexBuffer
 
 struct TransformCBuffer
 {
-	Matrix  matWorld;
-	Matrix  matView;
-	Matrix  matProj;
-	Matrix  matWVP;
-	Matrix	matWV;
-	Matrix	matInvWorld;
-	Matrix	matInvView;
-	Matrix	matInvProj;
-	Matrix	matInvWVP;
-	Matrix	matInvVP;
+	Matrix matWorld;
+	Matrix matView;
+	Matrix matProj;
+	Matrix matWVP;
+	Matrix matWV;
+	Matrix matInvWorld;
+	Matrix matInvView;
+	Matrix matInvProj;
+	Matrix matInvWVP;
+	Matrix matInvVP;
 	Vector3 Pivot;
 	float	Proj11;
 	Vector3 MeshSize;
@@ -179,9 +173,7 @@ struct VertexUV
 	{
 	}
 
-	VertexUV(const Vector3& _Pos, const Vector2& _UV) :
-		Pos(_Pos),
-		UV(_UV)
+	VertexUV(const Vector3& _Pos, const Vector2& _UV) : Pos(_Pos), UV(_UV)
 	{
 	}
 };
@@ -195,6 +187,15 @@ struct Vertex3D
 	Vector3	Binormal;
 	Vector4	BlendWeight;
 	Vector4	BlendIndex;
+};
+
+struct Vertex3DStatic
+{
+	Vector3	Pos;
+	Vector3	Normal;
+	Vector2	UV;
+	Vector3	Tangent;
+	Vector3	Binormal;
 };
 
 struct MaterialCBuffer

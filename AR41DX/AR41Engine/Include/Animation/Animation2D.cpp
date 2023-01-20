@@ -24,7 +24,7 @@ CAnimation2D::CAnimation2D(const CAnimation2D& Anim)	:
 	auto	iter = Anim.m_mapAnimation.begin();
 	auto	iterEnd = Anim.m_mapAnimation.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		CAnimation2DData* Data = iter->second->Clone();
 
@@ -42,7 +42,7 @@ CAnimation2D::~CAnimation2D()
 	auto	iter = m_mapAnimation.begin();
 	auto	iterEnd = m_mapAnimation.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		SAFE_DELETE(iter->second);
 	}
@@ -333,7 +333,7 @@ void CAnimation2D::Save(FILE* File)
 	auto	iter = m_mapAnimation.begin();
 	auto	iterEnd = m_mapAnimation.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		iter->second->Save(File);
 	}
@@ -351,7 +351,7 @@ void CAnimation2D::Load(FILE* File)
 	auto	iter = m_mapAnimation.begin();
 	auto	iterEnd = m_mapAnimation.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		SAFE_DELETE(iter->second);
 	}

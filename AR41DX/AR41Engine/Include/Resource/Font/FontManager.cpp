@@ -12,7 +12,7 @@ CFontManager::~CFontManager()
         auto    iter = m_mapFontColor.begin();
         auto    iterEnd = m_mapFontColor.end();
 
-        for (; iter != iterEnd; ++iter)
+        for (; iter != iterEnd; iter++)
         {
             SAFE_RELEASE(iter->second);
         }

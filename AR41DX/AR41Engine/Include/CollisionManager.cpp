@@ -16,7 +16,7 @@ CCollisionManager::~CCollisionManager()
 		auto	iter = m_mapProfile.begin();
 		auto	iterEnd = m_mapProfile.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			SAFE_DELETE(iter->second);
 		}
@@ -26,7 +26,7 @@ CCollisionManager::~CCollisionManager()
 		auto	iter = m_vecChannel.begin();
 		auto	iterEnd = m_vecChannel.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			SAFE_DELETE((* iter));
 		}
@@ -139,7 +139,7 @@ bool CCollisionManager::CreateChannel(const std::string& Name,
 	auto	iter = m_mapProfile.begin();
 	auto	iterEnd = m_mapProfile.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		iter->second->vecCollisionInteraction.push_back(Interaction);
 	}

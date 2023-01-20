@@ -16,7 +16,7 @@ CEditorGUIManager::~CEditorGUIManager()
 	auto	iter = m_mapWindow.begin();
 	auto	iterEnd = m_mapWindow.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		SAFE_DELETE(iter->second);
 	}
@@ -62,7 +62,7 @@ void CEditorGUIManager::Update(float DeltaTime)
 	auto	iter = m_mapWindow.begin();
 	auto	iterEnd = m_mapWindow.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		iter->second->Update(DeltaTime);
 	}

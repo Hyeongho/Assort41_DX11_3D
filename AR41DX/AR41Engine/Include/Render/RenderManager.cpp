@@ -1,4 +1,3 @@
-
 #include "RenderManager.h"
 #include "../Component/SceneComponent.h"
 #include "RenderState.h"
@@ -12,6 +11,7 @@
 #include "../Resource/ResourceManager.h"
 #include "../Engine.h"
 #include "../Resource/Mesh/Mesh.h"
+#include "../GameObject/SkySphere.h"
 
 DEFINITION_SINGLE(CRenderManager)
 
@@ -34,7 +34,7 @@ CRenderManager::~CRenderManager()
 	auto	iter = m_RenderLayerList.begin();
 	auto	iterEnd = m_RenderLayerList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		SAFE_DELETE((*iter));
 	}
@@ -69,7 +69,7 @@ void CRenderManager::SetLayerPriority(const std::string& Name, int Priority)
 	auto	iter = m_RenderLayerList.begin();
 	auto	iterEnd = m_RenderLayerList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if ((*iter)->Name == Name)
 		{
@@ -86,7 +86,7 @@ void CRenderManager::SetLayerAlphaBlend(const std::string& Name)
 	auto	iter = m_RenderLayerList.begin();
 	auto	iterEnd = m_RenderLayerList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if ((*iter)->Name == Name)
 		{
@@ -101,7 +101,7 @@ void CRenderManager::DeleteLayer(const std::string& Name)
 	auto	iter = m_RenderLayerList.begin();
 	auto	iterEnd = m_RenderLayerList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if ((*iter)->Name == Name)
 		{
@@ -117,7 +117,7 @@ void CRenderManager::AddRenderList(CSceneComponent* Component)
 	auto	iter = m_RenderLayerList.begin();
 	auto	iterEnd = m_RenderLayerList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if ((*iter)->Name == Component->GetRenderLayerName())
 		{
@@ -156,7 +156,7 @@ void CRenderManager::Render(float DeltaTime)
 			auto	iter = m_RenderLayerList.begin();
 			auto	iterEnd = m_RenderLayerList.end();
 
-			for (; iter != iterEnd; ++iter)
+			for (; iter != iterEnd; iter++)
 			{
 				auto	iter1 = (*iter)->RenderList.begin();
 				auto	iter1End = (*iter)->RenderList.end();
@@ -175,12 +175,12 @@ void CRenderManager::Render(float DeltaTime)
 
 					else if (!(*iter1)->GetEnable())
 					{
-						++iter1;
+						iter1++;
 						continue;
 					}
 
 					(*iter1)->Render();
-					++iter1;
+					iter1++;
 				}
 
 				if ((*iter)->AlphaBlend)
@@ -225,6 +225,14 @@ void CRenderManager::Render3D(float DeltaTime)
 {
 	// 인스턴싱으로 처리해야될 물체가 있을 경우 별도의 인스턴싱 리스트에
 	// 추가해주도록 한다.
+
+	// 하늘을 그린다.
+	CGameObject* SkyObj = CSceneManager::GetInst()->GetScene()->GetSky();
+
+	if (SkyObj)
+	{
+		SkyObj->GetRootComponent()->Render();
+	}
 
 	// GBuffer를 그려낸다.
 	RenderGBuffer(DeltaTime);
@@ -289,7 +297,7 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 
 		else if (!(*iter)->GetEnable())
 		{
-			++iter;
+			iter++;
 			continue;
 		}
 
@@ -357,14 +365,14 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 		}
 
 		//(*iter)->Render();
-		++iter;
+		iter++;
 	}
 
 	// 인스턴싱이 아닌 물체를 그려낸다.
 	auto	iter1 = RenderList.begin();
 	auto	iter1End = RenderList.end();
 
-	for (; iter1 != iter1End; ++iter1)
+	for (; iter1 != iter1End; iter1++)
 	{
 		(*iter1)->Render();
 	}
@@ -385,24 +393,23 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 			continue;
 		}
 
-		++iter2;
+		iter2++;
 	}
 
 	iter2 = m_mapInstancing.begin();
 	iter2End = m_mapInstancing.end();
 
-	for (; iter2 != iter2End; ++iter2)
+	for (; iter2 != iter2End; iter2++)
 	{
 		iter2->second->Render();
 	}
 
 
-	CDevice::GetInst()->GetContext()->OMSetRenderTargets((UINT)Size,
-		&vecPrevTargetView[0], DepthView);
+	CDevice::GetInst()->GetContext()->OMSetRenderTargets((UINT)Size, &vecPrevTargetView[0], DepthView);
 
 	SAFE_RELEASE(DepthView);
 
-	for (size_t i = 0; i < Size; ++i)
+	for (size_t i = 0; i < Size; i++)
 	{
 		SAFE_RELEASE(vecPrevTargetView[i]);
 	}
@@ -680,7 +687,7 @@ RenderLayer* CRenderManager::FindLayer(const std::string& Name)
 
 	RenderLayer* GBufferLayer = nullptr;
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if ((*iter)->Name == Name)
 			return *iter;

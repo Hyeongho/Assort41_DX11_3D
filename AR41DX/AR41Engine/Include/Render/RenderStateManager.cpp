@@ -1,7 +1,7 @@
-
 #include "RenderStateManager.h"
 #include "BlendState.h"
 #include "DepthStencilState.h"
+#include "RasterizerState.h"
 
 CRenderStateManager::CRenderStateManager()
 {
@@ -16,16 +16,16 @@ bool CRenderStateManager::Init()
 	AddBlendInfo("AlphaBlend");
 	CreateBlendState("AlphaBlend", true, false);
 
-	AddBlendInfo("LightAccBlend", true, D3D11_BLEND_ONE,
-		D3D11_BLEND_ONE);
+	AddBlendInfo("LightAccBlend", true, D3D11_BLEND_ONE, D3D11_BLEND_ONE);
 	CreateBlendState("LightAccBlend", true, false);
 
 	CreateDepthStencil("DepthDisable", false);
 
-	CreateDepthStencil("DepthLessEqual", true, D3D11_DEPTH_WRITE_MASK_ALL,
-		D3D11_COMPARISON_LESS_EQUAL);
+	CreateDepthStencil("DepthLessEqual", true, D3D11_DEPTH_WRITE_MASK_ALL, D3D11_COMPARISON_LESS_EQUAL);
 
 	CreateDepthStencil("DepthWriteDisable", true, D3D11_DEPTH_WRITE_MASK_ZERO);
+
+	CreateState("FrontFaceCull", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_FRONT);
 
 	return true;
 }
@@ -72,7 +72,9 @@ bool CRenderStateManager::CreateBlendState(const std::string& Name,
 	CBlendState* State = FindRenderState<CBlendState>(Name);
 
 	if (!State)
+	{
 		return false;
+	}
 
 	if (!State->CreateState(AlphaToCoverageEnable, IndependentBlendEnable))
 	{
@@ -92,7 +94,9 @@ bool CRenderStateManager::CreateDepthStencil(const std::string& Name,
 	CDepthStencilState* State = FindRenderState<CDepthStencilState>(Name);
 
 	if (State)
+	{
 		return true;
+	}
 
 	State = new CDepthStencilState;
 
@@ -101,6 +105,36 @@ bool CRenderStateManager::CreateDepthStencil(const std::string& Name,
 	if (!State->CreateDepthStencil(DepthEnable, DepthWriteMask, DepthFunc,
 		StencilEnable, StencilReadMask, StencilWriteMask, FrontFace,
 		BackFace))
+	{
+		SAFE_RELEASE(State);
+		return false;
+	}
+
+	m_mapState.insert(std::make_pair(Name, State));
+
+	return true;
+}
+
+bool CRenderStateManager::CreateState(const std::string& Name,
+	D3D11_FILL_MODE FillMode, D3D11_CULL_MODE CullMode,
+	BOOL FrontCounterClockwise, INT DepthBias, FLOAT DepthBiasClamp,
+	FLOAT SlopeScaledDepthBias, BOOL DepthClipEnable, BOOL ScissorEnable,
+	BOOL MultisampleEnable, BOOL AntialiasedLineEnable)
+{
+	CRasterizerState* State = FindRenderState<CRasterizerState>(Name);
+
+	if (State)
+	{
+		return true;
+	}
+
+	State = new CRasterizerState;
+
+	State->SetName(Name);
+
+	if (!State->CreateState(FillMode, CullMode, FrontCounterClockwise,
+		DepthBias, DepthBiasClamp, SlopeScaledDepthBias, DepthClipEnable,
+		ScissorEnable, MultisampleEnable, AntialiasedLineEnable))
 	{
 		SAFE_RELEASE(State);
 		return false;

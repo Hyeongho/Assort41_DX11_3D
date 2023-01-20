@@ -34,7 +34,7 @@ CCollider::~CCollider()
 	auto	iter = m_PrevCollisionList.begin();
 	auto	iterEnd = m_PrevCollisionList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		(*iter)->DeletePrevCollisionCollider(this);
 
@@ -53,7 +53,7 @@ void CCollider::DeletePrevCollisionCollider(CCollider* Collider)
 	auto	iter = m_PrevCollisionList.begin();
 	auto	iterEnd = m_PrevCollisionList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if (*iter == Collider)
 		{
@@ -68,7 +68,7 @@ bool CCollider::CheckPrevCollision(CCollider* Collider)
 	auto	iter = m_PrevCollisionList.begin();
 	auto	iterEnd = m_PrevCollisionList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if (*iter == Collider)
 			return true;
@@ -89,13 +89,13 @@ void CCollider::CheckPrevCollisionColliderSection()
 		auto	iterIndex = m_CurrentSectionList.begin();
 		auto	iterIndexEnd = m_CurrentSectionList.end();
 
-		for (; iterIndex != iterIndexEnd; ++iterIndex)
+		for (; iterIndex != iterIndexEnd; iterIndex++)
 		{
 			// 이전 충돌물체의 충돌영역 목록을 반복한다.
 			auto	iterDestIndex = (*iter)->m_CurrentSectionList.begin();
 			auto	iterDestIndexEnd = (*iter)->m_CurrentSectionList.end();
 
-			for (; iterDestIndex != iterDestIndexEnd; ++iterDestIndex)
+			for (; iterDestIndex != iterDestIndexEnd; iterDestIndex++)
 			{
 				if (*iterIndex == *iterDestIndex)
 				{
@@ -129,7 +129,7 @@ void CCollider::CheckPrevCollisionColliderSection()
 			continue;
 		}
 
-		++iter;
+		iter++;
 	}
 }
 
@@ -138,7 +138,7 @@ void CCollider::SendPrevCollisionEnd()
 	auto	iter = m_PrevCollisionList.begin();
 	auto	iterEnd = m_PrevCollisionList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		(*iter)->DeletePrevCollisionCollider(this);
 
@@ -182,12 +182,12 @@ int CCollider::CheckOverlapSection(CCollider* Dest)
 	auto	iter1 = m_CurrentSectionList.begin();
 	auto	iter1End = m_CurrentSectionList.end();
 
-	for (; iter1 != iter1End; ++iter1)
+	for (; iter1 != iter1End; iter1++)
 	{
 		auto	iter2 = Dest->m_CurrentSectionList.begin();
 		auto	iter2End = Dest->m_CurrentSectionList.end();
 
-		for (; iter2 != iter2End; ++iter2)
+		for (; iter2 != iter2End; iter2++)
 		{
 			if (*iter1 == *iter2)
 			{

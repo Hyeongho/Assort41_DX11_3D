@@ -329,7 +329,7 @@ bool CMesh::ConvertFBX(CFBXLoader* Loader, const char* FullPath)
 	bool    BumpEnable = false;
 	bool    AnimationEnable = false;
 
-	for (; iter != iterEnd; ++iter, ++ContainerIndex)
+	for (; iter != iterEnd; iter++, ++ContainerIndex)
 	{
 		MeshContainer* Container = new MeshContainer;
 
@@ -439,7 +439,7 @@ bool CMesh::ConvertFBX(CFBXLoader* Loader, const char* FullPath)
 
 	ContainerIndex = 0;
 
-	for (; iterM != iterMEnd; ++iterM, ++ContainerIndex)
+	for (; iterM != iterMEnd; iterM++, ++ContainerIndex)
 	{
 		// 서브셋 수만큼 반복한다.
 		size_t  Size = (*iterM).size();

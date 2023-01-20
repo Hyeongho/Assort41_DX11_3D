@@ -1,4 +1,3 @@
-
 #include "PrimitiveComponent.h"
 #include "../Scene/Scene.h"
 #include "../Scene/SceneResource.h"
@@ -25,7 +24,7 @@ CPrimitiveComponent::CPrimitiveComponent(const CPrimitiveComponent& component)	:
 
 	size_t	Size = m_vecMaterial.size();
 
-	for (size_t i = 0; i < Size; ++i)
+	for (size_t i = 0; i < Size; i++)
 	{
 		CMaterial* Material = component.m_vecMaterial[i]->Clone();
 
@@ -42,21 +41,32 @@ CPrimitiveComponent::~CPrimitiveComponent()
 bool CPrimitiveComponent::SetMesh(const std::string& Name)
 {
 	if (m_Scene)
+	{
 		m_Mesh = m_Scene->GetResource()->FindMesh(Name);
+	}
 
 	else
+	{
 		m_Mesh = CResourceManager::GetInst()->FindMesh(Name);
+	}
 
 	if (m_Mesh)
+	{
 		SetMeshSize(m_Mesh->GetMeshSize());
+	}
 
 	m_vecMaterial.clear();
 
 	int SlotCount = m_Mesh->GetSlotCount();
 
-	for (int i = 0; i < SlotCount; ++i)
+	for (int i = 0; i < SlotCount; i++)
 	{
 		CMaterial* Material = m_Mesh->GetMaterial(i);
+
+		if (!Material)
+		{
+			continue;
+		}
 
 		m_vecMaterial.push_back(Material->Clone());
 	}
@@ -69,15 +79,22 @@ bool CPrimitiveComponent::SetMesh(CMesh* Mesh)
 	m_Mesh = Mesh;
 
 	if (!m_Mesh)
+	{
 		return false;
+	}
 
 	SetMeshSize(m_Mesh->GetMeshSize());
 
 	int SlotCount = m_Mesh->GetSlotCount();
 
-	for (int i = 0; i < SlotCount; ++i)
+	for (int i = 0; i < SlotCount; i++)
 	{
 		CMaterial* Material = m_Mesh->GetMaterial(i);
+
+		if (!Material)
+		{
+			continue;
+		}
 
 		m_vecMaterial.push_back(Material->Clone());
 	}
@@ -178,7 +195,7 @@ void CPrimitiveComponent::Render()
 
 	int	Size = (int)m_vecMaterial.size();
 
-	for (int i = 0; i < Size; ++i)
+	for (int i = 0; i < Size; i++)
 	{
 		m_vecMaterial[i]->SetMaterial();
 
@@ -206,7 +223,7 @@ void CPrimitiveComponent::Save(FILE* File)
 
 	fwrite(&MaterialCount, 4, 1, File);
 	
-	for (int i = 0; i < MaterialCount; ++i)
+	for (int i = 0; i < MaterialCount; i++)
 	{
 		m_vecMaterial[i]->Save(File);
 	}
@@ -230,7 +247,7 @@ void CPrimitiveComponent::Load(FILE* File)
 
 	m_vecMaterial.clear();
 
-	for (int i = 0; i < MaterialCount; ++i)
+	for (int i = 0; i < MaterialCount; i++)
 	{
 		CMaterial* Material = m_Mesh->GetMaterial(i);
 

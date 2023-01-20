@@ -15,7 +15,7 @@ CThreadManager::~CThreadManager()
 		auto	iter = m_mapThread.begin();
 		auto	iterEnd = m_mapThread.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			iter->second->Stop();
 			SAFE_DELETE(iter->second);
@@ -28,7 +28,7 @@ CThreadManager::~CThreadManager()
 		auto	iter = m_mapCriticalSection.begin();
 		auto	iterEnd = m_mapCriticalSection.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			// 전역함수를 호출하겠다는 의미이다.
 			::DeleteCriticalSection(iter->second);

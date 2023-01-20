@@ -197,7 +197,7 @@ bool CAnimationMesh::ConvertFBX(CFBXLoader* Loader,
 	std::vector<FbxBone*>::const_iterator	iterB;
 	std::vector<FbxBone*>::const_iterator	iterBEnd = pvecBone->end();
 
-	for (iterB = pvecBone->begin(); iterB != iterBEnd; ++iterB)
+	for (iterB = pvecBone->begin(); iterB != iterBEnd; iterB++)
 	{
 		Bone* pBone = new Bone;
 
@@ -246,7 +246,7 @@ bool CAnimationMesh::ConvertFBX(CFBXLoader* Loader,
 	std::vector<FbxAnimationClip*>::const_iterator	iterC;
 	std::vector<FbxAnimationClip*>::const_iterator	iterCEnd = pvecClip->end();
 
-	for (iterC = pvecClip->begin(); iterC != iterCEnd; ++iterC)
+	for (iterC = pvecClip->begin(); iterC != iterCEnd; iterC++)
 	{
 		if (m_Scene)
 			m_Scene->GetResource()->LoadAnimationSequence((*iterC)->Name, false, *iterC);

@@ -44,7 +44,7 @@ CMaterial::CMaterial(const CMaterial& Material)	:
 	auto	iter = Material.m_vecTextureInfo.begin();
 	auto	iterEnd = Material.m_vecTextureInfo.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		MaterialTextureInfo* Info = new MaterialTextureInfo;
 
@@ -58,6 +58,12 @@ CMaterial::CMaterial(const CMaterial& Material)	:
 	}
 
 	m_Scene = nullptr;
+
+	for (int i = 0; i < 3; i++)
+	{
+		if (Material.m_RenderState[i])
+			m_RenderState[i] = Material.m_RenderState[i];
+	}
 }
 
 CMaterial::~CMaterial()
@@ -65,7 +71,7 @@ CMaterial::~CMaterial()
 	auto	iter = m_vecTextureInfo.begin();
 	auto	iterEnd = m_vecTextureInfo.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		SAFE_DELETE((*iter));
 	}
@@ -713,8 +719,7 @@ void CMaterial::ResetInstancingMaterial()
 
 	for (size_t i = 0; i < Size; ++i)
 	{
-		m_vecTextureInfo[i]->Texture->ResetShader(m_vecTextureInfo[i]->Register,
-			m_vecTextureInfo[i]->ShaderBufferType);
+		m_vecTextureInfo[i]->Texture->ResetShader(m_vecTextureInfo[i]->Register, m_vecTextureInfo[i]->ShaderBufferType);
 	}
 }
 

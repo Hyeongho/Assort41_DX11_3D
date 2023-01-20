@@ -1,4 +1,3 @@
-
 #include "ShaderManager.h"
 #include "SpriteColorShader.h"
 #include "SpriteShader.h"
@@ -18,6 +17,8 @@
 #include "ScreenShader.h"
 #include "DeferredRenderShader.h"
 #include "AnimationUpdateShader.h"
+#include "SkyShader.h"
+#include "TerrainShader.h"
 
 CShaderManager::CShaderManager()
 {
@@ -85,10 +86,12 @@ bool CShaderManager::Init()
 	CreateConstantBuffer("UIProgressBar", sizeof(UIProgressBarCBuffer), 11);
 	CreateConstantBuffer("TileMap", sizeof(TileMapCBuffer), 10);
 	CreateConstantBuffer("Light", sizeof(LightCBuffer), 4);
-	CreateConstantBuffer("Instancing", sizeof(InstancingCBuffer), 5,
-		(int)EShaderBufferType::Vertex);
-	CreateConstantBuffer("Animation", sizeof(AnimationCBuffer), 0,
-		(int)EShaderBufferType::Compute);
+	CreateConstantBuffer("Instancing", sizeof(InstancingCBuffer), 5, (int)EShaderBufferType::Vertex);
+	CreateConstantBuffer("Animation", sizeof(AnimationCBuffer), 0, (int)EShaderBufferType::Compute);
+
+	CreateShader<CSkyShader>("SkyShader", true);
+
+	CreateShader<CTerrainShader>("TerrainShader", true);
 
 	m_ColliderCBuffer = new CColliderConstantBuffer;
 

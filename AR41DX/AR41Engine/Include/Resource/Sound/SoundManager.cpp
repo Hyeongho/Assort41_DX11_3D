@@ -14,7 +14,7 @@ CSoundManager::~CSoundManager()
 	auto	iter = m_mapChannelGroup.begin();
 	auto	iterEnd = m_mapChannelGroup.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		iter->second->release();
 	}

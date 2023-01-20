@@ -42,7 +42,7 @@ void CLightManager::DeleteLight(const std::string& Name)
 	auto	iter = m_LightList.begin();
 	auto	iterEnd = m_LightList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if ((*iter)->GetName() == Name)
 		{
@@ -124,7 +124,7 @@ void CLightManager::Update(float DeltaTime)
 			continue;
 		}
 
-		++iter;
+		iter++;
 	}
 }
 
@@ -140,7 +140,7 @@ void CLightManager::Render()
 	auto	iter = m_LightList.begin();
 	auto	iterEnd = m_LightList.end();
 
-	for (int i = 0; iter != iterEnd; ++iter, ++i)
+	for (int i = 0; iter != iterEnd; iter++, ++i)
 	{
 		const LightCBuffer& Info = (*iter)->GetLightInfo();
 

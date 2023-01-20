@@ -11,7 +11,7 @@ CPathManager::~CPathManager()
 	auto	iter = m_mapPath.begin();
 	auto	iterEnd = m_mapPath.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		SAFE_DELETE(iter->second);
 	}

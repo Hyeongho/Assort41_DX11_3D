@@ -27,14 +27,14 @@ void CCollisionSection2D::Collision(float DeltaTime)
 
 	auto	iter1End = m_ColliderList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		CCollider* Src = *iter;
 
-		auto	iter1 = iter;
-		++iter1;
+		auto iter1 = iter;
+		iter1++;
 
-		for (; iter1 != iter1End; ++iter1)
+		for (; iter1 != iter1End; iter1++)
 		{
 			CCollider* Dest = *iter1;
 
@@ -93,15 +93,17 @@ void CCollisionSection2D::Collision(float DeltaTime)
 CCollider* CCollisionSection2D::CollisionMouse(const Vector2& MouseWorldPos, float DeltaTime)
 {
 	if (m_ColliderList.empty())
+	{
 		return nullptr;
+	}
 
 	if (m_ColliderList.size() > 1)
 		m_ColliderList.sort(CCollisionSection2D::ColliderSort);
 
-	auto	iter = m_ColliderList.begin();
-	auto	iterEnd = m_ColliderList.end();
+	auto iter = m_ColliderList.begin();
+	auto iterEnd = m_ColliderList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if ((*iter)->CollisionMouse(MouseWorldPos))
 			return *iter;

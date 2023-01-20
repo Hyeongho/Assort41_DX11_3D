@@ -87,7 +87,7 @@ public:
 		auto	iter = m_SceneComponentList.begin();
 		auto	iterEnd = m_SceneComponentList.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			if (*iter == Component)
 			{
@@ -117,7 +117,7 @@ public:
 		auto    iter = m_SceneComponentList.begin();
 		auto    iterEnd = m_SceneComponentList.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			if ((*iter)->CheckTypeID<T>())
 				return (T*)*iter;
@@ -126,7 +126,7 @@ public:
 		auto    iter1 = m_vecObjectComponent.begin();
 		auto    iter1End = m_vecObjectComponent.end();
 
-		for (; iter1 != iter1End; ++iter1)
+		for (; iter1 != iter1End; iter1++)
 		{
 			if ((*iter1)->CheckTypeID<T>())
 				return (T*)(*iter1).Get();

@@ -76,8 +76,7 @@ bool CPlayer::Init()
 	
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("PlayerAnimation");
 
-	m_Animation->AddAnimation("PlayerIdle", "PlayerIdle",
-		1.f, 1.f, true);
+	m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
 
 	//SetWorldScale(5.f, 5.f, 5.f);
 

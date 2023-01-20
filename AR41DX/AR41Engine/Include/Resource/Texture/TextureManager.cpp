@@ -15,7 +15,7 @@ CTextureManager::~CTextureManager()
 	auto	iter = m_mapSampler.begin();
 	auto	iterEnd = m_mapSampler.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		SAFE_RELEASE(iter->second);
 	}
@@ -213,7 +213,7 @@ void CTextureManager::Render()
 	auto	iter = m_mapTexture.begin();
 	auto	iterEnd = m_mapTexture.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if (iter->second->GetImageType() == EImageType::RenderTarget)
 		{

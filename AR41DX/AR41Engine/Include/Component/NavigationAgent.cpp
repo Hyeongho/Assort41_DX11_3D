@@ -49,7 +49,7 @@ void CNavigationAgent::AddPathList(const std::list<Vector2>& PathList)
 	auto	iter = PathList.begin();
 	auto	iterEnd = PathList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		stream.AddData<Vector2>(&(*iter), sizeof(Vector2));
 	}

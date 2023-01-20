@@ -91,7 +91,7 @@ void CTargetArm::Update(float DeltaTime)
 		/*auto iter = m_vecChild.begin();
 		auto iterEnd = m_vecChild.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			(*iter)->SetOffset(GetWorldAxis(m_TargetDistanceAxis) * -1.f * m_TargetDistance + m_TargetOffset);
 		}*/

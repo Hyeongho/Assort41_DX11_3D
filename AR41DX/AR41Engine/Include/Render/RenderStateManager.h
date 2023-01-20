@@ -39,6 +39,16 @@ public:
 		D3D11_DEPTH_STENCILOP_DESC BackFace = { D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS });
 
 public:
+	bool CreateState(const std::string& Name, D3D11_FILL_MODE FillMode,
+		D3D11_CULL_MODE CullMode = D3D11_CULL_BACK,
+		BOOL FrontCounterClockwise = FALSE,
+		INT DepthBias = 0, FLOAT DepthBiasClamp = 0.f,
+		FLOAT SlopeScaledDepthBias = 0.f,
+		BOOL DepthClipEnable = TRUE,
+		BOOL ScissorEnable = FALSE, BOOL MultisampleEnable = FALSE,
+		BOOL AntialiasedLineEnable = FALSE);
+
+public:
 	template <typename T>
 	T* FindRenderState(const std::string& Name)
 	{

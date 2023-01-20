@@ -48,12 +48,12 @@ void CSceneViewport::Update(float DeltaTime)
 
 		else if (!(*iter)->GetEnable())
 		{
-			++iter;
+			iter++;
 			continue;
 		}
 
 		(*iter)->Update(DeltaTime);
-		++iter;
+		iter++;
 	}
 }
 
@@ -73,12 +73,12 @@ void CSceneViewport::PostUpdate(float DeltaTime)
 
 		else if (!(*iter)->GetEnable())
 		{
-			++iter;
+			iter++;
 			continue;
 		}
 
 		(*iter)->PostUpdate(DeltaTime);
-		++iter;
+		iter++;
 	}
 }
 
@@ -101,12 +101,12 @@ void CSceneViewport::Render()
 
 		else if (!(*iter)->GetEnable())
 		{
-			++iter;
+			iter++;
 			continue;
 		}
 
 		(*iter)->Render();
-		++iter;
+		iter++;
 	}
 }
 
@@ -119,7 +119,7 @@ void CSceneViewport::Save(FILE* File)
 	auto	iter = m_vecWindow.begin();
 	auto	iterEnd = m_vecWindow.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		std::string	TypeName = (*iter)->GetWindowTypeName();
 
@@ -174,7 +174,7 @@ bool CSceneViewport::CollisionMouse()
 
 	bool	Result = false;
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if (!(*iter)->GetEnable())
 			continue;
@@ -215,7 +215,7 @@ bool CSceneViewport::CollisionMouse()
 			continue;
 		}
 
-		++iter;
+		iter++;
 	}
 
 	return Result;

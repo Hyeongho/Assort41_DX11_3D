@@ -1,4 +1,3 @@
-
 #include "Scene.h"
 #include "../GameObject/GameObject.h"
 #include "../Input.h"
@@ -14,6 +13,7 @@
 #include "../UI/UIImage.h"
 #include "../UI/UIWindow.h"
 #include "../PathManager.h"
+#include "../GameObject/SkySphere.h"
 
 std::unordered_map<std::string, CSceneInfo*> CScene::m_mapSceneInfoCDO;
 
@@ -170,6 +170,16 @@ void CScene::CreateCDO()
 
 }
 
+void CScene::SetSkyTexture(const std::string& Name, const TCHAR* FileName, const std::string& PathName)
+{
+	m_SkySphere->SetSkyTexture(Name, FileName, PathName);
+}
+
+void CScene::ClearSky()
+{
+	m_SkySphere = nullptr;
+}
+
 void CScene::Start()
 {
 	m_Start = true;
@@ -177,7 +187,7 @@ void CScene::Start()
 	auto	iter = m_ObjList.begin();
 	auto	iterEnd = m_ObjList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		(*iter)->Start();
 	}
@@ -191,16 +201,27 @@ void CScene::Start()
 
 bool CScene::Init()
 {
+	m_SkySphere = new CSkySphere;
+
+	m_SkySphere->SetName("Sky");
+	m_SkySphere->SetScene(this);
+
+	m_SkySphere->Init();
+
 	return true;
 }
 
 void CScene::Update(float DeltaTime)
 {
 	if (m_SceneInfo)
+	{
 		m_SceneInfo->Update(DeltaTime);
+	}
 
-	auto	iter = m_ObjList.begin();
-	auto	iterEnd = m_ObjList.end();
+	m_SkySphere->Update(DeltaTime);
+
+	auto iter = m_ObjList.begin();
+	auto iterEnd = m_ObjList.end();
 
 	for (; iter != iterEnd;)
 	{
@@ -213,12 +234,12 @@ void CScene::Update(float DeltaTime)
 
 		else if (!(*iter)->GetEnable())
 		{
-			++iter;
+			iter++;
 			continue;
 		}
 
 		(*iter)->Update(DeltaTime);
-		++iter;
+		iter++;
 	}
 
 	m_CameraManager->Update(DeltaTime);
@@ -229,10 +250,14 @@ void CScene::Update(float DeltaTime)
 void CScene::PostUpdate(float DeltaTime)
 {
 	if (m_SceneInfo)
+	{
 		m_SceneInfo->PostUpdate(DeltaTime);
+	}
 
-	auto	iter = m_ObjList.begin();
-	auto	iterEnd = m_ObjList.end();
+	m_SkySphere->PostUpdate(DeltaTime);
+
+	auto iter = m_ObjList.begin();
+	auto iterEnd = m_ObjList.end();
 
 	for (; iter != iterEnd;)
 	{
@@ -245,12 +270,12 @@ void CScene::PostUpdate(float DeltaTime)
 
 		else if (!(*iter)->GetEnable())
 		{
-			++iter;
+			iter++;
 			continue;
 		}
 
 		(*iter)->PostUpdate(DeltaTime);
-		++iter;
+		iter++;
 	}
 
 	m_CameraManager->PostUpdate(DeltaTime);
@@ -294,7 +319,7 @@ void CScene::Save(const char* FullPath)
 	auto	iter = m_ObjList.begin();
 	auto	iterEnd = m_ObjList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		std::string	ClassTypeName = (*iter)->GetObjectTypeName();
 
@@ -544,7 +569,7 @@ void CScene::GetAllGameObjectHierarchyName(std::vector<HierarchyObjectName>& vec
 	auto    iter = m_ObjList.begin();
 	auto    iterEnd = m_ObjList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		HierarchyObjectName	Names;
 
@@ -570,7 +595,7 @@ CGameObject* CScene::FindObject(const std::string& Name)
 	auto	iter = m_ObjList.begin();
 	auto	iterEnd = m_ObjList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if ((*iter)->GetName() == Name)
 			return *iter;

@@ -75,8 +75,8 @@ public:
 	}
 
 private:
-	bool		m_Change;
-	bool		m_Start;
+	bool m_Change;
+	bool m_Start;
 	CSceneInfo* m_SceneInfo;
 	CSceneResource* m_Resource;
 	CCameraManager* m_CameraManager;
@@ -84,11 +84,17 @@ private:
 	CSceneViewport* m_Viewport;
 	CNavigationManager* m_NavManager;
 	CLightManager* m_LightManager;
-	std::list<CSharedPtr<class CGameObject>>	m_ObjList;
+	std::list<CSharedPtr<class CGameObject>> m_ObjList;
 	std::string	m_Name;
-	std::function<void(float)>	m_LoadingCallback;
+	std::function<void(float)> m_LoadingCallback;
+	CSharedPtr<class CSkySphere> m_SkySphere;
 
 public:
+	class CSkySphere* GetSky() const
+	{
+		return m_SkySphere;
+	}
+
 	void SetName(const std::string& Name)
 	{
 		m_Name = Name;
@@ -134,6 +140,9 @@ public:
 		return m_LightManager;
 	}
 
+public:
+	void SetSkyTexture(const std::string& Name, const TCHAR* FileName, const std::string& PathName = TEXTURE_PATH);
+	void ClearSky();
 
 public:
 	void Start();

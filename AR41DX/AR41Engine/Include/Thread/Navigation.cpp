@@ -127,7 +127,7 @@ bool CNavigation::FindNode(NavNode* Node, NavNode* EndNode, const Vector2& End,
 	auto	iter = Node->SearchDirList.begin();
 	auto	iterEnd = Node->SearchDirList.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		NavNode* Corner = GetCorner(*iter, Node, EndNode, End);
 

@@ -214,7 +214,7 @@ public:
 				continue;
 			}
 
-			++iter;
+			iter++;
 		}
 
 		return true;

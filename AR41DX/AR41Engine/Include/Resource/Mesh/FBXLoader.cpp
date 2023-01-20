@@ -780,7 +780,7 @@ void CFBXLoader::LoadTimeTransform(FbxNode* Node,
 			}
 
 			else
-				++iter;
+				iter++;
 		}
 	}
 
@@ -820,7 +820,7 @@ void CFBXLoader::ChangeWeightAndIndices(FbxMeshContainer* Container)
 	std::unordered_map<int, std::vector<FbxWeight>>::iterator	iter;
 	std::unordered_map<int, std::vector<FbxWeight>>::iterator	iterEnd = Container->mapWeights.end();
 
-	for (iter = Container->mapWeights.begin(); iter != iterEnd; ++iter)
+	for (iter = Container->mapWeights.begin(); iter != iterEnd; iter++)
 	{
 		if (iter->second.size() > 4)
 		{

@@ -17,6 +17,9 @@ private:
 	CSharedPtr<class CMaterial>	m_Material;
 
 public:
+	void SetSkyTexture(const std::string& Name, const TCHAR* FileName, const std::string& PathName = TEXTURE_PATH);
+
+public:
 	virtual void Start();
 	virtual bool Init();
 	virtual CSkySphere* Clone() const;

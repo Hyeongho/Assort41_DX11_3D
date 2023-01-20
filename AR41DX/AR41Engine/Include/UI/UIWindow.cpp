@@ -69,12 +69,12 @@ void CUIWindow::Update(float DeltaTime)
 
 		else if (!(*iter)->GetEnable())
 		{
-			++iter;
+			iter++;
 			continue;
 		}
 
 		(*iter)->Update(DeltaTime);
-		++iter;
+		iter++;
 	}
 }
 
@@ -94,12 +94,12 @@ void CUIWindow::PostUpdate(float DeltaTime)
 
 		else if (!(*iter)->GetEnable())
 		{
-			++iter;
+			iter++;
 			continue;
 		}
 
 		(*iter)->PostUpdate(DeltaTime);
-		++iter;
+		iter++;
 	}
 }
 
@@ -122,12 +122,12 @@ void CUIWindow::Render()
 
 		else if (!(*iter)->GetEnable())
 		{
-			++iter;
+			iter++;
 			continue;
 		}
 
 		(*iter)->Render();
-		++iter;
+		iter++;
 	}
 }
 
@@ -235,7 +235,7 @@ CUIWidget* CUIWindow::CollisionMouse(const Vector2& MousePos)
 	auto	iter = m_vecWidget.begin();
 	auto	iterEnd = m_vecWidget.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		if (!(*iter)->GetEnable())
 			continue;

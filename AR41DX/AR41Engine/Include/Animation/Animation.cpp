@@ -64,7 +64,7 @@ CAnimation::CAnimation(const CAnimation& Anim) :
 	auto iter = Anim.m_mapAnimation.begin();
 	auto iterEnd = Anim.m_mapAnimation.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		CAnimationData* Data = iter->second->Clone();
 
@@ -86,7 +86,7 @@ CAnimation::~CAnimation()
 	auto iter = m_mapAnimation.begin();
 	auto iterEnd = m_mapAnimation.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		SAFE_DELETE(iter->second);
 	}
@@ -481,7 +481,7 @@ void CAnimation::Save(FILE* File)
 	auto iter = m_mapAnimation.begin();
 	auto iterEnd = m_mapAnimation.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		iter->second->Save(File);
 	}
@@ -499,7 +499,7 @@ void CAnimation::Load(FILE* File)
 	auto iter = m_mapAnimation.begin();
 	auto iterEnd = m_mapAnimation.end();
 
-	for (; iter != iterEnd; ++iter)
+	for (; iter != iterEnd; iter++)
 	{
 		SAFE_DELETE(iter->second);
 	}

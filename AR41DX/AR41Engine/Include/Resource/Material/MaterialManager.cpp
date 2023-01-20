@@ -43,7 +43,7 @@ bool CMaterialManager::Init()
 	Material->SetRenderState("DepthLessEqual");
 	Material->SetRenderState("AlphaBlend");
 
-	for (int i = 0; i <= 379; ++i)
+	for (int i = 0; i <= 379; i++)
 	{
 		SAFE_DELETE_ARRAY(vecFileNames[i]);
 	}
@@ -52,6 +52,15 @@ bool CMaterialManager::Init()
 
 	Material->SetShader("TileMapBackShader");
 	Material->SetRenderState("DepthLessEqual");
+
+	Material = CreateMaterial<CMaterial>("Sky");
+
+	Material->SetShader("SkyShader");
+
+	Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture", TEXT("Sky.dds"));
+
+	Material->SetRenderState("DepthLessEqual");
+	Material->SetRenderState("FrontFaceCull");
 
 	return true;
 }

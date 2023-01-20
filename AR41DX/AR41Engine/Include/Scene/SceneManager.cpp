@@ -25,7 +25,7 @@ CSceneManager::~CSceneManager()
 		auto	iter = CScene::m_mapSceneInfoCDO.begin();
 		auto	iterEnd = CScene::m_mapSceneInfoCDO.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			SAFE_DELETE(iter->second);
 		}
@@ -35,7 +35,7 @@ CSceneManager::~CSceneManager()
 		auto	iter = CGameObject::m_mapObjectCDO.begin();
 		auto	iterEnd = CGameObject::m_mapObjectCDO.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			SAFE_DELETE(iter->second);
 		}
@@ -45,7 +45,7 @@ CSceneManager::~CSceneManager()
 		auto	iter = CComponent::m_mapComponent.begin();
 		auto	iterEnd = CComponent::m_mapComponent.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			SAFE_DELETE(iter->second);
 		}
@@ -55,7 +55,7 @@ CSceneManager::~CSceneManager()
 		auto	iter = CAnimation2D::m_mapAnimationCDO.begin();
 		auto	iterEnd = CAnimation2D::m_mapAnimationCDO.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			SAFE_DELETE(iter->second);
 		}
@@ -65,7 +65,7 @@ CSceneManager::~CSceneManager()
 		auto	iter = CUIWindow::m_mapUIWindowCDO.begin();
 		auto	iterEnd = CUIWindow::m_mapUIWindowCDO.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			SAFE_DELETE(iter->second);
 		}
@@ -75,7 +75,7 @@ CSceneManager::~CSceneManager()
 		auto	iter = CUIWidget::m_mapUIWidgetCDO.begin();
 		auto	iterEnd = CUIWidget::m_mapUIWidgetCDO.end();
 
-		for (; iter != iterEnd; ++iter)
+		for (; iter != iterEnd; iter++)
 		{
 			SAFE_DELETE(iter->second);
 		}
@@ -85,6 +85,8 @@ CSceneManager::~CSceneManager()
 bool CSceneManager::Init()
 {
 	m_Scene = new CScene;
+
+	m_Scene->Init();
 
 	return true;
 }

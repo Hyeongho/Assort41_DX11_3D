@@ -44,7 +44,7 @@ void CRenderInstancing::Render()
 
 	vecBuffer.resize(m_RenderList.size());
 
-	for (int i = 0; iter != iterEnd; ++iter, ++i)
+	for (int i = 0; iter != iterEnd; iter++, ++i)
 	{
 		Matrix	matWorld = (*iter)->GetWorldMatrix();
 
@@ -75,7 +75,7 @@ void CRenderInstancing::Render()
 		iter = m_RenderList.begin();
 		iterEnd = m_RenderList.end();
 
-		for (int i = 0; iter != iterEnd; ++iter, ++i)
+		for (int i = 0; iter != iterEnd; iter++, ++i)
 		{
 			CMaterial* Material = (*iter)->GetMaterial(Slot);
 
