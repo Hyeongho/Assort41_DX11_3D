@@ -191,7 +191,7 @@ void CAnimation::Update(float DeltaTime)
 
 		if (NextFrameIndex >= EndFrame)
 		{
-			NextFrameIndex = StartFrame - 1;
+			NextFrameIndex = EndFrame - 1;
 		}
 
 		float Ratio = (m_GlobalTime - m_CurAnimation->m_Sequence->m_FrameTime * FrameIndex) / m_CurAnimation->m_Sequence->m_FrameTime;
