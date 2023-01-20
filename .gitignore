@@ -31,5 +31,10 @@
 *.out
 *.app
 
+*.pdb
+*.tlog
+
+
+
 .svn/
 .vs/
