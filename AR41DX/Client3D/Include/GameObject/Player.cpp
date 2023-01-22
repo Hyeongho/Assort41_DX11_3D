@@ -67,11 +67,8 @@ bool CPlayer::Init()
 
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
-	m_Camera->SetInheritRotZ(true);
 
-	m_Arm->SetInheritRotX(true);
 	m_Arm->SetInheritRotY(true);
-	m_Arm->SetInheritRotZ(true);
 
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
