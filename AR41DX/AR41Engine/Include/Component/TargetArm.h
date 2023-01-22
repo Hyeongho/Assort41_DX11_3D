@@ -60,10 +60,7 @@ public:
 		m_TargetDistanceAxis = Axis;
 	}
 
-	void SetTargetDistance(float Distance)
-	{
-		m_TargetDistance = Distance;
-	}
+	void SetTargetDistance(float Distance);
 
 	void SetTargetOffset(const Vector3& Offset)
 	{

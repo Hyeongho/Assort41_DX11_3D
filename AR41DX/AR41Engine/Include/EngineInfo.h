@@ -457,3 +457,10 @@ struct OutputBoneInfo
 	float Empty2;
 	Vector4 Rot;
 };
+
+struct TerrainCBuffer
+{
+	float DetailLevel;
+	int SplatCount;
+	Vector2 Empty;
+};

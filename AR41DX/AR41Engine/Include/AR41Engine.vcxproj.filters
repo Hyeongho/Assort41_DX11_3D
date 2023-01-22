@@ -271,6 +271,9 @@
     <Filter Include="02. Resource\02. Shader\02. ShaderClass\13. Terrain">
       <UniqueIdentifier>{9f583153-fa9d-4e7c-a98c-fbd98d1cc94a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\11. Terrain">
+      <UniqueIdentifier>{639d720b-a026-42b9-8add-75dd9933e62f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -777,6 +780,9 @@
     <ClInclude Include="Resource\Shader\TerrainShader.h">
       <Filter>02. Resource\02. Shader\02. ShaderClass\13. Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\Shader\TerrainConstantBuffer.h">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\11. Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1225,6 +1231,9 @@
     </ClCompile>
     <ClCompile Include="Resource\Shader\TerrainShader.cpp">
       <Filter>02. Resource\02. Shader\02. ShaderClass\13. Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\TerrainConstantBuffer.cpp">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\11. Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

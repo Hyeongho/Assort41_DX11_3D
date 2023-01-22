@@ -1,9 +1,9 @@
-
 #include "MainSceneInfo.h"
 #include "Scene/Scene.h"
 #include "../GameObject/Player.h"
 #include "../GameObject/Monster.h"
 #include "../GameObject/Weapon.h"
+#include "Component/TerrainComponent.h"
 
 CMainSceneInfo::CMainSceneInfo()
 {
@@ -24,6 +24,12 @@ bool CMainSceneInfo::Init()
 	CWeapon* Weapon = m_Owner->CreateObject<CWeapon>("Weapon");
 
 	Player->AddChildToSocket("Weapon", Weapon);
+
+	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("Terrain");
+
+	CTerrainComponent* Terrain = TerrainObj->CreateComponent<CTerrainComponent>("Terrain");
+
+	Terrain->CreateTerrain(129, 129, 100.f, 100.f, TEXT("LandScape/height1.bmp"));
 
 	/*for (int i = 0; i < 100; ++i)
 	{

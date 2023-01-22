@@ -20,6 +20,13 @@ struct VS_OUTPUT_STATIC
     float3 Binormal : BINORMAL;
 };
 
+cbuffer TerrainCBuffer : register(b10)
+{
+    float g_TerrainDetailLevel;
+    int g_TerrainSplatCount;
+    float2 g_TerrainEmpty;
+};
+
 VS_OUTPUT_STATIC TerrainVS(VS_INPUT_STATIC input)
 {
     VS_OUTPUT_STATIC output = (VS_OUTPUT_STATIC)0;
@@ -44,6 +51,8 @@ PS_OUTPUT_GBUFFER TerrainPS(VS_OUTPUT_STATIC input)
 {
     PS_OUTPUT_GBUFFER output = (PS_OUTPUT_GBUFFER)0;
 
+    float2 DetaiUV = input.UV * g_TerrainDetailLevel;
+
     float4  TextureColor = g_BaseTexture.Sample(g_LinearSmp, input.UV);
 
     if (TextureColor.a == 0.f || g_MtrlOpacity == 0.f)
@@ -54,7 +63,7 @@ PS_OUTPUT_GBUFFER TerrainPS(VS_OUTPUT_STATIC input)
     output.GBuffer1.rgb = TextureColor.rgb;
     output.GBuffer1.a = TextureColor.a * g_MtrlOpacity;
 
-    output.GBuffer2.rgb = ComputeBumpNormal(input.Tangent, input.Binormal, input.Normal, input.UV);
+    output.GBuffer2.rgb = ComputeBumpNormal(input.Tangent, input.Binormal, input.Normal, DetaiUV);
     output.GBuffer2.a = 1.f;
 
     // 원근투영을 이용하여 변환된 투영공간의 위치에서 w는 뷰공간에서의
@@ -71,7 +80,7 @@ PS_OUTPUT_GBUFFER TerrainPS(VS_OUTPUT_STATIC input)
 
     if (g_MtrlBaseColor.a == 1.f)
     {
-        SpecularColor.rgb = g_SpecularTexture.Sample(g_LinearSmp, input.UV).rrr;
+        SpecularColor.rgb = g_SpecularTexture.Sample(g_LinearSmp, DetaiUV).rrr;
     }
 
     output.GBuffer4.b = ConvertColor(SpecularColor);
@@ -80,7 +89,7 @@ PS_OUTPUT_GBUFFER TerrainPS(VS_OUTPUT_STATIC input)
 
     if (g_MtrlEmissiveColor.a == 1.f)
     {
-        EmissiveColor.rgb = g_EmissiveTexture.Sample(g_LinearSmp, input.UV).rgb;
+        EmissiveColor.rgb = g_EmissiveTexture.Sample(g_LinearSmp, DetaiUV).rgb;
     }
 
     output.GBuffer4.a = ConvertColor(EmissiveColor);

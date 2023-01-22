@@ -62,6 +62,18 @@ bool CMaterialManager::Init()
 	Material->SetRenderState("DepthLessEqual");
 	Material->SetRenderState("FrontFaceCull");
 
+	Material = CreateMaterial<CMaterial>("DefaultTerrain");
+
+	Material->SetShader("TerrainShader");
+
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "DefaultTerrainTexture", TEXT("LandScape/ROCK_01+MOSS.bmp"));
+	Material->AddTexture(1, (int)EShaderBufferType::Pixel, "DefaultTerrainNormalTexture", TEXT("LandScape/ROCK_01+MOSS_NRM.png"));
+	Material->AddTexture(2, (int)EShaderBufferType::Pixel, "DefaultTerrainSpecularTexture", TEXT("LandScape/ROCK_01+MOSS_SPEC.png"));
+
+	Material->EnableBump();
+	Material->EnableSpecular();
+	Material->SetSpecularPower(3.2f);
+
 	return true;
 }
 
