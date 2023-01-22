@@ -33,7 +33,9 @@
 
 *.pdb
 *.tlog
-
+*.idb
+*.lik
+*.tlog
 
 
 .svn/
