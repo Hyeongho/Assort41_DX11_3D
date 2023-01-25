@@ -12,9 +12,10 @@
 #include "PathManager.h"
 #include "Scene/SceneManager.h"
 #include "Scene/Scene.h"
-#include "../GameObject\Player2D.h"
+#include "../GameObject\Player.h"
 #include "../GameObject\Bullet.h"
 #include "../GameObject\Monster.h"
+#include "../GameObject\Weapon.h"
 #include "ObjectWindow.h"
 #include "ComponentWindow.h"
 #include "Editor/EditorGUIManager.h"
@@ -137,14 +138,17 @@ void CClassWindow::ObjectCreateCallback()
 	if (m_SelectObjectItem == "GameObject")
 		Obj = Scene->CreateObject<CGameObject>(m_SelectObjectItem);
 
-	else if (m_SelectObjectItem == "Player2D")
-		Obj = Scene->CreateObject<CPlayer2D>(m_SelectObjectItem);
+	else if (m_SelectObjectItem == "Player")
+		Obj = Scene->CreateObject<CPlayer>(m_SelectObjectItem);
 
 	else if (m_SelectObjectItem == "Bullet")
 		Obj = Scene->CreateObject<CBullet>(m_SelectObjectItem);
 
 	else if (m_SelectObjectItem == "Monster")
 		Obj = Scene->CreateObject<CMonster>(m_SelectObjectItem);
+
+	else if (m_SelectObjectItem == "Weapon")
+		Obj = Scene->CreateObject<CWeapon>(m_SelectObjectItem);
 
 	if (Window)
 	{

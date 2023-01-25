@@ -34,6 +34,12 @@
     <Filter Include="03. Window\01. DetailWindow">
       <UniqueIdentifier>{4621b128-08a2-4b3a-9908-a7ee536d6e03}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Window\02. UIWIndow">
+      <UniqueIdentifier>{d1d9c823-acb2-4db6-96cf-fc8a7f0c61b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Window\03. ColliderWindow">
+      <UniqueIdentifier>{9404a976-0bab-4e23-a85c-414c696696df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -47,15 +53,6 @@
     </ClCompile>
     <ClCompile Include="Window\TestWindow.cpp">
       <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Monster.cpp">
-      <Filter>04. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Player2D.cpp">
-      <Filter>04. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Bullet.cpp">
-      <Filter>04. GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Window\ObjectWindow.cpp">
       <Filter>03. Window</Filter>
@@ -114,6 +111,21 @@
     <ClCompile Include="Window\DetailWindow\TileMapWidgetList.cpp">
       <Filter>03. Window\01. DetailWindow</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Bullet.cpp">
+      <Filter>04. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Monster.cpp">
+      <Filter>04. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Player.cpp">
+      <Filter>04. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Weapon.cpp">
+      <Filter>04. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\FBXWindow.cpp">
+      <Filter>03. Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -130,15 +142,6 @@
     </ClInclude>
     <ClInclude Include="Window\TestWindow.h">
       <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Bullet.h">
-      <Filter>04. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Monster.h">
-      <Filter>04. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Player2D.h">
-      <Filter>04. GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Window\ObjectWindow.h">
       <Filter>03. Window</Filter>
@@ -196,6 +199,21 @@
     </ClInclude>
     <ClInclude Include="Window\DetailWindow\TileMapWidgetList.h">
       <Filter>03. Window\01. DetailWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Bullet.h">
+      <Filter>04. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Monster.h">
+      <Filter>04. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Player.h">
+      <Filter>04. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Weapon.h">
+      <Filter>04. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\FBXWindow.h">
+      <Filter>03. Window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

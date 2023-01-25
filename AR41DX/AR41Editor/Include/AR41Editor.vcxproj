@@ -184,7 +184,8 @@
     <ClCompile Include="EditorManager.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
-    <ClCompile Include="GameObject\Player2D.cpp" />
+    <ClCompile Include="GameObject\Player.cpp" />
+    <ClCompile Include="GameObject\Weapon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\EditorDefaultScene.cpp" />
     <ClCompile Include="Scene\LoadingSceneInfo.cpp" />
@@ -202,6 +203,7 @@
     <ClCompile Include="Window\DetailWindow\SpriteComponentWidgetList.cpp" />
     <ClCompile Include="Window\DetailWindow\TargetArmWidgetList.cpp" />
     <ClCompile Include="Window\DetailWindow\TileMapWidgetList.cpp" />
+    <ClCompile Include="Window\FBXWindow.cpp" />
     <ClCompile Include="Window\ObjectWindow.cpp" />
     <ClCompile Include="Window\ResourceWindow.cpp" />
     <ClCompile Include="Window\SceneWindow.cpp" />
@@ -213,7 +215,8 @@
     <ClInclude Include="EditorManager.h" />
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Monster.h" />
-    <ClInclude Include="GameObject\Player2D.h" />
+    <ClInclude Include="GameObject\Player.h" />
+    <ClInclude Include="GameObject\Weapon.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\EditorDefaultScene.h" />
     <ClInclude Include="Scene\LoadingSceneInfo.h" />
@@ -231,6 +234,7 @@
     <ClInclude Include="Window\DetailWindow\SpriteComponentWidgetList.h" />
     <ClInclude Include="Window\DetailWindow\TargetArmWidgetList.h" />
     <ClInclude Include="Window\DetailWindow\TileMapWidgetList.h" />
+    <ClInclude Include="Window\FBXWindow.h" />
     <ClInclude Include="Window\ObjectWindow.h" />
     <ClInclude Include="Window\ResourceWindow.h" />
     <ClInclude Include="Window\SceneWindow.h" />
