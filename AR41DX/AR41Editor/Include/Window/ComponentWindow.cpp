@@ -20,6 +20,11 @@
 #include "UI/UINumber.h"
 #include "UI/UIProgressBar.h"
 #include "UI/UIText.h"
+#include "UIButtonWindow.h"
+#include "UIImageWindow.h"
+#include "UINumberWindow.h"
+#include "UIProgressBarWindow.h"
+#include "UITextWindow.h"
 
 CComponentWindow::CComponentWindow()
 	: m_Tree(nullptr)
@@ -150,45 +155,45 @@ void CComponentWindow::WidgetCallback(CEditorTreeItem<class CUIWidget*>* node, c
 	{
 		return;
 	}
-	//if (m_SelectWidget->GetWidgetTypeName() == "UIButton")
-	//{
-	//	CUIButtonWindow* buttonWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUIButtonWindow>("UIButtonWindow");
-	//	if (buttonWindow)
-	//	{
-	//		buttonWindow->SetSelectWidget((CUIButton*)m_SelectWidget.Get());
-	//	}
-	//}
-	//else if (m_SelectWidget->GetWidgetTypeName() == "UIImage")
-	//{
-	//	CUIImageWindow* imgWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUIImageWindow>("UIImageWindow");
-	//	if (imgWindow)
-	//	{
-	//		imgWindow->SetSelectWidget((CUIImage*)m_SelectWidget.Get());
-	//	}
-	//}
-	//else if (m_SelectWidget->GetWidgetTypeName() == "UINumber")
-	//{
-	//	CUINumberWindow* numberWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUINumberWindow>("UINumberWindow");
-	//	if (numberWindow)
-	//	{
-	//		numberWindow->SetSelectWidget((CUINumber*)m_SelectWidget.Get());
-	//	}
-	//}
-	//else if (m_SelectWidget->GetWidgetTypeName() == "UIProgressBar")
-	//{
-	//	CUIProgressBarWindow* barWindow =
-	//		CEditorGUIManager::GetInst()->FindEditorWindow<CUIProgressBarWindow>("UIProgressBarWindow");
-	//	if (barWindow)
-	//	{
-	//		barWindow->SetSelectWidget((CUIProgressBar*)m_SelectWidget.Get());
-	//	}
-	//}
-	//else if (m_SelectWidget->GetWidgetTypeName() == "UIText")
-	//{
-	//	CUITextWindow* textWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUITextWindow>("UITextWindow");
-	//	if (textWindow)
-	//	{
-	//		textWindow->SetSelectWidget((CUIText*)m_SelectWidget.Get());
-	//	}
-	//}
+	if (m_SelectWidget->GetWidgetTypeName() == "UIButton")
+	{
+		CUIButtonWindow* buttonWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUIButtonWindow>("UIButtonWindow");
+		if (buttonWindow)
+		{
+			buttonWindow->SetSelectWidget((CUIButton*)m_SelectWidget.Get());
+		}
+	}
+	else if (m_SelectWidget->GetWidgetTypeName() == "UIImage")
+	{
+		CUIImageWindow* imgWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUIImageWindow>("UIImageWindow");
+		if (imgWindow)
+		{
+			imgWindow->SetSelectWidget((CUIImage*)m_SelectWidget.Get());
+		}
+	}
+	else if (m_SelectWidget->GetWidgetTypeName() == "UINumber")
+	{
+		CUINumberWindow* numberWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUINumberWindow>("UINumberWindow");
+		if (numberWindow)
+		{
+			numberWindow->SetSelectWidget((CUINumber*)m_SelectWidget.Get());
+		}
+	}
+	else if (m_SelectWidget->GetWidgetTypeName() == "UIProgressBar")
+	{
+		CUIProgressBarWindow* barWindow =
+			CEditorGUIManager::GetInst()->FindEditorWindow<CUIProgressBarWindow>("UIProgressBarWindow");
+		if (barWindow)
+		{
+			barWindow->SetSelectWidget((CUIProgressBar*)m_SelectWidget.Get());
+		}
+	}
+	else if (m_SelectWidget->GetWidgetTypeName() == "UIText")
+	{
+		CUITextWindow* textWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUITextWindow>("UITextWindow");
+		if (textWindow)
+		{
+			textWindow->SetSelectWidget((CUIText*)m_SelectWidget.Get());
+		}
+	}
 }

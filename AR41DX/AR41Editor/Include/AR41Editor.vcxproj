@@ -209,6 +209,11 @@
     <ClCompile Include="Window\SceneWindow.cpp" />
     <ClCompile Include="Window\TestWindow.cpp" />
     <ClCompile Include="Window\TransformWindow.cpp" />
+    <ClCompile Include="Window\UIButtonWindow.cpp" />
+    <ClCompile Include="Window\UIImageWindow.cpp" />
+    <ClCompile Include="Window\UINumberWindow.cpp" />
+    <ClCompile Include="Window\UIProgressBarWindow.cpp" />
+    <ClCompile Include="Window\UITextWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor.h" />
@@ -240,6 +245,11 @@
     <ClInclude Include="Window\SceneWindow.h" />
     <ClInclude Include="Window\TestWindow.h" />
     <ClInclude Include="Window\TransformWindow.h" />
+    <ClInclude Include="Window\UIButtonWindow.h" />
+    <ClInclude Include="Window\UIImageWindow.h" />
+    <ClInclude Include="Window\UINumberWindow.h" />
+    <ClInclude Include="Window\UIProgressBarWindow.h" />
+    <ClInclude Include="Window\UITextWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AR41Editor.rc" />

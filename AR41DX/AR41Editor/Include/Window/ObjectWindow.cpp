@@ -13,6 +13,11 @@
 #include "Editor/EditorGUIManager.h"
 #include "Scene/SceneManager.h"
 #include "Scene/Scene.h"
+#include "UIButtonWindow.h"
+#include "UIImageWindow.h"
+#include "UINumberWindow.h"
+#include "UIProgressBarWindow.h"
+#include "UITextWindow.h"
 
 CObjectWindow::CObjectWindow()
 	: m_Tree(nullptr)
@@ -212,31 +217,31 @@ void CObjectWindow::UICallback(CEditorTreeItem<CUIWindow*>* node, const std::str
 	m_SelectWindow = node->GetCustomData();
 	if (m_SelectWindow)
 	{
-		//CUIButtonWindow* buttonWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUIButtonWindow>("UIButtonWindow");
-		//if (buttonWindow)
-		//{
-		//	buttonWindow->SetSelectWindow(m_SelectWindow);
-		//}
-		//CUIImageWindow* imgWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUIImageWindow>("UIImageWindow");
-		//if (imgWindow)
-		//{
-		//	imgWindow->SetSelectWindow(m_SelectWindow);
-		//}
-		//CUINumberWindow* numberWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUINumberWindow>("UINumberWindow");
-		//if (numberWindow)
-		//{
-		//	numberWindow->SetSelectWindow(m_SelectWindow);
-		//}
-		//CUIProgressBarWindow* barWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUIProgressBarWindow>("UIProgressBarWindow");
-		//if (barWindow)
-		//{
-		//	barWindow->SetSelectWindow(m_SelectWindow);
-		//}
-		//CUITextWindow* textWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUITextWindow>("UITextWindow");
-		//if (textWindow)
-		//{
-		//	textWindow->SetSelectWindow(m_SelectWindow);
-		//}
+		CUIButtonWindow* buttonWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUIButtonWindow>("UIButtonWindow");
+		if (buttonWindow)
+		{
+			buttonWindow->SetSelectWindow(m_SelectWindow);
+		}
+		CUIImageWindow* imgWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUIImageWindow>("UIImageWindow");
+		if (imgWindow)
+		{
+			imgWindow->SetSelectWindow(m_SelectWindow);
+		}
+		CUINumberWindow* numberWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUINumberWindow>("UINumberWindow");
+		if (numberWindow)
+		{
+			numberWindow->SetSelectWindow(m_SelectWindow);
+		}
+		CUIProgressBarWindow* barWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUIProgressBarWindow>("UIProgressBarWindow");
+		if (barWindow)
+		{
+			barWindow->SetSelectWindow(m_SelectWindow);
+		}
+		CUITextWindow* textWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUITextWindow>("UITextWindow");
+		if (textWindow)
+		{
+			textWindow->SetSelectWindow(m_SelectWindow);
+		}
 		std::vector<HierarchyWidgetName>	vecName;
 		m_SelectWindow->GetAllWidgetHierarchyName(vecName);
 		std::string	name = m_SelectWindow->GetWindowTypeName();

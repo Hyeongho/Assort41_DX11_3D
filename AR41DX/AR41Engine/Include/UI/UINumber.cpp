@@ -6,12 +6,14 @@
 #include "../Input.h"
 
 CUINumber::CUINumber()
+    : m_Space(5.f)
 {
     m_WidgetTypeName = "UINumber";
 }
 
 CUINumber::CUINumber(const CUINumber& Number) :
-    CUIWidget(Number)
+    CUIWidget(Number),
+    m_Space(Number.m_Space)
 {
     m_TextureInfo = Number.m_TextureInfo;
 }
@@ -237,7 +239,7 @@ void CUINumber::Render()
 
         m_RenderPos.x += Space;
 
-        Space = m_Size.x + 5.f;
+        Space = m_Size.x + m_Space;
 
         CUIWidget::Render();
     }
@@ -283,6 +285,7 @@ void CUINumber::Save(FILE* File)
     }
 
     fwrite(&m_Number, sizeof(unsigned int), 1, File);
+    fwrite(&m_Space, sizeof(float), 1, File);
 }
 
 void CUINumber::Load(FILE* File)
@@ -428,5 +431,6 @@ void CUINumber::Load(FILE* File)
     }
 
     fread(&m_Number, sizeof(unsigned int), 1, File);
+    fread(&m_Space, sizeof(float), 1, File);
 }
 

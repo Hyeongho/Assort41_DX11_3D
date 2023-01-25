@@ -126,6 +126,21 @@
     <ClCompile Include="Window\FBXWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
+    <ClCompile Include="Window\UIButtonWindow.cpp">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UIImageWindow.cpp">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UINumberWindow.cpp">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UIProgressBarWindow.cpp">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UITextWindow.cpp">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -214,6 +229,21 @@
     </ClInclude>
     <ClInclude Include="Window\FBXWindow.h">
       <Filter>03. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UIButtonWindow.h">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UIImageWindow.h">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UINumberWindow.h">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UIProgressBarWindow.h">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UITextWindow.h">
+      <Filter>03. Window\02. UIWIndow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

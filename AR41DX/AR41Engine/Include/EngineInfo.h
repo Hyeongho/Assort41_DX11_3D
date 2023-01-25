@@ -18,6 +18,7 @@
 #include <filesystem>
 #include <dwrite_3.h>
 #include <d2d1.h>
+#include <TCHAR.H>
 #include <process.h>
 
 #pragma comment(lib, "dwrite.lib")

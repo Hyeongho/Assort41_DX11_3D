@@ -82,3 +82,18 @@
 
 #include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\TransformWindow.cpp"
 
+
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\UIButtonWindow.cpp"
+
+
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\UIImageWindow.cpp"
+
+
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\UINumberWindow.cpp"
+
+
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\UIProgressBarWindow.cpp"
+
+
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\UITextWindow.cpp"
+
