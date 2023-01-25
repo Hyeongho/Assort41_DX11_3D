@@ -222,7 +222,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon1.ico">
+    <Image Include="..\Bin\SponegeBob.ico">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

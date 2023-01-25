@@ -1,9 +1,8 @@
-
 #include "DefaultSetting.h"
 #include "../GameObject/Player.h"
-//#include "../GameObject/Monster.h"
-//#include "../GameObject/Bullet.h"
-//#include "../UI/StartSceneUI.h"
+#include "../GameObject/Monster.h"
+#include "../GameObject/Bullet.h"
+#include "../UI/StartSceneUI.h"
 #include "Scene/Scene.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -20,9 +19,9 @@ void CDefaultSetting::Init()
 {
     LoadResource();
 
-    CreateCDO();
+	CreateCDO();
 
-    SetInput();
+	SetInput();
 
     SetCollision();
 }
@@ -30,10 +29,10 @@ void CDefaultSetting::Init()
 void CDefaultSetting::CreateCDO()
 {
     CScene::CreateObjectCDO<CPlayer>("Player");
-    //CScene::CreateObjectCDO<CMonster>("Monster");
-    //CScene::CreateObjectCDO<CBullet>("Bullet");
+    CScene::CreateObjectCDO<CMonster>("Monster");
+    CScene::CreateObjectCDO<CBullet>("Bullet");
 
-    //CScene::CreateUIWindowCDO<CStartSceneUI>("StartSceneUI");
+    CScene::CreateUIWindowCDO<CStartSceneUI>("StartSceneUI");
 }
 
 void CDefaultSetting::LoadResource()
@@ -45,7 +44,7 @@ void CDefaultSetting::LoadResource()
         "Player", TEXT("Player_Default.msh"), MESH_PATH);
 
 
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, 
+    CResourceManager::GetInst()->LoadSkeleton(nullptr,
         "PlayerSkeleton", TEXT("Player_Default.bne"), MESH_PATH);
 
     CResourceManager::GetInst()->SetMeshSkeleton("Player",

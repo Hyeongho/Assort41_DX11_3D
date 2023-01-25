@@ -30,6 +30,7 @@ public:
 	void Save(FILE* File);
 	void Load(FILE* File);
 	bool CollisionMouse();
+	void GetAllWindowHierarchyName(std::vector<HierarchyWindowName>& vecName);
 
 private:
 	static bool SortWindow(CSharedPtr<CUIWindow> Src, CSharedPtr<CUIWindow> Dest);

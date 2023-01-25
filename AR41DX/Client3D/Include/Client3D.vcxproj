@@ -162,24 +162,32 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client3DManager.cpp" />
+    <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
     <ClCompile Include="GameObject\Weapon.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scene\LoadingSceneInfo.cpp" />
     <ClCompile Include="Scene\MainSceneInfo.cpp" />
     <ClCompile Include="Setting\DefaultSetting.cpp" />
     <ClCompile Include="Setting\EngineShareSetting.cpp" />
+    <ClCompile Include="UI\LoadingUI.cpp" />
+    <ClCompile Include="UI\StartSceneUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client3D.h" />
     <ClInclude Include="Client3DManager.h" />
+    <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Monster.h" />
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\Weapon.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Scene\LoadingSceneInfo.h" />
     <ClInclude Include="Scene\MainSceneInfo.h" />
     <ClInclude Include="Setting\DefaultSetting.h" />
     <ClInclude Include="Setting\EngineShareSetting.h" />
+    <ClInclude Include="UI\LoadingUI.h" />
+    <ClInclude Include="UI\StartSceneUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client3D.rc" />

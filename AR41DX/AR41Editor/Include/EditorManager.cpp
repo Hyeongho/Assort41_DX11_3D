@@ -13,14 +13,13 @@
 #include "Window\ComponentWindow.h"
 #include "Window\TransformWindow.h"
 #include "Window\SceneWindow.h"
-#include "Window\DetailWindow.h"
+#include "Window\FBXWindow.h"
 #include "Editor/EditorGUIManager.h"
 #include "Resource/Animation/AnimationSequence2D.h"
 #include "Input.h"
 #include "CollisionManager.h"
 #include "Setting/EngineShareSetting.h"
 #include "Scene/EditorDefaultScene.h"
-#include "Window/ResourceWindow.h"
 
 CEditorManager::CEditorManager()
 {
@@ -35,8 +34,8 @@ bool CEditorManager::Init(HINSTANCE hInst)
 {
     CEngine::GetInst()->EnableEditor();
 
-    if (!CEngine::GetInst()->Init(hInst, TEXT("Editor"), TEXT("Editor"), IDI_ICON1,
-        IDI_ICON1, 1280, 720, 1280, 720, true, IDR_MENU1))
+    if (!CEngine::GetInst()->Init(hInst, TEXT("Editor"), TEXT("Editor"), IDI_ICON2,
+        IDI_ICON2, 1280, 720, 1280, 720, true, IDR_MENU1))
     {
         return false;
     }
@@ -54,12 +53,17 @@ bool CEditorManager::Init(HINSTANCE hInst)
     CEditorGUIManager::GetInst()->CreateEditorWindow<CComponentWindow>("ComponentWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CTransformWindow>("TransformWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CSceneWindow>("SceneWindow");
-    //CEditorGUIManager::GetInst()->CreateEditorWindow<CDetailWindow>("DetailWindow");
-    CEditorGUIManager::GetInst()->CreateEditorWindow<CResourceWindow>("ResourceWindow");
+    CEditorGUIManager::GetInst()->CreateEditorWindow<CFBXWindow>("FBXWindow");
 
     // SceneInfo 생성
     CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
 
+    //시작하자마자 현재씬의 컴포넌트들 출력
+    CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
+    if (objectWindow)
+    {
+        objectWindow->AddItemList();
+    }
     return true;
 }
 
