@@ -783,6 +783,15 @@
     <ClInclude Include="Resource\Shader\TerrainConstantBuffer.h">
       <Filter>02. Resource\02. Shader\03. ConstantBuffer\11. Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="Editor\EditorSlider.h">
+      <Filter>07. Editor\03. Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\EditorSliderSingle.h">
+      <Filter>07. Editor\03. Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\EditorCursorPos.h">
+      <Filter>07. Editor\03. Widget</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1234,6 +1243,15 @@
     </ClCompile>
     <ClCompile Include="Resource\Shader\TerrainConstantBuffer.cpp">
       <Filter>02. Resource\02. Shader\03. ConstantBuffer\11. Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\EditorSlider.cpp">
+      <Filter>07. Editor\03. Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\EditorSliderSingle.cpp">
+      <Filter>07. Editor\03. Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\EditorCursorPos.cpp">
+      <Filter>07. Editor\03. Widget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

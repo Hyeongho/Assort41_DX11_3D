@@ -100,17 +100,10 @@ void CSceneWindow::SceneChange()
 	NextScene->Load(FullPath);
 
 	// 완료된 GameObject 목록을 ObjectWindow에 추가한다.
-	CObjectWindow* ObjectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
-
-	std::vector<HierarchyObjectName> vecName;
-
-	NextScene->GetAllGameObjectHierarchyName(vecName);
-
-	size_t	Size = vecName.size();
-
-	for (size_t i = 0; i < Size; ++i)
+	CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
+	if (objectWindow)
 	{
-		ObjectWindow->AddItem(vecName[i].Obj, vecName[i].Name);
+		objectWindow->AddItemList();
 	}
 }
 

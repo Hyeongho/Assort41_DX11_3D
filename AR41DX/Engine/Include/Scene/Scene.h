@@ -161,20 +161,24 @@ public:
 
 public:
 	template <typename T>
-	bool CreateSceneInfo()
+	bool CreateSceneInfo(const std::string& name = "", const std::string& prevName = "")
 	{
 		SAFE_DELETE(m_SceneInfo);
-
 		m_SceneInfo = new T;
-
 		m_SceneInfo->m_Owner = this;
-
+		if (name != "")
+		{
+			m_SceneInfo->SetFileName(name);
+		}
+		if (prevName != "")
+		{
+			m_SceneInfo->SetPrevFileName(prevName);
+		}
 		if (!m_SceneInfo->Init())
 		{
 			SAFE_DELETE(m_SceneInfo);
 			return false;
 		}
-
 		return true;
 	}
 

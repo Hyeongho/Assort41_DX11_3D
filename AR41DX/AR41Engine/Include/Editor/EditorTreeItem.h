@@ -1,245 +1,288 @@
 #pragma once
-
 #include "EditorWidget.h"
-
-/*
-ImGuiTreeNodeFlags_None                 = 0,
-ImGuiTreeNodeFlags_Selected             = 1 << 0,   // Draw as selected
-ImGuiTreeNodeFlags_Framed               = 1 << 1,   // Draw frame with background (e.g. for CollapsingHeader)
-ImGuiTreeNodeFlags_AllowItemOverlap     = 1 << 2,   // Hit testing to allow subsequent widgets to overlap this one
-ImGuiTreeNodeFlags_NoTreePushOnOpen     = 1 << 3,   // Don't do a TreePush() when open (e.g. for CollapsingHeader) = no extra indent nor pushing on ID stack
-ImGuiTreeNodeFlags_NoAutoOpenOnLog      = 1 << 4,   // Don't automatically and temporarily open node when Logging is active (by default logging will automatically open tree nodes)
-ImGuiTreeNodeFlags_DefaultOpen          = 1 << 5,   // Default node to be open
-ImGuiTreeNodeFlags_OpenOnDoubleClick    = 1 << 6,   // Need double-click to open node
-ImGuiTreeNodeFlags_OpenOnArrow          = 1 << 7,   // Only open when clicking on the arrow part. If ImGuiTreeNodeFlags_OpenOnDoubleClick is also set, single-click arrow or double-click all box to open.
-ImGuiTreeNodeFlags_Leaf                 = 1 << 8,   // No collapsing, no arrow (use as a convenience for leaf nodes).
-ImGuiTreeNodeFlags_Bullet               = 1 << 9,   // Display a bullet instead of arrow
-ImGuiTreeNodeFlags_FramePadding         = 1 << 10,  // Use FramePadding (even for an unframed text node) to vertically align text baseline to regular widget height. Equivalent to calling AlignTextToFramePadding().
-ImGuiTreeNodeFlags_SpanAvailWidth       = 1 << 11,  // Extend hit box to the right-most edge, even if not framed. This is not the default in order to allow adding other items on the same line. In the future we may refactor the hit system to be front-to-back, allowing natural overlaps and then this can become the default.
-ImGuiTreeNodeFlags_SpanFullWidth        = 1 << 12,  // Extend hit box to the left-most and right-most edges (bypass the indented area).
-ImGuiTreeNodeFlags_NavLeftJumpsBackHere = 1 << 13,  // (WIP) Nav: left direction may move to this TreeNode() from any of its child (items submitted between TreeNode and TreePop)
-//ImGuiTreeNodeFlags_NoScrollOnOpen     = 1 << 14,  // FIXME: TODO: Disable automatic scroll on TreePop() if node got just open and contents is not visible
-ImGuiTreeNodeFlags_CollapsingHeader     = ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_NoAutoOpenOnLog,
-*/
 
 template <typename T>
 class CEditorTreeItem
 {
+private:
 	template <typename T>
 	friend class CEditorTree;
-
-private:
-	CEditorTreeItem() :
-		m_Parent(nullptr),
-		m_Flag(ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow)
+	CEditorTreeItem<T>* m_Parent;
+	CEditorTreeItem<T>* m_DragItem;
+	std::vector<CEditorTreeItem<T>*>	m_vecChild;
+	std::vector<CEditorWidget*>	m_vecWidget;
+	ImGuiTreeNodeFlags	m_Flag;
+	std::string		m_WindowName;
+	std::string		m_Item;
+	std::string		m_ItemUTF8;
+	T				m_CustomData;
+	bool m_UseDragDropSelf;
+	bool m_UseDragDropOuter;
+	std::function<void(CEditorTreeItem<T>*, const std::string&)>	m_SelectCallback;
+	std::function<void(CEditorTreeItem<T>*, const std::string&)>	m_DoubleClickCallback;
+	std::function<void(CEditorTreeItem<T>*, CEditorTreeItem<T>*, const std::string&)>	m_DragAndDropCallback;
+	CEditorTreeItem()
+		: m_Parent(nullptr)
+		, m_Flag(ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow)
+		, m_UseDragDropSelf(false)
+		, m_UseDragDropOuter(false)
 	{
 	}
-
 	~CEditorTreeItem()
 	{
-		size_t	Size = m_vecChild.size();
-
-		for (size_t i = 0; i < Size; ++i)
+		size_t	size = m_vecChild.size();
+		for (size_t i = 0; i < size; ++i)
 		{
 			SAFE_DELETE(m_vecChild[i]);
 		}
-
-		Size = m_vecWidget.size();
-
-		for (size_t i = 0; i < Size; ++i)
+		size = m_vecWidget.size();
+		for (size_t i = 0; i < size; ++i)
 		{
 			SAFE_DELETE(m_vecWidget[i]);
 		}
 	}
-
-private:
-	ImGuiTreeNodeFlags	m_Flag;
-	CEditorTreeItem<T>* m_Parent;
-	std::vector<CEditorTreeItem<T>*>	m_vecChild;
-	std::vector<CEditorWidget*>	m_vecWidget;
-	std::string		m_Item;
-	std::string		m_ItemUTF8;
-	T				m_CustomData;
-	std::function<void(CEditorTreeItem<T>*, const std::string&)>	m_SelectCallback;
-
 public:
 	T GetCustomData()	const
 	{
 		return m_CustomData;
 	}
-
-	void AddFlag(ImGuiTreeNodeFlags_ Flag)
+	void AddFlag(ImGuiTreeNodeFlags_ flag)
 	{
-		m_Flag |= Flag;
+		m_Flag |= flag;
 	}
-
-	void AddItem(const std::string& Item, T CustomData)
+	void AddItem(const std::string& item, T customData)
 	{
-		CEditorTreeItem<T>* Child = new CEditorTreeItem<T>;
-
-		Child->m_Parent = this;
-		Child->m_Item = Item;
-		Child->m_SelectCallback = m_SelectCallback;
-		Child->m_CustomData = CustomData;
-
-		TCHAR	wText[256] = {};
-
-		int Length = (int)MultiByteToWideChar(CP_ACP, 0, Item.c_str(), -1, nullptr, 0);
-
-		MultiByteToWideChar(CP_ACP, 0, Item.c_str(), -1, wText, Length);
-
-		char	TextUTF8[256] = {};
-
-		Length = WideCharToMultiByte(CP_UTF8, 0, wText, -1, nullptr, 0, nullptr, nullptr);
-
-		WideCharToMultiByte(CP_UTF8, 0, wText, -1, TextUTF8, Length, nullptr, nullptr);
-
-		Child->m_ItemUTF8 = TextUTF8;
-
-		m_vecChild.push_back(Child);
-	}
-
-	void AddItem(CEditorTreeItem<T>* Item)
-	{
-		Item->m_Parent = this;
-		Item->m_SelectCallback = m_SelectCallback;
-
-		m_vecChild.push_back(Item);
-	}
-
-	CEditorTreeItem<T>* FindItem(const std::string& Item)
-	{
-		if (m_Item == Item)
-			return this;
-
-		size_t	Size = m_vecChild.size();
-
-		for (size_t i = 0; i < Size; ++i)
+		CEditorTreeItem<T>* child = new CEditorTreeItem<T>;
+		child->m_Parent = this;
+		child->m_Item = item;
+		child->m_SelectCallback = m_SelectCallback;
+		child->m_DoubleClickCallback = m_DoubleClickCallback;
+		child->m_DragAndDropCallback = m_DragAndDropCallback;
+		child->m_CustomData = customData;
+		child->m_WindowName = child->m_Parent->m_WindowName;
+		if (child->m_Parent->m_UseDragDropSelf)
 		{
-			CEditorTreeItem<T>* Find = m_vecChild[i]->FindItem(Item);
-
-			if (Find)
-				return Find;
+			child->m_UseDragDropSelf = m_UseDragDropSelf;
 		}
-
+		if (child->m_Parent->m_UseDragDropOuter)
+		{
+			child->m_UseDragDropOuter = m_UseDragDropOuter;
+		}
+		TCHAR	wText[256] = {};
+		int length = (int)MultiByteToWideChar(CP_ACP, 0, item.c_str(), -1, nullptr, 0);
+		MultiByteToWideChar(CP_ACP, 0, item.c_str(), -1, wText, length);
+		char	textUTF8[256] = {};
+		length = WideCharToMultiByte(CP_UTF8, 0, wText, -1, nullptr, 0, nullptr, nullptr);
+		WideCharToMultiByte(CP_UTF8, 0, wText, -1, textUTF8, length, nullptr, nullptr);
+		child->m_ItemUTF8 = textUTF8;
+		m_vecChild.push_back(child);
+	}
+	void AddItem(CEditorTreeItem<T>* item)
+	{
+		item->m_Parent = this;
+		item->m_SelectCallback = m_SelectCallback;
+		item->m_DoubleClickCallback = m_DoubleClickCallback;
+		item->m_DragAndDropCallback = m_DragAndDropCallback;
+		m_vecChild.push_back(item);
+	}
+	CEditorTreeItem<T>* FindItem(const std::string& item)
+	{
+		if (m_Item == item)
+		{
+			return this;
+		}
+		size_t	size = m_vecChild.size();
+		for (size_t i = 0; i < size; ++i)
+		{
+			CEditorTreeItem<T>* find = m_vecChild[i]->FindItem(item);
+			if (find)
+			{
+				return find;
+			}
+		}
 		return nullptr;
 	}
-
 	void Clear()
 	{
-		size_t	Size = m_vecChild.size();
-
-		for (size_t i = 0; i < Size; ++i)
+		size_t	size = m_vecChild.size();
+		for (size_t i = 0; i < size; ++i)
 		{
 			m_vecChild[i]->Clear();
 			SAFE_DELETE(m_vecChild[i]);
 		}
-
 		m_vecChild.clear();
 	}
-
 	void Render()
 	{
-		ImGuiTreeNodeFlags	Flag = m_Flag;
-
+		ImGuiTreeNodeFlags	flag = m_Flag;
 		if (m_vecChild.empty())
-			Flag |= ImGuiTreeNodeFlags_Leaf;
-
-		bool	ItemOpen = ImGui::TreeNodeEx(m_ItemUTF8.c_str(), Flag);
-
-		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
 		{
-			if (m_SelectCallback)
-				m_SelectCallback(this, m_Item);
-
-
+			flag |= ImGuiTreeNodeFlags_Leaf;
+			//flag |= ImGuiTreeNodeFlags_Framed;
+			//flag |= ImGuiTreeNodeFlags_Selected;
 		}
-
-		size_t	WidgetCount = m_vecWidget.size();
-
-		for (size_t i = 0; i < WidgetCount; ++i)
+		bool	itemOpen = ImGui::TreeNodeEx(m_ItemUTF8.c_str(), flag);
+		if (itemOpen)
 		{
-			m_vecWidget[i]->Render();
-		}
-
-		/*if (ImGui::BeginDragDropSource())
-		{
-			ImGui::EndDragDropSource();
-		}*/
-
-		if (ItemOpen)
-		{
-			size_t	Size = m_vecChild.size();
-
-			for (size_t i = 0; i < Size; ++i)
+			if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+			{
+				if (m_SelectCallback)
+				{
+					m_SelectCallback(this, m_Item);
+				}
+			}
+			// 노드의 더블클릭체크
+			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+			{
+				if (m_DoubleClickCallback)
+				{
+					m_DoubleClickCallback(this, m_Item);
+				}
+			}
+			if (m_UseDragDropSelf || m_UseDragDropOuter)
+			{
+				if (ImGui::BeginDragDropSource())
+				{
+					ImGui::SetDragDropPayload(m_WindowName.c_str(), this, sizeof(this));
+					ImGui::Text(m_Item.c_str());
+					ImGui::EndDragDropSource();
+					if (m_Parent)
+					{
+						m_Parent->m_DragItem = this;
+					}
+					else
+					{
+						m_DragItem = this;
+					}
+				}
+				// 내부 드롭을 허용한 경우에만 드롭체크
+				if (m_UseDragDropSelf)
+				{
+					if (ImGui::BeginDragDropTarget())
+					{
+						DWORD_PTR dwData = 0;
+						const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_WindowName.c_str());
+						if (nullptr != payload)
+						{
+							memcpy(&dwData, payload->Data, sizeof(DWORD_PTR));
+							if (m_Parent)
+							{
+								if (m_Parent->m_DragItem && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+								{
+									if (m_DragAndDropCallback)
+									{
+										m_DragAndDropCallback(m_Parent->m_DragItem, this, m_Item);
+									}
+									m_Parent->m_DragItem = nullptr;
+								}
+							}
+							else   //리스트가 1개인 경우
+							{
+								if (m_DragItem && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+								{
+									if (m_DragAndDropCallback)
+									{
+										m_DragAndDropCallback(m_DragItem, this, m_Item);
+									}
+									m_DragItem = nullptr;
+								}
+							}
+						}
+						ImGui::EndDragDropTarget();
+					}
+					if (m_vecChild.empty() && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+					{
+						if (m_Parent && m_Parent->m_DragItem)
+						{
+							if (m_DragAndDropCallback)
+							{
+								m_DragAndDropCallback(m_Parent->m_DragItem, nullptr, m_Item);
+							}
+							m_Parent->m_DragItem = nullptr;
+						}
+						else if (m_DragItem)
+						{
+							if (m_DragAndDropCallback)
+							{
+								m_DragAndDropCallback(m_DragItem, nullptr, m_Item);
+							}
+							m_DragItem = nullptr;
+						}
+					}
+				}
+			}
+			size_t	widgetCount = m_vecWidget.size();
+			for (size_t i = 0; i < widgetCount; ++i)
+			{
+				m_vecWidget[i]->Render();
+			}
+			size_t	size = m_vecChild.size();
+			for (size_t i = 0; i < size; ++i)
 			{
 				m_vecChild[i]->Render();
 			}
-
 			ImGui::TreePop();
 		}
 	}
-
-public:
 	template <typename CallbackType>
-	void SetSelectCallback(CallbackType* Obj, void (CallbackType::* Func)(CEditorTreeItem<T>*, const std::string&))
+	void SetSelectCallback(CallbackType* obj, void (CallbackType::* func)(CEditorTreeItem<T>*, const std::string&))
 	{
-		m_SelectCallback = std::bind(Func, Obj, std::placeholders::_1, std::placeholders::_2);
+		m_SelectCallback = std::bind(func, obj, std::placeholders::_1, std::placeholders::_2);
 	}
-
-public:
-	template <typename WidgetType>
-	WidgetType* CreateWidget(const std::string& Name, float Width = 100.f, float Height = 100.f)
+	template <typename CallbackType>
+	void SetDoubleClickCallback(CallbackType* obj, void (CallbackType::* func)(CEditorTreeItem<T>*, const std::string&))
 	{
-		WidgetType* Widget = new WidgetType;
-
-		Widget->SetName(Name);
-		Widget->SetSize(Width, Height);
-
-		if (!Widget->Init())
+		m_DoubleClickCallback = std::bind(func, obj, std::placeholders::_1, std::placeholders::_2);
+	}
+	template <typename CallbackType>
+	void SetDragAndDropCallback(CallbackType* obj, void(CallbackType::* func)(CEditorTreeItem<T>*, CEditorTreeItem<T>*, const std::string&))
+	{
+		m_DragAndDropCallback = std::bind(func, obj, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+	}
+	template <typename WidgetType>
+	WidgetType* CreateWidget(const std::string& name, float width = 100.f, float height = 100.f)
+	{
+		WidgetType* widget = new WidgetType;
+		widget->SetName(name);
+		widget->SetSize(width, height);
+		if (!widget->Init())
 		{
-			SAFE_DELETE(Widget);
+			SAFE_DELETE(widget);
 			return nullptr;
 		}
-
-		m_vecWidget.push_back(Widget);
-
-		return Widget;
+		m_vecWidget.push_back(widget);
+		return widget;
 	}
-
 	template <typename WidgetType>
-	WidgetType* FindWidget(const std::string& Name)
+	WidgetType* FindWidget(const std::string& name)
 	{
-		size_t	Size = m_vecWidget.size();
-
-		for (size_t i = 0; i < Size; ++i)
+		size_t	size = m_vecWidget.size();
+		for (size_t i = 0; i < size; ++i)
 		{
-			if (m_vecWidget[i]->GetName() == Name)
+			if (m_vecWidget[i]->GetName() == name)
+			{
 				return (WidgetType*)m_vecWidget[i];
+			}
 		}
-
 		return nullptr;
 	}
-
 	template <typename WidgetType>
-	WidgetType* FindWidgetHirearchy(const std::string& Name)
+	WidgetType* FindWidgetHirearchy(const std::string& name)
 	{
-		WidgetType* Widget = FindWidget<WidgetType>(Name);
-
-		if (Widget)
-			return Widget;
-
-		size_t	Size = m_vecChild.size();
-
-		for (size_t i = 0; i < Size; ++i)
+		WidgetType* widget = FindWidget<WidgetType>(name);
+		if (widget)
 		{
-			Widget = m_vecChild[i]->FindWidgetHirearchy<WidgetType>(Name);
-
-			if (Widget)
-				return Widget;
+			return widget;
 		}
-
+		size_t	size = m_vecChild.size();
+		for (size_t i = 0; i < size; ++i)
+		{
+			widget = m_vecChild[i]->FindWidgetHirearchy<WidgetType>(name);
+			if (widget)
+			{
+				return widget;
+			}
+		}
 		return nullptr;
 	}
 };
-

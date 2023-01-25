@@ -7,9 +7,22 @@
 #include "Thread/LoadingThread.h"
 #include "Thread/ThreadQueue.h"
 #include "Thread/DataStream.h"
+#include "Editor/EditorGUIManager.h"
+
+//김범중 클라이언트에서는 에디터 관련된 부분 컴파일 안돼게끔 하기위한 전처리문
+#ifdef __has_include
+#	if __has_include("../Window/ObjectWindow.h")
+#		include "../Window/ObjectWindow.h"
+#	endif
+#endif
+//
 
 CLoadingSceneInfo::CLoadingSceneInfo()
+	: m_LoadingThread(nullptr)
+	, m_LoadingQueue(nullptr)
+	, m_LoadingUI(nullptr)
 {
+	m_ClassTypeName = "LoadingSceneInfo";
 }
 
 CLoadingSceneInfo::~CLoadingSceneInfo()
@@ -42,14 +55,23 @@ void CLoadingSceneInfo::Update(float DeltaTime)
 
 		stream.GetData<float>(&Rate, 4);
 
-		m_LoadingUI->SetLoadingPercent(Rate);
+		//m_LoadingUI->SetLoadingPercent(Rate);
 	}
 
 	if (m_LoadingThread->IsLoadComplete())
 	{
+		CScene* nextScene = CSceneManager::GetInst()->GetNextScene();
+		nextScene->GetSceneInfo()->SetFileName(m_FileName);
+		nextScene->GetSceneInfo()->SetPrevFileName(m_PrevFileName);
 		CSceneManager::GetInst()->ChangeNextScene();
-
 		CThreadManager::GetInst()->Delete("Loading");
+#if __has_include("../Window/ObjectWindow.h")
+		CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
+		if (objectWindow)
+		{
+			objectWindow->AddItemList();
+		}
+#endif
 	}
 }
 
@@ -58,12 +80,9 @@ void CLoadingSceneInfo::SceneChangeComplete()
 	// 로딩 스레드 생성
 	m_LoadingThread = CThreadManager::GetInst()->Create<CLoadingThread>("Loading");
 
-	m_LoadingThread->SetLoadingSceneFileName("Main2.scn");
-	//m_LoadingThread->SetLoadingScenePathName(SCENE_PATH);
+	m_LoadingThread->SetLoadingSceneFileName(m_FileName);
 
 	m_LoadingQueue = m_LoadingThread->GetQueue();
 
 	m_LoadingThread->Start();
-
-	//CSceneManager::GetInst()->GetNextScene()->Load("Main");
 }

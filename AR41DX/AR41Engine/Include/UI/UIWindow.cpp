@@ -253,6 +253,19 @@ CUIWidget* CUIWindow::CollisionMouse(const Vector2& MousePos)
 	return nullptr;
 }
 
+void CUIWindow::GetAllWidgetHierarchyName(std::vector<HierarchyWidgetName>& vecName)
+{
+	size_t size = m_vecWidget.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		HierarchyWidgetName	names;
+		names.name = m_vecWidget[i]->GetName();
+		names.className = m_vecWidget[i]->GetWidgetTypeName();
+		names.widget = m_vecWidget[i];
+		vecName.push_back(names);
+	}
+}
+
 bool CUIWindow::SortWidget(CSharedPtr<CUIWidget> Src, CSharedPtr<CUIWidget> Dest)
 {
 	return Src->GetZOrder() > Dest->GetZOrder();

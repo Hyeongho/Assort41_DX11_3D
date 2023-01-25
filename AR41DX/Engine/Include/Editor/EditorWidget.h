@@ -20,13 +20,16 @@ protected:
 	class CEditorWindow* m_Owner;
 	ImVec2			m_Size;
 	ImVec4			m_Color;
-
+	bool			m_IsHide;
 public:
 	const std::string& GetName()	const
 	{
 		return  m_Name;
 	}
-
+	bool GetIsHide()
+	{
+		return m_IsHide;
+	}
 	void SetName(const std::string& Name)
 	{
 		TCHAR	wName[256] = {};

@@ -114,6 +114,7 @@ public:
     virtual void Save(FILE* File);
     virtual void Load(FILE* File);
 	CUIWidget* CollisionMouse(const Vector2& MousePos);
+	void GetAllWidgetHierarchyName(std::vector<HierarchyWidgetName>& vecName);
 
 private:
 	static bool SortWidget(CSharedPtr<CUIWidget> Src, CSharedPtr<CUIWidget> Dest);

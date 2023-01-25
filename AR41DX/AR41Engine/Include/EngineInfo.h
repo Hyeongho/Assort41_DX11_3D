@@ -18,6 +18,7 @@
 #include <filesystem>
 #include <dwrite_3.h>
 #include <d2d1.h>
+#include <TCHAR.H>
 #include <process.h>
 
 #pragma comment(lib, "dwrite.lib")
@@ -44,6 +45,7 @@ extern float g_DeltaTime;
 #define	ANIMATION2D_PATH		"Animation2D"
 #define	ANIMATION_PATH		"Animation"
 #define	SCENE_PATH		"Scene"
+#define	SAVE_PATH		"Save"
 #define	MESH_PATH		"Mesh"
 
 #define	DECLARE_SINGLE(Type)	\
@@ -464,3 +466,35 @@ struct TerrainCBuffer
 	int SplatCount;
 	Vector2 Empty;
 };
+
+//김범중 UI관련 구조체
+struct HierarchyWindowName
+{
+	class CUIWindow* window;
+	class CUIWindow* parent;
+	std::string	name;
+	std::string	parentName;
+	std::string	className;
+	std::string	parentClassName;
+	HierarchyWindowName()
+		: window(nullptr)
+		, parent(nullptr)
+	{
+	}
+};
+
+struct HierarchyWidgetName
+{
+	class CUIWidget* widget;
+	class CUIWidget* parent;
+	std::string	name;
+	std::string	parentName;
+	std::string	className;
+	std::string	parentClassName;
+	HierarchyWidgetName()
+		: widget(nullptr)
+		, parent(nullptr)
+	{
+	}
+};
+//

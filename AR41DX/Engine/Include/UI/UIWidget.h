@@ -187,6 +187,10 @@ public:
     void SetShader(const std::string& Name);
     void SetMesh(const std::string& Name);
 
+    void AddAngle(float angle)
+    {
+        m_Angle += angle;
+    }
 public:
     virtual void Start();
     virtual bool Init();

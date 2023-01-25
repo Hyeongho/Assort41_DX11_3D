@@ -50,6 +50,7 @@
     <ClInclude Include="Editor\EditorButton.h" />
     <ClInclude Include="Editor\EditorCheckBox.h" />
     <ClInclude Include="Editor\EditorComboBox.h" />
+    <ClInclude Include="Editor\EditorCursorPos.h" />
     <ClInclude Include="Editor\EditorGroup.h" />
     <ClInclude Include="Editor\EditorGUIManager.h" />
     <ClInclude Include="Editor\EditorImage.h" />
@@ -58,6 +59,8 @@
     <ClInclude Include="Editor\EditorLabel.h" />
     <ClInclude Include="Editor\EditorListBox.h" />
     <ClInclude Include="Editor\EditorSameLine.h" />
+    <ClInclude Include="Editor\EditorSlider.h" />
+    <ClInclude Include="Editor\EditorSliderSingle.h" />
     <ClInclude Include="Editor\EditorText.h" />
     <ClInclude Include="Editor\EditorTree.h" />
     <ClInclude Include="Editor\EditorTreeItem.h" />
@@ -221,6 +224,7 @@
     <ClCompile Include="Editor\EditorButton.cpp" />
     <ClCompile Include="Editor\EditorCheckBox.cpp" />
     <ClCompile Include="Editor\EditorComboBox.cpp" />
+    <ClCompile Include="Editor\EditorCursorPos.cpp" />
     <ClCompile Include="Editor\EditorGroup.cpp" />
     <ClCompile Include="Editor\EditorGUIManager.cpp" />
     <ClCompile Include="Editor\EditorImage.cpp" />
@@ -228,6 +232,8 @@
     <ClCompile Include="Editor\EditorLabel.cpp" />
     <ClCompile Include="Editor\EditorListBox.cpp" />
     <ClCompile Include="Editor\EditorSameLine.cpp" />
+    <ClCompile Include="Editor\EditorSlider.cpp" />
+    <ClCompile Include="Editor\EditorSliderSingle.cpp" />
     <ClCompile Include="Editor\EditorText.cpp" />
     <ClCompile Include="Editor\EditorWidget.cpp" />
     <ClCompile Include="Editor\EditorWindow.cpp" />

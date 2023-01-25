@@ -37,11 +37,22 @@ protected:
     bool    m_MouseHovered;
 
 public:
+    UIWidgetImageInfo GetTextureInfo(int index)	const
+    {
+        return m_TextureInfo[index];
+    }
+    EButtonState GetState()	const
+    {
+        return m_State;
+    }
+    bool GetButtonEnable()	const
+    {
+        return m_State != EButtonState::Disable;
+    }
     void ButtonEnable(bool Enable)
     {
         m_State = Enable ? EButtonState::Normal : EButtonState::Disable;
     }
-
     void SetTexture(EButtonState State, CTexture* Texture);
     bool SetTexture(EButtonState State, const std::string& Name, const TCHAR* FileName,
         const std::string& PathName = TEXTURE_PATH);

@@ -17,6 +17,10 @@ protected:
     UIWidgetImageInfo   m_TextureInfo;
 
 public:
+    UIWidgetImageInfo GetTextureInfo()	const
+    {
+        return m_TextureInfo;
+    }
     void SetTexture(CTexture* Texture);
     bool SetTexture(const std::string& Name, const TCHAR* FileName,
         const std::string& PathName = TEXTURE_PATH);

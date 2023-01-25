@@ -25,11 +25,26 @@ protected:
     CSharedPtr<class CShader>   m_BarShader;
 
 public:
+    UIWidgetImageInfo GetTextureInfo(int index)    const
+    {
+        return m_TextureInfo[index];
+    }
+    EProgressBarDir GetBarDir()    const
+    {
+        return m_BarDir;
+    }
+    float GetMinValue()    const
+    {
+        return m_Min;
+    }
+    float GetMaxValue()    const
+    {
+        return m_Max;
+    }
     float GetValue()    const
     {
         return m_Value;
     }
-
 public:
     void SetTexture(EProgressBarTextureType Type, CTexture* Texture);
     bool SetTexture(EProgressBarTextureType Type, const std::string& Name, const TCHAR* FileName,
