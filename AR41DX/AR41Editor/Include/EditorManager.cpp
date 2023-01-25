@@ -3,11 +3,11 @@
 #include "Scene/SceneManager.h"
 #include "Scene/Scene.h"
 #include "Editor/EditorGUIManager.h"
-#include "GameObject\Player2D.h"
+#include "GameObject\Player.h"
 #include "GameObject\Bullet.h"
 #include "GameObject\Monster.h"
+#include "GameObject\Weapon.h"
 
-#include "Window\TestWindow.h"
 #include "Window\ObjectWindow.h"
 #include "Window\ClassWindow.h"
 #include "Window\ComponentWindow.h"
@@ -20,7 +20,6 @@
 #include "CollisionManager.h"
 #include "Setting/EngineShareSetting.h"
 #include "Scene/EditorDefaultScene.h"
-#include "Window/Animation2DWindow.h"
 #include "Window/ResourceWindow.h"
 
 CEditorManager::CEditorManager()
@@ -50,14 +49,12 @@ bool CEditorManager::Init(HINSTANCE hInst)
 
     CEngine::SetWndProcCallback<CEditorManager>(this, &CEditorManager::WndProc);
 
-    //CEditorGUIManager::GetInst()->CreateEditorWindow<CTestWindow>("TestWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CObjectWindow>("ObjectWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CClassWindow>("ClassWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CComponentWindow>("ComponentWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CTransformWindow>("TransformWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CSceneWindow>("SceneWindow");
-    CEditorGUIManager::GetInst()->CreateEditorWindow<CDetailWindow>("DetailWindow");
-    CEditorGUIManager::GetInst()->CreateEditorWindow<CAnimation2DWindow>("Animation2DWindow");
+    //CEditorGUIManager::GetInst()->CreateEditorWindow<CDetailWindow>("DetailWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CResourceWindow>("ResourceWindow");
 
     // SceneInfo »ý¼º
@@ -156,14 +153,17 @@ void CEditorManager::CreateObject()
     if (SelectObjectItem == "GameObject")
         Obj = Scene->CreateObject<CGameObject>(SelectObjectItem);
 
-    else if (SelectObjectItem == "Player2D")
-        Obj = Scene->CreateObject<CPlayer2D>(SelectObjectItem);
+    else if (SelectObjectItem == "Player")
+        Obj = Scene->CreateObject<CPlayer>(SelectObjectItem);
 
     else if (SelectObjectItem == "Bullet")
         Obj = Scene->CreateObject<CBullet>(SelectObjectItem);
 
     else if (SelectObjectItem == "Monster")
         Obj = Scene->CreateObject<CMonster>(SelectObjectItem);
+
+    else if (SelectObjectItem == "Weapon")
+        Obj = Scene->CreateObject<CWeapon>(SelectObjectItem);
 
     if (Window)
     {

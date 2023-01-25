@@ -1,8 +1,13 @@
 
 #include "Monster.h"
-#include "Component/SpriteComponent.h"
-#include "Component/ColliderPixel.h"
+#include "Component/StaticMeshComponent.h"
+#include "Component/AnimationMeshComponent.h"
+#include "Input.h"
+#include "Scene/Scene.h"
+#include "Scene/CameraManager.h"
+#include "Device.h"
 #include "Resource/Material/Material.h"
+#include "Animation/Animation.h"
 
 CMonster::CMonster()
 {
@@ -14,8 +19,7 @@ CMonster::CMonster()
 CMonster::CMonster(const CMonster& Obj) :
 	CGameObject(Obj)
 {
-	m_Body = (CColliderPixel*)FindComponent("Body");
-	m_Sprite = (CSpriteComponent*)FindComponent("Sprite");
+	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 }
 
 CMonster::~CMonster()
@@ -26,33 +30,31 @@ void CMonster::Start()
 {
 	CGameObject::Start();
 
-	m_Body->SetInfo("PixelCollision", TEXT("PixelCollision.png"));
-	m_Body->SetPixelColorCollisionType(EPixelCollision_Type::Color_Ignore);
-	m_Body->SetPixelColor(255, 0, 255);
 }
 
 bool CMonster::Init()
 {
 	CGameObject::Init();
 
-	m_Body = CreateComponent<CColliderPixel>("Body");
-	m_Sprite = CreateComponent<CSpriteComponent>("Sprite");
+	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 
-	m_Body->AddChild(m_Sprite);
+	SetRootComponent(m_Mesh);
 
-	m_Body->SetCollisionProfile("Monster");
+	m_Mesh->SetMesh("Player");
 
-	m_Sprite->SetPivot(0.5f, 0.f);
-	m_Sprite->SetRelativeScale(100.f, 100.f);
-	m_Sprite->SetRelativePosition(0.f, -50.f);
-	m_Body->SetWorldPosition(500.f, 600.f);
+	m_Animation = m_Mesh->SetAnimation<CAnimation>("PlayerAnimation");
 
-	//m_Sprite->SetWorldPositionZ(0.5f);
+	std::string	AnimName[2] =
+	{
+		"PlayerWalk",
+		"PlayerAttack"
+	};
 
-	//m_Sprite->GetMaterial(0)->SetOpacity(0.5f);
-	//m_Sprite->GetMaterial(0)->SetRenderState("DepthDisable");
+	int	AnimIndex = rand() % 2;
+	AnimIndex = 0;
 
-
+	m_Animation->AddAnimation(AnimName[AnimIndex], AnimName[AnimIndex],
+		1.f, 1.f, true);
 
 	return true;
 }
@@ -70,4 +72,14 @@ void CMonster::PostUpdate(float DeltaTime)
 CMonster* CMonster::Clone() const
 {
 	return new CMonster(*this);
+}
+
+void CMonster::Save(FILE* File)
+{
+	CGameObject::Save(File);
+}
+
+void CMonster::Load(FILE* File)
+{
+	CGameObject::Load(File);
 }

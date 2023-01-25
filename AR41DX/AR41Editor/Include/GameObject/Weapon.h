@@ -2,26 +2,25 @@
 
 #include "GameObject\GameObject.h"
 
-class CMonster :
+class CWeapon :
     public CGameObject
 {
 	friend class CScene;
 
 protected:
-	CMonster();
-	CMonster(const CMonster& Obj);
-	virtual ~CMonster();
+	CWeapon();
+	CWeapon(const CWeapon& Obj);
+	virtual ~CWeapon();
 
 private:
-	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
-	CSharedPtr<class CAnimation>		m_Animation;
+	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
 
 public:
 	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
 	virtual void PostUpdate(float DeltaTime);
-	virtual CMonster* Clone()    const;
+	virtual CWeapon* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 };

@@ -84,9 +84,6 @@
     <ClCompile Include="Setting\EngineShareSetting.cpp">
       <Filter>06. Setting</Filter>
     </ClCompile>
-    <ClCompile Include="Window\Animation2DWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
     <ClCompile Include="Window\ResourceWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
@@ -169,9 +166,6 @@
     </ClInclude>
     <ClInclude Include="Setting\EngineShareSetting.h">
       <Filter>06. Setting</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\Animation2DWindow.h">
-      <Filter>03. Window</Filter>
     </ClInclude>
     <ClInclude Include="Window\ResourceWindow.h">
       <Filter>03. Window</Filter>
