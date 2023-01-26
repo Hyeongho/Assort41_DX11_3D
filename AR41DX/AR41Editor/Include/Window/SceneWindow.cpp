@@ -103,7 +103,8 @@ void CSceneWindow::SceneChange()
 	CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
 	if (objectWindow)
 	{
-		objectWindow->AddItemList();
+		objectWindow->Clear();
+		objectWindow->AddItemList(NextScene);
 	}
 }
 

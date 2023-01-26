@@ -39,17 +39,17 @@ bool CObjectWindow::AddItem(CUIWindow* window, const std::string& name, const st
 	return m_WindowTree->AddItem(window, name, parentName);
 }
 
-void CObjectWindow::AddItemList()
+void CObjectWindow::AddItemList(class CScene* scene)
 {
 	std::vector<HierarchyObjectName> vecName;
-	CSceneManager::GetInst()->GetScene()->GetAllGameObjectHierarchyName(vecName);
+	scene->GetAllGameObjectHierarchyName(vecName);
 	size_t	size = vecName.size();
 	for (size_t i = 0; i < size; ++i)
 	{
 		AddItem(vecName[i].Obj, vecName[i].Name);
 	}
 	std::vector<HierarchyWindowName> vecWindowName;
-	CSceneManager::GetInst()->GetScene()->GetViewport()->GetAllWindowHierarchyName(vecWindowName);
+	scene->GetViewport()->GetAllWindowHierarchyName(vecWindowName);
 	size = vecWindowName.size();
 	for (size_t i = 0; i < size; ++i)
 	{

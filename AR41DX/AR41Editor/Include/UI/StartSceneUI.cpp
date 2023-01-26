@@ -144,5 +144,5 @@ void CStartSceneUI::StartButtonClick()
     CSceneManager::GetInst()->CreateNextScene(true);
 
     //CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false);
-    CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "Kbj_test1.scn", "Kbj_test2.scn");
+    CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "Kbj_test2.scn", "Kbj_test1.scn"); 
 }

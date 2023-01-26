@@ -204,6 +204,7 @@ void CUIWindow::Load(FILE* File)
 
 			m_vecWidget[i]->Init();
 			m_vecWidget[i]->Load(File);
+			m_vecWidget[i]->SetWidgetTypeName(TypeName);
 		}
 	}
 
