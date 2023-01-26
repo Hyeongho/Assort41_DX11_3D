@@ -32,7 +32,7 @@ public:
 public:
 	bool AddItem(class CGameObject* Object, const std::string& Name, const std::string& ParentName = "Root");
 	bool AddItem(class CUIWindow* window, const std::string& name, const std::string& parentName = "Canvas");
-	void AddItemList();
+	void AddItemList(class CScene* scene);
 public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);

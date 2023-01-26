@@ -24,6 +24,7 @@
 #include "Component/CameraComponent.h"
 #include "Component/TargetArm.h"
 #include "Component/TileMapComponent.h"
+#include "Component/RigidBody.h"
 
 CClassWindow::CClassWindow()
 {
@@ -207,6 +208,12 @@ void CClassWindow::ComponentCreateCallback()
 	{
 		Name = "TileMapComponent(TileMapComponent)";
 		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CTileMapComponent>("TileMapComponent");
+	}
+
+	else if (m_SelectComponentItem == "RigidBody")
+	{
+		Name = "RigidBody(RigidBody)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CRigidBody>("RigidBody");
 	}
 
 	if (SelectComponent)

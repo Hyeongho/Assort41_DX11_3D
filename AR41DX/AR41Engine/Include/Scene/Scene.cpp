@@ -8,6 +8,8 @@
 #include "../Component/ColliderBox2D.h"
 #include "../Component/TileMapComponent.h"
 #include "../Component/NavigationAgent.h"
+#include "../Component/LightComponent.h"
+#include "../Component/RigidBody.h"
 #include "../Animation/Animation2D.h"
 #include "../UI/UIButton.h"
 #include "../UI/UIImage.h"
@@ -140,7 +142,17 @@ void CScene::CreateCDO()
 
 	CComponent::AddComponentCDO("NavigationAgent", ComCDO);
 
+	ComCDO = new CLightComponent;
 
+	ComCDO->Init();
+
+	CComponent::AddComponentCDO("LightComponent", ComCDO);
+
+	ComCDO = new CRigidBody;
+
+	ComCDO->Init();
+
+	CComponent::AddComponentCDO("RigidBody", ComCDO);
 	// ==================== Animation ====================
 	CAnimation2D* AnimCDO = new CAnimation2D;
 
@@ -184,6 +196,13 @@ void CScene::Start()
 {
 	m_Start = true;
 
+	m_SkySphere = new CSkySphere;
+
+	m_SkySphere->SetName("Sky");
+	m_SkySphere->SetScene(this);
+
+	m_SkySphere->Init();
+
 	auto	iter = m_ObjList.begin();
 	auto	iterEnd = m_ObjList.end();
 
@@ -201,12 +220,7 @@ void CScene::Start()
 
 bool CScene::Init()
 {
-	m_SkySphere = new CSkySphere;
 
-	m_SkySphere->SetName("Sky");
-	m_SkySphere->SetScene(this);
-
-	m_SkySphere->Init();
 
 	return true;
 }

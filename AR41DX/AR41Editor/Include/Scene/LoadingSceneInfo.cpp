@@ -69,7 +69,8 @@ void CLoadingSceneInfo::Update(float DeltaTime)
 		CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
 		if (objectWindow)
 		{
-			objectWindow->AddItemList();
+			objectWindow->Clear();
+			objectWindow->AddItemList(nextScene);
 		}
 #endif
 	}

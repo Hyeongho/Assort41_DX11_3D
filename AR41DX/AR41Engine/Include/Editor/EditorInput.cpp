@@ -139,7 +139,7 @@ void CEditorInput::Render()
 
 	if (m_MultiLine)
 	{
-		Input = ImGui::InputTextMultiline(m_Name.c_str(), m_Text, 1024, m_Size, m_Flag);
+		Input = ImGui::InputTextMultiline(m_NameUTF8.c_str(), m_TextUTF8, IM_ARRAYSIZE(m_TextUTF8), m_Size, m_Flag);
 	}
 
 	else
@@ -151,19 +151,19 @@ void CEditorInput::Render()
 			if (strlen(m_HintText) > 0)
 			{
 				Input = ImGui::InputTextWithHint(m_Name.c_str(), m_HintTextUTF8,
-					m_Text, 1024, m_Flag);
+					m_Text, IM_ARRAYSIZE(m_Text), m_Flag);
 			}
 
 			else
 			{
-				Input = ImGui::InputText(m_Name.c_str(), m_Text, 1024, m_Flag);
+				Input = ImGui::InputText(m_NameUTF8.c_str(), m_TextUTF8, IM_ARRAYSIZE(m_TextUTF8), m_Flag);
 			}
 			break;
 		case EImGuiInputType::Int:
-			Input = ImGui::InputInt(m_Name.c_str(), &m_ValueInt, 1, 10, m_Flag);
+			Input = ImGui::InputInt(m_NameUTF8.c_str(), &m_ValueInt, 1, 10, m_Flag);
 			break;
 		case EImGuiInputType::Float:
-			Input = ImGui::InputFloat(m_Name.c_str(), &m_ValueFloat, 0.f, 0.f, "%.5f", m_Flag);
+			Input = ImGui::InputFloat(m_NameUTF8.c_str(), &m_ValueFloat, 0.f, 0.f, "%.5f", m_Flag);
 			break;
 		}
 	}
@@ -174,16 +174,16 @@ void CEditorInput::Render()
 		// 문자를 입력받았을 경우 widechar와 utf8을 만들어준다.
 		if (m_InputType == EImGuiInputType::String)
 		{
+			memset(m_Text, 0, 1024);
 			memset(m_wText, 0, 2048);
-			memset(m_TextUTF8, 0, 1024);
 
-			int Length = (int)MultiByteToWideChar(CP_ACP, 0, m_Text, -1, nullptr, 0);
+			int Length = (int)MultiByteToWideChar(CP_ACP, 0, m_TextUTF8, -1, nullptr, 0);
 
-			MultiByteToWideChar(CP_ACP, 0, m_Text, -1, m_wText, Length);
+			MultiByteToWideChar(CP_ACP, 0, m_TextUTF8, -1, m_wText, Length);
 
 			Length = WideCharToMultiByte(CP_UTF8, 0, m_wText, -1, nullptr, 0, nullptr, nullptr);
 
-			WideCharToMultiByte(CP_UTF8, 0, m_wText, -1, m_TextUTF8, Length, nullptr, nullptr);
+			WideCharToMultiByte(CP_UTF8, 0, m_wText, -1, m_Text, Length, nullptr, nullptr);
 		}
 
 		if (m_InputCallback)

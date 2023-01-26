@@ -3,7 +3,7 @@
 #include "Scene/Scene.h"
 #include "Scene/SceneViewport.h"
 #include "../UI/StartSceneUI.h"
-#include "../UI/LoadingUI.h"
+//#include "../UI/LoadingUI.h"
 
 CEditorDefaultScene::CEditorDefaultScene()
 {
@@ -17,7 +17,7 @@ CEditorDefaultScene::~CEditorDefaultScene()
 bool CEditorDefaultScene::Init()
 {
 	//m_Owner->GetViewport()->CreateUIWindow<CStartSceneUI>("StartUI");
-	m_Owner->GetViewport()->CreateUIWindow<CLoadingUI>("LoadingUI");
+	//m_Owner->GetViewport()->CreateUIWindow<CLoadingUI>("LoadingUI");
 
 	return true;
 }

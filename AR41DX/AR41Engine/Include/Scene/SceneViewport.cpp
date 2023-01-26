@@ -4,6 +4,7 @@
 #include "../Input.h"
 
 CSceneViewport::CSceneViewport()
+	: m_Owner(nullptr)
 {
 }
 

@@ -43,6 +43,15 @@ public:
 		return m_NextScene->CreateSceneInfo<T>();
 	}
 
+	template <typename T>
+	bool CreateSceneInfo(bool current, const std::string& name, const std::string& prevName = "")
+	{
+		if (current)
+		{
+			return m_Scene->CreateSceneInfo<T>(name, prevName);
+		}
+		return m_NextScene->CreateSceneInfo<T>(name, prevName);
+	}
 	DECLARE_SINGLE(CSceneManager)
 };
 
