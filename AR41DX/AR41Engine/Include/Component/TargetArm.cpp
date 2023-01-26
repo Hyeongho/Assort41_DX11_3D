@@ -33,6 +33,11 @@ CTargetArm::~CTargetArm()
 {
 }
 
+void CTargetArm::SetTargetDistance(float Distance)
+{
+	m_TargetDistance = Distance;
+}
+
 void CTargetArm::Destroy()
 {
 	CSceneComponent::Destroy();
@@ -82,6 +87,14 @@ void CTargetArm::Update(float DeltaTime)
 			else if (m_TargetDistance > m_WheelZoomMax)
 			{
 				m_TargetDistance = m_WheelZoomMax;
+			}
+
+			auto iter = m_vecChild.begin();
+			auto iterEnd = m_vecChild.end();
+
+			for ( ; iter != iterEnd; iter++)
+			{
+				(*iter)->SetRelativePosition(Vector3(0.f, 0.f, -m_TargetDistance));
 			}
 		}
 	}

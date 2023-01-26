@@ -59,12 +59,50 @@ public:
     {
         return m_Text;
     }
-
+    Text_Align_H GetAlignH()  const
+    {
+        return m_AlignH;
+    }
+    Text_Align_V GetAlignV()  const
+    {
+        return m_AlignV;
+    }
+    Vector4 GetColor()	const
+    {
+        return m_Color;
+    }
     int GetTextCount()  const
     {
         return m_TextCount;
     }
-
+    float GetFontSize()  const
+    {
+        return m_FontSize;
+    }
+    bool GetTransparency()  const
+    {
+        return m_Transparency;
+    }
+    Vector4 GetShadowColor()	const
+    {
+        return m_ShadowColor;
+    }
+    float GetShadowOpacity()  const
+    {
+        return m_ShadowOpacity;
+    }
+    Vector2 GetShadowOffset()	const
+    {
+        return m_ShadowOffset;
+    }
+    bool GetShadowEnable()  const
+    {
+        return m_ShadowEnable;
+    }
+    bool GetShadowTransparency()  const
+    {
+        return m_ShadowTransparency;
+    }
 public:
     void SetText(const TCHAR* Text)
     {
@@ -85,6 +123,34 @@ public:
         m_TextCount = Length;
 
         CreateLayout();
+    }
+
+    void SetText(const char* Text)
+    {
+        TCHAR text[MAX_PATH] = {};
+        MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, Text, (int)strlen(Text), text, 256);
+        SetText(text);
+    }
+
+    void SetIntText(int text, bool needZero = false)
+    {
+        TCHAR number[MAX_PATH] = {};
+        if (text < 10 && needZero)
+        {
+            swprintf_s(number, TEXT("0%d"), text);
+        }
+        else
+        {
+            swprintf_s(number, TEXT("%d"), text);
+        }
+        SetText(number);
+    }
+
+    void SetFloatText(float text)
+    {
+        TCHAR number[MAX_PATH] = {};
+        swprintf_s(number, TEXT("%f"), text);
+        SetText(number);
     }
 
     void Append(const TCHAR* Text)

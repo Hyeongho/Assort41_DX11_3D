@@ -12,9 +12,10 @@
 #include "PathManager.h"
 #include "Scene/SceneManager.h"
 #include "Scene/Scene.h"
-#include "../GameObject\Player2D.h"
+#include "../GameObject\Player.h"
 #include "../GameObject\Bullet.h"
 #include "../GameObject\Monster.h"
+#include "../GameObject\Weapon.h"
 #include "ObjectWindow.h"
 #include "ComponentWindow.h"
 #include "Editor/EditorGUIManager.h"
@@ -23,6 +24,7 @@
 #include "Component/CameraComponent.h"
 #include "Component/TargetArm.h"
 #include "Component/TileMapComponent.h"
+#include "Component/RigidBody.h"
 
 CClassWindow::CClassWindow()
 {
@@ -137,14 +139,17 @@ void CClassWindow::ObjectCreateCallback()
 	if (m_SelectObjectItem == "GameObject")
 		Obj = Scene->CreateObject<CGameObject>(m_SelectObjectItem);
 
-	else if (m_SelectObjectItem == "Player2D")
-		Obj = Scene->CreateObject<CPlayer2D>(m_SelectObjectItem);
+	else if (m_SelectObjectItem == "Player")
+		Obj = Scene->CreateObject<CPlayer>(m_SelectObjectItem);
 
 	else if (m_SelectObjectItem == "Bullet")
 		Obj = Scene->CreateObject<CBullet>(m_SelectObjectItem);
 
 	else if (m_SelectObjectItem == "Monster")
 		Obj = Scene->CreateObject<CMonster>(m_SelectObjectItem);
+
+	else if (m_SelectObjectItem == "Weapon")
+		Obj = Scene->CreateObject<CWeapon>(m_SelectObjectItem);
 
 	if (Window)
 	{
@@ -203,6 +208,12 @@ void CClassWindow::ComponentCreateCallback()
 	{
 		Name = "TileMapComponent(TileMapComponent)";
 		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CTileMapComponent>("TileMapComponent");
+	}
+
+	else if (m_SelectComponentItem == "RigidBody")
+	{
+		Name = "RigidBody(RigidBody)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CRigidBody>("RigidBody");
 	}
 
 	if (SelectComponent)
@@ -319,34 +330,8 @@ void CClassWindow::LoadComponentName()
 			break;
 		}
 	}
-
-	char	Directory[MAX_PATH] = {};
-
-	strcpy_s(Directory, Path);
-
-	// Editor의 Component폴더에 있는 파일을 읽어온다.
-	strcat_s(Directory, "Include/Component/");
-
-	for (const auto& file : std::filesystem::directory_iterator(Directory))
-	{
-		char	Name[64] = {};
-		char	FullPath[MAX_PATH] = {};
-		char	Ext[_MAX_EXT] = {};
-
-		strcpy_s(FullPath, file.path().generic_string().c_str());
-
-		_splitpath_s(FullPath, nullptr, 0, nullptr, 0, Name, 64, Ext, _MAX_EXT);
-
-		if (strcmp(Ext, ".cpp") == 0)
-			continue;
-
-		m_ComponentList->AddItem(Name);
-	}
-
-	Length = (int)strlen(Path);
-
-	// Root Path에서 Bin\을 지워준다.
-	for (int i = Length - 2; i >= 0; --i)
+	Length = (int)strlen(Path) - 3;
+	for (size_t i = Length; i > 0; --i)
 	{
 		if (Path[i] == '/' || Path[i] == '\\')
 		{
@@ -354,8 +339,8 @@ void CClassWindow::LoadComponentName()
 			break;
 		}
 	}
+	char	Directory[MAX_PATH] = {};
 
-	memset(Directory, 0, MAX_PATH);
 	strcpy_s(Directory, Path);
 
 	// Editor의 GameObject폴더에 있는 파일을 읽어온다.
@@ -374,14 +359,18 @@ void CClassWindow::LoadComponentName()
 		if (strcmp(Ext, ".cpp") == 0)
 			continue;
 
-		else if (strcmp(Name, "Transform") == 0 || 
-			strcmp(Name, "Transform2D") == 0 ||
-			strcmp(Name, "Component") == 0 || 
-			strcmp(Name, "PrimitiveComponent") == 0 || 
-			strcmp(Name, "ObjectComponent") == 0 ||
-			strcmp(Name, "Tile") == 0)
+		else if (strcmp(Name, "Transform") == 0 ||
+				 strcmp(Name, "Transform2D") == 0 ||
+				 strcmp(Name, "Collider") == 0 ||
+				 strcmp(Name, "Collider2D") == 0 ||
+				 strcmp(Name, "Collider3D") == 0 ||
+				 strcmp(Name, "Component") == 0 ||
+				 strcmp(Name, "PrimitiveComponent") == 0 ||
+				 strcmp(Name, "ObjectComponent") == 0 ||
+				 strcmp(Name, "Tile") == 0)
+		{
 			continue;
-
+		}
 		m_ComponentList->AddItem(Name);
 	}
 }

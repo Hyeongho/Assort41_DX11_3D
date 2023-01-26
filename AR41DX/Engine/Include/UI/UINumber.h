@@ -14,9 +14,19 @@ protected:
 protected:
     UIWidgetImageInfo           m_TextureInfo;
     unsigned int                m_Number;
+    float                       m_Space;
     std::vector<unsigned int>   m_vecNumber;
-
 public:
+    UIWidgetImageInfo GetTextureInfo()	const
+    {
+        return m_TextureInfo;
+    }
+
+    unsigned int GetNumber()	const
+    {
+        return m_Number;
+    }
+
     void SetNumber(unsigned int Number)
     {
         m_Number = Number;
@@ -27,6 +37,14 @@ public:
         m_Number += Number;
     }
 
+    float GetSpace()	const
+    {
+        return m_Space;
+    }
+    void SetSpace(float space)
+    {
+        m_Space = space;
+    }
 public:
     void SetTexture(CTexture* Texture);
     bool SetTexture(const std::string& Name, const TCHAR* FileName,

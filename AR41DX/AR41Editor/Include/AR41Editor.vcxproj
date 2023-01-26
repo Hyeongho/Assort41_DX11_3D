@@ -184,7 +184,8 @@
     <ClCompile Include="EditorManager.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
-    <ClCompile Include="GameObject\Player2D.cpp" />
+    <ClCompile Include="GameObject\Player.cpp" />
+    <ClCompile Include="GameObject\Weapon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\EditorDefaultScene.cpp" />
     <ClCompile Include="Scene\LoadingSceneInfo.cpp" />
@@ -192,7 +193,6 @@
     <ClCompile Include="Setting\EngineShareSetting.cpp" />
     <ClCompile Include="UI\LoadingUI.cpp" />
     <ClCompile Include="UI\StartSceneUI.cpp" />
-    <ClCompile Include="Window\Animation2DWindow.cpp" />
     <ClCompile Include="Window\ClassWindow.cpp" />
     <ClCompile Include="Window\ComponentWindow.cpp" />
     <ClCompile Include="Window\DetailWindow.cpp" />
@@ -203,18 +203,25 @@
     <ClCompile Include="Window\DetailWindow\SpriteComponentWidgetList.cpp" />
     <ClCompile Include="Window\DetailWindow\TargetArmWidgetList.cpp" />
     <ClCompile Include="Window\DetailWindow\TileMapWidgetList.cpp" />
+    <ClCompile Include="Window\FBXWindow.cpp" />
     <ClCompile Include="Window\ObjectWindow.cpp" />
     <ClCompile Include="Window\ResourceWindow.cpp" />
     <ClCompile Include="Window\SceneWindow.cpp" />
     <ClCompile Include="Window\TestWindow.cpp" />
     <ClCompile Include="Window\TransformWindow.cpp" />
+    <ClCompile Include="Window\UIButtonWindow.cpp" />
+    <ClCompile Include="Window\UIImageWindow.cpp" />
+    <ClCompile Include="Window\UINumberWindow.cpp" />
+    <ClCompile Include="Window\UIProgressBarWindow.cpp" />
+    <ClCompile Include="Window\UITextWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor.h" />
     <ClInclude Include="EditorManager.h" />
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Monster.h" />
-    <ClInclude Include="GameObject\Player2D.h" />
+    <ClInclude Include="GameObject\Player.h" />
+    <ClInclude Include="GameObject\Weapon.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\EditorDefaultScene.h" />
     <ClInclude Include="Scene\LoadingSceneInfo.h" />
@@ -222,7 +229,6 @@
     <ClInclude Include="Setting\EngineShareSetting.h" />
     <ClInclude Include="UI\LoadingUI.h" />
     <ClInclude Include="UI\StartSceneUI.h" />
-    <ClInclude Include="Window\Animation2DWindow.h" />
     <ClInclude Include="Window\ClassWindow.h" />
     <ClInclude Include="Window\ComponentWindow.h" />
     <ClInclude Include="Window\DetailWindow.h" />
@@ -233,17 +239,23 @@
     <ClInclude Include="Window\DetailWindow\SpriteComponentWidgetList.h" />
     <ClInclude Include="Window\DetailWindow\TargetArmWidgetList.h" />
     <ClInclude Include="Window\DetailWindow\TileMapWidgetList.h" />
+    <ClInclude Include="Window\FBXWindow.h" />
     <ClInclude Include="Window\ObjectWindow.h" />
     <ClInclude Include="Window\ResourceWindow.h" />
     <ClInclude Include="Window\SceneWindow.h" />
     <ClInclude Include="Window\TestWindow.h" />
     <ClInclude Include="Window\TransformWindow.h" />
+    <ClInclude Include="Window\UIButtonWindow.h" />
+    <ClInclude Include="Window\UIImageWindow.h" />
+    <ClInclude Include="Window\UINumberWindow.h" />
+    <ClInclude Include="Window\UIProgressBarWindow.h" />
+    <ClInclude Include="Window\UITextWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AR41Editor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon1.ico" />
+    <Image Include="..\Bin\SponegeBob.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

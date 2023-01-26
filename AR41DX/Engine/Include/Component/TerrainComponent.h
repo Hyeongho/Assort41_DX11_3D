@@ -18,6 +18,14 @@ private:
     int m_CountY;
     Vector2 m_CellSize;
     Vector2 m_Size;
+    std::vector<Vertex3DStatic> m_vecVtx;
+    std::vector<unsigned int> m_vecIndex;
+    std::vector<Vector3> m_vecFaceNormal;
+    class CTerrainConstantBuffer* m_CBuffer;
+
+public:
+    void SetDetailLevel(float Level);
+    void SetSplatCount(int Count);
 
 public:
     virtual bool SetMesh(const std::string& Name);
@@ -37,7 +45,10 @@ public:
 
 
 public:
-    void CreateTerrain(int CountX, int CountY, float SizeX, float SizeY, const char* HeightMapName = nullptr, 
-        const std::string& HeightMapPath = TEXTURE_PATH);
+    void CreateTerrain(int CountX, int CountY, float SizeX, float SizeY, const TCHAR* HeightMapName = nullptr, const std::string& HeightMapPath = TEXTURE_PATH);
+
+private:
+    void ComputeNormal();
+    void ComputeTangent();
 };
 

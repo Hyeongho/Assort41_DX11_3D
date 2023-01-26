@@ -15,12 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Editor", "03. Editor", 
 		EditorCopy.bat = EditorCopy.bat
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client2D", "Client2D\Include\Client2D.vcxproj", "{97AA5E15-8023-4C0E-AA89-68766AF0F15B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{26BC9DA5-192F-4B8E-A96C-72AB3CCE74C3} = {26BC9DA5-192F-4B8E-A96C-72AB3CCE74C3}
-		{5E603626-8885-400C-9B28-A0AAD94BA626} = {5E603626-8885-400C-9B28-A0AAD94BA626}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AR41Engine", "AR41Engine\Include\AR41Engine.vcxproj", "{26BC9DA5-192F-4B8E-A96C-72AB3CCE74C3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AR41Editor", "AR41Editor\Include\AR41Editor.vcxproj", "{5E603626-8885-400C-9B28-A0AAD94BA626}"
@@ -34,6 +28,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client3D", "Client3D\Includ
 		{5E603626-8885-400C-9B28-A0AAD94BA626} = {5E603626-8885-400C-9B28-A0AAD94BA626}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{901C4444-07E5-4CE0-BAA4-2C16AECB5235}"
+	ProjectSection(SolutionItems) = preProject
+		kbj_test.txt = kbj_test.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -42,14 +41,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{97AA5E15-8023-4C0E-AA89-68766AF0F15B}.Debug|x64.ActiveCfg = Debug|x64
-		{97AA5E15-8023-4C0E-AA89-68766AF0F15B}.Debug|x64.Build.0 = Debug|x64
-		{97AA5E15-8023-4C0E-AA89-68766AF0F15B}.Debug|x86.ActiveCfg = Debug|Win32
-		{97AA5E15-8023-4C0E-AA89-68766AF0F15B}.Debug|x86.Build.0 = Debug|Win32
-		{97AA5E15-8023-4C0E-AA89-68766AF0F15B}.Release|x64.ActiveCfg = Release|x64
-		{97AA5E15-8023-4C0E-AA89-68766AF0F15B}.Release|x64.Build.0 = Release|x64
-		{97AA5E15-8023-4C0E-AA89-68766AF0F15B}.Release|x86.ActiveCfg = Release|Win32
-		{97AA5E15-8023-4C0E-AA89-68766AF0F15B}.Release|x86.Build.0 = Release|Win32
 		{26BC9DA5-192F-4B8E-A96C-72AB3CCE74C3}.Debug|x64.ActiveCfg = Debug|x64
 		{26BC9DA5-192F-4B8E-A96C-72AB3CCE74C3}.Debug|x64.Build.0 = Debug|x64
 		{26BC9DA5-192F-4B8E-A96C-72AB3CCE74C3}.Debug|x86.ActiveCfg = Debug|Win32
@@ -79,7 +70,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{97AA5E15-8023-4C0E-AA89-68766AF0F15B} = {DEA53187-2BE3-4983-9EB8-4393A325406E}
 		{26BC9DA5-192F-4B8E-A96C-72AB3CCE74C3} = {2F8C6226-146E-4C93-9A70-9BB21B390F3E}
 		{5E603626-8885-400C-9B28-A0AAD94BA626} = {5F057200-B133-494C-8136-3F5F25D522E5}
 		{02227A29-E9AF-4139-B34B-1447C2EA44B4} = {DEA53187-2BE3-4983-9EB8-4393A325406E}

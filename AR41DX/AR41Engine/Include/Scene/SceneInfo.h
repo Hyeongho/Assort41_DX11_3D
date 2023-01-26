@@ -17,7 +17,8 @@ protected:
 	CSharedPtr<class CGameObject> m_PlayerObject;
 	std::string	m_ClassTypeName;
 	std::string	m_PlayerObjectName;
-
+	std::string	m_FileName;
+	std::string	m_PrevFileName;
 protected:
 	void SetClassTypeName(const std::string& Name)
 	{
@@ -36,5 +37,22 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 	virtual void SceneChangeComplete();
+
+	const std::string& GetFileName()	const
+	{
+		return m_FileName;
+	}
+	const std::string& GetPrevFileName()	const
+	{
+		return m_PrevFileName;
+	}
+	void SetFileName(const std::string& name)
+	{
+		m_FileName = name;
+	}
+	void SetPrevFileName(const std::string& name)
+	{
+		m_PrevFileName = name;
+	}
 };
 

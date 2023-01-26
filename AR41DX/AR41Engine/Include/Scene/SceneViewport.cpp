@@ -4,6 +4,7 @@
 #include "../Input.h"
 
 CSceneViewport::CSceneViewport()
+	: m_Owner(nullptr)
 {
 }
 
@@ -219,6 +220,27 @@ bool CSceneViewport::CollisionMouse()
 	}
 
 	return Result;
+}
+
+void CSceneViewport::GetAllWindowHierarchyName(std::vector<HierarchyWindowName>& vecName)
+{
+	size_t size = m_vecWindow.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		HierarchyWindowName	names;
+		names.name = m_vecWindow[i]->GetName();
+		names.className = m_vecWindow[i]->GetWindowTypeName();
+		if (names.className == "UIWindow")
+		{
+			continue;
+		}
+		if (names.name == "")
+		{
+			names.name = names.className;
+		}
+		names.window = m_vecWindow[i];
+		vecName.push_back(names);
+	}
 }
 
 bool CSceneViewport::SortWindow(CSharedPtr<CUIWindow> Src, CSharedPtr<CUIWindow> Dest)

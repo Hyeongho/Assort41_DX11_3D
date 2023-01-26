@@ -1,4 +1,3 @@
-
 #include "DefaultSetting.h"
 #include "../GameObject/Player.h"
 #include "../GameObject/Sandy.h"
@@ -21,9 +20,9 @@ void CDefaultSetting::Init()
 {
     LoadResource();
 
-    CreateCDO();
+	CreateCDO();
 
-    SetInput();
+	SetInput();
 
     SetCollision();
 }

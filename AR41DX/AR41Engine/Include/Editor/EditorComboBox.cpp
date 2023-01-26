@@ -84,7 +84,7 @@ void CEditorComboBox::Render()
 	Size.x = m_Size.x;
 	Size.y = m_PageItemCount * ImGui::GetTextLineHeightWithSpacing();
 
-	if (ImGui::BeginCombo(m_Name.c_str(), m_PrevViewNameUTF8.c_str(), m_Flag))
+	if (ImGui::BeginCombo(m_NameUTF8.c_str(), m_PrevViewNameUTF8.c_str(), m_Flag))
 	{
 		// 목록 출력
 		size_t	ItemCount = m_vecItemUTF8.size();

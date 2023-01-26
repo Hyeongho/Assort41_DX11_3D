@@ -38,6 +38,7 @@
     <ClInclude Include="Component\NavigationAgent.h" />
     <ClInclude Include="Component\ObjectComponent.h" />
     <ClInclude Include="Component\PrimitiveComponent.h" />
+    <ClInclude Include="Component\RigidBody.h" />
     <ClInclude Include="Component\SceneComponent.h" />
     <ClInclude Include="Component\SpriteComponent.h" />
     <ClInclude Include="Component\StaticMeshComponent.h" />
@@ -50,6 +51,7 @@
     <ClInclude Include="Editor\EditorButton.h" />
     <ClInclude Include="Editor\EditorCheckBox.h" />
     <ClInclude Include="Editor\EditorComboBox.h" />
+    <ClInclude Include="Editor\EditorCursorPos.h" />
     <ClInclude Include="Editor\EditorGroup.h" />
     <ClInclude Include="Editor\EditorGUIManager.h" />
     <ClInclude Include="Editor\EditorImage.h" />
@@ -58,6 +60,8 @@
     <ClInclude Include="Editor\EditorLabel.h" />
     <ClInclude Include="Editor\EditorListBox.h" />
     <ClInclude Include="Editor\EditorSameLine.h" />
+    <ClInclude Include="Editor\EditorSlider.h" />
+    <ClInclude Include="Editor\EditorSliderSingle.h" />
     <ClInclude Include="Editor\EditorText.h" />
     <ClInclude Include="Editor\EditorTree.h" />
     <ClInclude Include="Editor\EditorTreeItem.h" />
@@ -141,6 +145,7 @@
     <ClInclude Include="Resource\Shader\SpriteColorShader.h" />
     <ClInclude Include="Resource\Shader\SpriteShader.h" />
     <ClInclude Include="Resource\Shader\StructuredBuffer.h" />
+    <ClInclude Include="Resource\Shader\TerrainConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\TerrainShader.h" />
     <ClInclude Include="Resource\Shader\TileMapBackShader.h" />
     <ClInclude Include="Resource\Shader\TileMapConstantBuffer.h" />
@@ -208,6 +213,7 @@
     <ClCompile Include="Component\NavigationAgent.cpp" />
     <ClCompile Include="Component\ObjectComponent.cpp" />
     <ClCompile Include="Component\PrimitiveComponent.cpp" />
+    <ClCompile Include="Component\RigidBody.cpp" />
     <ClCompile Include="Component\SceneComponent.cpp" />
     <ClCompile Include="Component\SpriteComponent.cpp" />
     <ClCompile Include="Component\StaticMeshComponent.cpp" />
@@ -220,6 +226,7 @@
     <ClCompile Include="Editor\EditorButton.cpp" />
     <ClCompile Include="Editor\EditorCheckBox.cpp" />
     <ClCompile Include="Editor\EditorComboBox.cpp" />
+    <ClCompile Include="Editor\EditorCursorPos.cpp" />
     <ClCompile Include="Editor\EditorGroup.cpp" />
     <ClCompile Include="Editor\EditorGUIManager.cpp" />
     <ClCompile Include="Editor\EditorImage.cpp" />
@@ -227,6 +234,8 @@
     <ClCompile Include="Editor\EditorLabel.cpp" />
     <ClCompile Include="Editor\EditorListBox.cpp" />
     <ClCompile Include="Editor\EditorSameLine.cpp" />
+    <ClCompile Include="Editor\EditorSlider.cpp" />
+    <ClCompile Include="Editor\EditorSliderSingle.cpp" />
     <ClCompile Include="Editor\EditorText.cpp" />
     <ClCompile Include="Editor\EditorWidget.cpp" />
     <ClCompile Include="Editor\EditorWindow.cpp" />
@@ -295,6 +304,7 @@
     <ClCompile Include="Resource\Shader\SpriteColorShader.cpp" />
     <ClCompile Include="Resource\Shader\SpriteShader.cpp" />
     <ClCompile Include="Resource\Shader\StructuredBuffer.cpp" />
+    <ClCompile Include="Resource\Shader\TerrainConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\TerrainShader.cpp" />
     <ClCompile Include="Resource\Shader\TileMapBackShader.cpp" />
     <ClCompile Include="Resource\Shader\TileMapConstantBuffer.cpp" />

@@ -3,6 +3,7 @@
 #include "Component/AnimationMeshComponent.h"
 #include "Component/CameraComponent.h"
 #include "Component/TargetArm.h"
+#include "Component/RigidBody.h"
 #include "Input.h"
 #include "Engine.h"
 #include "Scene/Scene.h"
@@ -23,6 +24,7 @@ CPlayer::CPlayer(const CPlayer& Obj) : CGameObject(Obj)
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
 	m_Arm = (CTargetArm*)FindComponent("Arm");
+	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 }
 
 CPlayer::~CPlayer()

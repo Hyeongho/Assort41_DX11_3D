@@ -75,8 +75,6 @@ bool CShaderManager::Init()
 
 	CreateShader<CAnimationUpdateShader>("AnimationUpdateShader", true);
 
-
-
 	CreateConstantBuffer("Transform", sizeof(TransformCBuffer), 0);
 	CreateConstantBuffer("Material", sizeof(MaterialCBuffer), 1);
 	CreateConstantBuffer("Animation2D", sizeof(Animation2DCBuffer), 2);
@@ -88,6 +86,7 @@ bool CShaderManager::Init()
 	CreateConstantBuffer("Light", sizeof(LightCBuffer), 4);
 	CreateConstantBuffer("Instancing", sizeof(InstancingCBuffer), 5, (int)EShaderBufferType::Vertex);
 	CreateConstantBuffer("Animation", sizeof(AnimationCBuffer), 0, (int)EShaderBufferType::Compute);
+	CreateConstantBuffer("Terrain", sizeof(TerrainCBuffer), 10, (int)EShaderBufferType::Vertex | (int)EShaderBufferType::Pixel);
 
 	CreateShader<CSkyShader>("SkyShader", true);
 

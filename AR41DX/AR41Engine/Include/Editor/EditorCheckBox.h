@@ -22,7 +22,10 @@ public:
 	{
 		return m_Check;
 	}
-
+	void SetCheck(bool b)
+	{
+		m_Check = b;
+	}
 public:
 	virtual bool Init();
 	virtual void Render();

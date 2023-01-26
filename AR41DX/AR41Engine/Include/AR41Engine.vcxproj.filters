@@ -271,6 +271,12 @@
     <Filter Include="02. Resource\02. Shader\02. ShaderClass\13. Terrain">
       <UniqueIdentifier>{9f583153-fa9d-4e7c-a98c-fbd98d1cc94a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\11. Terrain">
+      <UniqueIdentifier>{639d720b-a026-42b9-8add-75dd9933e62f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Component\01. SceneComponent\06. RigidBody">
+      <UniqueIdentifier>{f8dc12a7-1654-406c-a73a-3b0dd21cbf39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -777,6 +783,21 @@
     <ClInclude Include="Resource\Shader\TerrainShader.h">
       <Filter>02. Resource\02. Shader\02. ShaderClass\13. Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\Shader\TerrainConstantBuffer.h">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\11. Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\EditorSlider.h">
+      <Filter>07. Editor\03. Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\EditorSliderSingle.h">
+      <Filter>07. Editor\03. Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\EditorCursorPos.h">
+      <Filter>07. Editor\03. Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\RigidBody.h">
+      <Filter>05. Component\01. SceneComponent\06. RigidBody</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1225,6 +1246,21 @@
     </ClCompile>
     <ClCompile Include="Resource\Shader\TerrainShader.cpp">
       <Filter>02. Resource\02. Shader\02. ShaderClass\13. Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\TerrainConstantBuffer.cpp">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\11. Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\EditorSlider.cpp">
+      <Filter>07. Editor\03. Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\EditorSliderSingle.cpp">
+      <Filter>07. Editor\03. Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\EditorCursorPos.cpp">
+      <Filter>07. Editor\03. Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\RigidBody.cpp">
+      <Filter>05. Component\01. SceneComponent\06. RigidBody</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

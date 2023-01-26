@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObject/GameObject.h"
+#include "GameObject\GameObject.h"
 
 class CMonster :
     public CGameObject
@@ -13,8 +13,8 @@ protected:
 	virtual ~CMonster();
 
 private:
-	CSharedPtr<class CSpriteComponent>	m_Sprite;
-	CSharedPtr<class CColliderPixel>	m_Body;
+	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
+	CSharedPtr<class CAnimation>		m_Animation;
 
 public:
 	virtual void Start();
@@ -22,5 +22,7 @@ public:
 	virtual void Update(float DeltaTime);
 	virtual void PostUpdate(float DeltaTime);
 	virtual CMonster* Clone()    const;
+	virtual void Save(FILE* File);
+	virtual void Load(FILE* File);
 };
 

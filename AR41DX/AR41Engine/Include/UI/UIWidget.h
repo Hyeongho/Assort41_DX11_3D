@@ -184,8 +184,18 @@ public:
         m_Angle = Angle;
     }
 
+    void SetWidgetTypeName(const std::string& name)
+    {
+        m_WidgetTypeName = name;
+    }
+
     void SetShader(const std::string& Name);
     void SetMesh(const std::string& Name);
+
+    void AddAngle(float angle)
+    {
+        m_Angle += angle;
+    }
 
 public:
     virtual void Start();
