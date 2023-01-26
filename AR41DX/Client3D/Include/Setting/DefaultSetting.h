@@ -15,5 +15,7 @@ private:
     void LoadResource();
     void SetInput();
     void SetCollision();
+
+    void LoadSandy();
 };
 

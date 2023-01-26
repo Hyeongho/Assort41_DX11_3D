@@ -28,6 +28,9 @@
     <Filter Include="05. UI">
       <UniqueIdentifier>{a34697d6-92f7-44d4-9f22-5b2af3d186df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01.Player">
+      <UniqueIdentifier>{b4101f98-8d2c-4fcc-96b4-8890b02f61f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -38,9 +41,6 @@
     </ClCompile>
     <ClCompile Include="Scene\MainSceneInfo.cpp">
       <Filter>02. Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Player.cpp">
-      <Filter>03. GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Setting\EngineShareSetting.cpp">
       <Filter>04. Setting</Filter>
@@ -66,6 +66,12 @@
     <ClCompile Include="Scene\LoadingSceneInfo.cpp">
       <Filter>02. Scene</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Player.cpp">
+      <Filter>03. GameObject\01.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Sandy.cpp">
+      <Filter>03. GameObject\01.Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -79,9 +85,6 @@
     </ClInclude>
     <ClInclude Include="Scene\MainSceneInfo.h">
       <Filter>02. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Player.h">
-      <Filter>03. GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Setting\EngineShareSetting.h">
       <Filter>04. Setting</Filter>
@@ -106,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="Scene\LoadingSceneInfo.h">
       <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Player.h">
+      <Filter>03. GameObject\01.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Sandy.h">
+      <Filter>03. GameObject\01.Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

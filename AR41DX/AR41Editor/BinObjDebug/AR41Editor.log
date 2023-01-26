@@ -1,4 +1,4 @@
-﻿  unity_9KWZF7ZZAK1UTZMR.cpp
+﻿  unity_NY33P99EVVXAEZLJ.cpp
 DirectXTex_Debug.lib(DirectXTexImage.obj) : warning LNK4099: '' PDB를 'DirectXTex_Debug.lib(DirectXTexImage.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 DirectXTex_Debug.lib(DirectXTexDDS.obj) : warning LNK4099: '' PDB를 'DirectXTex_Debug.lib(DirectXTexDDS.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 DirectXTex_Debug.lib(DirectXTexTGA.obj) : warning LNK4099: '' PDB를 'DirectXTex_Debug.lib(DirectXTexTGA.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
@@ -11,11 +11,72 @@ DirectXTex_Debug.lib(DirectXTexMipMaps.obj) : warning LNK4099: '' PDB를 'Direct
 DirectXTex_Debug.lib(BC.obj) : warning LNK4099: '' PDB를 'DirectXTex_Debug.lib(BC.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 DirectXTex_Debug.lib(BC4BC5.obj) : warning LNK4099: '' PDB를 'DirectXTex_Debug.lib(BC4BC5.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 DirectXTex_Debug.lib(BC6HBC7.obj) : warning LNK4099: '' PDB를 'DirectXTex_Debug.lib(BC6HBC7.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-  AR41Editor.vcxproj -> D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Bin\AR41Editor_Debug.exe
-  0개 파일이 복사되었습니다.
+  AR41Editor.vcxproj -> H:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Editor\Bin\AR41Editor_Debug.exe
+  .\AR41Editor\Include\GameObject\Monster.cpp
+  .\AR41Editor\Include\GameObject\Monster.h
+  .\AR41Editor\Include\GameObject\Weapon.cpp
+  .\AR41Editor\Include\GameObject\Weapon.h
+  4개 파일이 복사되었습니다.
   0개 파일이 복사되었습니다.
   0개 파일이 복사되었습니다.
   0개 파일이 복사되었습니다.
   .\AR41Editor\Bin\AR41Editor_Debug.exe
-  .\AR41Editor\Bin\Scene\kbj_Test.scn
-  2개 파일이 복사되었습니다.
+  .\AR41Editor\Bin\Mesh\Blade.FBX
+  .\AR41Editor\Bin\Mesh\Blade.msh
+  .\AR41Editor\Bin\Mesh\BonObj.fbx
+  .\AR41Editor\Bin\Mesh\Player_Default.bne
+  .\AR41Editor\Bin\Mesh\Player_Default.FBX
+  .\AR41Editor\Bin\Mesh\Player_Default.msh
+  .\AR41Editor\Bin\Mesh\Player_Default.sqc
+  .\AR41Editor\Bin\Mesh\sqc_Battle_Evade.FBX
+  .\AR41Editor\Bin\Mesh\sqc_Battle_Idle.FBX
+  .\AR41Editor\Bin\Mesh\sqc_Battle_OverHeadSlash.FBX
+  .\AR41Editor\Bin\Mesh\sqc_Battle_OverHeadSlash.sqc
+  .\AR41Editor\Bin\Mesh\sqc_Battle_RisingSlash.FBX
+  .\AR41Editor\Bin\Mesh\sqc_Battle_StepSlash.FBX
+  .\AR41Editor\Bin\Mesh\sqc_Battle_Thrust.FBX
+  .\AR41Editor\Bin\Mesh\sqc_Battle_Walk.FBX
+  .\AR41Editor\Bin\Mesh\sqc_Battle_Walk.sqc
+  .\AR41Editor\Bin\Mesh\sqc_Evade.FBX
+  .\AR41Editor\Bin\Mesh\sqc_Idle.FBX
+  .\AR41Editor\Bin\Mesh\sqc_Idle.sqc
+  .\AR41Editor\Bin\Mesh\sqc_Kick.FBX
+  .\AR41Editor\Bin\Mesh\sqc_RunLoop.FBX
+  .\AR41Editor\Bin\Mesh\Blade.fbm\BC7_swo001_RMT.tga
+  .\AR41Editor\Bin\Mesh\Blade.fbm\swo001_BML.dds
+  .\AR41Editor\Bin\Mesh\Blade.fbm\swo001_NM.tga
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\BC5_cage003_NM.tga
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\BC5_hand008_NM.tga
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\BC5_knife001_NM.tga
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\BC5_m_arm039_0001_NM.tga
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\BC5_m_body039_0001_NM.tga
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\BC5_m_helm039_0001_NM.tga
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\BC5_m_leg039_0001_NM.tga
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\BC5_m_slinger039_0000_NM.tga
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\BC5_m_wst039_0001_NM.tga
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_cage003_BML.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_cage003_EM.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_cage003_RMT.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_hand008_BML.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_hand008_RMT.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_knife001_BML.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_knife001_RMT.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_arm039_0001_BML.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_arm039_0001_RMT.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_arm039_0001_XM.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_body039_0001_BML.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_body039_0001_RMT.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_body039_0001_XM.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_helm039_0001_BML.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_helm039_0001_RMT.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_helm039_0001_XM.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_leg039_0001_BML.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_leg039_0001_RMT.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_leg039_0001_XM.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_slinger039_0000_BML.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_slinger039_0000_RMT.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_slinger039_0000_XM.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_wst039_0001_BML.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_wst039_0001_RMT.dds
+  .\AR41Editor\Bin\Mesh\Player_Default.fbm\DXT1_m_wst039_0001_XM.dds
+  59개 파일이 복사되었습니다.

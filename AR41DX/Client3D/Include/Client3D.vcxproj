@@ -165,6 +165,7 @@
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
+    <ClCompile Include="GameObject\Sandy.cpp" />
     <ClCompile Include="GameObject\Weapon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\LoadingSceneInfo.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Monster.h" />
     <ClInclude Include="GameObject\Player.h" />
+    <ClInclude Include="GameObject\Sandy.h" />
     <ClInclude Include="GameObject\Weapon.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\LoadingSceneInfo.h" />
