@@ -56,6 +56,9 @@
 #include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Component\PrimitiveComponent.cpp"
 
 
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Component\RigidBody.cpp"
+
+
 #include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Component\SceneComponent.cpp"
 
 

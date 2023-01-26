@@ -143,5 +143,6 @@ void CStartSceneUI::StartButtonClick()
     // 로딩 Scene을 생성한다.
     CSceneManager::GetInst()->CreateNextScene(true);
 
-    CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false);
+    //CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false);
+    CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "Kbj_test1.scn", "Kbj_test2.scn");
 }

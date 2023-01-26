@@ -4,6 +4,7 @@
 #include "Component/AnimationMeshComponent.h"
 #include "Component/CameraComponent.h"
 #include "Component/TargetArm.h"
+#include "Component/RigidBody.h"
 #include "Input.h"
 #include "Engine.h"
 #include "Scene/Scene.h"
@@ -24,6 +25,7 @@ CPlayer::CPlayer(const CPlayer& Obj) : CGameObject(Obj)
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
 	m_Arm = (CTargetArm*)FindComponent("Arm");
+	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 }
 
 CPlayer::~CPlayer()
@@ -59,9 +61,11 @@ bool CPlayer::Init()
 	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 	m_Camera = CreateComponent<CCameraComponent>("Camera");
 	m_Arm = CreateComponent<CTargetArm>("Arm");
+	m_Rigid = CreateComponent<CRigidBody>("Rigid");
 
 	SetRootComponent(m_Mesh);
 
+	m_Mesh->AddChild(m_Rigid);
 	m_Mesh->AddChild(m_Arm);
 	m_Arm->AddChild(m_Camera);
 
@@ -69,7 +73,6 @@ bool CPlayer::Init()
 	m_Camera->SetInheritRotY(true);
 
 	m_Arm->SetInheritRotY(true);
-
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
 	m_Mesh->SetMesh("Player");
@@ -78,7 +81,7 @@ bool CPlayer::Init()
 
 	m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
 
-	//SetWorldScale(5.f, 5.f, 5.f);
+	//m_Rigid->SetGravity(true);
 
 	return true;
 }

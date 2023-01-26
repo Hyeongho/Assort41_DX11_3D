@@ -38,6 +38,7 @@ struct Vector2
 
 
 	// operator -
+	Vector2 operator -();
 	Vector2 operator - (const Vector2& v)	const;
 	Vector2 operator - (const DirectX::XMVECTOR& v)	const;
 	Vector2 operator - (float f)	const;
@@ -77,7 +78,7 @@ struct Vector2
 	const Vector2& operator -- ();
 	const Vector2& operator -- (int);
 
-
+	bool Iszero();
 	float Length()	const;
 	void Normalize();
 	float Distance(const Vector2& v)	const;

@@ -142,6 +142,11 @@ void Vector2::operator+=(float f)
     y += f;
 }
 
+Vector2 Vector2::operator-()
+{
+    return Vector2(-x, -y);
+}
+
 // operator -
 Vector2 Vector2::operator-(const Vector2& v) const
 {
@@ -289,6 +294,15 @@ const Vector2& Vector2::operator--(int)
     y -= 1.f;
 
     return *this;
+}
+
+bool Vector2::Iszero()
+{
+    if (x == 0.f && y == 0.f)
+    {
+        return true;
+    }
+    return false;
 }
 
 float Vector2::Length() const

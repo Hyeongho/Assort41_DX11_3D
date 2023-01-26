@@ -9,8 +9,8 @@ CLoadingUI::CLoadingUI()
     m_WindowTypeName = "LoadingUI";
 }
 
-CLoadingUI::CLoadingUI(const CLoadingUI& Window) :
-    CUIWindow(Window)
+CLoadingUI::CLoadingUI(const CLoadingUI& Window) 
+    : CUIWindow(Window)
 {
     m_LoadingBG = FindWidget<CUIImage>("LoadingBG");
     m_LoadingCircle = FindWidget<CUIImage>("LoadingCircle");
@@ -40,18 +40,19 @@ bool CLoadingUI::Init()
     m_LoadingBG->SetTexture("LoadingBG", TEXT("UI\\load_bg.tga"));
 
     m_LoadingCircle = CreateWidget<CUIImage>("LoadingCircle");
-    m_LoadingCircle->SetPos(1250.f, 200.f);
-    m_LoadingCircle->SetSize(205.f, 205.f);
+    m_LoadingCircle->SetPos(1220.f, 60.f);
+    m_LoadingCircle->SetSize(100.f, 100.f);
     m_LoadingCircle->SetPivot(0.5f, 0.5f);
     m_LoadingCircle->SetTexture("LoadingCircle", TEXT("UI\\loadingcircle.png"));
 
     m_LoadingText = CreateWidget<CUIText>("loadingText");
-    m_LoadingText->SetPos(1110.f, 0.f);
+    m_LoadingText->SetPos(950.f, 20.f);
     m_LoadingText->SetSize(300.f, 100.f);
     m_LoadingText->SetPivot(0.5f, 0.5f);
-    m_LoadingText->SetFontSize(35.f);
-    m_LoadingText->SetText(TEXT("Please wait..."));
+    m_LoadingText->SetFontSize(20.f);
+    m_LoadingText->SetText(TEXT("Loading..."));
     m_LoadingText->SetAlignH(Text_Align_H::Center);
+    m_LoadingText->SetAlignV(Text_Align_V::Bottom);
     return true;
 }
 

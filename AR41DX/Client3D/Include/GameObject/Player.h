@@ -17,7 +17,7 @@ private:
 	CSharedPtr<class CCameraComponent>	m_Camera;
 	CSharedPtr<class CTargetArm>		m_Arm;
 	CSharedPtr<class CAnimation>		m_Animation;
-
+	CSharedPtr<class CRigidBody>	m_Rigid;
 public:
 	virtual void Start();
 	virtual bool Init();
