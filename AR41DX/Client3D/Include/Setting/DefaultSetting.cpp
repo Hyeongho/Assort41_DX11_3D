@@ -1,8 +1,9 @@
 #include "DefaultSetting.h"
 #include "../GameObject/Player.h"
-#include "../GameObject/Monster.h"
-#include "../GameObject/Bullet.h"
-#include "../UI/StartSceneUI.h"
+#include "../GameObject/Sandy.h"
+//#include "../GameObject/Monster.h"
+//#include "../GameObject/Bullet.h"
+//#include "../UI/StartSceneUI.h"
 #include "Scene/Scene.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -29,29 +30,15 @@ void CDefaultSetting::Init()
 void CDefaultSetting::CreateCDO()
 {
     CScene::CreateObjectCDO<CPlayer>("Player");
-    CScene::CreateObjectCDO<CMonster>("Monster");
-    CScene::CreateObjectCDO<CBullet>("Bullet");
-
-    CScene::CreateUIWindowCDO<CStartSceneUI>("StartSceneUI");
+    //CScene::CreateObjectCDO<CSandy>("Sandy");
 }
 
 void CDefaultSetting::LoadResource()
 {
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static,
-        "Blade", TEXT("Blade.msh"), MESH_PATH);
+    LoadSandy();
 
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation,
-        "Player", TEXT("Player_Default.msh"), MESH_PATH);
-
-
-    CResourceManager::GetInst()->LoadSkeleton(nullptr,
-        "PlayerSkeleton", TEXT("Player_Default.bne"), MESH_PATH);
-
-    CResourceManager::GetInst()->SetMeshSkeleton("Player",
-        "PlayerSkeleton");
-
-
-    CResourceManager::GetInst()->AddSocket("PlayerSkeleton",
+    /*
+   CResourceManager::GetInst()->AddSocket("PlayerSkeleton",
         "bone11", "Weapon", Vector3(0.f, -60.f, 0.f), Vector3(0.f, 0.f, 90.f));
 
 
@@ -63,23 +50,21 @@ void CDefaultSetting::LoadResource()
         TEXT("sqc_Battle_Walk.sqc"), MESH_PATH);
 
     CResourceManager::GetInst()->LoadAnimationSequence("PlayerAttack",
-        TEXT("sqc_Battle_OverHeadSlash.sqc"), MESH_PATH);
+        TEXT("sqc_Battle_OverHeadSlash.sqc"), MESH_PATH);*/
 }
 
 void CDefaultSetting::SetInput()
 {
     // Å° µî·Ï
-    CInput::GetInst()->AddBindKey("MoveRight", 'D');
-    CInput::GetInst()->AddBindKey("MoveLeft", 'A');
+    CInput::GetInst()->AddBindKey("SandyMoveRight", 'D');
+    CInput::GetInst()->AddBindKey("SandyMoveLeft", 'A');
 
-    CInput::GetInst()->AddBindKey("MoveFront", 'W');
-    CInput::GetInst()->AddBindKey("MoveBack", 'S');
+    CInput::GetInst()->AddBindKey("SandyMoveFront", 'W');
+    CInput::GetInst()->AddBindKey("SandyMoveBack", 'S');
 
-    CInput::GetInst()->AddBindKey("Jump", VK_SPACE);
+    CInput::GetInst()->AddBindKey("SandyJump", VK_SPACE);
 
-    CInput::GetInst()->AddBindKey("LButton", VK_LBUTTON);
-
-    CInput::GetInst()->AddBindKey("RButton", VK_RBUTTON);
+    CInput::GetInst()->AddBindKey("SandyLButton", VK_LBUTTON);
 }
 
 void CDefaultSetting::SetCollision()
@@ -107,4 +92,36 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("MonsterAttack", "Monster", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("MonsterAttack", "MonsterAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("MonsterAttack", "PlayerAttack", ECollision_Interaction::Ignore);
+}
+
+void CDefaultSetting::LoadSandy()
+{
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy", TEXT("Sandy/Sandy_Idle.fbx"), MESH_PATH);
+    //CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Walk", TEXT("Sandy/Sandy_Walk.fbx"), MESH_PATH);
+    /*CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Walk", TEXT("Sandy/Sandy_Walk.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Run", TEXT("Sandy/Sandy_Run.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_JumpDW", TEXT("Sandy/Sandy_JumpDW.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_JumpUp", TEXT("Sandy/Sandy_JumpUp.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Jump_Landing_NonAdditive", TEXT("Sandy/Sandy_Jump_Landing_NonAdditive.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_DoubleJump", TEXT("Sandy/Sandy_DoubleJump.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Karate_Chop", TEXT("Sandy/Sandy_Karate_Chop.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Karate_Kick", TEXT("Sandy/Sandy_Karate_Kick.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Lasso_Start", TEXT("Sandy/Sandy_Lasso_Start.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Death", TEXT("Sandy/Sandy_Death.fbx"), MESH_PATH);*/
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "SandySkeleton", TEXT("Sandy/Sandy_Idle.bne"), MESH_PATH);
+
+    CResourceManager::GetInst()->SetMeshSkeleton("Sandy", "SandySkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Idle", TEXT("Sandy/Sandy_Idle.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Walk", TEXT("Sandy/Sandy_Walk.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Run", TEXT("Sandy/Sandy_Run.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_JumpDW", TEXT("Sandy/Sandy_JumpDW.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_JumpUp", TEXT("Sandy/Sandy_JumpUp.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Jump_Landing_NonAdditive", TEXT("Sandy/Sandy_Jump_Landing_NonAdditive.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_DoubleJump", TEXT("Sandy/Sandy_DoubleJump.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Karate_Chop", TEXT("Sandy/Sandy_Karate_Chop.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Karate_Kick", TEXT("Sandy/Sandy_Karate_Kick.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Lasso_Start", TEXT("Sandy/Sandy_Lasso_Start.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Death", TEXT("Sandy/Sandy_Death.sqc"), MESH_PATH);
 }
