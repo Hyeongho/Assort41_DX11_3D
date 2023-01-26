@@ -1,9 +1,9 @@
-
 #include "MainSceneInfo.h"
 #include "Scene/Scene.h"
 #include "../GameObject/Player.h"
 #include "../GameObject/Monster.h"
 #include "../GameObject/Weapon.h"
+#include "../GameObject/Sandy.h"
 
 CMainSceneInfo::CMainSceneInfo()
 {
@@ -17,13 +17,13 @@ bool CMainSceneInfo::Init()
 {
 	CSceneInfo::Init();
 
-	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
+	CSandy* Sandy = m_Owner->CreateObject<CSandy>("Sandy");
 
-	SetPlayerObject(Player);
+	SetPlayerObject(Sandy);
 
-	CWeapon* Weapon = m_Owner->CreateObject<CWeapon>("Weapon");
+	//CWeapon* Weapon = m_Owner->CreateObject<CWeapon>("Weapon");
 
-	Player->AddChildToSocket("Weapon", Weapon);
+	//Player->AddChildToSocket("Weapon", Weapon);
 
 	/*for (int i = 0; i < 100; ++i)
 	{
