@@ -31,7 +31,6 @@
 *.out
 *.app
 
-*.pdb
 *.tlog
 *.idb
 *.lik
@@ -40,3 +39,5 @@
 
 .svn/
 .vs/
+*.pdb
+*.log
