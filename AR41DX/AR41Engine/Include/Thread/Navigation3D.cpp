@@ -1,23 +1,53 @@
 #include "Navigation3D.h"
 #include "../Component/TerrainComponent.h"
 
-CNavigation3D::CNavigation3D()
+CNavigation3D::CNavigation3D() :
+	m_SectionArray(nullptr),
+	m_Terrain(nullptr),
+	m_Grid(true),
+	m_LineRectCount(0),
+	m_SectionX(0),
+	m_SectionZ(0)
 {
 }
 
 CNavigation3D::~CNavigation3D()
 {
-	size_t	Size = m_vecNode.size();
+	size_t	Size = m_vecCell.size();
 
 	for (size_t i = 0; i < Size; i++)
 	{
-		SAFE_DELETE(m_vecNode[i]);
+		SAFE_DELETE(m_vecCell[i]);
 	}
+
+	SAFE_DELETE_ARRAY(m_SectionArray);
 }
 
 void CNavigation3D::CreateNavigation(CTerrainComponent* Terrain)
 {
 	m_Terrain = Terrain;
+
+	m_Grid = m_Terrain->GetGrid();
+
+	int	FaceCount = m_Terrain->GetFaceCount();
+
+	for (int i = 0; i < FaceCount; i++)
+	{
+		unsigned int	FaceIndex[3] = {};
+
+		m_Terrain->GetFaceIndex(FaceIndex, i);
+
+		Vector3	FacePos[3];
+
+		for (int j = 0; j < 3; ++j)
+		{
+			FacePos[j] = m_Terrain->GetVertexPos(FaceIndex[j]);
+		}
+
+		NavigationCell* Cell = new NavigationCell;
+
+		m_vecCell.push_back(Cell);
+	}
 
 	/*m_Shape = m_Terrain->GetShape();
 	m_CountX = m_Terrain->GetCountX();
@@ -27,7 +57,7 @@ void CNavigation3D::CreateNavigation(CTerrainComponent* Terrain)
 
 	int	Count = m_CountX * m_CountY;
 
-	for (int i = 0; i < Count; ++i)
+	for (int i = 0; i < Count; i++)
 	{
 		NavNode1* Node = new NavNode1;
 
@@ -72,7 +102,7 @@ bool CNavigation3D::FindPath(const Vector2& Start, const Vector2& End,
 
 	//size_t Size = m_vecUseNode.size();
 
-	//for (size_t i = 0; i < Size; ++i)
+	//for (size_t i = 0; i < Size; i++)
 	//{
 	//	m_vecUseNode[i]->NodeType = ENavNodeType1::None;
 	//	m_vecUseNode[i]->Cost = FLT_MAX;
@@ -89,7 +119,7 @@ bool CNavigation3D::FindPath(const Vector2& Start, const Vector2& End,
 	//StartNode->Dist = StartNode->Center.Distance(End);
 	//StartNode->Total = StartNode->Dist;
 
-	//for (int i = 0; i < (int)ENodeDir1::End; ++i)
+	//for (int i = 0; i < (int)ENodeDir1::End; i++)
 	//{
 	//	StartNode->SearchDirList.push_back((ENodeDir1)i);
 	//}
@@ -126,8 +156,8 @@ bool CNavigation3D::FindPath(const Vector2& Start, const Vector2& End,
 bool CNavigation3D::FindNode(NavNode1* Node, NavNode1* EndNode, const Vector2& End,
 	std::list<Vector2>& PathList)
 {
-	auto iter = Node->SearchDirList.begin();
-	auto iterEnd = Node->SearchDirList.end();
+	auto	iter = Node->SearchDirList.begin();
+	auto	iterEnd = Node->SearchDirList.end();
 
 	for (; iter != iterEnd; iter++)
 	{
@@ -270,7 +300,7 @@ NavNode1* CNavigation3D::GetCornerRectTop(NavNode1* Node, NavNode1* EndNode)
 
 	while (true)
 	{
-		++IndexY;
+		i++ndexY;
 
 		if (IndexY >= m_CountY)
 			return nullptr;
@@ -420,7 +450,7 @@ NavNode1* CNavigation3D::GetCornerRectRight(NavNode1* Node, NavNode1* EndNode)
 
 	while (true)
 	{
-		++IndexX;
+		i++ndexX;
 
 		if (IndexX >= m_CountX)
 			return nullptr;
@@ -472,7 +502,7 @@ NavNode1* CNavigation3D::GetCornerRectLT(NavNode1* Node, NavNode1* EndNode)
 	while (true)
 	{
 		--IndexX;
-		++IndexY;
+		i++ndexY;
 
 		if (IndexX < 0 || IndexY >= m_CountY)
 			return nullptr;
@@ -537,8 +567,8 @@ NavNode1* CNavigation3D::GetCornerRectRT(NavNode1* Node, NavNode1* EndNode)
 
 	while (true)
 	{
-		++IndexX;
-		++IndexY;
+		i++ndexX;
+		i++ndexY;
 
 		if (IndexX >= m_CountX || IndexY >= m_CountY)
 			return nullptr;
@@ -669,7 +699,7 @@ NavNode1* CNavigation3D::GetCornerRectRB(NavNode1* Node, NavNode1* EndNode)
 
 	while (true)
 	{
-		++IndexX;
+		i++ndexX;
 		--IndexY;
 
 		if (IndexX >= m_CountX || IndexY < 0)
@@ -950,7 +980,7 @@ NavNode1* CNavigation3D::GetCornerIsometricRight(NavNode1* Node, NavNode1* EndNo
 
 	while (true)
 	{
-		++IndexX;
+		i++ndexX;
 
 		if (IndexX >= m_CountX)
 			return nullptr;
@@ -1026,7 +1056,7 @@ NavNode1* CNavigation3D::GetCornerIsometricLT(NavNode1* Node, NavNode1* EndNode)
 		if (IndexY % 2 == 0)
 			--IndexX;
 
-		++IndexY;
+		i++ndexY;
 
 		if (IndexY >= m_CountY || IndexX < 0)
 			return nullptr;
@@ -1085,9 +1115,9 @@ NavNode1* CNavigation3D::GetCornerIsometricRT(NavNode1* Node, NavNode1* EndNode)
 	while (true)
 	{
 		if (IndexY % 2 == 1)
-			++IndexX;
+			i++ndexX;
 
-		++IndexY;
+		i++ndexY;
 
 		if (IndexY >= m_CountY || IndexX >= m_CountX)
 			return nullptr;
@@ -1207,7 +1237,7 @@ NavNode1* CNavigation3D::GetCornerIsometricRB(NavNode1* Node, NavNode1* EndNode)
 	while (true)
 	{
 		if (IndexY % 2 == 1)
-			++IndexX;
+			i++ndexX;
 
 		--IndexY;
 

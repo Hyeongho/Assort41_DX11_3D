@@ -162,7 +162,7 @@ void CThreadManager::CreateNavigationThread(CSceneComponent* NavComponent, bool 
 
 		Scene->GetNavigationManager()->AddNavigationThread(Thread);
 
-		Thread->SetNavigationComponent(NavComponent);
+		//Thread->SetNavigationComponent(NavComponent);
 		Thread->SetLoop(true);
 
 		Thread->Start();
