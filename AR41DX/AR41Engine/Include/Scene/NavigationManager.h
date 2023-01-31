@@ -9,9 +9,9 @@ class CNavigationManager
 
 protected:
 	CNavigationManager();
-	~CNavigationManager();
+	virtual ~CNavigationManager();
 
-private:
+protected:
 	class CScene* m_Owner;
 	std::vector<class CNavigationThread*>	m_vecNavThread;
 
@@ -22,8 +22,8 @@ public:
 	}
 
 public:
-	void Start();
-	bool Init();
-	void Move(class CNavigationAgent* Agent, const Vector2& End);
+	virtual void Start() = 0;
+	virtual bool Init() = 0;
+	virtual void Move(class CNavigationAgent* Agent, const Vector2& End) = 0;
 };
 
