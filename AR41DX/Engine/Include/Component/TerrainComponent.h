@@ -22,6 +22,13 @@ private:
     std::vector<unsigned int> m_vecIndex;
     std::vector<Vector3> m_vecFaceNormal;
     class CTerrainConstantBuffer* m_CBuffer;
+    bool m_Grid;
+
+public:
+    bool GetGrid() const
+    {
+        return m_Grid;
+    }
 
 public:
     void SetDetailLevel(float Level);

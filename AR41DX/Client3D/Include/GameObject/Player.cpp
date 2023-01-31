@@ -39,13 +39,48 @@ void CPlayer::Start()
 	{
 		m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
 	}
+
+	CInput::GetInst()->AddBindFunction<CPlayer>("MoveFront", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("MoveBack", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
+
+	CInput::GetInst()->AddBindFunction<CPlayer>("MoveLeft", Input_Type::Push, this, &CPlayer::MoveLeft, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("MoveRight", Input_Type::Push, this, &CPlayer::MoveRight, m_Scene);
+
+	CInput::GetInst()->AddBindFunction<CPlayer>("Jump", Input_Type::Down, this, &CPlayer::Jump, m_Scene);
+
+	CInput::GetInst()->AddBindFunction<CPlayer>("LButton", Input_Type::Down, this, &CPlayer::AttackKey, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("RButton", Input_Type::Push, this, &CPlayer::CameraRotationKey, m_Scene);
+
 }
 
 bool CPlayer::Init()
 {
 	CGameObject::Init();
 
-	//SetWorldScale(5.f, 5.f, 5.f);
+	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+	m_Camera = CreateComponent<CCameraComponent>("Camera");
+	m_Arm = CreateComponent<CTargetArm>("Arm");
+	m_Rigid = CreateComponent<CRigidBody>("Rigid");
+
+	SetRootComponent(m_Mesh);
+
+	m_Mesh->AddChild(m_Rigid);
+	m_Mesh->AddChild(m_Arm);
+	m_Arm->AddChild(m_Camera);
+
+	m_Camera->SetInheritRotX(true);
+	m_Camera->SetInheritRotY(true);
+
+	m_Arm->SetInheritRotY(true);
+	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
+
+	m_Mesh->SetMesh("Player");
+	
+	m_Animation = m_Mesh->SetAnimation<CAnimation>("PlayerAnimation");
+
+	m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
+
+	//m_Rigid->SetGravity(true);
 
 	return true;
 }
@@ -81,8 +116,6 @@ void CPlayer::Load(FILE* File)
 
 void CPlayer::MoveFront()
 {
-	m_Animation->ChangeAnimation("Sandy_Walk");
-
 	AddWorldPosition(GetWorldAxis(AXIS_Z) * 100.f * CEngine::GetInst()->GetDeltaTime());
 }
 
