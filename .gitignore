@@ -35,6 +35,7 @@
 *.tlog
 *.lik
 *.idb
+*.ilk
 
 .svn/
 .vs/
