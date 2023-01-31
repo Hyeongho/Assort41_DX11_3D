@@ -24,6 +24,7 @@ public:
 public:
 	virtual void Start() = 0;
 	virtual bool Init() = 0;
-	virtual void Move(class CNavigationAgent* Agent, const Vector2& End) = 0;
+	virtual void Move(class CNavigationAgent* Agent, const Vector2& End);
+	virtual void Move(class CNavigationAgent* Agent, const Vector3& End);
 };
 
