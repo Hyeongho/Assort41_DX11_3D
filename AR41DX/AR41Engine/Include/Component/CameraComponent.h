@@ -31,8 +31,17 @@ public:
 	{
 		return m_matProj;
 	}
+//김범중 에디터에서 컴포넌트값 가져오는 용도
+	ECameraType GetCameraType()	const
+	{
+		return m_CameraType;
+	}
 
-
+	float GetCameraViewDistance()	const
+	{
+		return m_CameraViewDistance;
+	}
+//
 public:
 	void SetCameraType(ECameraType Type)
 	{

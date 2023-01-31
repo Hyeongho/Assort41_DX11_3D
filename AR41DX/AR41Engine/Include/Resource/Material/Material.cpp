@@ -187,6 +187,36 @@ void CMaterial::AddOpacity(float Opacity)
 	m_CBuffer->SetOpacity(m_Opacity);
 }
 
+CRenderState* CMaterial::GetRenderState(int index) const
+{
+	size_t size = std::size(m_RenderState);
+	if ((int)size <= index)
+	{
+		return nullptr;
+	}
+	return m_RenderState[index];
+}
+
+bool CMaterial::GetIsBump()
+{
+	return m_CBuffer->GetIsBump();
+}
+
+bool CMaterial::GetIsSpecular()
+{
+	return m_CBuffer->GetIsSpecular();
+}
+
+bool CMaterial::GetIsEmissive()
+{
+	return m_CBuffer->GetIsEmissive();
+}
+
+bool CMaterial::GetIsAnimation3D()
+{
+	return m_Animation3D;
+}
+
 void CMaterial::EnableBump()
 {
 	m_CBuffer->SetEnableBump(true);
@@ -205,8 +235,28 @@ void CMaterial::EnableEmissive()
 void CMaterial::EnableAnimation3D()
 {
 	m_Animation3D = true;
-
 	m_CBuffer->SetAnimation3D(true);
+}
+
+void CMaterial::UnEnableBump()
+{
+	m_CBuffer->SetEnableBump(false);
+}
+
+void CMaterial::UnEnableSpecular()
+{
+	m_CBuffer->SetEnableSpecular(false);
+}
+
+void CMaterial::UnEnableEmissive()
+{
+	m_CBuffer->SetEnableEmissive(false);
+}
+
+void CMaterial::UnEnableAnimation3D()
+{
+	m_Animation3D = false;
+	m_CBuffer->SetAnimation3D(false);
 }
 
 void CMaterial::AddTexture(int Register, int ShaderBufferType, 

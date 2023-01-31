@@ -4,8 +4,8 @@
 CRigidBody::CRigidBody()
 	: m_Mass(1.f)
 	, m_FricCoeff(100.f)
-	, m_MaxVelocity(Vector2(1500.f, 1500.f))
-	, m_MinVelocity(Vector2(-1500.f, -800.f))
+	, m_MaxVelocity(Vector3(1500.f, 1500.f, 1500.f))
+	, m_MinVelocity(Vector3(-1500.f, -800.f, 1500.f))
 	, m_Gravity(false)
 	, m_Ground(false)
 {
@@ -33,8 +33,8 @@ void CRigidBody::Move()
 	float fspeed = m_Velocity.Length();	//이동 속력
 	if (0.f != fspeed)
 	{
-		Vector3 rot=GetOwner()->GetWorldRot();
-		if(isnan(rot.z))
+		Vector3 rot = GetOwner()->GetWorldRot();
+		if (isnan(rot.z))
 		{
 			GetOwner()->SetWorldRotationZ(0.f);
 		}
@@ -46,9 +46,9 @@ void CRigidBody::Move()
 void CRigidBody::SetGround(bool b)
 {
 	m_Ground = b;
-	if (m_Ground&& m_Gravity)
+	if (m_Ground && m_Gravity)
 	{
-		m_Velocity=Vector2(m_Velocity.x, 0.f);
+		m_Velocity = Vector3(m_Velocity.x, 0.f, m_Velocity.z);
 	}
 }
 
@@ -76,12 +76,12 @@ void CRigidBody::Update(float deltaTime)
 void CRigidBody::PostUpdate(float deltaTime)
 {
 	CSceneComponent::PostUpdate(deltaTime);
-//중력 옵션
-	if(m_Gravity)
+	//중력 옵션
+	if (m_Gravity)
 	{
-		m_AccelA = Vector2(0.f, -300.f);
+		m_AccelA = Vector3(0.f, -300.f, 0.f);
 	}
-//
+	//
 	float force = m_Force.Length();	//힘의크기
 	if (0.f != force)
 	{
@@ -93,14 +93,14 @@ void CRigidBody::PostUpdate(float deltaTime)
 	m_Velocity += m_Accel * deltaTime;			//속도
 	if (!m_Velocity.Iszero())
 	{
-		Vector2 fricDir = -m_Velocity;
+		Vector3 fricDir = -m_Velocity;
 		fricDir.Normalize();
 		//마찰력의 의한 반대방향으로의 가속도
-		Vector2 friction = fricDir * m_FricCoeff * deltaTime;
+		Vector3 friction = fricDir * m_FricCoeff * deltaTime;
 		//마찰가속도가 속도보다 더크면(length는 절대값)
 		if (m_Velocity.Length() <= friction.Length())
 		{
-			m_Velocity = Vector2(0.f, 0.f);
+			m_Velocity = Vector3(0.f, 0.f, 0.f);
 		}
 		else
 		{
@@ -125,9 +125,9 @@ void CRigidBody::PostUpdate(float deltaTime)
 		m_Velocity.y = m_MinVelocity.y;
 	}
 	Move();								//속도에 따른 이동
-	m_Force = Vector2(0.f, 0.f);			//힘 초기화
-	m_Accel = Vector2(0.f, 0.f);				//가속도 초기화
-	m_AccelA = Vector2(0.f, 0.f);				//추가 가속도 초기화
+	m_Force = Vector3(0.f, 0.f, 0.f);	//힘 초기화
+	m_Accel = Vector3(0.f, 0.f, 0.f);	//가속도 초기화
+	m_AccelA = Vector3(0.f, 0.f, 0.f); 	//추가 가속도 초기화
 }
 
 CRigidBody* CRigidBody::Clone() const

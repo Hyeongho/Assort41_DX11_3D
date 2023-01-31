@@ -19,6 +19,20 @@ public:
 	virtual CMaterialConstantBuffer* Clone();
 
 public:
+//김범중 매터리얼 에디터 값 받아오는 함수
+	bool GetIsBump()
+	{
+		return m_BufferData.AmbientColor.w;
+	}
+	bool GetIsSpecular()
+	{
+		return m_BufferData.BaseColor.w;
+	}
+	bool GetIsEmissive()
+	{
+		return m_BufferData.EmissiveColor.w;
+	}
+//
 	void SetBaseColor(const Vector4& Color)
 	{
 		m_BufferData.BaseColor = Color;

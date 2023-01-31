@@ -1,5 +1,18 @@
 
 #include "ComponentWindow.h"
+#include "TransformWindow.h"
+#include "DetailWindow.h"
+#include "UIButtonWindow.h"
+#include "UIImageWindow.h"
+#include "UINumberWindow.h"
+#include "UIProgressBarWindow.h"
+#include "UITextWindow.h"
+#include "RigidBodyWindow.h"
+#include "LightWindow.h"
+#include "MaterialWindow.h"
+#include "CameraWindow.h"
+#include "TargetArmWindow.h"
+#include "Input.h"
 #include "Editor/EditorButton.h"
 #include "Editor/EditorSameLine.h"
 #include "Editor/EditorLabel.h"
@@ -8,23 +21,27 @@
 #include "Editor/EditorInput.h"
 #include "Editor/EditorListBox.h"
 #include "Editor/EditorComboBox.h"
-#include "Component/Component.h"
-#include "TransformWindow.h"
 #include "Editor/EditorGUIManager.h"
+#include "Component/Component.h"
 #include "Component/SceneComponent.h"
-#include "DetailWindow.h"
-#include "Input.h"
+#include "Component/SpriteComponent.h"
+#include "Component/ColliderBox2d.h"
+#include "Component/ColliderSphere2d.h"
+#include "Component/ColliderObb2d.h"
+#include "Component/ColliderPixel.h"
+#include "Component/CameraComponent.h"
+#include "Component/TargetArm.h"
+#include "Component/RigidBody.h"
+#include "Component/LightComponent.h"
+#include "Component/AnimationMeshComponent.h"
+#include "Component/StaticMeshComponent.h"
+
 #include "UI/UIWidget.h"
 #include "UI/UIButton.h"
 #include "UI/UIImage.h"
 #include "UI/UINumber.h"
 #include "UI/UIProgressBar.h"
 #include "UI/UIText.h"
-#include "UIButtonWindow.h"
-#include "UIImageWindow.h"
-#include "UINumberWindow.h"
-#include "UIProgressBarWindow.h"
-#include "UITextWindow.h"
 
 CComponentWindow::CComponentWindow()
 	: m_Tree(nullptr)
@@ -84,6 +101,8 @@ bool CComponentWindow::Init()
 
 	m_Tree->SetSelectCallback<CComponentWindow>(this, &CComponentWindow::TreeCallback);
 
+	m_Tree->SetDoubleClickCallback<CComponentWindow>(this, &CComponentWindow::TreeDCCallback);
+
 	m_Tree->SetSize(400.f, 300.f);
 
 	m_WidgetTree = CreateWidget<CEditorTree<CUIWidget*>>("WidgetTree");
@@ -114,40 +133,142 @@ void CComponentWindow::Update(float DeltaTime)
 
 void CComponentWindow::TreeCallback(CEditorTreeItem<class CComponent*>* Node, const std::string& Item)
 {
-	char	Text[256] = {};
-
-	sprintf_s(Text, "%s\n", Item.c_str());
-
-	OutputDebugStringA(Text);
-
 	m_SelectComponent = Node->GetCustomData();
-
-	CDetailWindow* DetailWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CDetailWindow>("DetailWindow");
-	if (DetailWindow)
+	if (!m_SelectComponent)
 	{
-		DetailWindow->SetSelectComponent((CSceneComponent*)m_SelectComponent.Get());
+		return;
 	}
-
-	CTransformWindow* TransformWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CTransformWindow>("TransformWindow");
-	if (m_SelectComponent)
+	if (m_SelectComponent->GetComponentTypeName() == "CameraComponent")
 	{
-		CSceneComponent* Component = (CSceneComponent*)m_SelectComponent.Get();
-
-		TransformWindow->SetSelectComponent(Component);
-
-		if (Component->GetParent())
+		CCameraWindow* cameraWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CCameraWindow>("CameraWindow");
+		if (cameraWindow)
 		{
-			TransformWindow->SetPos(Component->GetRelativePos());
-			TransformWindow->SetScale(Component->GetRelativeScale());
-			TransformWindow->SetRotation(Component->GetRelativeRot());
+			cameraWindow->SetSelectComponent((CCameraComponent*)m_SelectComponent.Get());
 		}
-
-		else
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "TargetArm")
+	{
+		CTargetArmWindow* targetArmWindow =
+			CEditorGUIManager::GetInst()->FindEditorWindow<CTargetArmWindow>("TargetArmWindow");
+		if (targetArmWindow)
 		{
-			TransformWindow->SetPos(Component->GetWorldPos());
-			TransformWindow->SetScale(Component->GetWorldScale());
-			TransformWindow->SetRotation(Component->GetWorldRot());
+			targetArmWindow->SetSelectComponent((CTargetArm*)m_SelectComponent.Get());
 		}
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "RigidBody")
+	{
+		CRigidBodyWindow* rigidBody = CEditorGUIManager::GetInst()->FindEditorWindow<CRigidBodyWindow>("RigidBodyWindow");
+		if (rigidBody)
+		{
+			rigidBody->SetSelectComponent((CRigidBody*)m_SelectComponent.Get());
+		}
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "LightComponent")
+	{
+		CLightWindow* light = CEditorGUIManager::GetInst()->FindEditorWindow<CLightWindow>("LightWindow");
+		if (light)
+		{
+			light->SetSelectComponent((CLightComponent*)m_SelectComponent.Get());
+		}
+	}
+	CMaterialWindow* materialWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMaterialWindow>("MaterialWindow");
+	if (materialWindow)
+	{
+		materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+	}
+	CTransformWindow* transformWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CTransformWindow>("TransformWindow");
+	if (!transformWindow)
+	{
+		return;
+	}
+	CSceneComponent* component = (CSceneComponent*)m_SelectComponent.Get();
+	transformWindow->SetSelectComponent(component);
+	if (component->GetParent())
+	{
+		transformWindow->SetPos(component->GetRelativePos());
+		transformWindow->SetScale(component->GetRelativeScale());
+		transformWindow->SetRotation(component->GetRelativeRot());
+	}
+	else
+	{
+		transformWindow->SetPos(component->GetWorldPos());
+		transformWindow->SetScale(component->GetWorldScale());
+		transformWindow->SetRotation(component->GetWorldRot());
+	}
+}
+
+void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, const std::string& item)
+{
+	m_SelectComponent = node->GetCustomData();
+	if (!m_SelectComponent)
+	{
+		return;
+	}
+	CDetailWindow* detailWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CDetailWindow>("DetailWindow");
+	if (detailWindow)
+	{
+		detailWindow->SetSelectComponent((CSceneComponent*)m_SelectComponent.Get());
+	}
+	if (m_SelectComponent->GetComponentTypeName() == "CameraComponent")
+	{
+		CCameraWindow* cameraWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CCameraWindow>("CameraWindow");
+		if (!cameraWindow)
+		{
+			cameraWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CCameraWindow>("CameraWindow");
+		}
+		cameraWindow->SetSelectComponent((CCameraComponent*)m_SelectComponent.Get());
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "TargetArm")
+	{
+		CTargetArmWindow* targetArmWindow =
+			CEditorGUIManager::GetInst()->FindEditorWindow<CTargetArmWindow>("TargetArmWindow");
+		if (!targetArmWindow)
+		{
+			targetArmWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CTargetArmWindow>("TargetArmWindow");
+		}
+		targetArmWindow->SetSelectComponent((CTargetArm*)m_SelectComponent.Get());
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "RigidBody")
+	{
+		CRigidBodyWindow* rigidBody = CEditorGUIManager::GetInst()->FindEditorWindow<CRigidBodyWindow>("RigidBodyWindow");
+		if (!rigidBody)
+		{
+			rigidBody = CEditorGUIManager::GetInst()->CreateEditorWindow<CRigidBodyWindow>("RigidBodyWindow");
+		}
+		rigidBody->SetSelectComponent((CRigidBody*)m_SelectComponent.Get());
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "LightComponent")
+	{
+		CLightWindow* light = CEditorGUIManager::GetInst()->FindEditorWindow<CLightWindow>("LightWindow");
+		if (!light)
+		{
+			light = CEditorGUIManager::GetInst()->CreateEditorWindow<CLightWindow>("LightWindow");
+		}
+		light->SetSelectComponent((CLightComponent*)m_SelectComponent.Get());
+	}
+	CMaterialWindow* materialWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMaterialWindow>("MaterialWindow");
+	if (materialWindow)
+	{
+		materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+	}
+	CTransformWindow* transformWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CTransformWindow>("TransformWindow");
+	if (!transformWindow)
+	{
+		return;
+	}
+	CSceneComponent* component = (CSceneComponent*)m_SelectComponent.Get();
+	transformWindow->SetSelectComponent(component);
+	if (component->GetParent())
+	{
+		transformWindow->SetPos(component->GetRelativePos());
+		transformWindow->SetScale(component->GetRelativeScale());
+		transformWindow->SetRotation(component->GetRelativeRot());
+	}
+	else
+	{
+		transformWindow->SetPos(component->GetWorldPos());
+		transformWindow->SetScale(component->GetWorldScale());
+		transformWindow->SetRotation(component->GetWorldRot());
 	}
 }
 

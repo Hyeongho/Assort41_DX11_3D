@@ -39,6 +39,7 @@ public:
 
 private:
 	void TreeCallback(CEditorTreeItem<class CComponent*>* Node, const std::string& Item);
+	void TreeDCCallback(CEditorTreeItem<class CComponent*>* node, const std::string& item);
 	void WidgetCallback(CEditorTreeItem<class CUIWidget*>* node, const std::string& item);
 	void WidgetDCCallback(CEditorTreeItem<class CUIWidget*>* node, const std::string& item);
 };
