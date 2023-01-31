@@ -12,10 +12,8 @@ protected:
 	CNavigationThread();
 	virtual ~CNavigationThread();
 
-private:
-	class CTileMapComponent* m_TileMap;
-	class CNavigation* m_Navigation;
-	CThreadQueue	m_InputQueue;
+protected:
+	CThreadQueue m_InputQueue;
 
 public:
 	int GetWorkCount()
@@ -24,11 +22,12 @@ public:
 	}
 
 public:
-	void SetTileMapComponent(class CTileMapComponent* TileMap);
+	virtual void SetNavigationComponent(class CSceneComponent* TileMap) = 0;
 
 	void AddInputData(class CNavigationAgent* Agent, const Vector2& End);
+	void AddInputData(class CNavigationAgent* Agent, const Vector3& End);
 
 public:
-	virtual void Run();
+	virtual void Run() = 0;
 };
 

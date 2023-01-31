@@ -7,8 +7,9 @@
 #include "../Resource/ResourceManager.h"
 #include "../PathManager.h"
 #include "../Resource/Shader/TerrainConstantBuffer.h"
+#include "../Thread/ThreadManager.h"
 
-CTerrainComponent::CTerrainComponent() : m_CountX(0), m_CountY(0)
+CTerrainComponent::CTerrainComponent() : m_CountX(0), m_CountY(0), m_Grid(false)
 {
 	SetTypeID<CTerrainComponent>();
 
@@ -28,10 +29,13 @@ CTerrainComponent::CTerrainComponent(const CTerrainComponent& component) : CPrim
 	m_CellSize = component.m_CellSize;
 	
 	m_CBuffer = m_CBuffer->Clone();
+
+	m_Grid = component.m_Grid;
 }
 
 CTerrainComponent::~CTerrainComponent()
 {
+	CThreadManager::GetInst()->DeleteNavigationThread(this);
 	SAFE_DELETE(m_CBuffer);
 }
 
@@ -168,6 +172,8 @@ void CTerrainComponent::Save(FILE* File)
 void CTerrainComponent::Load(FILE* File)
 {
 	CPrimitiveComponent::Load(File);
+
+	CThreadManager::GetInst()->CreateNavigationThread(this, false);
 }
 
 void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float SizeY, const TCHAR* HeightMapName, const std::string& HeightMapPath)
@@ -271,7 +277,7 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 		for (int j = 0; j < m_CountX; j++)
 		{
 			Vertex3DStatic	Vtx;
-			Vtx.Pos = Vector3((float)j * m_CellSize.x, vecY[i * m_CountX + j], m_Size.y - (float)i * m_CellSize.y);
+			Vtx.Pos = Vector3((float)j * m_CellSize.x, vecY[i * m_CountX + j], (m_Size.y - m_CellSize.y) - (float)i * m_CellSize.y);
 			//Vtx.Normal = Vector3(0.f, 1.f, 0.f);
 			Vtx.UV = Vector2((float)j / (float)(m_CountX - 1), 1.f - (float)i / (float)(m_CountY - 1));
 
@@ -352,6 +358,8 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 
 #endif // _WIN64
 
+	m_Grid = true;
+
 	m_Scene->GetResource()->CreateMesh(MeshType::Static, MeshName,
 		&m_vecVtx[0], sizeof(Vertex3DStatic), (int)m_vecVtx.size(),
 		D3D11_USAGE_DEFAULT, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
@@ -361,6 +369,8 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 	m_Mesh = m_Scene->GetResource()->FindMesh(MeshName);
 
 	AddMaterial("DefaultTerrain");
+
+	CThreadManager::GetInst()->CreateNavigationThread(this, false);
 }
 
 void CTerrainComponent::ComputeNormal()
@@ -391,9 +401,9 @@ void CTerrainComponent::ComputeTangent()
 	// ≈∫¡®∆Æ ∫§≈Õ ±∏«‘.
 	for (size_t i = 0; i < m_vecFaceNormal.size(); ++i)
 	{
-		unsigned int	idx0 = m_vecIndex[i * 3];
-		unsigned int	idx1 = m_vecIndex[i * 3 + 1];
-		unsigned int	idx2 = m_vecIndex[i * 3 + 2];
+		unsigned int idx0 = m_vecIndex[i * 3];
+		unsigned int idx1 = m_vecIndex[i * 3 + 1];
+		unsigned int idx2 = m_vecIndex[i * 3 + 2];
 
 		float	fVtx1[3], fVtx2[3];
 		fVtx1[0] = m_vecVtx[idx1].Pos.x - m_vecVtx[idx0].Pos.x;
