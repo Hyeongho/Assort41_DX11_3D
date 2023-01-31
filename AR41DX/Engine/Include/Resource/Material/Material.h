@@ -74,11 +74,49 @@ public:
         unsigned char a);
     void SetOpacity(float Opacity);
     void AddOpacity(float Opacity);
+//김범중 에디터 값 조절용 함수
+    class CShader* GetShader()
+    {
+        return m_Shader;
+    }
+    class CRenderState* GetRenderState(int index) const;
+    int GetTextureCount()  const
+    {
+        return (int)m_vecTextureInfo.size();
+    }
+    const Vector4& GetBaseColor() const
+    {
+        return m_BaseColor;
+    }
+    const Vector4& GetAmbientColor() const
+    {
+        return m_AmbientColor;
+    }
+    const Vector4& GetSpecularColor() const
+    {
+        return m_SpecularColor;
+    }
+    const Vector4& GetEmissiveColor() const
+    {
+        return m_EmissiveColor;
+    }
+    float GetOpacity()   const
+    {
+        return m_Opacity;
+    }
+    bool GetIsBump();
+    bool GetIsSpecular();
+    bool GetIsEmissive();
+    bool GetIsAnimation3D();
     void EnableBump();
     void EnableSpecular();
     void EnableEmissive();
     void EnableAnimation3D();
-
+    void UnEnableBump();
+    void UnEnableSpecular();
+    void UnEnableEmissive();
+    void UnEnableAnimation3D();
+//
     // === Texture 추가 ===
     void AddTexture(int Register, int ShaderBufferType, const std::string& Name,
         class CTexture* Texture);

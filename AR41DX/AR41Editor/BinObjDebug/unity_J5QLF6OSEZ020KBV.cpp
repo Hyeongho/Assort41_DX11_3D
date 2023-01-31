@@ -35,6 +35,9 @@
 #include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\UI\StartSceneUI.cpp"
 
 
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\CameraWindow.cpp"
+
+
 #include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\ClassWindow.cpp"
 
 
@@ -68,13 +71,28 @@
 #include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\FBXWindow.cpp"
 
 
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\LightWindow.cpp"
+
+
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\MaterialWindow.cpp"
+
+
 #include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\ObjectWindow.cpp"
+
+
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\PathWindow.cpp"
 
 
 #include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\ResourceWindow.cpp"
 
 
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\RigidBodyWindow.cpp"
+
+
 #include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\SceneWindow.cpp"
+
+
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\TargetArmWindow.cpp"
 
 
 #include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\TestWindow.cpp"

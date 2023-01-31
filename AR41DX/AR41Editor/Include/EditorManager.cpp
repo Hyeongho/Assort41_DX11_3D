@@ -14,6 +14,8 @@
 #include "Window\TransformWindow.h"
 #include "Window\SceneWindow.h"
 #include "Window\FBXWindow.h"
+#include "Window/PathWindow.h"
+#include "Window/MaterialWindow.h"
 #include "Editor/EditorGUIManager.h"
 #include "Resource/Animation/AnimationSequence2D.h"
 #include "Input.h"
@@ -54,6 +56,8 @@ bool CEditorManager::Init(HINSTANCE hInst)
     CEditorGUIManager::GetInst()->CreateEditorWindow<CTransformWindow>("TransformWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CSceneWindow>("SceneWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CFBXWindow>("FBXWindow");
+    CEditorGUIManager::GetInst()->CreateEditorWindow<CPathWindow>("PathWindow");
+    CEditorGUIManager::GetInst()->CreateEditorWindow<CMaterialWindow>("MaterialWindow");
 
     // SceneInfo »ý¼º
     CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();

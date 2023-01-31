@@ -30,13 +30,13 @@
 *.exe
 *.out
 *.app
-
+*.log
 *.pdb
 *.tlog
-*.idb
 *.lik
-*.tlog
-
+*.idb
 
 .svn/
 .vs/
+.AR41DX/AR41Editor/BinObjDebug
+.AR41DX/Client3D/BinObj_Debug
