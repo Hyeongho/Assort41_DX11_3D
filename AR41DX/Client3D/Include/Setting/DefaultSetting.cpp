@@ -65,6 +65,29 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("SandyJump", VK_SPACE);
 
     CInput::GetInst()->AddBindKey("SandyLButton", VK_LBUTTON);
+
+
+    // Mouse 키 등록
+    CInput::GetInst()->AddBindKey("LButton", VK_LBUTTON);
+    CInput::GetInst()->AddBindKey("RButton", VK_RBUTTON);
+
+
+    // Arrow 키 등록
+    CInput::GetInst()->AddBindKey("UArrow", VK_UP);
+    CInput::GetInst()->AddBindKey("DArrow", VK_DOWN);
+    CInput::GetInst()->AddBindKey("LArrow", VK_LEFT);
+    CInput::GetInst()->AddBindKey("RArrow", VK_RIGHT);
+
+    CInput::GetInst()->AddBindKey("W", 'W');
+    CInput::GetInst()->AddBindKey("S", 'S');
+    CInput::GetInst()->AddBindKey("A", 'A');
+    CInput::GetInst()->AddBindKey("D", 'D');
+
+
+    // ETC 키 등록
+    CInput::GetInst()->AddBindKey("Esc", VK_ESCAPE);
+    CInput::GetInst()->AddBindKey("Enter", VK_RETURN);
+    CInput::GetInst()->AddBindKey("Space", VK_SPACE);
 }
 
 void CDefaultSetting::SetCollision()
