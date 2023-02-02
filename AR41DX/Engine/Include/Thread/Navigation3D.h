@@ -2,81 +2,113 @@
 
 #include "../Component/TerrainComponent.h"
 
-enum class ENodeDir1
+struct NavAdjInfo
 {
-	T,
-	RT,
-	R,
-	RB,
-	B,
-	LB,
-	L,
-	LT,
-	End
+	int	Index;
+	int	EdgeIndex;
 };
 
-enum class ENavNodeType1
+struct NavigationCell
 {
-	None,
-	Open,
-	Close
-};
-
-struct NavNode1
-{
-	NavNode1* Parent;
-	ENavNodeType1 NodeType;
-	ETileOption TileOption;
-	Vector2 Pos;
-	Vector2 Size;
-	Vector2 Center;
-	int IndexX;
-	int IndexY;
+	bool Enable;
+	ENavNodeType NodeType;
+	Vector3	Pos[3];
+	Vector3	Min;
+	Vector3	Max;
+	Vector3	Edge[3];
+	Vector3	EdgeCenter[3];
+	Vector3	Center;
+	std::vector<NavAdjInfo>	vecAdj;
+	float Angle;
 	int Index;
+	int ParentIndex;
 	float Cost;
 	float Dist;
 	float Total;
-	std::list<ENodeDir1> SearchDirList;
 
-	NavNode1() :
-		Parent(nullptr),
-		NodeType(ENavNodeType1::None),
-		TileOption(ETileOption::None),
-		IndexX(-1),
-		IndexY(-1),
-		Index(-1),
-		Cost(FLT_MAX),
-		Dist(FLT_MAX),
-		Total(FLT_MAX)
+	void Clear()
 	{
+		NodeType = ENavNodeType::None;
+		ParentIndex = -1;
+		Cost = -1.f;
+		Dist = -1.f;
+		Total = -1.f;
+	}
+
+	NavigationCell()
+	{
+		NodeType = ENavNodeType::None;
+		ParentIndex = -1;
+		Index = -1;
+		Cost = -1.f;
+		Dist = -1.f;
+		Total = -1.f;
+		Enable = true;
+
+		Angle = 0.f;
+
+		Min = Vector3(10000000.f, 10000000.f, 10000000.f);
+		Max = Vector3(-10000000.f, -10000000.f, -10000000.f);
+	}
+};
+
+struct NavigationSection
+{
+	Vector3 Size;
+	std::vector<NavigationCell*> vecCell;
+	Vector3 Min;
+	Vector3 Max;
+
+	void Add(NavigationCell* Cell)
+	{
+		vecCell.push_back(Cell);
 	}
 };
 
 class CNavigation3D
 {
 	friend class CNavigation3DThread;
+	CNavigation3D(const CNavigation3D& Nav);
+	friend class CNavigationManager3D;
 
 private:
 	CNavigation3D();
 	~CNavigation3D();
 
 private:
-	ETileShape m_Shape;
-	std::vector<NavNode1*> m_vecNode;
-	int m_CountX;
-	int m_CountY;
-	Vector2	m_TileSize;
+	std::vector<NavigationCell*> m_vecCell;
 	class CTerrainComponent* m_Terrain;
-	std::vector<NavNode1*> m_vecOpen;
-	std::vector<NavNode1*> m_vecUseNode;
+	std::vector<NavigationCell*> m_vecOpen;
+	std::vector<NavigationCell*> m_vecUseNode;
+	Vector3 m_Min;
+	Vector3 m_Max;
+	bool m_Grid;
+	int m_LineRectCountX;
+	int m_LineRectCountY;
+	int m_LineRectCount;
+	NavigationSection* m_SectionArray;
+	int m_SectionX;
+	int m_SectionY;
+	Vector3 m_SectionSize;
+	Vector2 m_CellSize;
 
 public:
 	void CreateNavigation(class CTerrainComponent* Terrain);
-	bool FindPath(const Vector2& Start, const Vector2& End, std::list<Vector2>& PathList);
 
 private:
-	bool FindNode(NavNode1* Node, NavNode1* EndNode, const Vector2& End, std::list<Vector2>& PathList);
-	NavNode1* GetCorner(ENodeDir1 Dir, NavNode1* Node, NavNode1* EndNode, const Vector2& End);
+	void CreateAdjGrid();
+	void CreateAdj();
+	void CreateSection();
+
+public:
+	float GetHeight(const Vector3& Pos);
+	bool FindPath(const Vector3& Start, const Vector3& End, std::list<Vector3>& PathList);
+
+private:
+	/*bool FindNode(NavNode1* Node, NavNode1* EndNode, const Vector2& End,
+		std::list<Vector2>& PathList);
+	NavNode1* GetCorner(ENodeDir1 Dir, NavNode1* Node, NavNode1* EndNode,
+		const Vector2& End);
 
 	NavNode1* GetCornerRectTop(NavNode1* Node, NavNode1* EndNode);
 	NavNode1* GetCornerRectBottom(NavNode1* Node, NavNode1* EndNode);
@@ -99,6 +131,9 @@ private:
 	void AddDir(ENodeDir1 Dir, NavNode1* Node);
 
 private:
-	static bool SortNode(NavNode1* Src, NavNode1* Dest);
+	static bool SortNode(NavNode1* Src, NavNode1* Dest);*/
+
+public:
+	CNavigation3D* Clone();
 };
 

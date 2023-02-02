@@ -15,13 +15,6 @@ enum class ENodeDir
 	End
 };
 
-enum class ENavNodeType
-{
-	None,
-	Open,
-	Close
-};
-
 struct NavNode
 {
 	NavNode* Parent;

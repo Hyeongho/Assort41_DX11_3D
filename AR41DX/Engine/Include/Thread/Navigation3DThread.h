@@ -14,6 +14,17 @@ private:
 	class CNavigation3D* m_Navigation;
 
 public:
+	class CTerrainComponent* GetTerrain() const
+	{
+		return m_Terrain;
+	}
+
+	class CNavigation3D* GetNavigation() const
+	{
+		return m_Navigation;
+	}
+
+public:
 	virtual void SetNavigationComponent(class CSceneComponent* NavComponent);
 
 public:

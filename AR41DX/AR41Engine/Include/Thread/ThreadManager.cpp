@@ -160,14 +160,14 @@ void CThreadManager::CreateNavigationThread(CSceneComponent* NavComponent, bool 
 			Thread = Create<CNavigation3DThread>(ThreadName);
 		}
 
-		Scene->GetNavigationManager()->AddNavigationThread(Thread);
-
-		//Thread->SetNavigationComponent(NavComponent);
+		Thread->SetNavigationComponent(NavComponent);
 		Thread->SetLoop(true);
 
 		Thread->Start();
 
 		Thread->Suspend();
+
+		Scene->GetNavigationManager()->AddNavigationThread(Thread);
 	}
 }
 
