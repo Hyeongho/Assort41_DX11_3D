@@ -77,6 +77,9 @@
 #include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\MaterialWindow.cpp"
 
 
+#include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\MeshWindow.cpp"
+
+
 #include "D:\c++\Assort41_DX11_3D\AR41DX\AR41Editor\Include\Window\ObjectWindow.cpp"
 
 

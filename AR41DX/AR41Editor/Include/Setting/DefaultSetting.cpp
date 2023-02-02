@@ -80,6 +80,10 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("LButton", VK_LBUTTON);
 
     CInput::GetInst()->AddBindKey("RButton", VK_RBUTTON);
+
+    CInput::GetInst()->AddBindKey("MClick", VK_MBUTTON);
+    CInput::GetInst()->AddBindKey("Del", VK_DELETE);
+    CInput::GetInst()->AddBindKey("ChangePos", VK_F1);
 }
 
 void CDefaultSetting::SetCollision()

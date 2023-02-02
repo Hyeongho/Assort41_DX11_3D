@@ -12,7 +12,10 @@
 #include "MaterialWindow.h"
 #include "CameraWindow.h"
 #include "TargetArmWindow.h"
+#include "MeshWindow.h"
 #include "Input.h"
+#include "Engine.h"
+#include "Scene/SceneManager.h"
 #include "Editor/EditorButton.h"
 #include "Editor/EditorSameLine.h"
 #include "Editor/EditorLabel.h"
@@ -63,6 +66,12 @@ bool CComponentWindow::AddWidget(CUIWidget* widget, const std::string& name, con
 	return m_WidgetTree->AddItem(widget, name, parentName);
 }
 
+void CComponentWindow::AddInput(CScene* scene)
+{
+	CInput::GetInst()->AddBindFunction<CComponentWindow>
+		("ChangePos", Input_Type::Down, this, &CComponentWindow::ChangePos, scene);
+}
+
 void CComponentWindow::Clear()
 {
 	m_Tree->Clear();
@@ -85,6 +94,12 @@ void CComponentWindow::ChangePos()
 	if (m_SelectComponent)
 	{
 		CSceneComponent* component = (CSceneComponent*)m_SelectComponent.Get();
+		if (!CEngine::GetInst()->GetRender2D())
+		{
+			return;
+			//Vector2 mousePos = CInput::GetInst()->GetMousePos();
+			//mouseWorldPos -= mousePos;
+		}
 		component->SetWorldPosition(mouseWorldPos);
 	}
 	else if (m_SelectWidget)
@@ -110,6 +125,8 @@ bool CComponentWindow::Init()
 	m_WidgetTree->SetSelectCallback<CComponentWindow>(this, &CComponentWindow::WidgetCallback);
 	m_WidgetTree->SetDoubleClickCallback<CComponentWindow>(this, &CComponentWindow::WidgetDCCallback);
 	m_WidgetTree->SetSize(400.f, 300.f);
+
+	AddInput(CSceneManager::GetInst()->GetScene());
 	return true;
 }
 
@@ -175,6 +192,11 @@ void CComponentWindow::TreeCallback(CEditorTreeItem<class CComponent*>* Node, co
 	if (materialWindow)
 	{
 		materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+	}
+	CMeshWindow* meshWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMeshWindow>("MeshWindow");
+	if (meshWindow)
+	{
+		meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
 	}
 	CTransformWindow* transformWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CTransformWindow>("TransformWindow");
 	if (!transformWindow)
@@ -250,6 +272,11 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 	if (materialWindow)
 	{
 		materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+	}
+	CMeshWindow* meshWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMeshWindow>("MeshWindow");
+	if (meshWindow)
+	{
+		meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
 	}
 	CTransformWindow* transformWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CTransformWindow>("TransformWindow");
 	if (!transformWindow)
