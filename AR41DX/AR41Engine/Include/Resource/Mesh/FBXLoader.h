@@ -63,6 +63,8 @@ struct FbxMaterial
 	std::string	DiffuseTexture;
 	std::string	BumpTexture;
 	std::string	SpecularTexture;
+	//김범중 매터리얼 이름 저장용 변수
+	std::string	Name;	
 };
 
 struct FbxMeshContainer

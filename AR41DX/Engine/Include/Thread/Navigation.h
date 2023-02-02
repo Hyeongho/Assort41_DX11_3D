@@ -15,27 +15,20 @@ enum class ENodeDir
 	End
 };
 
-enum class ENavNodeType
-{
-	None,
-	Open,
-	Close
-};
-
 struct NavNode
 {
-	NavNode*		Parent;
-	ENavNodeType	NodeType;
-	ETileOption		TileOption;
-	Vector2			Pos;
-	Vector2			Size;
-	Vector2			Center;
-	int				IndexX;
-	int				IndexY;
-	int				Index;
-	float			Cost;
-	float			Dist;
-	float			Total;
+	NavNode* Parent;
+	ENavNodeType NodeType;
+	ETileOption	 TileOption;
+	Vector2 Pos;
+	Vector2 Size;
+	Vector2 Center;
+	int IndexX;
+	int IndexY;
+	int Index;
+	float Cost;
+	float Dist;
+	float Total;
 	std::list<ENodeDir>	SearchDirList;
 
 	NavNode()	:
@@ -54,7 +47,7 @@ struct NavNode
 
 class CNavigation
 {
-	friend class CNavigationThread;
+	friend class CNavigation2DThread;
 
 private:
 	CNavigation();
@@ -62,13 +55,13 @@ private:
 
 private:
 	ETileShape	m_Shape;
-	std::vector<NavNode*>	m_vecNode;
-	int		m_CountX;
-	int		m_CountY;
+	std::vector<NavNode*> m_vecNode;
+	int m_CountX;
+	int m_CountY;
 	Vector2	m_TileSize;
-	class CTileMapComponent*		m_TileMap;
-	std::vector<NavNode*>			m_vecOpen;
-	std::vector<NavNode*>			m_vecUseNode;
+	class CTileMapComponent* m_TileMap;
+	std::vector<NavNode*> m_vecOpen;
+	std::vector<NavNode*> m_vecUseNode;
 
 public:
 	void CreateNavigation(class CTileMapComponent* TileMap);
@@ -76,10 +69,8 @@ public:
 		std::list<Vector2>& PathList);
 
 private:
-	bool FindNode(NavNode* Node, NavNode* EndNode, const Vector2& End,
-		std::list<Vector2>& PathList);
-	NavNode* GetCorner(ENodeDir Dir, NavNode* Node, NavNode* EndNode,
-		const Vector2& End);
+	bool FindNode(NavNode* Node, NavNode* EndNode, const Vector2& End, std::list<Vector2>& PathList);
+	NavNode* GetCorner(ENodeDir Dir, NavNode* Node, NavNode* EndNode, const Vector2& End);
 
 	NavNode* GetCornerRectTop(NavNode* Node, NavNode* EndNode);
 	NavNode* GetCornerRectBottom(NavNode* Node, NavNode* EndNode);

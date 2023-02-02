@@ -1,7 +1,7 @@
-
 #include "SceneComponent.h"
 #include "../GameObject/GameObject.h"
 #include "../Resource/Animation/SkeletonSocket.h"
+#include "../Scene/Scene.h"
 
 CSceneComponent::CSceneComponent()	:
 	m_Parent(nullptr),
@@ -138,12 +138,12 @@ bool CSceneComponent::DeleteChild(CSceneComponent* Child)
 {
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; ++i)
+	for (size_t i = 0; i < Size; i++)
 	{
 		if (m_vecChild[i] == Child)
 		{
-			auto	iter = m_vecChild.begin() + i;
-			auto	iterName = m_vecChildName.begin() + i;
+			auto iter = m_vecChild.begin() + i;
+			auto iterName = m_vecChildName.begin() + i;
 
 			(*iter)->m_Parent = nullptr;
 			(*iter)->m_ParentName = "";
@@ -153,7 +153,7 @@ bool CSceneComponent::DeleteChild(CSceneComponent* Child)
 			m_vecChild.erase(iter);
 			m_vecChildName.erase(iterName);
 
-			auto	iterTr = m_Transform->m_vecChild.begin() + i;
+			auto iterTr = m_Transform->m_vecChild.begin() + i;
 
 			(*iterTr)->m_Parent = nullptr;
 
@@ -170,12 +170,12 @@ bool CSceneComponent::DeleteChild(const std::string& Name)
 {
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; ++i)
+	for (size_t i = 0; i < Size; i++)
 	{
 		if (m_vecChild[i]->GetName() == Name)
 		{
-			auto	iter = m_vecChild.begin() + i;
-			auto	iterName = m_vecChildName.begin() + i;
+			auto iter = m_vecChild.begin() + i;
+			auto iterName = m_vecChildName.begin() + i;
 
 			(*iter)->m_Parent = nullptr;
 			(*iter)->m_ParentName = "";
@@ -185,7 +185,7 @@ bool CSceneComponent::DeleteChild(const std::string& Name)
 			m_vecChild.erase(iter);
 			m_vecChildName.erase(iterName);
 
-			auto	iterTr = m_Transform->m_vecChild.begin() + i;
+			auto iterTr = m_Transform->m_vecChild.begin() + i;
 
 			(*iterTr)->m_Parent = nullptr;
 
@@ -201,16 +201,20 @@ bool CSceneComponent::DeleteChild(const std::string& Name)
 CSceneComponent* CSceneComponent::FindComponent(const std::string& Name)
 {
 	if (m_Name == Name)
+	{
 		return this;
+	}
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; ++i)
+	for (size_t i = 0; i < Size; i++)
 	{
 		CSceneComponent* Find = m_vecChild[i]->FindComponent(Name);
 
 		if (Find)
+		{
 			return Find;
+		}
 	}
 
 	return nullptr;
@@ -220,7 +224,7 @@ void CSceneComponent::GetAllComponentHierarchyName(std::vector<HierarchyName>& v
 {
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; ++i)
+	for (size_t i = 0; i < Size; i++)
 	{
 		HierarchyName	Names;
 
@@ -240,7 +244,7 @@ void CSceneComponent::GetAllComponentHierarchyName(std::vector<HierarchyName>& v
 		vecName.push_back(Names);
 	}
 
-	for (size_t i = 0; i < Size; ++i)
+	for (size_t i = 0; i < Size; i++)
 	{
 		m_vecChild[i]->GetAllComponentHierarchyName(vecName);
 	}
@@ -252,7 +256,7 @@ void CSceneComponent::Destroy()
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; ++i)
+	for (size_t i = 0; i < Size; i++)
 	{
 		m_vecChild[i]->Destroy();
 	}
@@ -266,7 +270,7 @@ void CSceneComponent::Start()
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; ++i)
+	for (size_t i = 0; i < Size; i++)
 	{
 		m_vecChild[i]->Start();
 	}
@@ -275,7 +279,14 @@ void CSceneComponent::Start()
 bool CSceneComponent::Init()
 {
 	if (!CComponent::Init())
+	{
 		return false;
+	}
+
+	if (m_Scene)
+	{
+		m_SceneName = m_Scene->GetName();
+	}
 
 	return true;
 }

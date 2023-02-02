@@ -24,6 +24,40 @@ protected:
 	float		m_WheelZoomMax;
 
 public:
+//김범중 타겟암에디터 값 조정용 함수
+	Vector3 GetTargetOffset()	const
+	{
+		return m_TargetOffset;
+	}
+	AXIS GetTargetDistanceAxis()	const
+	{
+		return m_TargetDistanceAxis;
+	}
+	float GetTargetDistance()	const
+	{
+		return m_TargetDistance;
+	}
+	float GetWheelSensitivity()	const
+	{
+		return m_WheelSensitivity;
+	}
+	float GetWheelTickMove()	const
+	{
+		return m_WheelTickMove;
+	}
+	float GetWheelZoomMin()	const
+	{
+		return m_WheelZoomMin;
+	}
+	float GetWheelZoomMax()	const
+	{
+		return m_WheelZoomMax;
+	}
+	bool GetWheelZoomInOutEnable()	const
+	{
+		return m_WheelZoomInOutEnable;
+	}
+//
 	void SetWheelTickMove(float Move)
 	{
 		m_WheelTickMove = Move;

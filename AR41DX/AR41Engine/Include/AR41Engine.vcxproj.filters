@@ -277,6 +277,18 @@
     <Filter Include="05. Component\01. SceneComponent\06. RigidBody">
       <UniqueIdentifier>{f8dc12a7-1654-406c-a73a-3b0dd21cbf39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Scene\06. Navigation\01. 2D">
+      <UniqueIdentifier>{90f7bea2-b458-4475-9291-e0b3cf677ccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Scene\06. Navigation\02. 3D">
+      <UniqueIdentifier>{bdff6c93-4586-46fb-a34f-a5a38dcbd6e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Manager\10. Thread\02. Navigation\01. 2D">
+      <UniqueIdentifier>{120cb8e4-f5d7-417f-a616-c72cf32e931a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Manager\10. Thread\02. Navigation\02. 3D">
+      <UniqueIdentifier>{10108a52-d67a-4228-bbf1-e6cc9cfe0aec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -678,9 +690,6 @@
     <ClInclude Include="Thread\LoadingThread.h">
       <Filter>01. Manager\10. Thread\01. Loading</Filter>
     </ClInclude>
-    <ClInclude Include="Thread\Navigation.h">
-      <Filter>01. Manager\10. Thread\02. Navigation</Filter>
-    </ClInclude>
     <ClInclude Include="Thread\NavigationThread.h">
       <Filter>01. Manager\10. Thread\02. Navigation</Filter>
     </ClInclude>
@@ -797,6 +806,24 @@
     </ClInclude>
     <ClInclude Include="Component\RigidBody.h">
       <Filter>05. Component\01. SceneComponent\06. RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\NavigationManager2D.h">
+      <Filter>03. Scene\06. Navigation\01. 2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\NavigationManager3D.h">
+      <Filter>03. Scene\06. Navigation\02. 3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\Navigation3DThread.h">
+      <Filter>01. Manager\10. Thread\02. Navigation\02. 3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\Navigation3D.h">
+      <Filter>01. Manager\10. Thread\02. Navigation\02. 3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\Navigation.h">
+      <Filter>01. Manager\10. Thread\02. Navigation\01. 2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\Navigation2DThread.h">
+      <Filter>01. Manager\10. Thread\02. Navigation\01. 2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1148,9 +1175,6 @@
     <ClCompile Include="Thread\LoadingThread.cpp">
       <Filter>01. Manager\10. Thread\01. Loading</Filter>
     </ClCompile>
-    <ClCompile Include="Thread\Navigation.cpp">
-      <Filter>01. Manager\10. Thread\02. Navigation</Filter>
-    </ClCompile>
     <ClCompile Include="Thread\NavigationThread.cpp">
       <Filter>01. Manager\10. Thread\02. Navigation</Filter>
     </ClCompile>
@@ -1261,6 +1285,24 @@
     </ClCompile>
     <ClCompile Include="Component\RigidBody.cpp">
       <Filter>05. Component\01. SceneComponent\06. RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\NavigationManager2D.cpp">
+      <Filter>03. Scene\06. Navigation\01. 2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\NavigationManager3D.cpp">
+      <Filter>03. Scene\06. Navigation\02. 3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\Navigation3DThread.cpp">
+      <Filter>01. Manager\10. Thread\02. Navigation\02. 3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\Navigation3D.cpp">
+      <Filter>01. Manager\10. Thread\02. Navigation\02. 3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\Navigation.cpp">
+      <Filter>01. Manager\10. Thread\02. Navigation\01. 2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\Navigation2DThread.cpp">
+      <Filter>01. Manager\10. Thread\02. Navigation\01. 2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

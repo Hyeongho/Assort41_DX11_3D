@@ -70,6 +70,8 @@ void CLoadingSceneInfo::Update(float DeltaTime)
 		if (objectWindow)
 		{
 			objectWindow->Clear();
+			objectWindow->ClearSelect();
+			objectWindow->AddInput(nextScene);
 			objectWindow->AddItemList(nextScene);
 		}
 #endif

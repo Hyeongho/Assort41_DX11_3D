@@ -109,3 +109,31 @@ void CSandy::Load(FILE* File)
 {
 	CPlayer::Load(File);
 }
+
+void CSandy::MoveFront()
+{
+}
+
+void CSandy::MoveBack()
+{
+}
+
+void CSandy::MoveLeft()
+{
+}
+
+void CSandy::MoveRight()
+{
+}
+
+void CSandy::Jump()
+{
+}
+
+void CSandy::AttackKey()
+{
+}
+
+void CSandy::CameraRotationKey()
+{
+}

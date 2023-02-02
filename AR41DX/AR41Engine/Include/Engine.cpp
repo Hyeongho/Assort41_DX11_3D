@@ -31,7 +31,8 @@ CEngine::CEngine()	:
 	m_ClearColor{},
 	m_Render2D(false),
 	m_GlobalCBuffer(nullptr),
-	m_AccTime(0.f)
+	m_AccTime(0.f),
+	m_TimeScale(1.f)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	//_CrtSetBreakAlloc(3088823);
@@ -194,7 +195,7 @@ void CEngine::Logic()
 {
 	m_Timer->Update();
 
-	float DeltaTime = m_Timer->GetDeltaTime();
+	float DeltaTime = m_Timer->GetDeltaTime()* m_TimeScale;
 
 	g_DeltaTime = DeltaTime;
 

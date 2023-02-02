@@ -20,5 +20,14 @@ public:
 	virtual CPlayer* Clone() const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+public:
+	virtual void MoveFront();
+	virtual void MoveBack();
+	virtual void MoveLeft();
+	virtual void MoveRight();
+	virtual void Jump();
+	virtual void AttackKey();
+	virtual void CameraRotationKey();
 };
 

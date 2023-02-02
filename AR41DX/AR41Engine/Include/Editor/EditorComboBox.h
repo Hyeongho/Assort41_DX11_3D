@@ -50,6 +50,11 @@ public:
 		m_SelectPrevViewName = Enable;
 	}
 
+	void SetSelectIndex(int index)
+	{
+		m_SelectIndex = index;
+	}
+
 	void SetPrevViewName(const std::string& Name)
 	{
 		TCHAR	wText[256] = {};

@@ -16,6 +16,9 @@
 #include "../UI/UIWindow.h"
 #include "../PathManager.h"
 #include "../GameObject/SkySphere.h"
+#include "NavigationManager2D.h"
+#include "NavigationManager3D.h"
+#include "../Engine.h"
 
 std::unordered_map<std::string, CSceneInfo*> CScene::m_mapSceneInfoCDO;
 
@@ -54,12 +57,6 @@ CScene::CScene()	:
 	m_Viewport->m_Owner = this;
 
 	m_Viewport->Init();
-
-	m_NavManager = new CNavigationManager;
-
-	m_NavManager->m_Owner = this;
-
-	m_NavManager->Init();
 
 	m_LightManager = new CLightManager;
 
@@ -220,7 +217,19 @@ void CScene::Start()
 
 bool CScene::Init()
 {
+	if (CEngine::GetInst()->GetRender2D())
+	{
+		m_NavManager = new CNavigationManager2D;
+	}
 
+	else
+	{
+		m_NavManager = new CNavigationManager3D;
+	}
+
+	m_NavManager->m_Owner = this;
+
+	m_NavManager->Init();
 
 	return true;
 }

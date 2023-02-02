@@ -172,6 +172,9 @@ public:
 					parent->m_vecChild.push_back(find->m_vecChild[i]);
 				}
 				find->m_vecChild.clear();
+				auto begin = parent->m_vecChild.begin();
+				__int64 index = std::find(begin, parent->m_vecChild.end(), find) - begin;
+				parent->m_vecChild.erase(begin + index);
 				SAFE_DELETE(find);
 			}
 		}

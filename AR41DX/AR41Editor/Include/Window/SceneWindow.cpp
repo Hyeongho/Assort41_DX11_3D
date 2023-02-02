@@ -104,6 +104,8 @@ void CSceneWindow::SceneChange()
 	if (objectWindow)
 	{
 		objectWindow->Clear();
+		objectWindow->ClearSelect();
+		objectWindow->AddInput(NextScene);
 		objectWindow->AddItemList(NextScene);
 	}
 }

@@ -55,7 +55,7 @@ void CDefaultSetting::LoadResource()
 
 void CDefaultSetting::SetInput()
 {
-    // Ű ���
+    // Å° µî·Ï
     CInput::GetInst()->AddBindKey("SandyMoveRight", 'D');
     CInput::GetInst()->AddBindKey("SandyMoveLeft", 'A');
 
@@ -64,7 +64,14 @@ void CDefaultSetting::SetInput()
 
     CInput::GetInst()->AddBindKey("SandyJump", VK_SPACE);
 
+    CInput::GetInst()->AddBindKey("RButton", VK_RBUTTON);
+
+    CInput::GetInst()->AddBindKey("MClick", VK_MBUTTON);
+    CInput::GetInst()->AddBindKey("Del", VK_DELETE);
+    CInput::GetInst()->AddBindKey("ChangePos", VK_F1);
+
     CInput::GetInst()->AddBindKey("SandyLButton", VK_LBUTTON);
+
 }
 
 void CDefaultSetting::SetCollision()

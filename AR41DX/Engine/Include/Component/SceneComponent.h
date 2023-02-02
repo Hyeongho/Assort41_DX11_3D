@@ -15,27 +15,33 @@ protected:
 	virtual ~CSceneComponent();
 
 protected:
+	std::string m_SceneName;
 	CTransform* m_Transform;
     CSceneComponent* m_Parent;
 	class CSkeletonSocket* m_Socket;
 	SceneComponentType	m_SceneComponentType;
-    std::vector<CSharedPtr<CSceneComponent>>    m_vecChild;
-	std::string     m_LayerName;
-	std::string		m_ParentName;
-	std::vector<std::string>	m_vecChildName;
+    std::vector<CSharedPtr<CSceneComponent>> m_vecChild;
+	std::string m_LayerName;
+	std::string m_ParentName;
+	std::vector<std::string> m_vecChildName;
 
 public:
-	SceneComponentType GetSceneComponentType()	const
+	const std::string& GetSceneName() const
+	{
+		return m_SceneName;
+	}
+	
+	SceneComponentType GetSceneComponentType() const
 	{
 		return m_SceneComponentType;
 	}
 
-    CTransform* GetTransform()    const
+    CTransform* GetTransform() const
     {
         return m_Transform;
     }
 
-	CSceneComponent* GetParent()	const
+	CSceneComponent* GetParent() const
 	{
 		return m_Parent;
 	}

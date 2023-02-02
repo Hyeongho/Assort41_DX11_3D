@@ -216,3 +216,10 @@ enum class ELightType
 	Point,
 	Spot
 };
+
+enum class ENavNodeType
+{
+	None, 
+	Open, 
+	Close
+};

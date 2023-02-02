@@ -1,5 +1,7 @@
 
 #include "ObjectWindow.h"
+#include "Input.h"
+#include "Engine.h"
 #include "Editor/EditorButton.h"
 #include "Editor/EditorSameLine.h"
 #include "Editor/EditorLabel.h"
@@ -57,6 +59,17 @@ void CObjectWindow::AddItemList(class CScene* scene)
 	}
 }
 
+void CObjectWindow::AddInput(CScene* scene)
+{
+	CInput::GetInst()->AddBindFunction<CObjectWindow>("Del", Input_Type::Down, this, &CObjectWindow::Delete, scene);
+	CInput::GetInst()->AddBindFunction<CObjectWindow>("MClick", Input_Type::Down, this, &CObjectWindow::Pause, scene);
+	CComponentWindow* componentWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CComponentWindow>("ComponentWindow");
+	if (componentWindow)
+	{
+		componentWindow->AddInput(scene);
+	}
+}
+
 bool CObjectWindow::Init()
 {
 	m_Tree = CreateWidget<CEditorTree<CGameObject*>>("ObjectTree");
@@ -74,6 +87,9 @@ bool CObjectWindow::Init()
 	m_WindowTree->SetSelectCallback<CObjectWindow>(this, &CObjectWindow::UICallback);
 	m_WindowTree->SetSize(400.f, 300.f);
 	m_WindowTree->AddItem(nullptr, "Canvas");
+
+	//CInput::GetInst()->SetMouseVisible();
+	AddInput(CSceneManager::GetInst()->GetScene());
 	return true;
 }
 
@@ -125,7 +141,22 @@ void CObjectWindow::Delete()
 		m_SelectWindow->Destroy();
 		m_WindowTree->DeleteItem(m_SelectWindow->GetName());
 	}
+	CComponentWindow* componentWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CComponentWindow>("ComponentWindow");
+	if (componentWindow)
+	{
+		componentWindow->Clear();
+	}
 	ClearSelect();
+}
+
+void CObjectWindow::Pause()
+{
+	if (1.f == CEngine::GetInst()->GetTimeScale())
+	{
+		CEngine::GetInst()->SetTimeScale(0.f);
+		return;
+	}
+	CEngine::GetInst()->SetTimeScale(1.f);
 }
 
 void CObjectWindow::TreeCallback(CEditorTreeItem<CGameObject*>* Node, const std::string& Item)
