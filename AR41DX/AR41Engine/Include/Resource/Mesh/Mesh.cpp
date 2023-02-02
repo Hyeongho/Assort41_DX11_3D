@@ -391,6 +391,8 @@ bool CMesh::ConvertFBX(CFBXLoader* Loader, const char* FullPath)
 
 		size_t  IdxCount = (*iter)->vecIndex.size();
 
+		Container->vecSubset.reserve(IdxCount);
+
 		for (size_t i = 0; i < IdxCount; ++i)
 		{
 			// 인덱스 버퍼를 채워줄 데이터가 없다면 해당 서브셋은 폐기한다.
@@ -411,7 +413,7 @@ bool CMesh::ConvertFBX(CFBXLoader* Loader, const char* FullPath)
 
 			MeshSubset	Subset = {};
 
-			Container->vecSubset.push_back(Subset);
+			Container->vecSubset.emplace_back(Subset);
 
 			if (!CreateBuffer(BufferType::Index,
 				&(*iter)->vecIndex[i][0], sizeof(UINT),

@@ -166,6 +166,8 @@
     <ClInclude Include="Scene\CollisionSection3D.h" />
     <ClInclude Include="Scene\LightManager.h" />
     <ClInclude Include="Scene\NavigationManager.h" />
+    <ClInclude Include="Scene\NavigationManager2D.h" />
+    <ClInclude Include="Scene\NavigationManager3D.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneCollision.h" />
     <ClInclude Include="Scene\SceneInfo.h" />
@@ -176,6 +178,9 @@
     <ClInclude Include="Thread\DataStream.h" />
     <ClInclude Include="Thread\LoadingThread.h" />
     <ClInclude Include="Thread\Navigation.h" />
+    <ClInclude Include="Thread\Navigation2DThread.h" />
+    <ClInclude Include="Thread\Navigation3D.h" />
+    <ClInclude Include="Thread\Navigation3DThread.h" />
     <ClInclude Include="Thread\NavigationThread.h" />
     <ClInclude Include="Thread\Sync.h" />
     <ClInclude Include="Thread\Thread.h" />
@@ -324,6 +329,8 @@
     <ClCompile Include="Scene\CollisionSection3D.cpp" />
     <ClCompile Include="Scene\LightManager.cpp" />
     <ClCompile Include="Scene\NavigationManager.cpp" />
+    <ClCompile Include="Scene\NavigationManager2D.cpp" />
+    <ClCompile Include="Scene\NavigationManager3D.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneCollision.cpp" />
     <ClCompile Include="Scene\SceneInfo.cpp" />
@@ -333,6 +340,9 @@
     <ClCompile Include="Thread\DataStream.cpp" />
     <ClCompile Include="Thread\LoadingThread.cpp" />
     <ClCompile Include="Thread\Navigation.cpp" />
+    <ClCompile Include="Thread\Navigation2DThread.cpp" />
+    <ClCompile Include="Thread\Navigation3D.cpp" />
+    <ClCompile Include="Thread\Navigation3DThread.cpp" />
     <ClCompile Include="Thread\NavigationThread.cpp" />
     <ClCompile Include="Thread\Thread.cpp" />
     <ClCompile Include="Thread\ThreadManager.cpp" />

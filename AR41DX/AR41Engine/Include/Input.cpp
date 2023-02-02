@@ -11,26 +11,16 @@
 
 DEFINITION_SINGLE(CInput)
 
-CInput::CInput() :
-	m_MouseLDown(false),
-	m_MouseLPush(false),
-	m_MouseLUp(false),
-	m_InputSystem(InputSystem_Type::DInput),
-	m_Input(nullptr),
-	m_Keyboard(nullptr),
-	m_Mouse(nullptr),
-	m_KeyArray{},
-	m_MouseState{},
-	m_CollisionWidget(false),
-	m_Wheel(0)
+CInput::CInput() : m_MouseLDown(false), m_MouseLPush(false), m_MouseLUp(false), m_InputSystem(InputSystem_Type::DInput), m_Input(nullptr),
+	m_Keyboard(nullptr), m_Mouse(nullptr), m_KeyArray{}, m_MouseState{}, m_CollisionWidget(false), m_Wheel(0)
 {
 }
 
 CInput::~CInput()
 {
 	{
-		auto	iter = m_mapKeyState.begin();
-		auto	iterEnd = m_mapKeyState.end();
+		auto iter = m_mapKeyState.begin();
+		auto iterEnd = m_mapKeyState.end();
 
 		for (; iter != iterEnd; iter++)
 		{
@@ -41,16 +31,16 @@ CInput::~CInput()
 	}
 
 	{
-		auto	iter = m_mapBindKey.begin();
-		auto	iterEnd = m_mapBindKey.end();
+		auto iter = m_mapBindKey.begin();
+		auto iterEnd = m_mapBindKey.end();
 
 		for (; iter != iterEnd; iter++)
 		{
-			for (int i = 0; i < (int)Input_Type::End; ++i)
+			for (int i = 0; i < (int)Input_Type::End; i++)
 			{
 				size_t	Size = iter->second->vecFunction[i].size();
 
-				for (size_t j = 0; j < Size; ++j)
+				for (size_t j = 0; j < Size; j++)
 				{
 					SAFE_DELETE(iter->second->vecFunction[i][j]);
 				}
@@ -75,16 +65,27 @@ void CInput::ComputeWorldMousePos(const Vector2& CameraPos)
 bool CInput::InitDirectInput()
 {
 	if (FAILED(m_Input->CreateDevice(GUID_SysKeyboard, &m_Keyboard, nullptr)))
+	{
 		return false;
+	}
 
 	if (FAILED(m_Keyboard->SetDataFormat(&c_dfDIKeyboard)))
+	{
 		return false;
+	}
 
 	if (FAILED(m_Input->CreateDevice(GUID_SysMouse, &m_Mouse, nullptr)))
+	{
 		return false;
+	}
 
 	if (FAILED(m_Mouse->SetDataFormat(&c_dfDIMouse)))
+	{
 		return false;
+	}
+
+	m_Keyboard->Acquire();
+	m_Mouse->Acquire();
 
 	return true;
 }
@@ -93,36 +94,43 @@ void CInput::ReadDirectInputKeyboard()
 {
 	HRESULT	result = m_Keyboard->GetDeviceState(256, m_KeyArray);
 
-	if (FAILED(result))
+	/*if (FAILED(result))
 	{
 		if (result == DIERR_INPUTLOST || result == DIERR_NOTACQUIRED)
+		{
 			m_Keyboard->Acquire();
-	}
+		}
+	}*/
 }
 
 void CInput::ReadDirectInputMouse()
 {
 	HRESULT	result = m_Mouse->GetDeviceState(sizeof(m_MouseState), &m_MouseState);
 
-	if (FAILED(result))
+	/*if (FAILED(result))
 	{
 		if (result == DIERR_INPUTLOST || result == DIERR_NOTACQUIRED)
+		{
 			m_Mouse->Acquire();
-	}
+		}
+	}*/
 }
 
 bool CInput::Init(HINSTANCE hInst, HWND hWnd)
 {
 	m_hWnd = hWnd;
 
-	if (FAILED(DirectInput8Create(hInst, DIRECTINPUT_VERSION, IID_IDirectInput8,
-		(void**)&m_Input, nullptr)))
+	if (FAILED(DirectInput8Create(hInst, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_Input, nullptr)))
+	{
 		m_InputSystem = InputSystem_Type::Window;
+	}
 
 	if (m_InputSystem == InputSystem_Type::DInput)
 	{
 		if (!InitDirectInput())
+		{
 			return false;
+		}
 	}
 
 	m_Ctrl = false;
@@ -158,7 +166,7 @@ void CInput::PostUpdate(float DeltaTime)
 
 void CInput::UpdateMouse(float DeltaTime)
 {
-	POINT	ptMouse;
+	POINT ptMouse;
 
 	// 스크린 좌표로 나온다.
 	GetCursorPos(&ptMouse);
@@ -166,7 +174,7 @@ void CInput::UpdateMouse(float DeltaTime)
 	// 스크린 좌표를 윈도우 좌표로 변경한다.
 	ScreenToClient(m_hWnd, &ptMouse);
 
-	RECT	WindowRC;
+	RECT WindowRC;
 
 	GetClientRect(m_hWnd, &WindowRC);
 
@@ -218,22 +226,34 @@ void CInput::UpdateKeyState(float DeltaTime)
 	{
 	case InputSystem_Type::DInput:
 		if (m_KeyArray[DIK_LCONTROL] & 0x80)
+		{
 			m_Ctrl = true;
+		}
 
 		else
+		{
 			m_Ctrl = false;
+		}
 
 		if (m_KeyArray[DIK_LALT] & 0x80)
+		{
 			m_Alt = true;
+		}
 
 		else
+		{
 			m_Alt = false;
+		}
 
 		if (m_KeyArray[DIK_LSHIFT] & 0x80)
+		{
 			m_Shift = true;
+		}
 
 		else
+		{
 			m_Shift = false;
+		}
 
 
 		if (m_MouseState.rgbButtons[0] & 0x80)
@@ -245,7 +265,9 @@ void CInput::UpdateKeyState(float DeltaTime)
 			}
 
 			else
+			{
 				m_MouseLDown = false;
+			}
 		}
 
 		else if (m_MouseLPush)
@@ -256,27 +278,41 @@ void CInput::UpdateKeyState(float DeltaTime)
 		}
 
 		else if (m_MouseLUp)
+		{
 			m_MouseLUp = false;
+		}
 
 		break;
 	case InputSystem_Type::Window:
 		if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
+		{
 			m_Ctrl = true;
+		}
 
 		else
+		{
 			m_Ctrl = false;
+		}
 
 		if (GetAsyncKeyState(VK_MENU) & 0x8000)
+		{
 			m_Alt = true;
+		}
 
 		else
+		{
 			m_Alt = false;
+		}
 
 		if (GetAsyncKeyState(VK_SHIFT) & 0x8000)
+		{
 			m_Shift = true;
+		}
 
 		else
+		{
 			m_Shift = false;
+		}
 
 
 		if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
@@ -288,7 +324,9 @@ void CInput::UpdateKeyState(float DeltaTime)
 			}
 
 			else
+			{
 				m_MouseLDown = false;
+			}
 		}
 
 		else if (m_MouseLPush)
@@ -299,12 +337,14 @@ void CInput::UpdateKeyState(float DeltaTime)
 		}
 
 		else if (m_MouseLUp)
+		{
 			m_MouseLUp = false;
+		}
 		break;
 	}
 
-	auto	iter = m_mapKeyState.begin();
-	auto	iterEnd = m_mapKeyState.end();
+	auto iter = m_mapKeyState.begin();
+	auto iterEnd = m_mapKeyState.end();
 
 	for (; iter != iterEnd; iter++)
 	{
@@ -384,8 +424,8 @@ void CInput::UpdateKeyState(float DeltaTime)
 
 void CInput::UpdateBindKey(float DeltaTime)
 {
-	auto	iter = m_mapBindKey.begin();
-	auto	iterEnd = m_mapBindKey.end();
+	auto iter = m_mapBindKey.begin();
+	auto iterEnd = m_mapBindKey.end();
 
 	for (; iter != iterEnd; iter++)
 	{
@@ -394,9 +434,9 @@ void CInput::UpdateBindKey(float DeltaTime)
 			iter->second->Alt == m_Alt &&
 			iter->second->Shift == m_Shift)
 		{
-			size_t	Size = iter->second->vecFunction[(int)Input_Type::Down].size();
+			size_t Size = iter->second->vecFunction[(int)Input_Type::Down].size();
 
-			for (size_t i = 0; i < Size; ++i)
+			for (size_t i = 0; i < Size; i++)
 			{
 				iter->second->vecFunction[(int)Input_Type::Down][i]->func();
 			}
@@ -407,9 +447,9 @@ void CInput::UpdateBindKey(float DeltaTime)
 			iter->second->Alt == m_Alt &&
 			iter->second->Shift == m_Shift)
 		{
-			size_t	Size = iter->second->vecFunction[(int)Input_Type::Push].size();
+			size_t Size = iter->second->vecFunction[(int)Input_Type::Push].size();
 
-			for (size_t i = 0; i < Size; ++i)
+			for (size_t i = 0; i < Size; i++)
 			{
 				iter->second->vecFunction[(int)Input_Type::Push][i]->func();
 			}
@@ -435,7 +475,9 @@ void CInput::SetKeyCtrl(const std::string& Name, bool Ctrl)
 	BindKey* Key = FindBindKey(Name);
 
 	if (!Key)
+	{
 		return;
+	}
 
 	Key->Ctrl = Ctrl;
 }
@@ -445,7 +487,9 @@ void CInput::SetKeyAlt(const std::string& Name, bool Alt)
 	BindKey* Key = FindBindKey(Name);
 
 	if (!Key)
+	{
 		return;
+	}
 
 	Key->Alt = Alt;
 }
@@ -455,18 +499,22 @@ void CInput::SetKeyShift(const std::string& Name, bool Shift)
 	BindKey* Key = FindBindKey(Name);
 
 	if (!Key)
+	{
 		return;
+	}
 
 	Key->Shift = Shift;
 }
 
 KeyState* CInput::FindKeyState(unsigned char Key)
 {
-	auto	iter = m_mapKeyState.find(Key);
+	auto iter = m_mapKeyState.find(Key);
 
 	// 못찾았을 경우
 	if (iter == m_mapKeyState.end())
+	{
 		return nullptr;
+	}
 
 	// iter->first : key
 	// iter->second : value
@@ -475,11 +523,13 @@ KeyState* CInput::FindKeyState(unsigned char Key)
 
 BindKey* CInput::FindBindKey(const std::string& Name)
 {
-	auto	iter = m_mapBindKey.find(Name);
+	auto iter = m_mapBindKey.find(Name);
 
 	// 못찾았을 경우
 	if (iter == m_mapBindKey.end())
+	{
 		return nullptr;
+	}
 
 	// iter->first : key
 	// iter->second : value
@@ -491,7 +541,9 @@ bool CInput::AddBindKey(const std::string& Name,
 {
 	// 같은 이름으로 BindKey가 등록되어 있을 경우
 	if (FindBindKey(Name))
+	{
 		return false;
+	}
 
 	BindKey* NewKey = new BindKey;
 
@@ -518,8 +570,8 @@ bool CInput::AddBindKey(const std::string& Name,
 
 void CInput::ClearCallback()
 {
-	auto	iter = m_mapBindKey.begin();
-	auto	iterEnd = m_mapBindKey.end();
+	auto iter = m_mapBindKey.begin();
+	auto iterEnd = m_mapBindKey.end();
 
 	for (; iter != iterEnd; iter++)
 	{
@@ -546,8 +598,8 @@ void CInput::ClearCallback(CScene* Scene)
 	{
 		for (int i = 0; i < (int)Input_Type::End; ++i)
 		{
-			auto	iter1 = iter->second->vecFunction[i].begin();
-			auto	iter1End = iter->second->vecFunction[i].end();
+			auto iter1 = iter->second->vecFunction[i].begin();
+			auto iter1End = iter->second->vecFunction[i].end();
 
 			for (; iter1 != iter1End;)
 			{
