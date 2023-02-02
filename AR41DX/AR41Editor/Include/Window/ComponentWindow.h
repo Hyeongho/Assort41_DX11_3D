@@ -30,6 +30,7 @@ public:
 public:
 	bool AddItem(class CComponent* Component, const std::string& Name, const std::string& ParentName = "Root");
 	bool AddWidget(class CUIWidget* widget, const std::string& name, const std::string& parentName = "Canvas");
+	void AddInput(class CScene* scene);
 	void Clear();
 	void ClearSelect();
 	void ChangePos();
