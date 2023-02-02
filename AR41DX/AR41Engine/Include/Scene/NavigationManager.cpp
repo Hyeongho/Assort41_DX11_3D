@@ -8,3 +8,25 @@ CNavigationManager::CNavigationManager()
 CNavigationManager::~CNavigationManager()
 {
 }
+
+void CNavigationManager::Start()
+{
+}
+
+bool CNavigationManager::Init()
+{
+    return false;
+}
+
+void CNavigationManager::Move(CNavigationAgent* Agent, const Vector2& End)
+{
+}
+
+void CNavigationManager::Move(CNavigationAgent* Agent, const Vector3& End)
+{
+}
+
+float CNavigationManager::GetHeight(const Vector3& Pos)
+{
+    return 0.0f;
+}

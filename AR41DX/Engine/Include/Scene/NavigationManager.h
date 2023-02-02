@@ -16,7 +16,7 @@ protected:
 	std::vector<class CNavigationThread*>	m_vecNavThread;
 
 public:
-	void AddNavigationThread(class CNavigationThread* Thread)
+	virtual  void AddNavigationThread(class CNavigationThread* Thread)
 	{
 		m_vecNavThread.push_back(Thread);
 	}
@@ -24,6 +24,8 @@ public:
 public:
 	virtual void Start() = 0;
 	virtual bool Init() = 0;
-	virtual void Move(class CNavigationAgent* Agent, const Vector2& End) = 0;
+	virtual void Move(class CNavigationAgent* Agent, const Vector2& End);
+	virtual void Move(class CNavigationAgent* Agent, const Vector3& End);
+	virtual float GetHeight(const Vector3& Pos);
 };
 
