@@ -1,18 +1,19 @@
 #pragma once
 #include "Editor\EditorWindow.h"
+#include "Editor/EditorTree.h"
 
 class CPathWindow : public CEditorWindow
 {
 private:
 	friend class CEditorGUIManager;
-	CEditorTree<class CComponent*>* m_Tree;
-	class CEditorImage* m_TextureImageBox;
-	class CEditorInput* m_FileName;
-	std::string fullPath;
-	void LoadFileList();
-	void FileClickCallback(int index, const std::string& item);
-	void FileDoubleClickCallback(int index, const std::string& item);
-	void FileDragCallback(int index, const std::string& item);
+	CEditorTree<void*>* m_Tree;
+	class CEditorInput* m_Path;
+	std::string FileName;
+	bool m_IsLoad;
+	void LoadFileList(const std::string& pathName);
+	void FileDCCallback(CEditorTreeItem<void*>* node, const std::string& item);
+	void FileDADCallback(CEditorTreeItem<void*>* dragnode, CEditorTreeItem<void*>* dropnode, 
+		const std::string& dragItem, const std::string& dropItem);
 	void FileSearch();
 protected:
 	CPathWindow();
