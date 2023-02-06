@@ -171,8 +171,8 @@ bool CMaterialWindow::Init()
     m_EmissiveColor[3]->SetHideName("EmissiveColorW");
     m_EmissiveColor[3]->SetInputType(EImGuiInputType::Float);
 
-   m_TextureTree = CreateWidget<CEditorTree<CTexture*>>("MaterialWindow");
-   m_TextureTree->SetHideName("MaterialWindow");
+   m_TextureTree = CreateWidget<CEditorTree<CTexture*>>("PathWindow");
+   m_TextureTree->SetHideName("PathWindow");
    m_TextureTree->UseDragDropSelf(true);
    m_TextureTree->SetSelectCallback<CMaterialWindow>(this, &CMaterialWindow::TextureTreeCallback);
    m_TextureTree->SetSize(400.f, 300.f);
@@ -382,8 +382,20 @@ void CMaterialWindow::MaterialCreateCallback()
     //material->AddTextureArray(10, (int)EShaderBufferType::Pixel, "DefaultTileIsometric", vecFileNames);
 }
 
-void CMaterialWindow::ImgChangeCallback()
+void CMaterialWindow::ImgChangeCallback(const std::string& name, const TCHAR* path)
 {
+    if(!m_SelectMaterial)
+    {
+        return;
+    }
+    std::string itemName=m_TextureTree->GetHoverItem()->GetItemName();
+    int index = m_TextureTree->GetHoverItem()->FindIndex(itemName);
+    if(index<0)
+    {
+        return;
+    }
+    m_SelectMaterial->SetTexture(index,0, (int)EShaderBufferType::Pixel, name, path);
+    m_Image->SetTexture(m_SelectMaterial->GetTexture(index));
 }
 
 void CMaterialWindow::TreeCallback(CEditorTreeItem<class CMaterial*>* node, const std::string& item)

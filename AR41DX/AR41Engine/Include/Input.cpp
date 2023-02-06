@@ -368,6 +368,10 @@ void CInput::UpdateKeyState(float DeltaTime)
 				}
 				break;
 			case DIK_MOUSEWHEEL:
+				if (m_MouseState.rgbButtons[2] & 0x80)
+				{
+					KeyPush = true;
+				}
 				break;
 			default:	// 일반 키보드 키일때
 				if (m_KeyArray[iter->second->key] & 0x80)
