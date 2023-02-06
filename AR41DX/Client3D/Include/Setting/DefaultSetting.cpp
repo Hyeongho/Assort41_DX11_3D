@@ -29,8 +29,8 @@ void CDefaultSetting::Init()
 
 void CDefaultSetting::CreateCDO()
 {
-    CScene::CreateObjectCDO<CPlayer>("Player");
-    //CScene::CreateObjectCDO<CSandy>("Sandy");
+    //CScene::CreateObjectCDO<CPlayer>("Player");
+    CScene::CreateObjectCDO<CSandy>("Sandy");
 }
 
 void CDefaultSetting::LoadResource()

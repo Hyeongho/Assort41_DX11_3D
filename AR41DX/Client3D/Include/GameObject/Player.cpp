@@ -57,7 +57,7 @@ bool CPlayer::Init()
 {
 	CGameObject::Init();
 
-	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+	/*m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 	m_Camera = CreateComponent<CCameraComponent>("Camera");
 	m_Arm = CreateComponent<CTargetArm>("Arm");
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
@@ -78,7 +78,7 @@ bool CPlayer::Init()
 	
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("PlayerAnimation");
 
-	m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
+	m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);*/
 
 	//m_Rigid->SetGravity(true);
 

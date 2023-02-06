@@ -5,6 +5,7 @@
 #include "../GameObject/Weapon.h"
 #include "../GameObject/Sandy.h"
 #include "Component/TerrainComponent.h"
+#include "../UI/PlayerUI.h"
 
 CMainSceneInfo::CMainSceneInfo()
 {
@@ -17,6 +18,8 @@ CMainSceneInfo::~CMainSceneInfo()
 bool CMainSceneInfo::Init()
 {
 	CSceneInfo::Init();
+
+	m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 
 	CSandy* Sandy = m_Owner->CreateObject<CSandy>("Sandy");
 
