@@ -16,6 +16,13 @@ struct PlayerData
 	}
 };
 
+enum class EMain_Character
+{
+	Spongebob, 
+	Patrick, 
+	Sandy
+};
+
 class CPlayer :
     public CGameObject
 {
@@ -31,10 +38,11 @@ protected:
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
 	CSharedPtr<class CAnimation> m_Animation;
-	CSharedPtr<class CRigidBody>	m_Rigid;
+	CSharedPtr<class CRigidBody> m_Rigid;
 
 protected:
 	PlayerData m_PlayerData;
+	EMain_Character m_MainCharacter;
 
 public:
 	virtual void Start();
@@ -44,6 +52,11 @@ public:
 	virtual CPlayer* Clone() const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+private:
+	void LoadSpongebobAnim(); // 스폰지밥 리소스
+	void LoadPatrickAnim(); // 뚱이 리소스
+	void LoadSandyAnim(); // 다람이 리소스
 
 public:
 	void SetPlayerData(PlayerData Playerdata)
@@ -107,6 +120,8 @@ public:
 		return m_PlayerData.Glittering;
 	}
 
+	void SetMesh(std::string Mesh);
+
 public:
 	void MoveFront();
 	void MoveBack();
@@ -115,5 +130,16 @@ public:
 	void Jump();
 	void AttackKey();
 	void CameraRotationKey();
+
+	// Spongebob
+
+	// Patrick
+
+	// Sandy
+
+	// Change Charater
+	void ChangeSpongebob();
+	void ChangePatrick();
+	void ChangeSandy();
 };
 

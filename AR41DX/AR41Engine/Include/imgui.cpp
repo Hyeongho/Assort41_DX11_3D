@@ -7703,6 +7703,18 @@ bool ImGui::IsWindowHovered(ImGuiHoveredFlags flags)
     return true;
 }
 
+bool ImGui::IsWindowHovered(const char* name, ImGuiHoveredFlags flags)
+{
+    IM_ASSERT((flags & (ImGuiHoveredFlags_AllowWhenOverlapped | ImGuiHoveredFlags_AllowWhenDisabled)) == 0);   // Flags not supported by this function
+    ImGuiContext& g = *GImGui;
+    ImGuiWindow* ref_window = g.HoveredWindow;
+    if (ref_window == NULL)
+    {
+        return false;
+    }
+    return !strcmp(ref_window->Name, name);
+}
+
 bool ImGui::IsWindowFocused(ImGuiFocusedFlags flags)
 {
     ImGuiContext& g = *GImGui;
