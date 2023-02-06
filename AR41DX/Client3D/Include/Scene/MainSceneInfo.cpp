@@ -3,6 +3,7 @@
 #include "../GameObject/Player.h"
 #include "../GameObject/Monster.h"
 #include "../GameObject/Weapon.h"
+#include "../GameObject/Patrick.h"
 #include "../GameObject/Sandy.h"
 #include "Component/TerrainComponent.h"
 
@@ -18,9 +19,13 @@ bool CMainSceneInfo::Init()
 {
 	CSceneInfo::Init();
 
-	CPlayer* Sandy = m_Owner->CreateObject<CPlayer>("Sandy");
-
+	//CPatrick* Patrick = m_Owner->CreateObject<CPatrick>("Patrick");
+	//SetPlayerObject(Patrick);
+	
+	CSandy* Sandy = m_Owner->CreateObject<CSandy>("Sandy");
 	SetPlayerObject(Sandy);
+
+
 
 	//CWeapon* Weapon = m_Owner->CreateObject<CWeapon>("Weapon");
 

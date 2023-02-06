@@ -16,6 +16,7 @@
 #include "Window\FBXWindow.h"
 #include "Window/PathWindow.h"
 #include "Window/MaterialWindow.h"
+#include "Window/MeshWindow.h"
 #include "Editor/EditorGUIManager.h"
 #include "Resource/Animation/AnimationSequence2D.h"
 #include "Input.h"
@@ -58,15 +59,15 @@ bool CEditorManager::Init(HINSTANCE hInst)
     CEditorGUIManager::GetInst()->CreateEditorWindow<CFBXWindow>("FBXWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CPathWindow>("PathWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMaterialWindow>("MaterialWindow");
+    CEditorGUIManager::GetInst()->CreateEditorWindow<CMeshWindow>("MeshWindow");
 
     // SceneInfo 생성
     CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
 
-    //시작하자마자 현재씬의 컴포넌트들 출력
+    //김범중 시작하자마자 현재씬의 컴포넌트들 출력
     CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
     if (objectWindow)
     {
-        objectWindow->Clear();
         objectWindow->AddItemList(CSceneManager::GetInst()->GetScene());
     }
     return true;
