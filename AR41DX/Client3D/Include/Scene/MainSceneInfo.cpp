@@ -18,7 +18,7 @@ bool CMainSceneInfo::Init()
 {
 	CSceneInfo::Init();
 
-	CSandy* Sandy = m_Owner->CreateObject<CSandy>("Sandy");
+	CPlayer* Sandy = m_Owner->CreateObject<CPlayer>("Sandy");
 
 	SetPlayerObject(Sandy);
 

@@ -8,15 +8,19 @@ class CEditorTree : public CEditorWidget
 private:
 	friend class CEditorWindow;
 	friend class CEditorGroup;
+
 	template <typename T>
 	friend class CEditorTreeItem;
+
 	typedef void(CEditorWidget::* DRAG_DROP)(DWORD_PTR, DWORD_PTR);
 	CEditorTreeItem<T>* m_Root;
+
 	bool m_UseDragDropSelf;
 	bool m_UseDragDropOuter;
-	std::function<void(CEditorTreeItem<T>*, const std::string&)>	m_SelectCallback;
-	std::function<void(CEditorTreeItem<T>*, const std::string&)>	m_DoubleClickCallback;
-	std::function<void(CEditorTreeItem<T>*, CEditorTreeItem<T>*, const std::string&)>	m_DragAndDropCallback;
+
+	std::function<void(CEditorTreeItem<T>*, const std::string&)> m_SelectCallback;
+	std::function<void(CEditorTreeItem<T>*, const std::string&)> m_DoubleClickCallback;
+	std::function<void(CEditorTreeItem<T>*, CEditorTreeItem<T>*, const std::string&)> m_DragAndDropCallback;
 	void NodeSelect(CEditorTreeItem<T>* node, const std::string& item)
 	{
 		if (m_SelectCallback)

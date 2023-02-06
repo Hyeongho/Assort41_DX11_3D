@@ -68,10 +68,10 @@ public:
 		{
 			child->m_UseDragDropOuter = m_UseDragDropOuter;
 		}
-		TCHAR	wText[256] = {};
+		TCHAR wText[256] = {};
 		int length = (int)MultiByteToWideChar(CP_ACP, 0, item.c_str(), -1, nullptr, 0);
 		MultiByteToWideChar(CP_ACP, 0, item.c_str(), -1, wText, length);
-		char	textUTF8[256] = {};
+		char textUTF8[256] = {};
 		length = WideCharToMultiByte(CP_UTF8, 0, wText, -1, nullptr, 0, nullptr, nullptr);
 		WideCharToMultiByte(CP_UTF8, 0, wText, -1, textUTF8, length, nullptr, nullptr);
 		child->m_ItemUTF8 = textUTF8;
