@@ -16,6 +16,7 @@ private:
     void SetInput();
     void SetCollision();
 
+    void LoadPatrick();
     void LoadSandy();
 };
 
