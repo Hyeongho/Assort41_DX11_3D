@@ -27,6 +27,7 @@ CPathWindow::~CPathWindow()
 
 bool CPathWindow::Init()
 {
+
 	m_Path = CreateWidget<CEditorInput>("Path", 500.f, 30.f);
 	m_Path->SetHideName("Path");
 	m_Tree = CreateWidget<CEditorTree<void*>>("PathWindow");
@@ -52,7 +53,8 @@ void CPathWindow::Update(float deltaTime)
 
 void CPathWindow::LoadFileList(const std::string& pathName)
 {
-//°æ·Î ÀúÀå
+
+//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	const PathInfo* info = CPathManager::GetInst()->FindPath(pathName);
 	char	path[MAX_PATH] = {};
 	if(!info)
@@ -80,11 +82,11 @@ void CPathWindow::LoadFileList(const std::string& pathName)
 		strcpy_s(path, info->PathMultibyte);
 	}
 	m_Path->SetText(path);
-//ÃÊ±âÈ­
+//ï¿½Ê±ï¿½È­
 	m_Tree->Clear();
 	m_Tree->AddItem(nullptr, "FileList");
 	m_Tree->AddItem(nullptr, "...", "FileList");
-//Å½»ö
+//Å½ï¿½ï¿½
 	for (const auto& file : std::filesystem::directory_iterator(path))
 	{
 		char	name[64] = {};
@@ -101,13 +103,20 @@ void CPathWindow::LoadFileList(const std::string& pathName)
 		strcat_s(name, ext);
 		m_Tree->AddItem(nullptr,name, "FileList");
 	}
+
+	
+}
+
+void CPathWindow::FileClickCallback(CEditorTreeItem<std::string>* Node, const std::string& item)
+{
+
 }
 
 void CPathWindow::FileDCCallback(CEditorTreeItem<void*>* node, const std::string& item)
 {
 	if(item!="...")
 	{
-//È®ÀåÀÚ ¿¹¿ÜÃ³¸®
+//È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½
 		size_t index = 0;
 		while ((index = item.find(".", index)) != std::string::npos)
 		{
@@ -123,13 +132,13 @@ void CPathWindow::FileDADCallback(CEditorTreeItem<void*>* dragnode, CEditorTreeI
 {
 	if(ImGui::IsWindowHovered("MeshWindow"))
 	{
-		//°æ·Î ÇÕÄ¡±â
+		//ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½
 		//	strcpy_s(fullPath, file.path().generic_string().c_str());
 		
-		//È®ÀåÀÚ·Î bne msh±¸º°
+		//È®ï¿½ï¿½ï¿½Ú·ï¿½ bne mshï¿½ï¿½ï¿½ï¿½
 		char	ext[_MAX_EXT] = {};
 		_splitpath_s(dragItem.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, ext, _MAX_EXT);
-		//tchar º¯È¯
+		//tchar ï¿½ï¿½È¯
 		TCHAR* t_filename = new TCHAR[dragItem.size() + 1];
 		t_filename[dragItem.size()] = 0;
 		std::copy(dragItem.begin(), dragItem.end(), t_filename);
