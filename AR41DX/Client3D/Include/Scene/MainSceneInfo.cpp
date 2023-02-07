@@ -5,6 +5,7 @@
 #include "../GameObject/Weapon.h"
 #include "../GameObject/Patrick.h"
 #include "../GameObject/Sandy.h"
+#include "../GameObject/SpongebobHouse.h"
 #include "Component/TerrainComponent.h"
 
 CMainSceneInfo::CMainSceneInfo()
@@ -25,7 +26,9 @@ bool CMainSceneInfo::Init()
 	CSandy* Sandy = m_Owner->CreateObject<CSandy>("Sandy");
 	SetPlayerObject(Sandy);
 
-
+	CSpongebobHouse* SpongebobHouse = m_Owner->CreateObject<CSpongebobHouse>("SpongebobHouse");
+	SetPlayerObject(SpongebobHouse);
+	SpongebobHouse->SetWorldPosition(100.f, 100.f);
 
 	//CWeapon* Weapon = m_Owner->CreateObject<CWeapon>("Weapon");
 

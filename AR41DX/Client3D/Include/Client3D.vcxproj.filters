@@ -31,6 +31,9 @@
     <Filter Include="03. GameObject\01.Player">
       <UniqueIdentifier>{b4101f98-8d2c-4fcc-96b4-8890b02f61f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\02. Buildings">
+      <UniqueIdentifier>{598e675c-2861-4ab2-9fc1-fac606945af3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\Patrick.cpp">
       <Filter>03. GameObject\01.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\SpongebobHouse.cpp">
+      <Filter>03. GameObject\02. Buildings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Patrick.h">
       <Filter>03. GameObject\01.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\SpongebobHouse.h">
+      <Filter>03. GameObject\02. Buildings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

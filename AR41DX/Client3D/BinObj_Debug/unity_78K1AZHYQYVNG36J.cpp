@@ -17,6 +17,9 @@
 #include "C:\Spongebob\Assort41_DX11_3D\AR41DX\Client3D\Include\GameObject\Sandy.cpp"
 
 
+#include "C:\Spongebob\Assort41_DX11_3D\AR41DX\Client3D\Include\GameObject\SpongebobHouse.cpp"
+
+
 #include "C:\Spongebob\Assort41_DX11_3D\AR41DX\Client3D\Include\GameObject\Weapon.cpp"
 
 

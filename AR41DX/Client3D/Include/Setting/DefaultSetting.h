@@ -18,5 +18,7 @@ private:
 
     void LoadPatrick();
     void LoadSandy();
+
+    void LoadBuildings();
 };
 
