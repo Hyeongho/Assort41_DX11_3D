@@ -141,6 +141,24 @@
     <ClCompile Include="Window\UITextWindow.cpp">
       <Filter>03. Window\02. UIWIndow</Filter>
     </ClCompile>
+    <ClCompile Include="Window\CameraWindow.cpp">
+      <Filter>03. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\LightWindow.cpp">
+      <Filter>03. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\MaterialWindow.cpp">
+      <Filter>03. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\PathWindow.cpp">
+      <Filter>03. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\RigidBodyWindow.cpp">
+      <Filter>03. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\TargetArmWindow.cpp">
+      <Filter>03. Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -244,6 +262,24 @@
     </ClInclude>
     <ClInclude Include="Window\UITextWindow.h">
       <Filter>03. Window\02. UIWIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\TargetArmWindow.h">
+      <Filter>03. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\CameraWindow.h">
+      <Filter>03. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\LightWindow.h">
+      <Filter>03. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\MaterialWindow.h">
+      <Filter>03. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\PathWindow.h">
+      <Filter>03. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\RigidBodyWindow.h">
+      <Filter>03. Window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

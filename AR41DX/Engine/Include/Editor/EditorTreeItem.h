@@ -9,6 +9,7 @@ private:
 	friend class CEditorTree;
 	CEditorTreeItem<T>* m_Parent;
 	CEditorTreeItem<T>* m_DragItem;
+	CEditorTreeItem<T>* m_HoverItem;
 	std::vector<CEditorTreeItem<T>*>	m_vecChild;
 	std::vector<CEditorWidget*>	m_vecWidget;
 	ImGuiTreeNodeFlags	m_Flag;
@@ -20,7 +21,8 @@ private:
 	bool m_UseDragDropOuter;
 	std::function<void(CEditorTreeItem<T>*, const std::string&)>	m_SelectCallback;
 	std::function<void(CEditorTreeItem<T>*, const std::string&)>	m_DoubleClickCallback;
-	std::function<void(CEditorTreeItem<T>*, CEditorTreeItem<T>*, const std::string&)>	m_DragAndDropCallback;
+	std::function<void(CEditorTreeItem<T>*, CEditorTreeItem<T>* 
+		,const std::string&, const std::string&)>	m_DragAndDropCallback;
 	CEditorTreeItem()
 		: m_Parent(nullptr)
 		, m_Flag(ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow)
@@ -46,6 +48,10 @@ public:
 	{
 		return m_CustomData;
 	}
+	const std::string& GetItemName()	const
+	{
+		return m_Item;
+	}
 	void AddFlag(ImGuiTreeNodeFlags_ flag)
 	{
 		m_Flag |= flag;
@@ -68,10 +74,10 @@ public:
 		{
 			child->m_UseDragDropOuter = m_UseDragDropOuter;
 		}
-		TCHAR	wText[256] = {};
+		TCHAR wText[256] = {};
 		int length = (int)MultiByteToWideChar(CP_ACP, 0, item.c_str(), -1, nullptr, 0);
 		MultiByteToWideChar(CP_ACP, 0, item.c_str(), -1, wText, length);
-		char	textUTF8[256] = {};
+		char textUTF8[256] = {};
 		length = WideCharToMultiByte(CP_UTF8, 0, wText, -1, nullptr, 0, nullptr, nullptr);
 		WideCharToMultiByte(CP_UTF8, 0, wText, -1, textUTF8, length, nullptr, nullptr);
 		child->m_ItemUTF8 = textUTF8;
@@ -102,6 +108,23 @@ public:
 		}
 		return nullptr;
 	}
+	int FindIndex(const std::string& item)
+	{
+		if(!m_Parent)
+		{
+			return -1;
+		}
+		int	size = (int)m_Parent->m_vecChild.size();
+		for (int i = 0; i < size; ++i)
+		{
+			CEditorTreeItem<T>* find = m_Parent->m_vecChild[i]->FindItem(item);
+			if (find)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
 	void Clear()
 	{
 		size_t	size = m_vecChild.size();
@@ -124,6 +147,17 @@ public:
 		bool	itemOpen = ImGui::TreeNodeEx(m_ItemUTF8.c_str(), flag);
 		if (itemOpen)
 		{
+			if (ImGui::IsItemHovered(ImGuiHoveredFlags_::ImGuiHoveredFlags_RectOnly))
+			{
+				if(m_Parent)
+				{
+					m_Parent->m_HoverItem = this;
+				}
+				else
+				{
+					m_HoverItem = this;
+				}	
+			}
 			if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
 			{
 				if (m_SelectCallback)
@@ -131,7 +165,7 @@ public:
 					m_SelectCallback(this, m_Item);
 				}
 			}
-			// 노드의 더블클릭체크
+// 노드의 더블클릭체크
 			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 			{
 				if (m_DoubleClickCallback)
@@ -155,23 +189,22 @@ public:
 						m_DragItem = this;
 					}
 				}
-				// 내부 드롭을 허용한 경우에만 드롭체크
+// 내부 드롭을 허용한 경우에만 드롭체크
 				if (m_UseDragDropSelf)
 				{
 					if (ImGui::BeginDragDropTarget())
 					{
-						DWORD_PTR dwData = 0;
 						const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_WindowName.c_str());
 						if (nullptr != payload)
 						{
-							memcpy(&dwData, payload->Data, sizeof(DWORD_PTR));
 							if (m_Parent)
 							{
 								if (m_Parent->m_DragItem && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
 								{
 									if (m_DragAndDropCallback)
 									{
-										m_DragAndDropCallback(m_Parent->m_DragItem, this, m_Item);
+										m_DragAndDropCallback(m_Parent->m_DragItem, this,
+											m_Parent->m_DragItem->m_Item, m_Item);
 									}
 									m_Parent->m_DragItem = nullptr;
 								}
@@ -182,7 +215,7 @@ public:
 								{
 									if (m_DragAndDropCallback)
 									{
-										m_DragAndDropCallback(m_DragItem, this, m_Item);
+										m_DragAndDropCallback(m_DragItem, this, m_DragItem->m_Item, m_Item);
 									}
 									m_DragItem = nullptr;
 								}
@@ -190,23 +223,34 @@ public:
 						}
 						ImGui::EndDragDropTarget();
 					}
-					if (m_vecChild.empty() && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+					if (m_Parent)
 					{
-						if (m_Parent && m_Parent->m_DragItem)
+						if (!m_Parent->m_vecChild.empty() && this == m_Parent->m_vecChild[m_Parent->m_vecChild.size() - 1] &&
+							ImGui::IsMouseReleased(ImGuiMouseButton_Left))
 						{
-							if (m_DragAndDropCallback)
+							if (m_Parent->m_DragItem)
 							{
-								m_DragAndDropCallback(m_Parent->m_DragItem, nullptr, m_Item);
+								if (m_DragAndDropCallback)
+								{
+									m_DragAndDropCallback(m_Parent->m_DragItem, nullptr, m_Parent->m_DragItem->m_Item, "");
+								}
+								m_Parent->m_DragItem = nullptr;
 							}
-							m_Parent->m_DragItem = nullptr;
 						}
-						else if (m_DragItem)
+					}
+					else
+					{
+						if (!m_vecChild.empty() && this == m_vecChild[m_vecChild.size() - 1] &&
+							ImGui::IsMouseReleased(ImGuiMouseButton_Left))
 						{
-							if (m_DragAndDropCallback)
+							if (m_DragItem)
 							{
-								m_DragAndDropCallback(m_DragItem, nullptr, m_Item);
+								if (m_DragAndDropCallback)
+								{
+									m_DragAndDropCallback(m_DragItem, nullptr, m_DragItem->m_Item, "");
+								}
+								m_DragItem = nullptr;
 							}
-							m_DragItem = nullptr;
 						}
 					}
 				}
@@ -235,9 +279,11 @@ public:
 		m_DoubleClickCallback = std::bind(func, obj, std::placeholders::_1, std::placeholders::_2);
 	}
 	template <typename CallbackType>
-	void SetDragAndDropCallback(CallbackType* obj, void(CallbackType::* func)(CEditorTreeItem<T>*, CEditorTreeItem<T>*, const std::string&))
+	void SetDragAndDropCallback(CallbackType* obj, void(CallbackType::* func)(CEditorTreeItem<T>*, CEditorTreeItem<T>*,
+		const std::string&, const std::string&))
 	{
-		m_DragAndDropCallback = std::bind(func, obj, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+		m_DragAndDropCallback = std::bind(func, obj, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3
+			, std::placeholders::_4);
 	}
 	template <typename WidgetType>
 	WidgetType* CreateWidget(const std::string& name, float width = 100.f, float height = 100.f)

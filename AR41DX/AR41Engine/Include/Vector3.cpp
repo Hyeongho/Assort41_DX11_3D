@@ -145,6 +145,11 @@ void Vector3::operator+=(float f)
     z += f;
 }
 
+Vector3 Vector3::operator-()
+{
+    return Vector3(-x, -y, -z);
+}
+
 // operator -
 Vector3 Vector3::operator-(const Vector3& v) const
 {
@@ -305,6 +310,15 @@ const Vector3& Vector3::operator--(int)
     z -= 1.f;
 
     return *this;
+}
+
+bool Vector3::Iszero()
+{
+    if (x == 0.f && y == 0.f && z == 0.f)
+    {
+        return true;
+    }
+    return false;
 }
 
 float Vector3::Length() const

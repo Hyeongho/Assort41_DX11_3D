@@ -15,8 +15,8 @@ public:
 	bool ReStart(const std::string& Name);
 	bool Delete(const std::string& Name);
 	bool Start(const std::string& Name);
-	void CreateNavigationThread(class CTileMapComponent* TileMap);
-	void DeleteNavigationThread(class CTileMapComponent* TileMap);
+	void CreateNavigationThread(class CSceneComponent* NavComponent, bool Is2D = true);
+	void DeleteNavigationThread(class CSceneComponent* NavComponent);
 	CThread* FindThread(const std::string& Name);
 
 	bool CreateCriticalSection(const std::string& Name);
@@ -30,7 +30,9 @@ public:
 		T* Thread = (T*)FindThread(Name);
 
 		if (Thread)
+		{
 			return Thread;
+		}
 
 		Thread = new T;
 
