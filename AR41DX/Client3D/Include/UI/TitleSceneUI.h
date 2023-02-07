@@ -105,7 +105,6 @@ private :
 	void CreateControlUI();
 	void CreateCreditsUI();
 
-private :
 	void ActiveMainUI();
 	void ActiveOptionUI();
 	void ActiveOptionSoundUI();
@@ -148,10 +147,11 @@ private : // Main Menu UI Func
 	void MainUICreditsHovered();
 	void MainUIQuitHovered();
 
-public :
+private: // SaveSelect Menu UI Func
 	void SaveSelectUISaveSlot1Hoverd();
 	void SaveSelectUISaveSlot2Hoverd();
 	void SaveSelectUISaveSlot3Hoverd();
+	void GameStart();		// 게임 시작
 
 private : // Option Menu UI Func
 	void OptionUISound();
@@ -164,10 +164,5 @@ private : // Option Menu UI Func
 	void SoundOptionUIMusic();
 	void SoundOptionUITalk();
 	void SoundOptionUIReset();
-
-private : // Etc Menu Func
-	void NewGameStart();		// 새 게임 시작
-	void ContinueStart();		// 기존 게임 이어서 하기
-
 };
 

@@ -1037,6 +1037,7 @@ void CTitleSceneUI::CreateSaveSelectUI()
 	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot1Click", false, "Sfx/Title/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::SaveSelectUISaveSlot1Hoverd);
+	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::GameStart);
 
 	m_mapSaveSelectUI.insert(std::make_pair("SaveSelectUI_ButtonSaveSLot1", TextButton));
 
@@ -1055,7 +1056,8 @@ void CTitleSceneUI::CreateSaveSelectUI()
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot2Hovered", false, "Sfx/Title/SFX_UI_Scroll_002.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot2Click", false, "Sfx/Title/SFX_UI_Forward.ogg");
 
-	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::SaveSelectUISaveSlot1Hoverd);
+	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::SaveSelectUISaveSlot2Hoverd);
+	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::GameStart);
 
 	m_mapSaveSelectUI.insert(std::make_pair("SaveSelectUI_ButtonSaveSLot2", TextButton));
 
@@ -1074,7 +1076,8 @@ void CTitleSceneUI::CreateSaveSelectUI()
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot3Hovered", false, "Sfx/Title/SFX_UI_Scroll_003.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot3Click", false, "Sfx/Title/SFX_UI_Forward.ogg");
 
-	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::SaveSelectUISaveSlot1Hoverd);
+	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::SaveSelectUISaveSlot3Hoverd);
+	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::GameStart);
 
 	m_mapSaveSelectUI.insert(std::make_pair("SaveSelectUI_ButtonSaveSLot3", TextButton));
 
@@ -1381,34 +1384,20 @@ void CTitleSceneUI::KeyRightButton()
 			{
 			case EUIMode::Continue:
 			case EUIMode::NewGame:
-				m_NowUIMode = EUIMode::Main;
-
 				InActiveSaveSelectUI();
-				ActiveMainUI();
-
 				break;
 			case EUIMode::Control:
-				m_NowUIMode = EUIMode::Main;
-
 				InActiveControlUI();
-				ActiveMainUI();
-
 				break;
 			case EUIMode::Credit:
-				m_NowUIMode = EUIMode::Main;
-
 				InActiveCreditsUI();
-				ActiveMainUI();
-
 				break;
 			case EUIMode::Option:
-				m_NowUIMode = EUIMode::Main;
-
 				InActiveOptionUI();
-				ActiveMainUI();
-
 				break;
 			}
+			m_NowUIMode = EUIMode::Main;
+			ActiveMainUI();
 
 		}
 	}
@@ -1817,14 +1806,56 @@ void CTitleSceneUI::MainUIQuitHovered()
 
 void CTitleSceneUI::SaveSelectUISaveSlot1Hoverd()
 {
+	m_SaveSelected = EUISaveList::First;
+
 }
 
 void CTitleSceneUI::SaveSelectUISaveSlot2Hoverd()
 {
+	m_SaveSelected = EUISaveList::Second;
+
 }
 
 void CTitleSceneUI::SaveSelectUISaveSlot3Hoverd()
 {
+	m_SaveSelected = EUISaveList::Third;
+
+}
+
+void CTitleSceneUI::GameStart()
+{
+	// 현재 선택된 슬롯에 세이브 데이터가 있는지 체크.
+	// 세이브 데이터가 있다면 삭제하고 시작할지 묻는다. 없다면 게임 시작한다.
+
+	// 현재는 임의로 씬 변경하여, 메인 씬 실행하도록 작업
+
+	if (m_NowUIMode == EUIMode::Continue)
+	{
+		// 이어하기 모드 상태
+	}
+	else if (m_NowUIMode == EUIMode::NewGame)
+	{
+		// 새 게임 상태
+	}
+
+	switch (m_SaveSelected)
+	{
+	case EUISaveList::First:
+		CSceneManager::GetInst()->CreateNextScene(true);
+		CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>(false);
+
+		break;
+	case EUISaveList::Second:
+		CSceneManager::GetInst()->CreateNextScene(true);
+		CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>(false);
+
+		break;
+	case EUISaveList::Third:
+		CSceneManager::GetInst()->CreateNextScene(true);
+		CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>(false);
+
+		break;
+	}
 }
 
 void CTitleSceneUI::OptionUISound()
@@ -1899,58 +1930,4 @@ void CTitleSceneUI::SoundOptionUIReset()
 	auto iterSplotch = m_mapSoundOptionUI.find("SoundOptionUI_SelectedSplotch");
 	Vector2 vecPos = m_mapSoundOptionUI.find("SoundOptionUI_ButtonReset")->second->GetPos();
 	iterSplotch->second->SetPos(vecPos);
-}
-
-void CTitleSceneUI::NewGameStart()
-{
-	// 현재 선택된 슬롯에 세이브 데이터가 있는지 체크.
-	// 세이브 데이터가 있다면 삭제하고 시작할지 묻는다. 없다면 게임 시작한다.
-	
-	// 현재는 임의로 씬 변경하여, 메인 씬 실행하도록 작업
-	switch (m_SaveSelected)
-	{
-	case EUISaveList::First:
-		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>(false);
-
-		break;
-	case EUISaveList::Second:
-		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>(false);
-
-		break;
-	case EUISaveList::Third:
-		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>(false);
-
-		break;
-	}
-
-}
-
-void CTitleSceneUI::ContinueStart()
-{
-	// 현재 선택된 슬롯에 세이브 데이터가 있는지 체크.
-	// 세이브 데이터가 없으면 이어하기 불가능을 띄우고, 메인 메뉴로 간다.
-	// 세이더 데이터가 있다면 이어서 시작한다.
-	
-	// 현재는 임의로 씬 변경하여, 메인 씬을 실행하도록 작업.
-	switch (m_SaveSelected)
-	{
-	case EUISaveList::First:
-		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>(false);
-
-		break;
-	case EUISaveList::Second:
-		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>(false);
-
-		break;
-	case EUISaveList::Third:
-		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>(false);
-
-		break;
-	}
 }
