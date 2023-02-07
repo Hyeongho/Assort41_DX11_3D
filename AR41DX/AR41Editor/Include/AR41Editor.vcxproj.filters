@@ -156,7 +156,10 @@
     <ClCompile Include="Window\RigidBodyWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
-    <ClCompile Include="Window\TargetArmWindow.cpp">
+    <ClCompile Include="Window\TargetArmWindow.cpp">     
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\MeshWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
   </ItemGroup>
@@ -278,7 +281,9 @@
     <ClInclude Include="Window\PathWindow.h">
       <Filter>03. Window</Filter>
     </ClInclude>
-    <ClInclude Include="Window\RigidBodyWindow.h">
+    <ClInclude Include="Window\RigidBodyWindow.h">  
+    <ClInclude Include="Window\MeshWindow.h">
+
       <Filter>03. Window</Filter>
     </ClInclude>
   </ItemGroup>

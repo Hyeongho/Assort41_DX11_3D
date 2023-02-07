@@ -6,6 +6,7 @@
 #include "../GameObject/Patrick.h"
 #include "../GameObject/Sandy.h"
 #include "Component/TerrainComponent.h"
+#include "../UI/PlayerUI.h"
 
 CMainSceneInfo::CMainSceneInfo()
 {
@@ -19,9 +20,10 @@ bool CMainSceneInfo::Init()
 {
 	CSceneInfo::Init();
 
-	//CPatrick* Patrick = m_Owner->CreateObject<CPatrick>("Patrick");
 	//SetPlayerObject(Patrick);
 	
+	m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+
 	CSandy* Sandy = m_Owner->CreateObject<CSandy>("Sandy");
 	SetPlayerObject(Sandy);
 
