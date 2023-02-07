@@ -31,7 +31,9 @@ void CDefaultSetting::Init()
 void CDefaultSetting::CreateCDO()
 {
     //CScene::CreateObjectCDO<CPlayer>("Player");
+
     CScene::CreateObjectCDO<CPatrick>("Patrick");
+
     CScene::CreateObjectCDO<CSandy>("Sandy");
 }
 
