@@ -1,5 +1,6 @@
 #include "DefaultSetting.h"
 #include "../GameObject/Player.h"
+#include "../GameObject/Patrick.h"
 #include "../GameObject/Sandy.h"
 //#include "../GameObject/Monster.h"
 //#include "../GameObject/Bullet.h"
@@ -30,11 +31,15 @@ void CDefaultSetting::Init()
 void CDefaultSetting::CreateCDO()
 {
     //CScene::CreateObjectCDO<CPlayer>("Player");
+
+    CScene::CreateObjectCDO<CPatrick>("Patrick");
+
     CScene::CreateObjectCDO<CSandy>("Sandy");
 }
 
 void CDefaultSetting::LoadResource()
 {
+    LoadPatrick();
     LoadSandy();
 
     /*
@@ -55,7 +60,28 @@ void CDefaultSetting::LoadResource()
 
 void CDefaultSetting::SetInput()
 {
-    // Å° µî·Ï
+    // 캐릭터 키 하나로 통일 필요! - Move, LButton, RButton, Space
+    // Patrick
+    CInput::GetInst()->AddBindKey("PatrickMoveRight", 'D');
+    CInput::GetInst()->AddBindKey("PatrickMoveLeft", 'A');
+
+    CInput::GetInst()->AddBindKey("PatrickMoveFront", 'W');
+    CInput::GetInst()->AddBindKey("PatrickMoveBack", 'S');
+
+    CInput::GetInst()->AddBindKey("PatrickJump", VK_SPACE);
+
+    CInput::GetInst()->AddBindKey("PatrickLButton", VK_LBUTTON);
+
+    CInput::GetInst()->AddBindKey("RButton", VK_RBUTTON);
+
+    CInput::GetInst()->AddBindKey("Push", VK_LBUTTON);
+    CInput::GetInst()->AddBindKey("SlamDown", VK_RBUTTON);
+    CInput::GetInst()->AddBindKey("PickUp", VK_RBUTTON);
+    CInput::GetInst()->AddBindKey("Throw", VK_RBUTTON);
+    CInput::GetInst()->AddBindKey("CameraRotationKey", VK_RBUTTON);
+
+
+    // Sandy
     CInput::GetInst()->AddBindKey("SandyMoveRight", 'D');
     CInput::GetInst()->AddBindKey("SandyMoveLeft", 'A');
 
@@ -71,6 +97,7 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("ChangePos", VK_F1);
 
     CInput::GetInst()->AddBindKey("SandyLButton", VK_LBUTTON);
+
 
 }
 
@@ -99,6 +126,26 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("MonsterAttack", "Monster", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("MonsterAttack", "MonsterAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("MonsterAttack", "PlayerAttack", ECollision_Interaction::Ignore);
+}
+
+void CDefaultSetting::LoadPatrick()
+{
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Patrick", TEXT("Patrick/Patrick11.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "PatrickSkeleton", TEXT("Patrick/Patrick11.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("Patrick", "PatrickSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Idle", TEXT("Patrick/Patrick_Idle.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Walk", TEXT("Patrick/Patrick_Walk.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Run", TEXT("Patrick/Patrick_Run.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_DoubleJump", TEXT("Patrick/Patrick_DoubleJump.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Jump", TEXT("Patrick/Patrick_JumpUp.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_PickUp", TEXT("Patrick/Patrick_PickUp.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_PickUpIdle", TEXT("Patrick/Patrick_PickUpIdle.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_PickUpWalk", TEXT("Patrick/Patrick_PickUpWalk.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Throw", TEXT("Patrick/Patrick_Throw.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Slam", TEXT("Patrick/Patrick_Slam.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_BellyAttack", TEXT("Patrick/Patrick_BellyAttack.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Death", TEXT("Patrick/Patrick_Death.fbx"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadSandy()

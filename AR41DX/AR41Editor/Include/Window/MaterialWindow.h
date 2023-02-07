@@ -25,7 +25,6 @@ private:
 	CSharedPtr<class CMaterial>	m_SelectMaterial;
 	void MaterialChangeCallback();
 	void MaterialCreateCallback();
-	void ImgChangeCallback();
 	void TreeCallback(CEditorTreeItem<class CMaterial*>* node, const std::string& item);
 	void TextureTreeCallback(CEditorTreeItem<class CTexture*>* node, const std::string& item);
 protected:
@@ -40,5 +39,6 @@ public:
 	void Clear();
 	void ClearTexture();
 	void ClearSelect();
+	void ImgChangeCallback(const std::string& name,const TCHAR* path);
 };
 

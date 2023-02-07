@@ -72,6 +72,8 @@
     <ClCompile Include="GameObject\Sandy.cpp">
       <Filter>03. GameObject\01.Player</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Patrick.cpp">
+      <Filter>03. GameObject\01.Player</Filter>
     <ClCompile Include="UI\PlayerUI.cpp">
       <Filter>05. UI</Filter>
     </ClCompile>
@@ -119,6 +121,8 @@
     <ClInclude Include="GameObject\Sandy.h">
       <Filter>03. GameObject\01.Player</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\Patrick.h">
+      <Filter>03. GameObject\01.Player</Filter>
     <ClInclude Include="UI\PlayerUI.h">
       <Filter>05. UI</Filter>
     </ClInclude>

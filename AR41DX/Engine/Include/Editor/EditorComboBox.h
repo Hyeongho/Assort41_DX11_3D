@@ -53,6 +53,7 @@ public:
 	void SetSelectIndex(int index)
 	{
 		m_SelectIndex = index;
+		SetPrevViewName(GetItem(m_SelectIndex));
 	}
 
 	void SetPrevViewName(const std::string& Name)
