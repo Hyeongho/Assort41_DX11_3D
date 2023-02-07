@@ -17,5 +17,6 @@ private:
     void SetCollision();
 
     void LoadSandy();
+    void LoadRoboSponge();
 };
 

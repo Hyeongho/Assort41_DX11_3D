@@ -58,7 +58,8 @@ void CPauseUI::Start()
 		CInput::GetInst()->AddBindFunction<CPauseUI>("D", Input_Type::Up, this, &CPauseUI::KeyRight, m_Scene);
 
 		CInput::GetInst()->AddBindFunction<CPauseUI>("Space", Input_Type::Up, this, &CPauseUI::KeySpace, m_Scene);
-		CInput::GetInst()->AddBindFunction<CPauseUI>("Esc", Input_Type::Up, this, &CPauseUI::KeyBack, m_Scene);
+		CInput::GetInst()->AddBindFunction<CPauseUI>("Esc", Input_Type::Up, this, &CPauseUI::KeyEsc, m_Scene);
+		CInput::GetInst()->AddBindFunction<CPauseUI>("E", Input_Type::Up, this, &CPauseUI::KeyE, m_Scene);
 
 		CInput::GetInst()->AddBindFunction<CPauseUI>("LButton", Input_Type::Up, this, &CPauseUI::KeyLeftButton, m_Scene);
 		CInput::GetInst()->AddBindFunction<CPauseUI>("RButton", Input_Type::Up, this, &CPauseUI::KeyRightButton, m_Scene);
@@ -181,6 +182,112 @@ void CPauseUI::CreateBackgroundUI()
 
 void CPauseUI::CreateMapUI()
 {
+	Resolution	RS = CDevice::GetInst()->GetResolution();
+
+	float ButtonSizeX = 232.f;
+	float ButtonSizeY = 232.f;
+
+	float ButtonPosX = 0.f;
+	float ButtonPosY = 450.f;
+
+
+	float LeftPadding = 40.f;
+
+
+	
+	CUIButton* Button = CreateWidget<CUIButton>("MapUI_Patric");
+	Button->SetTexture(EButtonState::Normal, "MapUI_Patric", TEXT("UI/Pause/Map/Partick_01.tga"));
+	Button->SetTexture(EButtonState::Hovered, "MapUI_PatricColor", TEXT("UI/Pause/Map/Partick_02.tga"));
+	Button->SetTexture(EButtonState::Click, "MapUI_PatricColor", TEXT("UI/Pause/Map/Partick_02.tga"));
+	Button->SetPos(ButtonPosX + LeftPadding, ButtonPosY);
+	Button->SetSize(232.f, 232.f);
+
+	m_mapMapUI.insert(std::make_pair("MapUI_Patric", Button));
+
+
+	ButtonPosX += 232.f;
+
+	Button = CreateWidget<CUIButton>("MapUI_DutchMan_Grave");
+	Button->SetTexture(EButtonState::Normal, "MapUI_DutchMan_Grave", TEXT("UI/Pause/Map/UI_DMG.tga"));
+	Button->SetTexture(EButtonState::Hovered, "MapUI_DutchMan_GraveColor", TEXT("UI/Pause/Map/UI_DMG_color.tga"));
+	Button->SetTexture(EButtonState::Click, "MapUI_DutchMan_GraveColor", TEXT("UI/Pause/Map/UI_DMG_color.tga"));
+	Button->SetPos(ButtonPosX + LeftPadding, ButtonPosY);
+	Button->SetSize(154.f, 221.f);
+	
+	m_mapMapUI.insert(std::make_pair("MapUI_DutchMan_Grave", Button));
+
+
+	ButtonPosX += ButtonSizeX;
+
+	Button = CreateWidget<CUIButton>("MapUI_Sand_Mountain");
+	Button->SetTexture(EButtonState::Normal, "MapUI_Sand_Mountain", TEXT("UI/Pause/Map/UI_SM.tga"));
+	Button->SetTexture(EButtonState::Hovered, "MapUI_Sand_MountainColor", TEXT("UI/Pause/Map/UI_SM_color.tga"));
+	Button->SetTexture(EButtonState::Click, "MapUI_Sand_MountainColor", TEXT("UI/Pause/Map/UI_SM_color.tga"));
+	Button->SetPos(ButtonPosX + LeftPadding, ButtonPosY);
+	Button->SetSize(275.f, 254.f);
+
+	m_mapMapUI.insert(std::make_pair("MapUI_Sand_Mountain", Button));
+
+
+	ButtonPosX += ButtonSizeX;
+
+	Button = CreateWidget<CUIButton>("MapUI_Goo_Lagoon");
+	Button->SetTexture(EButtonState::Normal, "MapUI_Goo_Lagoon", TEXT("UI/Pause/Map/UI_GL.tga"));
+	Button->SetTexture(EButtonState::Hovered, "MapUI_Goo_LagoonColor", TEXT("UI/Pause/Map/UI_GL_color.tga"));
+	Button->SetTexture(EButtonState::Click, "MapUI_Goo_LagoonColor", TEXT("UI/Pause/Map/UI_GL_color.tga"));
+	Button->SetPos(ButtonPosX + LeftPadding, ButtonPosY);
+	Button->SetSize(ButtonSizeX, ButtonSizeY);
+
+	m_mapMapUI.insert(std::make_pair("MapUI_Goo_Lagoon", Button));
+
+
+	ButtonPosX += ButtonSizeX;
+
+	Button = CreateWidget<CUIButton>("MapUI_Dome");
+	Button->SetTexture(EButtonState::Normal, "MapUI_Dome", TEXT("UI/Pause/Map/UI_DOME.tga"));
+	Button->SetTexture(EButtonState::Hovered, "MapUI_DomeColor", TEXT("UI/Pause/Map/UI_DOME_color.tga"));
+	Button->SetTexture(EButtonState::Click, "MapUI_DomeColor", TEXT("UI/Pause/Map/UI_DOME_color.tga"));
+	Button->SetPos(ButtonPosX + LeftPadding, ButtonPosY);
+	Button->SetSize(ButtonSizeX, ButtonSizeY);
+
+	m_mapMapUI.insert(std::make_pair("MapUI_Dome", Button));
+
+
+	ButtonPosX += ButtonSizeX;
+
+	Button = CreateWidget<CUIButton>("MapUI_KK");
+	m_mapMapUI.insert(std::make_pair("MapUI_KK", Button));
+
+	Button = CreateWidget<CUIButton>("MapUI_Chum_Bucketlab");
+	m_mapMapUI.insert(std::make_pair("MapUI_Chum_Bucketlab", Button));
+
+	Button = CreateWidget<CUIButton>("MapUI_Merma_Lair");
+	m_mapMapUI.insert(std::make_pair("MapUI_Merma_Lair", Button));
+
+	Button = CreateWidget<CUIButton>("MapUI_Bikini_Bottom");
+	m_mapMapUI.insert(std::make_pair("MapUI_Bikini_Bottom", Button));
+
+	Button = CreateWidget<CUIButton>("MapUI_Down_Town");
+	m_mapMapUI.insert(std::make_pair("MapUI_Down_Town", Button));
+
+	Button = CreateWidget<CUIButton>("MapUI_Krabs");
+	m_mapMapUI.insert(std::make_pair("MapUI_Krabs", Button));
+
+	Button = CreateWidget<CUIButton>("MapUI_Kelp_Forest");
+	m_mapMapUI.insert(std::make_pair("MapUI_Kelp_Forest", Button));
+
+	Button = CreateWidget<CUIButton>("MapUI_Rock_Bottom");
+	m_mapMapUI.insert(std::make_pair("MapUI_Rock_Bottom", Button));
+
+	Button = CreateWidget<CUIButton>("MapUI_Jelly_Fish_Field");
+	m_mapMapUI.insert(std::make_pair("MapUI_Jelly_Fish_Field", Button));
+
+	Button = CreateWidget<CUIButton>("MapUI_Industrial_Park");
+	m_mapMapUI.insert(std::make_pair("MapUI_Industrial_Park", Button));
+
+
+
+
 }
 
 void CPauseUI::CreatePauseUI()
@@ -348,6 +455,7 @@ void CPauseUI::CreateOptionSoundUI()
 	ButtonPosY -= ButtonYInterval;
 	ButtonPosY -= 50.f;
 
+	ButtonPosX = RS.Width / 3.f - ButtonSizeX / 2.f;
 
 	CUITextButton* TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonSfx");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
@@ -392,6 +500,9 @@ void CPauseUI::CreateOptionSoundUI()
 
 	ButtonPosY -= ButtonYInterval;
 
+
+
+	ButtonPosX = RS.Width / 2.f - ButtonSizeX / 2.f;
 
 	TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonReset");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
@@ -599,20 +710,63 @@ void CPauseUI::KeyRightButton()
 	}
 	else if (m_NowUIMode == EUIPauseMode::PauseMain) 
 	{
-		// 맵으로 이동. 하지만 일단은 작동 안하게 설정
-		return;
+		// 맵으로 이동. 
 		m_NowUIMode = EUIPauseMode::PauseMap;
 		InActivePauseUI();
 		ActiveMapUI();
 
 		CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
+		//BackUI_BackgroundOverlay
+
+		CUIImage* Image = (CUIImage*)m_mapBackUI.find("BackUI_BackgroundOverlay")->second.Get();
+		Image->SetTexture("PuaseUIBackgroundOverlay2", TEXT("UI/Pause/UI_Map_overlay.tga"));
 
 		switch (m_MapSelected)
 		{
-		case EUIMapList::End:
+		case EUIMapList::Patric:
+			Text->SetText("뚱이");
 			break;
-		default:
-			Text->SetText("지도");
+		case EUIMapList::DutchMan_Grave:
+			Text->SetText("바다도깨비의 묘지");
+			break;
+		case EUIMapList::Sand_Mountain:
+			Text->SetText("모래산");
+			break;
+		case EUIMapList::Goo_Lagoon:
+			Text->SetText("끈끈이 호수");
+			break;
+		case EUIMapList::Dome:
+			Text->SetText("포세이돔");
+			break;
+		case EUIMapList::KK:
+			Text->SetText("스폰지밥의 꿈");
+			break;
+		case EUIMapList::Chum_Bucketlab:
+			Text->SetText("미끼식당 실험실");
+			break;
+		case EUIMapList::Merma_Lair:
+			Text->SetText("인어 은신처");
+			break;
+		case EUIMapList::Bikini_Bottom:
+			Text->SetText("비키니시티");
+			break;
+		case EUIMapList::Down_Town:
+			Text->SetText("비키니시티 도심");
+			break;
+		case EUIMapList::Krabs:
+			Text->SetText("집게사장");
+			break;
+		case EUIMapList::Kelp_Forest:
+			Text->SetText("켈프 숲");
+			break;
+		case EUIMapList::Rock_Bottom:
+			Text->SetText("메롱 시티");
+			break;
+		case EUIMapList::Jelly_Fish_Field:
+			Text->SetText("해파리 동산");
+			break;
+		case EUIMapList::Industrial_Park:
+			Text->SetText("공업단지");
 			break;
 		}
 	}
@@ -661,14 +815,23 @@ void CPauseUI::KeyRight()
 
 void CPauseUI::KeyE()
 {
+	if (m_NowUIMode == EUIPauseMode::PauseMain)
+	{
+		CUIImage* Image = (CUIImage*)m_mapBackUI.find("BackUI_BackgroundOverlay")->second.Get();
+		Image->SetTexture("PuaseUIBackgroundOverlay", TEXT("UI/Pause/UI_Map_bamboo_overlay.tga"));
+
+		CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
+		Text->SetText("옵션");
+	}
 }
 
 void CPauseUI::KeySpace()
 {
 }
 
-void CPauseUI::KeyBack()
+void CPauseUI::KeyEsc()
 {
+	KeyRightButton();
 }
 
 void CPauseUI::PauseUISound()
@@ -678,9 +841,11 @@ void CPauseUI::PauseUISound()
 	InActivePauseUI();
 	ActiveOptionSoundUI();
 
-
 	CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
 	Text->SetText("사운드 설정");
+
+	// Splotch 위치 조정을 위한 Hover 액션 1회 실행
+	SoundOptionUISFX();
 }
 
 void CPauseUI::PauseUICamera()
@@ -693,6 +858,9 @@ void CPauseUI::PauseUICamera()
 
 	CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
 	Text->SetText("카메라 설정");
+
+	// Splotch 위치 조정을 위한 Hover 액션 1회 실행
+
 }
 
 void CPauseUI::PauseUIControl()
@@ -717,6 +885,9 @@ void CPauseUI::PauseUISave()
 
 	CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
 	Text->SetText("게임 저장");
+
+	// Splotch 위치 조정을 위한 Hover 액션 1회 실행
+	SaveSelectUISaveSlot1Hoverd();
 }
 
 void CPauseUI::PauseUILoad()
@@ -729,6 +900,9 @@ void CPauseUI::PauseUILoad()
 
 	CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
 	Text->SetText("게임 불러오기");
+
+	// Splotch 위치 조정을 위한 Hover 액션 1회 실행
+	SaveSelectUISaveSlot1Hoverd();
 }
 
 void CPauseUI::PauseUIBackToTitle()
@@ -816,16 +990,31 @@ void CPauseUI::PauseUIQuitHovered()
 void CPauseUI::SaveSelectUISaveSlot1Hoverd()
 {
 	m_SaveSelected = EUISaveList::First;
+
+	auto iterSplotch = m_mapSaveSelectUI.find("SaveSelectUI_SelectedSplotch");
+	float PosX = CDevice::GetInst()->GetResolution().Width / 2.f - iterSplotch->second->GetSize().x / 2.f;
+	float PosY = m_mapSaveSelectUI.find("SaveSelectUI_ButtonSaveSLot1")->second->GetPos().y;
+	iterSplotch->second->SetPos(PosX, PosY);
 }
 
 void CPauseUI::SaveSelectUISaveSlot2Hoverd()
 {
 	m_SaveSelected = EUISaveList::Second;
+
+	auto iterSplotch = m_mapSaveSelectUI.find("SaveSelectUI_SelectedSplotch");
+	float PosX = CDevice::GetInst()->GetResolution().Width / 2.f - iterSplotch->second->GetSize().x / 2.f;
+	float PosY = m_mapSaveSelectUI.find("SaveSelectUI_ButtonSaveSLot2")->second->GetPos().y;
+	iterSplotch->second->SetPos(PosX, PosY);
 }
 
 void CPauseUI::SaveSelectUISaveSlot3Hoverd()
 {
 	m_SaveSelected = EUISaveList::Third;
+
+	auto iterSplotch = m_mapSaveSelectUI.find("SaveSelectUI_SelectedSplotch");
+	float PosX = CDevice::GetInst()->GetResolution().Width / 2.f - iterSplotch->second->GetSize().x / 2.f;
+	float PosY = m_mapSaveSelectUI.find("SaveSelectUI_ButtonSaveSLot3")->second->GetPos().y;
+	iterSplotch->second->SetPos(PosX, PosY);
 }
 
 void CPauseUI::SaveSelectClick()
@@ -845,6 +1034,8 @@ void CPauseUI::SaveSelectSaveGame()
 	switch (m_SaveSelected)
 	{
 	case EUISaveList::First:
+		// 게임 세이브 기능 실행
+
 		break;
 	case EUISaveList::Second:
 		break;
@@ -858,6 +1049,9 @@ void CPauseUI::SaveSelectLoadGame()
 	switch (m_SaveSelected)
 	{
 	case EUISaveList::First:
+		// 게임 로드 기능 실행
+
+
 		break;
 	case EUISaveList::Second:
 		break;
