@@ -9,6 +9,8 @@ public:
     CMainSceneInfo();
     ~CMainSceneInfo();
 
+private:
+    class CPlayerUI* m_PlayerUI;
 public:
     virtual bool Init();
 };
