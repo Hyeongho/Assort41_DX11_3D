@@ -2,6 +2,7 @@
 #include "../GameObject/Player.h"
 #include "../GameObject/Patrick.h"
 #include "../GameObject/Sandy.h"
+#include "../GameObject/BikiniBottomBuildings.h"
 #include "../GameObject/KingJellyfish.h"
 #include "../GameObject/Jellyfish.h"
 //#include "../GameObject/Monster.h"
@@ -32,6 +33,11 @@ void CDefaultSetting::Init()
 
 void CDefaultSetting::CreateCDO()
 {
+    //CScene::CreateObjectCDO<CPlayer>("Player");
+    CScene::CreateObjectCDO<CPatrick>("Patrick");
+
+    CScene::CreateObjectCDO<CSandy>("Sandy");
+    CScene::CreateObjectCDO<CBikiniBottomBuildings>("BikiniBottomBuildings");
     CScene::CreateObjectCDO<CPlayer>("Player");
 
     CScene::CreateObjectCDO<CPatrick>("Patrick");
@@ -42,15 +48,14 @@ void CDefaultSetting::CreateCDO()
 
     CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
 
-
 }
 
 void CDefaultSetting::LoadResource()
 {
     LoadPatrick();
     LoadSandy();
-    LoadRoboSponge();
 
+    LoadBuildings();
     LoadKingJellyfish();
     LoadJellyfish();
 
@@ -208,8 +213,13 @@ void CDefaultSetting::LoadSandy()
     CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Death", TEXT("Sandy/Sandy_Death.sqc"), MESH_PATH);
 }
 
-void CDefaultSetting::LoadRoboSponge()
+void CDefaultSetting::LoadBuildings()
 {
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomBuildings", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "BikiniBottomBuildingsSkeleton", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("BikiniBottomBuildings", "BikiniBottomBuildingsSkeleton");
+
+
 }
 
 void CDefaultSetting::LoadKingJellyfish()

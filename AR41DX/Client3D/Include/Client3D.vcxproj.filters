@@ -31,6 +31,9 @@
     <Filter Include="03. GameObject\01.Player">
       <UniqueIdentifier>{b4101f98-8d2c-4fcc-96b4-8890b02f61f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\02. Buildings">
+      <UniqueIdentifier>{598e675c-2861-4ab2-9fc1-fac606945af3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -76,6 +79,9 @@
       <Filter>03. GameObject\01.Player</Filter>
     <ClCompile Include="UI\PlayerUI.cpp">
       <Filter>05. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BikiniBottomBuildings.cpp">
+      <Filter>03. GameObject\02. Buildings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,6 +131,9 @@
       <Filter>03. GameObject\01.Player</Filter>
     <ClInclude Include="UI\PlayerUI.h">
       <Filter>05. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BikiniBottomBuildings.h">
+      <Filter>03. GameObject\02. Buildings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

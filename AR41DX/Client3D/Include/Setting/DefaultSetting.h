@@ -18,6 +18,8 @@ private:
 
     void LoadPatrick();
     void LoadSandy();
+
+    void LoadBuildings();
     void LoadRoboSponge();
 
     void LoadKingJellyfish();
