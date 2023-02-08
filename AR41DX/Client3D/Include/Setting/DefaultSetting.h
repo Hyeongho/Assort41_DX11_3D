@@ -19,5 +19,9 @@ private:
     void LoadPatrick();
     void LoadSandy();
     void LoadRoboSponge();
+
+    void LoadKingJellyfish();
+
+    void LoadJellyfish();
 };
 
