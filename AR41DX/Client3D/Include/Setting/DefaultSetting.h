@@ -18,5 +18,6 @@ private:
 
     void LoadPatrick();
     void LoadSandy();
+    void LoadRoboSponge();
 };
 
