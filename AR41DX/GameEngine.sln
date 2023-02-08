@@ -28,11 +28,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client3D", "Client3D\Includ
 		{5E603626-8885-400C-9B28-A0AAD94BA626} = {5E603626-8885-400C-9B28-A0AAD94BA626}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{901C4444-07E5-4CE0-BAA4-2C16AECB5235}"
-	ProjectSection(SolutionItems) = preProject
-		kbj_test.txt = kbj_test.txt
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

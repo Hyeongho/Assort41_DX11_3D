@@ -18,6 +18,7 @@ private:
 	bool		m_Render2D;
 	class CGlobalConstantBuffer* m_GlobalCBuffer;
 	float		m_AccTime;
+	float		m_TimeScale;	// 글로벌 타임 재생 배율(게임 전체의 시간을 조절할때 씀)
 
 public:
 	bool GetRender2D()	const
@@ -56,6 +57,15 @@ public:
 	HINSTANCE GetWindowInstance()	const
 	{
 		return m_hInst;
+	}
+	//김범중 게임 일시정지 변수 관리 함수
+	float GetTimeScale()	const
+	{
+		return m_TimeScale;
+	}
+	void SetTimeScale(float scale)
+	{
+		m_TimeScale = scale;
 	}
 
 public:

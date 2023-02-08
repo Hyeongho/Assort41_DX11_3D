@@ -157,6 +157,9 @@ void CFBXLoader::LoadMaterial(FbxSurfaceMaterial* Mtrl)
 	// 가장 마지막 컨테이너에 재질 정보를 추가한다.
 	m_vecMaterial[m_vecMaterial.size() - 1].push_back(MtrlInfo);
 
+	//김범중 이름 읽어오기
+	MtrlInfo->Name = Mtrl->GetName();
+
 	// Diffuse 정보를 읽어온다.
 	MtrlInfo->BaseColor = GetMaterialColor(Mtrl, FbxSurfaceMaterial::sDiffuse,
 		FbxSurfaceMaterial::sDiffuseFactor);

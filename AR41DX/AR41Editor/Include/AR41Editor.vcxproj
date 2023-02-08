@@ -193,6 +193,7 @@
     <ClCompile Include="Setting\EngineShareSetting.cpp" />
     <ClCompile Include="UI\LoadingUI.cpp" />
     <ClCompile Include="UI\StartSceneUI.cpp" />
+    <ClCompile Include="Window\CameraWindow.cpp" />
     <ClCompile Include="Window\ClassWindow.cpp" />
     <ClCompile Include="Window\ComponentWindow.cpp" />
     <ClCompile Include="Window\DetailWindow.cpp" />
@@ -204,9 +205,15 @@
     <ClCompile Include="Window\DetailWindow\TargetArmWidgetList.cpp" />
     <ClCompile Include="Window\DetailWindow\TileMapWidgetList.cpp" />
     <ClCompile Include="Window\FBXWindow.cpp" />
+    <ClCompile Include="Window\LightWindow.cpp" />
+    <ClCompile Include="Window\MaterialWindow.cpp" />
+    <ClCompile Include="Window\MeshWindow.cpp" />
     <ClCompile Include="Window\ObjectWindow.cpp" />
+    <ClCompile Include="Window\PathWindow.cpp" />
     <ClCompile Include="Window\ResourceWindow.cpp" />
+    <ClCompile Include="Window\RigidBodyWindow.cpp" />
     <ClCompile Include="Window\SceneWindow.cpp" />
+    <ClCompile Include="Window\TargetArmWindow.cpp" />
     <ClCompile Include="Window\TestWindow.cpp" />
     <ClCompile Include="Window\TransformWindow.cpp" />
     <ClCompile Include="Window\UIButtonWindow.cpp" />
@@ -229,6 +236,7 @@
     <ClInclude Include="Setting\EngineShareSetting.h" />
     <ClInclude Include="UI\LoadingUI.h" />
     <ClInclude Include="UI\StartSceneUI.h" />
+    <ClInclude Include="Window\CameraWindow.h" />
     <ClInclude Include="Window\ClassWindow.h" />
     <ClInclude Include="Window\ComponentWindow.h" />
     <ClInclude Include="Window\DetailWindow.h" />
@@ -240,9 +248,15 @@
     <ClInclude Include="Window\DetailWindow\TargetArmWidgetList.h" />
     <ClInclude Include="Window\DetailWindow\TileMapWidgetList.h" />
     <ClInclude Include="Window\FBXWindow.h" />
+    <ClInclude Include="Window\LightWindow.h" />
+    <ClInclude Include="Window\MaterialWindow.h" />
+    <ClInclude Include="Window\MeshWindow.h" />
     <ClInclude Include="Window\ObjectWindow.h" />
+    <ClInclude Include="Window\PathWindow.h" />
     <ClInclude Include="Window\ResourceWindow.h" />
+    <ClInclude Include="Window\RigidBodyWindow.h" />
     <ClInclude Include="Window\SceneWindow.h" />
+    <ClInclude Include="Window\TargetArmWindow.h" />
     <ClInclude Include="Window\TestWindow.h" />
     <ClInclude Include="Window\TransformWindow.h" />
     <ClInclude Include="Window\UIButtonWindow.h" />

@@ -1,7 +1,8 @@
 #include "ThreadManager.h"
-#include "../Component/TileMapComponent.h"
+#include "../Component/SceneComponent.h"
 #include "../Scene/Scene.h"
-#include "NavigationThread.h"
+#include "Navigation2DThread.h"
+#include "Navigation3DThread.h"
 
 DEFINITION_SINGLE(CThreadManager)
 
@@ -12,8 +13,8 @@ CThreadManager::CThreadManager()
 CThreadManager::~CThreadManager()
 {
 	{
-		auto	iter = m_mapThread.begin();
-		auto	iterEnd = m_mapThread.end();
+		auto iter = m_mapThread.begin();
+		auto iterEnd = m_mapThread.end();
 
 		for (; iter != iterEnd; iter++)
 		{
@@ -53,7 +54,9 @@ bool CThreadManager::Suspend(const std::string& Name)
 	CThread* Thread = FindThread(Name);
 
 	if (!Thread)
+	{
 		return false;
+	}
 
 	Thread->Suspend();
 
@@ -65,7 +68,9 @@ bool CThreadManager::Resume(const std::string& Name)
 	CThread* Thread = FindThread(Name);
 
 	if (!Thread)
+	{
 		return false;
+	}
 
 	Thread->Resume();
 
@@ -77,7 +82,9 @@ bool CThreadManager::ReStart(const std::string& Name)
 	CThread* Thread = FindThread(Name);
 
 	if (!Thread)
+	{
 		return false;
+	}
 
 	Thread->ReStart();
 
@@ -86,10 +93,12 @@ bool CThreadManager::ReStart(const std::string& Name)
 
 bool CThreadManager::Delete(const std::string& Name)
 {
-	auto	iter = m_mapThread.find(Name);
+	auto iter = m_mapThread.find(Name);
 
 	if (iter == m_mapThread.end())
+	{
 		return false;
+	}
 
 	iter->second->Stop();
 	SAFE_DELETE(iter->second);
@@ -104,26 +113,28 @@ bool CThreadManager::Start(const std::string& Name)
 	CThread* Thread = FindThread(Name);
 
 	if (!Thread)
+	{
 		return false;
+	}
 
 	Thread->Start();
 
 	return true;
 }
 
-void CThreadManager::CreateNavigationThread(CTileMapComponent* TileMap)
+void CThreadManager::CreateNavigationThread(CSceneComponent* NavComponent, bool Is2D)
 {
-	CScene* Scene = TileMap->GetScene();
+	CScene* Scene = NavComponent->GetScene();
 
-	unsigned __int64	Address = (unsigned __int64)Scene;
+	unsigned __int64 Address = (unsigned __int64)Scene;
 
-	char	SceneAddress[32] = {};
+	char SceneAddress[32] = {};
 
 	sprintf_s(SceneAddress, "%llu", Address);
 
 	std::string	Name = Scene->GetName();
 	Name += "_";
-	Name += TileMap->GetName();
+	Name += NavComponent->GetName();
 	Name += "_";
 	Name += SceneAddress;
 
@@ -131,41 +142,53 @@ void CThreadManager::CreateNavigationThread(CTileMapComponent* TileMap)
 
 	GetSystemInfo(&SysInfo);
 
-	for (DWORD i = 0; i < SysInfo.dwNumberOfProcessors * 2; ++i)
+	for (DWORD i = 0; i < SysInfo.dwNumberOfProcessors * 2; i++)
 	{
-		char	ThreadName[256] = {};
+		char ThreadName[256] = {};
 
 		sprintf_s(ThreadName, "%s_%d", Name.c_str(), (int)i);
 
-		CNavigationThread* Thread = Create<CNavigationThread>(ThreadName);
+		CNavigationThread* Thread = nullptr;
 
-		Scene->GetNavigationManager()->AddNavigationThread(Thread);
+		if (Is2D)
+		{
+			Thread = Create<CNavigation2DThread>(ThreadName);
+		}
 
-		Thread->SetTileMapComponent(TileMap);
+		else
+		{
+			Thread = Create<CNavigation3DThread>(ThreadName);
+		}
+
+		Thread->SetNavigationComponent(NavComponent);
 		Thread->SetLoop(true);
 
 		Thread->Start();
 
 		Thread->Suspend();
+
+		Scene->GetNavigationManager()->AddNavigationThread(Thread);
 	}
 }
 
-void CThreadManager::DeleteNavigationThread(CTileMapComponent* TileMap)
+void CThreadManager::DeleteNavigationThread(CSceneComponent* NavComponent)
 {
-	CScene* Scene = TileMap->GetScene();
+	CScene* Scene = NavComponent->GetScene();
 
 	if (!Scene)
+	{
 		return;
+	}
 
-	unsigned __int64	Address = (unsigned __int64)Scene;
+	unsigned __int64 Address = (unsigned __int64)Scene;
 
-	char	SceneAddress[32] = {};
+	char SceneAddress[32] = {};
 
 	sprintf_s(SceneAddress, "%llu", Address);
 
-	std::string	Name = TileMap->GetSceneName();
+	std::string	Name = NavComponent->GetSceneName();
 	Name += "_";
-	Name += TileMap->GetName();
+	Name += NavComponent->GetName();
 	Name += "_";
 	Name += SceneAddress;
 
@@ -173,13 +196,18 @@ void CThreadManager::DeleteNavigationThread(CTileMapComponent* TileMap)
 
 	GetSystemInfo(&SysInfo);
 
-	for (DWORD i = 0; i < SysInfo.dwNumberOfProcessors * 2; ++i)
+	for (DWORD i = 0; i < SysInfo.dwNumberOfProcessors * 2; i++)
 	{
-		char	ThreadName[256] = {};
+		char ThreadName[256] = {};
 
 		sprintf_s(ThreadName, "%s_%d", Name.c_str(), (int)i);
 
 		CThread* Thread = FindThread(ThreadName);
+
+		if (!Thread)
+		{
+			continue;
+		}
 
 		Thread->ReStart();
 
@@ -189,10 +217,12 @@ void CThreadManager::DeleteNavigationThread(CTileMapComponent* TileMap)
 
 CThread* CThreadManager::FindThread(const std::string& Name)
 {
-	auto	iter = m_mapThread.find(Name);
+	auto iter = m_mapThread.find(Name);
 
 	if (iter == m_mapThread.end())
+	{
 		return nullptr;
+	}
 
 	return iter->second;
 }
@@ -202,7 +232,9 @@ bool CThreadManager::CreateCriticalSection(const std::string& Name)
 	CRITICAL_SECTION* Crt = FindCriticalSection(Name);
 
 	if (Crt)
+	{
 		return false;
+	}
 
 	Crt = new CRITICAL_SECTION;
 
@@ -215,10 +247,12 @@ bool CThreadManager::CreateCriticalSection(const std::string& Name)
 
 bool CThreadManager::DeleteCriticalSection(const std::string& Name)
 {
-	auto	iter = m_mapCriticalSection.find(Name);
+	auto iter = m_mapCriticalSection.find(Name);
 
 	if (iter == m_mapCriticalSection.end())
+	{
 		return false;
+	}
 
 	::DeleteCriticalSection(iter->second);
 
@@ -231,10 +265,12 @@ bool CThreadManager::DeleteCriticalSection(const std::string& Name)
 
 CRITICAL_SECTION* CThreadManager::FindCriticalSection(const std::string& Name)
 {
-	auto	iter = m_mapCriticalSection.find(Name);
+	auto iter = m_mapCriticalSection.find(Name);
 
-	if(iter == m_mapCriticalSection.end())
+	if (iter == m_mapCriticalSection.end())
+	{
 		return nullptr;
+	}
 
 	return iter->second;
 }

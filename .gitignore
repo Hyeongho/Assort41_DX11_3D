@@ -15,6 +15,7 @@
 *.so
 *.dylib
 *.dll
+*.lib
 
 # Fortran module files
 *.mod
@@ -24,19 +25,19 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
 *.out
 *.app
-
 *.pdb
 *.tlog
 *.idb
-*.lik
-*.tlog
-
+*.ini
+*.log
+*.ilk
 
 .svn/
 .vs/
+.AR41DX/AR41Editor/BinObjDebug
+.AR41DX/Client3D/BinObj_Debug

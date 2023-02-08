@@ -33,12 +33,14 @@ public:
 	bool AddItem(class CGameObject* Object, const std::string& Name, const std::string& ParentName = "Root");
 	bool AddItem(class CUIWindow* window, const std::string& name, const std::string& parentName = "Canvas");
 	void AddItemList(class CScene* scene);
+	void AddInput(class CScene* scene);
 public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
 	void Clear();
 	void ClearSelect();
 	void Delete();
+	void Pause();
 
 private:
 	void TreeCallback(CEditorTreeItem<CGameObject*>* Node, const std::string& Item);

@@ -455,6 +455,8 @@ bool CMesh::ConvertFBX(CFBXLoader* Loader, const char* FullPath)
 
 			CMaterial* Material = new CMaterial;
 
+			//김범중 매터리얼 이름 저장
+			Material->SetName(Mtrl->Name);
 			Material->SetBaseColor(Mtrl->BaseColor);
 			Material->SetAmbientColor(Mtrl->AmbientColor);
 			Material->SetSpecularColor(Mtrl->SpecularColor);

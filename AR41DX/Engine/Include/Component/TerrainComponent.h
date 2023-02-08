@@ -22,6 +22,47 @@ private:
     std::vector<unsigned int> m_vecIndex;
     std::vector<Vector3> m_vecFaceNormal;
     class CTerrainConstantBuffer* m_CBuffer;
+    bool m_Grid;
+
+public:
+    int GetFaceCount() const
+    {
+        return (int)m_vecIndex.size() / 3;
+    }
+
+    bool GetFaceIndex(unsigned int Index[3], int FaceIndex)
+    {
+        Index[0] = m_vecIndex[FaceIndex * 3];
+        Index[1] = m_vecIndex[FaceIndex * 3 + 1];
+        Index[2] = m_vecIndex[FaceIndex * 3 + 2];
+
+        return true;
+    }
+
+    const Vector3& GetVertexPos(int Index) const
+    {
+        return m_vecVtx[Index].Pos;
+    }
+
+    bool GetGrid() const
+    {
+        return m_Grid;
+    }
+
+    int GetCountX() const
+    {
+        return m_CountX;
+    }
+
+    int GetCountY() const
+    {
+        return m_CountY;
+    }
+
+    Vector2 GetCellSize()   const
+    {
+        return m_CellSize;
+    }
 
 public:
     void SetDetailLevel(float Level);

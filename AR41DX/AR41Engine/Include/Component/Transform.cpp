@@ -696,12 +696,12 @@ void CTransform::AddRelativePosition(const Vector3& Pos)
 
 	InheritParentRotationPos();
 
-	size_t	Size = m_vecChild.size();
+	/*size_t	Size = m_vecChild.size();
 
 	for (size_t i = 0; i < Size; i++)
 	{
 		m_vecChild[i]->AddChildRelativePosition(Pos);
-	}
+	}*/
 }
 
 void CTransform::AddRelativePosition(const Vector2& Pos)
@@ -1186,12 +1186,12 @@ void CTransform::AddWorldPosition(const Vector3& Pos)
 
 	InheritWorldParentRotationPos();
 
-	size_t	Size = m_vecChild.size();
+	/*size_t	Size = m_vecChild.size();
 
 	for (size_t i = 0; i < Size; i++)
 	{
 		m_vecChild[i]->AddChildWorldPosition(Pos);
-	}
+	}*/
 }
 
 void CTransform::AddWorldPosition(const Vector2& Pos)
