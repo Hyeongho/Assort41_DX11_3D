@@ -30,11 +30,11 @@ protected:
     virtual ~CUIButton();
 
 protected:
-    UIWidgetImageInfo   m_TextureInfo[(int)EButtonState::Max];
-    CSharedPtr<class CSound>    m_Sound[(int)EButtonEventState::Max];
-    EButtonState        m_State;
-    std::function<void()>   m_ClickCallback[(int)EButtonEventState::Max];
-    bool    m_MouseHovered;
+    UIWidgetImageInfo m_TextureInfo[(int)EButtonState::Max];
+    CSharedPtr<class CSound> m_Sound[(int)EButtonEventState::Max];
+    EButtonState m_State;
+    std::function<void()> m_ClickCallback[(int)EButtonEventState::Max];
+    bool m_MouseHovered;
 
 public:
     UIWidgetImageInfo GetTextureInfo(int index)	const
@@ -45,7 +45,7 @@ public:
     {
         return m_State;
     }
-    bool GetButtonEnable()	const
+    bool GetButtonEnable() const
     {
         return m_State != EButtonState::Disable;
     }

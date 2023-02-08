@@ -16,28 +16,32 @@ CThread::~CThread()
 
 void CThread::Suspend()
 {
-    CSync   sync(&m_CRT);
+    {
+        CSync sync(&m_CRT);
+
+        m_Suspend = true;
+    }
 
     SuspendThread(m_Thread);
-
-    m_Suspend = true;
 }
 
 void CThread::Resume()
 {
-    CSync   sync(&m_CRT);
+    CSync sync(&m_CRT);
 
     DWORD Count = ResumeThread(m_Thread);
 
     if (Count > 0)
+    {
         m_Suspend = false;
+    }
 }
 
 void CThread::ReStart()
 {
-    CSync   sync(&m_CRT);
+    CSync sync(&m_CRT);
 
-    DWORD   Count = 0;
+    DWORD Count = 0;
 
     do
     {
@@ -73,8 +77,7 @@ bool CThread::Init()
 
     InitializeCriticalSection(&m_CRT);
 
-    m_Thread = (HANDLE)_beginthreadex(nullptr, 0, CThread::ThreadFunction,
-        (void*)this, 0, nullptr);
+    m_Thread = (HANDLE)_beginthreadex(nullptr, 0, CThread::ThreadFunction, (void*)this, 0, nullptr);
 
     return true;
 }

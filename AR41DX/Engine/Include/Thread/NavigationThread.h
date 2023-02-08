@@ -25,7 +25,7 @@ public:
 	virtual void SetNavigationComponent(class CSceneComponent* TileMap) = 0;
 
 	void AddInputData(class CNavigationAgent* Agent, const Vector2& End);
-	void AddInputData(class CNavigationAgent* Agent, const Vector3& End);
+	void AddInputData(class CNavigationAgent3D* Agent, const Vector3& End);
 
 public:
 	virtual void Run() = 0;

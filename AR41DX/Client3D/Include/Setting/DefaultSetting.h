@@ -21,5 +21,9 @@ private:
 
     void LoadBuildings();
     void LoadRoboSponge();
+
+    void LoadKingJellyfish();
+
+    void LoadJellyfish();
 };
 

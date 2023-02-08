@@ -8,8 +8,9 @@
 #include "../PathManager.h"
 #include "../Resource/Shader/TerrainConstantBuffer.h"
 #include "../Thread/ThreadManager.h"
+#include "../Scene/NavigationManager3D.h"
 
-CTerrainComponent::CTerrainComponent() : m_CountX(0), m_CountY(0), m_Grid(false)
+CTerrainComponent::CTerrainComponent() : m_CountX(0), m_CountY(0), m_HeightMapX(0), m_HeightMapY(0), m_Grid(false)
 {
 	SetTypeID<CTerrainComponent>();
 
@@ -35,7 +36,6 @@ CTerrainComponent::CTerrainComponent(const CTerrainComponent& component) : CPrim
 
 CTerrainComponent::~CTerrainComponent()
 {
-	CThreadManager::GetInst()->DeleteNavigationThread(this);
 	SAFE_DELETE(m_CBuffer);
 }
 
@@ -131,6 +131,8 @@ void CTerrainComponent::Start()
 {
 	CPrimitiveComponent::Start();
 
+	SetSplatCount(4);
+
 	m_CBuffer->UpdateBuffer();
 }
 
@@ -173,7 +175,9 @@ void CTerrainComponent::Load(FILE* File)
 {
 	CPrimitiveComponent::Load(File);
 
-	CThreadManager::GetInst()->CreateNavigationThread(this, false);
+	CNavigationManager3D* NavMgr = (CNavigationManager3D*)m_Scene->GetNavigationManager();
+
+	NavMgr->CreateNavigationMesh(this);
 }
 
 void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float SizeY, const TCHAR* HeightMapName, const std::string& HeightMapPath)
@@ -249,6 +253,9 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 
 		const DirectX::Image* PixelInfo = Img.GetImages();
 
+		m_HeightMapX = (int)PixelInfo->width;
+		m_HeightMapY = (int)PixelInfo->height;
+
 		for (size_t i = 0; i < PixelInfo->height; i++)
 		{
 			for (size_t j = 0; j < PixelInfo->width; j++)
@@ -277,9 +284,9 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 		for (int j = 0; j < m_CountX; j++)
 		{
 			Vertex3DStatic	Vtx;
-			Vtx.Pos = Vector3((float)j * m_CellSize.x, vecY[i * m_CountX + j], (m_Size.y - m_CellSize.y) - (float)i * m_CellSize.y);
+			Vtx.Pos = Vector3((float)j * m_CellSize.x, vecY[i * m_HeightMapX + j], (m_Size.y - m_CellSize.y) - (float)i * m_CellSize.y);
 			//Vtx.Normal = Vector3(0.f, 1.f, 0.f);
-			Vtx.UV = Vector2((float)j / (float)(m_CountX - 1), 1.f - (float)i / (float)(m_CountY - 1));
+			Vtx.UV = Vector2((float)j / (float)(m_CountX - 1), (float)i / (float)(m_CountY - 1));
 
 			m_vecVtx.push_back(Vtx);
 		}
@@ -370,7 +377,9 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 
 	AddMaterial("DefaultTerrain");
 
-	CThreadManager::GetInst()->CreateNavigationThread(this, false);
+	CNavigationManager3D* NavMgr = (CNavigationManager3D*)m_Scene->GetNavigationManager();
+
+	NavMgr->CreateNavigationMesh(this);
 }
 
 void CTerrainComponent::ComputeNormal()

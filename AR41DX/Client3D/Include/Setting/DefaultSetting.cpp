@@ -3,6 +3,8 @@
 #include "../GameObject/Patrick.h"
 #include "../GameObject/Sandy.h"
 #include "../GameObject/BikiniBottomBuildings.h"
+#include "../GameObject/KingJellyfish.h"
+#include "../GameObject/Jellyfish.h"
 //#include "../GameObject/Monster.h"
 //#include "../GameObject/Bullet.h"
 //#include "../UI/StartSceneUI.h"
@@ -22,9 +24,9 @@ void CDefaultSetting::Init()
 {
     LoadResource();
 
-	CreateCDO();
+    CreateCDO();
 
-	SetInput();
+    SetInput();
 
     SetCollision();
 }
@@ -36,6 +38,16 @@ void CDefaultSetting::CreateCDO()
 
     CScene::CreateObjectCDO<CSandy>("Sandy");
     CScene::CreateObjectCDO<CBikiniBottomBuildings>("BikiniBottomBuildings");
+    CScene::CreateObjectCDO<CPlayer>("Player");
+
+    CScene::CreateObjectCDO<CPatrick>("Patrick");
+
+    CScene::CreateObjectCDO<CSandy>("Sandy");
+
+    CScene::CreateObjectCDO<CKingJellyfish>("KingJellyfish");
+
+    CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
+
 }
 
 void CDefaultSetting::LoadResource()
@@ -44,6 +56,9 @@ void CDefaultSetting::LoadResource()
     LoadSandy();
 
     LoadBuildings();
+    LoadKingJellyfish();
+    LoadJellyfish();
+
     /*
    CResourceManager::GetInst()->AddSocket("PlayerSkeleton",
         "bone11", "Weapon", Vector3(0.f, -60.f, 0.f), Vector3(0.f, 0.f, 90.f));
@@ -63,18 +78,20 @@ void CDefaultSetting::LoadResource()
 void CDefaultSetting::SetInput()
 {
     // 캐릭터 키 하나로 통일 필요! - Move, LButton, RButton, Space
-    // Patrick
-    CInput::GetInst()->AddBindKey("PatrickMoveRight", 'D');
-    CInput::GetInst()->AddBindKey("PatrickMoveLeft", 'A');
 
-    CInput::GetInst()->AddBindKey("PatrickMoveFront", 'W');
-    CInput::GetInst()->AddBindKey("PatrickMoveBack", 'S');
+    CInput::GetInst()->AddBindKey("MoveRight", 'D');
+    CInput::GetInst()->AddBindKey("MoveLeft", 'A');
 
-    CInput::GetInst()->AddBindKey("PatrickJump", VK_SPACE);
+    CInput::GetInst()->AddBindKey("MoveFront", 'W');
+    CInput::GetInst()->AddBindKey("MoveBack", 'S');
 
-    CInput::GetInst()->AddBindKey("PatrickLButton", VK_LBUTTON);
+    CInput::GetInst()->AddBindKey("Jump", VK_SPACE);
+
+    CInput::GetInst()->AddBindKey("LButton", VK_LBUTTON);
 
     CInput::GetInst()->AddBindKey("RButton", VK_RBUTTON);
+
+    // Patrick
 
     CInput::GetInst()->AddBindKey("Push", VK_LBUTTON);
     CInput::GetInst()->AddBindKey("SlamDown", VK_RBUTTON);
@@ -84,15 +101,6 @@ void CDefaultSetting::SetInput()
 
 
     // Sandy
-    CInput::GetInst()->AddBindKey("SandyMoveRight", 'D');
-    CInput::GetInst()->AddBindKey("SandyMoveLeft", 'A');
-
-    CInput::GetInst()->AddBindKey("SandyMoveFront", 'W');
-    CInput::GetInst()->AddBindKey("SandyMoveBack", 'S');
-
-    CInput::GetInst()->AddBindKey("SandyJump", VK_SPACE);
-
-    CInput::GetInst()->AddBindKey("RButton", VK_RBUTTON);
 
     CInput::GetInst()->AddBindKey("MClick", VK_MBUTTON);
     CInput::GetInst()->AddBindKey("Del", VK_DELETE);
@@ -212,4 +220,33 @@ void CDefaultSetting::LoadBuildings()
     CResourceManager::GetInst()->SetMeshSkeleton("BikiniBottomBuildings", "BikiniBottomBuildingsSkeleton");
 
 
+}
+
+void CDefaultSetting::LoadKingJellyfish()
+{
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "KingJellyfish", TEXT("KingJellyfish/KingJellyfish.fbx"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "KingJellyfishSkeleton", TEXT("KingJellyfish/KingJellyfish.bne"), MESH_PATH);
+
+    CResourceManager::GetInst()->SetMeshSkeleton("KingJellyfish", "KingJellyfishSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Idle", TEXT("KingJellyfish/bossJellyKing_Idle.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Angry", TEXT("KingJellyfish/bossJellyKing_angry.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Attack", TEXT("KingJellyfish/bossJellyKing_attack.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Damage", TEXT("KingJellyfish/bossJellyKing_damage.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_OnGround", TEXT("KingJellyfish/bossJellyKing_onGround.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_SpawnJellyfish", TEXT("KingJellyfish/bossJellyKing_spawnJellyfish.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Victory", TEXT("KingJellyfish/bossJellyKing_victory.sqc"), MESH_PATH);
+}
+
+void CDefaultSetting::LoadJellyfish()
+{
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Jellyfish", TEXT("Jellyfish/Jellyfish.fbx"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "JellyfishSkeleton", TEXT("Jellyfish/Jellyfish.bne"), MESH_PATH);
+
+    CResourceManager::GetInst()->SetMeshSkeleton("Jellyfish", "JellyfishSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Jellyfish_Attack", TEXT("Jellyfish/Jellyfish_attack.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Jellyfish_Death", TEXT("Jellyfish/Jellyfish_death.sqc"), MESH_PATH);
 }
