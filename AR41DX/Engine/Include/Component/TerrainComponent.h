@@ -16,6 +16,8 @@ protected:
 private:
     int m_CountX;
     int m_CountY;
+    int m_HeightMapX;
+    int m_HeightMapY;
     Vector2 m_CellSize;
     Vector2 m_Size;
     std::vector<Vertex3DStatic> m_vecVtx;

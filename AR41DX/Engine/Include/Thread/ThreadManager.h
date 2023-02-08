@@ -17,6 +17,8 @@ public:
 	bool Start(const std::string& Name);
 	void CreateNavigationThread(class CSceneComponent* NavComponent, bool Is2D = true);
 	void DeleteNavigationThread(class CSceneComponent* NavComponent);
+	void CreateNavigationThread(class CNavigationMesh* NavMesh);
+	void DeleteNavigationThread(class CNavigationMesh* NavMesh);
 	CThread* FindThread(const std::string& Name);
 
 	bool CreateCriticalSection(const std::string& Name);

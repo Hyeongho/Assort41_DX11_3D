@@ -353,7 +353,17 @@ Vector3 Vector3::Cross(const Vector3& v) const
 
 float Vector3::Angle(const Vector3& v) const
 {
-    return 0.0f;
+    Vector3 v1 = *this;
+    Vector3 v2 = v;
+
+    v1.Normalize();
+    v2.Normalize();
+
+    float Angle = v1.Dot(v2);
+
+    Angle = RadianToDegree(acosf(Angle));
+
+    return Angle;
 }
 
 Vector3 Vector3::ConvertAngle() const

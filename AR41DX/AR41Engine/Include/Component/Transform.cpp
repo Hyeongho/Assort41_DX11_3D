@@ -1,4 +1,3 @@
-
 #include "Transform.h"
 #include "../Resource/Shader/TransformConstantBuffer.h"
 #include "../Scene/Scene.h"
@@ -996,22 +995,42 @@ void CTransform::SetWorldRotationZ(float z)
 	SetWorldRotation(Vector3(m_WorldRot.x, m_WorldRot.y, z));
 }
 
+void CTransform::SetWorldRotationAxis(const Vector3& OriginDir, const Vector3& View)
+{
+	m_UpdateRotAxis = true;
+
+	Vector3	RotAxis = OriginDir.Cross(View);
+	RotAxis.Normalize();
+
+	float Angle = OriginDir.Angle(View);
+
+	m_matRot = DirectX::XMMatrixRotationAxis(RotAxis.Convert(), DegreeToRadian(Angle));
+
+	for (int i = 0; i < AXIS_MAX; i++)
+	{
+		m_WorldAxis[i] = Vector3::Axis[i].TransformNormal(m_matRot);
+		m_WorldAxis[i].Normalize();
+	}
+}
+
 void CTransform::SetWorldPosition(const Vector3& Pos)
 {
 	m_WorldPos = Pos;
 
 	// 부모가 없을 경우라면 상대적인 위치를 월드공간에서의 위치와 동일한 위치로 적용을 한다.
 	if (!m_Parent)
+	{
 		m_RelativePos = m_WorldPos - m_Offset;
+	}
 
 	InheritWorldParentRotationPos();
 
-	size_t	Size = m_vecChild.size();
+	/*size_t Size = m_vecChild.size();
 
 	for (size_t i = 0; i < Size; i++)
 	{
 		m_vecChild[i]->SetChildWorldPosition(Pos);
-	}
+	}*/
 
 }
 

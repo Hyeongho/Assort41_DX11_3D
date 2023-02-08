@@ -3,16 +3,16 @@
 
 struct VS_OUTPUT_LIGHTACC
 {
-	float4	Pos : SV_POSITION;
-	float4	ProjPos : POSITION;
+	float4 Pos : SV_POSITION;
+	float4 ProjPos : POSITION;
     uint InstanceID : TEXCOORD;
 };
 
 struct PS_OUTPUT_LIGHTACC
 {
-	float4	Diffuse : SV_TARGET;
-	float4	Specular : SV_TARGET1;
-	float4	Emissive : SV_TARGET2;
+	float4 Diffuse : SV_TARGET;
+	float4 Specular : SV_TARGET1;
+	float4 Emissive : SV_TARGET2;
 };
 
 Texture2DMS<float4> g_GBuffer1Tex : register(t14);
@@ -26,24 +26,24 @@ Texture2DMS<float4> g_LightEmissiveTex : register(t20);
 
 Texture2DMS<float4> g_ScreenTex : register(t21);
 
-#define LightTypeDir    0
-#define LightTypePoint  1
-#define LightTypeSpot   2
+#define LightTypeDir 0
+#define LightTypePoint 1
+#define LightTypeSpot 2
 
 struct LightInfo
 {
-    float4	LightColor;
-    int		LightLightType;
-    float3	LightPos;
-    float3	LightDir;
-    float	LightDistance;
-    float	LightAngleIn;
-    float	LightAngleOut;
-    float	LightAtt1;
-    float	LightAtt2;
-    float	LightAtt3;
-    float   LightIntensity;
-    float2	LightEmpty;
+    float4 LightColor;
+    int LightLightType;
+    float3 LightPos;
+    float3 LightDir;
+    float LightDistance;
+    float LightAngleIn;
+    float LightAngleOut;
+    float LightAtt1;
+    float LightAtt2;
+    float LightAtt3;
+    float LightIntensity;
+    float2 LightEmpty;
 };
 
 StructuredBuffer<LightInfo> g_LightInfoArray : register(t41);
@@ -55,15 +55,14 @@ struct LightResult
     float3 Emissive;
 };
 
-LightResult ComputeLight(float3 ViewPos, float3 ViewNormal,
-    float SpecularPower, uint InstanceID, float4 GBuffer4Color)
+LightResult ComputeLight(float3 ViewPos, float3 ViewNormal, float SpecularPower, uint InstanceID, float4 GBuffer4Color)
 {
     LightResult result = (LightResult)0;
 
-    float3  LightDir = (float3)0.f;
-    float   Attn = 1.f;
+    float3 LightDir = (float3)0.f;
+    float Attn = 1.f;
 
-    LightInfo   Info = g_LightInfoArray[InstanceID];
+    LightInfo Info = g_LightInfoArray[InstanceID];
 
     if (Info.LightLightType == LightTypeDir)
     {
@@ -79,7 +78,9 @@ LightResult ComputeLight(float3 ViewPos, float3 ViewNormal,
         float Dist = distance(Info.LightPos, ViewPos);
 
         if (Dist > Info.LightDistance)
+        {
             Attn = 0.f;
+        }
 
         else
         {
@@ -92,16 +93,18 @@ LightResult ComputeLight(float3 ViewPos, float3 ViewNormal,
     {
     }
 
-    float   Intensity = max(0.f, dot(ViewNormal, LightDir)) *
-        Info.LightIntensity;
+    /*float   Intensity = max(0.f, dot(ViewNormal, LightDir)) *
+        Info.LightIntensity;*/
 
-    float3  BaseColor = ConvertColor(GBuffer4Color.r).rgb;
-    float3  AmbientColor = ConvertColor(GBuffer4Color.g).rgb;
-    float3  SpecularColor = ConvertColor(GBuffer4Color.b).rgb;
-    float3  EmissiveColor = ConvertColor(GBuffer4Color.a).rgb;
+    float Intensity = max(0.f, dot(ViewNormal, LightDir));
+
+    float3 BaseColor = ConvertColor(GBuffer4Color.r).rgb;
+    float3 AmbientColor = ConvertColor(GBuffer4Color.g).rgb;
+    float3 SpecularColor = ConvertColor(GBuffer4Color.b).rgb;
+    float3 EmissiveColor = ConvertColor(GBuffer4Color.a).rgb;
 
     float3 Diffuse = Info.LightColor.rgb * BaseColor * Intensity * Attn;
-    float3 Ambient = Info.LightColor.rgb * 0.2f * AmbientColor * Intensity * Attn;
+    float3 Ambient = Info.LightColor.rgb * AmbientColor * Intensity * Attn;
 
     result.Diffuse = Diffuse * Ambient;
 
@@ -110,15 +113,12 @@ LightResult ComputeLight(float3 ViewPos, float3 ViewNormal,
     View = normalize(View);
 
     // 반사벡터를 구한다.
-    float3  Reflect = 2.f * ViewNormal * dot(ViewNormal, LightDir) -
-        LightDir;
+    float3 Reflect = 2.f * ViewNormal * dot(ViewNormal, LightDir) - LightDir;
     Reflect = normalize(Reflect);
 
-    float   SpecularIntensity = max(0.f, dot(View, Reflect)) *
-        Info.LightIntensity;
+    float SpecularIntensity = max(0.f, dot(View, Reflect)) * Info.LightIntensity;
 
-    result.Specular = Info.LightColor.rgb * SpecularColor *
-        pow(SpecularIntensity, SpecularPower) * Attn;
+    result.Specular = Info.LightColor.rgb * SpecularColor * pow(SpecularIntensity, SpecularPower) * Attn;
 
     result.Emissive = EmissiveColor * Info.LightIntensity;
 
@@ -127,10 +127,9 @@ LightResult ComputeLight(float3 ViewPos, float3 ViewNormal,
 
 
 
-VS_OUTPUT_LIGHTACC LightAccVS(uint VertexID : SV_VertexID,
-	uint InstanceID : SV_InstanceID)
+VS_OUTPUT_LIGHTACC LightAccVS(uint VertexID : SV_VertexID, uint InstanceID : SV_InstanceID)
 {
-	VS_OUTPUT_LIGHTACC	output = (VS_OUTPUT_LIGHTACC)0;
+	VS_OUTPUT_LIGHTACC output = (VS_OUTPUT_LIGHTACC)0;
 
     output.ProjPos = float4(g_NullPos[VertexID], 0.f, 1.f);
     output.Pos = output.ProjPos;
@@ -159,13 +158,15 @@ PS_OUTPUT_LIGHTACC LightAccPS(VS_OUTPUT_LIGHTACC input)
     float4 GBuffer3Color = g_GBuffer3Tex.Load(LoadPos, 0);
 
     if (GBuffer3Color.a == 0.f)
+    {
         clip(-1);
+    }
 
     float4 GBuffer2Color = g_GBuffer2Tex.Load(LoadPos, 0);
     float4 GBuffer4Color = g_GBuffer4Tex.Load(LoadPos, 0);
 
     // 조명을 그려내는 투영공간의 위치를 이용해서 물체의 위치를 구해내야 한다.
-    float4  ProjPos;
+    float4 ProjPos;
 
     // 여기에 구성한 값은 출력되어 있는 물체의 w로 나누어준 값이 저장된것이다.
     ProjPos.x = input.ProjPos.x;
@@ -184,10 +185,11 @@ PS_OUTPUT_LIGHTACC LightAccPS(VS_OUTPUT_LIGHTACC input)
     ViewPos.y = ProjPos.y / g_Proj22;
     ViewPos.z = GBuffer3Color.g;
 
-    float3  ViewNormal = GBuffer2Color.rgb;
+    float3 ViewNormal = GBuffer2Color.rgb;
 
-    LightResult result = ComputeLight(ViewPos, ViewNormal,
-        GBuffer3Color.b, input.InstanceID, GBuffer4Color);
+    //ViewNormal = normalize(ViewNormal);
+
+    LightResult result = ComputeLight(ViewPos, ViewNormal, GBuffer3Color.b, input.InstanceID, GBuffer4Color);
 
     output.Diffuse.rgb = result.Diffuse;
     output.Specular.rgb = result.Specular;
@@ -200,17 +202,15 @@ PS_OUTPUT_LIGHTACC LightAccPS(VS_OUTPUT_LIGHTACC input)
 	return output;
 }
 
-
-
 struct VS_OUTPUT_SCREEN
 {
-    float4	Pos : SV_POSITION;
-    float4	ProjPos : POSITION;
+    float4 Pos : SV_POSITION;
+    float4 ProjPos : POSITION;
 };
 
 VS_OUTPUT_SCREEN ScreenVS(uint VertexID : SV_VertexID)
 {
-    VS_OUTPUT_SCREEN	output = (VS_OUTPUT_SCREEN)0;
+    VS_OUTPUT_SCREEN output = (VS_OUTPUT_SCREEN)0;
 
     output.ProjPos = float4(g_NullPos[VertexID], 0.f, 1.f);
     output.Pos = output.ProjPos;
@@ -220,7 +220,7 @@ VS_OUTPUT_SCREEN ScreenVS(uint VertexID : SV_VertexID)
 
 PS_OUTPUT_SINGLE ScreenPS(VS_OUTPUT_SCREEN input)
 {
-    PS_OUTPUT_SINGLE	output = (PS_OUTPUT_SINGLE)0;
+    PS_OUTPUT_SINGLE output = (PS_OUTPUT_SINGLE)0;
 
     // 로컬 위치 * 월드 * 뷰 * 투영 = 투영공간 위치
     // 투영공간위치 / 투영공간w 를 해서 -1 ~ 1 사이의 x, y 위치를 구하고
@@ -237,15 +237,15 @@ PS_OUTPUT_SINGLE ScreenPS(VS_OUTPUT_SCREEN input)
     float4 GBuffer1Color = g_GBuffer1Tex.Load(LoadPos, 0);
 
     if (GBuffer1Color.a == 0.f)
+    {
         clip(-1);
+    }
 
     float4 LightDiffuse = g_LightDiffuseTex.Load(LoadPos, 0);
     float4 LightSpecular = g_LightSpecularTex.Load(LoadPos, 0);
     float4 LightEmissive = g_LightEmissiveTex.Load(LoadPos, 0);
 
-    output.Color.rgb = GBuffer1Color.rgb * LightDiffuse.rgb +
-        GBuffer1Color.rgb * LightSpecular.rgb + 
-        GBuffer1Color.rgb * LightEmissive.rgb;
+    output.Color.rgb = GBuffer1Color.rgb * LightDiffuse.rgb + GBuffer1Color.rgb * LightSpecular.rgb + GBuffer1Color.rgb * LightEmissive.rgb;
 
     output.Color.a = GBuffer1Color.a;
 
@@ -255,7 +255,7 @@ PS_OUTPUT_SINGLE ScreenPS(VS_OUTPUT_SCREEN input)
 
 VS_OUTPUT_SCREEN DeferredVS(uint VertexID : SV_VertexID)
 {
-    VS_OUTPUT_SCREEN	output = (VS_OUTPUT_SCREEN)0;
+    VS_OUTPUT_SCREEN output = (VS_OUTPUT_SCREEN)0;
 
     output.ProjPos = float4(g_NullPos[VertexID], 0.f, 1.f);
     output.Pos = output.ProjPos;
@@ -265,7 +265,7 @@ VS_OUTPUT_SCREEN DeferredVS(uint VertexID : SV_VertexID)
 
 PS_OUTPUT_SINGLE DeferredPS(VS_OUTPUT_SCREEN input)
 {
-    PS_OUTPUT_SINGLE	output = (PS_OUTPUT_SINGLE)0;
+    PS_OUTPUT_SINGLE output = (PS_OUTPUT_SINGLE)0;
 
     // 로컬 위치 * 월드 * 뷰 * 투영 = 투영공간 위치
     // 투영공간위치 / 투영공간w 를 해서 -1 ~ 1 사이의 x, y 위치를 구하고
@@ -282,7 +282,9 @@ PS_OUTPUT_SINGLE DeferredPS(VS_OUTPUT_SCREEN input)
     float4 ScreenColor = g_ScreenTex.Load(LoadPos, 0);
 
     if (ScreenColor.a == 0.f)
+    {
         clip(-1);
+    }
 
     output.Color = ScreenColor;
 

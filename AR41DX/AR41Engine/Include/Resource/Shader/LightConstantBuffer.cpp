@@ -1,13 +1,10 @@
-
 #include "LightConstantBuffer.h"
 
-CLightConstantBuffer::CLightConstantBuffer() :
-	m_BufferData{}
+CLightConstantBuffer::CLightConstantBuffer()
 {
 }
 
-CLightConstantBuffer::CLightConstantBuffer(const CLightConstantBuffer& Buffer) :
-	CConstantBufferData(Buffer)
+CLightConstantBuffer::CLightConstantBuffer(const CLightConstantBuffer& Buffer) : CConstantBufferData(Buffer)
 {
 	m_BufferData = Buffer.m_BufferData;
 }
