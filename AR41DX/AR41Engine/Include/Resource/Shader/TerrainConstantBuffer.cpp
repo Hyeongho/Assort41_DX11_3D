@@ -17,7 +17,7 @@ bool CTerrainConstantBuffer::Init()
 {
 	SetConstantBuffer("Terrain");
 
-	m_BufferData.DetailLevel = 50.f;
+	m_BufferData.DetailLevel = 80.f;
 	m_BufferData.SplatCount = 1;
 
 	return true;

@@ -12,6 +12,7 @@
 #include "../Engine.h"
 #include "../Resource/Mesh/Mesh.h"
 #include "../GameObject/SkySphere.h"
+#include "../Component/CameraComponent.h"
 
 DEFINITION_SINGLE(CRenderManager)
 
@@ -246,6 +247,9 @@ void CRenderManager::Render3D(float DeltaTime)
 
 	// 완성된 타겟을 백버퍼에 출력한다.
 	RenderDeferred(DeltaTime);
+
+	// 파티클 출력
+	RenderParticle(DeltaTime);
 }
 
 void CRenderManager::RenderGBuffer(float DeltaTime)
@@ -259,32 +263,29 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 	}
 		
 	// GBuffer Target을 지정한다.
-	std::vector<ID3D11RenderTargetView*>	vecTargetView;
-	std::vector<ID3D11RenderTargetView*>	vecPrevTargetView;
+	std::vector<ID3D11RenderTargetView*> vecTargetView;
+	std::vector<ID3D11RenderTargetView*> vecPrevTargetView;
 
 	vecPrevTargetView.resize(Size);
 
-	for (size_t i = 0; i < Size; ++i)
+	for (size_t i = 0; i < Size; i++)
 	{
 		vecTargetView.push_back(m_vecGBuffer[i]->GetTargetView());
 	}
 
 	ID3D11DepthStencilView* DepthView = nullptr;
 
-	CDevice::GetInst()->GetContext()->OMGetRenderTargets((UINT)Size, 
-		&vecPrevTargetView[0], &DepthView);
+	CDevice::GetInst()->GetContext()->OMGetRenderTargets((UINT)Size,  &vecPrevTargetView[0], &DepthView);
 
-	CDevice::GetInst()->GetContext()->OMSetRenderTargets((UINT)Size,
-		&vecTargetView[0], DepthView);
+	CDevice::GetInst()->GetContext()->OMSetRenderTargets((UINT)Size, &vecTargetView[0], DepthView);
 
 	// GBuffer에 그릴 내용을 출력한다.
 	RenderLayer* GBufferLayer = FindLayer("Default");
-
 	
 	std::list<CSceneComponent*>	RenderList;
 	
-	auto	iter = GBufferLayer->RenderList.begin();
-	auto	iterEnd = GBufferLayer->RenderList.end();
+	auto iter = GBufferLayer->RenderList.begin();
+	auto iterEnd = GBufferLayer->RenderList.end();
 
 	for (; iter != iterEnd;)
 	{
@@ -350,6 +351,7 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 					Instancing = m_vecInstancingPool[Index];
 				}
 
+				Instancing->m_LayerName = "Default";
 				Instancing->AddRenderList((CPrimitiveComponent*)iter->Get());
 			}
 
@@ -401,6 +403,11 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 
 	for (; iter2 != iter2End; iter2++)
 	{
+		if (iter2->second->m_LayerName != "Default")
+		{
+			continue;
+		}
+
 		iter2->second->Render();
 	}
 
@@ -533,6 +540,149 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	m_ScreenBuffer->ResetTargetShader(21);
 }
 
+void CRenderManager::RenderParticle(float DeltaTime)
+{
+	RenderLayer* ParticleLayer = FindLayer("Particle");
+
+	std::list<CSceneComponent*>	RenderList;
+
+	m_AlphaBlend->SetState();
+
+	m_vecGBuffer[2]->SetTargetShader(14);
+
+	ParticleLayer->RenderList.sort(CRenderManager::SortAlphaObject);
+
+	auto iter = ParticleLayer->RenderList.begin();
+	auto iterEnd = ParticleLayer->RenderList.end();
+
+	for (; iter != iterEnd;)
+	{
+		if (!(*iter)->GetActive())
+		{
+			iter = ParticleLayer->RenderList.erase(iter);
+			iterEnd = ParticleLayer->RenderList.end();
+			continue;
+		}
+
+		else if (!(*iter)->GetEnable())
+		{
+			iter++;
+			continue;
+		}
+
+		// 인스턴싱이 되는 물체들을 판단한다.
+		if ((*iter)->GetSceneComponentType() == SceneComponentType::Primitive)
+		{
+			CMesh* Mesh = ((CPrimitiveComponent*)iter->Get())->GetMesh();
+
+			if (Mesh->GetRenderCount() >= 5)
+			{
+				CRenderInstancing* Instancing = nullptr;
+
+				Instancing = FindInstancing(Mesh);
+
+				// Pool에서 얻어온다.
+				if (!Instancing)
+				{
+					if (m_EmptyPoolList.empty())
+					{
+						std::vector<CRenderInstancing*>	NewPool = m_vecInstancingPool;
+
+						m_vecInstancingPool.clear();
+
+						m_vecInstancingPool.resize(NewPool.size() * 2);
+
+						for (size_t i = 0; i < NewPool.size(); i++)
+						{
+							m_vecInstancingPool[i] = NewPool[i];
+						}
+
+						for (size_t i = NewPool.size(); i < NewPool.size() * 2; i++)
+						{
+							m_vecInstancingPool[i] = new CRenderInstancing;
+							m_vecInstancingPool[i]->m_PoolIndex = (int)i;
+
+							m_EmptyPoolList.push_back((int)i);
+						}
+					}
+
+					int Index = m_EmptyPoolList.front();
+
+					m_EmptyPoolList.pop_front();
+
+					m_mapInstancing.insert(std::make_pair(Mesh, m_vecInstancingPool[Index]));
+
+					m_vecInstancingPool[Index]->m_Key = Mesh;
+
+					Instancing = m_vecInstancingPool[Index];
+				}
+
+				Instancing->m_LayerName = "Particle";
+				Instancing->AddRenderList((CPrimitiveComponent*)iter->Get());
+			}
+
+			else
+			{
+				RenderList.push_back(*iter);
+			}
+		}
+
+		else
+		{
+			RenderList.push_back(*iter);
+		}
+
+		//(*iter)->Render();
+		iter++;
+	}
+
+	// 인스턴싱이 아닌 물체를 그려낸다.
+	auto	iter1 = RenderList.begin();
+	auto	iter1End = RenderList.end();
+
+	for (; iter1 != iter1End; iter1++)
+	{
+		(*iter1)->Render();
+	}
+
+	auto iter2 = m_mapInstancing.begin();
+	auto iter2End = m_mapInstancing.end();
+
+	for (; iter2 != iter2End;)
+	{
+		if (iter2->second->GetInstancingCount() == 0)
+		{
+			m_EmptyPoolList.push_back(iter2->second->GetPoolIndex());
+			iter2->second->m_Key = nullptr;
+
+			iter2 = m_mapInstancing.erase(iter2);
+			iter2End = m_mapInstancing.end();
+
+			continue;
+		}
+
+		iter2++;
+	}
+
+	iter2 = m_mapInstancing.begin();
+	iter2End = m_mapInstancing.end();
+
+	for (; iter2 != iter2End; iter2++)
+	{
+		if (iter2->second->m_LayerName != "Particle")
+		{
+			iter2++;
+			continue;
+		}
+
+		iter2->second->Render();
+	}
+
+	m_AlphaBlend->ResetState();
+
+	m_vecGBuffer[2]->ResetTargetShader(14);
+}
+
 void CRenderManager::SetBlendFactor(const std::string& Name, float r, float g, float b, float a)
 {
 	m_RenderStateManager->SetBlendFactor(Name, r, g, b, a);
@@ -543,12 +693,10 @@ void CRenderManager::AddBlendInfo(const std::string& Name, bool BlendEnable,
 	D3D11_BLEND SrcAlphBlend, D3D11_BLEND DestAlphBlend, D3D11_BLEND_OP BlendAlphOp,
 	UINT8 WriteMask)
 {
-	m_RenderStateManager->AddBlendInfo(Name, BlendEnable, SrcBlend, DestBlend, BlendOp,
-		SrcAlphBlend, DestAlphBlend, BlendAlphOp, WriteMask);
+	m_RenderStateManager->AddBlendInfo(Name, BlendEnable, SrcBlend, DestBlend, BlendOp, SrcAlphBlend, DestAlphBlend, BlendAlphOp, WriteMask);
 }
 
-bool CRenderManager::CreateBlendState(const std::string& Name,
-	bool AlphaToCoverageEnable, bool IndependentBlendEnable)
+bool CRenderManager::CreateBlendState(const std::string& Name, bool AlphaToCoverageEnable, bool IndependentBlendEnable)
 {
 	return m_RenderStateManager->CreateBlendState(Name, AlphaToCoverageEnable, IndependentBlendEnable);
 }
@@ -590,17 +738,13 @@ void CRenderManager::CreateRenderTarget()
 
 	Resolution	RS = CDevice::GetInst()->GetResolution();
 
-	CResourceManager::GetInst()->CreateTarget("GBuffer1", RS.Width,
-		RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	CResourceManager::GetInst()->CreateTarget("GBuffer1", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	CResourceManager::GetInst()->CreateTarget("GBuffer2", RS.Width,
-		RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	CResourceManager::GetInst()->CreateTarget("GBuffer2", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	CResourceManager::GetInst()->CreateTarget("GBuffer3", RS.Width,
-		RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	CResourceManager::GetInst()->CreateTarget("GBuffer3", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	CResourceManager::GetInst()->CreateTarget("GBuffer4", RS.Width,
-		RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	CResourceManager::GetInst()->CreateTarget("GBuffer4", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	CRenderTarget* GBufferTarget = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("GBuffer1");
 
@@ -632,14 +776,11 @@ void CRenderManager::CreateRenderTarget()
 
 
 	// Light Target
-	CResourceManager::GetInst()->CreateTarget("LightDiffuse", RS.Width,
-		RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	CResourceManager::GetInst()->CreateTarget("LightDiffuse", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	CResourceManager::GetInst()->CreateTarget("LightSpecular", RS.Width,
-		RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	CResourceManager::GetInst()->CreateTarget("LightSpecular", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	CResourceManager::GetInst()->CreateTarget("LightEmissive", RS.Width,
-		RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	CResourceManager::GetInst()->CreateTarget("LightEmissive", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	CRenderTarget* LightTarget = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("LightDiffuse");
 
@@ -665,8 +806,7 @@ void CRenderManager::CreateRenderTarget()
 
 
 	// RenderScreenTarget
-	CResourceManager::GetInst()->CreateTarget("RenderScreen", RS.Width,
-		RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	CResourceManager::GetInst()->CreateTarget("RenderScreen", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	m_ScreenBuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderScreen");
 
@@ -680,10 +820,24 @@ void CRenderManager::CreateRenderTarget()
 	m_DeferredRenderShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("DeferredRenderShader");
 }
 
+bool CRenderManager::SortAlphaObject(CSceneComponent* Src, CSceneComponent* Dest)
+{
+	// 뷰공간의 z값을 비교한다.
+	Vector3	SrcPos = Src->GetWorldPos();
+	Vector3	DestPos = Dest->GetWorldPos();
+
+	Matrix ViewMatrix = Src->GetScene()->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
+
+	SrcPos = SrcPos.TransformCoord(ViewMatrix);
+	DestPos = DestPos.TransformCoord(ViewMatrix);
+
+	return SrcPos.z < DestPos.z;
+}
+
 RenderLayer* CRenderManager::FindLayer(const std::string& Name)
 {
-	auto	iter = m_RenderLayerList.begin();
-	auto	iterEnd = m_RenderLayerList.end();
+	auto iter = m_RenderLayerList.begin();
+	auto iterEnd = m_RenderLayerList.end();
 
 	RenderLayer* GBufferLayer = nullptr;
 

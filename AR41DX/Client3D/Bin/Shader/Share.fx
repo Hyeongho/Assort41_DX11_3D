@@ -15,9 +15,6 @@ static const float2 g_NullUV[4] =
     float2(1.f, 1.f)
 };
 
-
-
-
 // DirectX11은 RenderTarget을 최대 8개까지 한꺼번에 사용할 수 있다.
 // SV_TARGET0 은 0번 렌더타겟에 출력한다.
 struct PS_OUTPUT_SINGLE
@@ -153,36 +150,47 @@ float2 UpdateAnimation2D(float2 UV)
     if (g_Anim2DType == Anim2D_Atlas)
     {
         if (UV.x == 0.f)
+        {
             Result.x = g_Anim2DFrameStart.x / g_Anim2DImageWidth;
+        }
+
         else
+        {
             Result.x = g_Anim2DFrameEnd.x / g_Anim2DImageWidth;
+        }
     
         if (UV.y == 0.f)
+        {
             Result.y = g_Anim2DFrameStart.y / g_Anim2DImageHeight;
+        }
+
         else
+        {
             Result.y = g_Anim2DFrameEnd.y / g_Anim2DImageHeight;
+        }
     }
     
     else
+    {
         Result = UV;
+    }
         
     return Result;
 }
 
-float3 ComputeBumpNormal(float3 Tangent, float3 Binormal,
-    float3 Normal, float2 UV)
+float3 ComputeBumpNormal(float3 Tangent, float3 Binormal, float3 Normal, float2 UV)
 {
-    float3  Result = Normal;
+    float3 Result = Normal;
 
     if (g_MtrlAmbientColor.w == 1.f)
     {
         float4 NormalColor = g_NormalTexture.Sample(g_LinearSmp, UV);
 
         // 색상은 0 ~ 1 사이로 나오므로 -1 ~ 1 사이로 변환한다.
-        float3  ConvertNormal = NormalColor.rgb * 2.f - 1.f;
+        float3 ConvertNormal = NormalColor.rgb * 2.f - 1.f;
 
         // z는 무조건 + 방향으로 만들어준다.;
-        ConvertNormal.z = 1.f;
+        //ConvertNormal.z = 1.f;
         ConvertNormal = normalize(ConvertNormal);
 
         // Tangent(X축), Binormal(Y축), Normal(Z축)을 이용해서 법선벡터를
@@ -200,8 +208,7 @@ float3 ComputeBumpNormal(float3 Tangent, float3 Binormal,
     return Result;
 }
 
-float3 ComputeBumpNormalInstancing(float3 Tangent, float3 Binormal,
-    float3 Normal, float2 UV, uint InstanceID)
+float3 ComputeBumpNormalInstancing(float3 Tangent, float3 Binormal, float3 Normal, float2 UV, uint InstanceID)
 {
     float3  Result = Normal;
 
@@ -213,7 +220,7 @@ float3 ComputeBumpNormalInstancing(float3 Tangent, float3 Binormal,
         float3  ConvertNormal = NormalColor.rgb * 2.f - 1.f;
 
         // z는 무조건 + 방향으로 만들어준다.;
-        ConvertNormal.z = 1.f;
+        //ConvertNormal.z = 1.f;
         ConvertNormal = normalize(ConvertNormal);
 
         // Tangent(X축), Binormal(Y축), Normal(Z축)을 이용해서 법선벡터를

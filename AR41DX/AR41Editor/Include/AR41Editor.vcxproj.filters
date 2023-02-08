@@ -159,6 +159,9 @@
     <ClCompile Include="Window\TargetArmWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
+    <ClCompile Include="Window\MeshWindow.cpp">
+      <Filter>03. Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -279,6 +282,9 @@
       <Filter>03. Window</Filter>
     </ClInclude>
     <ClInclude Include="Window\RigidBodyWindow.h">
+      <Filter>03. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\MeshWindow.h">
       <Filter>03. Window</Filter>
     </ClInclude>
   </ItemGroup>
