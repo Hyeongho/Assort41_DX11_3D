@@ -20,5 +20,6 @@ private:
     void LoadSandy();
 
     void LoadBuildings();
+    void LoadRoboSponge();
 };
 

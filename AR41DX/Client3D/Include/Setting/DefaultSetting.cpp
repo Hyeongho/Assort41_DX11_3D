@@ -32,7 +32,8 @@ void CDefaultSetting::Init()
 void CDefaultSetting::CreateCDO()
 {
     //CScene::CreateObjectCDO<CPlayer>("Player");
-    //CScene::CreateObjectCDO<CPatrick>("Patrick");
+    CScene::CreateObjectCDO<CPatrick>("Patrick");
+
     CScene::CreateObjectCDO<CSandy>("Sandy");
     CScene::CreateObjectCDO<CBikiniBottomBuildings>("BikiniBottomBuildings");
 }
@@ -41,7 +42,6 @@ void CDefaultSetting::LoadResource()
 {
     LoadPatrick();
     LoadSandy();
-    LoadBuildings();
 
     /*
    CResourceManager::GetInst()->AddSocket("PlayerSkeleton",
@@ -99,6 +99,29 @@ void CDefaultSetting::SetInput()
 
     CInput::GetInst()->AddBindKey("SandyLButton", VK_LBUTTON);
 
+    // Mouse Ű ���
+    CInput::GetInst()->AddBindKey("LButton", VK_LBUTTON);
+    CInput::GetInst()->AddBindKey("RButton", VK_RBUTTON);
+
+
+    // Arrow Ű ���
+    CInput::GetInst()->AddBindKey("UArrow", VK_UP);
+    CInput::GetInst()->AddBindKey("DArrow", VK_DOWN);
+    CInput::GetInst()->AddBindKey("LArrow", VK_LEFT);
+    CInput::GetInst()->AddBindKey("RArrow", VK_RIGHT);
+
+    CInput::GetInst()->AddBindKey("W", 'W');
+    CInput::GetInst()->AddBindKey("S", 'S');
+    CInput::GetInst()->AddBindKey("A", 'A');
+    CInput::GetInst()->AddBindKey("D", 'D');
+
+
+    // ETC Ű ���
+    CInput::GetInst()->AddBindKey("Esc", VK_ESCAPE);
+    CInput::GetInst()->AddBindKey("Enter", VK_RETURN);
+    CInput::GetInst()->AddBindKey("Space", VK_SPACE);
+
+    CInput::GetInst()->AddBindKey("E", 'e');
 
 }
 
@@ -179,16 +202,4 @@ void CDefaultSetting::LoadSandy()
     CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Karate_Kick", TEXT("Sandy/Sandy_Karate_Kick.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Lasso_Start", TEXT("Sandy/Sandy_Lasso_Start.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Death", TEXT("Sandy/Sandy_Death.sqc"), MESH_PATH);
-}
-
-void CDefaultSetting::LoadBuildings()
-{
-    // Test 용 Red tree. 경로 : Buildings/BikiniBottom/
-   /* CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RedTree", TEXT("Buildings/BikiniBottom/RedTree.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "RedTreeSkeleton", TEXT("Buildings/BikiniBottom/RedTree.bne"), MESH_PATH);
-    CResourceManager::GetInst()->SetMeshSkeleton("RedTreeSkeleton", "RedTreeSkeleton");*/
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RedTree", TEXT("Buildings/BikiniBottom/BikiniBottom.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "RedTreeSkeleton", TEXT("Buildings/BikiniBottom/BikiniBottom.bne"), MESH_PATH);
-    CResourceManager::GetInst()->SetMeshSkeleton("RedTreeSkeleton", "RedTreeSkeleton");
-
 }
