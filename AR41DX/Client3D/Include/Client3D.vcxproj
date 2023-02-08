@@ -162,12 +162,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client3DManager.cpp" />
+    <ClCompile Include="GameObject\BikiniBottomBuildings.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
     <ClCompile Include="GameObject\Patrick.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
     <ClCompile Include="GameObject\Sandy.cpp" />
-    <ClCompile Include="GameObject\SpongebobHouse.cpp" />
     <ClCompile Include="GameObject\Weapon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\LoadingSceneInfo.cpp" />
@@ -180,12 +180,12 @@
   <ItemGroup>
     <ClInclude Include="Client3D.h" />
     <ClInclude Include="Client3DManager.h" />
+    <ClInclude Include="GameObject\BikiniBottomBuildings.h" />
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Monster.h" />
     <ClInclude Include="GameObject\Patrick.h" />
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\Sandy.h" />
-    <ClInclude Include="GameObject\SpongebobHouse.h" />
     <ClInclude Include="GameObject\Weapon.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\LoadingSceneInfo.h" />

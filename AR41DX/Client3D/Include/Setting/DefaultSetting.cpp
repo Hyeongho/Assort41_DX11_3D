@@ -2,7 +2,7 @@
 #include "../GameObject/Player.h"
 #include "../GameObject/Patrick.h"
 #include "../GameObject/Sandy.h"
-#include "../GameObject/SpongebobHouse.h"
+#include "../GameObject/BikiniBottomBuildings.h"
 //#include "../GameObject/Monster.h"
 //#include "../GameObject/Bullet.h"
 //#include "../UI/StartSceneUI.h"
@@ -34,7 +34,7 @@ void CDefaultSetting::CreateCDO()
     //CScene::CreateObjectCDO<CPlayer>("Player");
     //CScene::CreateObjectCDO<CPatrick>("Patrick");
     CScene::CreateObjectCDO<CSandy>("Sandy");
-    CScene::CreateObjectCDO<CSpongebobHouse>("SpongebobHouse");
+    CScene::CreateObjectCDO<CBikiniBottomBuildings>("BikiniBottomBuildings");
 }
 
 void CDefaultSetting::LoadResource()
@@ -184,8 +184,11 @@ void CDefaultSetting::LoadSandy()
 void CDefaultSetting::LoadBuildings()
 {
     // Test 용 Red tree. 경로 : Buildings/BikiniBottom/
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RedTree", TEXT("Buildings/BikiniBottom/RedTree.fbx"), MESH_PATH);
+   /* CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RedTree", TEXT("Buildings/BikiniBottom/RedTree.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "RedTreeSkeleton", TEXT("Buildings/BikiniBottom/RedTree.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("RedTreeSkeleton", "RedTreeSkeleton");*/
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RedTree", TEXT("Buildings/BikiniBottom/BikiniBottom.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "RedTreeSkeleton", TEXT("Buildings/BikiniBottom/BikiniBottom.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("RedTreeSkeleton", "RedTreeSkeleton");
 
 }
