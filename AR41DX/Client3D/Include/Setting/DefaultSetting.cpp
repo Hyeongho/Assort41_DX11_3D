@@ -2,6 +2,9 @@
 #include "../GameObject/Player.h"
 #include "../GameObject/Patrick.h"
 #include "../GameObject/Sandy.h"
+#include "../GameObject/BikiniBottomBuildings.h"
+#include "../GameObject/KingJellyfish.h"
+#include "../GameObject/Jellyfish.h"
 //#include "../GameObject/Monster.h"
 //#include "../GameObject/Bullet.h"
 //#include "../UI/StartSceneUI.h"
@@ -21,27 +24,40 @@ void CDefaultSetting::Init()
 {
     LoadResource();
 
-	CreateCDO();
+    CreateCDO();
 
-	SetInput();
+    SetInput();
 
     SetCollision();
 }
 
 void CDefaultSetting::CreateCDO()
 {
+    //CScene::CreateObjectCDO<CPlayer>("Player");
+    CScene::CreateObjectCDO<CPatrick>("Patrick");
+
+    CScene::CreateObjectCDO<CSandy>("Sandy");
+    CScene::CreateObjectCDO<CBikiniBottomBuildings>("BikiniBottomBuildings");
     CScene::CreateObjectCDO<CPlayer>("Player");
 
     CScene::CreateObjectCDO<CPatrick>("Patrick");
 
     CScene::CreateObjectCDO<CSandy>("Sandy");
+
+    CScene::CreateObjectCDO<CKingJellyfish>("KingJellyfish");
+
+    CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
+
 }
 
 void CDefaultSetting::LoadResource()
 {
     LoadPatrick();
     LoadSandy();
-    LoadRoboSponge();
+
+    LoadBuildings();
+    LoadKingJellyfish();
+    LoadJellyfish();
 
     /*
    CResourceManager::GetInst()->AddSocket("PlayerSkeleton",
@@ -197,6 +213,40 @@ void CDefaultSetting::LoadSandy()
     CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Death", TEXT("Sandy/Sandy_Death.sqc"), MESH_PATH);
 }
 
-void CDefaultSetting::LoadRoboSponge()
+void CDefaultSetting::LoadBuildings()
 {
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomBuildings", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "BikiniBottomBuildingsSkeleton", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("BikiniBottomBuildings", "BikiniBottomBuildingsSkeleton");
+
+
+}
+
+void CDefaultSetting::LoadKingJellyfish()
+{
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "KingJellyfish", TEXT("KingJellyfish/KingJellyfish.fbx"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "KingJellyfishSkeleton", TEXT("KingJellyfish/KingJellyfish.bne"), MESH_PATH);
+
+    CResourceManager::GetInst()->SetMeshSkeleton("KingJellyfish", "KingJellyfishSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Idle", TEXT("KingJellyfish/bossJellyKing_Idle.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Angry", TEXT("KingJellyfish/bossJellyKing_angry.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Attack", TEXT("KingJellyfish/bossJellyKing_attack.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Damage", TEXT("KingJellyfish/bossJellyKing_damage.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_OnGround", TEXT("KingJellyfish/bossJellyKing_onGround.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_SpawnJellyfish", TEXT("KingJellyfish/bossJellyKing_spawnJellyfish.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Victory", TEXT("KingJellyfish/bossJellyKing_victory.sqc"), MESH_PATH);
+}
+
+void CDefaultSetting::LoadJellyfish()
+{
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Jellyfish", TEXT("Jellyfish/Jellyfish.fbx"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "JellyfishSkeleton", TEXT("Jellyfish/Jellyfish.bne"), MESH_PATH);
+
+    CResourceManager::GetInst()->SetMeshSkeleton("Jellyfish", "JellyfishSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Jellyfish_Attack", TEXT("Jellyfish/Jellyfish_attack.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Jellyfish_Death", TEXT("Jellyfish/Jellyfish_death.sqc"), MESH_PATH);
 }
