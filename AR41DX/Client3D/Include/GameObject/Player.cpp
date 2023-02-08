@@ -84,7 +84,7 @@ bool CPlayer::Init()
 
 	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
 
-	m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);*/
+	m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
 
 	//m_Rigid->SetGravity(true);
 
