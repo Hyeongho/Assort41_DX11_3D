@@ -193,6 +193,7 @@
     <ClCompile Include="Setting\EngineShareSetting.cpp" />
     <ClCompile Include="UI\LoadingUI.cpp" />
     <ClCompile Include="UI\StartSceneUI.cpp" />
+    <ClCompile Include="Window\Animation3DWindow.cpp" />
     <ClCompile Include="Window\CameraWindow.cpp" />
     <ClCompile Include="Window\ClassWindow.cpp" />
     <ClCompile Include="Window\ComponentWindow.cpp" />
@@ -207,6 +208,7 @@
     <ClCompile Include="Window\FBXWindow.cpp" />
     <ClCompile Include="Window\LightWindow.cpp" />
     <ClCompile Include="Window\MaterialWindow.cpp" />
+    <ClCompile Include="Window\MeshWindow.cpp" />
     <ClCompile Include="Window\ObjectWindow.cpp" />
     <ClCompile Include="Window\PathWindow.cpp" />
     <ClCompile Include="Window\ResourceWindow.cpp" />
@@ -235,6 +237,7 @@
     <ClInclude Include="Setting\EngineShareSetting.h" />
     <ClInclude Include="UI\LoadingUI.h" />
     <ClInclude Include="UI\StartSceneUI.h" />
+    <ClInclude Include="Window\Animation3DWindow.h" />
     <ClInclude Include="Window\CameraWindow.h" />
     <ClInclude Include="Window\ClassWindow.h" />
     <ClInclude Include="Window\ComponentWindow.h" />
@@ -249,6 +252,7 @@
     <ClInclude Include="Window\FBXWindow.h" />
     <ClInclude Include="Window\LightWindow.h" />
     <ClInclude Include="Window\MaterialWindow.h" />
+    <ClInclude Include="Window\MeshWindow.h" />
     <ClInclude Include="Window\ObjectWindow.h" />
     <ClInclude Include="Window\PathWindow.h" />
     <ClInclude Include="Window\ResourceWindow.h" />

@@ -1,6 +1,7 @@
 #include "PathWindow.h"
 #include "MeshWindow.h"
 #include "MaterialWindow.h"
+#include "FBXWindow.h"
 #include "PathManager.h"
 #include "Editor/EditorButton.h"
 #include "Editor/EditorSameLine.h"
@@ -92,9 +93,9 @@ void CPathWindow::LoadFileList(const std::string& pathName)
 		char	ext[_MAX_EXT] = {};
 		strcpy_s(fullPath, file.path().generic_string().c_str());
 		_splitpath_s(fullPath, nullptr, 0, nullptr, 0, name, 64, ext, _MAX_EXT);
-		if (!strcmp(ext, ".exe") || !strcmp(ext, ".pdb") || !strcmp(ext, ".lib") || !strcmp(ext, ".ini") 
-			|| !strcmp(ext, ".dll") || !strcmp(ext, ".lastcodeanalysissucceeded") || !strcmp(ext, ".ico") 
-			|| !strcmp(ext, ".r18")	|| !strcmp(ext, ".r19"))
+		if(!strcmp(ext, ".exe")|| !strcmp(ext, ".pdb")|| !strcmp(ext, ".lib")|| !strcmp(ext, ".ini")|| !strcmp(ext, ".dll")
+			|| !strcmp(ext, ".lastcodeanalysissucceeded") || !strcmp(ext, ".ico") || !strcmp(ext, ".r18") 
+			|| !strcmp(ext, ".r19") || !strcmp(ext, ".cso"))
 		{
 			continue;
 		}
@@ -105,14 +106,21 @@ void CPathWindow::LoadFileList(const std::string& pathName)
 
 void CPathWindow::FileDCCallback(CEditorTreeItem<void*>* node, const std::string& item)
 {
-	if(item!="...")
+	bool isFBM = true; 
+	if (item.size()>=4)		//fmb 예외처리
 	{
-//확장자 예외처리
-		size_t index = 0;
-		while ((index = item.find(".", index)) != std::string::npos)
-		{
-			return;
-		}
+		isFBM=item.compare(item.size() - 4, item.size(), ".fbm");	//false면 같은거
+	} 
+	if (item == "..." || !isFBM)		//확장자 예외처리
+	{
+		m_IsLoad = true;
+		FileName = item;
+		return;
+	}
+	size_t index = 0;
+	while ((index = item.find(".", index)) != std::string::npos)
+	{
+		return;
 	}
 	m_IsLoad = true;
 	FileName = item;
@@ -121,18 +129,18 @@ void CPathWindow::FileDCCallback(CEditorTreeItem<void*>* node, const std::string
 void CPathWindow::FileDADCallback(CEditorTreeItem<void*>* dragnode, CEditorTreeItem<void*>* dropnode,
 	const std::string& dragItem, const std::string& dropItem)
 {
+	//		_strupr_s(ext);
 	if(ImGui::IsWindowHovered("MeshWindow"))
-	{
-		//경로 합치기
-		//	strcpy_s(fullPath, file.path().generic_string().c_str());
-		
+	{		
 		//확장자로 bne msh구별
 		char	ext[_MAX_EXT] = {};
 		_splitpath_s(dragItem.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, ext, _MAX_EXT);
 		//tchar 변환
-		TCHAR* t_filename = new TCHAR[dragItem.size() + 1];
-		t_filename[dragItem.size()] = 0;
-		std::copy(dragItem.begin(), dragItem.end(), t_filename);
+		char	fullPath[_MAX_EXT] = {};
+		TCHAR t_filename[_MAX_EXT] = {};
+		strcpy_s(fullPath, m_Path->GetText());
+		strcat_s(fullPath, dragItem.c_str());
+		MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, fullPath, (int)strlen(fullPath), t_filename, 256);
 		CMeshWindow* meshWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMeshWindow>("MeshWindow");
 		if (meshWindow)
 		{
@@ -140,7 +148,7 @@ void CPathWindow::FileDADCallback(CEditorTreeItem<void*>* dragnode, CEditorTreeI
 			{
 				meshWindow->MeshChangeCallback(t_filename);
 			}
-			else if (!strcmp(ext, ".fbx"))
+			else if (!strcmp(ext, ".FBX")|| !strcmp(ext, ".fbx"))
 			{
 				meshWindow->MeshChangeCallback(t_filename);
 			}
@@ -149,19 +157,32 @@ void CPathWindow::FileDADCallback(CEditorTreeItem<void*>* dragnode, CEditorTreeI
 				meshWindow->SkeletonChangeCallback(t_filename);
 			}
 		}
-		SAFE_DELETE_ARRAY(t_filename);
 	}
 	else if (ImGui::IsWindowHovered("MaterialWindow"))
 	{
-		TCHAR* t_filename = new TCHAR[dragItem.size() + 1];
-		t_filename[dragItem.size()] = 0;
-		std::copy(dragItem.begin(), dragItem.end(), t_filename);
+		char	fullPath[_MAX_EXT] = {};
+		TCHAR t_filename[_MAX_EXT] = {};
+		strcpy_s(fullPath, m_Path->GetText());
+		strcat_s(fullPath, dragItem.c_str());
+		MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, fullPath, (int)strlen(fullPath), t_filename, 256);
 		CMaterialWindow* materialWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMaterialWindow>("MaterialWindow");
 		if (materialWindow)
 		{
 			materialWindow->ImgChangeCallback(dragItem,t_filename);
 		}
-		SAFE_DELETE_ARRAY(t_filename);
+	}
+	else if (ImGui::IsWindowHovered("FBXWindow"))
+	{
+		char	fullPath[_MAX_EXT] = {};
+		TCHAR t_filename[_MAX_EXT] = {};
+		strcpy_s(fullPath, m_Path->GetText());
+		strcat_s(fullPath, dragItem.c_str());
+		MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, fullPath, (int)strlen(fullPath), t_filename, 256);
+		CFBXWindow* FBXWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CFBXWindow>("FBXWindow");
+		if (FBXWindow)
+		{
+			FBXWindow->FBXConvert(t_filename);
+		}
 	}
 }
 

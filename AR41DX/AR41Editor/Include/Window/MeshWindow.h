@@ -10,9 +10,7 @@ private:
 	class CEditorInput* m_Max[3];
 	class CEditorComboBox* m_MeshType;
 	class CEditorInput* m_RenderCount;
-	class CEditorInput* m_SkeletonName;
 	CSharedPtr<class CPrimitiveComponent>	m_SelectComponent;
-	CSharedPtr<class CAnimationMesh>	m_SelectAnimMesh;
 protected:
 	CMeshWindow();
 	virtual ~CMeshWindow();
@@ -20,7 +18,7 @@ public:
 	void SetSelectComponent(class CPrimitiveComponent* component);
 	virtual bool Init();
 	virtual void Update(float deltaTime);
-	void MeshChangeCallback(const TCHAR* name);
-	void SkeletonChangeCallback(const TCHAR* name);
+	void MeshChangeCallback(const TCHAR* path);
+	void SkeletonChangeCallback(const TCHAR* path);
 };
 
