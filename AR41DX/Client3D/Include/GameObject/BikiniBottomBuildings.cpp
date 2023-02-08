@@ -15,7 +15,7 @@ CBikiniBottomBuildings::CBikiniBottomBuildings()
 {
 	SetTypeID<CBikiniBottomBuildings>();
 
-	m_ObjectTypeName = "BikiniBottomHouse";
+	m_ObjectTypeName = "BikiniBottomBuildings";
 }
 
 CBikiniBottomBuildings::CBikiniBottomBuildings(const CBikiniBottomBuildings& Obj)
@@ -40,7 +40,7 @@ bool CBikiniBottomBuildings::Init()
 
 	m_Mesh = CreateComponent<CStaticMeshComponent>("Mesh");
 
-	m_Mesh->SetMesh("RedTree");
+	m_Mesh->SetMesh("BikiniBottomBuildings");
 
 	return true;
 }
