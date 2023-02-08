@@ -26,7 +26,9 @@ public:
 		T* Material = (T*)FindMaterial(Name);
 
 		if (Material)
+		{
 			return Material;
+		}
 
 		Material = new T;
 

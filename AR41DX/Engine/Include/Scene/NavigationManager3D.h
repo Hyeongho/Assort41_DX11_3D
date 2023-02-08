@@ -13,7 +13,7 @@ protected:
 	virtual ~CNavigationManager3D();
 
 protected:
-	class CNavigation3D* m_Navigation;
+	class CNavigationMesh* m_NavigationMesh;
 	class CTerrainComponent* m_Terrain;
 
 public:
@@ -22,7 +22,9 @@ public:
 public:
 	virtual void Start();
 	virtual bool Init();
-	virtual void Move(class CNavigationAgent* Agent, const Vector3& End);
+	virtual bool CreateNavigationMesh(class CSceneComponent* Component);
+	virtual void Move(class CNavigationAgent3D* Agent, const Vector3& End);
 	virtual float GetHeight(const Vector3& Pos);
+	virtual bool GetPickingPos(Vector3& Result)	const;
 };
 

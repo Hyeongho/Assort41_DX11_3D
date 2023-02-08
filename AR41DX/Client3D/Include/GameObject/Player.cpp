@@ -57,7 +57,6 @@ bool CPlayer::Init()
 {
 	CGameObject::Init();
 
-
 	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 	m_Camera = CreateComponent<CCameraComponent>("Camera");
 	m_Arm = CreateComponent<CTargetArm>("Arm");
@@ -74,8 +73,6 @@ bool CPlayer::Init()
 
 	m_Arm->SetInheritRotY(true);
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
-
-	m_Mesh->SetMesh("Player");
 
 	m_Mesh->SetMesh("Sandy");
 

@@ -6,6 +6,7 @@
 #include "../GameObject/Patrick.h"
 #include "../GameObject/Sandy.h"
 #include "Component/TerrainComponent.h"
+#include "Component/BillboardComponent.h"
 #include "../UI/PlayerUI.h"
 
 CMainSceneInfo::CMainSceneInfo()
@@ -22,16 +23,10 @@ bool CMainSceneInfo::Init()
 
 	//SetPlayerObject(Patrick);
 	
+	CPlayer* Sandy = m_Owner->CreateObject<CPlayer>("Sandy");
 	m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 
-	CSandy* Sandy = m_Owner->CreateObject<CSandy>("Sandy");
 	SetPlayerObject(Sandy);
-
-
-
-	//CWeapon* Weapon = m_Owner->CreateObject<CWeapon>("Weapon");
-
-	//Player->AddChildToSocket("Weapon", Weapon);
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("Terrain");
 
@@ -39,30 +34,11 @@ bool CMainSceneInfo::Init()
 
 	Terrain->CreateTerrain(129, 129, 100.f, 100.f, TEXT("LandScape/height1.bmp"));
 
-	/*for (int i = 0; i < 100; ++i)
-	{
-		CMonster* Monster = m_Owner->CreateObject<CMonster>("Monster");
+	CGameObject* BillboardObj = m_Owner->CreateObject<CGameObject>("Billboard");
 
-		Monster->SetWorldPosition(-250.f + i * 4.f, 0.f, 50.f);
-	}*/
+	CBillboardComponent* Billboard = BillboardObj->CreateComponent<CBillboardComponent>("Billboard");
 
-	/*CMonster* Monster = m_Owner->CreateObject<CMonster>("Monster");
-
-	Monster->SetWorldPosition(-30.f, 0.f, 50.f);
-
-	Monster = m_Owner->CreateObject<CMonster>("Monster");
-
-	Monster->SetWorldPosition(-150.f, 0.f, -20.f);
-
-	Monster = m_Owner->CreateObject<CMonster>("Monster");
-
-	Monster->SetWorldPosition(30.f, 0.f, 50.f);*/
-
-	//Monster = m_Owner->CreateObject<CMonster>("Monster");
-
-	//Monster->SetWorldPosition(150.f, 0.f, -20.f);
-
-	//CMonster* Monster = m_Owner->CreateObject<CMonster>("Monster");
+	Billboard->SetWorldPosition(300.f, 0.f, 500.f);
 
 
 	return true;

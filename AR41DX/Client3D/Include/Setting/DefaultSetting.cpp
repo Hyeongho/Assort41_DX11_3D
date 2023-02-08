@@ -32,7 +32,7 @@ void CDefaultSetting::Init()
 
 void CDefaultSetting::CreateCDO()
 {
-    //CScene::CreateObjectCDO<CPlayer>("Player");
+    CScene::CreateObjectCDO<CPlayer>("Player");
 
     CScene::CreateObjectCDO<CPatrick>("Patrick");
 
@@ -50,6 +50,7 @@ void CDefaultSetting::LoadResource()
     LoadPatrick();
     LoadSandy();
     LoadRoboSponge();
+
     LoadKingJellyfish();
     LoadJellyfish();
 
@@ -72,18 +73,20 @@ void CDefaultSetting::LoadResource()
 void CDefaultSetting::SetInput()
 {
     // 캐릭터 키 하나로 통일 필요! - Move, LButton, RButton, Space
-    // Patrick
-    CInput::GetInst()->AddBindKey("PatrickMoveRight", 'D');
-    CInput::GetInst()->AddBindKey("PatrickMoveLeft", 'A');
 
-    CInput::GetInst()->AddBindKey("PatrickMoveFront", 'W');
-    CInput::GetInst()->AddBindKey("PatrickMoveBack", 'S');
+    CInput::GetInst()->AddBindKey("MoveRight", 'D');
+    CInput::GetInst()->AddBindKey("MoveLeft", 'A');
 
-    CInput::GetInst()->AddBindKey("PatrickJump", VK_SPACE);
+    CInput::GetInst()->AddBindKey("MoveFront", 'W');
+    CInput::GetInst()->AddBindKey("MoveBack", 'S');
 
-    CInput::GetInst()->AddBindKey("PatrickLButton", VK_LBUTTON);
+    CInput::GetInst()->AddBindKey("Jump", VK_SPACE);
+
+    CInput::GetInst()->AddBindKey("LButton", VK_LBUTTON);
 
     CInput::GetInst()->AddBindKey("RButton", VK_RBUTTON);
+
+    // Patrick
 
     CInput::GetInst()->AddBindKey("Push", VK_LBUTTON);
     CInput::GetInst()->AddBindKey("SlamDown", VK_RBUTTON);
@@ -93,15 +96,6 @@ void CDefaultSetting::SetInput()
 
 
     // Sandy
-    CInput::GetInst()->AddBindKey("SandyMoveRight", 'D');
-    CInput::GetInst()->AddBindKey("SandyMoveLeft", 'A');
-
-    CInput::GetInst()->AddBindKey("SandyMoveFront", 'W');
-    CInput::GetInst()->AddBindKey("SandyMoveBack", 'S');
-
-    CInput::GetInst()->AddBindKey("SandyJump", VK_SPACE);
-
-    CInput::GetInst()->AddBindKey("RButton", VK_RBUTTON);
 
     CInput::GetInst()->AddBindKey("MClick", VK_MBUTTON);
     CInput::GetInst()->AddBindKey("Del", VK_DELETE);

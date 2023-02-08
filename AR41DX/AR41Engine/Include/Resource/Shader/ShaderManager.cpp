@@ -19,6 +19,7 @@
 #include "AnimationUpdateShader.h"
 #include "SkyShader.h"
 #include "TerrainShader.h"
+#include "BillboardShader.h"
 
 CShaderManager::CShaderManager()
 {
@@ -75,6 +76,12 @@ bool CShaderManager::Init()
 
 	CreateShader<CAnimationUpdateShader>("AnimationUpdateShader", true);
 
+	CreateShader<CSkyShader>("SkyShader", true);
+
+	CreateShader<CTerrainShader>("TerrainShader", true);
+
+	CreateShader<CBillboardShader>("BillboardShader", true);
+
 	CreateConstantBuffer("Transform", sizeof(TransformCBuffer), 0);
 	CreateConstantBuffer("Material", sizeof(MaterialCBuffer), 1);
 	CreateConstantBuffer("Animation2D", sizeof(Animation2DCBuffer), 2);
@@ -88,10 +95,6 @@ bool CShaderManager::Init()
 	CreateConstantBuffer("Animation", sizeof(AnimationCBuffer), 0, (int)EShaderBufferType::Compute);
 	CreateConstantBuffer("Terrain", sizeof(TerrainCBuffer), 10, (int)EShaderBufferType::Vertex | (int)EShaderBufferType::Pixel);
 
-	CreateShader<CSkyShader>("SkyShader", true);
-
-	CreateShader<CTerrainShader>("TerrainShader", true);
-
 	m_ColliderCBuffer = new CColliderConstantBuffer;
 
 	m_ColliderCBuffer->Init();
@@ -101,32 +104,37 @@ bool CShaderManager::Init()
 
 CShader* CShaderManager::FindShader(const std::string& Name)
 {
-	auto	iter = m_mapShader.find(Name);
+	auto iter = m_mapShader.find(Name);
 
 	if (iter == m_mapShader.end())
+	{
 		return nullptr;
+	}
 
 	return iter->second;
 }
 
 void CShaderManager::ReleaseShader(const std::string& Name)
 {
-	auto	iter = m_mapShader.find(Name);
+	auto iter = m_mapShader.find(Name);
 
 	if (iter != m_mapShader.end())
 	{
 		if (iter->second->GetRefCount() == 1)
+		{
 			m_mapShader.erase(iter);
+		}
 	}
 }
 
-bool CShaderManager::CreateConstantBuffer(const std::string& Name, int Size,
-	int Register, int ShaderBufferType)
+bool CShaderManager::CreateConstantBuffer(const std::string& Name, int Size, int Register, int ShaderBufferType)
 {
 	CConstantBuffer* Buffer = FindConstantBuffer(Name);
 
 	if (Buffer)
+	{
 		return true;
+	}
 
 	Buffer = new CConstantBuffer;
 
@@ -145,10 +153,12 @@ bool CShaderManager::CreateConstantBuffer(const std::string& Name, int Size,
 
 CConstantBuffer* CShaderManager::FindConstantBuffer(const std::string& Name)
 {
-	auto	iter = m_mapCBuffer.find(Name);
+	auto iter = m_mapCBuffer.find(Name);
 
 	if (iter == m_mapCBuffer.end())
+	{
 		return nullptr;
+	}
 
 	return iter->second;
 }
