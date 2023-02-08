@@ -5,6 +5,21 @@
 
 enum class EUIMapList // 일시중지 맵 선택 메뉴에서 선택된 메뉴를 체크하기 위한 플래그
 {
+	Patric,				// 뚱이
+	DutchMan_Grave,		// 바다도깨비의 묘지
+	Sand_Mountain,		// 모래산
+	Goo_Lagoon,			// 끈끈이 호수
+	Dome,				// 포세이돔
+	KK,					// 스폰지밥의 꿈
+	Chum_Bucketlab,		// 미끼식당 실험실
+	Merma_Lair,			// 인어 은신처
+	Bikini_Bottom,		// 비키니시티
+	Down_Town,			// 비키니시티 도심
+	Krabs,				// 집게사장
+	Kelp_Forest,		// 켈프 숲
+	Rock_Bottom,		// 메롱시티
+	Jelly_Fish_Field,	// 해파리 동산
+	Industrial_Park,	// 공업단지
 	End
 };
 
@@ -105,7 +120,7 @@ private: // Mouse/KeyBoard Control
 	void KeyRight();		// 우 화살표/d 입력
 	void KeyE();			// E 입력
 	void KeySpace();		// 스페이스바 입력
-	void KeyBack();			// Esc 입력
+	void KeyEsc();			// Esc 입력
 
 private: // Main Menu UI Func
 	void PauseUISound();
