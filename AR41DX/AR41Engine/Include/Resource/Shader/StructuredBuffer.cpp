@@ -1,7 +1,7 @@
 #include "StructuredBuffer.h"
 #include "../../Device.h"
 
-CStructuredBuffer::CStructuredBuffer()	:
+CStructuredBuffer::CStructuredBuffer() :
 	m_Desc{},
 	m_Buffer(nullptr),
 	m_SRV(nullptr),
@@ -54,7 +54,7 @@ CStructuredBuffer::~CStructuredBuffer()
 	SAFE_RELEASE(m_Buffer);
 }
 
-bool CStructuredBuffer::Init(const std::string& Name, 
+bool CStructuredBuffer::Init(const std::string& Name,
 	unsigned int Size, unsigned int Count, int Register,
 	bool Dynamic, int StructuredBufferShaderType)
 {
@@ -120,9 +120,9 @@ bool CStructuredBuffer::Init(const std::string& Name,
 	return true;
 }
 
-bool CStructuredBuffer::Init(const std::string& Name, 
+bool CStructuredBuffer::Init(const std::string& Name,
 	unsigned int Size, unsigned int Count,
-	int Register, D3D11_USAGE Usage, UINT BindFlag, 
+	int Register, D3D11_USAGE Usage, UINT BindFlag,
 	UINT CpuFlag, bool Dynamic, int StructuredBufferShaderType)
 {
 	SAFE_RELEASE(m_SRV);

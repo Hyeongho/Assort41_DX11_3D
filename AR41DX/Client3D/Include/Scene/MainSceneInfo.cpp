@@ -25,12 +25,12 @@ bool CMainSceneInfo::Init()
 	//SetPlayerObject(Patrick);
 	
 	CPlayer* Sandy = m_Owner->CreateObject<CPlayer>("Sandy");
-	m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	//m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 
 	SetPlayerObject(Sandy);
 
 	CBikiniBottomBuildings* BikiniBottomBuildings = m_Owner->CreateObject<CBikiniBottomBuildings>("BikiniBottomBuildings");
-	SetPlayerObject(BikiniBottomBuildings);
+	//SetPlayerObject(BikiniBottomBuildings);
 	//BikiniBottomBuildings->SetWorldPosition(100.f, 100.f);
 
 	//CWeapon* Weapon = m_Owner->CreateObject<CWeapon>("Weapon");
