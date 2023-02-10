@@ -292,6 +292,9 @@
     <Filter Include="02. Resource\02. Shader\02. ShaderClass\14. Billboard">
       <UniqueIdentifier>{e02682f7-295f-4b57-bc13-6dd52da20db3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Resource\08. Particle">
+      <UniqueIdentifier>{45bbc9d6-5807-412c-8c05-6144f8f1c237}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -840,6 +843,12 @@
     <ClInclude Include="Resource\Shader\BillboardShader.h">
       <Filter>02. Resource\02. Shader\02. ShaderClass\14. Billboard</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\Particle\ParticleManager.h">
+      <Filter>02. Resource\08. Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Particle\Particle.h">
+      <Filter>02. Resource\08. Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1331,6 +1340,12 @@
     <ClCompile Include="Resource\Shader\BillboardShader.cpp">
       <Filter>02. Resource\02. Shader\02. ShaderClass\14. Billboard</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\Particle\ParticleManager.cpp">
+      <Filter>02. Resource\08. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Particle\Particle.cpp">
+      <Filter>02. Resource\08. Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\Shader\Share.fx">
@@ -1367,6 +1382,9 @@
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\Shader\Billboard.fx">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\ParticleUpdate.fx">
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
   </ItemGroup>
