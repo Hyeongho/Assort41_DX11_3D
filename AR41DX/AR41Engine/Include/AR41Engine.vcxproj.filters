@@ -289,6 +289,9 @@
     <Filter Include="01. Manager\10. Thread\02. Navigation\02. 3D">
       <UniqueIdentifier>{10108a52-d67a-4228-bbf1-e6cc9cfe0aec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Resource\02. Shader\02. ShaderClass\14. Billboard">
+      <UniqueIdentifier>{e02682f7-295f-4b57-bc13-6dd52da20db3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -825,6 +828,18 @@
     <ClInclude Include="Thread\Navigation2DThread.h">
       <Filter>01. Manager\10. Thread\02. Navigation\01. 2D</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\NavigationMesh.h">
+      <Filter>03. Scene\06. Navigation\02. 3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\NavigationAgent3D.h">
+      <Filter>05. Component\02. ObjectComponent\01. NavAgent</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\BillboardComponent.h">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\BillboardShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\14. Billboard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1304,6 +1319,18 @@
     <ClCompile Include="Thread\Navigation2DThread.cpp">
       <Filter>01. Manager\10. Thread\02. Navigation\01. 2D</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\NavigationMesh.cpp">
+      <Filter>03. Scene\06. Navigation\02. 3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\NavigationAgent3D.cpp">
+      <Filter>05. Component\02. ObjectComponent\01. NavAgent</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\BillboardComponent.cpp">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\BillboardShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\14. Billboard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\Shader\Share.fx">
@@ -1337,6 +1364,9 @@
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\Shader\Terrain.fx">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\Billboard.fx">
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
   </ItemGroup>

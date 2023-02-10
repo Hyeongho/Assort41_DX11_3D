@@ -467,6 +467,12 @@ struct TerrainCBuffer
 	Vector2 Empty;
 };
 
+struct Ray
+{
+	Vector3	Pos;
+	Vector3	Dir;
+};
+
 //김범중 UI관련 구조체
 struct HierarchyWindowName
 {

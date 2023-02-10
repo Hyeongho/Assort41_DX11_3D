@@ -8,34 +8,34 @@
 
 struct RenderLayer
 {
-	std::string		Name;
-	int				LayerPriority;
+	std::string Name;
+	int LayerPriority;
 	CSharedPtr<class CRenderState> AlphaBlend;
-	std::list<CSharedPtr<class CSceneComponent>>	RenderList;
+	std::list<CSharedPtr<class CSceneComponent>> RenderList;
 };
 
 class CRenderManager
 {
 private:
-	std::vector<RenderLayer*>	m_RenderLayerList;
+	std::vector<RenderLayer*> m_RenderLayerList;
 	CRenderStateManager* m_RenderStateManager;
 	CSharedPtr<class CRenderState> m_AlphaBlend;
 	CSharedPtr<class CRenderState> m_DepthDisable;
 	CSharedPtr<class CRenderState> m_DepthWriteDisable;
 	CSharedPtr<class CRenderState> m_LightAccBlend;
 
-	std::vector<CSharedPtr<CRenderTarget>>	m_vecGBuffer;
+	std::vector<CSharedPtr<CRenderTarget>> m_vecGBuffer;
 
-	std::vector<CSharedPtr<CRenderTarget>>	m_vecLightBuffer;
+	std::vector<CSharedPtr<CRenderTarget>> m_vecLightBuffer;
 
-	CSharedPtr<CRenderTarget>		m_ScreenBuffer;
+	CSharedPtr<CRenderTarget> m_ScreenBuffer;
 
-	CSharedPtr<CGraphicShader>		m_ScreenShader;
-	CSharedPtr<CGraphicShader>		m_DeferredRenderShader;
+	CSharedPtr<CGraphicShader> m_ScreenShader;
+	CSharedPtr<CGraphicShader> m_DeferredRenderShader;
 
 	std::vector<CRenderInstancing*>	m_vecInstancingPool;
-	std::list<int>		m_EmptyPoolList;
-	std::unordered_map<class CMesh*, CRenderInstancing*>	m_mapInstancing;
+	std::list<int> m_EmptyPoolList;
+	std::unordered_map<class CMesh*, CRenderInstancing*> m_mapInstancing;
 
 public:
 	CRenderInstancing* FindInstancing(class CMesh* Mesh);
@@ -57,6 +57,7 @@ private:
 	void RenderLight(float DeltaTime);
 	void RenderScreen(float DeltaTime);
 	void RenderDeferred(float DeltaTime);
+	void RenderParticle(float DeltaTime);
 
 public:
 	void SetBlendFactor(const std::string& Name, float r, float g, float b, float a);
@@ -92,6 +93,7 @@ private:
 
 public:
 	void CreateRenderTarget();
+	static bool SortAlphaObject(class CSceneComponent* Src, class CSceneComponent* Dest);
 
 private:
 	RenderLayer* FindLayer(const std::string& Name);

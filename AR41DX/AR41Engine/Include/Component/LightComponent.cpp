@@ -5,9 +5,7 @@
 #include "../Scene/CameraManager.h"
 #include "CameraComponent.h"
 
-CLightComponent::CLightComponent()	:
-	m_CBuffer(nullptr),
-	m_LightInfo{}
+CLightComponent::CLightComponent() : m_CBuffer(nullptr)
 {
 	SetTypeID<CLightComponent>();
 
@@ -16,12 +14,13 @@ CLightComponent::CLightComponent()	:
 	m_LightInfo.Color = Vector4::White;
 }
 
-CLightComponent::CLightComponent(const CLightComponent& component) :
-	CSceneComponent(component)
+CLightComponent::CLightComponent(const CLightComponent& component) : CSceneComponent(component)
 {
 	m_LightInfo = component.m_LightInfo;
 	if (component.m_CBuffer)
+	{
 		m_CBuffer = component.m_CBuffer->Clone();
+	}
 }
 
 CLightComponent::~CLightComponent()

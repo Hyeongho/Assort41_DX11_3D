@@ -3,6 +3,7 @@
 #include "../Scene/Scene.h"
 #include "Navigation2DThread.h"
 #include "Navigation3DThread.h"
+#include "../Scene/NavigationMesh.h"
 
 DEFINITION_SINGLE(CThreadManager)
 
@@ -26,8 +27,8 @@ CThreadManager::~CThreadManager()
 	}
 
 	{
-		auto	iter = m_mapCriticalSection.begin();
-		auto	iterEnd = m_mapCriticalSection.end();
+		auto iter = m_mapCriticalSection.begin();
+		auto iterEnd = m_mapCriticalSection.end();
 
 		for (; iter != iterEnd; iter++)
 		{
@@ -126,7 +127,7 @@ void CThreadManager::CreateNavigationThread(CSceneComponent* NavComponent, bool 
 {
 	CScene* Scene = NavComponent->GetScene();
 
-	unsigned __int64 Address = (unsigned __int64)Scene;
+	unsigned __int64	Address = (unsigned __int64)Scene;
 
 	char SceneAddress[32] = {};
 
@@ -180,7 +181,7 @@ void CThreadManager::DeleteNavigationThread(CSceneComponent* NavComponent)
 		return;
 	}
 
-	unsigned __int64 Address = (unsigned __int64)Scene;
+	unsigned __int64	Address = (unsigned __int64)Scene;
 
 	char SceneAddress[32] = {};
 
@@ -189,6 +190,90 @@ void CThreadManager::DeleteNavigationThread(CSceneComponent* NavComponent)
 	std::string	Name = NavComponent->GetSceneName();
 	Name += "_";
 	Name += NavComponent->GetName();
+	Name += "_";
+	Name += SceneAddress;
+
+	SYSTEM_INFO	SysInfo = {};
+
+	GetSystemInfo(&SysInfo);
+
+	for (DWORD i = 0; i < SysInfo.dwNumberOfProcessors * 2; i++)
+	{
+		char	ThreadName[256] = {};
+
+		sprintf_s(ThreadName, "%s_%d", Name.c_str(), (int)i);
+
+		CThread* Thread = FindThread(ThreadName);
+
+		if (!Thread)
+		{
+			continue;
+		}
+
+		Thread->ReStart();
+
+		Delete(ThreadName);
+	}
+}
+
+void CThreadManager::CreateNavigationThread(CNavigationMesh* NavMesh)
+{
+	CScene* Scene = NavMesh->GetScene();
+
+	unsigned __int64	Address = (unsigned __int64)Scene;
+
+	char SceneAddress[32] = {};
+
+	sprintf_s(SceneAddress, "%llu", Address);
+
+	std::string	Name = NavMesh->GetSceneName();
+	Name += "_";
+	Name += NavMesh->GetComponentName();
+	Name += "_";
+	Name += SceneAddress;
+
+	SYSTEM_INFO	SysInfo = {};
+
+	GetSystemInfo(&SysInfo);
+
+	for (DWORD i = 0; i < SysInfo.dwNumberOfProcessors * 2; i++)
+	{
+		char ThreadName[256] = {};
+
+		sprintf_s(ThreadName, "%s_%d", Name.c_str(), (int)i);
+
+		CNavigation3DThread* Thread = nullptr;
+		Thread = Create<CNavigation3DThread>(ThreadName);
+
+		Thread->SetNavigationMesh(NavMesh);
+		Thread->SetLoop(true);
+
+		Thread->Start();
+
+		Thread->Suspend();
+
+		Scene->GetNavigationManager()->AddNavigationThread(Thread);
+	}
+}
+
+void CThreadManager::DeleteNavigationThread(CNavigationMesh* NavMesh)
+{
+	CScene* Scene = NavMesh->GetScene();
+
+	if (!Scene)
+	{
+		return;
+	}
+
+	unsigned __int64	Address = (unsigned __int64)Scene;
+
+	char SceneAddress[32] = {};
+
+	sprintf_s(SceneAddress, "%llu", Address);
+
+	std::string	Name = NavMesh->GetSceneName();
+	Name += "_";
+	Name += NavMesh->GetComponentName();
 	Name += "_";
 	Name += SceneAddress;
 

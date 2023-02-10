@@ -216,9 +216,9 @@ void CUIButton::Update(float DeltaTime)
     if (m_State != EButtonState::Disable)
     {
         // 마우스가 버튼 위에 올라왔는지 체크한다.
-        Vector2 MousePos = CInput::GetInst()->GetMousePos();
+        Vector2 MousePos = CInput::GetInst()->GetMouseUIPos();
 
-        bool    MouseHovered = true;
+        bool MouseHovered = true;
 
         if (m_RenderPos.x > MousePos.x)
             MouseHovered = false;

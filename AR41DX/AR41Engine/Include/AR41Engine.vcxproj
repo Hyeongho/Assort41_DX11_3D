@@ -25,6 +25,7 @@
     <ClInclude Include="Animation\AnimationData.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component\AnimationMeshComponent.h" />
+    <ClInclude Include="Component\BillboardComponent.h" />
     <ClInclude Include="Component\CameraComponent.h" />
     <ClInclude Include="Component\Collider.h" />
     <ClInclude Include="Component\Collider2D.h" />
@@ -36,6 +37,7 @@
     <ClInclude Include="Component\Component.h" />
     <ClInclude Include="Component\LightComponent.h" />
     <ClInclude Include="Component\NavigationAgent.h" />
+    <ClInclude Include="Component\NavigationAgent3D.h" />
     <ClInclude Include="Component\ObjectComponent.h" />
     <ClInclude Include="Component\PrimitiveComponent.h" />
     <ClInclude Include="Component\RigidBody.h" />
@@ -122,6 +124,7 @@
     <ClInclude Include="Resource\Shader\Animation2DConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\AnimationUpdateConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\AnimationUpdateShader.h" />
+    <ClInclude Include="Resource\Shader\BillboardShader.h" />
     <ClInclude Include="Resource\Shader\ColliderConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\ColliderImageShader.h" />
     <ClInclude Include="Resource\Shader\ColliderShader.h" />
@@ -168,6 +171,7 @@
     <ClInclude Include="Scene\NavigationManager.h" />
     <ClInclude Include="Scene\NavigationManager2D.h" />
     <ClInclude Include="Scene\NavigationManager3D.h" />
+    <ClInclude Include="Scene\NavigationMesh.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneCollision.h" />
     <ClInclude Include="Scene\SceneInfo.h" />
@@ -205,6 +209,7 @@
     <ClCompile Include="Animation\AnimationData.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component\AnimationMeshComponent.cpp" />
+    <ClCompile Include="Component\BillboardComponent.cpp" />
     <ClCompile Include="Component\CameraComponent.cpp" />
     <ClCompile Include="Component\Collider.cpp" />
     <ClCompile Include="Component\Collider2D.cpp" />
@@ -216,6 +221,7 @@
     <ClCompile Include="Component\Component.cpp" />
     <ClCompile Include="Component\LightComponent.cpp" />
     <ClCompile Include="Component\NavigationAgent.cpp" />
+    <ClCompile Include="Component\NavigationAgent3D.cpp" />
     <ClCompile Include="Component\ObjectComponent.cpp" />
     <ClCompile Include="Component\PrimitiveComponent.cpp" />
     <ClCompile Include="Component\RigidBody.cpp" />
@@ -286,6 +292,7 @@
     <ClCompile Include="Resource\Shader\Animation2DConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\AnimationUpdateConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\AnimationUpdateShader.cpp" />
+    <ClCompile Include="Resource\Shader\BillboardShader.cpp" />
     <ClCompile Include="Resource\Shader\ColliderConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\ColliderImageShader.cpp" />
     <ClCompile Include="Resource\Shader\ColliderShader.cpp" />
@@ -331,6 +338,7 @@
     <ClCompile Include="Scene\NavigationManager.cpp" />
     <ClCompile Include="Scene\NavigationManager2D.cpp" />
     <ClCompile Include="Scene\NavigationManager3D.cpp" />
+    <ClCompile Include="Scene\NavigationMesh.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneCollision.cpp" />
     <ClCompile Include="Scene\SceneInfo.cpp" />
@@ -371,6 +379,24 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AnimationUpdateCS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\Billboard.fx">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">BillboardVS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">BillboardVS</EntryPointName>
+      <DisableOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DisableOptimizations>
+      <EnableDebuggingInformation Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</EnableDebuggingInformation>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">BillboardVS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">BillboardVS</EntryPointName>
+      <DisableOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DisableOptimizations>
+      <EnableDebuggingInformation Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</EnableDebuggingInformation>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>

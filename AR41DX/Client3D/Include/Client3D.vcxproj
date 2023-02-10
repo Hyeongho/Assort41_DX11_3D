@@ -162,8 +162,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client3DManager.cpp" />
+    <ClCompile Include="GameObject\BikiniBottomBuildings.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
+    <ClCompile Include="GameObject\Jellyfish.cpp" />
+    <ClCompile Include="GameObject\KingJellyfish.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
+    <ClCompile Include="GameObject\Patrick.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
     <ClCompile Include="GameObject\Sandy.cpp" />
     <ClCompile Include="GameObject\Weapon.cpp" />
@@ -173,13 +177,18 @@
     <ClCompile Include="Setting\DefaultSetting.cpp" />
     <ClCompile Include="Setting\EngineShareSetting.cpp" />
     <ClCompile Include="UI\LoadingUI.cpp" />
+    <ClCompile Include="UI\PlayerUI.cpp" />
     <ClCompile Include="UI\StartSceneUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client3D.h" />
     <ClInclude Include="Client3DManager.h" />
+    <ClInclude Include="GameObject\BikiniBottomBuildings.h" />
     <ClInclude Include="GameObject\Bullet.h" />
+    <ClInclude Include="GameObject\Jellyfish.h" />
+    <ClInclude Include="GameObject\KingJellyfish.h" />
     <ClInclude Include="GameObject\Monster.h" />
+    <ClInclude Include="GameObject\Patrick.h" />
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\Sandy.h" />
     <ClInclude Include="GameObject\Weapon.h" />
@@ -189,6 +198,7 @@
     <ClInclude Include="Setting\DefaultSetting.h" />
     <ClInclude Include="Setting\EngineShareSetting.h" />
     <ClInclude Include="UI\LoadingUI.h" />
+    <ClInclude Include="UI\PlayerUI.h" />
     <ClInclude Include="UI\StartSceneUI.h" />
   </ItemGroup>
   <ItemGroup>

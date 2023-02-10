@@ -179,12 +179,21 @@ void CInput::UpdateMouse(float DeltaTime)
 	GetClientRect(m_hWnd, &WindowRC);
 
 	Vector2	ResolutionRatio = CDevice::GetInst()->GetResolutionRatio();
+	Resolution RS = CDevice::GetInst()->GetResolution();
 
 	Vector2	MousePos;
 
 	MousePos.x = (float)ptMouse.x * ResolutionRatio.x;
-	MousePos.y = (float)(WindowRC.bottom - WindowRC.top - ptMouse.y) * ResolutionRatio.y;
+	MousePos.y = (float)ptMouse.y * ResolutionRatio.y;
 
+	m_MouseUIPos = MousePos;
+
+	m_MouseUIPos.y = RS.Height - m_MouseUIPos.y;
+
+	Vector2	Mouse2DPos = m_MousePos;
+	Mouse2DPos.y = RS.Height - Mouse2DPos.y;
+
+	m_MouseMove2D = m_MouseUIPos - Mouse2DPos;
 	m_MouseMove = MousePos - m_MousePos;
 
 	m_MousePos = MousePos;
@@ -196,6 +205,20 @@ void CInput::UpdateMouse(float DeltaTime)
 
 	m_MouseWorldPos = m_MousePos + Vector2(CameraPos.x, CameraPos.y);
 
+	m_Ray.Dir.x = m_MousePos.x / RS.Width;
+	m_Ray.Dir.y = m_MousePos.y / RS.Height;
+
+	m_Ray.Dir.x = m_Ray.Dir.x * 2.f - 1.f;
+	m_Ray.Dir.y = m_Ray.Dir.y * -2.f + 1.f;
+
+	Matrix	matProj = Camera->GetProjMatrix();
+
+	m_Ray.Dir.x /= matProj._11;
+	m_Ray.Dir.y /= matProj._22;
+	m_Ray.Dir.z = 1.f;
+
+	m_Ray.Dir.Normalize();
+	m_Ray.Pos = Vector3(0.f, 0.f, 0.f);
 
 	/*RECT	rc = {};
 	GetClientRect(m_hWnd, &rc);

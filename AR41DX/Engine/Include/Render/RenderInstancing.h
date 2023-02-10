@@ -16,9 +16,10 @@ private:
 
 private:
 	std::list<CPrimitiveComponent*>	m_RenderList;
+	std::string	m_LayerName;
 	class CMesh* m_Key;
-	int		m_PoolIndex;
-	int		m_BufferCount;
+	int m_PoolIndex;
+	int m_BufferCount;
 	CStructuredBuffer* m_Buffer;
 	CSharedPtr<CShader>	m_InstancingShader;
 	CInstancingConstantBuffer* m_CBuffer;

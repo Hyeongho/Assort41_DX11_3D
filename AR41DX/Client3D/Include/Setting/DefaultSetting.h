@@ -16,6 +16,14 @@ private:
     void SetInput();
     void SetCollision();
 
+    void LoadPatrick();
     void LoadSandy();
+
+    void LoadBuildings();
+    void LoadRoboSponge();
+
+    void LoadKingJellyfish();
+
+    void LoadJellyfish();
 };
 

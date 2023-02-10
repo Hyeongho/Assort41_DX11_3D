@@ -2,9 +2,9 @@
 
 #include "EngineInfo.h"
 
-#define	DIK_MOUSELBUTTON	0xfc
-#define	DIK_MOUSERBUTTON	0xfd
-#define	DIK_MOUSEWHEEL		0xfe
+#define	DIK_MOUSELBUTTON 0xfc
+#define	DIK_MOUSERBUTTON 0xfd
+#define	DIK_MOUSEWHEEL 0xfe
 
 enum class InputSystem_Type
 {
@@ -22,16 +22,12 @@ enum class Input_Type
 
 struct KeyState
 {
-	unsigned char	key;
-	bool	Down;	// 누르기 시작할때
-	bool	Push;	// 누르고 있을때
-	bool	Up;		// 누르고 있던 키가 올라올때
+	unsigned char key;
+	bool Down;	// 누르기 시작할때
+	bool Push;	// 누르고 있을때
+	bool Up;		// 누르고 있던 키가 올라올때
 
-	KeyState() :
-		key(0),
-		Down(false),
-		Push(false),
-		Up(false)
+	KeyState() : key(0), Down(false), Push(false), Up(false)
 	{
 	}
 };
@@ -39,12 +35,10 @@ struct KeyState
 struct BindFunction
 {
 	void* Obj;
-	std::function<void()>	func;
+	std::function<void()> func;
 	class CScene* Scene;
 
-	BindFunction() :
-		Obj(nullptr),
-		Scene(nullptr)
+	BindFunction() : Obj(nullptr), Scene(nullptr)
 	{
 	}
 };
@@ -55,17 +49,13 @@ struct BindKey
 	std::string	Name;
 	// 어떤 키를 사용하는지.
 	KeyState* key;
-	bool	Ctrl;
-	bool	Alt;
-	bool	Shift;
+	bool Ctrl;
+	bool Alt;
+	bool Shift;
 
-	std::vector<BindFunction*>	vecFunction[(int)Input_Type::End];
+	std::vector<BindFunction*> vecFunction[(int)Input_Type::End];
 
-	BindKey() :
-		key(nullptr),
-		Ctrl(false),
-		Alt(false),
-		Shift(false)
+	BindKey() : key(nullptr), Ctrl(false), Alt(false), Shift(false)
 	{
 	}
 };
@@ -73,64 +63,82 @@ struct BindKey
 class CInput
 {
 private:
-	std::unordered_map<unsigned char, KeyState*>	m_mapKeyState;
-	std::unordered_map<std::string, BindKey*>		m_mapBindKey;
-	bool	m_Ctrl;
-	bool	m_Alt;
-	bool	m_Shift;
-	HWND	m_hWnd;
+	std::unordered_map<unsigned char, KeyState*> m_mapKeyState;
+	std::unordered_map<std::string, BindKey*> m_mapBindKey;
+	bool m_Ctrl;
+	bool m_Alt;
+	bool m_Shift;
+	HWND m_hWnd;
 	IDirectInput8* m_Input;
 	IDirectInputDevice8* m_Keyboard;
 	IDirectInputDevice8* m_Mouse;
-	unsigned char	m_KeyArray[256];
-	DIMOUSESTATE	m_MouseState;
-	InputSystem_Type	m_InputSystem;
+	unsigned char m_KeyArray[256];
+	DIMOUSESTATE m_MouseState;
+	InputSystem_Type m_InputSystem;
 
-	Vector2	m_MousePos;			// 윈도우 창에서의 위치
-	Vector2	m_MouseWorldPos;	// 월드공간에서의 마우스 위치 2D 전용.
+	Vector2	m_MousePos; // 윈도우 창에서의 위치
+	Vector2	m_MouseWorldPos; // 월드공간에서의 마우스 위치 2D 전용.
+	Vector2	m_MouseUIPos;
 	Vector2	m_MouseMove;
-	bool	m_MouseLDown;
-	bool	m_MouseLPush;
-	bool	m_MouseLUp;
-	bool	m_ShowCursor;
-	bool	m_CollisionWidget;
+	Vector2	m_MouseMove2D;
+	bool m_MouseLDown;
+	bool m_MouseLPush;
+	bool m_MouseLUp;
+	bool m_ShowCursor;
+	bool m_CollisionWidget;
 
-	short	m_Wheel;
+	short m_Wheel;
+	Ray m_Ray;
 
 public:
-	short GetMouseWheel()	const
+	const Vector2& GetMouseUIPos() const
+	{
+		return m_MouseUIPos;
+	}
+
+	const Ray& GetRay()	const
+	{
+		return m_Ray;
+	}
+
+	short GetMouseWheel() const
 	{
 		return m_Wheel;
 	}
 
-	bool GetMouseLDown()	const
+	bool GetMouseLDown() const
 	{
 		return m_MouseLDown;
 	}
 
-	bool GetMouseLPush()	const
+	bool GetMouseLPush() const
 	{
 		return m_MouseLPush;
 	}
 
-	bool GetMouseLUp()	const
+	bool GetMouseLUp() const
 	{
 		return m_MouseLUp;
 	}
 
-	const Vector2& GetMousePos()	const
+	const Vector2& GetMousePos() const
 	{
 		return m_MousePos;
 	}
 
-	const Vector2& GetMouseWorldPos()	const
+	const Vector2& GetMouseWorldPos() const
 	{
 		return m_MouseWorldPos;
 	}
 
-	const Vector2& GetMouseMove()	const
+	const Vector2& GetMouseMove() const
 	{
 		return m_MouseMove;
+	}
+
+	const Vector2& GetMouseMove2D()	const
+	{
+		return m_MouseMove2D;
 	}
 
 public:
@@ -181,7 +189,9 @@ public:
 		BindKey* Key = FindBindKey(KeyName);
 
 		if (!Key)
+		{
 			return;
+		}
 
 		BindFunction* Function = new BindFunction;
 
@@ -199,10 +209,12 @@ public:
 		BindKey* Key = FindBindKey(Name);
 
 		if (!Key)
+		{
 			return false;
+		}
 
-		auto	iter = Key->vecFunction[(int)Type].begin();
-		auto	iterEnd = Key->vecFunction[(int)Type].end();
+		auto iter = Key->vecFunction[(int)Type].begin();
+		auto iterEnd = Key->vecFunction[(int)Type].end();
 
 		for (; iter != iterEnd;)
 		{

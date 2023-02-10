@@ -38,7 +38,7 @@ void CNavigationThread::AddInputData(CNavigationAgent* Agent, const Vector2& End
 	}
 }
 
-void CNavigationThread::AddInputData(CNavigationAgent* Agent, const Vector3& End)
+void CNavigationThread::AddInputData(CNavigationAgent3D* Agent, const Vector3& End)
 {
 	unsigned char	Buffer[1024] = {};
 
