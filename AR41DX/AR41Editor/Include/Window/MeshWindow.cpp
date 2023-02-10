@@ -13,7 +13,6 @@
 #include "Component/PrimitiveComponent.h"
 #include "Resource/ResourceManager.h"
 #include "Resource/Mesh/Mesh.h"
-#include "Resource/Mesh/AnimationMesh.h"
 
 CMeshWindow::CMeshWindow()
     : m_Min{}
@@ -21,7 +20,6 @@ CMeshWindow::CMeshWindow()
     , m_Name(nullptr)
     , m_MeshType(nullptr)
     , m_RenderCount(nullptr)
-    , m_SkeletonName(nullptr)
 {
 }
 
@@ -45,14 +43,7 @@ void CMeshWindow::SetSelectComponent(CPrimitiveComponent* component)
     m_Max[2]->SetFloat(m_SelectComponent->GetMesh()->GetMax().z);
     m_RenderCount->SetInt(m_SelectComponent->GetMesh()->GetRenderCount());
     int index = (int)m_SelectComponent->GetMesh()->GetMeshType();
-    //std::string name = m_MeshType->GetItem(index);
-    //m_MeshType->SetPrevViewName(name);
     m_MeshType->SetSelectIndex(index);
-	if((MeshType)index== MeshType::Animation)
-	{
-		m_SelectAnimMesh = (CAnimationMesh*)m_SelectComponent->GetMesh();
-		m_SkeletonName->SetText(m_SelectAnimMesh->GetSkeleton()->GetName().c_str());
-	}
 }
 
 bool CMeshWindow::Init()
@@ -117,13 +108,6 @@ bool CMeshWindow::Init()
 	m_Max[2]->SetHideName("MaxZ");
 	m_Max[2]->SetInputType(EImGuiInputType::Float);
 	m_Max[2]->ReadOnly(true);
-
-	label = CreateWidget<CEditorLabel>("애니메이션 메쉬");
-	label->SetColor(255, 0, 0, 255);
-	label->SetAlign(0.5f, 0.5f);
-	label->SetSize(120.f, 30.f);
-	m_SkeletonName = CreateWidget<CEditorInput>("스켈레톤 이름", 120.f, 30.f);
-	line = CreateWidget<CEditorSameLine>("Line");
 	return true;
 }
 
@@ -137,40 +121,39 @@ void CMeshWindow::Update(float deltaTime)
 			m_SelectComponent = nullptr;
         }
     }
-	if (m_SelectAnimMesh)
-	{
-		if (!m_SelectAnimMesh->GetActive())
-		{
-			m_SelectAnimMesh = nullptr;
-		}
-	}
 }
 
-void CMeshWindow::MeshChangeCallback(const TCHAR* name)
+void CMeshWindow::MeshChangeCallback(const TCHAR* path)
 {
+	char name[256];
+	char ext[256];
+	WideCharToMultiByte(CP_ACP, 0, path, _MAX_EXT, name, _MAX_EXT, NULL, NULL);
+	_splitpath_s(name, nullptr, 0, nullptr, 0, name, _MAX_EXT, ext, 256);
 	CResourceManager* resourceManager = CResourceManager::GetInst();
 	int meshType = m_MeshType->GetSelectIndex();
-	std::string meshName = m_Name->GetText();
 	if (MeshType::Animation == (MeshType)meshType)
 	{
-		resourceManager->LoadMesh(nullptr, MeshType::Animation, meshName, name);
-		resourceManager->LoadSkeleton(nullptr, m_SkeletonName->GetText(), name);
-		resourceManager->SetMeshSkeleton(meshName, m_SkeletonName->GetText());
+		resourceManager->LoadMeshFullPath(nullptr, MeshType::Animation, name, path);
+		resourceManager->LoadSkeletonFullPath(nullptr, name, path);
+		resourceManager->SetMeshSkeleton(name, name);
 	}
 	else
 	{
-		resourceManager->LoadMesh(nullptr, (MeshType)meshType, meshName, name);
+		resourceManager->LoadMeshFullPath(nullptr, (MeshType)meshType, name, path);
 	}
 	if (m_SelectComponent)
 	{
-		m_SelectComponent->SetMesh(meshName);
+		m_SelectComponent->SetMesh(name);
 	}
 }
 
-void CMeshWindow::SkeletonChangeCallback(const TCHAR* name)
+void CMeshWindow::SkeletonChangeCallback(const TCHAR* path)
 {
+	char name[256];
+	char ext[256];
+	WideCharToMultiByte(CP_ACP, 0, path, _MAX_EXT, name, _MAX_EXT, NULL, NULL);
+	_splitpath_s(name, nullptr, 0, nullptr, 0, name, _MAX_EXT, ext, 256);
 	CResourceManager* resourceManager = CResourceManager::GetInst();
-	std::string meshName = m_Name->GetText();
-	resourceManager->LoadSkeleton(nullptr, m_SkeletonName->GetText(), name);
-	resourceManager->SetMeshSkeleton(meshName, m_SkeletonName->GetText());
+	resourceManager->LoadSkeletonFullPath(nullptr, name, path);
+	resourceManager->SetMeshSkeleton(name, name);
 }

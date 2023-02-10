@@ -394,7 +394,7 @@ void CMaterialWindow::ImgChangeCallback(const std::string& name, const TCHAR* pa
     {
         return;
     }
-    m_SelectMaterial->SetTexture(index,0, (int)EShaderBufferType::Pixel, name, path);
+    m_SelectMaterial->SetTextureFullPath(index,0, (int)EShaderBufferType::Pixel, name, path);
     m_Image->SetTexture(m_SelectMaterial->GetTexture(index));
 }
 
