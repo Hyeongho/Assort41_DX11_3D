@@ -1,4 +1,3 @@
-
 #include "ResourceManager.h"
 #include "Mesh/MeshManager.h"
 #include "Texture/TextureManager.h"
@@ -70,6 +69,10 @@ bool CResourceManager::Init()
 	m_FontManager = new CFontManager;
 
 	m_FontManager->Init();
+
+	m_ParticleManager = new CParticleManager;
+
+	m_ParticleManager->Init();
 
 	return true;
 }

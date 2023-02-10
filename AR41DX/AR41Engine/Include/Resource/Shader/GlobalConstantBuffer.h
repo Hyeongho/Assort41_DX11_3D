@@ -31,5 +31,10 @@ public:
 	{
 		m_BufferData.Resolution = Vector2(Width, Height);
 	}
+
+	void SetNoiseResolution(float Width, float Height)
+	{
+		m_BufferData.NoiseResolution = Vector2(Width, Height);
+	}
 };
 
