@@ -1,5 +1,7 @@
 #pragma once
+
 #include "EngineSetting.h"
+
 class CDefaultSetting :
     public CEngineSetting
 {
@@ -16,6 +18,7 @@ private:
     void SetInput();
     void SetCollision();
 
+    void LoadSpongebob();
     void LoadPatrick();
     void LoadSandy();
 

@@ -24,7 +24,16 @@
 #include "Component/CameraComponent.h"
 #include "Component/TargetArm.h"
 #include "Component/TileMapComponent.h"
+#include "Component/ColliderBox2d.h"
+#include "Component/ColliderOBB2d.h"
+#include "Component/ColliderSphere2d.h"
+#include "Component/ColliderPixel.h"
 #include "Component/RigidBody.h"
+#include "Component/LightComponent.h"
+#include "Component/AnimationMeshComponent.h"
+#include "Component/StaticMeshComponent.h"
+#include "Component/BillboardComponent.h"
+#include "Component/TerrainComponent.h"
 
 CClassWindow::CClassWindow()
 {
@@ -210,10 +219,60 @@ void CClassWindow::ComponentCreateCallback()
 		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CTileMapComponent>("TileMapComponent");
 	}
 
+	else if (m_SelectComponentItem == "AnimationMeshComponent")
+	{
+		Name = "AnimationMeshComponent(AnimationMeshComponent)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CAnimationMeshComponent>("AnimationMeshComponent");
+	}
+
+	else if (m_SelectComponentItem == "StaticMeshComponent")
+	{
+		Name = "StaticMeshComponent(StaticMeshComponent)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CStaticMeshComponent>("StaticMeshComponent");
+	}
+
+	else if (m_SelectComponentItem == "ColliderBox2D")
+	{
+		Name = "ColliderBox2D(ColliderBox2D)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CColliderBox2D>("ColliderBox2D");
+	}
+	else if (m_SelectComponentItem == "ColliderOBB2D")
+	{
+		Name = "ColliderOBB2D(ColliderOBB2D)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CColliderOBB2D>("ColliderOBB2D");
+	}
+	else if (m_SelectComponentItem == "ColliderSphere2D")
+	{
+		Name = "ColliderSphere2D(ColliderSphere2D)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CColliderSphere2D>("ColliderSphere2D");
+	}
+	else if (m_SelectComponentItem == "ColliderPixel")
+	{
+		Name = "ColliderPixel(ColliderPixel)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CColliderPixel>("ColliderPixel");
+	}
+
 	else if (m_SelectComponentItem == "RigidBody")
 	{
 		Name = "RigidBody(RigidBody)";
 		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CRigidBody>("RigidBody");
+	}
+
+	else if (m_SelectComponentItem == "LightComponent")
+	{
+		Name = "LightComponent(LightComponent)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CLightComponent>("LightComponent");
+	}
+
+	else if (m_SelectComponentItem == "TerrainComponent")
+	{
+		Name = "TerrainComponent(TerrainComponent)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CTerrainComponent>("TerrainComponent");
+	}
+	else if (m_SelectComponentItem == "BillboardComponent")
+	{
+		Name = "BillboardComponent(BillboardComponent)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CBillboardComponent>("BillboardComponent");
 	}
 
 	if (SelectComponent)

@@ -57,9 +57,6 @@
     <ClCompile Include="Scene\EditorDefaultScene.cpp">
       <Filter>02. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Window\TestWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Monster.cpp">
       <Filter>04. GameObject</Filter>
     </ClCompile>
@@ -150,21 +147,6 @@
     <ClCompile Include="GameObject\Weapon.cpp">
       <Filter>04. GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Window\UIButtonWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\UIImageWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\UINumberWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\UIProgressBarWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\UITextWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
     <ClCompile Include="Window\TransformWindow.cpp">
       <Filter>03. Window\04. Component</Filter>
     </ClCompile>
@@ -195,6 +177,21 @@
     <ClCompile Include="Window\MeshWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
+    <ClCompile Include="Window\UIButtonWindow.cpp">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UIImageWindow.cpp">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UINumberWindow.cpp">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UIProgressBarWindow.cpp">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UITextWindow.cpp">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -208,9 +205,6 @@
     </ClInclude>
     <ClInclude Include="Scene\EditorDefaultScene.h">
       <Filter>02. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\TestWindow.h">
-      <Filter>03. Window</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Bullet.h">
       <Filter>04. GameObject</Filter>
@@ -302,21 +296,6 @@
     <ClInclude Include="GameObject\Weapon.h">
       <Filter>04. GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Window\UITextWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\UIButtonWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\UIImageWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\UINumberWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\UIProgressBarWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
     <ClInclude Include="Window\TransformWindow.h">
       <Filter>03. Window\04. Component</Filter>
     </ClInclude>
@@ -346,6 +325,21 @@
     </ClInclude>
     <ClInclude Include="Window\MeshWindow.h">
       <Filter>03. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UIButtonWindow.h">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UIImageWindow.h">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UINumberWindow.h">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UIProgressBarWindow.h">
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UITextWindow.h">
+      <Filter>03. Window\02. UIWIndow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

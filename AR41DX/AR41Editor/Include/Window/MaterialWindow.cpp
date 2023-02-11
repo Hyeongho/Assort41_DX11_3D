@@ -368,33 +368,29 @@ void CMaterialWindow::MaterialCreateCallback()
     material->SetEmissiveColor(color);
     material->SetOpacity(m_Opacity->GetFloat());
     material->SetShader(m_Shader->GetText());
-    //	material->AddTexture(0, (int)EShaderBufferType::Pixel, "DefaultTexture", TEXT("neutral.png"));
-    /*
-    	std::vector<const TCHAR*>	vecFileNames;
-	for (int i = 0; i <= 379; ++i)
-	{
-		TCHAR* fileName = new TCHAR[MAX_PATH];
-		memset(fileName, 0, sizeof(TCHAR) * MAX_PATH);
-		wsprintf(fileName, TEXT("Diablos_Lair_Floor_TRS/Diablos_Lair_Floor_%d.png"), i);
-		vecFileNames.push_back(fileName);
-	}
-    */
-    //material->AddTextureArray(10, (int)EShaderBufferType::Pixel, "DefaultTileIsometric", vecFileNames);
 }
 
 void CMaterialWindow::ImgChangeCallback(const std::string& name, const TCHAR* path)
 {
-    if(!m_SelectMaterial)
+    if (!m_SelectMaterial)
     {
         return;
     }
-    std::string itemName=m_TextureTree->GetHoverItem()->GetItemName();
+    std::string itemName = m_TextureTree->GetHoverItem()->GetItemName();
     int index = m_TextureTree->GetHoverItem()->FindIndex(itemName);
-    if(index<0)
+    if ("Texture" == itemName && m_TextureTree->ItemSize() == 1)
     {
-        return;
+        index = 0;
+        m_SelectMaterial->AddTextureFullPath(0, (int)EShaderBufferType::Pixel, name, path);
     }
-    m_SelectMaterial->SetTextureFullPath(index,0, (int)EShaderBufferType::Pixel, name, path);
+    else
+    {
+        if (index < 0)
+        {
+            return;
+        }
+        m_SelectMaterial->SetTextureFullPath(index, 0, (int)EShaderBufferType::Pixel, name, path);
+    }
     m_Image->SetTexture(m_SelectMaterial->GetTexture(index));
 }
 
