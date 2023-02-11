@@ -78,8 +78,8 @@ private:\
 
 struct Resolution
 {
-	unsigned int	Width;
-	unsigned int	Height;
+	unsigned int Width;
+	unsigned int Height;
 };
 
 // 위치, 색상 정보를 가지고 있는 정점.
@@ -160,11 +160,12 @@ struct TransformCBuffer
 
 struct GlobalCBuffer
 {
-	float DeltaTime;
-	float AccTime;
-	Vector2 Resolution;
-	Vector2 NoiseResolution;
-	Vector2 Empty;
+	Vector2	Resolution;
+	Vector2	NoiseResolution;
+	Vector3	CameraAxisX;
+	float	DeltaTime;
+	Vector3	CameraAxisY;
+	float	AccTime;
 };
 
 // 위치, 색상 정보를 가지고 있는 정점.
@@ -523,7 +524,7 @@ struct ParticleCBuffer
 	unsigned int ParticleMoveEnable;   // 이동 할지 말지.
 	unsigned int ParticleGravity;      // 중력 적용 할지 말지.
 	Vector3 ParticleMoveDir;      // 이동을 할 경우 기준이 될 방향.
-	float ParticleEmpty1;
+	unsigned int ParticleMoveDirEnable;
 	Vector3 ParticleMoveAngle;    // 기준이 될 방향으로부터 회전할 최대 각도.
 	float ParticleEmpty2;
 };

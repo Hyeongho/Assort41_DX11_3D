@@ -36,5 +36,15 @@ public:
 	{
 		m_BufferData.NoiseResolution = Vector2(Width, Height);
 	}
+
+	void SetCameraAxisX(const Vector3& Axis)
+	{
+		m_BufferData.CameraAxisX = Axis;
+	}
+
+	void SetCameraAxisY(const Vector3& Axis)
+	{
+		m_BufferData.CameraAxisY = Axis;
+	}
 };
 

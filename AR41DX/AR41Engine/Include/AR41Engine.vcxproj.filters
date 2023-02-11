@@ -295,6 +295,12 @@
     <Filter Include="02. Resource\08. Particle">
       <UniqueIdentifier>{45bbc9d6-5807-412c-8c05-6144f8f1c237}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Resource\02. Shader\02. ShaderClass\15. Particle">
+      <UniqueIdentifier>{7668909e-891e-4159-815f-571237f08ca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\12. Particle">
+      <UniqueIdentifier>{67610c0f-ae93-47ec-9712-1ea069068d2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -849,6 +855,15 @@
     <ClInclude Include="Resource\Particle\Particle.h">
       <Filter>02. Resource\08. Particle</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\Shader\ParticleConstantBuffer.h">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\12. Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\ParticleRenderShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\15. Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\ParticleUpdateShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\15. Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1346,6 +1361,15 @@
     <ClCompile Include="Resource\Particle\Particle.cpp">
       <Filter>02. Resource\08. Particle</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\Shader\ParticleConstantBuffer.cpp">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\12. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\ParticleRenderShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\15. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\ParticleUpdateShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\15. Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\Shader\Share.fx">
@@ -1385,6 +1409,9 @@
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\Shader\ParticleUpdate.fx">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\ParticleRender.fx">
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
   </ItemGroup>

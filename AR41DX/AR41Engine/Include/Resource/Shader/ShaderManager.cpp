@@ -20,6 +20,8 @@
 #include "SkyShader.h"
 #include "TerrainShader.h"
 #include "BillboardShader.h"
+#include "ParticleUpdateShader.h"
+#include "ParticleRenderShader.h"
 
 CShaderManager::CShaderManager()
 {
@@ -76,11 +78,21 @@ bool CShaderManager::Init()
 
 	CreateShader<CAnimationUpdateShader>("AnimationUpdateShader", true);
 
+
 	CreateShader<CSkyShader>("SkyShader", true);
+
 
 	CreateShader<CTerrainShader>("TerrainShader", true);
 
+
 	CreateShader<CBillboardShader>("BillboardShader", true);
+
+
+	CreateShader<CParticleUpdateShader>("ParticleUpdateShader", true);
+
+
+	CreateShader<CParticleRenderShader>("ParticleRenderShader", true);
+
 
 	CreateConstantBuffer("Transform", sizeof(TransformCBuffer), 0);
 	CreateConstantBuffer("Material", sizeof(MaterialCBuffer), 1);
@@ -94,6 +106,7 @@ bool CShaderManager::Init()
 	CreateConstantBuffer("Instancing", sizeof(InstancingCBuffer), 5, (int)EShaderBufferType::Vertex);
 	CreateConstantBuffer("Animation", sizeof(AnimationCBuffer), 0, (int)EShaderBufferType::Compute);
 	CreateConstantBuffer("Terrain", sizeof(TerrainCBuffer), 10, (int)EShaderBufferType::Vertex | (int)EShaderBufferType::Pixel);
+	CreateConstantBuffer("ParticleUpdate", sizeof(ParticleCBuffer), 10, (int)EShaderBufferType::Compute);
 
 	m_ColliderCBuffer = new CColliderConstantBuffer;
 

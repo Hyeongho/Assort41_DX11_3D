@@ -10,12 +10,15 @@
 #include "CollisionManager.h"
 #include "Thread/ThreadManager.h"
 #include "Resource/Shader/GlobalConstantBuffer.h"
+#include "Scene/Scene.h"
+#include "Scene/CameraManager.h"
+#include "Component/CameraComponent.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 #pragma comment(lib, "dxguid.lib")
 
-float	g_DeltaTime;
+float g_DeltaTime;
 
 std::function<bool(HWND, UINT, WPARAM, LPARAM)> CEngine::m_WndProcFunc;
 
@@ -74,6 +77,16 @@ float CEngine::GetDeltaTime() const
 	return m_Timer->GetDeltaTime();
 }
 
+void CEngine::SetCameraAxisX(const Vector3& Axis)
+{
+	m_GlobalCBuffer->SetCameraAxisX(Axis);
+}
+
+void CEngine::SetCameraAxisY(const Vector3& Axis)
+{
+	m_GlobalCBuffer->SetCameraAxisY(Axis);
+}
+
 bool CEngine::Init(HINSTANCE hInst, const TCHAR* Title,
 	const TCHAR* ClassName, int IconID, int SmallIconID,
 	unsigned int WindowWidth, unsigned int WindowHeight,
@@ -123,7 +136,9 @@ bool CEngine::Init(HINSTANCE hInst, const TCHAR* Title,
 	if (m_EditorMode)
 	{
 		if (!CEditorGUIManager::GetInst()->Init(m_hWnd))
+		{
 			return false;
+		}
 	}
 
 	
@@ -143,8 +158,6 @@ bool CEngine::Init(HINSTANCE hInst, const TCHAR* Title,
 	m_GlobalCBuffer = new CGlobalConstantBuffer;
 
 	m_GlobalCBuffer->Init();
-
-
 
 	return true;
 }
@@ -207,12 +220,12 @@ void CEngine::Logic()
 	m_GlobalCBuffer->SetAccTime(m_AccTime);
 	m_GlobalCBuffer->SetResolution((float)RS.Width, (float)RS.Height);
 
-	m_GlobalCBuffer->UpdateBuffer();
-
 	CInput::GetInst()->Update(DeltaTime);
 
 	if (m_EditorMode)
+	{
 		CEditorGUIManager::GetInst()->Update(DeltaTime);
+	}
 
 	CResourceManager::GetInst()->Update();
 
@@ -262,6 +275,17 @@ bool CEngine::Collision(float DeltaTime)
 
 void CEngine::Render(float DeltaTime)
 {
+	// 카메라의 축을 전달한다.
+	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
+
+	if (Camera)
+	{
+		m_GlobalCBuffer->SetCameraAxisX(Camera->GetWorldAxis(AXIS_X));
+		m_GlobalCBuffer->SetCameraAxisY(Camera->GetWorldAxis(AXIS_Y));
+	}
+
+	m_GlobalCBuffer->UpdateBuffer();
+
 	CDevice::GetInst()->ClearRenderTarget(m_ClearColor);
 	CDevice::GetInst()->ClearDepthStencil(1.f, 0);
 
