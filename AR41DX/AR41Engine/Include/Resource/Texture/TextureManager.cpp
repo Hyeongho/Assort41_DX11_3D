@@ -59,6 +59,15 @@ bool CTextureManager::Init()
 
 	m_DebugShader = CResourceManager::GetInst()->FindShader("DebugShader");
 
+	if (!LoadTexture("EngineNoise", TEXT("noise_01.png")))
+	{
+		return false;
+	}
+
+	CTexture* Texture = FindTexture("EngineNoise");
+
+	Texture->SetShader(6, (int)EShaderBufferType::All, 0);
+
 	return true;
 }
 

@@ -139,6 +139,12 @@ bool CMeshManager::Init()
 		&vecSphereIndex[0], sizeof(int), (int)vecSphereIndex.size(),
 		D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT);
 
+	Vector3 Point;
+
+	CreateMesh(nullptr, MeshType::Static, "ParticlePoint",
+		&Point, sizeof(Vector3), 1, D3D11_USAGE_IMMUTABLE,
+		D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+
 	return true;
 }
 
