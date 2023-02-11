@@ -78,8 +78,8 @@ private:\
 
 struct Resolution
 {
-	unsigned int	Width;
-	unsigned int	Height;
+	unsigned int Width;
+	unsigned int Height;
 };
 
 // 위치, 색상 정보를 가지고 있는 정점.
@@ -102,8 +102,8 @@ struct VertexColor
 struct VertexBuffer
 {
 	ID3D11Buffer* Buffer;
-	int		Size;	// 정점 1개의 크기
-	int		Count;	// 정점 개수
+	int Size;	// 정점 1개의 크기
+	int Count;	// 정점 개수
 	void* Data;		// 정점 정보
 
 	VertexBuffer() :
@@ -124,8 +124,8 @@ struct VertexBuffer
 struct IndexBuffer
 {
 	ID3D11Buffer* Buffer;
-	int		Size;		// 인덱스 1개의 크기
-	int		Count;		// 인덱스 개수
+	int Size;		// 인덱스 1개의 크기
+	int Count;		// 인덱스 개수
 	DXGI_FORMAT	Fmt;	// 인덱스 포멧
 	void* Data;			// 인덱스 정보
 
@@ -153,16 +153,19 @@ struct TransformCBuffer
 	Matrix matInvWVP;
 	Matrix matInvVP;
 	Vector3 Pivot;
-	float	Proj11;
+	float Proj11;
 	Vector3 MeshSize;
-	float	Proj22;
+	float Proj22;
 };
 
 struct GlobalCBuffer
 {
-	float	DeltaTime;
-	float	AccTime;
 	Vector2	Resolution;
+	Vector2	NoiseResolution;
+	Vector3	CameraAxisX;
+	float	DeltaTime;
+	Vector3	CameraAxisY;
+	float	AccTime;
 };
 
 // 위치, 색상 정보를 가지고 있는 정점.
@@ -503,4 +506,50 @@ struct HierarchyWidgetName
 	{
 	}
 };
-//
+
+struct ParticleCBuffer
+{
+	unsigned int ParticleSpawnEnable;  // 파티클 생성 여부
+	Vector3 ParticleStartMin;     // 파티클이 생성될 영역의 Min
+	Vector3 ParticleStartMax;     // 파티클이 생성될 영역의 Max
+	unsigned int ParticleSpawnCountMax;// 생성될 파티클의 최대 개수
+	Vector3 ParticleScaleMin;     // 생성될 파티클 크기의 Min
+	float ParticleLifeTimeMin;  // 파티클 생명의 최소 시간
+	Vector3 ParticleScaleMax;     // 생성될 파티클 크기의 Max
+	float ParticleLifeTimeMax;  // 파티클 생명의 최대 시간
+	Vector4 ParticleColorMin;     // 생성될 파티클의 색상 Min
+	Vector4 ParticleColorMax;     // 생성될 파티클의 색상 Max
+	float ParticleSpeedMin;     // 파티클 이동 속도 Min
+	float ParticleSpeedMax;     // 파티클 이동 속도 Max
+	unsigned int ParticleMoveEnable;   // 이동 할지 말지.
+	unsigned int ParticleGravity;      // 중력 적용 할지 말지.
+	Vector3 ParticleMoveDir;      // 이동을 할 경우 기준이 될 방향.
+	unsigned int ParticleMoveDirEnable;
+	Vector3 ParticleMoveAngle;    // 기준이 될 방향으로부터 회전할 최대 각도.
+	float ParticleEmpty2;
+};
+
+struct ParticleInfo
+{
+	unsigned int Enable;
+	Vector3 WorldPos;
+	Vector3 Dir;
+	float Speed;
+	float LifeTime;
+	float LifeTimeMax;
+	float FallTime;
+	float FallStartY;
+};
+
+struct ParticleInfoShare
+{
+	unsigned int SpawnEnable;
+
+	Vector3 ScaleMin;
+	Vector3 ScaleMax;
+
+	Vector4 ColorMin;
+	Vector4 ColorMax;
+
+	unsigned int GravityEnable;
+};

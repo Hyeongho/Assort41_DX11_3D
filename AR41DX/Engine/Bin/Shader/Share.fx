@@ -89,6 +89,7 @@ Texture2D g_SpecularTexture : register(t2);
 Texture2D g_EmissiveTexture : register(t3);
 Texture2D g_RoughnessTexture : register(t4);
 Texture2D g_AOTexture : register(t5);
+Texture2D g_GlobalNoiseTexture : register(t6);
 
 cbuffer Animation2D : register(b2)
 {
@@ -104,9 +105,12 @@ cbuffer Animation2D : register(b2)
 
 cbuffer GlobalCBuffer : register(b3)
 {
-    float   g_GlobalDeltaTime;
-    float   g_GlobalAccTime;
     float2  g_Resolution;
+    float2  g_GlobalNoiseResolution;
+    float3  g_CameraAxisX;
+    float   g_GlobalDeltaTime;
+    float3  g_CameraAxisY;
+    float   g_GlobalAccTime;
 };
 
 cbuffer LightCBuffer : register(b4)
@@ -270,3 +274,64 @@ float4 ConvertColor(float Color)
     return Result;
 }
 
+static float g_Gaussian5x5[25] =
+{
+    0.003765f, 0.015019f, 0.023792f, 0.015019f, 0.003765f,
+    0.015019f, 0.059912f, 0.094907f, 0.059912f, 0.015019f,
+    0.023792f, 0.094907f, 0.150342f, 0.094907f, 0.023792f,
+    0.015019f, 0.059912f, 0.094907f, 0.059912f, 0.015019f,
+    0.003765f, 0.015019f, 0.023792f, 0.015019f, 0.003765f
+};
+
+float GaussianSample(int2 NoiseUV)
+{
+    float   Output = 0.f;
+
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            int2    UV = NoiseUV + int2(j - 2, i - 2);
+
+            if (UV.x < 0)
+            {
+                UV.x = g_GlobalNoiseResolution.x - UV.x;
+            }
+
+            else if (UV.x > g_GlobalNoiseResolution.x)
+            {
+                UV.x = UV.x - g_GlobalNoiseResolution.x;
+            }
+
+            if (UV.y < 0)
+            {
+                UV.y = g_GlobalNoiseResolution.y - UV.y;
+            }
+
+            else if (UV.y > g_GlobalNoiseResolution.y)
+            {
+                UV.y = UV.y - g_GlobalNoiseResolution.y;
+            }
+
+            Output += (g_GlobalNoiseTexture[UV].r * g_Gaussian5x5[i * 5 + j]);
+        }
+    }
+
+    return Output;
+}
+
+float Rand(float Key)
+{
+    // NoiseTexture에서 사용할 UV를 만든다.
+    float2 UV = float2(cos(Key + g_GlobalAccTime), sin(g_GlobalAccTime));
+
+    // 0 ~ 1 사이로 만들어준다.
+    UV = UV * 0.5f + 0.5f;
+
+    return GaussianSample(UV * g_GlobalNoiseResolution);
+}
+
+float DegreeToRadian(float Angle)
+{
+    return Angle / 180.f * 3.14159f;
+}
