@@ -2,6 +2,7 @@
 #include "MeshWindow.h"
 #include "MaterialWindow.h"
 #include "FBXWindow.h"
+#include "Animation3DWindow.h"
 #include "PathManager.h"
 #include "Editor/EditorButton.h"
 #include "Editor/EditorSameLine.h"
@@ -182,6 +183,20 @@ void CPathWindow::FileDADCallback(CEditorTreeItem<void*>* dragnode, CEditorTreeI
 		if (FBXWindow)
 		{
 			FBXWindow->FBXConvert(t_filename);
+		}
+	}
+	else if (ImGui::IsWindowHovered("Animation3DWindow"))
+	{
+		char	fullPath[_MAX_EXT] = {};
+		TCHAR t_filename[_MAX_EXT] = {};
+		strcpy_s(fullPath, m_Path->GetText());
+		strcat_s(fullPath, dragItem.c_str());
+		MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, fullPath, (int)strlen(fullPath), t_filename, 256);
+		CAnimation3DWindow* animation3DWindow =
+			CEditorGUIManager::GetInst()->FindEditorWindow<CAnimation3DWindow>("Animation3DWindow");
+		if (animation3DWindow)
+		{
+			animation3DWindow->ChangeAnimation3D(t_filename);
 		}
 	}
 }

@@ -65,11 +65,49 @@ public:
 	}
 
 public:
-	class CScene* GetScene()	const;
+	//230211 김범중 에디터 값 설정용 변수
+	CAnimationData* GetChangeAnimation()	const
+	{
+		return m_ChangeAnimation;
+	}
 	const std::string& GetAnimationClassName()	const
 	{
 		return m_ClassName;
 	}
+	const Vector3& GetBlendScale()	const
+	{
+		return m_BlendScale;
+	}
+	const Vector3& GetBlendPos()	const
+	{
+		return m_BlendPos;
+	}
+	const Vector4& GetBlendRot()	const
+	{
+		return m_BlendRot;
+	}
+	bool GetAnimationPlay()	const
+	{
+		return m_Play;
+	}
+	float GetAnimationGlobalTime()	const
+	{
+		return m_GlobalTime;
+	}
+	float GetAnimationSequenceProgress()	const
+	{
+		return m_SequenceProgress;
+	}
+	float GetAnimationChangeTimeAcc()	const
+	{
+		return m_ChangeTimeAcc;
+	}
+	float GetAnimationChangeTime()	const
+	{
+		return m_ChangeTime;
+	}
+	//
+	class CScene* GetScene()	const;
 
 	int GetAnimationCount()	const
 	{
@@ -134,7 +172,7 @@ public:
 	CAnimationData* FindAnimation(const std::string& Name);
 
 public:
-	const std::string& GetCurrentAnimationName(const std::string& AnimationName)	const
+	const std::string& GetCurrentAnimationName()	const
 	{
 		if (!m_CurAnimation)
 			return "";
@@ -142,7 +180,7 @@ public:
 		return m_CurAnimation->GetName();
 	}
 
-	float GetCurrentAnimationTime(const std::string& AnimationName)	const
+	float GetCurrentAnimationTime()	const
 	{
 		if (!m_CurAnimation)
 			return -1.f;
@@ -150,7 +188,7 @@ public:
 		return m_CurAnimation->GetAnimationTime();
 	}
 
-	class CAnimationSequence* GetCurrentAnimationSequence(const std::string& AnimationName)	const
+	class CAnimationSequence* GetCurrentAnimationSequence()	const
 	{
 		if (!m_CurAnimation)
 			return nullptr;

@@ -11,7 +11,7 @@
 #include "Editor/EditorComboBox.h"
 #include "Editor/EditorListBox.h"
 #include "Component/AnimationMeshComponent.h"
-#include "Editor/EditorGroup.h" //이게뭐냐
+#include "Resource/ResourceManager.h"
 
 CAnimation3DWindow::CAnimation3DWindow()
     : m_BlendScale{}
@@ -33,24 +33,22 @@ CAnimation3DWindow::CAnimation3DWindow()
     , m_AnimLoop(nullptr)
     , m_AnimReverse(nullptr)
     , m_CurAnimName(nullptr)
-    , m_CurSequenceAnimName(nullptr)
-    , m_CurAnimTime(nullptr)
-    , m_CurAnimFrameTime(nullptr)
-    , m_CurAnimPlayTime(nullptr)
-    , m_CurAnimPlayScale(nullptr)
-    , m_CurAnimLoop(nullptr)
-    , m_CurAnimReverse(nullptr)
     , m_ChangeAnimName(nullptr)
-    , m_ChangeSequenceAnimName(nullptr)
-    , m_ChangeAnimTime(nullptr)
-    , m_ChangeAnimFrameTime(nullptr)
-    , m_ChangeAnimPlayTime(nullptr)
-    , m_ChangeAnimPlayScale(nullptr)
-    , m_ChangeAnimLoop(nullptr)
-    , m_ChangeAnimReverse(nullptr)
     , m_SkeletoneName(nullptr)
     , m_BoneCount(nullptr)
-    , m_SelectAnimationData(nullptr)
+    , m_Loop(nullptr)
+    , m_End(nullptr)
+    , m_StartTime(nullptr)
+    , m_EndTime(nullptr)
+    , m_TimeLength(nullptr)
+    , m_FrameTime(nullptr)
+    , m_PlayTime(nullptr)
+    , m_PlayScale(nullptr)
+    , m_StartFrame(nullptr)
+    , m_EndFrame(nullptr)
+    , m_FrameLength(nullptr)
+    , m_FrameMode(nullptr)
+    , m_ChangeFrame(nullptr)
 {
     
 }
@@ -66,6 +64,17 @@ void CAnimation3DWindow::SetSelectComponent(CAnimationMeshComponent* component)
     //정보 받아오기
     if (m_SelectAnimation)
     {
+        m_AnimationName->SetText(m_SelectAnimation->GetAnimationClassName().c_str());
+        m_BlendScale[0]->SetFloat(m_SelectAnimation->GetBlendScale().x);
+        m_BlendScale[1]->SetFloat(m_SelectAnimation->GetBlendScale().y);
+        m_BlendScale[2]->SetFloat(m_SelectAnimation->GetBlendScale().z);
+        m_BlendPos[0]->SetFloat(m_SelectAnimation->GetBlendPos().x);
+        m_BlendPos[1]->SetFloat(m_SelectAnimation->GetBlendPos().y);
+        m_BlendPos[2]->SetFloat(m_SelectAnimation->GetBlendPos().z);
+        m_BlendRot[0]->SetFloat(m_SelectAnimation->GetBlendRot().x);
+        m_BlendRot[1]->SetFloat(m_SelectAnimation->GetBlendRot().y);
+        m_BlendRot[2]->SetFloat(m_SelectAnimation->GetBlendRot().z);
+        m_BlendRot[3]->SetFloat(m_SelectAnimation->GetBlendRot().z);
         UpdateInfo();
         Clear();
         int size = m_SelectAnimation->GetAnimationCount();
@@ -78,7 +87,8 @@ void CAnimation3DWindow::SetSelectComponent(CAnimationMeshComponent* component)
     }
     if (m_SelectSkeleton)
     {
-
+        m_SkeletoneName->SetText(m_SelectSkeleton->GetName().c_str());
+        m_BoneCount->SetInt((int)m_SelectSkeleton->GetBoneCount());
     }
 }
 
@@ -94,35 +104,12 @@ bool CAnimation3DWindow::Init()
     category->AddItem(nullptr, "BlendScale", "Animation");
     category->AddItem(nullptr, "BlendPos", "Animation");
     category->AddItem(nullptr, "BlendRot", "Animation");
+    category->AddItem(nullptr, "Sequence", "Animation");
     category->AddItem(nullptr, "Bone", "Animation3D");
     //현재 애니메이션 정보
-    m_CurAnimLoop = category->CreateWidget<CEditorCheckBox>("CurAnim","ChangeAnimLoop");
-    category->CreateWidget<CEditorSameLine>("CurAnim", "Line");
-    m_CurAnimReverse = category->CreateWidget<CEditorCheckBox>("CurAnim","CurAnimReverse");
     m_CurAnimName = category->CreateWidget<CEditorInput>("CurAnim","현재 애니메이션", 100.f, 30.f);
-    m_CurSequenceAnimName = category->CreateWidget<CEditorInput>("CurAnim", "현재 애니메이션 시퀸스", 120.f, 30.f);
-    m_CurAnimTime = category->CreateWidget<CEditorInput>("CurAnim", "CurAnimTime", 80.f, 30.f);
-    m_CurAnimTime->SetInputType(EImGuiInputType::Float);
-    m_CurAnimFrameTime = category->CreateWidget<CEditorInput>("CurAnim", "CurAnimFrameTime", 80.f, 30.f);
-    m_CurAnimFrameTime->SetInputType(EImGuiInputType::Float);
-    m_CurAnimPlayTime = category->CreateWidget<CEditorInput>("CurAnim", "CurAnimPlayTime", 80.f, 30.f);
-    m_CurAnimPlayTime->SetInputType(EImGuiInputType::Float);
-    m_CurAnimPlayScale = category->CreateWidget<CEditorInput>("CurAnim", "CurAnimPlayScale", 80.f, 30.f);
-    m_CurAnimPlayScale->SetInputType(EImGuiInputType::Float);
     //다음 애니메이션 정보
-    m_ChangeAnimLoop = category->CreateWidget<CEditorCheckBox>("ChangeAnim","ChangeAnimLoop");
-    category->CreateWidget<CEditorSameLine>("ChangeAnim", "Line");
-    m_ChangeAnimReverse = category->CreateWidget<CEditorCheckBox>("ChangeAnim", "ChangeAnimReverse");
     m_ChangeAnimName = category->CreateWidget<CEditorInput>("ChangeAnim", "다음 애니메이션", 100.f, 30.f);
-    m_ChangeSequenceAnimName = category->CreateWidget<CEditorInput>("ChangeAnim", "다음 애니메이션 시퀸스", 120.f, 30.f);
-    m_ChangeAnimTime = category->CreateWidget<CEditorInput>("ChangeAnim", "ChangeAnimTime", 80.f, 30.f);
-    m_ChangeAnimTime->SetInputType(EImGuiInputType::Float);
-    m_ChangeAnimFrameTime = category->CreateWidget<CEditorInput>("ChangeAnim", "ChangeAnimFrameTime", 80.f, 30.f);
-    m_ChangeAnimFrameTime->SetInputType(EImGuiInputType::Float);
-    m_ChangeAnimPlayTime = category->CreateWidget<CEditorInput>("ChangeAnim", "ChangeAnimPlayTime", 80.f, 30.f);
-    m_ChangeAnimPlayTime->SetInputType(EImGuiInputType::Float);
-    m_ChangeAnimPlayScale = category->CreateWidget<CEditorInput>("ChangeAnim", "ChangeAnimPlayScale", 80.f, 30.f);
-    m_ChangeAnimPlayScale->SetInputType(EImGuiInputType::Float);
     //애니메이션 
     m_AnimationName = category->CreateWidget<CEditorInput>("Animation","애니메이터 이름", 100.f, 30.f);
     category->CreateWidget<CEditorSameLine>("Animation", "Line");
@@ -156,9 +143,9 @@ bool CAnimation3DWindow::Init()
     m_BlendPos[1]->SetHideName("BlendPosY");
     m_BlendPos[1]->SetInputType(EImGuiInputType::Float);
     category->CreateWidget<CEditorSameLine>("BlendPos", "Line");
-    m_BlendScale[2] = category->CreateWidget<CEditorInput>("BlendPos", "BlendPosZ", 80.f, 30.f);
-    m_BlendScale[2]->SetHideName("BlendPosZ");
-    m_BlendScale[2]->SetInputType(EImGuiInputType::Float);
+    m_BlendPos[2] = category->CreateWidget<CEditorInput>("BlendPos", "BlendPosZ", 80.f, 30.f);
+    m_BlendPos[2]->SetHideName("BlendPosZ");
+    m_BlendPos[2]->SetInputType(EImGuiInputType::Float);
 
     m_BlendRot[0] = category->CreateWidget<CEditorInput>("BlendRot", "BlendRotX", 80.f, 30.f);
     m_BlendRot[0]->SetHideName("BlendRotX");
@@ -182,14 +169,10 @@ bool CAnimation3DWindow::Init()
     m_AnimTree->SetSelectCallback<CAnimation3DWindow>(this, &CAnimation3DWindow::AnimTreeCallback);
     m_AnimTree->SetSize(400.f, 300.f);
     m_AnimTree->AddItem(nullptr, "AnimationData");
+    m_AnimName = category->CreateWidget<CEditorInput>("Animation", "애니메이션", 100.f, 30.f);
     m_AnimLoop = category->CreateWidget<CEditorCheckBox>("Animation", "AnimLoop");
     category->CreateWidget<CEditorSameLine>("Animation", "Line");
     m_AnimReverse = category->CreateWidget<CEditorCheckBox>("Animation", "AnimReverse");
-    category->CreateWidget<CEditorSameLine>("Animation", "Line");
-    CEditorButton* button = category->CreateWidget<CEditorButton>("Animation", "변경", 50.f, 30.f);
-    button->SetClickCallback<CAnimation3DWindow>(this, &CAnimation3DWindow::ChangeInfo);
-    m_AnimName = category->CreateWidget<CEditorInput>("Animation", "애니메이션", 100.f, 30.f);
-    m_SequenceAnimName = category->CreateWidget<CEditorInput>("Animation", "애니메이션 시퀸스", 120.f, 30.f);
     m_AnimTime = category->CreateWidget<CEditorInput>("Animation", "AnimTime", 80.f, 30.f);
     m_AnimTime->SetInputType(EImGuiInputType::Float);
     m_AnimFrameTime = category->CreateWidget<CEditorInput>("Animation", "AnimFrameTime", 80.f, 30.f);
@@ -198,10 +181,43 @@ bool CAnimation3DWindow::Init()
     m_AnimPlayTime->SetInputType(EImGuiInputType::Float);
     m_AnimPlayScale = category->CreateWidget<CEditorInput>("Animation", "AnimPlayScale", 80.f, 30.f);
     m_AnimPlayScale->SetInputType(EImGuiInputType::Float);
+    //시퀸스 정보 Sequence
+    m_SequenceAnimName = category->CreateWidget<CEditorInput>("Sequence", "애니메이션 시퀸스", 120.f, 30.f);
+    category->CreateWidget<CEditorSameLine>("Sequence", "Line");
+    CEditorButton* button = category->CreateWidget<CEditorButton>("Sequence", "변경", 50.f, 30.f);
+    button->SetClickCallback<CAnimation3DWindow>(this, &CAnimation3DWindow::SequenceChangeInfo);
+    category->CreateWidget<CEditorSameLine>("Sequence", "Line");
+    button = category->CreateWidget<CEditorButton>("Sequence", "저장", 50.f, 30.f);
+    button->SetClickCallback<CAnimation3DWindow>(this, &CAnimation3DWindow::SequenceSaveInfo);
+    m_Loop = category->CreateWidget<CEditorCheckBox>("Sequence", "Loop");
+    category->CreateWidget<CEditorSameLine>("Sequence", "Line");
+    m_End = category->CreateWidget<CEditorCheckBox>("Sequence", "End");
+    m_StartTime = category->CreateWidget<CEditorInput>("Sequence", "StartTime", 80.f, 30.f);
+    m_StartTime->SetInputType(EImGuiInputType::Float);
+    m_EndTime = category->CreateWidget<CEditorInput>("Sequence", "EndTime", 80.f, 30.f);
+    m_EndTime->SetInputType(EImGuiInputType::Float);
+    m_TimeLength = category->CreateWidget<CEditorInput>("Sequence", "TimeLength", 80.f, 30.f);
+    m_TimeLength->SetInputType(EImGuiInputType::Float);
+    m_FrameTime = category->CreateWidget<CEditorInput>("Sequence", "FrameTime", 80.f, 30.f);
+    m_FrameTime->SetInputType(EImGuiInputType::Float);
+    m_PlayTime = category->CreateWidget<CEditorInput>("Sequence", "PlayTime", 80.f, 30.f);
+    m_PlayTime->SetInputType(EImGuiInputType::Float);
+    m_PlayScale = category->CreateWidget<CEditorInput>("Sequence", "PlayScale", 80.f, 30.f);
+    m_PlayScale->SetInputType(EImGuiInputType::Float);
+    m_StartFrame = category->CreateWidget<CEditorInput>("Sequence", "StartFrame", 100.f, 30.f);
+    m_StartFrame->SetInputType(EImGuiInputType::Int);
+    m_EndFrame = category->CreateWidget<CEditorInput>("Sequence", "EndFrame", 100.f, 30.f);
+    m_EndFrame->SetInputType(EImGuiInputType::Int);
+    m_FrameLength = category->CreateWidget<CEditorInput>("Sequence", "FrameLength", 100.f, 30.f);
+    m_FrameLength->SetInputType(EImGuiInputType::Int);
+    m_FrameMode = category->CreateWidget<CEditorInput>("Sequence", "FrameMode", 100.f, 30.f);
+    m_FrameMode->SetInputType(EImGuiInputType::Int);
+    m_ChangeFrame = category->CreateWidget<CEditorInput>("Sequence", "ChangeFrame", 100.f, 30.f);
+    m_ChangeFrame->SetInputType(EImGuiInputType::Int);
     //스켈레톤
-    m_SkeletoneName = category->CreateWidget<CEditorInput>("Bone", "스켈레톤 이름", 100.f, 30.f);
+    m_SkeletoneName = category->CreateWidget<CEditorInput>("Bone", "스켈레톤 이름", 120.f, 30.f);
     category->CreateWidget<CEditorSameLine>("Bone", "Line");
-    m_BoneCount = category->CreateWidget<CEditorInput>("Bone", "BoneCount", 80.f, 30.f);
+    m_BoneCount = category->CreateWidget<CEditorInput>("Bone", "BoneCount", 100.f, 30.f);
     m_BoneCount->SetInputType(EImGuiInputType::Int);
     return true;
 }
@@ -215,12 +231,23 @@ void CAnimation3DWindow::Update(float deltaTime)
         {
             m_SelectAnimation = nullptr;
         }
+        else
+        {
+            UpdateInfo();
+        }
     }
     if (m_SelectSkeleton)
     {
         if (!m_SelectSkeleton->GetActive())
         {
             m_SelectSkeleton = nullptr;
+        }
+    }
+    if (m_SelectAnimationSequence)
+    {
+        if (!m_SelectAnimationSequence->GetActive())
+        {
+            m_SelectAnimationSequence = nullptr;
         }
     }
 }
@@ -240,29 +267,107 @@ void CAnimation3DWindow::ClearSelect()
 {
     m_SelectAnimation = nullptr;
     m_SelectSkeleton = nullptr;
-    m_SelectAnimationData = nullptr;
+    m_SelectAnimationSequence = nullptr;
 }
 
 void CAnimation3DWindow::UpdateInfo()
 {
     CAnimationData* curAnimData= m_SelectAnimation->GetCurrentAnimation();
-    curAnimData->GetName();
-    //curAnimData->Get();
+    if(curAnimData)
+    {
+        m_CurAnimName->SetText(curAnimData->GetName().c_str());
+    }
+    else
+    {
+        m_CurAnimName->SetText("");
+    }
+    CAnimationData* changeAnimData = m_SelectAnimation->GetChangeAnimation();
+    if(changeAnimData)
+    {
+        m_ChangeAnimName->SetText(changeAnimData->GetName().c_str());
+    }
+    else
+    {
+        m_ChangeAnimName->SetText("");
+    }
+    m_GlobalTime->SetFloat(m_SelectAnimation->GetAnimationGlobalTime());
+    m_SequenceProgress->SetFloat(m_SelectAnimation->GetAnimationSequenceProgress());
+    m_ChangeTimeAcc->SetFloat(m_SelectAnimation->GetAnimationChangeTimeAcc());
+    m_ChangeTime->SetFloat(m_SelectAnimation->GetAnimationChangeTime());
+    m_Play->SetCheck(m_SelectAnimation->GetAnimationPlay());
 }
 
-void CAnimation3DWindow::ChangeInfo()
+void CAnimation3DWindow::SequenceChangeInfo()
 {
+    if (!m_SelectAnimationSequence)
+    {
+        return;
+    }
+    m_SelectAnimationSequence->SetName(m_SequenceAnimName->GetText());
+    m_SelectAnimationSequence->SetPlayTime(m_PlayTime->GetFloat());
+    m_SelectAnimationSequence->SetPlayScale(m_PlayScale->GetFloat());
+}
+
+void CAnimation3DWindow::SequenceSaveInfo()
+{
+    if (!m_SelectAnimationSequence)
+    {
+        return;
+    }
+    char	animFullPath[MAX_PATH] = {};
+    strcpy_s(animFullPath, m_SequenceAnimName->GetText());
+    strcat_s(animFullPath,".sqc");
+    m_SelectAnimationSequence->SaveMultibyte(animFullPath,ANIMATION_PATH);
 }
 
 void CAnimation3DWindow::AnimTreeCallback(CEditorTreeItem<class CAnimationData*>* node, const std::string& item)
 {
-    m_SelectAnimationData = node->GetCustomData();
-    if (!m_SelectAnimationData)
+    CAnimationData* animData = node->GetCustomData();
+    if (!animData)
     {
         return;
     }
+    m_AnimName->SetText(animData->GetName().c_str());
+    m_SequenceAnimName->SetText(animData->GetSequenceName().c_str());
+    m_AnimTime->SetFloat(animData->GetAnimationTime());
+    m_AnimFrameTime->SetFloat(animData->GetAnimationFrameTime());
+    m_AnimPlayTime->SetFloat(animData->GetAnimationPlayTime());
+    m_AnimPlayScale->SetFloat(animData->GetAnimationPlayScale());
+    m_AnimLoop->SetCheck(animData->GetAnimationLoop());
+    m_AnimReverse->SetCheck(animData->GetAnimationReverse());
+    //시퀸스
+    m_SelectAnimationSequence = animData->GetAnimationSequence();
+    if(!m_SelectAnimationSequence)
+    {
+        return;
+    }
+    m_Loop->SetCheck(m_SelectAnimationSequence->GetSequenceLoop());
+    m_End->SetCheck(m_SelectAnimationSequence->GetSequenceEnd());
+    m_StartTime->SetFloat(m_SelectAnimationSequence->GetSequenceStartTime());
+    m_EndTime->SetFloat(m_SelectAnimationSequence->GetSequenceEndTime());
+    m_TimeLength->SetFloat(m_SelectAnimationSequence->GetSequenceTimeLength());
+    m_FrameTime->SetFloat(m_SelectAnimationSequence->GetSequenceFrameTime());
+    m_PlayTime->SetFloat(m_SelectAnimationSequence->GetSequencePlayTime());
+    m_PlayScale->SetFloat(m_SelectAnimationSequence->GetSequencePlayScale());
+    m_StartFrame->SetInt(m_SelectAnimationSequence->GetSequenceStartFrame());
+    m_EndFrame->SetInt(m_SelectAnimationSequence->GetSequenceEndFrame());
+    m_FrameLength->SetInt(m_SelectAnimationSequence->GetKeyFrameCount());
+    m_FrameMode->SetInt(m_SelectAnimationSequence->GetSequenceFrameMode());
+    m_ChangeFrame->SetInt(m_SelectAnimationSequence->GetSequenceChangeFrame());
 }
 
-void CAnimation3DWindow::ChangeAnimation3D()
+void CAnimation3DWindow::ChangeAnimation3D(const TCHAR* path)
 {
+    if(!m_SelectAnimation)
+    {
+        return;
+    }
+    char name[256];
+    char ext[256];
+    WideCharToMultiByte(CP_ACP, 0, path, _MAX_EXT, name, _MAX_EXT, NULL, NULL);
+    _splitpath_s(name, nullptr, 0, nullptr, 0, name, _MAX_EXT, ext, 256);
+    CResourceManager::GetInst()->LoadAnimationSequenceFullPath(name, path);
+    m_SelectAnimation->AddAnimation(name, name, 1.f, 1.f, true);
+    m_SelectAnimation->SetCurrentAnimation(name);
+
 }

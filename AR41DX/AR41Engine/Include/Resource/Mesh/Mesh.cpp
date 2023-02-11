@@ -679,6 +679,8 @@ bool CMesh::LoadMesh(FILE* File)
 
 		fread(&SubsetCount, sizeof(int), 1, File);
 
+		Container->vecSubset.reserve(SubsetCount);
+
 		for (int j = 0; j < SubsetCount; ++j)
 		{
 			MeshSlot* Slot = new MeshSlot;
@@ -690,7 +692,7 @@ bool CMesh::LoadMesh(FILE* File)
 
 			MeshSubset	Subset = {};
 
-			Container->vecSubset.push_back(Subset);
+			Container->vecSubset.emplace_back(Subset);
 
 			Container->vecSubset[j].Slot = Slot;
 

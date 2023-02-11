@@ -7,6 +7,8 @@ class CAnimation3DWindow : public CEditorWindow
 	friend class CEditorGUIManager;
 	//애니메이션 
 	class CEditorInput* m_AnimationName;
+	class CEditorInput* m_CurAnimName;	//현재 애니메이션 정보
+	class CEditorInput* m_ChangeAnimName;	//다음 애니메이션 정보
 	class CEditorInput* m_BlendScale[3];
 	class CEditorInput* m_BlendPos[3];
 	class CEditorInput* m_BlendRot[4];
@@ -17,43 +19,40 @@ class CAnimation3DWindow : public CEditorWindow
 	class CEditorCheckBox* m_Play;
 	CEditorTree<class CAnimationData*>* m_AnimTree;
 	class CEditorInput* m_AnimName;
-	class CEditorInput* m_SequenceAnimName;
 	class CEditorInput* m_AnimTime;
 	class CEditorInput* m_AnimFrameTime;
 	class CEditorInput* m_AnimPlayTime;
 	class CEditorInput* m_AnimPlayScale;
 	class CEditorCheckBox*	m_AnimLoop;
 	class CEditorCheckBox*	m_AnimReverse;
-	//현재 애니메이션 정보
-	class CEditorInput* m_CurAnimName;
-	class CEditorInput* m_CurSequenceAnimName;
-	class CEditorInput* m_CurAnimTime;
-	class CEditorInput* m_CurAnimFrameTime;
-	class CEditorInput* m_CurAnimPlayTime;
-	class CEditorInput* m_CurAnimPlayScale;
-	class CEditorCheckBox*	m_CurAnimLoop;
-	class CEditorCheckBox*	m_CurAnimReverse;
-	//다음 애니메이션 정보
-	class CEditorInput* m_ChangeAnimName;
-	class CEditorInput* m_ChangeSequenceAnimName;
-	class CEditorInput* m_ChangeAnimTime;
-	class CEditorInput* m_ChangeAnimFrameTime;
-	class CEditorInput* m_ChangeAnimPlayTime;
-	class CEditorInput* m_ChangeAnimPlayScale;
-	class CEditorCheckBox*	m_ChangeAnimLoop;
-	class CEditorCheckBox*	m_ChangeAnimReverse;
+	//시퀸스 정보
+	class CEditorInput* m_SequenceAnimName;
+	class CEditorCheckBox* m_Loop;
+	class CEditorCheckBox* m_End;
+	class CEditorInput* m_StartTime;
+	class CEditorInput* m_EndTime;
+	class CEditorInput* m_TimeLength;
+	class CEditorInput* m_FrameTime;
+	class CEditorInput* m_PlayTime;
+	class CEditorInput* m_PlayScale;
+	class CEditorInput* m_StartFrame;
+	class CEditorInput* m_EndFrame;
+	class CEditorInput* m_FrameLength;
+	class CEditorInput* m_FrameMode;
+	class CEditorInput* m_ChangeFrame;
+   // std::vector<BoneKeyFrame*>	m_vecKeyFrame;
 	//스켈레톤
 	class CEditorInput* m_SkeletoneName;
 	class CEditorInput* m_BoneCount;
 //얘네 할거면 트리로
-	//class CEditorInputText* m_BoneName;
-	//class CEditorInputText* m_SocketName;
-		//std::vector<BoneKeyFrame*>	m_vecFrame;
-	class CAnimationData*	m_SelectAnimationData;
+	//class CEditorInput* m_BoneName;
+	//class CEditorInput* m_SocketName;
+	CSharedPtr<class CAnimationSequence>	m_SelectAnimationSequence;
 	CSharedPtr<class CAnimation>	m_SelectAnimation;
 	CSharedPtr<class CSkeleton>		m_SelectSkeleton;
 	void UpdateInfo();
-	void ChangeInfo();
+	void SequenceChangeInfo();
+	void SequenceSaveInfo();
 	void AnimTreeCallback(CEditorTreeItem<class CAnimationData*>* node, const std::string& item);
 protected:
 	CAnimation3DWindow();
@@ -65,6 +64,6 @@ public:
 	bool AddItem(class CAnimationData* data, const std::string& name, const std::string& parentName = "AnimationData");
 	void Clear();
 	void ClearSelect();
-	void ChangeAnimation3D();
+	void ChangeAnimation3D(const TCHAR* path);
 };
 
