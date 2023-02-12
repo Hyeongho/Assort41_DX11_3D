@@ -105,7 +105,10 @@ bool CStaticMeshComponent::Init()
 {
 	if (!CPrimitiveComponent::Init())
 		return false;
-
+	//김범중 에디터에서 빈오브젝트에서 생성했을때 에러 방지용 기본 메쉬
+	SetMesh("SpherePos");
+	AddMaterial("Billboard");
+	SetWorldScale(10.f, 10.f, 10.f);
 	return true;
 }
 

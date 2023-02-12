@@ -38,7 +38,7 @@ PS_OUTPUT_SINGLE BillboardPS(VS_OUTPUT_UV input)
         clip(-1);
     }
 
-    float4 TextureColor = g_BaseTexture.Sample(g_PointSmp, input.UV);
+    float4  TextureColor = g_BaseTexture.Sample(g_LinearSmp, input.UV);
 
     if (TextureColor.a == 0.f)
     {
