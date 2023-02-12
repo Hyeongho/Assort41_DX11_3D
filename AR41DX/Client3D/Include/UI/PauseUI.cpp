@@ -14,7 +14,7 @@
 #include "../Scene/TitleSceneInfo.h"
 
 CPauseUI::CPauseUI() :
-	m_NowUIMode(EUIPauseMode::PauseMain),
+	m_NowUIMode(EUIPauseMode::Close),
 	m_MapSelected(EUIMapList::End),
 	m_PauseSelected(EUIPauseList::OptionSound),
 	m_SoundSelected(EUISoundList::SFX),
@@ -26,7 +26,7 @@ CPauseUI::CPauseUI() :
 
 CPauseUI::CPauseUI(const CPauseUI& Window) :
 	CUIWindow(Window),
-	m_NowUIMode(EUIPauseMode::PauseMain),
+	m_NowUIMode(EUIPauseMode::Close),
 	m_MapSelected(EUIMapList::End),
 	m_PauseSelected(EUIPauseList::OptionSound),
 	m_SoundSelected(EUISoundList::SFX),
@@ -78,11 +78,7 @@ bool CPauseUI::Init()
 	CreateControlUI();
 	CreateSaveSelectUI();
 
-	InActiveMapUI();
-	InActiveOptionSoundUI();
-	InActiveOptionCameraUI();
-	InActiveSaveSelectUI();
-	InActiveControlUI();
+	CloseUI();
 
 	return true;
 }
@@ -115,6 +111,29 @@ void CPauseUI::Save(FILE* File)
 void CPauseUI::Load(FILE* File)
 {
 	CUIWindow::Load(File);
+}
+
+void CPauseUI::OpenUI()
+{
+	CloseUI();
+
+	ActiveBackUI();
+	ActiveMapUI();
+
+	m_NowUIMode = EUIPauseMode::PauseMap;
+}
+
+void CPauseUI::CloseUI()
+{
+	InActiveBackUI();
+	InActiveMapUI();
+	InActivePauseUI();
+	InActiveOptionSoundUI();
+	InActiveOptionCameraUI();
+	InActiveSaveSelectUI();
+	InActiveControlUI();
+
+	m_NowUIMode = EUIPauseMode::Close;
 }
 
 void CPauseUI::CreateBackgroundUI()
@@ -319,8 +338,8 @@ void CPauseUI::CreatePauseUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("사운드 설정"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("사운드 설정"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("사운드 설정"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonSoundOptionHovered", false, "Sfx/Title/SFX_UI_Scroll_001.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonSoundOptionClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonSoundOptionHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonSoundOptionClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUISoundHovered);
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::PauseUISound);
 
@@ -334,8 +353,8 @@ void CPauseUI::CreatePauseUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("카메라 설정"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("카메라 설정"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("카메라 설정"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonCameraOptionHovered", false, "Sfx/Title/SFX_UI_Scroll_002.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonCameraOptionClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonCameraOptionHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonCameraOptionClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUICameraHovered);
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::PauseUICamera);
 
@@ -349,8 +368,8 @@ void CPauseUI::CreatePauseUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("조작법"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("조작법"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("조작법"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonControlHovered", false, "Sfx/Title/SFX_UI_Scroll_003.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonControlClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonControlHovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonControlClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUIControlHovered);
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::PauseUIControl);
 
@@ -364,8 +383,8 @@ void CPauseUI::CreatePauseUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("게임 저장"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("게임 저장"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("게임 저장"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonSaveGameHovered", false, "Sfx/Title/SFX_UI_Scroll_001.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonSaveGameClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonSaveGameHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonSaveGameClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUISaveHovered);
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::PauseUISave);
 
@@ -379,8 +398,8 @@ void CPauseUI::CreatePauseUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("게임 불러오기"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("게임 불러오기"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("게임 불러오기"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonLoadGameHovered", false, "Sfx/Title/SFX_UI_Scroll_002.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonLoadGameClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonLoadGameHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonLoadGameClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUILoadHovered);
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::PauseUILoad);
 
@@ -394,8 +413,8 @@ void CPauseUI::CreatePauseUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("기본 메뉴로 돌아가기"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("기본 메뉴로 돌아가기"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("기본 메뉴로 돌아가기"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonBackToTitleHovered", false, "Sfx/Title/SFX_UI_Scroll_003.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonBackToTitleClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonBackToTitleHovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonBackToTitleClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUIBackToTitleHovered);
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::PauseUIBackToTitle);
 
@@ -409,8 +428,8 @@ void CPauseUI::CreatePauseUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("종료"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("종료"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("종료"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonQuitHovered", false, "Sfx/Title/SFX_UI_Scroll_001.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonQuitClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonQuitHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonQuitClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUIQuitHovered);
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::PauseUIQuit);
 
@@ -463,8 +482,8 @@ void CPauseUI::CreateOptionSoundUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("SFX 볼륨"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("SFX 볼륨"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("SFX 볼륨"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonSfxHovered", false, "Sfx/Title/SFX_UI_Scroll_001.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonSfxClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonSfxHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonSfxClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUISFX);
 
 	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonSfx", TextButton));
@@ -478,8 +497,8 @@ void CPauseUI::CreateOptionSoundUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("Music 볼륨"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("Music 볼륨"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("Music 볼륨"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonMusicHovered", false, "Sfx/Title/SFX_UI_Scroll_002.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonMusicClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonMusicHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonMusicClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUIMusic);
 	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonMusic", TextButton));
 
@@ -492,8 +511,8 @@ void CPauseUI::CreateOptionSoundUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("Talk 볼륨"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("Talk 볼륨"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("Talk 볼륨"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonTalkHovered", false, "Sfx/Title/SFX_UI_Scroll_003.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonTalkClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonTalkHovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonTalkClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUITalk);
 
 	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonTalk", TextButton));
@@ -510,8 +529,8 @@ void CPauseUI::CreateOptionSoundUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("볼륨 설정 초기화"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("볼륨 설정 초기화"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("볼륨 설정 초기화"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonResetHovered", false, "Sfx/Title/SFX_UI_Scroll_003.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonResetClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonResetHovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonResetClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUIReset);
 
 	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonReset", TextButton));
@@ -579,8 +598,8 @@ void CPauseUI::CreateSaveSelectUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("빈 슬롯"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("빈 슬롯"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("빈 슬롯"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot1Hovered", false, "Sfx/Title/SFX_UI_Scroll_001.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot1Click", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot1Hovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot1Click", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SaveSelectUISaveSlot1Hoverd);
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::SaveSelectClick);
 
@@ -595,8 +614,8 @@ void CPauseUI::CreateSaveSelectUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("빈 슬롯"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("빈 슬롯"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("빈 슬롯"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot2Hovered", false, "Sfx/Title/SFX_UI_Scroll_002.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot2Click", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot2Hovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot2Click", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SaveSelectUISaveSlot2Hoverd);
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::SaveSelectClick);
 	m_mapSaveSelectUI.insert(std::make_pair("SaveSelectUI_ButtonSaveSLot2", TextButton));
@@ -610,12 +629,18 @@ void CPauseUI::CreateSaveSelectUI()
 	TextButton->SetText(EButtonState::Normal, TEXT("빈 슬롯"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Hovered, TEXT("빈 슬롯"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("빈 슬롯"), FontSize, Vector4::Black);
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot3Hovered", false, "Sfx/Title/SFX_UI_Scroll_003.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot3Click", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot3Hovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot3Click", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SaveSelectUISaveSlot3Hoverd);
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::SaveSelectClick);
 
 	m_mapSaveSelectUI.insert(std::make_pair("SaveSelectUI_ButtonSaveSLot3", TextButton));
+}
+
+void CPauseUI::ActiveBackUI()
+{
+	for (auto iter : m_mapBackUI)
+		iter.second->SetEnable(true);
 }
 
 void CPauseUI::ActiveMapUI()
@@ -652,6 +677,12 @@ void CPauseUI::ActiveControlUI()
 {
 	for (auto iter : m_mapControlUI)
 		iter.second->SetEnable(true);
+}
+
+void CPauseUI::InActiveBackUI()
+{
+	for (auto iter : m_mapBackUI)
+		iter.second->SetEnable(false);
 }
 
 void CPauseUI::InActiveMapUI()
@@ -705,7 +736,7 @@ void CPauseUI::KeyRightButton()
 	if (m_NowUIMode == EUIPauseMode::PauseMap)
 	{
 		// UI 끄기
-
+		CloseUI();
 
 	}
 	else if (m_NowUIMode == EUIPauseMode::PauseMain) 
