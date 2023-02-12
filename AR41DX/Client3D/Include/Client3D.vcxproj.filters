@@ -1,140 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="01 ClientManager">
-      <UniqueIdentifier>{60c77d0c-a209-42db-8895-7bbf6c860a89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Scene">
-      <UniqueIdentifier>{cf56a2d4-123f-48b7-bc6b-aeafadf8c9b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject">
-      <UniqueIdentifier>{4a43c27d-b890-4c70-baf0-2f1902d8151a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Setting">
-      <UniqueIdentifier>{4a7300e7-484f-4a67-b633-58233b7c7d97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05. UI">
-      <UniqueIdentifier>{a34697d6-92f7-44d4-9f22-5b2af3d186df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01.Player">
-      <UniqueIdentifier>{b4101f98-8d2c-4fcc-96b4-8890b02f61f7}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="Client3DManager.cpp" />
+    <ClCompile Include="GameObject\Bullet.cpp" />
+    <ClCompile Include="GameObject\Monster.cpp" />
+    <ClCompile Include="GameObject\Patrick.cpp" />
+    <ClCompile Include="GameObject\Player.cpp" />
+    <ClCompile Include="GameObject\Sandy.cpp" />
+    <ClCompile Include="GameObject\Weapon.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scene\LoadingSceneInfo.cpp" />
+    <ClCompile Include="Scene\MainSceneInfo.cpp" />
+    <ClCompile Include="Setting\DefaultSetting.cpp" />
+    <ClCompile Include="Setting\EngineShareSetting.cpp" />
+    <ClCompile Include="UI\LoadingUI.cpp" />
+    <ClCompile Include="UI\PlayerUI.cpp" />
+    <ClCompile Include="UI\StartSceneUI.cpp" />
+    <ClCompile Include="GameObject\Jellyfish.cpp" />
+    <ClCompile Include="GameObject\KingJellyfish.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Client3DManager.cpp">
-      <Filter>01 ClientManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\MainSceneInfo.cpp">
-      <Filter>02. Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Setting\EngineShareSetting.cpp">
-      <Filter>04. Setting</Filter>
-    </ClCompile>
-    <ClCompile Include="Setting\DefaultSetting.cpp">
-      <Filter>04. Setting</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Monster.cpp">
-      <Filter>03. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Weapon.cpp">
-      <Filter>03. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Bullet.cpp">
-      <Filter>03. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\LoadingUI.cpp">
-      <Filter>05. UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\StartSceneUI.cpp">
-      <Filter>05. UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\LoadingSceneInfo.cpp">
-      <Filter>02. Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Player.cpp">
-      <Filter>03. GameObject\01.Player</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Sandy.cpp">
-      <Filter>03. GameObject\01.Player</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Patrick.cpp">
-      <Filter>03. GameObject\01.Player</Filter>
-    <ClCompile Include="UI\PlayerUI.cpp">
-      <Filter>05. UI</Filter>
-    </ClCompile>
+    <ClInclude Include="Client3D.h" />
+    <ClInclude Include="Client3DManager.h" />
+    <ClInclude Include="GameObject\Bullet.h" />
+    <ClInclude Include="GameObject\Monster.h" />
+    <ClInclude Include="GameObject\Patrick.h" />
+    <ClInclude Include="GameObject\Player.h" />
+    <ClInclude Include="GameObject\Sandy.h" />
+    <ClInclude Include="GameObject\Weapon.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Scene\LoadingSceneInfo.h" />
+    <ClInclude Include="Scene\MainSceneInfo.h" />
+    <ClInclude Include="Setting\DefaultSetting.h" />
+    <ClInclude Include="Setting\EngineShareSetting.h" />
+    <ClInclude Include="UI\LoadingUI.h" />
+    <ClInclude Include="UI\PlayerUI.h" />
+    <ClInclude Include="UI\StartSceneUI.h" />
+    <ClInclude Include="GameObject\Jellyfish.h" />
+    <ClInclude Include="GameObject\KingJellyfish.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Client3D.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Client3DManager.h">
-      <Filter>01 ClientManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\MainSceneInfo.h">
-      <Filter>02. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Setting\EngineShareSetting.h">
-      <Filter>04. Setting</Filter>
-    </ClInclude>
-    <ClInclude Include="Setting\DefaultSetting.h">
-      <Filter>04. Setting</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Monster.h">
-      <Filter>03. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Weapon.h">
-      <Filter>03. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Bullet.h">
-      <Filter>03. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\LoadingUI.h">
-      <Filter>05. UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\StartSceneUI.h">
-      <Filter>05. UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\LoadingSceneInfo.h">
-      <Filter>02. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Player.h">
-      <Filter>03. GameObject\01.Player</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Sandy.h">
-      <Filter>03. GameObject\01.Player</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Patrick.h">
-      <Filter>03. GameObject\01.Player</Filter>
-    <ClInclude Include="UI\PlayerUI.h">
-      <Filter>05. UI</Filter>
-    </ClInclude>
+    <ResourceCompile Include="Client3D.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Client3D.rc">
-      <Filter>리소스 파일</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="icon1.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
+    <Image Include="icon1.ico" />
   </ItemGroup>
 </Project>

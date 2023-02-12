@@ -40,7 +40,7 @@ void CDefaultSetting::CreateCDO()
 
     CScene::CreateObjectCDO<CKingJellyfish>("KingJellyfish");
 
-    CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
+    //CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
 
 
 }
