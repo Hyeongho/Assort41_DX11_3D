@@ -50,6 +50,9 @@ bool CJellyfish::Init()
 void CJellyfish::Update(float DeltaTime)
 {
     CGameObject::Update(DeltaTime);
+
+    // 해파리 몬스터는 Idle 모션이 따로 없기 때문에 Attack 모션을 사용
+    m_Animation->ChangeAnimation("Jellyfish_Attack");
 }
 
 void CJellyfish::PostUpdate(float DeltaTime)
@@ -73,8 +76,9 @@ void CJellyfish::Load(FILE* File)
 }
 
 void CJellyfish::Attack()
-{
-    m_Animation->ChangeAnimation("Jellyfish_Attack");
+{ 
+    // 플레이어와 충돌했을 때 재생
+    // CResourceManager::GetInst()->SoundPlay("Jellyfish_Attack");
 }
 
 void CJellyfish::Death()
