@@ -1,6 +1,8 @@
 #include "PathWindow.h"
 #include "MeshWindow.h"
 #include "MaterialWindow.h"
+#include "FBXWindow.h"
+#include "Animation3DWindow.h"
 #include "PathManager.h"
 #include "Editor/EditorButton.h"
 #include "Editor/EditorSameLine.h"
@@ -27,7 +29,6 @@ CPathWindow::~CPathWindow()
 
 bool CPathWindow::Init()
 {
-
 	m_Path = CreateWidget<CEditorInput>("Path", 500.f, 30.f);
 	m_Path->SetHideName("Path");
 	m_Tree = CreateWidget<CEditorTree<void*>>("PathWindow");
@@ -53,8 +54,7 @@ void CPathWindow::Update(float deltaTime)
 
 void CPathWindow::LoadFileList(const std::string& pathName)
 {
-
-//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//°æ·Î ÀúÀå
 	const PathInfo* info = CPathManager::GetInst()->FindPath(pathName);
 	char	path[MAX_PATH] = {};
 	if(!info)
@@ -82,11 +82,11 @@ void CPathWindow::LoadFileList(const std::string& pathName)
 		strcpy_s(path, info->PathMultibyte);
 	}
 	m_Path->SetText(path);
-//ï¿½Ê±ï¿½È­
+//ÃÊ±âÈ­
 	m_Tree->Clear();
 	m_Tree->AddItem(nullptr, "FileList");
 	m_Tree->AddItem(nullptr, "...", "FileList");
-//Å½ï¿½ï¿½
+//Å½»ö
 	for (const auto& file : std::filesystem::directory_iterator(path))
 	{
 		char	name[64] = {};
@@ -94,34 +94,34 @@ void CPathWindow::LoadFileList(const std::string& pathName)
 		char	ext[_MAX_EXT] = {};
 		strcpy_s(fullPath, file.path().generic_string().c_str());
 		_splitpath_s(fullPath, nullptr, 0, nullptr, 0, name, 64, ext, _MAX_EXT);
-		if (!strcmp(ext, ".exe") || !strcmp(ext, ".pdb") || !strcmp(ext, ".lib") || !strcmp(ext, ".ini") 
-			|| !strcmp(ext, ".dll") || !strcmp(ext, ".lastcodeanalysissucceeded") || !strcmp(ext, ".ico") 
-			|| !strcmp(ext, ".r18")	|| !strcmp(ext, ".r19"))
+		if(!strcmp(ext, ".exe")|| !strcmp(ext, ".pdb")|| !strcmp(ext, ".lib")|| !strcmp(ext, ".ini")|| !strcmp(ext, ".dll")
+			|| !strcmp(ext, ".lastcodeanalysissucceeded") || !strcmp(ext, ".ico") || !strcmp(ext, ".r18") 
+			|| !strcmp(ext, ".r19") || !strcmp(ext, ".cso"))
 		{
 			continue;
 		}
 		strcat_s(name, ext);
 		m_Tree->AddItem(nullptr,name, "FileList");
 	}
-
-	
-}
-
-void CPathWindow::FileClickCallback(CEditorTreeItem<std::string>* Node, const std::string& item)
-{
-
 }
 
 void CPathWindow::FileDCCallback(CEditorTreeItem<void*>* node, const std::string& item)
 {
-	if(item!="...")
+	bool isFBM = true; 
+	if (item.size()>=4)		//fmb ¿¹¿ÜÃ³¸®
 	{
-//È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½
-		size_t index = 0;
-		while ((index = item.find(".", index)) != std::string::npos)
-		{
-			return;
-		}
+		isFBM=item.compare(item.size() - 4, item.size(), ".fbm");	//false¸é °°Àº°Å
+	} 
+	if (item == "..." || !isFBM)		//È®ÀåÀÚ ¿¹¿ÜÃ³¸®
+	{
+		m_IsLoad = true;
+		FileName = item;
+		return;
+	}
+	size_t index = 0;
+	while ((index = item.find(".", index)) != std::string::npos)
+	{
+		return;
 	}
 	m_IsLoad = true;
 	FileName = item;
@@ -130,18 +130,18 @@ void CPathWindow::FileDCCallback(CEditorTreeItem<void*>* node, const std::string
 void CPathWindow::FileDADCallback(CEditorTreeItem<void*>* dragnode, CEditorTreeItem<void*>* dropnode,
 	const std::string& dragItem, const std::string& dropItem)
 {
+	//		_strupr_s(ext);
 	if(ImGui::IsWindowHovered("MeshWindow"))
-	{
-		//ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½
-		//	strcpy_s(fullPath, file.path().generic_string().c_str());
-		
-		//È®ï¿½ï¿½ï¿½Ú·ï¿½ bne mshï¿½ï¿½ï¿½ï¿½
+	{		
+		//È®ÀåÀÚ·Î bne msh±¸º°
 		char	ext[_MAX_EXT] = {};
 		_splitpath_s(dragItem.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, ext, _MAX_EXT);
-		//tchar ï¿½ï¿½È¯
-		TCHAR* t_filename = new TCHAR[dragItem.size() + 1];
-		t_filename[dragItem.size()] = 0;
-		std::copy(dragItem.begin(), dragItem.end(), t_filename);
+		//tchar º¯È¯
+		char	fullPath[_MAX_EXT] = {};
+		TCHAR t_filename[_MAX_EXT] = {};
+		strcpy_s(fullPath, m_Path->GetText());
+		strcat_s(fullPath, dragItem.c_str());
+		MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, fullPath, (int)strlen(fullPath), t_filename, 256);
 		CMeshWindow* meshWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMeshWindow>("MeshWindow");
 		if (meshWindow)
 		{
@@ -149,7 +149,7 @@ void CPathWindow::FileDADCallback(CEditorTreeItem<void*>* dragnode, CEditorTreeI
 			{
 				meshWindow->MeshChangeCallback(t_filename);
 			}
-			else if (!strcmp(ext, ".fbx"))
+			else if (!strcmp(ext, ".FBX")|| !strcmp(ext, ".fbx"))
 			{
 				meshWindow->MeshChangeCallback(t_filename);
 			}
@@ -158,19 +158,46 @@ void CPathWindow::FileDADCallback(CEditorTreeItem<void*>* dragnode, CEditorTreeI
 				meshWindow->SkeletonChangeCallback(t_filename);
 			}
 		}
-		SAFE_DELETE_ARRAY(t_filename);
 	}
 	else if (ImGui::IsWindowHovered("MaterialWindow"))
 	{
-		TCHAR* t_filename = new TCHAR[dragItem.size() + 1];
-		t_filename[dragItem.size()] = 0;
-		std::copy(dragItem.begin(), dragItem.end(), t_filename);
+		char	fullPath[_MAX_EXT] = {};
+		TCHAR t_filename[_MAX_EXT] = {};
+		strcpy_s(fullPath, m_Path->GetText());
+		strcat_s(fullPath, dragItem.c_str());
+		MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, fullPath, (int)strlen(fullPath), t_filename, 256);
 		CMaterialWindow* materialWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMaterialWindow>("MaterialWindow");
 		if (materialWindow)
 		{
 			materialWindow->ImgChangeCallback(dragItem,t_filename);
 		}
-		SAFE_DELETE_ARRAY(t_filename);
+	}
+	else if (ImGui::IsWindowHovered("FBXWindow"))
+	{
+		char	fullPath[_MAX_EXT] = {};
+		TCHAR t_filename[_MAX_EXT] = {};
+		strcpy_s(fullPath, m_Path->GetText());
+		strcat_s(fullPath, dragItem.c_str());
+		MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, fullPath, (int)strlen(fullPath), t_filename, 256);
+		CFBXWindow* FBXWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CFBXWindow>("FBXWindow");
+		if (FBXWindow)
+		{
+			FBXWindow->FBXConvert(t_filename);
+		}
+	}
+	else if (ImGui::IsWindowHovered("Animation3DWindow"))
+	{
+		char	fullPath[_MAX_EXT] = {};
+		TCHAR t_filename[_MAX_EXT] = {};
+		strcpy_s(fullPath, m_Path->GetText());
+		strcat_s(fullPath, dragItem.c_str());
+		MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, fullPath, (int)strlen(fullPath), t_filename, 256);
+		CAnimation3DWindow* animation3DWindow =
+			CEditorGUIManager::GetInst()->FindEditorWindow<CAnimation3DWindow>("Animation3DWindow");
+		if (animation3DWindow)
+		{
+			animation3DWindow->ChangeAnimation3D(t_filename);
+		}
 	}
 }
 

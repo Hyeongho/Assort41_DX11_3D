@@ -34,6 +34,18 @@
     <Filter Include="03. Window\01. DetailWindow">
       <UniqueIdentifier>{4621b128-08a2-4b3a-9908-a7ee536d6e03}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Window\02. UIWIndow">
+      <UniqueIdentifier>{d1d9c823-acb2-4db6-96cf-fc8a7f0c61b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Window\03. ColliderWindow">
+      <UniqueIdentifier>{9404a976-0bab-4e23-a85c-414c696696df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Window\04. Component">
+      <UniqueIdentifier>{0c07539c-5e39-4b20-9b88-e42ab4a1b5d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Window\04. 3D">
+      <UniqueIdentifier>{e34c70a7-a1fe-4869-9f94-f05997d1072c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,9 +56,6 @@
     </ClCompile>
     <ClCompile Include="Scene\EditorDefaultScene.cpp">
       <Filter>02. Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\TestWindow.cpp">
-      <Filter>03. Window</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Monster.cpp">
       <Filter>04. GameObject</Filter>
@@ -61,9 +70,6 @@
       <Filter>03. Window</Filter>
     </ClCompile>
     <ClCompile Include="Window\ComponentWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\TransformWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
     <ClCompile Include="Window\SceneWindow.cpp">
@@ -141,20 +147,50 @@
     <ClCompile Include="GameObject\Weapon.cpp">
       <Filter>04. GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Window\UIButtonWindow.cpp">
+    <ClCompile Include="Window\TransformWindow.cpp">
+      <Filter>03. Window\04. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\CameraWindow.cpp">
+      <Filter>03. Window\04. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\LightWindow.cpp">
+      <Filter>03. Window\04. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\RigidBodyWindow.cpp">
+      <Filter>03. Window\04. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\TargetArmWindow.cpp">
+      <Filter>03. Window\04. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\Animation3DWindow.cpp">
+      <Filter>03. Window\04. 3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\FBXWindow.cpp">
+      <Filter>03. Window\04. 3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\PathWindow.cpp">
       <Filter>03. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\MaterialWindow.cpp">
+      <Filter>03. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\MeshWindow.cpp">
+      <Filter>03. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UIButtonWindow.cpp">
+      <Filter>03. Window\02. UIWIndow</Filter>
     </ClCompile>
     <ClCompile Include="Window\UIImageWindow.cpp">
-      <Filter>03. Window</Filter>
+      <Filter>03. Window\02. UIWIndow</Filter>
     </ClCompile>
     <ClCompile Include="Window\UINumberWindow.cpp">
-      <Filter>03. Window</Filter>
+      <Filter>03. Window\02. UIWIndow</Filter>
     </ClCompile>
     <ClCompile Include="Window\UIProgressBarWindow.cpp">
-      <Filter>03. Window</Filter>
+      <Filter>03. Window\02. UIWIndow</Filter>
     </ClCompile>
     <ClCompile Include="Window\UITextWindow.cpp">
-      <Filter>03. Window</Filter>
+      <Filter>03. Window\02. UIWIndow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,9 +206,6 @@
     <ClInclude Include="Scene\EditorDefaultScene.h">
       <Filter>02. Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Window\TestWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Bullet.h">
       <Filter>04. GameObject</Filter>
     </ClInclude>
@@ -186,9 +219,6 @@
       <Filter>03. Window</Filter>
     </ClInclude>
     <ClInclude Include="Window\ComponentWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\TransformWindow.h">
       <Filter>03. Window</Filter>
     </ClInclude>
     <ClInclude Include="Window\SceneWindow.h">
@@ -266,20 +296,50 @@
     <ClInclude Include="GameObject\Weapon.h">
       <Filter>04. GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Window\UITextWindow.h">
+    <ClInclude Include="Window\TransformWindow.h">
+      <Filter>03. Window\04. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\CameraWindow.h">
+      <Filter>03. Window\04. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\LightWindow.h">
+      <Filter>03. Window\04. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\RigidBodyWindow.h">
+      <Filter>03. Window\04. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\TargetArmWindow.h">
+      <Filter>03. Window\04. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\Animation3DWindow.h">
+      <Filter>03. Window\04. 3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\FBXWindow.h">
+      <Filter>03. Window\04. 3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\PathWindow.h">
+      <Filter>03. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\MaterialWindow.h">
+      <Filter>03. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\MeshWindow.h">
       <Filter>03. Window</Filter>
     </ClInclude>
     <ClInclude Include="Window\UIButtonWindow.h">
-      <Filter>03. Window</Filter>
+      <Filter>03. Window\02. UIWIndow</Filter>
     </ClInclude>
     <ClInclude Include="Window\UIImageWindow.h">
-      <Filter>03. Window</Filter>
+      <Filter>03. Window\02. UIWIndow</Filter>
     </ClInclude>
     <ClInclude Include="Window\UINumberWindow.h">
-      <Filter>03. Window</Filter>
+      <Filter>03. Window\02. UIWIndow</Filter>
     </ClInclude>
     <ClInclude Include="Window\UIProgressBarWindow.h">
-      <Filter>03. Window</Filter>
+      <Filter>03. Window\02. UIWIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UITextWindow.h">
+      <Filter>03. Window\02. UIWIndow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

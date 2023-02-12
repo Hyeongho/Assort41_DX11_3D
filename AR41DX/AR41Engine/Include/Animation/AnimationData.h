@@ -63,7 +63,31 @@ public:
 	{
 		return m_Sequence;
 	}
-
+	//±è¹üÁß 230211
+	const std::string& GetSequenceName()	const
+	{
+		return m_SequenceName;
+	}
+	float GetAnimationFrameTime()	const
+	{
+		return m_FrameTime;
+	}
+	float GetAnimationPlayTime()	const
+	{
+		return m_PlayTime;
+	}
+	float GetAnimationPlayScale()	const
+	{
+		return m_PlayScale;
+	}
+	bool GetAnimationLoop()	const
+	{
+		return m_Loop;
+	}
+	bool GetAnimationReverse()	const
+	{
+		return m_Reverse;
+	}
 public:
 	template <typename T>
 	void SetEndFunction(T* Obj, void(T::* Func)())

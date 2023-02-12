@@ -74,9 +74,57 @@ private:
     class CStructuredBuffer*    m_KeyFrameBuffer;
 
 public:
+    float GetSequenceStartTime()	const
+    {
+        return m_StartTime;
+    }
+    float GetSequenceEndTime()	const
+    {
+        return m_EndTime;
+    }
+    float GetSequenceTimeLength()	const
+    {
+        return m_TimeLength;
+    }
+    float GetSequenceFrameTime()	const
+    {
+        return m_FrameTime;
+    }
+    float GetSequencePlayTime()	const
+    {
+        return m_PlayTime;
+    }
+    float GetSequencePlayScale()	const
+    {
+        return m_PlayScale;
+    }
+    int GetSequenceStartFrame()	const
+    {
+        return m_StartFrame;
+    }
+    int GetSequenceEndFrame()	const
+    {
+        return m_EndFrame;
+    }
     int GetKeyFrameCount()	const
     {
         return m_FrameLength;
+    }
+    int GetSequenceFrameMode()	const
+    {
+        return m_FrameMode;
+    }
+    int GetSequenceChangeFrame()	const
+    {
+        return m_ChangeFrame;
+    }
+    bool GetSequenceLoop()	const
+    {
+        return m_Loop;
+    }
+    bool GetSequenceEnd()	const
+    {
+        return m_End;
     }
 
 public:
@@ -84,7 +132,10 @@ public:
     {
         m_Scene = Scene;
     }
-
+    void SetEnd(bool b)
+    {
+        m_End = b;
+    }
 public:
     bool IsSequenceEnd()	const;
     void GetKeyFrame(std::vector<BoneKeyFrame*>& vecFrame);
