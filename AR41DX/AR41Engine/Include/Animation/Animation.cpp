@@ -16,9 +16,6 @@ CAnimation::CAnimation() :
 	m_Play(true),
 	m_CurAnimation(nullptr),
 	m_ChangeAnimation(nullptr),
-	m_AnimationUpdateCBuffer(nullptr),
-	m_OutputBuffer(nullptr),
-	m_BoneBuffer(nullptr),
 	m_InstancingBoneBuffer(nullptr),
 	m_GlobalTime(0.f),
 	m_SequenceProgress(0.f),
@@ -27,6 +24,9 @@ CAnimation::CAnimation() :
 {
 	m_ClassName = "Animation";
 	SetTypeID<CAnimation>();
+	m_AnimationUpdateCBuffer = new CAnimationUpdateConstantBuffer;
+	m_OutputBuffer = new CStructuredBuffer;
+	m_BoneBuffer = new CStructuredBuffer;
 }
 
 CAnimation::CAnimation(const CAnimation& Anim) :
@@ -111,7 +111,7 @@ void CAnimation::Start()
 {
 	m_AnimationUpdateShader = (CComputeShader*)CResourceManager::GetInst()->FindShader("AnimationUpdateShader");
 
-	m_AnimationUpdateCBuffer = new CAnimationUpdateConstantBuffer;
+
 
 	m_AnimationUpdateCBuffer->Init();
 
@@ -119,11 +119,11 @@ void CAnimation::Start()
 
 	m_vecBoneInfo.resize(m_Skeleton->GetBoneCount());
 
-	m_OutputBuffer = new CStructuredBuffer;
+
 
 	m_OutputBuffer->Init("OutputBone", sizeof(Matrix), (unsigned int)m_Skeleton->GetBoneCount(), 0);
 
-	m_BoneBuffer = new CStructuredBuffer;
+
 
 	m_BoneBuffer->Init("OutputBone", sizeof(OutputBoneInfo), (unsigned int)m_Skeleton->GetBoneCount(), 1,
 		D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS,

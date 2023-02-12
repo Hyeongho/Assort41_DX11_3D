@@ -6,19 +6,19 @@
 class CEngine
 {
 private:
-	HINSTANCE	m_hInst;
-	HWND		m_hWnd;
-	Resolution	m_WindowRS;
-	float		m_ClearColor[4];
+	HINSTANCE m_hInst;
+	HWND m_hWnd;
+	Resolution m_WindowRS;
+	float m_ClearColor[4];
 	static bool	m_Loop;
 	class CTimer* m_Timer;
-	static bool		m_EditorMode;
-	static std::function<bool(HWND, UINT, WPARAM, LPARAM)>	m_WndProcFunc;
+	static bool m_EditorMode;
+	static std::function<bool(HWND, UINT, WPARAM, LPARAM)> m_WndProcFunc;
 	CEngineSetting* m_Setting;
-	bool		m_Render2D;
+	bool m_Render2D;
 	class CGlobalConstantBuffer* m_GlobalCBuffer;
-	float		m_AccTime;
-	float		m_TimeScale;	// 글로벌 타임 재생 배율(게임 전체의 시간을 조절할때 씀)
+	float m_AccTime;
+	float m_TimeScale; // 글로벌 타임 재생 배율(게임 전체의 시간을 조절할때 씀)
 
 public:
 	bool GetRender2D()	const
@@ -58,11 +58,16 @@ public:
 	{
 		return m_hInst;
 	}
+
+	void SetCameraAxisX(const Vector3& Axis);
+	void SetCameraAxisY(const Vector3& Axis);
+
 	//김범중 게임 일시정지 변수 관리 함수
 	float GetTimeScale()	const
 	{
 		return m_TimeScale;
 	}
+
 	void SetTimeScale(float scale)
 	{
 		m_TimeScale = scale;

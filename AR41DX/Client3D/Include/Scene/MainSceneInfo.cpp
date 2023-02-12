@@ -5,6 +5,7 @@
 #include "../GameObject/Weapon.h"
 #include "../GameObject/Patrick.h"
 #include "../GameObject/Sandy.h"
+#include "../GameObject/BikiniBottomBuildings.h"
 #include "Component/TerrainComponent.h"
 #include "Component/BillboardComponent.h"
 #include "../UI/PlayerUI.h"
@@ -24,9 +25,17 @@ bool CMainSceneInfo::Init()
 	//SetPlayerObject(Patrick);
 	
 	CPlayer* Sandy = m_Owner->CreateObject<CPlayer>("Sandy");
-	m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	//m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 
 	SetPlayerObject(Sandy);
+
+	CBikiniBottomBuildings* BikiniBottomBuildings = m_Owner->CreateObject<CBikiniBottomBuildings>("BikiniBottomBuildings");
+	//SetPlayerObject(BikiniBottomBuildings);
+	//BikiniBottomBuildings->SetWorldPosition(100.f, 100.f);
+
+	//CWeapon* Weapon = m_Owner->CreateObject<CWeapon>("Weapon");
+
+	//Player->AddChildToSocket("Weapon", Weapon);
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("Terrain");
 

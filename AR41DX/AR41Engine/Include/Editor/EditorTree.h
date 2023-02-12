@@ -51,6 +51,14 @@ protected:
 		SAFE_DELETE(m_Root);
 	}
 public:
+	size_t ItemSize()
+	{
+		if (!m_Root)
+		{
+			return 0;
+		}
+		return m_Root->m_vecChild.size() + 1;
+	}
 	CEditorTreeItem<T>* GetHoverItem()
 	{
 		if(!m_Root)

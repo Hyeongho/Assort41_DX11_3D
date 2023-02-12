@@ -21,6 +21,12 @@
       <FullPath>C:\Assort41_DX11_3D\AR41DX\AR41Engine\Bin\Mesh.cso</FullPath>
     </ContentFile>
     <ContentFile>
+      <FullPath>C:\Assort41_DX11_3D\AR41DX\AR41Engine\Bin\ParticleRender.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Assort41_DX11_3D\AR41DX\AR41Engine\Bin\ParticleUpdate.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>C:\Assort41_DX11_3D\AR41DX\AR41Engine\Bin\Sky.cso</FullPath>
     </ContentFile>
     <ContentFile>

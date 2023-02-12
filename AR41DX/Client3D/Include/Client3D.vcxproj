@@ -162,6 +162,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client3DManager.cpp" />
+    <ClCompile Include="GameObject\BikiniBottomBuildings.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Jellyfish.cpp" />
     <ClCompile Include="GameObject\KingJellyfish.cpp" />
@@ -182,6 +183,7 @@
   <ItemGroup>
     <ClInclude Include="Client3D.h" />
     <ClInclude Include="Client3DManager.h" />
+    <ClInclude Include="GameObject\BikiniBottomBuildings.h" />
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Jellyfish.h" />
     <ClInclude Include="GameObject\KingJellyfish.h" />

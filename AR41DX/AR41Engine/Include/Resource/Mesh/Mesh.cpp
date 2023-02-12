@@ -464,26 +464,28 @@ bool CMesh::ConvertFBX(CFBXLoader* Loader, const char* FullPath)
 			Material->SetSpecularPower(Mtrl->Shininess);
 
 			Material->SetShader("MeshShader");
-
+			//김범중 메터리얼슬롯 비어있으면 더미텍스처 생성
 			SetMaterial(ContainerIndex, (int)i, Material);
-
 			// Texture
 			char    FileName[MAX_PATH] = {};
-			_splitpath_s(Mtrl->DiffuseTexture.c_str(), 0, 0, 0, 0, FileName, MAX_PATH, 0, 0);
-
+			char    Ext[MAX_PATH] = {};
+			_splitpath_s(Mtrl->DiffuseTexture.c_str(), 0, 0, 0, 0, FileName, MAX_PATH, Ext, MAX_PATH);
 			TCHAR   FullPath[MAX_PATH] = {};
-
 #ifdef UNICODE
-			int PathLength = MultiByteToWideChar(CP_ACP, 0, Mtrl->DiffuseTexture.c_str(),
-				-1, 0, 0);
+			int PathLength = MultiByteToWideChar(CP_ACP, 0, Mtrl->DiffuseTexture.c_str(), -1, 0, 0);
 			MultiByteToWideChar(CP_ACP, 0, Mtrl->DiffuseTexture.c_str(), -1, FullPath, PathLength);
 #else
 			strcpy_s(FullPath, Mtrl->DiffuseTexture.c_str());
 #endif // UNICODE
-
-			Material->AddTextureFullPath(0, (int)EShaderBufferType::Pixel,
-				FileName, FullPath);
-
+			if (Ext[0] == '\0')
+			{
+				Material->AddTexture(0, (int)EShaderBufferType::Pixel, "none", TEXT("none.png"));
+		}
+			else
+			{
+				Material->AddTextureFullPath(0, (int)EShaderBufferType::Pixel, FileName, FullPath);
+			}
+			//
 			if (!Mtrl->BumpTexture.empty())
 			{
 				Material->EnableBump();
@@ -677,6 +679,8 @@ bool CMesh::LoadMesh(FILE* File)
 
 		fread(&SubsetCount, sizeof(int), 1, File);
 
+		Container->vecSubset.reserve(SubsetCount);
+
 		for (int j = 0; j < SubsetCount; ++j)
 		{
 			MeshSlot* Slot = new MeshSlot;
@@ -688,7 +692,7 @@ bool CMesh::LoadMesh(FILE* File)
 
 			MeshSubset	Subset = {};
 
-			Container->vecSubset.push_back(Subset);
+			Container->vecSubset.emplace_back(Subset);
 
 			Container->vecSubset[j].Slot = Slot;
 
