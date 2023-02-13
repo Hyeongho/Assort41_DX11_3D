@@ -3,7 +3,7 @@
 //#include "../GameObject/Patrick.h"
 //#include "../GameObject/Sandy.h"
 //#include "../GameObject/BikiniBottomBuildings.h"
-//#include "../GameObject/KingJellyfish.h"
+#include "../GameObject/KingJellyfish.h"
 //#include "../GameObject/Jellyfish.h"
 //#include "../GameObject/Monster.h"
 //#include "../GameObject/Bullet.h"
@@ -41,7 +41,7 @@ void CDefaultSetting::CreateCDO()
 
     //CScene::CreateObjectCDO<CSandy>("Sandy");
 
-    //CScene::CreateObjectCDO<CKingJellyfish>("KingJellyfish");
+    //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
 
     //CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
 
@@ -192,11 +192,15 @@ void CDefaultSetting::LoadSandy()
 
 void CDefaultSetting::LoadBuildings()
 {
+    // 비키니 시티 맵 메쉬
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomBuildings", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "BikiniBottomBuildingsSkeleton", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("BikiniBottomBuildings", "BikiniBottomBuildingsSkeleton");
 
-
+    // 해파리 동산 맵 메쉬
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField", TEXT("Buildings/JellyfishField/JellyfishScene.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "JellyfishFieldSkeleton", TEXT("Buildings/JellyfishField/JellyfishScene.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("JellyfishField", "JellyfishFieldSkeleton");
 }
 
 void CDefaultSetting::LoadRoboSponge()
@@ -217,7 +221,20 @@ void CDefaultSetting::LoadKingJellyfish()
     CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Damage", TEXT("KingJellyfish/bossJellyKing_damage.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_OnGround", TEXT("KingJellyfish/bossJellyKing_onGround.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_SpawnJellyfish", TEXT("KingJellyfish/bossJellyKing_spawnJellyfish.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Victory", TEXT("KingJellyfish/bossJellyKing_victory.sqc"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Idle", true, "KingJellyfish/SFX_Boss_JFK_Move.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Charge", false, "KingJellyfish/KJ_Charge.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Angry", false, "KingJellyfish/KJ_Taunt.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Damage", false, "KingJellyfish/SFX_Boss_JFK_Grunt.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_SpawnJellyfish", false, "KingJellyfish/SFX_Boss_JFK_Birth_New.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_OnGround", false, "KingJellyfish/SFX_Boss_JFK_Land_001.ogg", SOUND_PATH);
+
+    // 캐릭터 이펙트 사운드
+    // CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Pulse", false, "KingJellyfish/SFX_Boss_JFK_Pulse.ogg", SOUND_PATH);
+    // CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Shield_Down", false, "KingJellyfish/SFX_Boss_JFK_Shield_Down.ogg", SOUND_PATH);
+    // CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Shield_Up", false, "KingJellyfish/SFX_Boss_JFK_Shield_Up.ogg", SOUND_PATH);
+
+
 }
 
 void CDefaultSetting::LoadJellyfish()
@@ -230,4 +247,6 @@ void CDefaultSetting::LoadJellyfish()
 
     CResourceManager::GetInst()->LoadAnimationSequence("Jellyfish_Attack", TEXT("Jellyfish/Jellyfish_attack.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Jellyfish_Death", TEXT("Jellyfish/Jellyfish_death.sqc"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSound("Effect", "Jellyfish_Attack", false, "Jellyfish/SFX_Enemy_Jellyfish_Attack_Original.ogg", SOUND_PATH);
 }
