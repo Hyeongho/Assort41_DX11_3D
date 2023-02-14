@@ -322,10 +322,6 @@ void CPlayer::RClick()
 
 void CPlayer::ChangeSpongebob()
 {
-	if (m_MainCharacter == EMain_Character::Spongebob)
-
-void CPlayer::ChangeSpongebob()
-{
 	if (m_MainCharacter == EMain_Character::Spongebob) 
 	{
 		return;
@@ -340,13 +336,11 @@ void CPlayer::ChangeSpongebob()
 
 void CPlayer::ChangePatrick()
 {
-
 	if (m_MainCharacter == EMain_Character::Patrick)
 	{
 		return;
 	}
 	
-
 	m_MainCharacter = EMain_Character::Patrick;
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
@@ -357,15 +351,16 @@ void CPlayer::ChangePatrick()
 
 void CPlayer::ChangeSandy()
 {
-  if (CResourceManager::GetInst()->FindMesh("Sandy"))
+  	if (CResourceManager::GetInst()->FindMesh("Sandy"))
 	{
 		return;
 	}
 
 	if (m_MainCharacter == EMain_Character::Sandy)
 	{
-		
+		return;
 	}
+	
 	m_MainCharacter = EMain_Character::Sandy;
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
