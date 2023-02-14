@@ -42,6 +42,9 @@ public:
     void GetAnimationNames(std::vector<std::string>& vecNames);
 
 public:
+    //김범중 애니메이션 교체용 함수
+    void SetAnimation(class CAnimation* anim);
+
     virtual bool SetMesh(const std::string& Name);
     virtual bool SetMesh(class CMesh* Mesh);
     virtual bool SetMesh(const std::string& Name, const TCHAR* FileName,
