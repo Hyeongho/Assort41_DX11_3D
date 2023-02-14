@@ -430,7 +430,7 @@ bool CResourceManager::LoadSound(const std::string& GroupName, const std::string
 	return m_SoundManager->LoadSound(GroupName, Name, Loop, FileName, PathName);
 }
 
-bool CResourceManager::SetVolume(int Volume)
+bool CResourceManager::SetVolume(float Volume)
 {
 	return m_SoundManager->SetVolume(Volume);
 }
@@ -571,4 +571,19 @@ void CResourceManager::ReleaseFont(const std::string& Name)
 void CResourceManager::ReleaseFontCollection(const std::string& Name)
 {
 	m_FontManager->ReleaseFontCollection(Name);
+}
+
+bool CResourceManager::CreateParticle(const std::string& Name)
+{
+	return m_ParticleManager->CreateParticle(Name);
+}
+
+CParticle* CResourceManager::FindParticle(const std::string& Name)
+{
+	return m_ParticleManager->FindParticle(Name);
+}
+
+void CResourceManager::ReleaseParticle(const std::string& Name)
+{
+	m_ParticleManager->ReleaseParticle(Name);
 }

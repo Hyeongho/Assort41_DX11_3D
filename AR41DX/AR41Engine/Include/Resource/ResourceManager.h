@@ -164,7 +164,7 @@ public:	// ============================ Sound ================================
 	bool CreateSoundChannel(const std::string& Name);
 	bool LoadSound(const std::string& GroupName, const std::string& Name,
 		bool Loop, const char* FileName, const std::string& PathName = SOUND_PATH);
-	bool SetVolume(int Volume);
+	bool SetVolume(float Volume);
 	bool SetVolume(const std::string& GroupName, int Volume);
 	bool SoundPlay(const std::string& Name);
 	bool SoundStop(const std::string& Name);
@@ -206,7 +206,10 @@ public:	// ============================ Font ================================
 	void ReleaseFont(const std::string& Name);
 	void ReleaseFontCollection(const std::string& Name);
 
-
+	public:
+		bool CreateParticle(const std::string& Name);
+		CParticle* FindParticle(const std::string& Name);
+		void ReleaseParticle(const std::string& Name);
 
 	DECLARE_SINGLE(CResourceManager)
 };
