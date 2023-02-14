@@ -39,6 +39,7 @@
 
 .svn/
 .vs/
-.AR41DX/AR41Editor/BinObjDebug
-.AR41DX/Client3D/BinObj_Debug
+.AR41DX/AR41Editor/BinObjDebug/
+.AR41DX/AR41Engine/BinObjDebug/
+.AR41DX/Client3D/BinObj_Debug/
 *.recipe
