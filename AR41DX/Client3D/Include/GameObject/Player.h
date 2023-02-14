@@ -41,8 +41,8 @@ protected:
 	CSharedPtr<class CTargetArm> m_Arm;
 	CSharedPtr<class CRigidBody> m_Rigid;
 //
-	CSharedPtr<class CMesh>						m_ReserveMesh[(int)EMain_Character::Max];
-	CSharedPtr<class CAnimation>		m_Anim[(int)EMain_Character::Max];
+	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
+	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
 
 protected:
 	PlayerData m_PlayerData;
@@ -145,6 +145,7 @@ public:
 	void Menu();
 	void IngameUI();
 	void RClick();
+	void LClick();
 
 	// Spongebob
 	void Headbutt();

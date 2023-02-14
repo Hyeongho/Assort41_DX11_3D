@@ -203,6 +203,7 @@
     <ClInclude Include="UI\UINumber.h" />
     <ClInclude Include="UI\UIProgressBar.h" />
     <ClInclude Include="UI\UIText.h" />
+    <ClInclude Include="UI\UITextButton.h" />
     <ClInclude Include="UI\UIWidget.h" />
     <ClInclude Include="UI\UIWindow.h" />
     <ClInclude Include="Vector2.h" />
@@ -375,6 +376,7 @@
     <ClCompile Include="UI\UINumber.cpp" />
     <ClCompile Include="UI\UIProgressBar.cpp" />
     <ClCompile Include="UI\UIText.cpp" />
+    <ClCompile Include="UI\UITextButton.cpp" />
     <ClCompile Include="UI\UIWidget.cpp" />
     <ClCompile Include="UI\UIWindow.cpp" />
     <ClCompile Include="Vector2.cpp" />

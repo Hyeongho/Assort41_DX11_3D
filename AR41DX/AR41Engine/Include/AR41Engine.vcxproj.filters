@@ -873,6 +873,9 @@
     <ClInclude Include="Component\BehaviorTree.h">
       <Filter>05. Component\02. ObjectComponent\02. AI</Filter>
     </ClInclude>
+    <ClInclude Include="UI\UITextButton.h">
+      <Filter>09. UI\02. Widget</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1384,6 +1387,9 @@
     </ClCompile>
     <ClCompile Include="Component\BehaviorTree.cpp">
       <Filter>05. Component\02. ObjectComponent\02. AI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UITextButton.cpp">
+      <Filter>09. UI\02. Widget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

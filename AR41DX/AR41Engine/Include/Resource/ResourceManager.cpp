@@ -430,7 +430,7 @@ bool CResourceManager::LoadSound(const std::string& GroupName, const std::string
 	return m_SoundManager->LoadSound(GroupName, Name, Loop, FileName, PathName);
 }
 
-bool CResourceManager::SetVolume(int Volume)
+bool CResourceManager::SetVolume(float Volume)
 {
 	return m_SoundManager->SetVolume(Volume);
 }
