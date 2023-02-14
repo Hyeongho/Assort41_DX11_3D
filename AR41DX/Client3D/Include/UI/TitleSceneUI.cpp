@@ -252,8 +252,8 @@ void CTitleSceneUI::CreateMainUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("°è¼Ó"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("°è¼Ó"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "MainUI_ButtonContinueHovered", false, "Sfx/Title/SFX_UI_Scroll_001.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "MainUI_ButtonContinueClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "MainUI_ButtonContinueHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "MainUI_ButtonContinueClick", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::MainUIContinueHovered);
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::MainUIContinue);
@@ -274,8 +274,8 @@ void CTitleSceneUI::CreateMainUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("»õ °ÔÀÓ"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("»õ °ÔÀÓ"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "MainUI_ButtonNewGameHovered", false, "Sfx/Title/SFX_UI_Scroll_002.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "MainUI_ButtonNewGameClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "MainUI_ButtonNewGameHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "MainUI_ButtonNewGameClick", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::MainUINewGameHovered);
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::MainUINewGame);
@@ -295,8 +295,8 @@ void CTitleSceneUI::CreateMainUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("¿É¼Ç"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("¿É¼Ç"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "MainUI_ButtonOptionHovered", false, "Sfx/Title/SFX_UI_Scroll_003.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "MainUI_ButtonOptionClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "MainUI_ButtonOptionHovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "MainUI_ButtonOptionClick", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::MainUIOptionHovered);
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::MainUIOption);
@@ -316,8 +316,8 @@ void CTitleSceneUI::CreateMainUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("Á¶ÀÛ¹ý"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("Á¶ÀÛ¹ý"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "MainUI_ButtonControlHovered", false, "Sfx/Title/SFX_UI_Scroll_001.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "MainUI_ButtonControlClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "MainUI_ButtonControlHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "MainUI_ButtonControlClick", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::MainUIControlHovered);
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::MainUIControl);
@@ -337,8 +337,8 @@ void CTitleSceneUI::CreateMainUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("Á¦ÀÛÁø"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("Á¦ÀÛÁø"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "MainUI_ButtonCreditsHovered", false, "Sfx/Title/SFX_UI_Scroll_002.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "MainUI_ButtonCreditsClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "MainUI_ButtonCreditsHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "MainUI_ButtonCreditsClick", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::MainUICreditsHovered);
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::MainUICredits);
@@ -359,8 +359,8 @@ void CTitleSceneUI::CreateMainUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("Á¾·á"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("Á¾·á"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "MainUI_ButtonQuitHovered", false, "Sfx/Title/SFX_UI_Scroll_003.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "MainUI_ButtonQuitClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "MainUI_ButtonQuitHovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "MainUI_ButtonQuitClick", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::MainUIQuitHovered);
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::MainUIQuit);
@@ -462,8 +462,8 @@ void CTitleSceneUI::CreateOptionUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("¿Àµð¿À ¼³Á¤"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("¿Àµð¿À ¼³Á¤"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "OptionUI_ButtonSoundHovered", false, "Sfx/Title/SFX_UI_Scroll_001.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "OptionUI_ButtonSoundClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "OptionUI_ButtonSoundHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "OptionUI_ButtonSoundClick", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::OptionUISoundHovered);
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::OptionUISound);
@@ -484,8 +484,8 @@ void CTitleSceneUI::CreateOptionUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("Ä«¸Þ¶ó ¼³Á¤"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("Ä«¸Þ¶ó ¼³Á¤"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "OptionUI_ButtonCameraHovered", false, "Sfx/Title/SFX_UI_Scroll_002.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "OptionUI_ButtonCameraClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "OptionUI_ButtonCameraHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "OptionUI_ButtonCameraClick", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::OptionUICameraHovered);
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::OptionUICamera);
@@ -608,8 +608,8 @@ void CTitleSceneUI::CreateOptionSoundUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("SFX º¼·ý"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("SFX º¼·ý"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonSfxOptionHovered", false, "Sfx/Title/SFX_UI_Scroll_001.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonSfxOptionClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonSfxOptionHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonSfxOptionClick", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::SoundOptionUISFX);
 
@@ -682,8 +682,8 @@ void CTitleSceneUI::CreateOptionSoundUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("Music º¼·ý"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("Music º¼·ý"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonMusicOptionHovered", false, "Sfx/Title/SFX_UI_Scroll_002.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonMusicOptionClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonMusicOptionHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonMusicOptionClick", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::SoundOptionUIMusic);
 
@@ -753,8 +753,8 @@ void CTitleSceneUI::CreateOptionSoundUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("Talk º¼·ý"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("Talk º¼·ý"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonTalkOptionHovered", false, "Sfx/Title/SFX_UI_Scroll_002.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonTalkOptionClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonTalkOptionHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonTalkOptionClick", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::SoundOptionUITalk);
 
@@ -825,8 +825,8 @@ void CTitleSceneUI::CreateOptionSoundUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("º¼·ý ¼³Á¤ ÃÊ±âÈ­"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("º¼·ý ¼³Á¤ ÃÊ±âÈ­"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonResetHovered", false, "Sfx/Title/SFX_UI_Scroll_001.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonResetClick", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonResetHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonResetClick", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::SoundOptionUIReset);
 
@@ -1033,8 +1033,8 @@ void CTitleSceneUI::CreateSaveSelectUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("ºó ½½·Ô"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("ºó ½½·Ô"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot1Hovered", false, "Sfx/Title/SFX_UI_Scroll_001.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot1Click", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot1Hovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot1Click", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::SaveSelectUISaveSlot1Hoverd);
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::GameStart);
@@ -1053,8 +1053,8 @@ void CTitleSceneUI::CreateSaveSelectUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("ºó ½½·Ô"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("ºó ½½·Ô"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot2Hovered", false, "Sfx/Title/SFX_UI_Scroll_002.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot2Click", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot2Hovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot2Click", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::SaveSelectUISaveSlot2Hoverd);
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::GameStart);
@@ -1073,8 +1073,8 @@ void CTitleSceneUI::CreateSaveSelectUI()
 	TextButton->SetText(EButtonState::Hovered, TEXT("ºó ½½·Ô"), FontSize, Vector4::Black);
 	TextButton->SetText(EButtonState::Click, TEXT("ºó ½½·Ô"), FontSize, Vector4::Black);
 
-	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot3Hovered", false, "Sfx/Title/SFX_UI_Scroll_003.ogg");
-	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot3Click", false, "Sfx/Title/SFX_UI_Forward.ogg");
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot3Hovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot3Click", false, "Sfx/SFX_UI_Forward.ogg");
 
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Hovered, this, &CTitleSceneUI::SaveSelectUISaveSlot3Hoverd);
 	TextButton->SetCallback<CTitleSceneUI>(EButtonEventState::Click, this, &CTitleSceneUI::GameStart);

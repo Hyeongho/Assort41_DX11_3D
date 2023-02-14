@@ -1,9 +1,9 @@
-﻿#include "DefaultSetting.h"
+#include "DefaultSetting.h"
 #include "../GameObject/Player.h"
 //#include "../GameObject/Patrick.h"
 //#include "../GameObject/Sandy.h"
 //#include "../GameObject/BikiniBottomBuildings.h"
-//#include "../GameObject/KingJellyfish.h"
+#include "../GameObject/KingJellyfish.h"
 //#include "../GameObject/Jellyfish.h"
 //#include "../GameObject/Monster.h"
 //#include "../GameObject/Bullet.h"
@@ -41,7 +41,7 @@ void CDefaultSetting::CreateCDO()
 
     //CScene::CreateObjectCDO<CSandy>("Sandy");
 
-    //CScene::CreateObjectCDO<CKingJellyfish>("KingJellyfish");
+    //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
 
     //CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
 
@@ -53,6 +53,7 @@ void CDefaultSetting::LoadResource()
     LoadPatrick();
     LoadSandy();
 
+    LoadRoboSponge();
     LoadBuildings();
     LoadKingJellyfish();
     LoadJellyfish();
@@ -60,6 +61,7 @@ void CDefaultSetting::LoadResource()
 
 void CDefaultSetting::SetInput()
 {
+
     //겹치는 키
     CInput::GetInst()->AddBindKey("W", 'W');
     CInput::GetInst()->AddBindKey("S", 'S');
@@ -70,6 +72,55 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("RClick", VK_RBUTTON);
 
     //안겹치는 키
+
+    // 캐릭터 키 하나로 통일 필요! - Move, LButton, RButton, Space
+
+    CInput::GetInst()->AddBindKey("MoveRight", 'D');
+    CInput::GetInst()->AddBindKey("MoveLeft", 'A');
+
+    CInput::GetInst()->AddBindKey("MoveFront", 'W');
+    CInput::GetInst()->AddBindKey("MoveBack", 'S');
+
+    CInput::GetInst()->AddBindKey("Jump", VK_SPACE);
+
+    CInput::GetInst()->AddBindKey("LButton", VK_LBUTTON);
+    CInput::GetInst()->AddBindKey("RButton", VK_RBUTTON);
+
+    CInput::GetInst()->AddBindKey("Headbutt", 'E');
+    CInput::GetInst()->AddBindKey("Missile", 'Q');
+    CInput::GetInst()->AddBindKey("Interaction", 'F');
+
+    CInput::GetInst()->AddBindKey("Spongebob", VK_F1);
+    CInput::GetInst()->AddBindKey("Patrick", VK_F2);
+    CInput::GetInst()->AddBindKey("Sandy", VK_F3);
+
+    // Num, FNum
+    CInput::GetInst()->AddBindKey("1", '1');
+    CInput::GetInst()->AddBindKey("2", '2');
+    CInput::GetInst()->AddBindKey("3", '3');
+    CInput::GetInst()->AddBindKey("4", '4');
+    CInput::GetInst()->AddBindKey("5", '5');
+    CInput::GetInst()->AddBindKey("6", '6');
+    CInput::GetInst()->AddBindKey("7", '7');
+    CInput::GetInst()->AddBindKey("8", '8');
+    CInput::GetInst()->AddBindKey("9", '9');
+    CInput::GetInst()->AddBindKey("0", '0');
+    
+    CInput::GetInst()->AddBindKey("F1", VK_F1);
+    CInput::GetInst()->AddBindKey("F2", VK_F2);
+    CInput::GetInst()->AddBindKey("F3", VK_F3);
+    CInput::GetInst()->AddBindKey("F4", VK_F4);
+    CInput::GetInst()->AddBindKey("F5", VK_F5);
+    CInput::GetInst()->AddBindKey("F6", VK_F6);
+    CInput::GetInst()->AddBindKey("F7", VK_F7);
+    CInput::GetInst()->AddBindKey("F8", VK_F8);
+    CInput::GetInst()->AddBindKey("F9", VK_F9);
+    CInput::GetInst()->AddBindKey("F10", VK_F10);
+    CInput::GetInst()->AddBindKey("F11", VK_F11);
+    CInput::GetInst()->AddBindKey("F12", VK_F12);
+
+
+    // Arrow
     CInput::GetInst()->AddBindKey("UArrow", VK_UP);
     CInput::GetInst()->AddBindKey("DArrow", VK_DOWN);
     CInput::GetInst()->AddBindKey("LArrow", VK_RIGHT);
@@ -185,15 +236,44 @@ void CDefaultSetting::LoadSandy()
 
 void CDefaultSetting::LoadBuildings()
 {
+    // 비키니 시티 맵 메쉬
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomBuildings", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "BikiniBottomBuildingsSkeleton", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("BikiniBottomBuildings", "BikiniBottomBuildingsSkeleton");
 
-
+    // 해파리 동산 맵 메쉬
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField", TEXT("Buildings/JellyfishField/JellyfishScene.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "JellyfishFieldSkeleton", TEXT("Buildings/JellyfishField/JellyfishScene.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("JellyfishField", "JellyfishFieldSkeleton");
 }
 
 void CDefaultSetting::LoadRoboSponge()
 {
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Robo_Sponge", TEXT("Robo_Sponge/Robo_Sponge.msh"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "Robo_Sponge_Skeleton", TEXT("Robo_Sponge/Robo_Sponge.bne"), MESH_PATH);
+
+    CResourceManager::GetInst()->SetMeshSkeleton("Robo_Sponge", "Robo_Sponge_Skeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L_Pose", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L_Pose.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_R", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_R.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_R_Pose", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_R_Pose.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Vertic_L_Loop", TEXT("Robo_Sponge/Robo_Sponge_Attack_Vertic_L_Loop.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Vertic_L_Start", TEXT("Robo_Sponge/Robo_Sponge_Attack_Vertic_L_Start.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Vertic_R_Loop", TEXT("Robo_Sponge/Robo_Sponge_Attack_Vertic_R_Loop.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Vertic_R_Start", TEXT("Robo_Sponge/Robo_Sponge_Attack_Vertic_R_Start.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Words_Loop", TEXT("Robo_Sponge/Robo_Sponge_Attack_Words_Loop.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Words_Start", TEXT("Robo_Sponge/Robo_Sponge_Attack_Words_Start.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Hit1", TEXT("Robo_Sponge/Robo_Sponge_Hit1.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Hit2", TEXT("Robo_Sponge/Robo_Sponge_Hit2.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Hit2_Pose", TEXT("Robo_Sponge/Robo_Sponge_Hit2_Pose.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Idle", TEXT("Robo_Sponge/Robo_Sponge_Idle.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Vertic_L_Hold", TEXT("Robo_Sponge/Robo_Sponge_Vertic_L_Hold.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Vertic_R_Hold", TEXT("Robo_Sponge/Robo_Sponge_Vertic_R_Hold.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Victory", TEXT("Robo_Sponge/Robo_Sponge_Victory.sqc"), MESH_PATH);
+
+    //Robo_Sponge_Attack_Vertic_L_Loop
 }
 
 void CDefaultSetting::LoadKingJellyfish()
@@ -210,7 +290,20 @@ void CDefaultSetting::LoadKingJellyfish()
     CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Damage", TEXT("KingJellyfish/bossJellyKing_damage.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_OnGround", TEXT("KingJellyfish/bossJellyKing_onGround.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_SpawnJellyfish", TEXT("KingJellyfish/bossJellyKing_spawnJellyfish.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("KingJellyfish_Victory", TEXT("KingJellyfish/bossJellyKing_victory.sqc"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Idle", true, "KingJellyfish/SFX_Boss_JFK_Move.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Charge", false, "KingJellyfish/KJ_Charge.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Angry", false, "KingJellyfish/KJ_Taunt.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Damage", false, "KingJellyfish/SFX_Boss_JFK_Grunt.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_SpawnJellyfish", false, "KingJellyfish/SFX_Boss_JFK_Birth_New.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_OnGround", false, "KingJellyfish/SFX_Boss_JFK_Land_001.ogg", SOUND_PATH);
+
+    // 캐릭터 이펙트 사운드
+    // CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Pulse", false, "KingJellyfish/SFX_Boss_JFK_Pulse.ogg", SOUND_PATH);
+    // CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Shield_Down", false, "KingJellyfish/SFX_Boss_JFK_Shield_Down.ogg", SOUND_PATH);
+    // CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Shield_Up", false, "KingJellyfish/SFX_Boss_JFK_Shield_Up.ogg", SOUND_PATH);
+
+
 }
 
 void CDefaultSetting::LoadJellyfish()
@@ -223,4 +316,6 @@ void CDefaultSetting::LoadJellyfish()
 
     CResourceManager::GetInst()->LoadAnimationSequence("Jellyfish_Attack", TEXT("Jellyfish/Jellyfish_attack.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Jellyfish_Death", TEXT("Jellyfish/Jellyfish_death.sqc"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSound("Effect", "Jellyfish_Attack", false, "Jellyfish/SFX_Enemy_Jellyfish_Attack_Original.ogg", SOUND_PATH);
 }

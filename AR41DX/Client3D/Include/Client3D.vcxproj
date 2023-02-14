@@ -165,6 +165,7 @@
     <ClCompile Include="GameObject\BikiniBottomBuildings.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Jellyfish.cpp" />
+    <ClCompile Include="GameObject\JellyfishField.cpp" />
     <ClCompile Include="GameObject\KingJellyfish.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
     <ClCompile Include="GameObject\Patrick.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="GameObject\BikiniBottomBuildings.h" />
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Jellyfish.h" />
+    <ClInclude Include="GameObject\JellyfishField.h" />
     <ClInclude Include="GameObject\KingJellyfish.h" />
     <ClInclude Include="GameObject\Monster.h" />
     <ClInclude Include="GameObject\Patrick.h" />

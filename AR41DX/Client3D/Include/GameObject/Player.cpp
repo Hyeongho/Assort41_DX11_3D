@@ -95,9 +95,22 @@ bool CPlayer::Init()
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
 
+	m_Arm->SetInheritRotY(true);
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
-	m_Rigid->SetGround(true);	//¶¥¿¡ ºÙ¾îÀÖ´Ù°í ¼³Á¤
+	m_Mesh->SetMesh("Sandy");
+
+	m_Animation = m_Mesh->SetAnimation<CAnimation>("PlayerAnimation");
+
+
+	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
+	LoadSandyAnim();
+
+	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
+
+	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);*/
+
+	//m_Rigid->SetGravity(true);
 
 	LoadSpongebobAnim();
 	LoadPatrickAnim();
@@ -110,17 +123,10 @@ bool CPlayer::Init()
 void CPlayer::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
-	CameraRotationKey();
-	/*
-	//³ôÀÌ ¼³Á¤
-	CNavigationManager3D* nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
-	float y = nav->GetHeight(GetWorldPos());
-	if (FLT_MIN != y)
-	{
-		SetWorldPositionY(y);
-		m_Rigid->SetGround(true);
-	}
-	*/
+
+	//m_Sprite->AddRelativeRotationZ(180.f * DeltaTime);
+
+	//m_RightChild->AddRelativeRotationZ(360.f * DeltaTime);
 }
 
 void CPlayer::PostUpdate(float DeltaTime)
@@ -180,7 +186,8 @@ void CPlayer::LoadSandyAnim()
 
 void CPlayer::MoveFront()
 {
-	//¿©±â¿¡ »ç¿îµå
+
+	//ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
@@ -192,7 +199,9 @@ void CPlayer::MoveFront()
 	default:
 		break;
 	}
+
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+
 
 	AddWorldPosition(GetWorldAxis(AXIS_Z) * -100.f * CEngine::GetInst()->GetDeltaTime());
 }
@@ -204,51 +213,51 @@ void CPlayer::MoveBack()
 
 void CPlayer::MoveLeft()
 {
-	//switch (m_MainCharacter)
-	//{
-	//case EMain_Character::Spongebob:
-	//	break;
-	//case EMain_Character::Patrick:
-	//	break;
-	//case EMain_Character::Sandy:
-	//	break;
-	//default:
-	//	break;
-	//}
+	switch (m_MainCharacter)
+	{
+	case EMain_Character::Spongebob:
+		break;
+	case EMain_Character::Patrick:
+		break;
+	case EMain_Character::Sandy:
+		break;
+	default:
+		break;
+	}
 
 	AddWorldRotationY(180.f * CEngine::GetInst()->GetDeltaTime());
 }
 
 void CPlayer::MoveRight()
 {
-	//switch (m_MainCharacter)
-	//{
-	//case EMain_Character::Spongebob:
-	//	break;
-	//case EMain_Character::Patrick:
-	//	break;
-	//case EMain_Character::Sandy:
-	//	break;
-	//default:
-	//	break;
-	//}
+	switch (m_MainCharacter)
+	{
+	case EMain_Character::Spongebob:
+		break;
+	case EMain_Character::Patrick:
+		break;
+	case EMain_Character::Sandy:
+		break;
+	default:
+		break;
+	}
 
 	AddWorldRotationY(-180.f * CEngine::GetInst()->GetDeltaTime());
 }
 
 void CPlayer::Jump()
 {
-	//switch (m_MainCharacter)
-	//{
-	//case EMain_Character::Spongebob:
-	//	break;
-	//case EMain_Character::Patrick:
-	//	break;
-	//case EMain_Character::Sandy:
-	//	break;
-	//default:
-	//	break;
-	//}
+	switch (m_MainCharacter)
+	{
+	case EMain_Character::Spongebob:
+		break;
+	case EMain_Character::Patrick:
+		break;
+	case EMain_Character::Sandy:
+		break;
+	default:
+		break;
+	}
 }
 
 void CPlayer::AttackKey()
@@ -257,18 +266,21 @@ void CPlayer::AttackKey()
 
 void CPlayer::CameraRotationKey()
 {
-	const Vector2& MouseMove = CInput::GetInst()->GetMouseMove()*m_Speed * g_DeltaTime;
-	m_Arm->AddRelativeRotationY(MouseMove.x);
-	m_Arm->AddRelativeRotationX(MouseMove.y);
-	if (m_Arm->GetRelativeRot().x > 50.f)
+	const Vector2& MouseMove = CInput::GetInst()->GetMouseMove();
+
+	float	DeltaTime = CEngine::GetInst()->GetDeltaTime();
+
+	if (MouseMove.x != 0.f)
 	{
-		m_Arm->SetRelativeRotationX(50.f);
+		m_Arm->AddRelativeRotationY(MouseMove.x * DeltaTime * 180.f);
 	}
-	else if (m_Arm->GetRelativeRot().x < -30.f)
+
+	if (MouseMove.y != 0.f)
 	{
-		m_Arm->SetRelativeRotationX(-30.f);
+		m_Arm->AddRelativeRotationX(MouseMove.y * DeltaTime * 180.f);
 	}
 }
+
 
 void CPlayer::KeyDown()
 {
@@ -311,9 +323,14 @@ void CPlayer::RClick()
 void CPlayer::ChangeSpongebob()
 {
 	if (m_MainCharacter == EMain_Character::Spongebob)
+
+void CPlayer::ChangeSpongebob()
+{
+	if (m_MainCharacter == EMain_Character::Spongebob) 
 	{
 		return;
 	}
+  
 	m_MainCharacter = EMain_Character::Spongebob;
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
@@ -323,22 +340,31 @@ void CPlayer::ChangeSpongebob()
 
 void CPlayer::ChangePatrick()
 {
+
 	if (m_MainCharacter == EMain_Character::Patrick)
 	{
 		return;
 	}
+	
+
 	m_MainCharacter = EMain_Character::Patrick;
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
 	m_Anim[(int)m_MainCharacter]->Start();
+
 }
 
 void CPlayer::ChangeSandy()
 {
-	if (m_MainCharacter == EMain_Character::Sandy)
+  if (CResourceManager::GetInst()->FindMesh("Sandy"))
 	{
 		return;
+	}
+
+	if (m_MainCharacter == EMain_Character::Sandy)
+	{
+		
 	}
 	m_MainCharacter = EMain_Character::Sandy;
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
@@ -346,3 +372,5 @@ void CPlayer::ChangeSandy()
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
 	m_Anim[(int)m_MainCharacter]->Start();
 }
+	
+
