@@ -53,6 +53,7 @@ void CDefaultSetting::LoadResource()
     LoadPatrick();
     LoadSandy();
 
+    LoadRoboSponge();
     LoadBuildings();
     LoadKingJellyfish();
     LoadJellyfish();
@@ -80,6 +81,32 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("Spongebob", VK_F1);
     CInput::GetInst()->AddBindKey("Patrick", VK_F2);
     CInput::GetInst()->AddBindKey("Sandy", VK_F3);
+
+    // Num, FNum
+    CInput::GetInst()->AddBindKey("1", '1');
+    CInput::GetInst()->AddBindKey("2", '2');
+    CInput::GetInst()->AddBindKey("3", '3');
+    CInput::GetInst()->AddBindKey("4", '4');
+    CInput::GetInst()->AddBindKey("5", '5');
+    CInput::GetInst()->AddBindKey("6", '6');
+    CInput::GetInst()->AddBindKey("7", '7');
+    CInput::GetInst()->AddBindKey("8", '8');
+    CInput::GetInst()->AddBindKey("9", '9');
+    CInput::GetInst()->AddBindKey("0", '0');
+    
+    CInput::GetInst()->AddBindKey("F1", VK_F1);
+    CInput::GetInst()->AddBindKey("F2", VK_F2);
+    CInput::GetInst()->AddBindKey("F3", VK_F3);
+    CInput::GetInst()->AddBindKey("F4", VK_F4);
+    CInput::GetInst()->AddBindKey("F5", VK_F5);
+    CInput::GetInst()->AddBindKey("F6", VK_F6);
+    CInput::GetInst()->AddBindKey("F7", VK_F7);
+    CInput::GetInst()->AddBindKey("F8", VK_F8);
+    CInput::GetInst()->AddBindKey("F9", VK_F9);
+    CInput::GetInst()->AddBindKey("F10", VK_F10);
+    CInput::GetInst()->AddBindKey("F11", VK_F11);
+    CInput::GetInst()->AddBindKey("F12", VK_F12);
+
 
     // Arrow
     CInput::GetInst()->AddBindKey("UArrow", VK_UP);
@@ -237,6 +264,31 @@ void CDefaultSetting::LoadBuildings()
 
 void CDefaultSetting::LoadRoboSponge()
 {
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Robo_Sponge", TEXT("Robo_Sponge/Robo_Sponge.msh"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "Robo_Sponge_Skeleton", TEXT("Robo_Sponge/Robo_Sponge.bne"), MESH_PATH);
+
+    CResourceManager::GetInst()->SetMeshSkeleton("Robo_Sponge", "Robo_Sponge_Skeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L_Pose", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L_Pose.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_R", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_R.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_R_Pose", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_R_Pose.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Vertic_L_Loop", TEXT("Robo_Sponge/Robo_Sponge_Attack_Vertic_L_Loop.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Vertic_L_Start", TEXT("Robo_Sponge/Robo_Sponge_Attack_Vertic_L_Start.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Vertic_R_Loop", TEXT("Robo_Sponge/Robo_Sponge_Attack_Vertic_R_Loop.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Vertic_R_Start", TEXT("Robo_Sponge/Robo_Sponge_Attack_Vertic_R_Start.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Words_Loop", TEXT("Robo_Sponge/Robo_Sponge_Attack_Words_Loop.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Words_Start", TEXT("Robo_Sponge/Robo_Sponge_Attack_Words_Start.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Hit1", TEXT("Robo_Sponge/Robo_Sponge_Hit1.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Hit2", TEXT("Robo_Sponge/Robo_Sponge_Hit2.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Hit2_Pose", TEXT("Robo_Sponge/Robo_Sponge_Hit2_Pose.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Idle", TEXT("Robo_Sponge/Robo_Sponge_Idle.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Vertic_L_Hold", TEXT("Robo_Sponge/Robo_Sponge_Vertic_L_Hold.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Vertic_R_Hold", TEXT("Robo_Sponge/Robo_Sponge_Vertic_R_Hold.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Victory", TEXT("Robo_Sponge/Robo_Sponge_Victory.sqc"), MESH_PATH);
+
+    //Robo_Sponge_Attack_Vertic_L_Loop
 }
 
 void CDefaultSetting::LoadKingJellyfish()
