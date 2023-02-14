@@ -5,6 +5,9 @@
 class CParticleConstantBuffer :
     public CConstantBufferData
 {
+	friend class CParticle;
+	friend class CParticleComponent;
+
 public:
 	CParticleConstantBuffer();
 	CParticleConstantBuffer(const CParticleConstantBuffer& Buffer);

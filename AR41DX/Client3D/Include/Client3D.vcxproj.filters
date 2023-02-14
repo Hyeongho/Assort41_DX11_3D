@@ -31,6 +31,9 @@
     <Filter Include="03. GameObject\01.Player">
       <UniqueIdentifier>{b4101f98-8d2c-4fcc-96b4-8890b02f61f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. AI">
+      <UniqueIdentifier>{3c075ebb-83f5-410d-8d2a-2c010c72cfbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

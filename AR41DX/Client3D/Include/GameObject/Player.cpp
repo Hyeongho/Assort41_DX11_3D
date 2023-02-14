@@ -117,6 +117,7 @@ bool CPlayer::Init()
 	LoadSandyAnim();
 
 	ChangeSandy();
+
 	return true;
 }
 
@@ -184,9 +185,12 @@ void CPlayer::LoadSandyAnim()
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Death", "Sandy_Death", 1.f, 1.f, true);
 }
 
+void CPlayer::SetMesh(std::string Mesh)
+{
+}
+
 void CPlayer::MoveFront()
 {
-
 	//���⿡ ����
 	switch (m_MainCharacter)
 	{
@@ -195,6 +199,7 @@ void CPlayer::MoveFront()
 	case EMain_Character::Patrick:
 		break;
 	case EMain_Character::Sandy:
+		m_Animation->ChangeAnimation("Sandy_Walk");
 		break;
 	default:
 		break;
@@ -202,12 +207,24 @@ void CPlayer::MoveFront()
 
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
 
-
 	AddWorldPosition(GetWorldAxis(AXIS_Z) * -100.f * CEngine::GetInst()->GetDeltaTime());
 }
 
 void CPlayer::MoveBack()
 {
+	switch (m_MainCharacter)
+	{
+	case EMain_Character::Spongebob:
+		break;
+	case EMain_Character::Patrick:
+		break;
+	case EMain_Character::Sandy:
+		m_Animation->ChangeAnimation("Sandy_Walk");
+		break;
+	default:
+		break;
+	}
+
 	AddWorldPosition(GetWorldAxis(AXIS_Z) * 100.f * CEngine::GetInst()->GetDeltaTime());
 }
 
@@ -220,6 +237,7 @@ void CPlayer::MoveLeft()
 	case EMain_Character::Patrick:
 		break;
 	case EMain_Character::Sandy:
+		m_Animation->ChangeAnimation("Sandy_Walk");
 		break;
 	default:
 		break;
@@ -237,12 +255,29 @@ void CPlayer::MoveRight()
 	case EMain_Character::Patrick:
 		break;
 	case EMain_Character::Sandy:
+		m_Animation->ChangeAnimation("Sandy_Walk");
 		break;
 	default:
 		break;
 	}
 
 	AddWorldRotationY(-180.f * CEngine::GetInst()->GetDeltaTime());
+}
+
+void CPlayer::Stop()
+{
+	switch (m_MainCharacter)
+	{
+	case EMain_Character::Spongebob:
+		break;
+	case EMain_Character::Patrick:
+		break;
+	case EMain_Character::Sandy:
+		m_Animation->ChangeAnimation("Sandy_Idle");
+		break;
+	default:
+		break;
+	}
 }
 
 void CPlayer::Jump()
@@ -254,6 +289,7 @@ void CPlayer::Jump()
 	case EMain_Character::Patrick:
 		break;
 	case EMain_Character::Sandy:
+		m_Animation->ChangeAnimation("Sandy_JumpUp");
 		break;
 	default:
 		break;
@@ -271,6 +307,12 @@ void CPlayer::CameraRotationKey()
 	float	DeltaTime = CEngine::GetInst()->GetDeltaTime();
 
 	if (MouseMove.x != 0.f)
+	  const Vector2& MouseMove = CInput::GetInst()->GetMouseMove()*m_Speed * g_DeltaTime;
+
+	m_Arm->AddRelativeRotationY(MouseMove.x);
+	m_Arm->AddRelativeRotationX(MouseMove.y);
+
+	if (m_Arm->GetRelativeRot().x > 50.f)
 	{
 		m_Arm->AddRelativeRotationY(MouseMove.x * DeltaTime * 180.f);
 	}
@@ -346,16 +388,10 @@ void CPlayer::ChangePatrick()
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
 	m_Anim[(int)m_MainCharacter]->Start();
-
 }
 
 void CPlayer::ChangeSandy()
 {
-  	if (CResourceManager::GetInst()->FindMesh("Sandy"))
-	{
-		return;
-	}
-
 	if (m_MainCharacter == EMain_Character::Sandy)
 	{
 		return;

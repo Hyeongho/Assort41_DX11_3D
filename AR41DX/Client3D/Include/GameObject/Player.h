@@ -4,11 +4,11 @@
 
 struct PlayerData
 {
-	int MaxHP; // ÃÖ´ë HP;
-	int CurHP; // ÇöÀç Ã¼·Â
-	int Socks; // ¾ç¸»
-	int Fritter; // µÚÁı°³
-	int Glittering; // ¹İÂ¦ÀÌ
+	int MaxHP; // ìµœëŒ€ HP;
+	int CurHP; // í˜„ì¬ ì²´ë ¥
+	int Socks; // ì–‘ë§
+	int Fritter; // ë’¤ì§‘ê°œ
+	int Glittering; // ë°˜ì§ì´
 
 	PlayerData() : MaxHP(5), CurHP(3), Socks(0), Fritter(0), Glittering(0)
 	{
@@ -35,7 +35,7 @@ protected:
 	virtual ~CPlayer();
 
 protected:
-//ÄÄÆ÷³ÍÆ®
+//ì»´í¬ë„ŒíŠ¸
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
@@ -61,9 +61,9 @@ public:
 	virtual void Load(FILE* File);
 
 private:
-	void LoadSpongebobAnim(); // ½ºÆùÁö¹ä ¸®¼Ò½º
-	void LoadPatrickAnim(); // ¶×ÀÌ ¸®¼Ò½º
-	void LoadSandyAnim(); // ´Ù¶÷ÀÌ ¸®¼Ò½º
+	void LoadSpongebobAnim(); // ìŠ¤í°ì§€ë°¥ ë¦¬ì†ŒìŠ¤
+	void LoadPatrickAnim(); // ëš±ì´ ë¦¬ì†ŒìŠ¤
+	void LoadSandyAnim(); // ë‹¤ëŒì´ ë¦¬ì†ŒìŠ¤
 
 public:
 	void SetPlayerData(PlayerData Playerdata)
@@ -102,12 +102,40 @@ public:
 		return m_PlayerData;
 	}
 
+	int GetMaxHP() const
+	{
+		return m_PlayerData.MaxHP;
+	}
+
+	int GetCurHP() const
+	{
+		return m_PlayerData.CurHP;
+	}
+
+	int GetSocks() const
+	{
+		return m_PlayerData.Socks;
+	}
+
+	int GetFritter() const
+	{
+		return m_PlayerData.Fritter;
+	}
+
+	int GetGlittering() const
+	{
+		return m_PlayerData.Glittering;
+	}
+
+	void SetMesh(std::string Mesh);
+
 public:
-	//°øÅë
+	//ê³µí†µ
 	void MoveFront();
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
+	void Stop();
 	void Jump();
 	void AttackKey();
 	void CameraRotationKey();
