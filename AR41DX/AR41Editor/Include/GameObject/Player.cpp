@@ -15,6 +15,7 @@
 CPlayer::CPlayer()
 	: m_Speed(150.f)
 	, m_KeyCount(0)
+	, m_MainCharacter(EMain_Character::Max)
 {
 	SetTypeID<CPlayer>();
 
@@ -24,6 +25,7 @@ CPlayer::CPlayer()
 CPlayer::CPlayer(const CPlayer& Obj) : CGameObject(Obj)
 	, m_Speed(Obj.m_Speed)
 	, m_KeyCount(Obj.m_KeyCount)
+	, m_MainCharacter(EMain_Character::Max)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
@@ -44,36 +46,35 @@ void CPlayer::Start()
 		m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
 	}
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveFront", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveBack", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveLeft", Input_Type::Push, this, &CPlayer::MoveLeft, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveRight", Input_Type::Push, this, &CPlayer::MoveRight, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("A", Input_Type::Push, this, &CPlayer::MoveLeft, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("D", Input_Type::Push, this, &CPlayer::MoveRight, m_Scene);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveUp", Input_Type::Up, this, &CPlayer::KeyUp, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveDown", Input_Type::Up, this, &CPlayer::KeyUp, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveRight", Input_Type::Up, this, &CPlayer::KeyUp, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveLeft", Input_Type::Up, this, &CPlayer::KeyUp, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveUp", Input_Type::Down, this, &CPlayer::KeyDown, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveDown", Input_Type::Down, this, &CPlayer::KeyDown, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveRight", Input_Type::Down, this, &CPlayer::KeyDown, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveLeft", Input_Type::Down, this, &CPlayer::KeyDown, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Up, this, &CPlayer::KeyUp, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Up, this, &CPlayer::KeyUp, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("A", Input_Type::Up, this, &CPlayer::KeyUp, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("D", Input_Type::Up, this, &CPlayer::KeyUp, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Down, this, &CPlayer::KeyDown, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Down, this, &CPlayer::KeyDown, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("A", Input_Type::Down, this, &CPlayer::KeyDown, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("D", Input_Type::Down, this, &CPlayer::KeyDown, m_Scene);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("Jump", Input_Type::Down, this, &CPlayer::Jump, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("Headbutt", Input_Type::Down, this, &CPlayer::Headbutt, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("Missile", Input_Type::Down, this, &CPlayer::Missile, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("Interaction", Input_Type::Down, this, &CPlayer::Interaction, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("Space", Input_Type::Down, this, &CPlayer::Jump, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("E", Input_Type::Down, this, &CPlayer::Headbutt, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("Q", Input_Type::Down, this, &CPlayer::Missile, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F", Input_Type::Down, this, &CPlayer::Interaction, m_Scene);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("Menu", Input_Type::Down, this, &CPlayer::Menu, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("IngameUI", Input_Type::Down, this, &CPlayer::IngameUI, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("Esc", Input_Type::Down, this, &CPlayer::Menu, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("Tab", Input_Type::Down, this, &CPlayer::IngameUI, m_Scene);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("LButton", Input_Type::Down, this, &CPlayer::AttackKey, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("RButton", Input_Type::Push, this, &CPlayer::RClick, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("LClick", Input_Type::Down, this, &CPlayer::AttackKey, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("RClick", Input_Type::Push, this, &CPlayer::RClick, m_Scene);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("Spongebob", Input_Type::Push, this, &CPlayer::ChangeSpongebob, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("Patrick", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("Sandy", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
-
+	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Push, this, &CPlayer::ChangeSpongebob, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
 }
 
 bool CPlayer::Init()
@@ -98,7 +99,11 @@ bool CPlayer::Init()
 
 	m_Rigid->SetGround(true);	//땅에 붙어있다고 설정
 
-	ChangeSpongebob();
+	LoadSpongebobAnim();
+	LoadPatrickAnim();
+	LoadSandyAnim();
+
+	ChangeSandy();
 	return true;
 }
 
@@ -131,7 +136,6 @@ CPlayer* CPlayer::Clone() const
 void CPlayer::Save(FILE* File)
 {
 	CGameObject::Save(File);
-	//게임데이터 여기서 저장
 }
 
 void CPlayer::Load(FILE* File)
@@ -141,40 +145,54 @@ void CPlayer::Load(FILE* File)
 
 void CPlayer::LoadSpongebobAnim()
 {
+	//m_ReserveMesh[(int)EMain_Character::Spongebob] = CResourceManager::GetInst()->FindMesh("Spongebob");
+	//m_Anim[(int)EMain_Character::Spongebob] = m_Mesh->SetAnimation<CAnimation>("SponegebobAnimation");
+	//m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerIdle", "Spongebob_Idle", 1.f, 1.f, true);
+	//m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
+	//m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerAttack", "Spongebob_Attack", 1.f, 1.f, false);
 }
 
 void CPlayer::LoadPatrickAnim()
 {
+	m_ReserveMesh[(int)EMain_Character::Patrick] = CResourceManager::GetInst()->FindMesh("Patrick");
+	m_Anim[(int)EMain_Character::Patrick] = m_Mesh->SetAnimation<CAnimation>("PatrickAnimation");
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerIdle", "Patrick_Idle", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerWalk", "Patrick_Walk", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerAttack", "Patrick_Slam", 1.f, 1.f, false);
 }
 
 void CPlayer::LoadSandyAnim()
 {
-	m_Animation->AddAnimation("Sandy_Idle", "Sandy_Idle", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Sandy_Walk", "Sandy_Walk", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Sandy_Run", "Sandy_Run", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Sandy_JumpDW", "Sandy_JumpDW", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Sandy_JumpUp", "Sandy_JumpUp", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Sandy_Jump_Landing_NonAdditive", "Sandy_Jump_Landing_NonAdditive", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Sandy_DoubleJump", "Sandy_DoubleJump", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Sandy_Karate_Chop", "Sandy_Karate_Chop", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Sandy_Karate_Kick", "Sandy_Karate_Kick", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Sandy_Lasso_Start", "Sandy_Lasso_Start", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Sandy_Death", "Sandy_Death", 1.f, 1.f, true);
+	m_ReserveMesh[(int)EMain_Character::Sandy] = CResourceManager::GetInst()->FindMesh("Sandy");
+	m_Anim[(int)EMain_Character::Sandy] = m_Mesh->SetAnimation<CAnimation>("SandyAnimation");
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("PlayerIdle", "Sandy_Idle", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("PlayerWalk", "Sandy_Walk", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Run", "Sandy_Run", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_JumpDW", "Sandy_JumpDW", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_JumpUp", "Sandy_JumpUp", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Jump_Landing_NonAdditive", "Sandy_Jump_Landing_NonAdditive", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_DoubleJump", "Sandy_DoubleJump", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Karate_Chop", "Sandy_Karate_Chop", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Karate_Kick", "Sandy_Karate_Kick", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Lasso_Start", "Sandy_Lasso_Start", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Death", "Sandy_Death", 1.f, 1.f, true);
 }
 
 void CPlayer::MoveFront()
 {
-	//switch (m_MainCharacter)
-	//{
-	//case EMain_Character::Spongebob:
-	//	break;
-	//case EMain_Character::Patrick:
-	//	break;
-	//case EMain_Character::Sandy:
-	//	break;
-	//default:
-	//	break;
-	//}
+	//여기에 사운드
+	switch (m_MainCharacter)
+	{
+	case EMain_Character::Spongebob:
+		break;
+	case EMain_Character::Patrick:
+		break;
+	case EMain_Character::Sandy:
+		break;
+	default:
+		break;
+	}
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
 
 	AddWorldPosition(GetWorldAxis(AXIS_Z) * -100.f * CEngine::GetInst()->GetDeltaTime());
 }
@@ -254,10 +272,16 @@ void CPlayer::CameraRotationKey()
 
 void CPlayer::KeyDown()
 {
+	++m_KeyCount;
 }
 
 void CPlayer::KeyUp()
 {
+	--m_KeyCount;
+	if (m_KeyCount == 0)
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
+	}
 }
 
 void CPlayer::Headbutt()
@@ -286,42 +310,39 @@ void CPlayer::RClick()
 
 void CPlayer::ChangeSpongebob()
 {
-	if (m_Name == "Spongebob")
+	if (m_MainCharacter == EMain_Character::Spongebob)
 	{
 		return;
 	}
-	m_Name = "Spongebob";
-	m_Mesh->SetMesh(m_Name);
-
-	m_Animation = m_Mesh->SetAnimation<CAnimation>("SponegebobAnimation");
-	m_Animation->AddAnimation("PlayerIdle", "Spongebob_Idle", 1.f, 1.f, true);
-	m_Animation->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
-	m_Animation->AddAnimation("PlayerAttack", "Spongebob_Attack", 1.f, 1.f, false);
-	m_Animation->Start();
+	m_MainCharacter = EMain_Character::Spongebob;
+	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
+	m_Mesh->ClearMaterial();
+	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
+	m_Anim[(int)m_MainCharacter]->Start();
 }
 
 void CPlayer::ChangePatrick()
 {
-	if (m_Name == "Patrick")
+	if (m_MainCharacter == EMain_Character::Patrick)
 	{
 		return;
 	}
-	m_Name = "Patrick";
-	m_Mesh->SetMesh(m_Name);
-
-	m_Animation = m_Mesh->SetAnimation<CAnimation>("PatrickAnimation");
-	m_Animation->AddAnimation("PlayerIdle", "Patrick_Idle", 1.f, 1.f, true);
-	m_Animation->AddAnimation("PlayerWalk", "Patrick_Walk", 1.f, 1.f, true);
-	m_Animation->AddAnimation("PlayerAttack", "Patrick_BellyAttack", 1.f, 1.f, false);
-	m_Animation->Start();
+	m_MainCharacter = EMain_Character::Patrick;
+	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
+	m_Mesh->ClearMaterial();
+	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
+	m_Anim[(int)m_MainCharacter]->Start();
 }
 
 void CPlayer::ChangeSandy()
 {
-	//if (CResourceManager::GetInst()->FindMesh("Sandy"))
-	//{
-	//	m_Mesh->SetMesh("Sandy");
-
-	//	m_MainCharacter = EMain_Character::Sandy;
-	//}
+	if (m_MainCharacter == EMain_Character::Sandy)
+	{
+		return;
+	}
+	m_MainCharacter = EMain_Character::Sandy;
+	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
+	m_Mesh->ClearMaterial();
+	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
+	m_Anim[(int)m_MainCharacter]->Start();
 }

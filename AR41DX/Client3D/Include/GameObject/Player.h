@@ -4,11 +4,11 @@
 
 struct PlayerData
 {
-	int MaxHP; // ÃÖ´ë HP;
-	int CurHP; // ÇöÀç Ã¼·Â
-	int Socks; // ¾ç¸»
-	int Fritter; // µÚÁı°³
-	int Glittering; // ¹İÂ¦ÀÌ
+	int MaxHP; // ìµœëŒ€ HP;
+	int CurHP; // í˜„ì¬ ì²´ë ¥
+	int Socks; // ì–‘ë§
+	int Fritter; // ë’¤ì§‘ê°œ
+	int Glittering; // ë°˜ì§ì´
 
 	PlayerData() : MaxHP(5), CurHP(3), Socks(0), Fritter(0), Glittering(0)
 	{
@@ -20,7 +20,8 @@ enum class EMain_Character
 {
 	Spongebob,
 	Patrick,
-	Sandy
+	Sandy,
+	Max,
 };
 
 class CPlayer :
@@ -34,17 +35,21 @@ protected:
 	virtual ~CPlayer();
 
 protected:
+//ì»´í¬ë„ŒíŠ¸
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
-	CSharedPtr<class CAnimation> m_Animation;
 	CSharedPtr<class CRigidBody> m_Rigid;
+//
+	CSharedPtr<class CMesh>						m_ReserveMesh[(int)EMain_Character::Max];
+	CSharedPtr<class CAnimation>		m_Anim[(int)EMain_Character::Max];
 
 protected:
 	PlayerData m_PlayerData;
 	EMain_Character m_MainCharacter;
 	float m_Speed;
 	int m_KeyCount;
+	int m_JumpCount;
 
 public:
 	virtual void Start();
@@ -56,9 +61,9 @@ public:
 	virtual void Load(FILE* File);
 
 private:
-	void LoadSpongebobAnim(); // ½ºÆùÁö¹ä ¸®¼Ò½º
-	void LoadPatrickAnim(); // ¶×ÀÌ ¸®¼Ò½º
-	void LoadSandyAnim(); // ´Ù¶÷ÀÌ ¸®¼Ò½º
+	void LoadSpongebobAnim(); // ìŠ¤í°ì§€ë°¥ ë¦¬ì†ŒìŠ¤
+	void LoadPatrickAnim(); // ëš±ì´ ë¦¬ì†ŒìŠ¤
+	void LoadSandyAnim(); // ë‹¤ëŒì´ ë¦¬ì†ŒìŠ¤
 
 public:
 	void SetPlayerData(PlayerData Playerdata)
@@ -125,6 +130,7 @@ public:
 	void SetMesh(std::string Mesh);
 
 public:
+	//ê³µí†µ
 	void MoveFront();
 	void MoveBack();
 	void MoveLeft();
@@ -133,18 +139,16 @@ public:
 	void Jump();
 	void AttackKey();
 	void CameraRotationKey();
-
-	//±è¹üÁß 230211
 	void KeyDown();
 	void KeyUp();
-	void Headbutt();
-	void Missile();
 	void Interaction();
 	void Menu();
 	void IngameUI();
 	void RClick();
 
 	// Spongebob
+	void Headbutt();
+	void Missile();
 
 	// Patrick
 

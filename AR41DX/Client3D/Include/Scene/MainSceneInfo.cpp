@@ -5,7 +5,10 @@
 #include "../GameObject/Weapon.h"
 #include "../GameObject/Patrick.h"
 #include "../GameObject/Sandy.h"
+#include "../GameObject/KingJellyfish.h"
+#include "../GameObject/Jellyfish.h"
 #include "../GameObject/BikiniBottomBuildings.h"
+#include "../GameObject/JellyfishField.h"
 #include "Component/TerrainComponent.h"
 #include "Component/BillboardComponent.h"
 #include "../UI/PlayerUI.h"
@@ -29,6 +32,10 @@ bool CMainSceneInfo::Init()
 
 	SetPlayerObject(Sandy);
 
+	//CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
+	CJellyfish* Jellyfish = m_Owner->CreateObject<CJellyfish>("Jellyfish");
+
+	//CJellyfishField* JellyfishField = m_Owner->CreateObject<CJellyfishField>("JellyfishField");
 	CBikiniBottomBuildings* BikiniBottomBuildings = m_Owner->CreateObject<CBikiniBottomBuildings>("BikiniBottomBuildings");
 	//SetPlayerObject(BikiniBottomBuildings);
 	//BikiniBottomBuildings->SetWorldPosition(100.f, 100.f);

@@ -32,6 +32,7 @@ enum class EUIPauseMode // 타이틀 메뉴에서 현재 메뉴 모드를 체크하기 위한 플래그
 	Control,
 	SaveGame,
 	LoadGame,
+	Close,
 	End
 };
 
@@ -87,6 +88,11 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
+public :
+	void OpenUI();
+	void CloseUI();
+	bool IsOpen() { return m_NowUIMode == EUIPauseMode::Close ? false : true; }
+
 private:
 	void CreateBackgroundUI();
 	void CreateMapUI();
@@ -96,6 +102,7 @@ private:
 	void CreateControlUI();
 	void CreateSaveSelectUI();
 
+	void ActiveBackUI();
 	void ActiveMapUI();
 	void ActivePauseUI();
 	void ActiveOptionSoundUI();
@@ -103,6 +110,7 @@ private:
 	void ActiveSaveSelectUI();
 	void ActiveControlUI();
 
+	void InActiveBackUI();
 	void InActiveMapUI();
 	void InActivePauseUI();
 	void InActiveOptionSoundUI();
