@@ -22,6 +22,8 @@ private:
     void LoadPatrick();
     void LoadSandy();
 
+    void LoadPlayerSound();
+
     void LoadBuildings();
     void LoadRoboSponge();
 
