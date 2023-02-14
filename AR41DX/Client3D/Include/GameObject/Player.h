@@ -16,12 +16,13 @@ struct PlayerData
 	}
 };
 
-//enum class EMain_Character
-//{
-//	Spongebob,
-//	Patrick,
-//	Sandy
-//};
+enum class EMain_Character
+{
+	Spongebob,
+	Patrick,
+	Sandy,
+	Max,
+};
 
 class CPlayer :
 	public CGameObject
@@ -34,17 +35,21 @@ protected:
 	virtual ~CPlayer();
 
 protected:
+//ÄÄÆ÷³ÍÆ®
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
-	CSharedPtr<class CAnimation> m_Animation;
 	CSharedPtr<class CRigidBody> m_Rigid;
+//
+	CSharedPtr<class CMesh>						m_ReserveMesh[(int)EMain_Character::Max];
+	CSharedPtr<class CAnimation>		m_Anim[(int)EMain_Character::Max];
 
 protected:
 	PlayerData m_PlayerData;
-	//EMain_Character m_MainCharacter;
+	EMain_Character m_MainCharacter;
 	float m_Speed;
 	int m_KeyCount;
+	int m_JumpCount;
 
 public:
 	virtual void Start();
@@ -97,34 +102,8 @@ public:
 		return m_PlayerData;
 	}
 
-	//int GetMaxHP() const
-	//{
-	//	return m_PlayerData.MaxHP;
-	//}
-
-	//int GetCurHP() const
-	//{
-	//	return m_PlayerData.CurHP;
-	//}
-
-	//int GetSocks() const
-	//{
-	//	return m_PlayerData.Socks;
-	//}
-
-	//int GetFritter() const
-	//{
-	//	return m_PlayerData.Fritter;
-	//}
-
-	//int GetGlittering() const
-	//{
-	//	return m_PlayerData.Glittering;
-	//}
-
-	//void SetMesh(std::string Mesh);				???
-
 public:
+	//°øÅë
 	void MoveFront();
 	void MoveBack();
 	void MoveLeft();
@@ -132,18 +111,16 @@ public:
 	void Jump();
 	void AttackKey();
 	void CameraRotationKey();
-
-	//±è¹üÁß 230211
 	void KeyDown();
 	void KeyUp();
-	void Headbutt();
-	void Missile();
 	void Interaction();
 	void Menu();
 	void IngameUI();
 	void RClick();
 
 	// Spongebob
+	void Headbutt();
+	void Missile();
 
 	// Patrick
 
