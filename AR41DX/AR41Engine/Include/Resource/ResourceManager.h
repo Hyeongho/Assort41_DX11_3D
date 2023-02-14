@@ -206,7 +206,10 @@ public:	// ============================ Font ================================
 	void ReleaseFont(const std::string& Name);
 	void ReleaseFontCollection(const std::string& Name);
 
-
+	public:
+		bool CreateParticle(const std::string& Name);
+		CParticle* FindParticle(const std::string& Name);
+		void ReleaseParticle(const std::string& Name);
 
 	DECLARE_SINGLE(CResourceManager)
 };

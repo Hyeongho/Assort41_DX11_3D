@@ -143,6 +143,21 @@ CSceneResource::~CSceneResource()
 			CResourceManager::GetInst()->ReleaseFontCollection(Name);
 		}
 	}
+
+	{
+		auto	iter = m_mapParticle.begin();
+		auto	iterEnd = m_mapParticle.end();
+
+		for (; iter != iterEnd;)
+		{
+			std::string	Name = iter->first;
+
+			iter = m_mapParticle.erase(iter);
+			iterEnd = m_mapParticle.end();
+
+			CResourceManager::GetInst()->ReleaseParticle(Name);
+		}
+	}
 }
 
 bool CSceneResource::Init()
@@ -950,6 +965,46 @@ CFontCollection* CSceneResource::FindFontCollection(const std::string& Name)
 		m_mapFontCollection.insert(std::make_pair(Name, Font));
 
 		return Font;
+	}
+
+	return iter->second;
+}
+
+bool CSceneResource::CreateParticle(const std::string& Name)
+{
+	if (FindParticle(Name))
+	{
+		return false;
+	}
+
+	if (!CResourceManager::GetInst()->CreateParticle(Name))
+	{
+		return false;
+	}
+
+	CParticle* Particle = CResourceManager::GetInst()->FindParticle(Name);
+
+	m_mapParticle.insert(std::make_pair(Name, Particle));
+
+	return true;
+}
+
+CParticle* CSceneResource::FindParticle(const std::string& Name)
+{
+	auto iter = m_mapParticle.find(Name);
+
+	if (iter == m_mapParticle.end())
+	{
+		CParticle* Particle = CResourceManager::GetInst()->FindParticle(Name);
+
+		if (!Particle)
+		{
+			return nullptr;
+		}
+
+		m_mapParticle.insert(std::make_pair(Name, Particle));
+
+		return Particle;
 	}
 
 	return iter->second;

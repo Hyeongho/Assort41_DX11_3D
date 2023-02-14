@@ -301,6 +301,9 @@
     <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\12. Particle">
       <UniqueIdentifier>{67610c0f-ae93-47ec-9712-1ea069068d2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Component\02. ObjectComponent\02. AI">
+      <UniqueIdentifier>{61f63e5a-7b5b-49c0-bd79-25adfe6b00f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -864,6 +867,12 @@
     <ClInclude Include="Resource\Shader\ParticleUpdateShader.h">
       <Filter>02. Resource\02. Shader\02. ShaderClass\15. Particle</Filter>
     </ClInclude>
+    <ClInclude Include="Component\ParticleComponent.h">
+      <Filter>05. Component\01. SceneComponent\01. Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\BehaviorTree.h">
+      <Filter>05. Component\02. ObjectComponent\02. AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1369,6 +1378,12 @@
     </ClCompile>
     <ClCompile Include="Resource\Shader\ParticleUpdateShader.cpp">
       <Filter>02. Resource\02. Shader\02. ShaderClass\15. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\ParticleComponent.cpp">
+      <Filter>05. Component\01. SceneComponent\01. Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\BehaviorTree.cpp">
+      <Filter>05. Component\02. ObjectComponent\02. AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

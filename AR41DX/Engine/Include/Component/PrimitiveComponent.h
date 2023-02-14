@@ -59,11 +59,11 @@ public:
     virtual bool SetMesh(const std::string& Name, const TCHAR* FileName,
         const std::string& PathName = TEXTURE_PATH);
     virtual bool SetMeshFullPath(const std::string& Name, const TCHAR* FullPath);
-    void SetMaterial(int Slot, const std::string& Name);
-    void SetMaterial(int Slot, class CMaterial* Material);
-    void AddMaterial(const std::string& Name);
-    void AddMaterial(class CMaterial* Material);
-    void ClearMaterial();
+    virtual void SetMaterial(int Slot, const std::string& Name);
+    virtual void SetMaterial(int Slot, class CMaterial* Material);
+    virtual void AddMaterial(const std::string& Name);
+    virtual void AddMaterial(class CMaterial* Material);
+    virtual void ClearMaterial();
 
 public:
     virtual void Start();
