@@ -1,36 +1,46 @@
 #pragma once
 
-
 #include "UIWidget.h"
 #include "../Resource/Font/Font.h"
 #include "UIButton.h"
 #include "UIText.h"
 
-
 struct UIWidgetTextInfo
 {
-	TCHAR* m_Text;
-	int m_TextCount;
-	int m_TextCapacity;
+	TCHAR*		m_Text;
+	int			m_TextCount;
+	int			m_TextCapacity;
 
 	float       m_FontSize;
-	bool        m_Transparency;
 	float       m_Opacity;
 	Vector4     m_Color;
+	ID2D1SolidColorBrush* m_Brush;
 
 	Text_Align_H    m_AlignH;
 	Text_Align_V    m_AlignV;
 
+	// Shadow
+	ID2D1SolidColorBrush* m_ShadowBrush;
+	Vector4     m_ShadowColor;
+	Vector2     m_ShadowOffset;
+
+
 	UIWidgetTextInfo() :
-		m_TextCount(0),
-		m_TextCapacity(32),
 		m_FontSize(10.f),
-		m_Transparency(false),
 		m_Opacity(1.f),
-		m_Color(1.f, 1.f, 1.f, 1.f),
+		m_Color(Vector4::Black),
+		m_Brush(nullptr),
 		m_AlignH(Text_Align_H::Center),
-		m_AlignV(Text_Align_V::Middle)
+		m_AlignV(Text_Align_V::Middle),
+		m_ShadowBrush(nullptr),
+		m_ShadowColor(Vector4::Black),
+		m_ShadowOffset(1.1f, 1.1f)
 	{
+		m_Color.w = m_Opacity;
+
+		m_TextCapacity = 32;
+		m_TextCount = 0;
+
 		m_Text = new TCHAR[m_TextCapacity];
 	}
 };
@@ -49,9 +59,7 @@ protected:
 protected:
 	CSharedPtr<CFont> m_Font;
 	IDWriteTextLayout* m_Layout;
-	ID2D1SolidColorBrush* m_Brush;
 	ID2D1RenderTarget* m_RenderTarget;
-
 
 protected:
 	UIWidgetTextInfo            m_TextInfo[(int)EButtonState::Max];

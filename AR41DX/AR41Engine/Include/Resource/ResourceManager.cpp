@@ -27,6 +27,7 @@ CResourceManager::~CResourceManager()
 	SAFE_DELETE(m_TextureManager);
 	SAFE_DELETE(m_ShaderManager);
 	SAFE_DELETE(m_MeshManager);
+	SAFE_DELETE(m_ParticleManager);
 }
 
 bool CResourceManager::Init()
@@ -436,7 +437,7 @@ bool CResourceManager::SetVolume(float Volume)
 	return m_SoundManager->SetVolume(Volume);
 }
 
-bool CResourceManager::SetVolume(const std::string& GroupName, int Volume)
+bool CResourceManager::SetVolume(const std::string& GroupName, float Volume)
 {
 	return m_SoundManager->SetVolume(GroupName, Volume);
 }
@@ -587,4 +588,9 @@ CParticle* CResourceManager::FindParticle(const std::string& Name)
 void CResourceManager::ReleaseParticle(const std::string& Name)
 {
 	m_ParticleManager->ReleaseParticle(Name);
+}
+
+void CResourceManager::GetParticleNames(std::vector<std::string>& vecNames)
+{
+	m_ParticleManager->GetParticleNames(vecNames);
 }

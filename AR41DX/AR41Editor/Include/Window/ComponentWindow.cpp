@@ -13,6 +13,8 @@
 #include "CameraWindow.h"
 #include "TargetArmWindow.h"
 #include "MeshWindow.h"
+#include "ParticleWindow.h"
+#include "Animation3DWindow.h"
 #include "Input.h"
 #include "Engine.h"
 #include "Scene/SceneManager.h"
@@ -38,6 +40,7 @@
 #include "Component/LightComponent.h"
 #include "Component/AnimationMeshComponent.h"
 #include "Component/StaticMeshComponent.h"
+#include "Component/ParticleComponent.h"
 
 #include "UI/UIWidget.h"
 #include "UI/UIButton.h"
@@ -148,14 +151,87 @@ void CComponentWindow::Update(float DeltaTime)
 	}
 }
 
-void CComponentWindow::TreeCallback(CEditorTreeItem<class CComponent*>* Node, const std::string& Item)
+void CComponentWindow::TreeCallback(CEditorTreeItem<class CComponent*>* node, const std::string& item)
 {
-	m_SelectComponent = Node->GetCustomData();
+	m_SelectComponent = node->GetCustomData();
 	if (!m_SelectComponent)
 	{
 		return;
 	}
-	if (m_SelectComponent->GetComponentTypeName() == "CameraComponent")
+	CDetailWindow* detailWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CDetailWindow>("DetailWindow");
+	if (detailWindow)
+	{
+		detailWindow->SetSelectComponent((CSceneComponent*)m_SelectComponent.Get());
+	}
+	CMeshWindow* meshWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMeshWindow>("MeshWindow");
+	CMaterialWindow* materialWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMaterialWindow>("MaterialWindow");
+	if (m_SelectComponent->GetComponentTypeName() == "SpriteComponent")
+	{
+		if (materialWindow)
+		{
+			materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		if (meshWindow)
+		{
+			meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "AnimationMeshComponent")
+	{
+		if (materialWindow)
+		{
+			materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		if (meshWindow)
+		{
+			meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		CAnimation3DWindow* animation3DWindow =
+			CEditorGUIManager::GetInst()->FindEditorWindow<CAnimation3DWindow>("Animation3DWindow");
+		if (animation3DWindow)
+		{
+			animation3DWindow->SetSelectComponent((CAnimationMeshComponent*)m_SelectComponent.Get());
+		}
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "StaticMeshComponent")
+	{
+		if (materialWindow)
+		{
+			materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		if (meshWindow)
+		{
+			meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "TerrainComponent")
+	{
+		if (materialWindow)
+		{
+			materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		if (meshWindow)
+		{
+			meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "ParticleComponent")
+	{
+		if (materialWindow)
+		{
+			materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		if (meshWindow)
+		{
+			meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		CParticleWindow* particleWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CParticleWindow>("ParticleWindow");
+		if (particleWindow)
+		{
+			particleWindow->SetSelectComponent((CParticleComponent*)m_SelectComponent.Get());
+		}
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "CameraComponent")
 	{
 		CCameraWindow* cameraWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CCameraWindow>("CameraWindow");
 		if (cameraWindow)
@@ -188,34 +264,23 @@ void CComponentWindow::TreeCallback(CEditorTreeItem<class CComponent*>* Node, co
 			light->SetSelectComponent((CLightComponent*)m_SelectComponent.Get());
 		}
 	}
-	CMaterialWindow* materialWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMaterialWindow>("MaterialWindow");
-	if (materialWindow)
-	{
-		materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
-	}
-	CMeshWindow* meshWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMeshWindow>("MeshWindow");
-	if (meshWindow)
-	{
-		meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
-	}
 	CTransformWindow* transformWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CTransformWindow>("TransformWindow");
-	if (!transformWindow)
+	if (transformWindow)
 	{
-		return;
-	}
-	CSceneComponent* component = (CSceneComponent*)m_SelectComponent.Get();
-	transformWindow->SetSelectComponent(component);
-	if (component->GetParent())
-	{
-		transformWindow->SetPos(component->GetRelativePos());
-		transformWindow->SetScale(component->GetRelativeScale());
-		transformWindow->SetRotation(component->GetRelativeRot());
-	}
-	else
-	{
-		transformWindow->SetPos(component->GetWorldPos());
-		transformWindow->SetScale(component->GetWorldScale());
-		transformWindow->SetRotation(component->GetWorldRot());
+		CSceneComponent* component = (CSceneComponent*)m_SelectComponent.Get();
+		transformWindow->SetSelectComponent(component);
+		if (component->GetParent())
+		{
+			transformWindow->SetPos(component->GetRelativePos());
+			transformWindow->SetScale(component->GetRelativeScale());
+			transformWindow->SetRotation(component->GetRelativeRot());
+		}
+		else
+		{
+			transformWindow->SetPos(component->GetWorldPos());
+			transformWindow->SetScale(component->GetWorldScale());
+			transformWindow->SetRotation(component->GetWorldRot());
+		}
 	}
 }
 
@@ -231,7 +296,77 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 	{
 		detailWindow->SetSelectComponent((CSceneComponent*)m_SelectComponent.Get());
 	}
-	if (m_SelectComponent->GetComponentTypeName() == "CameraComponent")
+	CMeshWindow* meshWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMeshWindow>("MeshWindow");
+	CMaterialWindow* materialWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMaterialWindow>("MaterialWindow");
+	if (m_SelectComponent->GetComponentTypeName() == "SpriteComponent")
+	{
+		if (materialWindow)
+		{
+			materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		if (meshWindow)
+		{
+			meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "AnimationMeshComponent")
+	{
+		if (materialWindow)
+		{
+			materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		if (meshWindow)
+		{
+			meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		CAnimation3DWindow* animation3DWindow =
+			CEditorGUIManager::GetInst()->FindEditorWindow<CAnimation3DWindow>("Animation3DWindow");
+		if (!animation3DWindow)
+		{
+			animation3DWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CAnimation3DWindow>("Animation3DWindow");
+		}
+		animation3DWindow->SetSelectComponent((CAnimationMeshComponent*)m_SelectComponent.Get());
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "StaticMeshComponent")
+	{
+		if (materialWindow)
+		{
+			materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		if (meshWindow)
+		{
+			meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "TerrainComponent")
+	{
+		if (materialWindow)
+		{
+			materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		if (meshWindow)
+		{
+			meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "ParticleComponent")
+	{
+		if (materialWindow)
+		{
+			materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		if (meshWindow)
+		{
+			meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
+		}
+		CParticleWindow* particleWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CParticleWindow>("ParticleWindow");
+		if (!particleWindow)
+		{
+			particleWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CParticleWindow>("ParticleWindow");
+		}
+		particleWindow->SetSelectComponent((CParticleComponent*)m_SelectComponent.Get());
+	}
+	else if (m_SelectComponent->GetComponentTypeName() == "CameraComponent")
 	{
 		CCameraWindow* cameraWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CCameraWindow>("CameraWindow");
 		if (!cameraWindow)
@@ -268,34 +403,23 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 		}
 		light->SetSelectComponent((CLightComponent*)m_SelectComponent.Get());
 	}
-	CMaterialWindow* materialWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMaterialWindow>("MaterialWindow");
-	if (materialWindow)
-	{
-		materialWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
-	}
-	CMeshWindow* meshWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMeshWindow>("MeshWindow");
-	if (meshWindow)
-	{
-		meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
-	}
 	CTransformWindow* transformWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CTransformWindow>("TransformWindow");
-	if (!transformWindow)
+	if (transformWindow)
 	{
-		return;
-	}
-	CSceneComponent* component = (CSceneComponent*)m_SelectComponent.Get();
-	transformWindow->SetSelectComponent(component);
-	if (component->GetParent())
-	{
-		transformWindow->SetPos(component->GetRelativePos());
-		transformWindow->SetScale(component->GetRelativeScale());
-		transformWindow->SetRotation(component->GetRelativeRot());
-	}
-	else
-	{
-		transformWindow->SetPos(component->GetWorldPos());
-		transformWindow->SetScale(component->GetWorldScale());
-		transformWindow->SetRotation(component->GetWorldRot());
+		CSceneComponent* component = (CSceneComponent*)m_SelectComponent.Get();
+		transformWindow->SetSelectComponent(component);
+		if (component->GetParent())
+		{
+			transformWindow->SetPos(component->GetRelativePos());
+			transformWindow->SetScale(component->GetRelativeScale());
+			transformWindow->SetRotation(component->GetRelativeRot());
+		}
+		else
+		{
+			transformWindow->SetPos(component->GetWorldPos());
+			transformWindow->SetScale(component->GetWorldScale());
+			transformWindow->SetRotation(component->GetWorldRot());
+		}
 	}
 }
 

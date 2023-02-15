@@ -7,7 +7,6 @@
 
 CUITextButton::CUITextButton() :
     m_Layout(nullptr),
-    m_Brush(nullptr),
     m_RenderTarget(nullptr),
     m_State(EButtonState::Normal),
     m_MouseHovered(false)
@@ -20,7 +19,6 @@ CUITextButton::CUITextButton(const CUITextButton& Button) :
 {
     m_Font = Button.m_Font;
     m_Layout = nullptr;
-    m_Brush = Button.m_Brush;
     m_RenderTarget = Button.m_RenderTarget;
 
     m_State = Button.m_State;
@@ -87,12 +85,14 @@ void CUITextButton::SetText(EButtonState State, const TCHAR* Text, float Size, c
     if (m_Scene)
     {
         m_Scene->GetResource()->CreateFontColor(Color);
-        m_Brush = m_Scene->GetResource()->FindFontColor(Color);
+        m_TextInfo[(int)State].m_Brush = m_Scene->GetResource()->FindFontColor(Color);
+        m_TextInfo[(int)State].m_ShadowBrush = m_Scene->GetResource()->FindFontColor(m_TextInfo[(int)State].m_ShadowColor);
     }
     else
     {
         CResourceManager::GetInst()->CreateFontColor(Color);
-        m_Brush = CResourceManager::GetInst()->FindFontColor(Color);
+        m_TextInfo[(int)State].m_Brush = CResourceManager::GetInst()->FindFontColor(Color);
+        m_TextInfo[(int)State].m_ShadowBrush = CResourceManager::GetInst()->FindFontColor(m_TextInfo[(int)State].m_ShadowColor);
     }
 
     CreateLayout(State);
@@ -192,12 +192,14 @@ bool CUITextButton::Init()
     if (m_Scene)
     {
         m_Scene->GetResource()->CreateFontColor(Vector4::Black);
-        m_Brush = m_Scene->GetResource()->FindFontColor(Vector4::Black);
+        m_TextInfo[(int)m_State].m_Brush = m_Scene->GetResource()->FindFontColor(Vector4::Black);
+        m_TextInfo[(int)m_State].m_ShadowBrush = m_Scene->GetResource()->FindFontColor(Vector4::Black);
     }
     else
     {
         CResourceManager::GetInst()->CreateFontColor(Vector4::Black);
-        m_Brush = CResourceManager::GetInst()->FindFontColor(Vector4::Black);
+        m_TextInfo[(int)m_State].m_Brush = CResourceManager::GetInst()->FindFontColor(Vector4::Black);
+        m_TextInfo[(int)m_State].m_ShadowBrush = CResourceManager::GetInst()->FindFontColor(Vector4::Black);
     }
 
     return true;
@@ -289,13 +291,24 @@ void CUITextButton::Render()
 
     Resolution RS = CDevice::GetInst()->GetResolution();
 
+    // Text
     D2D1_POINT_2F   Point;
     Point.x = m_RenderPos.x;
     Point.y = RS.Height - m_RenderPos.y - m_Size.y;
 
-    m_Brush->SetOpacity(1.f);
+    // Shadow
+    {
+        D2D1_POINT_2F   ShadowPoint = Point;
 
-    m_RenderTarget->DrawTextLayout(Point, m_Layout, m_Brush, D2D1_DRAW_TEXT_OPTIONS_NONE);
+        ShadowPoint.x += m_TextInfo[(int)m_State].m_ShadowOffset.x;
+        ShadowPoint.y += m_TextInfo[(int)m_State].m_ShadowOffset.y;
+
+        m_TextInfo[(int)m_State].m_ShadowBrush->SetOpacity(1.f);
+
+        m_RenderTarget->DrawTextLayout(ShadowPoint, m_Layout, m_TextInfo[(int)m_State].m_ShadowBrush, D2D1_DRAW_TEXT_OPTIONS_NONE);
+    }
+
+    m_RenderTarget->DrawTextLayout(Point, m_Layout, m_TextInfo[(int)m_State].m_Brush, D2D1_DRAW_TEXT_OPTIONS_NONE);
 
     m_RenderTarget->EndDraw();
 }

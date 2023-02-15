@@ -100,7 +100,7 @@ void CParticle::CloneStructuredBuffer(
 	std::vector<class CStructuredBuffer*>& vecBuffer)
 {
 	size_t	Size = m_vecStructuredBuffer.size();
-
+	vecBuffer.clear();
 	for (size_t i = 0; i < Size; ++i)
 	{
 		vecBuffer.push_back(m_vecStructuredBuffer[i]->Clone());

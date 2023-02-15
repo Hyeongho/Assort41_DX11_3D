@@ -111,7 +111,8 @@ bool CMaterialManager::Init()
 
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "DefaultTexture", TEXT("teemo.png"));
 
-	//Material->SetRenderState("AlphaBlend");
+	Material = CreateMaterial<CMaterial>("Bubble");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Bubble", TEXT("Particle/Bubbles50px.png"));
 
 	return true;
 }

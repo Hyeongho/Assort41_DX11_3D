@@ -168,6 +168,9 @@
     <ClCompile Include="GameObject\AI\Sequence.cpp" />
     <ClCompile Include="GameObject\BikiniBottomBuildings.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
+    <ClCompile Include="GameObject\Duplicatotron.cpp" />
+    <ClCompile Include="GameObject\Fodder.cpp" />
+    <ClCompile Include="GameObject\Hammer.cpp" />
     <ClCompile Include="GameObject\Jellyfish.cpp" />
     <ClCompile Include="GameObject\JellyfishField.cpp" />
     <ClCompile Include="GameObject\KingJellyfish.cpp" />
@@ -195,6 +198,9 @@
     <ClInclude Include="GameObject\AI\Sequence.h" />
     <ClInclude Include="GameObject\BikiniBottomBuildings.h" />
     <ClInclude Include="GameObject\Bullet.h" />
+    <ClInclude Include="GameObject\Duplicatotron.h" />
+    <ClInclude Include="GameObject\Fodder.h" />
+    <ClInclude Include="GameObject\Hammer.h" />
     <ClInclude Include="GameObject\Jellyfish.h" />
     <ClInclude Include="GameObject\JellyfishField.h" />
     <ClInclude Include="GameObject\KingJellyfish.h" />

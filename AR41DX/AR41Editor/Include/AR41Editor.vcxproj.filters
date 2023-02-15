@@ -46,6 +46,12 @@
     <Filter Include="03. Window\04. 3D">
       <UniqueIdentifier>{e34c70a7-a1fe-4869-9f94-f05997d1072c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GameObject\01. Player">
+      <UniqueIdentifier>{a9a64c8e-cd0f-4d40-b442-6ca7eaec22ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\02. Monster">
+      <UniqueIdentifier>{1dd14a29-f45b-45d9-a95a-f77376021485}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -56,9 +62,6 @@
     </ClCompile>
     <ClCompile Include="Scene\EditorDefaultScene.cpp">
       <Filter>02. Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Monster.cpp">
-      <Filter>04. GameObject</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Bullet.cpp">
       <Filter>04. GameObject</Filter>
@@ -141,9 +144,6 @@
     <ClCompile Include="Window\TargetArmWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Player.cpp">
-      <Filter>04. GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Weapon.cpp">
       <Filter>04. GameObject</Filter>
     </ClCompile>
@@ -192,6 +192,20 @@
     <ClCompile Include="Window\UITextWindow.cpp">
       <Filter>03. Window\02. UIWIndow</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Player.cpp">
+      <Filter>04. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Fodder.cpp">
+      <Filter>04. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Monster.cpp">
+      <Filter>04. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Duplicatotron.cpp">
+      <Filter>04. GameObject\02. Monster</Filter>
+    <ClCompile Include="Window\ParticleWindow.cpp">
+      <Filter>03. Window\04. 3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -207,9 +221,6 @@
       <Filter>02. Scene</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Bullet.h">
-      <Filter>04. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Monster.h">
       <Filter>04. GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Window\ObjectWindow.h">
@@ -290,9 +301,6 @@
     <ClInclude Include="Window\TargetArmWindow.h">
       <Filter>03. Window</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Player.h">
-      <Filter>04. GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Weapon.h">
       <Filter>04. GameObject</Filter>
     </ClInclude>
@@ -340,6 +348,20 @@
     </ClInclude>
     <ClInclude Include="Window\UITextWindow.h">
       <Filter>03. Window\02. UIWIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Player.h">
+      <Filter>04. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Fodder.h">
+      <Filter>04. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Monster.h">
+      <Filter>04. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Duplicatotron.h">
+      <Filter>04. GameObject\02. Monster</Filter>
+    <ClInclude Include="Window\ParticleWindow.h">
+      <Filter>03. Window\04. 3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

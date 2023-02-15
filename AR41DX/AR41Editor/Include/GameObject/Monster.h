@@ -12,7 +12,7 @@ protected:
 	CMonster(const CMonster& Obj);
 	virtual ~CMonster();
 
-private:
+protected:
 	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
 	CSharedPtr<class CAnimation>		m_Animation;
 
