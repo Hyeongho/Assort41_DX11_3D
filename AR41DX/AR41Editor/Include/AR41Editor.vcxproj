@@ -212,6 +212,7 @@
     <ClCompile Include="Window\MaterialWindow.cpp" />
     <ClCompile Include="Window\MeshWindow.cpp" />
     <ClCompile Include="Window\ObjectWindow.cpp" />
+    <ClCompile Include="Window\ParticleWindow.cpp" />
     <ClCompile Include="Window\PathWindow.cpp" />
     <ClCompile Include="Window\ResourceWindow.cpp" />
     <ClCompile Include="Window\RigidBodyWindow.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="Window\MaterialWindow.h" />
     <ClInclude Include="Window\MeshWindow.h" />
     <ClInclude Include="Window\ObjectWindow.h" />
+    <ClInclude Include="Window\ParticleWindow.h" />
     <ClInclude Include="Window\PathWindow.h" />
     <ClInclude Include="Window\ResourceWindow.h" />
     <ClInclude Include="Window\RigidBodyWindow.h" />

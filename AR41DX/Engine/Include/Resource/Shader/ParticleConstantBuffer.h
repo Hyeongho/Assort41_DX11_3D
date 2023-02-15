@@ -22,6 +22,11 @@ public:
 	virtual CParticleConstantBuffer* Clone();
 
 public:
+	ParticleCBuffer GetBufferData()	const
+	{
+		return m_BufferData;
+	}
+
 	void SetParticleEnable(bool Enable)
 	{
 		m_BufferData.ParticleSpawnEnable = Enable ? 1 : 0;

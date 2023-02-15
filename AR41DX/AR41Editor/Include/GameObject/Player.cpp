@@ -80,6 +80,13 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Push, this, &CPlayer::ChangeSpongebob, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
+
+	//김범중 소켓 관련
+	/*
+		CWeapon3D* weapon = m_Scene->CreateObject<CWeapon3D>("Weapon");
+	AddChildToSocket("Weapon", weapon);
+	weapon->GetRootComponent()->SetEnable(false);
+	*/
 }
 
 bool CPlayer::Init()

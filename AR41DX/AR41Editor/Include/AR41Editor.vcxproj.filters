@@ -203,6 +203,8 @@
     </ClCompile>
     <ClCompile Include="GameObject\Duplicatotron.cpp">
       <Filter>04. GameObject\02. Monster</Filter>
+    <ClCompile Include="Window\ParticleWindow.cpp">
+      <Filter>03. Window\04. 3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +360,8 @@
     </ClInclude>
     <ClInclude Include="GameObject\Duplicatotron.h">
       <Filter>04. GameObject\02. Monster</Filter>
+    <ClInclude Include="Window\ParticleWindow.h">
+      <Filter>03. Window\04. 3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

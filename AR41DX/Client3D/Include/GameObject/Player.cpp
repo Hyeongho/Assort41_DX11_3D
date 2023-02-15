@@ -73,13 +73,19 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("Esc", Input_Type::Down, this, &CPlayer::Menu, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("Tab", Input_Type::Down, this, &CPlayer::IngameUI, m_Scene);
 
-	//CInput::GetInst()->AddBindFunction<CPlayer>("LClick", Input_Type::Down, this, &CPlayer::AttackKey, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("LClick", Input_Type::Down, this, &CPlayer::LClick, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("LClick", Input_Type::Down, this, &CPlayer::AttackKey, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("RClick", Input_Type::Push, this, &CPlayer::RClick, m_Scene);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Push, this, &CPlayer::ChangeSpongebob, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
+
+	//ê¹€ë²”ì¤‘ ì†Œì¼“ ê´€ë ¨
+	/*
+		CWeapon3D* weapon = m_Scene->CreateObject<CWeapon3D>("Weapon");
+	AddChildToSocket("Weapon", weapon);
+	weapon->GetRootComponent()->SetEnable(false);
+	*/
 }
 
 bool CPlayer::Init()
@@ -100,11 +106,10 @@ bool CPlayer::Init()
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
 
-	m_Arm->SetInheritRotY(true);
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
 	m_Mesh->SetMesh("Sandy");
-	m_Rigid->SetGround(true);	//¶¥¿¡ ºÙ¾îÀÖ´Ù°í ¼³Á¤
+	m_Rigid->SetGround(true);	//ë•…ì— ë¶™ì–´ìžˆë‹¤ê³  ì„¤ì •
 
 	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
 	//LoadSandyAnim();
@@ -114,13 +119,13 @@ bool CPlayer::Init()
 	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);*/
 
 	//m_Rigid->SetGravity(true);
+	m_Rigid->SetGround(true);	//ë•…ì— ë¶™ì–´ìžˆë‹¤ê³  ì„¤ì •
 
 	LoadSpongebobAnim();
 	LoadPatrickAnim();
 	LoadSandyAnim();
 
 	ChangeSandy();
-
 	return true;
 }
 
@@ -134,7 +139,7 @@ void CPlayer::Update(float DeltaTime)
 
 	if (m_Name == "Patrick")
 	{
-		// Patrick Slam½Ã 1.2ÃÊµ¿¾È °øÁßºÎ¾ç.
+		// Patrick Slamì‹œ 1.2ì´ˆë™ì•ˆ ê³µì¤‘ë¶€ì–‘.
 		if (m_Rigid->GetGround() == false && m_SlamDown)
 		{
 			m_HoverTime += g_DeltaTime;
@@ -147,10 +152,21 @@ void CPlayer::Update(float DeltaTime)
 			}
 
 			m_SlamDown = false;
-			m_Rigid->SetGround(true); // Ãæµ¹µÇ´ÂÁö ¿©ºÎ °Ë»ç
+			m_Rigid->SetGround(true); // ì¶©ëŒë˜ëŠ”ì§€ ì—¬ë¶€ ê²€ì‚¬
 		}
 
 	}
+	CameraRotationKey();
+	/*
+	//ë†’ì´ ì„¤ì •
+	CNavigationManager3D* nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
+	float y = nav->GetHeight(GetWorldPos());
+	if (FLT_MIN != y)
+	{
+		SetWorldPositionY(y);
+		m_Rigid->SetGround(true);
+	}
+	*/
 }
 
 void CPlayer::PostUpdate(float DeltaTime)
@@ -186,17 +202,17 @@ void CPlayer::LoadSpongebobAnim()
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerIdle", "Spongebob_Idle", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerAttack", "Spongebob_Attack", 1.f, 1.f, false);*/
+  
+	//m_ReserveMesh[(int)EMain_Character::Spongebob] = CResourceManager::GetInst()->FindMesh("Spongebob");
+	//m_Anim[(int)EMain_Character::Spongebob] = m_Mesh->SetAnimation<CAnimation>("SponegebobAnimation");
+	//m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerIdle", "Spongebob_Idle", 1.f, 1.f, true);
+	//m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
+	//m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerAttack", "Spongebob_Attack", 1.f, 1.f, false);
 }
 
 void CPlayer::LoadPatrickAnim()
 {
 	m_ReserveMesh[(int)EMain_Character::Patrick] = CResourceManager::GetInst()->FindMesh("Patrick");
-
-	if (!m_ReserveMesh[(int)EMain_Character::Patrick])
-	{
-		return;
-	}
-
 	m_Anim[(int)EMain_Character::Patrick] = m_Mesh->SetAnimation<CAnimation>("PatrickAnimation");
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerIdle", "Patrick_Idle", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerWalk", "Patrick_Walk", 1.f, 1.f, true);
@@ -215,12 +231,6 @@ void CPlayer::LoadPatrickAnim()
 void CPlayer::LoadSandyAnim()
 {
 	m_ReserveMesh[(int)EMain_Character::Sandy] = CResourceManager::GetInst()->FindMesh("Sandy");
-
-	if (!m_ReserveMesh[(int)EMain_Character::Sandy])
-	{
-		return;
-	}
-
 	m_Anim[(int)EMain_Character::Sandy] = m_Mesh->SetAnimation<CAnimation>("SandyAnimation");
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("PlayerIdle", "Sandy_Idle", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("PlayerWalk", "Sandy_Walk", 1.f, 1.f, true);
@@ -235,13 +245,9 @@ void CPlayer::LoadSandyAnim()
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Death", "Sandy_Death", 1.f, 1.f, true);
 }
 
-void CPlayer::SetMesh(std::string Mesh)
-{
-}
-
 void CPlayer::MoveFront()
 {
-	//¿©±â¿¡ »ç¿îµå
+	//ì—¬ê¸°ì— ì‚¬ìš´ë“œ
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
@@ -259,7 +265,6 @@ void CPlayer::MoveFront()
 	default:
 		break;
 	}
-
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
 
 	AddWorldPosition(GetWorldAxis(AXIS_Z) * -100.f * CEngine::GetInst()->GetDeltaTime());
@@ -304,6 +309,17 @@ void CPlayer::MoveLeft()
 	default:
 		break;
 	}
+	//switch (m_MainCharacter)
+	//{
+	//case EMain_Character::Spongebob:
+	//	break;
+	//case EMain_Character::Patrick:
+	//	break;
+	//case EMain_Character::Sandy:
+	//	break;
+	//default:
+	//	break;
+	//}
 
 	AddWorldRotationY(180.f * CEngine::GetInst()->GetDeltaTime());
 }
@@ -325,23 +341,19 @@ void CPlayer::MoveRight()
 	default:
 		break;
 	}
+	//switch (m_MainCharacter)
+	//{
+	//case EMain_Character::Spongebob:
+	//	break;
+	//case EMain_Character::Patrick:
+	//	break;
+	//case EMain_Character::Sandy:
+	//	break;
+	//default:
+	//	break;
+	//}
 
 	AddWorldRotationY(-180.f * CEngine::GetInst()->GetDeltaTime());
-}
-
-void CPlayer::Stop()
-{
-	switch (m_MainCharacter)
-	{
-	case EMain_Character::Spongebob:
-		break;
-	case EMain_Character::Patrick:
-		break;
-	case EMain_Character::Sandy:
-		break;
-	default:
-		break;
-	}
 }
 
 void CPlayer::Jump()
@@ -359,6 +371,18 @@ void CPlayer::Jump()
 	}
 
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJump");
+  
+	//switch (m_MainCharacter)
+	//{
+	//case EMain_Character::Spongebob:
+	//	break;
+	//case EMain_Character::Patrick:
+	//	break;
+	//case EMain_Character::Sandy:
+	//	break;
+	//default:
+	//	break;
+	//}
 }
 
 void CPlayer::AttackKey()
@@ -367,15 +391,7 @@ void CPlayer::AttackKey()
 
 void CPlayer::CameraRotationKey()
 {
-	const Vector2& MouseMove = CInput::GetInst()->GetMouseMove();
-
-	float DeltaTime = CEngine::GetInst()->GetDeltaTime();
-
-	if (MouseMove.x != 0.f)
-	{
-		const Vector2& MouseMove = CInput::GetInst()->GetMouseMove() * m_Speed * g_DeltaTime;
-	}
-
+	const Vector2& MouseMove = CInput::GetInst()->GetMouseMove()*m_Speed * g_DeltaTime;
 	m_Arm->AddRelativeRotationY(MouseMove.x);
 	m_Arm->AddRelativeRotationX(MouseMove.y);
 
@@ -391,15 +407,13 @@ void CPlayer::CameraRotationKey()
 
 	if (m_Arm->GetRelativeRot().x > 50.f)
 	{
-		m_Arm->AddRelativeRotationY(MouseMove.x * DeltaTime * 180.f);
+		m_Arm->SetRelativeRotationX(50.f);
 	}
-
-	if (MouseMove.y != 0.f)
+	else if (m_Arm->GetRelativeRot().x < -30.f)
 	{
-		m_Arm->AddRelativeRotationX(MouseMove.y * DeltaTime * 180.f);
+		m_Arm->SetRelativeRotationX(-30.f);
 	}
 }
-
 
 void CPlayer::KeyDown()
 {
@@ -409,7 +423,6 @@ void CPlayer::KeyDown()
 void CPlayer::KeyUp()
 {
 	--m_KeyCount;
-
 	if (m_KeyCount == 0)
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
@@ -430,16 +443,16 @@ void CPlayer::Patrick_BellyAttack()
 
 void CPlayer::Patrick_BellyAttackMove()
 {
-	// ¿©±â¼­ m_RigidBody Force ÇØÁà¾ßÇÑ´Ù. 
+	// ì—¬ê¸°ì„œ m_RigidBody Force í•´ì¤˜ì•¼í•œë‹¤. 
 	AddWorldPosition(GetWorldAxis(AXIS_Z) * -400.f);
 }
 
-void CPlayer::Patrick_SlamDown() // ³»·ÁÂï±â
+void CPlayer::Patrick_SlamDown() // ë‚´ë ¤ì°ê¸°
 {
 	m_SlamDown = true;
 
 	m_Rigid->SetGround(true);
-	// °¡¼Óµµ Áõ°¡ Ãß°¡ ÇÊ¿ä
+	// ê°€ì†ë„ ì¦ê°€ ì¶”ê°€ í•„ìš”
 }
 
 void CPlayer::Patrick_PickUp()
@@ -463,10 +476,6 @@ void CPlayer::IngameUI()
 }
 
 void CPlayer::RClick()
-{
-}
-
-void CPlayer::LClick()
 {
 }
 
@@ -511,5 +520,3 @@ void CPlayer::ChangeSandy()
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
 	m_Anim[(int)m_MainCharacter]->Start();
 }
-
-

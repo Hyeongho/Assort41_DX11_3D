@@ -54,7 +54,7 @@ CParticleComponent::~CParticleComponent()
 	SAFE_DELETE(m_CBuffer);
 }
 
-void CParticleComponent::SetPawnTime(float Time)
+void CParticleComponent::SetSpawnTime(float Time)
 {
 	m_SpawnTimeMax = Time;
 }
@@ -135,8 +135,7 @@ bool CParticleComponent::Init()
 	}
 
 	SetMesh("ParticlePoint");
-	//SetRelativeScale(500.f, 500.f, 1.f);
-
+	SetParticle("LoadingBubble");
 	return true;
 }
 
