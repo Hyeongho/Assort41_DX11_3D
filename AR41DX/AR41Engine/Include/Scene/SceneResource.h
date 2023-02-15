@@ -12,6 +12,7 @@
 #include "../Resource/Sound/Sound.h"
 #include "../Resource/Font/Font.h"
 #include "../Resource/Font/FontCollection.h"
+#include "../Resource/Particle/Particle.h"	
 
 class CSceneResource
 {
@@ -35,6 +36,7 @@ private:
 	std::unordered_map<std::string, CSharedPtr<CSound>>	m_mapSound;
 	std::unordered_map<std::string, CSharedPtr<CFont>>	m_mapFont;
 	std::unordered_map<std::string, CSharedPtr<CFontCollection>>	m_mapFontCollection;
+	std::unordered_map<std::string, CSharedPtr<CParticle>>	m_mapParticle;
 
 public:
 	bool Init();
@@ -169,8 +171,8 @@ public:	// ============================ Sound ================================
 	bool CreateSoundChannel(const std::string& Name);
 	bool LoadSound(const std::string& GroupName, const std::string& Name,
 		bool Loop, const char* FileName, const std::string& PathName = SOUND_PATH);
-	bool SetVolume(int Volume);
-	bool SetVolume(const std::string& GroupName, int Volume);
+	bool SetVolume(float Volume);
+	bool SetVolume(const std::string& GroupName, float Volume);
 	bool SoundPlay(const std::string& Name);
 	bool SoundStop(const std::string& Name);
 	bool SoundPause(const std::string& Name);
@@ -207,5 +209,9 @@ public:	// ============================ Font ================================
 
 	CFont* FindFont(const std::string& Name);
 	CFontCollection* FindFontCollection(const std::string& Name);
+
+	public:
+		bool CreateParticle(const std::string& Name);
+		CParticle* FindParticle(const std::string& Name);
 };
 

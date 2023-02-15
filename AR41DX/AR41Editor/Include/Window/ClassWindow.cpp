@@ -34,6 +34,7 @@
 #include "Component/StaticMeshComponent.h"
 #include "Component/BillboardComponent.h"
 #include "Component/TerrainComponent.h"
+#include "Component/ParticleComponent.h"
 
 CClassWindow::CClassWindow()
 {
@@ -229,6 +230,12 @@ void CClassWindow::ComponentCreateCallback()
 	{
 		Name = "StaticMeshComponent(StaticMeshComponent)";
 		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CStaticMeshComponent>("StaticMeshComponent");
+	}
+
+	else if (m_SelectComponentItem == "ParticleComponent")
+	{
+		Name = "ParticleComponent(ParticleComponent)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CParticleComponent>("ParticleComponent");
 	}
 
 	else if (m_SelectComponentItem == "ColliderBox2D")

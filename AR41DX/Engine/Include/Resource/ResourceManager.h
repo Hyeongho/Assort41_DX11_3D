@@ -150,7 +150,7 @@ public:	// ===================== Animation =========================
 		const char* FullPath);
 	void AddSocket(const std::string& SkeletonName,
 		const std::string& BoneName, const std::string& SocketName,
-		const Vector3& Offset, const Vector3& OffsetRot);
+		const Vector3& offset = Vector3(0, 0, 0), const Vector3& offsetRot = Vector3(0, 0, 0));
 
 	bool SetMeshSkeleton(const std::string& MeshName,
 		const std::string& SkeletonName);
@@ -164,8 +164,8 @@ public:	// ============================ Sound ================================
 	bool CreateSoundChannel(const std::string& Name);
 	bool LoadSound(const std::string& GroupName, const std::string& Name,
 		bool Loop, const char* FileName, const std::string& PathName = SOUND_PATH);
-	bool SetVolume(int Volume);
-	bool SetVolume(const std::string& GroupName, int Volume);
+	bool SetVolume(float Volume);
+	bool SetVolume(const std::string& GroupName, float Volume);
 	bool SoundPlay(const std::string& Name);
 	bool SoundStop(const std::string& Name);
 	bool SoundPause(const std::string& Name);
@@ -206,7 +206,11 @@ public:	// ============================ Font ================================
 	void ReleaseFont(const std::string& Name);
 	void ReleaseFontCollection(const std::string& Name);
 
-
+	public:
+		bool CreateParticle(const std::string& Name);
+		CParticle* FindParticle(const std::string& Name);
+		void ReleaseParticle(const std::string& Name);
+		void GetParticleNames(std::vector<std::string>& vecNames);
 
 	DECLARE_SINGLE(CResourceManager)
 };

@@ -107,11 +107,15 @@ void CPathWindow::LoadFileList(const std::string& pathName)
 
 void CPathWindow::FileDCCallback(CEditorTreeItem<void*>* node, const std::string& item)
 {
-	bool isFBM = true; 
-	if (item.size()>=4)		//fmb 예외처리
+	if (item == "FileList")
 	{
-		isFBM=item.compare(item.size() - 4, item.size(), ".fbm");	//false면 같은거
-	} 
+		return;
+	}
+	bool isFBM = true;
+	if (item.size() >= 4)		//fmb 예외처리
+	{
+		isFBM = item.compare(item.size() - 4, item.size(), ".fbm");	//false면 같은거
+	}
 	if (item == "..." || !isFBM)		//확장자 예외처리
 	{
 		m_IsLoad = true;

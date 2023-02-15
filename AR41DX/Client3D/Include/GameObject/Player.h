@@ -16,12 +16,13 @@ struct PlayerData
 	}
 };
 
-//enum class EMain_Character
-//{
-//	Spongebob,
-//	Patrick,
-//	Sandy
-//};
+enum class EMain_Character
+{
+	Spongebob,
+	Patrick,
+	Sandy,
+	Max,
+};
 
 class CPlayer :
 	public CGameObject
@@ -34,17 +35,27 @@ protected:
 	virtual ~CPlayer();
 
 protected:
+	//컴포넌트
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
-	CSharedPtr<class CAnimation> m_Animation;
 	CSharedPtr<class CRigidBody> m_Rigid;
+	//
+	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
+	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
 
 protected:
 	PlayerData m_PlayerData;
-	//EMain_Character m_MainCharacter;
+	EMain_Character m_MainCharacter;
 	float m_Speed;
 	int m_KeyCount;
+	int m_JumpCount;
+	float m_HoverTime; // 내려찍기 등을 위한 공중부양 시간
+
+	// ========== Patrick 용 ==========
+	bool m_IsHolding; // 물건픽업/쓰로우 액션용
+	float m_BellyAttackTime;
+	bool m_SlamDown;
 
 public:
 	virtual void Start();
@@ -97,55 +108,61 @@ public:
 		return m_PlayerData;
 	}
 
-	//int GetMaxHP() const
-	//{
-	//	return m_PlayerData.MaxHP;
-	//}
+	int GetMaxHP() const
+	{
+		return m_PlayerData.MaxHP;
+	}
 
-	//int GetCurHP() const
-	//{
-	//	return m_PlayerData.CurHP;
-	//}
+	int GetCurHP() const
+	{
+		return m_PlayerData.CurHP;
+	}
 
-	//int GetSocks() const
-	//{
-	//	return m_PlayerData.Socks;
-	//}
+	int GetSocks() const
+	{
+		return m_PlayerData.Socks;
+	}
 
-	//int GetFritter() const
-	//{
-	//	return m_PlayerData.Fritter;
-	//}
+	int GetFritter() const
+	{
+		return m_PlayerData.Fritter;
+	}
 
-	//int GetGlittering() const
-	//{
-	//	return m_PlayerData.Glittering;
-	//}
+	int GetGlittering() const
+	{
+		return m_PlayerData.Glittering;
+	}
 
-	//void SetMesh(std::string Mesh);				???
+	void SetMesh(std::string Mesh);
 
 public:
+	//공통
 	void MoveFront();
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
+	void Stop();
 	void Jump();
 	void AttackKey();
 	void CameraRotationKey();
-
-	//김범중 230211
 	void KeyDown();
 	void KeyUp();
-	void Headbutt();
-	void Missile();
 	void Interaction();
 	void Menu();
 	void IngameUI();
 	void RClick();
+	void LClick(); // Attack
 
 	// Spongebob
+	void Headbutt();
+	void Missile();
 
 	// Patrick
+	void Patrick_BellyAttack();
+	void Patrick_BellyAttackMove();
+	void Patrick_SlamDown(); // 내려찍기
+	void Patrick_PickUp();
+	void Patrick_Throw();
 
 	// Sandy
 

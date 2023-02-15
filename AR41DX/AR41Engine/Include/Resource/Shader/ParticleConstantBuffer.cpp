@@ -1,7 +1,7 @@
 #include "ParticleConstantBuffer.h"
 
 
-CParticleConstantBuffer::CParticleConstantBuffer() : m_BufferData{}
+CParticleConstantBuffer::CParticleConstantBuffer()
 {
 }
 

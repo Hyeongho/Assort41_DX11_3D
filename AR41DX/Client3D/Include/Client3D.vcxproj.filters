@@ -26,10 +26,13 @@
       <UniqueIdentifier>{4a7300e7-484f-4a67-b633-58233b7c7d97}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. GameObject\01. Player">
-      <UniqueIdentifier>{fb6d716e-b1af-4781-9065-85fe9f03ffd1}</UniqueIdentifier>
+      <UniqueIdentifier>{acdaceb6-e2df-4615-9c03-146215050bb7}</UniqueIdentifier>
     </Filter>
     <Filter Include="05. UI">
-      <UniqueIdentifier>{e693cbb6-7326-45a2-b66c-5a6c287439d3}</UniqueIdentifier>
+      <UniqueIdentifier>{a39b94b4-2c98-4f26-9d74-b0fac13c188a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster">
+      <UniqueIdentifier>{7c2b04c2-a0d0-4074-b777-fb7d3aeccabd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,44 +51,59 @@
     <ClCompile Include="Setting\DefaultSetting.cpp">
       <Filter>04. Setting</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Monster.cpp">
+    <ClCompile Include="GameObject\Weapon.cpp">
       <Filter>03. GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Weapon.cpp">
+    <ClCompile Include="GameObject\BikiniBottomBuildings.cpp">
+      <Filter>03. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Bullet.cpp">
+      <Filter>03. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\JellyfishField.cpp">
       <Filter>03. GameObject</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Player.cpp">
       <Filter>03. GameObject\01. Player</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Bullet.cpp">
-      <Filter>03. GameObject</Filter>
+    <ClCompile Include="UI\LoadingUI.cpp">
+      <Filter>05. UI</Filter>
     </ClCompile>
     <ClCompile Include="UI\PlayerUI.cpp">
       <Filter>05. UI</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Sandy.cpp">
-      <Filter>03. GameObject\01. Player</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Patrick.cpp">
-      <Filter>03. GameObject\01. Player</Filter>
-    </ClCompile>
     <ClCompile Include="UI\StartSceneUI.cpp">
-      <Filter>05. UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\LoadingUI.cpp">
       <Filter>05. UI</Filter>
     </ClCompile>
     <ClCompile Include="Scene\LoadingSceneInfo.cpp">
       <Filter>02. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\BikiniBottomBuildings.cpp">
-      <Filter>03. GameObject</Filter>
+    <ClCompile Include="UI\TitleSceneUI.cpp">
+      <Filter>05. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PauseUI.cpp">
+      <Filter>05. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\TitleSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Monster.cpp">
+      <Filter>03. GameObject\02. Monster</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Jellyfish.cpp">
-      <Filter>03. GameObject</Filter>
+      <Filter>03. GameObject\02. Monster</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\KingJellyfish.cpp">
-      <Filter>03. GameObject</Filter>
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Fodder.cpp">
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Hammer.cpp">
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Duplicatotron.cpp">
+      <Filter>03. GameObject\02. Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,44 +125,59 @@
     <ClInclude Include="Setting\DefaultSetting.h">
       <Filter>04. Setting</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Monster.h">
+    <ClInclude Include="GameObject\Weapon.h">
       <Filter>03. GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Weapon.h">
+    <ClInclude Include="GameObject\BikiniBottomBuildings.h">
+      <Filter>03. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Bullet.h">
+      <Filter>03. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\JellyfishField.h">
       <Filter>03. GameObject</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Player.h">
       <Filter>03. GameObject\01. Player</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Bullet.h">
-      <Filter>03. GameObject</Filter>
+    <ClInclude Include="UI\LoadingUI.h">
+      <Filter>05. UI</Filter>
     </ClInclude>
     <ClInclude Include="UI\PlayerUI.h">
       <Filter>05. UI</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Sandy.h">
-      <Filter>03. GameObject\01. Player</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Patrick.h">
-      <Filter>03. GameObject\01. Player</Filter>
-    </ClInclude>
     <ClInclude Include="UI\StartSceneUI.h">
-      <Filter>05. UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\LoadingUI.h">
       <Filter>05. UI</Filter>
     </ClInclude>
     <ClInclude Include="Scene\LoadingSceneInfo.h">
       <Filter>02. Scene</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\BikiniBottomBuildings.h">
-      <Filter>03. GameObject</Filter>
+    <ClInclude Include="UI\TitleSceneUI.h">
+      <Filter>05. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PauseUI.h">
+      <Filter>05. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\TitleSceneInfo.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Monster.h">
+      <Filter>03. GameObject\02. Monster</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Jellyfish.h">
-      <Filter>03. GameObject</Filter>
+      <Filter>03. GameObject\02. Monster</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\KingJellyfish.h">
-      <Filter>03. GameObject</Filter>
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Fodder.h">
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Hammer.h">
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Duplicatotron.h">
+      <Filter>03. GameObject\02. Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
