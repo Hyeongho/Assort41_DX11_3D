@@ -183,6 +183,8 @@
   <ItemGroup>
     <ClCompile Include="EditorManager.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
+    <ClCompile Include="GameObject\Duplicatotron.cpp" />
+    <ClCompile Include="GameObject\Fodder.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
     <ClCompile Include="GameObject\Weapon.cpp" />
@@ -226,6 +228,8 @@
     <ClInclude Include="Editor.h" />
     <ClInclude Include="EditorManager.h" />
     <ClInclude Include="GameObject\Bullet.h" />
+    <ClInclude Include="GameObject\Duplicatotron.h" />
+    <ClInclude Include="GameObject\Fodder.h" />
     <ClInclude Include="GameObject\Monster.h" />
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\Weapon.h" />

@@ -16,6 +16,10 @@ CPlayer::CPlayer()
 	: m_Speed(150.f)
 	, m_KeyCount(0)
 	, m_MainCharacter(EMain_Character::Max)
+	, m_IsHolding(false)
+	, m_HoverTime(0.f)
+	, m_BellyAttackTime(0.f)
+	, m_SlamDown(false)
 {
 	SetTypeID<CPlayer>();
 
@@ -23,9 +27,9 @@ CPlayer::CPlayer()
 }
 
 CPlayer::CPlayer(const CPlayer& Obj) : CGameObject(Obj)
-	, m_Speed(Obj.m_Speed)
-	, m_KeyCount(Obj.m_KeyCount)
-	, m_MainCharacter(EMain_Character::Max)
+, m_Speed(Obj.m_Speed)
+, m_KeyCount(Obj.m_KeyCount)
+, m_MainCharacter(EMain_Character::Max)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
@@ -100,10 +104,10 @@ bool CPlayer::Init()
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
 	m_Mesh->SetMesh("Sandy");
-
+	m_Rigid->SetGround(true);	//¶¥¿¡ ºÙ¾îÀÖ´Ù°í ¼³Á¤
 
 	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
-	LoadSandyAnim();
+	//LoadSandyAnim();
 
 	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
 
@@ -127,6 +131,26 @@ void CPlayer::Update(float DeltaTime)
 	//m_Sprite->AddRelativeRotationZ(180.f * DeltaTime);
 
 	//m_RightChild->AddRelativeRotationZ(360.f * DeltaTime);
+
+	if (m_Name == "Patrick")
+	{
+		// Patrick Slam½Ã 1.2ÃÊµ¿¾È °øÁßºÎ¾ç.
+		if (m_Rigid->GetGround() == false && m_SlamDown)
+		{
+			m_HoverTime += g_DeltaTime;
+
+			if (m_HoverTime >= 1.2f)
+			{
+				m_Rigid->SetGround(false);
+
+				m_HoverTime = 0;;
+			}
+
+			m_SlamDown = false;
+			m_Rigid->SetGround(true); // Ãæµ¹µÇ´ÂÁö ¿©ºÎ °Ë»ç
+		}
+
+	}
 }
 
 void CPlayer::PostUpdate(float DeltaTime)
@@ -152,12 +176,12 @@ void CPlayer::Load(FILE* File)
 void CPlayer::LoadSpongebobAnim()
 {
 	/*m_ReserveMesh[(int)EMain_Character::Spongebob] = CResourceManager::GetInst()->FindMesh("Spongebob");
-	
+
 	if (!m_ReserveMesh[(int)EMain_Character::Spongebob])
 	{
 		return;
 	}
-	
+
 	m_Anim[(int)EMain_Character::Spongebob] = m_Mesh->SetAnimation<CAnimation>("SponegebobAnimation");
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerIdle", "Spongebob_Idle", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
@@ -176,7 +200,16 @@ void CPlayer::LoadPatrickAnim()
 	m_Anim[(int)EMain_Character::Patrick] = m_Mesh->SetAnimation<CAnimation>("PatrickAnimation");
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerIdle", "Patrick_Idle", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerWalk", "Patrick_Walk", 1.f, 1.f, true);
-	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerAttack", "Patrick_Slam", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerAttack", "Patrick_Run", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerDoubleJump", "Patrick_DoubleJump", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerJump", "Patrick_Jump", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("Patrick_PickUp", "Patrick_PickUp", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("Patrick_PickUpIdle", "Patrick_PickUpIdle", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("Patrick_PickUpWalk", "Patrick_PickUpWalk", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("Patrick_Throw", "Patrick_Throw", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("Patrick_Slam", "Patrick_Slam", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerAttack", "Patrick_BellyAttack", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerDeath", "Patrick_Death", 1.f, 1.f, false);
 }
 
 void CPlayer::LoadSandyAnim()
@@ -208,12 +241,18 @@ void CPlayer::SetMesh(std::string Mesh)
 
 void CPlayer::MoveFront()
 {
-	//ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½
+	//¿©±â¿¡ »ç¿îµå
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
 		break;
 	case EMain_Character::Patrick:
+		CResourceManager::GetInst()->SoundPlay("Patrick_Step");
+		CResourceManager::GetInst()->SetVolume(100);
+		if (m_IsHolding)
+		{
+			m_Anim[(int)m_MainCharacter]->ChangeAnimation("Patrick_PickUpWalk");
+		}
 		break;
 	case EMain_Character::Sandy:
 		break;
@@ -233,6 +272,10 @@ void CPlayer::MoveBack()
 	case EMain_Character::Spongebob:
 		break;
 	case EMain_Character::Patrick:
+		if (m_IsHolding)
+		{
+			m_Anim[(int)m_MainCharacter]->ChangeAnimation("Patrick_PickUpWalk");
+		}
 		break;
 	case EMain_Character::Sandy:
 		break;
@@ -240,6 +283,7 @@ void CPlayer::MoveBack()
 		break;
 	}
 
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
 	AddWorldPosition(GetWorldAxis(AXIS_Z) * 100.f * CEngine::GetInst()->GetDeltaTime());
 }
 
@@ -250,6 +294,10 @@ void CPlayer::MoveLeft()
 	case EMain_Character::Spongebob:
 		break;
 	case EMain_Character::Patrick:
+		if (m_IsHolding)
+		{
+			m_Anim[(int)m_MainCharacter]->ChangeAnimation("Patrick_PickUpWalk");
+		}
 		break;
 	case EMain_Character::Sandy:
 		break;
@@ -267,6 +315,10 @@ void CPlayer::MoveRight()
 	case EMain_Character::Spongebob:
 		break;
 	case EMain_Character::Patrick:
+		if (m_IsHolding)
+		{
+			m_Anim[(int)m_MainCharacter]->ChangeAnimation("Patrick_PickUpWalk");
+		}
 		break;
 	case EMain_Character::Sandy:
 		break;
@@ -305,6 +357,8 @@ void CPlayer::Jump()
 	default:
 		break;
 	}
+
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJump");
 }
 
 void CPlayer::AttackKey()
@@ -324,6 +378,16 @@ void CPlayer::CameraRotationKey()
 
 	m_Arm->AddRelativeRotationY(MouseMove.x);
 	m_Arm->AddRelativeRotationX(MouseMove.y);
+
+	/*	if (m_Arm->GetRelativeRot().x > 50.f)
+		{
+			m_Arm->AddRelativeRotationY(MouseMove.x * DeltaTime * 180.f);
+		}
+
+		if (MouseMove.y != 0.f)
+		{
+			m_Arm->AddRelativeRotationX(MouseMove.y * DeltaTime * 180.f);
+		}*/
 
 	if (m_Arm->GetRelativeRot().x > 50.f)
 	{
@@ -360,6 +424,32 @@ void CPlayer::Missile()
 {
 }
 
+void CPlayer::Patrick_BellyAttack()
+{
+}
+
+void CPlayer::Patrick_BellyAttackMove()
+{
+	// ¿©±â¼­ m_RigidBody Force ÇØÁà¾ßÇÑ´Ù. 
+	AddWorldPosition(GetWorldAxis(AXIS_Z) * -400.f);
+}
+
+void CPlayer::Patrick_SlamDown() // ³»·ÁÂï±â
+{
+	m_SlamDown = true;
+
+	m_Rigid->SetGround(true);
+	// °¡¼Óµµ Áõ°¡ Ãß°¡ ÇÊ¿ä
+}
+
+void CPlayer::Patrick_PickUp()
+{
+}
+
+void CPlayer::Patrick_Throw()
+{
+}
+
 void CPlayer::Interaction()
 {
 }
@@ -382,11 +472,11 @@ void CPlayer::LClick()
 
 void CPlayer::ChangeSpongebob()
 {
-	if (m_MainCharacter == EMain_Character::Spongebob) 
+	if (m_MainCharacter == EMain_Character::Spongebob)
 	{
 		return;
 	}
-  
+
 	m_MainCharacter = EMain_Character::Spongebob;
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
@@ -400,7 +490,7 @@ void CPlayer::ChangePatrick()
 	{
 		return;
 	}
-	
+
 	m_MainCharacter = EMain_Character::Patrick;
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
@@ -414,12 +504,12 @@ void CPlayer::ChangeSandy()
 	{
 		return;
 	}
-	
+
 	m_MainCharacter = EMain_Character::Sandy;
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
 	m_Anim[(int)m_MainCharacter]->Start();
 }
-	
+
 

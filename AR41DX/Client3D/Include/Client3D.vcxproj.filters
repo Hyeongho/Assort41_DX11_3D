@@ -96,6 +96,15 @@
     <ClCompile Include="GameObject\KingJellyfish.cpp">
       <Filter>03. GameObject\02. Monster</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Fodder.cpp">
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Hammer.cpp">
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Duplicatotron.cpp">
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -159,6 +168,15 @@
       <Filter>03. GameObject\02. Monster</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\KingJellyfish.h">
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Fodder.h">
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Hammer.h">
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Duplicatotron.h">
       <Filter>03. GameObject\02. Monster</Filter>
     </ClInclude>
   </ItemGroup>

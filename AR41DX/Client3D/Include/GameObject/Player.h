@@ -4,11 +4,11 @@
 
 struct PlayerData
 {
-	int MaxHP; // ìµœëŒ€ HP;
-	int CurHP; // í˜„ì¬ ì²´ë ¥
-	int Socks; // ì–‘ë§
-	int Fritter; // ë’¤ì§‘ê°œ
-	int Glittering; // ë°˜ì§ì´
+	int MaxHP; // ÃÖ´ë HP;
+	int CurHP; // ÇöÀç Ã¼·Â
+	int Socks; // ¾ç¸»
+	int Fritter; // µÚÁı°³
+	int Glittering; // ¹İÂ¦ÀÌ
 
 	PlayerData() : MaxHP(5), CurHP(3), Socks(0), Fritter(0), Glittering(0)
 	{
@@ -35,12 +35,12 @@ protected:
 	virtual ~CPlayer();
 
 protected:
-//ì»´í¬ë„ŒíŠ¸
+	//ÄÄÆ÷³ÍÆ®
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
 	CSharedPtr<class CRigidBody> m_Rigid;
-//
+	//
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
 	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
 
@@ -50,6 +50,12 @@ protected:
 	float m_Speed;
 	int m_KeyCount;
 	int m_JumpCount;
+	float m_HoverTime; // ³»·ÁÂï±â µîÀ» À§ÇÑ °øÁßºÎ¾ç ½Ã°£
+
+	// ========== Patrick ¿ë ==========
+	bool m_IsHolding; // ¹°°ÇÇÈ¾÷/¾²·Î¿ì ¾×¼Ç¿ë
+	float m_BellyAttackTime;
+	bool m_SlamDown;
 
 public:
 	virtual void Start();
@@ -61,9 +67,9 @@ public:
 	virtual void Load(FILE* File);
 
 private:
-	void LoadSpongebobAnim(); // ìŠ¤í°ì§€ë°¥ ë¦¬ì†ŒìŠ¤
-	void LoadPatrickAnim(); // ëš±ì´ ë¦¬ì†ŒìŠ¤
-	void LoadSandyAnim(); // ë‹¤ëŒì´ ë¦¬ì†ŒìŠ¤
+	void LoadSpongebobAnim(); // ½ºÆùÁö¹ä ¸®¼Ò½º
+	void LoadPatrickAnim(); // ¶×ÀÌ ¸®¼Ò½º
+	void LoadSandyAnim(); // ´Ù¶÷ÀÌ ¸®¼Ò½º
 
 public:
 	void SetPlayerData(PlayerData Playerdata)
@@ -130,7 +136,7 @@ public:
 	void SetMesh(std::string Mesh);
 
 public:
-	//ê³µí†µ
+	//°øÅë
 	void MoveFront();
 	void MoveBack();
 	void MoveLeft();
@@ -145,13 +151,18 @@ public:
 	void Menu();
 	void IngameUI();
 	void RClick();
-	void LClick();
+	void LClick(); // Attack
 
 	// Spongebob
 	void Headbutt();
 	void Missile();
 
 	// Patrick
+	void Patrick_BellyAttack();
+	void Patrick_BellyAttackMove();
+	void Patrick_SlamDown(); // ³»·ÁÂï±â
+	void Patrick_PickUp();
+	void Patrick_Throw();
 
 	// Sandy
 
