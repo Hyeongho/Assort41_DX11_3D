@@ -93,7 +93,7 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("8", '8');
     CInput::GetInst()->AddBindKey("9", '9');
     CInput::GetInst()->AddBindKey("0", '0');
-    
+
     CInput::GetInst()->AddBindKey("F1", VK_F1);
     CInput::GetInst()->AddBindKey("F2", VK_F2);
     CInput::GetInst()->AddBindKey("F3", VK_F3);
@@ -246,6 +246,23 @@ void CDefaultSetting::LoadPlayerSound()
     CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_Death", false, "Spongebob/SFX_SB_Death.ogg", SOUND_PATH); // 죽음
 
 
+
+}
+
+void CDefaultSetting::LoadSound()
+{
+    // 로딩 UI
+    CResourceManager::GetInst()->LoadSound("Effect", "LoadingUI_First", false, "UI/SFX_SB_Spongball_Bubble_010.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "LoadingUI_Second", false, "UI/SFX_SB_Spongball_Bubble_008.ogg", SOUND_PATH); // first와 같이 재생
+
+    // Bikini Bottom
+    CResourceManager::GetInst()->LoadSound("BGM", "BikiniBottom", false, "Map/MUS_BikiniBottomTheme.ogg", SOUND_PATH);
+
+    // Jellyfish Field
+    CResourceManager::GetInst()->LoadSound("BGM", "JellyfishField", false, "Map/MUS_JellyfishFieldsTheme.ogg", SOUND_PATH);
+
+    // BossStage BGM
+    CResourceManager::GetInst()->LoadSound("BGM", "BossStage", false, "Map/MUS_BossFightTheme.ogg", SOUND_PATH);
 
 }
 
