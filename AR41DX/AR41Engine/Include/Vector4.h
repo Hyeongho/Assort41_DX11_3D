@@ -83,5 +83,6 @@ struct Vector4
 	static Vector4	Red;
 	static Vector4	Green;
 	static Vector4	Blue;
+	static Vector4	Yellow;
 };
 
