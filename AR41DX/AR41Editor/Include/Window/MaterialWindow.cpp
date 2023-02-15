@@ -433,7 +433,10 @@ void CMaterialWindow::TreeCallback(CEditorTreeItem<class CMaterial*>* node, cons
     m_EnableEmissive->SetCheck(m_SelectMaterial->GetIsEmissive());
     m_Animation3D->SetCheck(m_SelectMaterial->GetIsAnimation3D());
     m_Opacity->SetFloat(m_SelectMaterial->GetOpacity());
-    m_Shader->SetText(m_SelectMaterial->GetShader()->GetName().c_str());
+    if(m_SelectMaterial->GetShader())
+    {
+        m_Shader->SetText(m_SelectMaterial->GetShader()->GetName().c_str());
+    }
     ClearTexture();
     size = m_SelectMaterial->GetTextureCount();
     for (int i = 0; i < size; ++i)
