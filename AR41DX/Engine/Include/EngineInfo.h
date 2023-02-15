@@ -296,39 +296,39 @@ struct ColliderCBuffer
 
 struct Box2DInfo
 {
-	float	Left;
-	float	Bottom;
-	float	Right;
-	float	Top;
+	float Left;
+	float Bottom;
+	float Right;
+	float Top;
 };
 
 struct Sphere2DInfo
 {
-	Vector2	Center;
-	float	Radius;
+	Vector2 Center;
+	float Radius;
 };
 
 struct OBB2DInfo
 {
 	Vector2	Center;
 	Vector2	Axis[AXIS2D_MAX];
-	float	Length[AXIS2D_MAX];
+	float Length[AXIS2D_MAX];
 };
 
 struct PixelInfo
 {
-	Box2DInfo	Box2D;
+	Box2DInfo Box2D;
 	unsigned char* Pixel;
-	unsigned int	Width;
-	unsigned int	Height;
-	EPixelCollision_Type	PixelColorCollisionType;
-	EPixelCollision_Type	PixelAlphaCollisionType;
-	unsigned char	TypeColor[4];
+	unsigned int Width;
+	unsigned int Height;
+	EPixelCollision_Type PixelColorCollisionType;
+	EPixelCollision_Type PixelAlphaCollisionType;
+	unsigned char TypeColor[4];
 	ID3D11ShaderResourceView* SRV;
 	std::string	Name;
-	TCHAR		FileName[MAX_PATH];
-	char		PathName[MAX_PATH];
-	int			RefCount;
+	TCHAR FileName[MAX_PATH];
+	char PathName[MAX_PATH];
+	int RefCount;
 
 	PixelInfo()	:
 		FileName{},

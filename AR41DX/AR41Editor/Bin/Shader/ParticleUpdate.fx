@@ -23,7 +23,7 @@ cbuffer ParticleCBuffer : register(b10)
     float g_ParticleEmpty2;
 };
 
-#define GRAVITY     9.8f
+#define GRAVITY 98.f
 
 struct ParticleInfo
 {
@@ -151,7 +151,10 @@ void ParticleUpdateCS(int3 ThreadID : SV_DispatchThreadID)
         // 살아나야 하는 파티클은 기본 정보들을 설정해준다.
         float Key = ThreadID.x / g_ParticleSpawnCountMax;
 
-        float3 RandomPos = float3(Rand(Key), Rand(Key * 2.f), Rand(Key * 3.f));
+        //float3 RandomPos = float3(Rand(Key), Rand(Key * 2.f), Rand(Key * 3.f));
+
+        int Index = ThreadID.x;
+        float3 RandomPos = float3(Rand(Index), Rand(Index), Rand(Index));
 
         float3 StartRange = g_ParticleStartMax - g_ParticleStartMin;
 
@@ -209,7 +212,7 @@ void ParticleUpdateCS(int3 ThreadID : SV_DispatchThreadID)
         }
 
         // 중력 적용을 할 경우와 아닐 경우로 나눈다.
-        if (g_ParticleGravity == 1)
+        if (g_ParticleShare[0].GravityEnable == 1)
         {
             g_ParticleArray[ThreadID.x].FallTime += g_GlobalDeltaTime;
 
@@ -217,14 +220,15 @@ void ParticleUpdateCS(int3 ThreadID : SV_DispatchThreadID)
 
             if (g_ParticleArray[ThreadID.x].Dir.y > 0.f)
             {
-                Velocity = g_ParticleArray[ThreadID.x].Speed * g_ParticleArray[ThreadID.x].FallTime;
+                Velocity = g_ParticleArray[ThreadID.x].Speed * g_ParticleArray[ThreadID.x].FallTime * 0.5f;
             }
 
             g_ParticleArray[ThreadID.x].WorldPos.x += MovePos.x;
             g_ParticleArray[ThreadID.x].WorldPos.z += MovePos.z;
 
-            g_ParticleArray[ThreadID.x].WorldPos.y = 
-                g_ParticleArray[ThreadID.x].FallStartY + (Velocity - 0.5f * GRAVITY * g_ParticleArray[ThreadID.x].FallTime * g_ParticleArray[ThreadID.x].FallTime);
+            g_ParticleArray[ThreadID.x].WorldPos.y =
+                g_ParticleArray[ThreadID.x].FallStartY + 
+                Velocity - 0.5f * GRAVITY * g_ParticleArray[ThreadID.x].FallTime * g_ParticleArray[ThreadID.x].FallTime;
         }
 
         else

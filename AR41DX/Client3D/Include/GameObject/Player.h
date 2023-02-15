@@ -170,5 +170,8 @@ public:
 	void ChangeSpongebob();
 	void ChangePatrick();
 	void ChangeSandy();
+
+public:
+	void ChangeAnim();
 };
 
