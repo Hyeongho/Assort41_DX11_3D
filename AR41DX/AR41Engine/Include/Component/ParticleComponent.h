@@ -22,7 +22,25 @@ private:
     int m_SpawnCountMax;
 
 public:
-    void SetPawnTime(float Time);
+    //김범중 에디터 값 조정용
+    CParticle* GetParticle()	const
+    {
+        return m_Particle;
+    }
+    float GetSpawnTime()	const
+    {
+        return m_SpawnTime;
+    }
+    float GetSpawnTimeMax()	const
+    {
+        return m_SpawnTimeMax;
+    }
+    int GetSpawnCountMax()	const
+    {
+        return m_SpawnCountMax;
+    }
+    void SetSpawnTime(float Time);
+    //
     void SetSpawnCountMax(int Count);
     void SetParticle(const std::string& Name);
     void SetParticle(class CParticle* Particle);

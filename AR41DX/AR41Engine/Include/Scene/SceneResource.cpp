@@ -780,12 +780,12 @@ bool CSceneResource::LoadSound(const std::string& GroupName, const std::string& 
 	return true;
 }
 
-bool CSceneResource::SetVolume(int Volume)
+bool CSceneResource::SetVolume(float Volume)
 {
 	return CResourceManager::GetInst()->SetVolume(Volume);
 }
 
-bool CSceneResource::SetVolume(const std::string& GroupName, int Volume)
+bool CSceneResource::SetVolume(const std::string& GroupName, float Volume)
 {
 	return CResourceManager::GetInst()->SetVolume(GroupName, Volume);
 }

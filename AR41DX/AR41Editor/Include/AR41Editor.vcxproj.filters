@@ -192,6 +192,9 @@
     <ClCompile Include="Window\UITextWindow.cpp">
       <Filter>03. Window\02. UIWIndow</Filter>
     </ClCompile>
+    <ClCompile Include="Window\ParticleWindow.cpp">
+      <Filter>03. Window\04. 3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -340,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="Window\UITextWindow.h">
       <Filter>03. Window\02. UIWIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\ParticleWindow.h">
+      <Filter>03. Window\04. 3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

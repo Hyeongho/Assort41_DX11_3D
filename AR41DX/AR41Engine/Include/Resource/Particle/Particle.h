@@ -25,6 +25,10 @@ private:
     float m_SpawnTime;
 
 public:
+    CParticleConstantBuffer* GetParticleCBuffer()	const
+    {
+        return m_CBuffer;
+    }
     void SetUpdateShader(const std::string& Name);
     void SetRenderShader(const std::string& Name);
     void AddStructuredBuffer(const std::string& Name, unsigned int Size, unsigned int Count, int Register, bool Dynamic = false, 
