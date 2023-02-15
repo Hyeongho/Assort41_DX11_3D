@@ -109,14 +109,14 @@ bool CSoundManager::LoadSound(const std::string& GroupName, const std::string& N
 	return true;
 }
 
-bool CSoundManager::SetVolume(int Volume)
+bool CSoundManager::SetVolume(float Volume)
 {
 	m_MasterGroup->setVolume(Volume / 100.f);
 
 	return true;
 }
 
-bool CSoundManager::SetVolume(const std::string& GroupName, int Volume)
+bool CSoundManager::SetVolume(const std::string& GroupName, float Volume)
 {
 	FMOD::ChannelGroup* Group = FindChannelGroup(GroupName);
 

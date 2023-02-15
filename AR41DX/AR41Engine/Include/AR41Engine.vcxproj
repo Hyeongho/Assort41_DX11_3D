@@ -25,6 +25,7 @@
     <ClInclude Include="Animation\AnimationData.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component\AnimationMeshComponent.h" />
+    <ClInclude Include="Component\BehaviorTree.h" />
     <ClInclude Include="Component\BillboardComponent.h" />
     <ClInclude Include="Component\CameraComponent.h" />
     <ClInclude Include="Component\Collider.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="Component\NavigationAgent.h" />
     <ClInclude Include="Component\NavigationAgent3D.h" />
     <ClInclude Include="Component\ObjectComponent.h" />
+    <ClInclude Include="Component\ParticleComponent.h" />
     <ClInclude Include="Component\PrimitiveComponent.h" />
     <ClInclude Include="Component\RigidBody.h" />
     <ClInclude Include="Component\SceneComponent.h" />
@@ -201,6 +203,7 @@
     <ClInclude Include="UI\UINumber.h" />
     <ClInclude Include="UI\UIProgressBar.h" />
     <ClInclude Include="UI\UIText.h" />
+    <ClInclude Include="UI\UITextButton.h" />
     <ClInclude Include="UI\UIWidget.h" />
     <ClInclude Include="UI\UIWindow.h" />
     <ClInclude Include="Vector2.h" />
@@ -214,6 +217,7 @@
     <ClCompile Include="Animation\AnimationData.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component\AnimationMeshComponent.cpp" />
+    <ClCompile Include="Component\BehaviorTree.cpp" />
     <ClCompile Include="Component\BillboardComponent.cpp" />
     <ClCompile Include="Component\CameraComponent.cpp" />
     <ClCompile Include="Component\Collider.cpp" />
@@ -228,6 +232,7 @@
     <ClCompile Include="Component\NavigationAgent.cpp" />
     <ClCompile Include="Component\NavigationAgent3D.cpp" />
     <ClCompile Include="Component\ObjectComponent.cpp" />
+    <ClCompile Include="Component\ParticleComponent.cpp" />
     <ClCompile Include="Component\PrimitiveComponent.cpp" />
     <ClCompile Include="Component\RigidBody.cpp" />
     <ClCompile Include="Component\SceneComponent.cpp" />
@@ -371,6 +376,7 @@
     <ClCompile Include="UI\UINumber.cpp" />
     <ClCompile Include="UI\UIProgressBar.cpp" />
     <ClCompile Include="UI\UIText.cpp" />
+    <ClCompile Include="UI\UITextButton.cpp" />
     <ClCompile Include="UI\UIWidget.cpp" />
     <ClCompile Include="UI\UIWindow.cpp" />
     <ClCompile Include="Vector2.cpp" />

@@ -1,7 +1,7 @@
 #include "ParticleConstantBuffer.h"
 
 
-CParticleConstantBuffer::CParticleConstantBuffer() : m_BufferData{}
+CParticleConstantBuffer::CParticleConstantBuffer()
 {
 }
 
@@ -16,7 +16,7 @@ CParticleConstantBuffer::~CParticleConstantBuffer()
 
 bool CParticleConstantBuffer::Init()
 {
-	SetConstantBuffer("ParticleUpdate");
+	SetConstantBuffer("ParticleCBuffer");
 
 	return true;
 }

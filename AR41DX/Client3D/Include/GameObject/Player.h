@@ -4,11 +4,11 @@
 
 struct PlayerData
 {
-	int MaxHP; // ÃÖ´ë HP;
-	int CurHP; // ÇöÀç Ã¼·Â
-	int Socks; // ¾ç¸»
-	int Fritter; // µÚÁı°³
-	int Glittering; // ¹İÂ¦ÀÌ
+	int MaxHP; // ìµœëŒ€ HP;
+	int CurHP; // í˜„ì¬ ì²´ë ¥
+	int Socks; // ì–‘ë§
+	int Fritter; // ë’¤ì§‘ê°œ
+	int Glittering; // ë°˜ì§ì´
 
 	PlayerData() : MaxHP(5), CurHP(3), Socks(0), Fritter(0), Glittering(0)
 	{
@@ -16,12 +16,13 @@ struct PlayerData
 	}
 };
 
-//enum class EMain_Character
-//{
-//	Spongebob,
-//	Patrick,
-//	Sandy
-//};
+enum class EMain_Character
+{
+	Spongebob,
+	Patrick,
+	Sandy,
+	Max,
+};
 
 class CPlayer :
 	public CGameObject
@@ -34,17 +35,21 @@ protected:
 	virtual ~CPlayer();
 
 protected:
+//ì»´í¬ë„ŒíŠ¸
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
-	CSharedPtr<class CAnimation> m_Animation;
 	CSharedPtr<class CRigidBody> m_Rigid;
+//
+	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
+	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
 
 protected:
 	PlayerData m_PlayerData;
-	//EMain_Character m_MainCharacter;
+	EMain_Character m_MainCharacter;
 	float m_Speed;
 	int m_KeyCount;
+	int m_JumpCount;
 
 public:
 	virtual void Start();
@@ -56,9 +61,9 @@ public:
 	virtual void Load(FILE* File);
 
 private:
-	void LoadSpongebobAnim(); // ½ºÆùÁö¹ä ¸®¼Ò½º
-	void LoadPatrickAnim(); // ¶×ÀÌ ¸®¼Ò½º
-	void LoadSandyAnim(); // ´Ù¶÷ÀÌ ¸®¼Ò½º
+	void LoadSpongebobAnim(); // ìŠ¤í°ì§€ë°¥ ë¦¬ì†ŒìŠ¤
+	void LoadPatrickAnim(); // ëš±ì´ ë¦¬ì†ŒìŠ¤
+	void LoadSandyAnim(); // ë‹¤ëŒì´ ë¦¬ì†ŒìŠ¤
 
 public:
 	void SetPlayerData(PlayerData Playerdata)
@@ -97,53 +102,54 @@ public:
 		return m_PlayerData;
 	}
 
-	//int GetMaxHP() const
-	//{
-	//	return m_PlayerData.MaxHP;
-	//}
+	int GetMaxHP() const
+	{
+		return m_PlayerData.MaxHP;
+	}
 
-	//int GetCurHP() const
-	//{
-	//	return m_PlayerData.CurHP;
-	//}
+	int GetCurHP() const
+	{
+		return m_PlayerData.CurHP;
+	}
 
-	//int GetSocks() const
-	//{
-	//	return m_PlayerData.Socks;
-	//}
+	int GetSocks() const
+	{
+		return m_PlayerData.Socks;
+	}
 
-	//int GetFritter() const
-	//{
-	//	return m_PlayerData.Fritter;
-	//}
+	int GetFritter() const
+	{
+		return m_PlayerData.Fritter;
+	}
 
-	//int GetGlittering() const
-	//{
-	//	return m_PlayerData.Glittering;
-	//}
+	int GetGlittering() const
+	{
+		return m_PlayerData.Glittering;
+	}
 
-	//void SetMesh(std::string Mesh);				???
+	void SetMesh(std::string Mesh);
 
 public:
+	//ê³µí†µ
 	void MoveFront();
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
+	void Stop();
 	void Jump();
 	void AttackKey();
 	void CameraRotationKey();
-
-	//±è¹üÁß 230211
 	void KeyDown();
 	void KeyUp();
-	void Headbutt();
-	void Missile();
 	void Interaction();
 	void Menu();
 	void IngameUI();
 	void RClick();
+	void LClick();
 
 	// Spongebob
+	void Headbutt();
+	void Missile();
 
 	// Patrick
 

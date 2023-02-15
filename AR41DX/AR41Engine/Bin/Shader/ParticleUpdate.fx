@@ -74,24 +74,24 @@ float3x3 ComputeRotationMatrix(float3 Angle)
     matRotX._23 = sin(ConvertAngle.x);
     matRotX._33 = cos(ConvertAngle.x);
 
-    matRotY._11 = cos(ConvertAngle.x);
+    matRotY._11 = cos(ConvertAngle.y);
     matRotY._21 = 0.f;
-    matRotY._31 = -sin(ConvertAngle.x);
+    matRotY._31 = -sin(ConvertAngle.y);
 
     matRotY._12 = 0.f;
     matRotY._22 = 1.f;
     matRotY._32 = 0.f;
 
-    matRotY._13 = sin(ConvertAngle.x);
+    matRotY._13 = sin(ConvertAngle.y);
     matRotY._23 = 0.f;
-    matRotY._33 = cos(ConvertAngle.x);
+    matRotY._33 = cos(ConvertAngle.y);
 
-    matRotZ._11 = cos(ConvertAngle.x);
-    matRotZ._21 = -sin(ConvertAngle.x);
+    matRotZ._11 = cos(ConvertAngle.z);
+    matRotZ._21 = -sin(ConvertAngle.z);
     matRotZ._31 = 0.f;
 
-    matRotZ._12 = sin(ConvertAngle.x);
-    matRotZ._22 = cos(ConvertAngle.x);
+    matRotZ._12 = sin(ConvertAngle.z);
+    matRotZ._22 = cos(ConvertAngle.z);
     matRotZ._32 = 0.f;
 
     matRotZ._13 = 0.f;

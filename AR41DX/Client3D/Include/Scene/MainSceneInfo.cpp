@@ -3,8 +3,6 @@
 #include "../GameObject/Player.h"
 #include "../GameObject/Monster.h"
 #include "../GameObject/Weapon.h"
-#include "../GameObject/Patrick.h"
-#include "../GameObject/Sandy.h"
 #include "../GameObject/KingJellyfish.h"
 #include "../GameObject/Jellyfish.h"
 #include "../GameObject/BikiniBottomBuildings.h"
@@ -27,10 +25,10 @@ bool CMainSceneInfo::Init()
 
 	//SetPlayerObject(Patrick);
 	
-	CPlayer* Sandy = m_Owner->CreateObject<CPlayer>("Sandy");
+	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 	//m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 
-	SetPlayerObject(Sandy);
+	SetPlayerObject(Player);
 
 	//CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
 	CJellyfish* Jellyfish = m_Owner->CreateObject<CJellyfish>("Jellyfish");

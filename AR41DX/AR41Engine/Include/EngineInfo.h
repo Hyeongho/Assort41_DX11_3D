@@ -527,6 +527,22 @@ struct ParticleCBuffer
 	unsigned int ParticleMoveDirEnable;
 	Vector3 ParticleMoveAngle;    // 기준이 될 방향으로부터 회전할 최대 각도.
 	float ParticleEmpty2;
+
+	ParticleCBuffer() :
+		ParticleSpawnCountMax(100),
+		ParticleSpawnEnable(true),
+		ParticleScaleMin(1.f, 1.f, 1.f),
+		ParticleScaleMax(10.f, 10.f, 1.f),
+		ParticleLifeTimeMin(2.f),
+		ParticleLifeTimeMax(5.f),
+		ParticleColorMin(1.f, 1.f, 1.f, 1.f),
+		ParticleColorMax(1.f, 1.f, 1.f, 1.f),
+		ParticleMoveEnable(1),
+		ParticleGravity(1),
+		ParticleMoveDir(0.f, 1.f, 0.f),
+		ParticleMoveDirEnable(1)
+	{
+	}
 };
 
 struct ParticleInfo

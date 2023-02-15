@@ -42,6 +42,11 @@ void CAnimationMeshComponent::GetAnimationNames(std::vector<std::string>& vecNam
 		m_Animation->GetAnimationNames(vecNames);
 }
 
+void CAnimationMeshComponent::SetAnimation(CAnimation* anim)
+{
+	m_Animation = anim;
+}
+
 bool CAnimationMeshComponent::SetMesh(const std::string& Name)
 {
 	CPrimitiveComponent::SetMesh(Name);
