@@ -196,10 +196,12 @@ void CPlayer::LoadSandyAnim()
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_JumpUp", "Sandy_JumpUp", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Jump_Landing_NonAdditive", "Sandy_Jump_Landing_NonAdditive", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_DoubleJump", "Sandy_DoubleJump", 1.f, 1.f, true);
-	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Karate_Chop", "Sandy_Karate_Chop", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Karate_Chop", "Sandy_Karate_Chop", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Karate_Kick", "Sandy_Karate_Kick", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Lasso_Start", "Sandy_Lasso_Start", 1.f, 1.f, true);
-	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Death", "Sandy_Death", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Death", "Sandy_Death", 1.f, 1.f, false);
+
+	m_Anim[(int)EMain_Character::Sandy]->SetCurrentEndFunction("Sandy_Karate_Chop", this, &CPlayer::ChangeAnim);
 }
 
 void CPlayer::SetMesh(std::string Mesh)
@@ -374,10 +376,23 @@ void CPlayer::IngameUI()
 
 void CPlayer::RClick()
 {
+	
 }
 
 void CPlayer::LClick()
 {
+	switch (m_MainCharacter)
+	{
+	case EMain_Character::Spongebob:
+		break;
+	case EMain_Character::Patrick:
+		break;
+	case EMain_Character::Sandy:
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("Sandy_Karate_Chop");
+		break;
+	default:
+		break;
+	}
 }
 
 void CPlayer::ChangeSpongebob()
@@ -420,6 +435,22 @@ void CPlayer::ChangeSandy()
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
 	m_Anim[(int)m_MainCharacter]->Start();
+}
+
+void CPlayer::ChangeAnim()
+{
+	switch (m_MainCharacter)
+	{
+	case EMain_Character::Spongebob:
+		break;
+	case EMain_Character::Patrick:
+		break;
+	case EMain_Character::Sandy:
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
+		break;
+	default:
+		break;
+	}
 }
 	
 

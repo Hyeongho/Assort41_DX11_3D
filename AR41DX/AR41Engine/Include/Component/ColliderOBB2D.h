@@ -12,8 +12,8 @@ protected:
     virtual ~CColliderOBB2D();
 
 protected:
-    Vector2     m_BoxHalfSize;
-    OBB2DInfo   m_Info;
+    Vector2 m_BoxHalfSize;
+    OBB2DInfo m_Info;
 
 public:
     const OBB2DInfo& GetInfo()  const

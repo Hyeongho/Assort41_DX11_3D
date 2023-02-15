@@ -162,6 +162,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client3DManager.cpp" />
+    <ClCompile Include="GameObject\AI\CompositeNode.cpp" />
+    <ClCompile Include="GameObject\AI\Node.cpp" />
+    <ClCompile Include="GameObject\AI\Selector.cpp" />
+    <ClCompile Include="GameObject\AI\Sequence.cpp" />
     <ClCompile Include="GameObject\BikiniBottomBuildings.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Jellyfish.cpp" />
@@ -185,6 +189,10 @@
   <ItemGroup>
     <ClInclude Include="Client3D.h" />
     <ClInclude Include="Client3DManager.h" />
+    <ClInclude Include="GameObject\AI\CompositeNode.h" />
+    <ClInclude Include="GameObject\AI\Node.h" />
+    <ClInclude Include="GameObject\AI\Selector.h" />
+    <ClInclude Include="GameObject\AI\Sequence.h" />
     <ClInclude Include="GameObject\BikiniBottomBuildings.h" />
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Jellyfish.h" />

@@ -13,6 +13,7 @@
 #include "Scene/Scene.h"
 #include "Scene/CameraManager.h"
 #include "Component/CameraComponent.h"
+#include "Resource/Shader/StructuredBuffer.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
@@ -34,15 +35,26 @@ CEngine::CEngine()	:
 	m_ClearColor{},
 	m_Render2D(false),
 	m_GlobalCBuffer(nullptr),
+	m_RandomBuffer(nullptr),
 	m_AccTime(0.f),
 	m_TimeScale(1.f)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(11636309);
+	//_CrtSetBreakAlloc(5242);
+
+	srand((unsigned int)time(0));
+	rand();
 }
 
 CEngine::~CEngine()
 {
+	if (m_RandomBuffer)
+	{
+		m_RandomBuffer->ResetShader(51, (int)EShaderBufferType::All);
+	}
+
+	SAFE_DELETE(m_RandomBuffer);
+
 	SAFE_DELETE(m_GlobalCBuffer);
 
 	CSceneManager::DestroyInst();
@@ -158,6 +170,30 @@ bool CEngine::Init(HINSTANCE hInst, const TCHAR* Title,
 	m_GlobalCBuffer = new CGlobalConstantBuffer;
 
 	m_GlobalCBuffer->Init();
+
+	std::vector<int> vecRand;
+	vecRand.resize(1024 * 1024);
+
+	for (int i = 0; i < 1024 * 1024; i++)
+	{
+		short	Num1 = (short)rand();
+		short	Num2 = (short)rand();
+
+		int	Random = Num1;
+		Random <<= 16;
+
+		Random |= Num2;
+
+		vecRand[i] = Random;
+	}
+
+	m_RandomBuffer = new CStructuredBuffer;
+
+	m_RandomBuffer->Init("Random", sizeof(int), 1024 * 1024, 51, true, (int)EShaderBufferType::All);
+
+	m_RandomBuffer->UpdateBuffer(&vecRand[0], 1024 * 1024);
+
+	m_RandomBuffer->SetShader(51, (int)EShaderBufferType::All);
 
 	return true;
 }
