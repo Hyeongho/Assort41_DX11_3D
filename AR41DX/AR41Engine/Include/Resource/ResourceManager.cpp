@@ -26,6 +26,7 @@ CResourceManager::~CResourceManager()
 	SAFE_DELETE(m_TextureManager);
 	SAFE_DELETE(m_ShaderManager);
 	SAFE_DELETE(m_MeshManager);
+	SAFE_DELETE(m_ParticleManager);
 }
 
 bool CResourceManager::Init()
@@ -214,6 +215,11 @@ CMaterial* CResourceManager::FindMaterial(const std::string& Name)
 void CResourceManager::ReleaseMaterial(const std::string& Name)
 {
 	m_MaterialManager->ReleaseMaterial(Name);
+}
+
+void CResourceManager::GetMaterialNames(std::vector<std::string>& vecNames)
+{
+	m_MaterialManager->GetMaterialNames(vecNames);
 }
 
 bool CResourceManager::CreateAnimationSequence2D(const std::string& Name, const std::string& TextureName, const TCHAR* FileName, const std::string& PathName)

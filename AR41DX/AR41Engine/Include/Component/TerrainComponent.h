@@ -27,6 +27,22 @@ private:
     bool m_Grid;
 
 public:
+    //김범중 에디터용
+    Vector2 GetSize()   const
+    {
+        return m_Size;
+    }
+    int GetHeightMapX() const
+    {
+        return m_HeightMapX;
+    }
+    int GetHeightMapY() const
+    {
+        return m_HeightMapY;
+    }
+    float GetDetailLevel() const;
+    int GetSplatCount() const;
+    //
     int GetFaceCount() const
     {
         return (int)m_vecIndex.size() / 3;

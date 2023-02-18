@@ -88,6 +88,7 @@ public:	// ===================== Texture =========================
 public:	// ===================== Material =========================
 	CMaterial* FindMaterial(const std::string& Name);
 	void ReleaseMaterial(const std::string& Name);
+	void GetMaterialNames(std::vector<std::string>& vecNames);
 
 	template <typename T>
 	T* CreateMaterial(const std::string& Name)

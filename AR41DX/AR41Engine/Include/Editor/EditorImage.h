@@ -21,6 +21,11 @@ private:
 	int			m_ImageIndex;
 
 public:
+	class CTexture* GetTexture()    const
+	{
+		return m_Texture;
+	}
+
 	void SetImageIndex(int Index)
 	{
 		m_ImageIndex = Index;

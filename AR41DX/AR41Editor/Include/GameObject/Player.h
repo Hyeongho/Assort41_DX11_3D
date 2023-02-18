@@ -37,6 +37,7 @@ protected:
 protected:
 //ÄÄÆ÷³ÍÆ®
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
+	CSharedPtr<class CAnimationMeshComponent>	m_WeaponMesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
 	CSharedPtr<class CRigidBody> m_Rigid;

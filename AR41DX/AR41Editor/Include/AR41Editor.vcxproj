@@ -216,6 +216,7 @@
     <ClCompile Include="Window\RigidBodyWindow.cpp" />
     <ClCompile Include="Window\SceneWindow.cpp" />
     <ClCompile Include="Window\TargetArmWindow.cpp" />
+    <ClCompile Include="Window\TerrainWindow.cpp" />
     <ClCompile Include="Window\TransformWindow.cpp" />
     <ClCompile Include="Window\UIButtonWindow.cpp" />
     <ClCompile Include="Window\UIImageWindow.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="Window\RigidBodyWindow.h" />
     <ClInclude Include="Window\SceneWindow.h" />
     <ClInclude Include="Window\TargetArmWindow.h" />
+    <ClInclude Include="Window\TerrainWindow.h" />
     <ClInclude Include="Window\TransformWindow.h" />
     <ClInclude Include="Window\UIButtonWindow.h" />
     <ClInclude Include="Window\UIImageWindow.h" />

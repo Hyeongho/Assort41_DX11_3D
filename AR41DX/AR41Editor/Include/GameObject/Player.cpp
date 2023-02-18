@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Weapon.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/AnimationMeshComponent.h"
 #include "Component/CameraComponent.h"
@@ -77,11 +78,10 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
 
 	//김범중 소켓 관련
-	/*
-		CWeapon3D* weapon = m_Scene->CreateObject<CWeapon3D>("Weapon");
+	CWeapon* weapon = m_Scene->CreateObject<CWeapon>("Weapon");
 	AddChildToSocket("Weapon", weapon);
-	weapon->GetRootComponent()->SetEnable(false);
-	*/
+	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
+	m_WeaponMesh->SetEnable(false);
 }
 
 bool CPlayer::Init()
@@ -107,10 +107,10 @@ bool CPlayer::Init()
 	m_Rigid->SetGround(true);	//땅에 붙어있다고 설정
 
 	LoadSpongebobAnim();
-	LoadPatrickAnim();
-	LoadSandyAnim();
+	//LoadPatrickAnim();
+	//LoadSandyAnim();
 
-	ChangeSandy();
+	ChangeSpongebob();
 	return true;
 }
 
@@ -152,11 +152,11 @@ void CPlayer::Load(FILE* File)
 
 void CPlayer::LoadSpongebobAnim()
 {
-	//m_ReserveMesh[(int)EMain_Character::Spongebob] = CResourceManager::GetInst()->FindMesh("Spongebob");
-	//m_Anim[(int)EMain_Character::Spongebob] = m_Mesh->SetAnimation<CAnimation>("SponegebobAnimation");
-	//m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerIdle", "Spongebob_Idle", 1.f, 1.f, true);
-	//m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
-	//m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerAttack", "Spongebob_Attack", 1.f, 1.f, false);
+	m_ReserveMesh[(int)EMain_Character::Spongebob] = CResourceManager::GetInst()->FindMesh("Spongebob");
+	m_Anim[(int)EMain_Character::Spongebob] = m_Mesh->SetAnimation<CAnimation>("SponegebobAnimation");
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerIdle", "Spongebob_Idle", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerAttack", "Spongebob_Attack", 1.f, 1.f, false);
 }
 
 void CPlayer::LoadPatrickAnim()
