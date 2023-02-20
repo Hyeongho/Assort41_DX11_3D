@@ -5,6 +5,9 @@
 #include "../GameObject/Weapon.h"
 #include "../GameObject/KingJellyfish.h"
 #include "../GameObject/Jellyfish.h"
+#include "../GameObject/Fodder.h"
+#include "../GameObject/Hammer.h"
+#include "../GameObject/Duplicatotron.h"
 #include "../GameObject/BikiniBottomBuildings.h"
 #include "../GameObject/JellyfishField.h"
 #include "Component/TerrainComponent.h"
@@ -24,7 +27,7 @@ bool CMainSceneInfo::Init()
 	CSceneInfo::Init();
 
 	//SetPlayerObject(Patrick);
-	
+
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 	//m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 
@@ -32,6 +35,11 @@ bool CMainSceneInfo::Init()
 
 	//CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
 	CJellyfish* Jellyfish = m_Owner->CreateObject<CJellyfish>("Jellyfish");
+
+	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
+	CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
+	CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
+
 
 	//CJellyfishField* JellyfishField = m_Owner->CreateObject<CJellyfishField>("JellyfishField");
 	CBikiniBottomBuildings* BikiniBottomBuildings = m_Owner->CreateObject<CBikiniBottomBuildings>("BikiniBottomBuildings");
