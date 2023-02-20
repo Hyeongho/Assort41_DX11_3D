@@ -218,6 +218,11 @@ void CResourceManager::ReleaseMaterial(const std::string& Name)
 	m_MaterialManager->ReleaseMaterial(Name);
 }
 
+void CResourceManager::GetMaterialNames(std::vector<std::string>& vecNames)
+{
+	m_MaterialManager->GetMaterialNames(vecNames);
+}
+
 bool CResourceManager::CreateAnimationSequence2D(const std::string& Name, const std::string& TextureName, const TCHAR* FileName, const std::string& PathName)
 {
 	return m_AnimationManager->CreateAnimationSequence2D(Name, TextureName, FileName, PathName);

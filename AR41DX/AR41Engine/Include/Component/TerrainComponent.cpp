@@ -39,6 +39,16 @@ CTerrainComponent::~CTerrainComponent()
 	SAFE_DELETE(m_CBuffer);
 }
 
+float CTerrainComponent::GetDetailLevel() const
+{
+	return m_CBuffer->GetDetailLevel();
+}
+
+int CTerrainComponent::GetSplatCount() const
+{
+	return m_CBuffer->GetSplatCount();
+}
+
 void CTerrainComponent::SetDetailLevel(float Level)
 {
 	m_CBuffer->SetDetailLevel(Level);

@@ -69,6 +69,11 @@ public:
 		return m_vecTextureInfo[Index]->Height;
 	}
 
+	TCHAR* GetFullPath(int index = 0)	const
+	{
+		return m_vecTextureInfo[index]->FileName;
+	}
+
 	int GetImageCount()	const
 	{
 		return (int)m_vecTextureInfo.size();

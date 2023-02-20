@@ -54,7 +54,7 @@ protected:
     class CMaterialConstantBuffer* m_CBuffer;
     CSharedPtr<CRenderState>    m_RenderState[3];
     bool        m_Animation3D;
-
+    bool        m_ReceiveDecal;
 public:
     void SetBaseColor(const Vector4& Color);
     void SetBaseColor(float r, float g, float b, float a);
@@ -104,6 +104,10 @@ public:
     {
         return m_Opacity;
     }
+    bool GetReceiveDecal()   const
+    {
+        return m_ReceiveDecal;
+    }
     bool GetIsBump();
     bool GetIsSpecular();
     bool GetIsEmissive();
@@ -116,6 +120,7 @@ public:
     void UnEnableSpecular();
     void UnEnableEmissive();
     void UnEnableAnimation3D();
+    void SetReceiveDecal(bool receive);
 //
     // === Texture Ãß°¡ ===
     void AddTexture(int Register, int ShaderBufferType, const std::string& Name,

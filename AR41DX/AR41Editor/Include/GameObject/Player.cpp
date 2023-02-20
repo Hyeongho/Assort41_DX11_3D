@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Weapon.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/AnimationMeshComponent.h"
 #include "Component/CameraComponent.h"
@@ -81,12 +82,11 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
 
-	//±è¹üÁß ¼ÒÄÏ °ü·Ã
-	/*
-		CWeapon3D* weapon = m_Scene->CreateObject<CWeapon3D>("Weapon");
+	//ê¹€ë²”ì¤‘ ì†Œì¼“ ê´€ë ¨
+	CWeapon* weapon = m_Scene->CreateObject<CWeapon>("Weapon");
 	AddChildToSocket("Weapon", weapon);
-	weapon->GetRootComponent()->SetEnable(false);
-	*/
+	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
+	m_WeaponMesh->SetEnable(false);
 }
 
 bool CPlayer::Init()
@@ -111,7 +111,7 @@ bool CPlayer::Init()
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
 	m_Mesh->SetMesh("Sandy");
-	m_Rigid->SetGround(true);	//¶¥¿¡ ºÙ¾îÀÖ´Ù°í ¼³Á¤
+	m_Rigid->SetGround(true);	//ë•…ì— ë¶™ì–´ìˆë‹¤ê³  ì„¤ì •
 
 	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
 	//LoadSandyAnim();
@@ -126,6 +126,7 @@ bool CPlayer::Init()
 	LoadPatrickAnim();
 	LoadSandyAnim();
 
+	ChangeSpongebob();
 	ChangeSandy();
 
 	return true;
@@ -141,7 +142,7 @@ void CPlayer::Update(float DeltaTime)
 
 	if (m_Name == "Patrick")
 	{
-		// Patrick Slam½Ã 1.2ÃÊµ¿¾È °øÁßºÎ¾ç.
+		// Patrick Slamì‹œ 1.2ì´ˆë™ì•ˆ ê³µì¤‘ë¶€ì–‘.
 		if (m_Rigid->GetGround() == false && m_SlamDown)
 		{
 			m_HoverTime += g_DeltaTime;
@@ -154,7 +155,7 @@ void CPlayer::Update(float DeltaTime)
 			}
 
 			m_SlamDown = false;
-			m_Rigid->SetGround(true); // Ãæµ¹µÇ´ÂÁö ¿©ºÎ °Ë»ç
+			m_Rigid->SetGround(true); // ì¶©ëŒë˜ëŠ”ì§€ ì—¬ë¶€ ê²€ì‚¬
 		}
 
 	}
@@ -182,6 +183,12 @@ void CPlayer::Load(FILE* File)
 
 void CPlayer::LoadSpongebobAnim()
 {
+	m_ReserveMesh[(int)EMain_Character::Spongebob] = CResourceManager::GetInst()->FindMesh("Spongebob");
+	m_Anim[(int)EMain_Character::Spongebob] = m_Mesh->SetAnimation<CAnimation>("SponegebobAnimation");
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerIdle", "Spongebob_Idle", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerAttack", "Spongebob_Attack", 1.f, 1.f, false);
+
 	/*m_ReserveMesh[(int)EMain_Character::Spongebob] = CResourceManager::GetInst()->FindMesh("Spongebob");
 
 	if (!m_ReserveMesh[(int)EMain_Character::Spongebob])
@@ -248,7 +255,7 @@ void CPlayer::SetMesh(std::string Mesh)
 
 void CPlayer::MoveFront()
 {
-	//¿©±â¿¡ »ç¿îµå
+	//ì—¬ê¸°ì— ì‚¬ìš´ë“œ
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
@@ -437,16 +444,16 @@ void CPlayer::Patrick_BellyAttack()
 
 void CPlayer::Patrick_BellyAttackMove()
 {
-	// ¿©±â¼­ m_RigidBody Force ÇØÁà¾ßÇÑ´Ù. 
+	// ì—¬ê¸°ì„œ m_RigidBody Force í•´ì¤˜ì•¼í•œë‹¤. 
 	AddWorldPosition(GetWorldAxis(AXIS_Z) * -400.f);
 }
 
-void CPlayer::Patrick_SlamDown() // ³»·ÁÂï±â
+void CPlayer::Patrick_SlamDown() // ë‚´ë ¤ì°ê¸°
 {
 	m_SlamDown = true;
 
 	m_Rigid->SetGround(true);
-	// °¡¼Óµµ Áõ°¡ Ãß°¡ ÇÊ¿ä
+	// ê°€ì†ë„ ì¦ê°€ ì¶”ê°€ í•„ìš”
 }
 
 void CPlayer::Patrick_PickUp()
