@@ -5,6 +5,7 @@ Vector4 Vector4::White(1.f, 1.f, 1.f, 1.f);
 Vector4 Vector4::Red(1.f, 0.f, 0.f, 1.f);
 Vector4 Vector4::Green(0.f, 1.f, 0.f, 1.f);
 Vector4 Vector4::Blue(0.f, 0.f, 1.f, 1.f);
+Vector4 Vector4::Yellow(1.f, 1.f, 0.f, 1.f);
 
 Vector4::Vector4() :
     x(0.f),

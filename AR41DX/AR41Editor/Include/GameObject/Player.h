@@ -35,15 +35,15 @@ protected:
 	virtual ~CPlayer();
 
 protected:
-//컴포넌트
+	//컴포넌트
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CAnimationMeshComponent>	m_WeaponMesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
 	CSharedPtr<class CRigidBody> m_Rigid;
-//
-	CSharedPtr<class CMesh>						m_ReserveMesh[(int)EMain_Character::Max];
-	CSharedPtr<class CAnimation>		m_Anim[(int)EMain_Character::Max];
+	//
+	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
+	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
 
 protected:
 	PlayerData m_PlayerData;
@@ -51,6 +51,12 @@ protected:
 	float m_Speed;
 	int m_KeyCount;
 	int m_JumpCount;
+	float m_HoverTime; // 내려찍기 등을 위한 공중부양 시간
+
+	// ========== Patrick 용 ==========
+	bool m_IsHolding; // 물건픽업/쓰로우 액션용
+	float m_BellyAttackTime;
+	bool m_SlamDown;
 
 public:
 	virtual void Start();
@@ -103,12 +109,40 @@ public:
 		return m_PlayerData;
 	}
 
+	int GetMaxHP() const
+	{
+		return m_PlayerData.MaxHP;
+	}
+
+	int GetCurHP() const
+	{
+		return m_PlayerData.CurHP;
+	}
+
+	int GetSocks() const
+	{
+		return m_PlayerData.Socks;
+	}
+
+	int GetFritter() const
+	{
+		return m_PlayerData.Fritter;
+	}
+
+	int GetGlittering() const
+	{
+		return m_PlayerData.Glittering;
+	}
+
+	void SetMesh(std::string Mesh);
+
 public:
 	//공통
 	void MoveFront();
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
+	void Stop();
 	void Jump();
 	void AttackKey();
 	void CameraRotationKey();
@@ -118,12 +152,18 @@ public:
 	void Menu();
 	void IngameUI();
 	void RClick();
+	void LClick(); // Attack
 
 	// Spongebob
 	void Headbutt();
 	void Missile();
 
 	// Patrick
+	void Patrick_BellyAttack();
+	void Patrick_BellyAttackMove();
+	void Patrick_SlamDown(); // 내려찍기
+	void Patrick_PickUp();
+	void Patrick_Throw();
 
 	// Sandy
 

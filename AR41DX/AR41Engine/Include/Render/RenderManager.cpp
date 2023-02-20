@@ -13,6 +13,7 @@
 #include "../Resource/Mesh/Mesh.h"
 #include "../GameObject/SkySphere.h"
 #include "../Component/CameraComponent.h"
+#include "../Component/ParticleComponent.h"
 
 DEFINITION_SINGLE(CRenderManager)
 
@@ -571,7 +572,7 @@ void CRenderManager::RenderParticle(float DeltaTime)
 		}
 
 		// 인스턴싱이 되는 물체들을 판단한다.
-		if ((*iter)->GetSceneComponentType() == SceneComponentType::Primitive)
+		if ((*iter)->GetSceneComponentType() == SceneComponentType::Primitive && !(*iter)->CheckTypeID<CParticleComponent>())
 		{
 			CMesh* Mesh = ((CPrimitiveComponent*)iter->Get())->GetMesh();
 
