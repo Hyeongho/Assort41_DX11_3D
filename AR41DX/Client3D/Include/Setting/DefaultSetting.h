@@ -33,5 +33,7 @@ private:
     void LoadSquidward();
 
     void LoadEnemies();
+
+    void LoadParticle();
 };
 

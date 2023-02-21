@@ -62,6 +62,8 @@ void CDefaultSetting::LoadResource()
     LoadJellyfish();
 
     LoadEnemies();
+
+    LoadParticle();
 }
 
 void CDefaultSetting::SetInput()
@@ -409,4 +411,34 @@ void CDefaultSetting::LoadEnemies()
     CResourceManager::GetInst()->LoadAnimationSequence("Duplicatotron_Destroyed", TEXT("Enemies/Duplicatotron/Duplicatotron_Destroyed.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Duplicatotron_SpawnEnemies", TEXT("Enemies/Duplicatotron/Duplicatotron_SpawnEnemies.fbx"), MESH_PATH);
 
+}
+
+void CDefaultSetting::LoadParticle()
+{
+    CParticle* Particle = nullptr;
+
+    // 맵 바닥에서 올라오는 거품 파티클
+    CResourceManager::GetInst()->CreateParticle("GroundBubble");
+
+    Particle = CResourceManager::GetInst()->FindParticle("GroundBubble");
+
+    Particle->SetMaterial("Bubble");
+
+    Particle->SetParticleSpawnTime(3.f);
+    Particle->SetParticleStartMin(Vector3(-10.f, -10.f, -10.f));
+    Particle->SetParticleStartMax(Vector3(10.f, 10.f, 10.f));
+    Particle->SetParticleSpawnCountMax(1000);
+    Particle->SetParticleScaleMin(Vector3(5.f, 5.f, 5.f));
+    Particle->SetParticleScaleMax(Vector3(60.f, 60.f, 60.f));
+    Particle->SetParticleLifeTimeMin(2.f);
+    Particle->SetParticleLifeTimeMax(8.f);
+    Particle->SetParticleColorMin(Vector4(0.5f, 0.f, 1.f, 0.5f));
+    Particle->SetParticleColorMax(Vector4(0.7f, 0.f, 1.f, 0.7f));
+    Particle->SetParticleSpeedMin(30.f);
+    Particle->SetParticleSpeedMax(50.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(0.f, 1.f, 0.f));
+    Particle->SetParticleMoveDirEnable(true);
+    Particle->SetParticleMoveAngle(Vector3(0.f, 0.f, 5.f));
 }

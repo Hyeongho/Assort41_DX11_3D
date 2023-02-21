@@ -12,6 +12,7 @@
 #include "../GameObject/JellyfishField.h"
 #include "Component/TerrainComponent.h"
 #include "Component/BillboardComponent.h"
+#include "Component/ParticleComponent.h"
 #include "../UI/PlayerUI.h"
 
 CMainSceneInfo::CMainSceneInfo()
@@ -34,7 +35,7 @@ bool CMainSceneInfo::Init()
 	SetPlayerObject(Player);
 
 	//CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
-	CJellyfish* Jellyfish = m_Owner->CreateObject<CJellyfish>("Jellyfish");
+	// CJellyfish* Jellyfish = m_Owner->CreateObject<CJellyfish>("Jellyfish");
 
 	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
 	CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
@@ -56,11 +57,19 @@ bool CMainSceneInfo::Init()
 
 	Terrain->CreateTerrain(129, 129, 100.f, 100.f, TEXT("LandScape/height1.bmp"));
 
-	CGameObject* BillboardObj = m_Owner->CreateObject<CGameObject>("Billboard");
+	//CGameObject* BillboardObj = m_Owner->CreateObject<CGameObject>("Billboard");
 
-	CBillboardComponent* Billboard = BillboardObj->CreateComponent<CBillboardComponent>("Billboard");
+	//CBillboardComponent* Billboard = BillboardObj->CreateComponent<CBillboardComponent>("Billboard");
 
-	Billboard->SetWorldPosition(300.f, 0.f, 500.f);
+	//Billboard->SetWorldPosition(300.f, 0.f, 500.f);
+
+
+	CGameObject* ParticleObj = m_Owner->CreateObject<CGameObject>("Particle");
+
+	CParticleComponent* Particle = ParticleObj->CreateComponent<CParticleComponent>("Particle");
+
+	Particle->SetParticle("GroundBubble");
+	Particle->SetWorldPosition(0.f, 0.f, 300.f);
 
 
 	return true;
