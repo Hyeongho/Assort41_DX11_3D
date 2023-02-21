@@ -2,14 +2,23 @@
 #include "Monster.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/AnimationMeshComponent.h"
+#include "Component/CameraComponent.h"
+#include "Component/TargetArm.h"
+#include "Component/RigidBody.h"
 #include "Input.h"
+#include "Engine.h"
 #include "Scene/Scene.h"
 #include "Scene/CameraManager.h"
 #include "Device.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 
-CMonster::CMonster()
+CMonster::CMonster() :
+	m_DetectRange(false)
+	, m_AttackRange(false)
+	, m_MoveSpeed(100.f)
+	, m_DeltaTime(0.f)
+	, m_MonsterHP(100.f)
 {
 	SetTypeID<CMonster>();
 
@@ -20,6 +29,7 @@ CMonster::CMonster(const CMonster& Obj) :
 	CGameObject(Obj)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 }
 
 CMonster::~CMonster()
@@ -36,25 +46,27 @@ bool CMonster::Init()
 {
 	CGameObject::Init();
 
-	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+	m_Rigid = CreateComponent<CRigidBody>("Rigid");
 
-	SetRootComponent(m_Mesh);
+	//m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 
-	m_Mesh->SetMesh("Player");
+	//SetRootComponent(m_Mesh);
 
-	m_Animation = m_Mesh->SetAnimation<CAnimation>("PlayerAnimation");
+	//m_Mesh->SetMesh("Monster");
 
-	std::string	AnimName[2] =
-	{
-		"PlayerWalk",
-		"PlayerAttack"
-	};
+	//m_Animation = m_Mesh->SetAnimation<CAnimation>("PlayerAnimation");
 
-	int	AnimIndex = rand() % 2;
-	AnimIndex = 0;
+	//std::string	AnimName[2] =
+	//{
+	//	"PlayerWalk",
+	//	"PlayerAttack"
+	//};
 
-	m_Animation->AddAnimation(AnimName[AnimIndex], AnimName[AnimIndex],
-		1.f, 1.f, true);
+	//int	AnimIndex = rand() % 2;
+	//AnimIndex = 0;
+
+	//m_Animation->AddAnimation(AnimName[AnimIndex], AnimName[AnimIndex],
+	//	1.f, 1.f, true);
 
 	return true;
 }
