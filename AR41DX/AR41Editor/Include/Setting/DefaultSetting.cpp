@@ -102,8 +102,8 @@ void CDefaultSetting::SetInput()
     //안겹치는 키
     CInput::GetInst()->AddBindKey("UArrow", VK_UP);
     CInput::GetInst()->AddBindKey("DArrow", VK_DOWN);
-    CInput::GetInst()->AddBindKey("LArrow", VK_RIGHT);
-    CInput::GetInst()->AddBindKey("RArrow", VK_LEFT);
+    CInput::GetInst()->AddBindKey("LArrow", VK_LEFT);
+    CInput::GetInst()->AddBindKey("RArrow", VK_RIGHT);
 
     CInput::GetInst()->AddBindKey("E", 'E');
     CInput::GetInst()->AddBindKey("Q", 'Q');

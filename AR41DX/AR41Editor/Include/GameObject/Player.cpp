@@ -82,8 +82,17 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
 
-	//김범중 소켓 관련
-	CWeapon* weapon = m_Scene->CreateObject<CWeapon>("Weapon");
+	LoadSpongebobAnim();
+	LoadPatrickAnim();
+	//LoadSandyAnim();
+
+	ChangeSpongebob();
+
+	CWeapon* weapon = (CWeapon*)m_Scene->FindObject("Weapon");
+	if (!weapon)
+	{
+		weapon = m_Scene->CreateObject<CWeapon>("Weapon");
+	}
 	AddChildToSocket("Weapon", weapon);
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
@@ -110,25 +119,7 @@ bool CPlayer::Init()
 	m_Arm->SetInheritRotY(true);
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
-	m_Mesh->SetMesh("Sandy");
 	m_Rigid->SetGround(true);	//땅에 붙어있다고 설정
-
-	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
-	//LoadSandyAnim();
-
-	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
-
-	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);*/
-
-	//m_Rigid->SetGravity(true);
-
-	LoadSpongebobAnim();
-	LoadPatrickAnim();
-	LoadSandyAnim();
-
-	ChangeSpongebob();
-	ChangeSandy();
-
 	return true;
 }
 
@@ -188,18 +179,7 @@ void CPlayer::LoadSpongebobAnim()
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerIdle", "Spongebob_Idle", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerAttack", "Spongebob_Attack", 1.f, 1.f, false);
-
-	/*m_ReserveMesh[(int)EMain_Character::Spongebob] = CResourceManager::GetInst()->FindMesh("Spongebob");
-
-	if (!m_ReserveMesh[(int)EMain_Character::Spongebob])
-	{
-		return;
-	}
-
-	m_Anim[(int)EMain_Character::Spongebob] = m_Mesh->SetAnimation<CAnimation>("SponegebobAnimation");
-	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerIdle", "Spongebob_Idle", 1.f, 1.f, true);
-	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
-	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerAttack", "Spongebob_Attack", 1.f, 1.f, false);*/
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerAttack", this, &CPlayer::ResetIdle);
 }
 
 void CPlayer::LoadPatrickAnim()
@@ -247,10 +227,6 @@ void CPlayer::LoadSandyAnim()
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Karate_Kick", "Sandy_Karate_Kick", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Lasso_Start", "Sandy_Lasso_Start", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Death", "Sandy_Death", 1.f, 1.f, true);
-}
-
-void CPlayer::SetMesh(std::string Mesh)
-{
 }
 
 void CPlayer::MoveFront()
@@ -482,6 +458,24 @@ void CPlayer::RClick()
 
 void CPlayer::LClick()
 {
+	switch (m_MainCharacter)
+	{
+	case EMain_Character::Spongebob:
+		m_Scene->GetResource()->SoundPlay("Spongebob_BubbleSpin");
+		break;
+	case EMain_Character::Patrick:
+		break;
+	case EMain_Character::Sandy:
+		break;
+	}
+	m_WeaponMesh->SetEnable(true);
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerAttack");
+}
+
+void CPlayer::ResetIdle()
+{
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
+	m_WeaponMesh->SetEnable(false);
 }
 
 void CPlayer::ChangeSpongebob()
@@ -490,12 +484,16 @@ void CPlayer::ChangeSpongebob()
 	{
 		return;
 	}
-
 	m_MainCharacter = EMain_Character::Spongebob;
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
 	m_Anim[(int)m_MainCharacter]->Start();
+	if (m_WeaponMesh)
+	{
+		m_WeaponMesh->SetMesh("SpongebobWand");
+		m_WeaponMesh->SetWorldScale(0.5f, 0.5f, 0.5f);
+	}
 }
 
 void CPlayer::ChangePatrick()

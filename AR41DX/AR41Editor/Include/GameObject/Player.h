@@ -134,8 +134,6 @@ public:
 		return m_PlayerData.Glittering;
 	}
 
-	void SetMesh(std::string Mesh);
-
 public:
 	//공통
 	void MoveFront();
@@ -153,6 +151,7 @@ public:
 	void IngameUI();
 	void RClick();
 	void LClick(); // Attack
+	void ResetIdle();	//아이들상태로 되돌리는 함수
 
 	// Spongebob
 	void Headbutt();

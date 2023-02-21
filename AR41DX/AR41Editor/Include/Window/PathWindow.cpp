@@ -3,6 +3,7 @@
 #include "MaterialWindow.h"
 #include "FBXWindow.h"
 #include "Animation3DWindow.h"
+#include "TerrainWindow.h"
 #include "PathManager.h"
 #include "Editor/EditorButton.h"
 #include "Editor/EditorSameLine.h"
@@ -201,6 +202,19 @@ void CPathWindow::FileDADCallback(CEditorTreeItem<void*>* dragnode, CEditorTreeI
 		if (animation3DWindow)
 		{
 			animation3DWindow->ChangeAnimation3D(t_filename);
+		}
+	}
+	else if (ImGui::IsWindowHovered("TerrainWindow"))
+	{
+		char	fullPath[_MAX_EXT] = {};
+		TCHAR t_filename[_MAX_EXT] = {};
+		strcpy_s(fullPath, m_Path->GetText());
+		strcat_s(fullPath, dragItem.c_str());
+		MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, fullPath, (int)strlen(fullPath), t_filename, 256);
+		CTerrainWindow* terrainWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CTerrainWindow>("TerrainWindow");
+		if (terrainWindow)
+		{
+			terrainWindow->SetImage(dragItem, t_filename);
 		}
 	}
 }
