@@ -32,6 +32,8 @@ private:
     void LoadMrKrabs();
     void LoadSquidward();
 
-    void LoadBuildings();
+    void LoadEnemies();
+
+    void LoadParticle();
 };
 

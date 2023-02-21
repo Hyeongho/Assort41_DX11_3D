@@ -27,30 +27,40 @@ private:
     bool m_Grid;
 
 public:
-    //±è¹üÁß ¿¡µğÅÍ¿ë
+    //Â±Ã¨Â¹Ã¼ÃÃŸ Â¿Â¡ÂµÃ°Ã…ÃÂ¿Ã«
     Vector2 GetSize()   const
     {
         return m_Size;
     }
+
     int GetHeightMapX() const
     {
         return m_HeightMapX;
     }
+
     int GetHeightMapY() const
     {
         return m_HeightMapY;
     }
+
     float GetDetailLevel() const;
+    
     int GetSplatCount() const;
+    
     void SetCountX(int count)
     {
         m_CountX = count;
     }
+    
     void SetCountY(int count)
     {
         m_CountY = count;
     }
-    //
+
+    float GetDetailLevel() const;
+
+    int GetSplatCount() const;
+
     int GetFaceCount() const
     {
         return (int)m_vecIndex.size() / 3;

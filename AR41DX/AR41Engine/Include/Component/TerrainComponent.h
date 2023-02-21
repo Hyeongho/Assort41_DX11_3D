@@ -32,15 +32,19 @@ public:
     {
         return m_Size;
     }
+
     int GetHeightMapX() const
     {
         return m_HeightMapX;
     }
+
     int GetHeightMapY() const
     {
         return m_HeightMapY;
     }
+
     float GetDetailLevel() const;
+
     int GetSplatCount() const;
     void SetCountX(int count)
     {
