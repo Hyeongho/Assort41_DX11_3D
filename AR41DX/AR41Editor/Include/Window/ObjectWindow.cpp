@@ -12,6 +12,7 @@
 #include "Editor/EditorComboBox.h"
 #include "ComponentWindow.h"
 #include "TransformWindow.h"
+#include "TerrainWindow.h"
 #include "Editor/EditorGUIManager.h"
 #include "Scene/SceneManager.h"
 #include "Scene/Scene.h"
@@ -67,6 +68,11 @@ void CObjectWindow::AddInput(CScene* scene)
 	if (componentWindow)
 	{
 		componentWindow->AddInput(scene);
+	}
+	CTerrainWindow* terrainWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CTerrainWindow>("TerrainWindow");
+	if (terrainWindow)
+	{
+		terrainWindow->AddInput(scene);
 	}
 }
 

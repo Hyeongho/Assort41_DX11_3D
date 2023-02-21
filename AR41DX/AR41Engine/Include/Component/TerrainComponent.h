@@ -42,6 +42,14 @@ public:
     }
     float GetDetailLevel() const;
     int GetSplatCount() const;
+    void SetCountX(int count)
+    {
+        m_CountX = count;
+    }
+    void SetCountY(int count)
+    {
+        m_CountY = count;
+    }
     //
     int GetFaceCount() const
     {

@@ -31,6 +31,7 @@ CAnimation::CAnimation() :
 
 CAnimation::CAnimation(const CAnimation& Anim) :
 	CRef(Anim)
+	, m_Owner(Anim.m_Owner)
 {
 	m_Play = Anim.m_Play;
 
