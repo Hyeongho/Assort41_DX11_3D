@@ -74,7 +74,6 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("Esc", Input_Type::Down, this, &CPlayer::Menu, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("Tab", Input_Type::Down, this, &CPlayer::IngameUI, m_Scene);
 
-	//CInput::GetInst()->AddBindFunction<CPlayer>("LClick", Input_Type::Down, this, &CPlayer::AttackKey, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("LClick", Input_Type::Down, this, &CPlayer::LClick, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("RClick", Input_Type::Push, this, &CPlayer::RClick, m_Scene);
 
@@ -84,7 +83,7 @@ void CPlayer::Start()
 
 	LoadSpongebobAnim();
 	LoadPatrickAnim();
-	//LoadSandyAnim();
+	LoadSandyAnim();
 
 	ChangeSpongebob();
 
@@ -116,7 +115,6 @@ bool CPlayer::Init()
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
 
-	m_Arm->SetInheritRotY(true);
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
 	m_Rigid->SetGround(true);	//땅에 붙어있다고 설정
@@ -127,9 +125,7 @@ void CPlayer::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
 
-	//m_Sprite->AddRelativeRotationZ(180.f * DeltaTime);
-
-	//m_RightChild->AddRelativeRotationZ(360.f * DeltaTime);
+	CameraRotationKey();
 
 	if (m_Name == "Patrick")
 	{
@@ -180,6 +176,7 @@ void CPlayer::LoadSpongebobAnim()
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerAttack", "Spongebob_Attack", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerAttack", this, &CPlayer::ResetIdle);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerJump", "SpongebobJump", 1.f, 1.f, true);
 }
 
 void CPlayer::LoadPatrickAnim()
@@ -251,8 +248,10 @@ void CPlayer::MoveFront()
 	}
 
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
-
-	AddWorldPosition(GetWorldAxis(AXIS_Z) * -100.f * CEngine::GetInst()->GetDeltaTime());
+	float angle = m_Camera->GetWorldRot().y;
+	SetWorldRotationY(angle+180.f);
+	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
+	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
 }
 
 void CPlayer::MoveBack()
@@ -274,7 +273,10 @@ void CPlayer::MoveBack()
 	}
 
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
-	AddWorldPosition(GetWorldAxis(AXIS_Z) * 100.f * CEngine::GetInst()->GetDeltaTime());
+	float angle = m_Camera->GetWorldRot().y-180.f;
+	SetWorldRotationY(angle+180.f);
+	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
+	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
 }
 
 void CPlayer::MoveLeft()
@@ -294,8 +296,11 @@ void CPlayer::MoveLeft()
 	default:
 		break;
 	}
-
-	AddWorldRotationY(180.f * CEngine::GetInst()->GetDeltaTime());
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+	float angle = m_Camera->GetWorldRot().y -90.f;
+	SetWorldRotationY(angle + 180.f);
+	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
+	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
 }
 
 void CPlayer::MoveRight()
@@ -315,8 +320,11 @@ void CPlayer::MoveRight()
 	default:
 		break;
 	}
-
-	AddWorldRotationY(-180.f * CEngine::GetInst()->GetDeltaTime());
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+	float angle = m_Camera->GetWorldRot().y +90.f;
+	SetWorldRotationY(angle+180.f);
+	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
+	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
 }
 
 void CPlayer::Stop()
@@ -336,6 +344,10 @@ void CPlayer::Stop()
 
 void CPlayer::Jump()
 {
+	if (m_Rigid->GetGround() == false)
+	{
+		return;
+	}
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
@@ -349,6 +361,8 @@ void CPlayer::Jump()
 	}
 
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJump");
+	m_Rigid->SetGround(false);
+	m_Rigid->AddForce(0, 3500.f);
 }
 
 void CPlayer::AttackKey()
@@ -357,36 +371,16 @@ void CPlayer::AttackKey()
 
 void CPlayer::CameraRotationKey()
 {
-	const Vector2& MouseMove = CInput::GetInst()->GetMouseMove();
-
-	float DeltaTime = CEngine::GetInst()->GetDeltaTime();
-
-	if (MouseMove.x != 0.f)
-	{
-		const Vector2& MouseMove = CInput::GetInst()->GetMouseMove() * m_Speed * g_DeltaTime;
-	}
-
-	m_Arm->AddRelativeRotationY(MouseMove.x);
-	m_Arm->AddRelativeRotationX(MouseMove.y);
-
-	/*	if (m_Arm->GetRelativeRot().x > 50.f)
-		{
-			m_Arm->AddRelativeRotationY(MouseMove.x * DeltaTime * 180.f);
-		}
-
-		if (MouseMove.y != 0.f)
-		{
-			m_Arm->AddRelativeRotationX(MouseMove.y * DeltaTime * 180.f);
-		}*/
-
+	const Vector2& mouseMove = CInput::GetInst()->GetMouseMove() * m_Speed * g_DeltaTime;
+	m_Arm->AddRelativeRotationY(mouseMove.x);
+	m_Arm->AddRelativeRotationX(mouseMove.y);
 	if (m_Arm->GetRelativeRot().x > 50.f)
 	{
-		m_Arm->AddRelativeRotationY(MouseMove.x * DeltaTime * 180.f);
+		m_Arm->SetRelativeRotationX(50.f);
 	}
-
-	if (MouseMove.y != 0.f)
+	else if (m_Arm->GetRelativeRot().x < -30.f)
 	{
-		m_Arm->AddRelativeRotationX(MouseMove.y * DeltaTime * 180.f);
+		m_Arm->SetRelativeRotationX(-30.f);
 	}
 }
 

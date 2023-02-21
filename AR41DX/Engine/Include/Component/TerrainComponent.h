@@ -57,10 +57,6 @@ public:
         m_CountY = count;
     }
 
-    float GetDetailLevel() const;
-
-    int GetSplatCount() const;
-
     int GetFaceCount() const
     {
         return (int)m_vecIndex.size() / 3;
