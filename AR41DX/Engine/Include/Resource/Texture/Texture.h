@@ -11,7 +11,7 @@ struct TextureResourceInfo
 	TCHAR* FileName;
 	char* PathName;
 
-	TextureResourceInfo()	:
+	TextureResourceInfo() :
 		Image(nullptr),
 		SRV(nullptr),
 		Width(0),
@@ -67,6 +67,11 @@ public:
 	unsigned int GetHeight(int Index = 0)	const
 	{
 		return m_vecTextureInfo[Index]->Height;
+	}
+
+	TCHAR* GetFullPath(int index = 0)	const
+	{
+		return m_vecTextureInfo[index]->FileName;
 	}
 
 	int GetImageCount()	const

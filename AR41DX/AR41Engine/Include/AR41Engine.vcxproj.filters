@@ -330,9 +330,6 @@
     <ClInclude Include="Matrix.h">
       <Filter>01. Manager\02. Math</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\ResourceManager.h">
-      <Filter>02. Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Resource\Mesh\MeshManager.h">
       <Filter>02. Resource\01. Mesh</Filter>
     </ClInclude>
@@ -876,6 +873,9 @@
     <ClInclude Include="UI\UITextButton.h">
       <Filter>09. UI\02. Widget</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\ResourceManager.h">
+      <Filter>02. Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -895,9 +895,6 @@
     </ClCompile>
     <ClCompile Include="Matrix.cpp">
       <Filter>01. Manager\02. Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\ResourceManager.cpp">
-      <Filter>02. Resource</Filter>
     </ClCompile>
     <ClCompile Include="Resource\Mesh\MeshManager.cpp">
       <Filter>02. Resource\01. Mesh</Filter>
@@ -1390,6 +1387,9 @@
     </ClCompile>
     <ClCompile Include="UI\UITextButton.cpp">
       <Filter>09. UI\02. Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\ResourceManager.cpp">
+      <Filter>02. Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@
 #include "GameObject\GameObject.h"
 
 class CMonster :
-    public CGameObject
+	public CGameObject
 {
 	friend class CScene;
 
@@ -15,6 +15,35 @@ protected:
 protected:
 	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
 	CSharedPtr<class CAnimation>		m_Animation;
+	CSharedPtr<class CRigidBody>		m_Rigid;
+
+protected:
+	bool	m_DetectRange;
+	bool	m_AttackRange;
+	float	m_MoveSpeed;
+	float	m_DeltaTime;
+	int		m_MonsterHP;
+
+public:
+	void SetMoveSpeed(float MoveSpeed)
+	{
+		m_MoveSpeed = MoveSpeed;
+	}
+
+	void SetMoveSpeed(int MonsterHP)
+	{
+		m_MonsterHP = MonsterHP;
+	}
+
+	float GetMoveSpeed()
+	{
+		return m_MoveSpeed;
+	}
+
+	float GetMonsterHP()
+	{
+		return m_MonsterHP;
+	}
 
 public:
 	virtual void Start();
