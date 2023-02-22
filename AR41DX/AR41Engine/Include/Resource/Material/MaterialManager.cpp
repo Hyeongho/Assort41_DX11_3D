@@ -55,7 +55,7 @@ bool CMaterialManager::Init()
 
 	Material->SetShader("SkyShader");
 
-	Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture", TEXT("Sky/BikiniSky.dds"));
+	Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture", TEXT("Sky/Sky0222.dds"));
 
 	Material->SetRenderState("DepthLessEqual");
 	Material->SetRenderState("FrontFaceCull");
