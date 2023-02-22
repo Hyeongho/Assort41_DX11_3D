@@ -152,7 +152,7 @@ bool CTerrainComponent::Init()
 	{
 		return false;
 	}
-	CreateTerrain(681, 631, 10.f, 10.f, TEXT("LandScape/BikiniCity_Height.png"));
+	CreateTerrain(681, 631, 70.f, 70.f, TEXT("LandScape/BikiniCity_Height.png"));
 	return true;
 }
 

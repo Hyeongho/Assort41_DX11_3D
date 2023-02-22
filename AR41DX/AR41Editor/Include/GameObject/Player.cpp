@@ -4,11 +4,13 @@
 #include "Component/AnimationMeshComponent.h"
 #include "Component/CameraComponent.h"
 #include "Component/TargetArm.h"
+#include "Component/NavigationAgent3D.h"
 #include "Component/RigidBody.h"
 #include "Input.h"
 #include "Engine.h"
 #include "Scene/Scene.h"
 #include "Scene/CameraManager.h"
+#include "Scene/NavigationManager3D.h"
 #include "Device.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
@@ -35,6 +37,7 @@ CPlayer::CPlayer(const CPlayer& Obj) : CGameObject(Obj)
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
 	m_Arm = (CTargetArm*)FindComponent("Arm");
+	m_NavAgent = (CNavigationAgent3D*)FindComponent("NavAgent");
 	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 }
 
@@ -104,6 +107,7 @@ bool CPlayer::Init()
 	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 	m_Camera = CreateComponent<CCameraComponent>("Camera");
 	m_Arm = CreateComponent<CTargetArm>("Arm");
+	m_NavAgent = CreateComponent<CNavigationAgent3D>("NavAgent");
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
 
 	SetRootComponent(m_Mesh);
@@ -126,6 +130,10 @@ void CPlayer::Update(float DeltaTime)
 	CGameObject::Update(DeltaTime);
 
 	CameraRotationKey();
+
+	CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
+	float Y = Nav->GetHeight(GetWorldPos());
+	SetWorldPositionY(Y);
 
 	if (m_Name == "Patrick")
 	{
