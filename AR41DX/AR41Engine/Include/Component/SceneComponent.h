@@ -16,7 +16,7 @@ protected:
 
 protected:
 	std::string m_SceneName;
-	CTransform* m_Transform;
+	CTransform* m_Transform	;
     CSceneComponent* m_Parent;
 	class CSkeletonSocket* m_Socket;
 	SceneComponentType	m_SceneComponentType;
@@ -25,6 +25,7 @@ protected:
 	std::string m_ParentName;
 	std::vector<std::string> m_vecChildName;
 	bool m_FrustumCull;
+	CSharedPtr<class CGraphicShader> m_ShadowMapShader;
 
 public:
 	bool GetFrustumCull() const
@@ -91,7 +92,8 @@ public:
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
     virtual void Render();
-    virtual CSceneComponent* Clone()    const;
+	virtual void RenderShadowMap();
+    virtual CSceneComponent* Clone() const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 

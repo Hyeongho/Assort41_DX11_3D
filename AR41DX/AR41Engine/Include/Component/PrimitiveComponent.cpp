@@ -38,6 +38,11 @@ CPrimitiveComponent::~CPrimitiveComponent()
 		m_Mesh->AddRenderCount(false);
 }
 
+void CPrimitiveComponent::SetReceiveDecal(bool Decal)
+{
+	m_ReceiveDecal = Decal;
+}
+
 bool CPrimitiveComponent::SetMesh(const std::string& Name)
 {
 	if (m_Scene)
@@ -206,6 +211,20 @@ void CPrimitiveComponent::Render()
 		m_Mesh->Render(i);
 
 		m_vecMaterial[i]->ResetMaterial();
+	}
+}
+
+void CPrimitiveComponent::RenderShadowMap()
+{
+	CSceneComponent::RenderShadowMap();
+
+	int	Size = (int)m_vecMaterial.size();
+
+	for (int i = 0; i < Size; i++)
+	{
+		m_vecMaterial[i]->SetShadowMaterial();
+
+		m_Mesh->Render(i);
 	}
 }
 

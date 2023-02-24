@@ -95,6 +95,7 @@ Texture2D g_EmissiveTexture : register(t3);
 Texture2D g_RoughnessTexture : register(t4);
 Texture2D g_AOTexture : register(t5);
 Texture2D g_GlobalNoiseTexture : register(t6);
+Texture2D g_LUTTexture : register(t7);
 
 cbuffer Animation2D : register(b2)
 {
@@ -116,6 +117,8 @@ cbuffer GlobalCBuffer : register(b3)
     float   g_GlobalDeltaTime;
     float3  g_CameraAxisY;
     float   g_GlobalAccTime;
+    float2  g_ShadowMapResolution;
+    float3  g_GlobalEmpty;
 };
 
 cbuffer LightCBuffer : register(b4)

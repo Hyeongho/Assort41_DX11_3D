@@ -36,8 +36,8 @@ PS_OUTPUT_SINGLE DebugPS(VS_OUTPUT_DEBUG input)
 
     int2 Pos = (int2)0;
 
-    Pos.x = (int)(input.UV.x * g_Resolution.x);
-    Pos.y = (int)(input.UV.y * g_Resolution.y);
+    Pos.x = (int)(input.UV.x * g_ShadowMapResolution.x);
+    Pos.y = (int)(input.UV.y * g_ShadowMapResolution.y);
 
     float4 Color = g_TargetTex.Load(Pos, 0);
 

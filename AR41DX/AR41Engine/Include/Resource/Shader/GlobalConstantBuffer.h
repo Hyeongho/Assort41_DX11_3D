@@ -9,7 +9,7 @@ public:
 	virtual ~CGlobalConstantBuffer();
 
 private:
-	GlobalCBuffer	m_BufferData;
+	GlobalCBuffer m_BufferData;
 
 public:
 	virtual bool Init();
@@ -35,6 +35,11 @@ public:
 	void SetNoiseResolution(float Width, float Height)
 	{
 		m_BufferData.NoiseResolution = Vector2(Width, Height);
+	}
+
+	void SetShadowMapResolution(float Width, float Height)
+	{
+		m_BufferData.ShadowMapResolution = Vector2(Width, Height);
 	}
 
 	void SetCameraAxisX(const Vector3& Axis)

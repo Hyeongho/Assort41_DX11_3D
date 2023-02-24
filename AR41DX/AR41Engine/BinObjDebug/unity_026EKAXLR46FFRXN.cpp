@@ -335,6 +335,9 @@
 #include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Resource\Shader\LightAccShader.cpp"
 
 
+#include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Resource\Shader\LightCelShader.cpp"
+
+
 #include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Resource\Shader\LightConstantBuffer.cpp"
 
 
@@ -363,6 +366,21 @@
 
 
 #include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Resource\Shader\ShaderManager.cpp"
+
+
+#include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Resource\Shader\ShadowConstantBuffer.cpp"
+
+
+#include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Resource\Shader\ShadowMapInstancingShader.cpp"
+
+
+#include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Resource\Shader\ShadowMapShader.cpp"
+
+
+#include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Resource\Shader\ShadowMapStaticInstancingShader.cpp"
+
+
+#include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Resource\Shader\ShadowMapStaticShader.cpp"
 
 
 #include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Engine\Include\Resource\Shader\SkyShader.cpp"

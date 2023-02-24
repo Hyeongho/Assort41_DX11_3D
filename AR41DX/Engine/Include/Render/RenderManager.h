@@ -31,21 +31,27 @@ private:
 
 	std::vector<CSharedPtr<CRenderTarget>>	m_vecLightBuffer;
 
-	CSharedPtr<CRenderTarget>		m_ScreenBuffer;
+	CSharedPtr<CRenderTarget> m_ScreenBuffer;
 
-	CSharedPtr<CGraphicShader>		m_ScreenShader;
-	CSharedPtr<CGraphicShader>		m_DeferredRenderShader;
+	CSharedPtr<CGraphicShader> m_ScreenShader;
+	CSharedPtr<CGraphicShader> m_DeferredRenderShader;
 
-	CSharedPtr<CRenderTarget>		m_ShadowMapTarget;
+	CSharedPtr<CRenderTarget> m_ShadowMapTarget;
 
-	Resolution	m_ShadowMapRS;
+	Resolution m_ShadowMapRS;
+	class CShadowConstantBuffer* m_ShadowCBuffer;
 
-	std::list<CSharedPtr<class CSceneComponent>>	m_NormalRenderList;
+	std::list<CSharedPtr<class CSceneComponent>> m_NormalRenderList;
 
 
 	std::vector<CRenderInstancing*>	m_vecInstancingPool;
-	std::list<int>		m_EmptyPoolList;
-	std::unordered_map<class CMesh*, CRenderInstancing*>	m_mapInstancing;
+	std::list<int> m_EmptyPoolList;
+	std::unordered_map<class CMesh*, CRenderInstancing*> m_mapInstancing;
+
+	EShaderType	m_ShaderType;
+
+public:
+	void SetShaderType(EShaderType Type);
 
 public:
 	const Resolution& GetShadowMapResolution()	const

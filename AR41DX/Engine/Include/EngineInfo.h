@@ -172,6 +172,8 @@ struct GlobalCBuffer
 	float	DeltaTime;
 	Vector3	CameraAxisY;
 	float	AccTime;
+	Vector2 ShadowMapResolution;
+	Vector2 Empty;
 };
 
 // 위치, 색상 정보를 가지고 있는 정점.
@@ -626,3 +628,11 @@ struct PickingResult
 	}
 };
 
+struct ShadowCBuffer
+{
+	Matrix  matShadowVP;
+	Matrix  matShadowInvVP;
+	Vector2 Resolution;
+	float   Bias;
+	float   Empty;
+};

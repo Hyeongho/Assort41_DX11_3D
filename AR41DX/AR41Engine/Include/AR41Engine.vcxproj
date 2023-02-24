@@ -147,6 +147,7 @@
     <ClInclude Include="Resource\Shader\GraphicShader.h" />
     <ClInclude Include="Resource\Shader\InstancingConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\LightAccShader.h" />
+    <ClInclude Include="Resource\Shader\LightCelShader.h" />
     <ClInclude Include="Resource\Shader\LightConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\MaterialConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\MeshInstancingShader.h" />
@@ -157,6 +158,11 @@
     <ClInclude Include="Resource\Shader\ScreenShader.h" />
     <ClInclude Include="Resource\Shader\Shader.h" />
     <ClInclude Include="Resource\Shader\ShaderManager.h" />
+    <ClInclude Include="Resource\Shader\ShadowConstantBuffer.h" />
+    <ClInclude Include="Resource\Shader\ShadowMapInstancingShader.h" />
+    <ClInclude Include="Resource\Shader\ShadowMapShader.h" />
+    <ClInclude Include="Resource\Shader\ShadowMapStaticInstancingShader.h" />
+    <ClInclude Include="Resource\Shader\ShadowMapStaticShader.h" />
     <ClInclude Include="Resource\Shader\SkyShader.h" />
     <ClInclude Include="Resource\Shader\SpriteColorShader.h" />
     <ClInclude Include="Resource\Shader\SpriteShader.h" />
@@ -329,6 +335,7 @@
     <ClCompile Include="Resource\Shader\GraphicShader.cpp" />
     <ClCompile Include="Resource\Shader\InstancingConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\LightAccShader.cpp" />
+    <ClCompile Include="Resource\Shader\LightCelShader.cpp" />
     <ClCompile Include="Resource\Shader\LightConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\MaterialConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\MeshInstancingShader.cpp" />
@@ -339,6 +346,11 @@
     <ClCompile Include="Resource\Shader\ScreenShader.cpp" />
     <ClCompile Include="Resource\Shader\Shader.cpp" />
     <ClCompile Include="Resource\Shader\ShaderManager.cpp" />
+    <ClCompile Include="Resource\Shader\ShadowConstantBuffer.cpp" />
+    <ClCompile Include="Resource\Shader\ShadowMapInstancingShader.cpp" />
+    <ClCompile Include="Resource\Shader\ShadowMapShader.cpp" />
+    <ClCompile Include="Resource\Shader\ShadowMapStaticInstancingShader.cpp" />
+    <ClCompile Include="Resource\Shader\ShadowMapStaticShader.cpp" />
     <ClCompile Include="Resource\Shader\SkyShader.cpp" />
     <ClCompile Include="Resource\Shader\SpriteColorShader.cpp" />
     <ClCompile Include="Resource\Shader\SpriteShader.cpp" />
@@ -525,6 +537,20 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ParticleUpdate</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\ShadowMap.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ShadowMapVS</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ShadowMapVS</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ShadowMapVS</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ShadowMapVS</EntryPointName>
     </FxCompile>
     <FxCompile Include="..\Bin\Shader\Share.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

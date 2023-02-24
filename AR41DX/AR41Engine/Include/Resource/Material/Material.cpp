@@ -745,6 +745,11 @@ void CMaterial::ResetMaterial()
 	}
 }
 
+void CMaterial::SetShadowMaterial()
+{
+	m_CBuffer->UpdateBuffer();
+}
+
 void CMaterial::SetInstancingMaterial()
 {
 	for (int i = 0; i < 3; ++i)

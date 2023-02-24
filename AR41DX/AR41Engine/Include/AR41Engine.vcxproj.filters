@@ -322,6 +322,12 @@
     <Filter Include="02. Resource\02. Shader\02. ShaderClass\16. Decal">
       <UniqueIdentifier>{569a725f-aaad-4d99-a2ad-eb57d08bd0c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Resource\02. Shader\02. ShaderClass\17. ShadowMap">
+      <UniqueIdentifier>{12316203-97b0-44c8-b02b-900563ea93cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\13. Shadow">
+      <UniqueIdentifier>{e4223d97-5149-4c88-bc03-80ca76c74471}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -912,6 +918,24 @@
     <ClInclude Include="Component\ColliderSphere3D.h">
       <Filter>05. Component\01. SceneComponent\04. Collider\02 3D</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\Shader\ShadowMapInstancingShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\ShadowMapStaticInstancingShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\ShadowMapStaticShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\ShadowMapShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\LightCelShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\08. Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\ShadowConstantBuffer.h">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\13. Shadow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1445,6 +1469,24 @@
     <ClCompile Include="Component\ColliderSphere3D.cpp">
       <Filter>05. Component\01. SceneComponent\04. Collider\02 3D</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\Shader\ShadowMapInstancingShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\ShadowMapStaticInstancingShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\ShadowMapStaticShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\ShadowMapShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\LightCelShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\08. Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\ShadowConstantBuffer.cpp">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\13. Shadow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\Shader\Share.fx">
@@ -1490,6 +1532,9 @@
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\Shader\Decal.fx">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\ShadowMap.fx">
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
   </ItemGroup>

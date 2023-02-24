@@ -2,8 +2,10 @@
 #include "../GameObject/GameObject.h"
 #include "../Resource/Animation/SkeletonSocket.h"
 #include "../Scene/Scene.h"
+#include "../Resource/Shader/GraphicShader.h"
 
-CSceneComponent::CSceneComponent() : m_Parent(nullptr), m_Socket(nullptr), m_FrustumCull(false), m_LayerName("Default"), m_SceneComponentType(SceneComponentType::Scene)
+CSceneComponent::CSceneComponent() : m_Parent(nullptr), m_Socket(nullptr), m_FrustumCull(false), m_LayerName("Default"), 
+	m_SceneComponentType(SceneComponentType::Scene)
 {
 	SetTypeID<CSceneComponent>();
 
@@ -319,6 +321,16 @@ void CSceneComponent::Render()
 	CComponent::Render();
 
 	m_Transform->SetTransform();
+}
+
+void CSceneComponent::RenderShadowMap()
+{
+	m_Transform->SetShadowMapTransform();
+
+	if (m_ShadowMapShader)
+	{
+		m_ShadowMapShader->SetShader();
+	}
 }
 
 CSceneComponent* CSceneComponent::Clone() const

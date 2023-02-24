@@ -147,6 +147,16 @@ bool CTerrainComponent::Init()
 		return false;
 	}
 
+	if (m_Scene)
+	{
+		m_ShadowMapShader = (CGraphicShader*)m_Scene->GetResource()->FindShader("ShadowMapStaticShader");
+	}
+
+	else
+	{
+		m_ShadowMapShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ShadowMapStaticShader");
+	}
+
 	return true;
 }
 
@@ -158,6 +168,11 @@ void CTerrainComponent::Update(float DeltaTime)
 void CTerrainComponent::PostUpdate(float DeltaTime)
 {
 	CPrimitiveComponent::PostUpdate(DeltaTime);
+}
+
+void CTerrainComponent::RenderShadowMap()
+{
+	CPrimitiveComponent::RenderShadowMap();
 }
 
 void CTerrainComponent::Render()
