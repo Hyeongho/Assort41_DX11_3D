@@ -35,8 +35,8 @@ bool CWeapon::Init()
 
 	SetRootComponent(m_Mesh);
 
-	m_Mesh->SetMesh("Blade");
-
+	m_Mesh->SetMesh("SpongebobWand");
+	m_Mesh->SetWorldScale(0.5f, 0.5f, 0.5f);
 	return true;
 }
 

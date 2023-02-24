@@ -1,6 +1,4 @@
-
 #include "Client3DManager.h"
-
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,

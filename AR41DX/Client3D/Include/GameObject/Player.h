@@ -37,8 +37,10 @@ protected:
 protected:
 	//컴포넌트
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
+	CSharedPtr<class CAnimationMeshComponent>	m_WeaponMesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
+	CSharedPtr<class CNavigationAgent3D> m_NavAgent;
 	CSharedPtr<class CRigidBody> m_Rigid;
 	//
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
@@ -133,8 +135,6 @@ public:
 		return m_PlayerData.Glittering;
 	}
 
-	void SetMesh(std::string Mesh);
-
 public:
 	//공통
 	void MoveFront();
@@ -152,6 +152,7 @@ public:
 	void IngameUI();
 	void RClick();
 	void LClick(); // Attack
+	void ResetIdle();	//아이들상태로 되돌리는 함수
 
 	// Spongebob
 	void Headbutt();
@@ -170,8 +171,5 @@ public:
 	void ChangeSpongebob();
 	void ChangePatrick();
 	void ChangeSandy();
-
-public:
-	void ChangeAnim();
 };
 

@@ -9,18 +9,12 @@
 #include "Engine.h"
 #include "Scene/Scene.h"
 #include "Scene/CameraManager.h"
+#include "Scene/NavigationManager3D.h"
 #include "Device.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 
-CPlayer::CPlayer()
-	: m_Speed(150.f)
-	, m_KeyCount(0)
-	, m_MainCharacter(EMain_Character::Max)
-	, m_IsHolding(false)
-	, m_HoverTime(0.f)
-	, m_BellyAttackTime(0.f)
-	, m_SlamDown(false)
+CPlayer::CPlayer() : m_Speed(150.f), m_KeyCount(0), m_MainCharacter(EMain_Character::Max), m_IsHolding(false), m_HoverTime(0.f), m_BellyAttackTime(0.f), m_SlamDown(false)
 {
 	SetTypeID<CPlayer>();
 
@@ -94,11 +88,11 @@ void CPlayer::Start()
 	}
 
 	//源踰붿쨷 ?뚯폆 愿??
-	CWeapon3D* weapon = m_Scene->CreateObject<CWeapon3D>("Weapon");
+	//CWeapon3D* weapon = m_Scene->CreateObject<CWeapon3D>("Weapon");
 
-	AddChildToSocket("Weapon", weapon);
+	/*AddChildToSocket("Weapon", weapon);
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
-	m_WeaponMesh->SetEnable(false);
+	m_WeaponMesh->SetEnable(false);*/
 }
 
 bool CPlayer::Init()
@@ -150,6 +144,10 @@ void CPlayer::Update(float DeltaTime)
 	CGameObject::Update(DeltaTime);
 
 	CameraRotationKey();
+
+	CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
+	float Y = Nav->GetHeight(GetWorldPos());
+	SetWorldPositionY(Y);
 
 	if (m_Name == "Patrick")
 	{

@@ -40,7 +40,7 @@ protected:
 	CSharedPtr<class CAnimationMeshComponent>	m_WeaponMesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
-	CSharedPtr<class CNavigationAgent3D>		m_NavAgent;
+	CSharedPtr<class CNavigationAgent3D> m_NavAgent;
 	CSharedPtr<class CRigidBody> m_Rigid;
 	//
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];

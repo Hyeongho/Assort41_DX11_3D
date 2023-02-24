@@ -50,8 +50,8 @@ void CDefaultSetting::CreateCDO()
 void CDefaultSetting::LoadResource()
 {
     LoadSpongebob();
-    //LoadPatrick();
-    //LoadSandy();
+    LoadPatrick();
+    LoadSandy();
 
     //LoadRoboSponge();
     //LoadBuildings();
@@ -203,8 +203,8 @@ void CDefaultSetting::LoadSandy()
 
     CResourceManager::GetInst()->SetMeshSkeleton("Sandy", "SandySkeleton");
 
-    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Idle", TEXT("Sandy/Sandy_Idle.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Walk", TEXT("Sandy/Sandy_Walk.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Idle", TEXT("Sandy/Sandy_Idle.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Walk", TEXT("Sandy/Sandy_Walk.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Run", TEXT("Sandy/Sandy_Run.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Sandy_JumpDW", TEXT("Sandy/Sandy_JumpDW.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Sandy_JumpUp", TEXT("Sandy/Sandy_JumpUp.sqc"), MESH_PATH);
@@ -350,4 +350,20 @@ void CDefaultSetting::LoadJellyfish()
     CResourceManager::GetInst()->LoadAnimationSequence("Jellyfish_Death", TEXT("Jellyfish/Jellyfish_death.sqc"), MESH_PATH);
 
     CResourceManager::GetInst()->LoadSound("Effect", "Jellyfish_Attack", false, "Jellyfish/SFX_Enemy_Jellyfish_Attack_Original.ogg", SOUND_PATH);
+}
+
+void CDefaultSetting::LoadMrKrabs()
+{
+}
+
+void CDefaultSetting::LoadSquidward()
+{
+}
+
+void CDefaultSetting::LoadEnemies()
+{
+}
+
+void CDefaultSetting::LoadParticle()
+{
 }
