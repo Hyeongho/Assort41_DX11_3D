@@ -39,6 +39,16 @@ CTerrainComponent::~CTerrainComponent()
 	SAFE_DELETE(m_CBuffer);
 }
 
+float CTerrainComponent::GetDetailLevel() const
+{
+	return m_CBuffer->GetDetailLevel();
+}
+
+int CTerrainComponent::GetSplatCount() const
+{
+	return m_CBuffer->GetSplatCount();
+}
+
 void CTerrainComponent::SetDetailLevel(float Level)
 {
 	m_CBuffer->SetDetailLevel(Level);
@@ -157,6 +167,8 @@ bool CTerrainComponent::Init()
 		m_ShadowMapShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ShadowMapStaticShader");
 	}
 
+	CreateTerrain(681, 631, 5.f, 5.f, TEXT("LandScape/height1.bmp"));
+
 	return true;
 }
 
@@ -213,7 +225,7 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 
 	m_Size = m_CellSize * Vector2((float)CountX, (float)CountY);
 
-	// HeightMapÀÌ ÀÖÀ» °æ¿ì ³ôÀÌ Á¤º¸¸¦ ¾ò¾î¿Â´Ù.
+	// HeightMapì´ ìˆì„ ê²½ìš° ë†’ì´ ì •ë³´ë¥¼ ì–»ì–´ì˜¨ë‹¤.
 	std::vector<float>	vecY;
 	float MaxY = 0.f;
 
@@ -304,7 +316,7 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 	Vector3	Min(FLT_MAX, FLT_MAX, FLT_MAX);
 	Vector3	Max(FLT_MIN, FLT_MIN, FLT_MIN);
 
-	// Á¤Á¡Á¤º¸¿Í ÀÎµ¦½º Á¤º¸¸¦ ±¸¼ºÇÑ´Ù.
+	// ì •ì ì •ë³´ì™€ ì¸ë±ìŠ¤ ì •ë³´ë¥¼ êµ¬ì„±í•œë‹¤.
 	for (int i = 0; i < m_CountY; i++)
 	{
 		for (int j = 0; j < m_CountX; j++)
@@ -410,7 +422,7 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 
 	ComputeTangent();
 
-	// ±¸ÇØÁØ Á¤º¸·Î ¸Ş½¬¸¦ ¸¸µç´Ù.
+	// êµ¬í•´ì¤€ ì •ë³´ë¡œ ë©”ì‰¬ë¥¼ ë§Œë“ ë‹¤.
 	char	MeshName[256] = {};
 
 #ifdef _WIN64
@@ -465,7 +477,7 @@ void CTerrainComponent::ComputeNormal()
 
 void CTerrainComponent::ComputeTangent()
 {
-	// ÅºÁ¨Æ® º¤ÅÍ ±¸ÇÔ.
+	// íƒ„ì  íŠ¸ ë²¡í„° êµ¬í•¨.
 	for (size_t i = 0; i < m_vecFaceNormal.size(); ++i)
 	{
 		unsigned int idx0 = m_vecIndex[i * 3];

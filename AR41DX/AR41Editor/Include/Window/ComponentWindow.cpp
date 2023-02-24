@@ -7,6 +7,7 @@
 #include "UINumberWindow.h"
 #include "UIProgressBarWindow.h"
 #include "UITextWindow.h"
+#include "Animation3DWindow.h"
 #include "RigidBodyWindow.h"
 #include "LightWindow.h"
 #include "MaterialWindow.h"
@@ -14,7 +15,7 @@
 #include "TargetArmWindow.h"
 #include "MeshWindow.h"
 #include "ParticleWindow.h"
-#include "Animation3DWindow.h"
+#include "TerrainWindow.h"
 #include "Input.h"
 #include "Engine.h"
 #include "Scene/SceneManager.h"
@@ -41,6 +42,8 @@
 #include "Component/AnimationMeshComponent.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/ParticleComponent.h"
+#include "Component/TerrainComponent.h"
+//#include "Component/DecalComponent.h"
 
 #include "UI/UIWidget.h"
 #include "UI/UIButton.h"
@@ -214,6 +217,11 @@ void CComponentWindow::TreeCallback(CEditorTreeItem<class CComponent*>* node, co
 		{
 			meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
 		}
+		CTerrainWindow* terrainWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CTerrainWindow>("TerrainWindow");
+		if (terrainWindow)
+		{
+			terrainWindow->SetSelectComponent((CTerrainComponent*)m_SelectComponent.Get());
+		}
 	}
 	else if (m_SelectComponent->GetComponentTypeName() == "ParticleComponent")
 	{
@@ -348,6 +356,12 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 		{
 			meshWindow->SetSelectComponent((CPrimitiveComponent*)m_SelectComponent.Get());
 		}
+		CTerrainWindow* terrainWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CTerrainWindow>("TerrainWindow");
+		if (!terrainWindow)
+		{
+			terrainWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CTerrainWindow>("TerrainWindow");
+		}
+		terrainWindow->SetSelectComponent((CTerrainComponent*)m_SelectComponent.Get());
 	}
 	else if (m_SelectComponent->GetComponentTypeName() == "ParticleComponent")
 	{

@@ -265,8 +265,7 @@ void CMaterial::SetReceiveDecal(bool receive)
 	//m_CBuffer->SetReceiveDecal(receive);
 }
 
-void CMaterial::AddTexture(int Register, int ShaderBufferType,
-	const std::string& Name, CTexture* Texture)
+void CMaterial::AddTexture(int Register, int ShaderBufferType, const std::string& Name, CTexture* Texture)
 {
 	MaterialTextureInfo* Info = new MaterialTextureInfo;
 

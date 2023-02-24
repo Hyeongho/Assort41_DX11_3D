@@ -31,5 +31,10 @@ private:
     void LoadJellyfish();
     void LoadMrKrabs();
     void LoadSquidward();
+
+    void LoadEnemies();
+
+    void LoadParticle();
+
 };
 

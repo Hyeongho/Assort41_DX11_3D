@@ -102,8 +102,8 @@ void CDefaultSetting::SetInput()
     //안겹치는 키
     CInput::GetInst()->AddBindKey("UArrow", VK_UP);
     CInput::GetInst()->AddBindKey("DArrow", VK_DOWN);
-    CInput::GetInst()->AddBindKey("LArrow", VK_RIGHT);
-    CInput::GetInst()->AddBindKey("RArrow", VK_LEFT);
+    CInput::GetInst()->AddBindKey("LArrow", VK_LEFT);
+    CInput::GetInst()->AddBindKey("RArrow", VK_RIGHT);
 
     CInput::GetInst()->AddBindKey("E", 'E');
     CInput::GetInst()->AddBindKey("Q", 'Q');
@@ -148,10 +148,12 @@ void CDefaultSetting::SetCollision()
 void CDefaultSetting::LoadSpongebob()
 {
     CResourceManager* resourceManager = CResourceManager::GetInst();
+    resourceManager->LoadMesh(nullptr, MeshType::Static, "SpongebobWand", TEXT("Spongebob\\wand_bubble_wand.fbx"));
+
     resourceManager->LoadMesh(nullptr, MeshType::Animation, "Spongebob", TEXT("Spongebob\\Spongebob_mesh.msh"), MESH_PATH);
     resourceManager->LoadSkeleton(nullptr, "SpongebobSkeleton", TEXT("Spongebob\\Spongebob_mesh.bne"), MESH_PATH);
     resourceManager->SetMeshSkeleton("Spongebob", "SpongebobSkeleton");
-    //resourceManager->AddSocket("SpongebobSkeleton", "bone11", "Weapon");
+    resourceManager->AddSocket("SpongebobSkeleton", "MiddleFinger3_R", "Weapon");
     resourceManager->LoadAnimationSequence("Spongebob_Idle", TEXT("Spongebob\\Anim_Spongebob_Idle.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Spongebob_Walk", TEXT("Spongebob\\Anim_Spongebob_Walk.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Spongebob_Attack", TEXT("Spongebob\\Anim_Spongebob_BubbleSpin.sqc"), MESH_PATH);
@@ -159,6 +161,8 @@ void CDefaultSetting::LoadSpongebob()
 
 void CDefaultSetting::LoadPatrick()
 {
+    //소켓이름 "jt_Hand_R"
+
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Patrick", TEXT("Patrick/Patrick11.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "PatrickSkeleton", TEXT("Patrick/Patrick11.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("Patrick", "PatrickSkeleton");
@@ -179,6 +183,8 @@ void CDefaultSetting::LoadPatrick()
 
 void CDefaultSetting::LoadSandy()
 {
+    //소켓이름 "jt_Hand_R"
+
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy", TEXT("Sandy/Sandy_Idle.fbx"), MESH_PATH);
     //CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Walk", TEXT("Sandy/Sandy_Walk.fbx"), MESH_PATH);
     /*CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Walk", TEXT("Sandy/Sandy_Walk.fbx"), MESH_PATH);
@@ -246,6 +252,7 @@ void CDefaultSetting::LoadSound()
     // 로딩 UI
     CResourceManager::GetInst()->LoadSound("Effect", "LoadingUI_First", false, "UI/SFX_SB_Spongball_Bubble_010.ogg", SOUND_PATH);
     CResourceManager::GetInst()->LoadSound("Effect", "LoadingUI_Second", false, "UI/SFX_SB_Spongball_Bubble_008.ogg", SOUND_PATH); // first와 같이 재생
+    CResourceManager::GetInst()->LoadSound("Effect", "LoadingUI", false, "UI/SFX_Bubbles_Add_001.ogg");
 
     // Bikini Bottom
     CResourceManager::GetInst()->LoadSound("BGM", "BikiniBottom", false, "Map/MUS_BikiniBottomTheme.ogg", SOUND_PATH);

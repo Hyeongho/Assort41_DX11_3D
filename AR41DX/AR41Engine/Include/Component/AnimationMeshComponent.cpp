@@ -16,8 +16,10 @@ CAnimationMeshComponent::CAnimationMeshComponent()
 CAnimationMeshComponent::CAnimationMeshComponent(const CAnimationMeshComponent& component) :
 	CPrimitiveComponent(component)
 {
-	m_Skeleton = component.m_Skeleton->Clone();
-
+	if (component.m_Skeleton)
+	{
+		m_Skeleton = component.m_Skeleton->Clone();
+	}
 	m_Socket = nullptr;
 
 	if (component.m_Animation)

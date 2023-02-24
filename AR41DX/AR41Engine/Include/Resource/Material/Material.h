@@ -49,8 +49,8 @@ protected:
     Vector4     m_BaseColor;
     Vector4     m_AmbientColor;
     Vector4     m_SpecularColor;
-    Vector4     m_EmissiveColor;    // ÀÚÃ¼ÀûÀ¸·Î ºûÀ» ¹ß»êÇÏ´Â ¹°Ã¼ÀÏ °æ¿ì
-    float       m_Opacity;          // ºÒÅõ¸íµµ.
+    Vector4     m_EmissiveColor;    // ìì²´ì ìœ¼ë¡œ ë¹›ì„ ë°œì‚°í•˜ëŠ” ë¬¼ì²´ì¼ ê²½ìš°
+    float       m_Opacity;          // ë¶ˆíˆ¬ëª…ë„.
     class CMaterialConstantBuffer* m_CBuffer;
     CSharedPtr<CRenderState>    m_RenderState[3];
     bool        m_Animation3D;
@@ -75,7 +75,7 @@ public:
         unsigned char a);
     void SetOpacity(float Opacity);
     void AddOpacity(float Opacity);
-    //±è¹üÁß ¿¡µğÅÍ °ª Á¶Àı¿ë ÇÔ¼ö
+    //ê¹€ë²”ì¤‘ ì—ë””í„° ê°’ ì¡°ì ˆìš© í•¨ìˆ˜
     class CShader* GetShader()
     {
         return m_Shader;
@@ -105,6 +105,10 @@ public:
     {
         return m_Opacity;
     }
+    bool GetReceiveDecal()   const
+    {
+        return m_ReceiveDecal;
+    }
     bool GetIsBump();
     bool GetIsSpecular();
     bool GetIsEmissive();
@@ -119,7 +123,7 @@ public:
     void EnableAnimation3D();
     void SetReceiveDecal(bool Receive);
 
-    // === Texture Ãß°¡ ===
+    // === Texture ì¶”ê°€ ===
     void AddTexture(int Register, int ShaderBufferType, const std::string& Name,
         class CTexture* Texture);
     void AddTexture(int Register, int ShaderBufferType, const std::string& Name, const TCHAR* FileName,
@@ -138,7 +142,7 @@ public:
     void AddTextureArrayFullPath(int Register, int ShaderBufferType,
         const std::string& Name, const std::vector<const TCHAR*>& vecFullPath);
 
-    // === Ãß°¡µÇ¾î ÀÖ´Â Texture º¯°æ ===
+    // === ì¶”ê°€ë˜ì–´ ìˆëŠ” Texture ë³€ê²½ ===
     void SetTexture(int Index, int Register, int ShaderBufferType, const std::string& Name,
         class CTexture* Texture);
     void SetTexture(int Index, int Register, int ShaderBufferType, const std::string& Name, const TCHAR* FileName,

@@ -15,7 +15,7 @@ private:
 	bool m_UseDragDropOuter;
 	std::function<void(CEditorTreeItem<T>*, const std::string&)>	m_SelectCallback;
 	std::function<void(CEditorTreeItem<T>*, const std::string&)>	m_DoubleClickCallback;
-	std::function<void(CEditorTreeItem<T>*, CEditorTreeItem<T>*, const std::string&, 
+	std::function<void(CEditorTreeItem<T>*, CEditorTreeItem<T>*, const std::string&,
 		const std::string&)>	m_DragAndDropCallback;
 	void NodeSelect(CEditorTreeItem<T>* node, const std::string& item)
 	{
@@ -31,7 +31,7 @@ private:
 			m_DoubleClickCallback(node, item);
 		}
 	}
-	void NodeDragAndDrop(CEditorTreeItem<T>* dragNode, CEditorTreeItem<T>* dropNode, 
+	void NodeDragAndDrop(CEditorTreeItem<T>* dragNode, CEditorTreeItem<T>* dropNode,
 		const std::string& dragItem, const std::string& dropItem)
 	{
 		if (m_DragAndDropCallback)
@@ -40,7 +40,7 @@ private:
 		}
 	}
 protected:
-	CEditorTree() 
+	CEditorTree()
 		: m_Root(nullptr)
 		, m_UseDragDropSelf(false)
 		, m_UseDragDropOuter(false)
@@ -59,9 +59,25 @@ public:
 		}
 		return m_Root->m_vecChild.size() + 1;
 	}
+	CEditorTreeItem<T>* GetRootItem()
+	{
+		if (!m_Root)
+		{
+			return nullptr;
+		}
+		return m_Root;
+	}
+	CEditorTreeItem<T>* GetChildItem(int index)
+	{
+		if (!m_Root || index >= m_Root->m_vecChild.size())
+		{
+			return nullptr;
+		}
+		return m_Root->m_vecChild[index];
+	}
 	CEditorTreeItem<T>* GetHoverItem()
 	{
-		if(!m_Root)
+		if (!m_Root)
 		{
 			return nullptr;
 		}
@@ -80,16 +96,16 @@ public:
 		if (!m_Root)
 		{
 			m_Root = new CEditorTreeItem<T>;
-			std::string name= GetName();
-			if(GetIsHide())
+			std::string name = GetName();
+			if (GetIsHide())
 			{
 				name = name.substr(2);
 			}
-			if(m_UseDragDropSelf)
+			if (m_UseDragDropSelf)
 			{
 				m_Root->m_UseDragDropSelf = m_UseDragDropSelf;
 			}
-			if(m_UseDragDropOuter)
+			if (m_UseDragDropOuter)
 			{
 				m_Root->m_UseDragDropOuter = m_UseDragDropOuter;
 			}
@@ -229,7 +245,7 @@ public:
 	void SetDragAndDropCallback(CallbackType* obj, void(CallbackType::* func)(CEditorTreeItem<T>*, CEditorTreeItem<T>*,
 		const std::string&, const std::string&))
 	{
-		m_DragAndDropCallback = std::bind(func, obj, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, 
+		m_DragAndDropCallback = std::bind(func, obj, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
 			std::placeholders::_4);
 	}
 	template <typename WidgetType>

@@ -37,6 +37,7 @@ protected:
 protected:
 	//컴포넌트
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
+	CSharedPtr<class CAnimationMeshComponent>	m_WeaponMesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
 	CSharedPtr<class CRigidBody> m_Rigid;
@@ -133,8 +134,6 @@ public:
 		return m_PlayerData.Glittering;
 	}
 
-	void SetMesh(std::string Mesh);
-
 public:
 	//공통
 	void MoveFront();
@@ -152,6 +151,7 @@ public:
 	void IngameUI();
 	void RClick();
 	void LClick(); // Attack
+	void ResetIdle();	//아이들상태로 되돌리는 함수
 
 	// Spongebob
 	void Headbutt();
