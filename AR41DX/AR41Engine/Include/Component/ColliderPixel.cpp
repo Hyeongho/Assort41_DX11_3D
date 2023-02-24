@@ -85,16 +85,27 @@ void CColliderPixel::PostUpdate(float DeltaTime)
 	Size.x *= GetWorldScale().x;
 	Size.y *= GetWorldScale().y;
 
-	m_Min.x = GetWorldPos().x - Size.x * 0.5f;
-	m_Min.y = GetWorldPos().y - Size.y * 0.5f;
+	Vector3	Min, Max;
 
-	m_Max.x = m_Min.x + Size.x;
-	m_Max.y = m_Min.y + Size.y;
+	Min.x = GetWorldPos().x - Size.x * 0.5f;
+	Min.y = GetWorldPos().y - Size.y * 0.5f;
 
-	m_Info->Box2D.Left = m_Min.x;
-	m_Info->Box2D.Bottom = m_Min.y;
-	m_Info->Box2D.Right = m_Max.x;
-	m_Info->Box2D.Top = m_Max.y;
+	Max.x = Min.x + Size.x;
+	Max.y = Min.y + Size.y;
+
+	m_Info->Box2D.Left = Min.x;
+	m_Info->Box2D.Bottom = Min.y;
+	m_Info->Box2D.Right = Max.x;
+	m_Info->Box2D.Top = Max.y;
+
+	Min.x -= GetWorldPos().x;
+	Min.y -= GetWorldPos().y;
+
+	Max.x -= GetWorldPos().x;
+	Max.y -= GetWorldPos().y;
+
+	m_Transform->SetMin(Min);
+	m_Transform->SetMax(Max);
 }
 
 void CColliderPixel::Render()

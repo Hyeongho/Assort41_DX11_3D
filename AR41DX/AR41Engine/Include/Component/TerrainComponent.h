@@ -46,6 +46,14 @@ public:
     float GetDetailLevel() const;
 
     int GetSplatCount() const;
+    void SetCountX(int count)
+    {
+        m_CountX = count;
+    }
+    void SetCountY(int count)
+    {
+        m_CountY = count;
+    }
     //
     int GetFaceCount() const
     {
@@ -101,8 +109,9 @@ public:
     virtual bool Init();
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
+    virtual void RenderShadowMap();
     virtual void Render();
-    virtual CTerrainComponent* Clone()    const;
+    virtual CTerrainComponent* Clone() const;
     virtual void Save(FILE* File);
     virtual void Load(FILE* File);
 

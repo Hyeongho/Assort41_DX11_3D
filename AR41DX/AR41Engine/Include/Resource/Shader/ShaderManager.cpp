@@ -14,6 +14,7 @@
 #include "MeshInstancingShader.h"
 #include "DebugShader.h"
 #include "LightAccShader.h"
+#include "LightCelShader.h"
 #include "ScreenShader.h"
 #include "DeferredRenderShader.h"
 #include "AnimationUpdateShader.h"
@@ -22,6 +23,12 @@
 #include "BillboardShader.h"
 #include "ParticleUpdateShader.h"
 #include "ParticleRenderShader.h"
+#include "DecalShader.h"
+#include "DecalDebugShader.h"
+#include "ShadowMapShader.h"
+#include "ShadowMapStaticShader.h"
+#include "ShadowMapInstancingShader.h"
+#include "ShadowMapStaticInstancingShader.h"
 
 CShaderManager::CShaderManager()
 {
@@ -70,6 +77,9 @@ bool CShaderManager::Init()
 	CreateShader<CLightAccShader>("LightAccShader", true);
 
 
+	CreateShader<CLightCelShader>("LightCelShader", true);
+
+
 	CreateShader<CScreenShader>("ScreenShader", true);
 
 
@@ -94,19 +104,39 @@ bool CShaderManager::Init()
 	CreateShader<CParticleRenderShader>("ParticleRenderShader", true);
 
 
+	CreateShader<CDecalDebugShader>("DecalDebugShader", true);
+
+
+	CreateShader<CDecalShader>("DecalShader", true);
+
+
+	CreateShader<CShadowMapShader>("ShadowMapShader", true);
+
+
+	CreateShader<CShadowMapStaticShader>("ShadowMapStaticShader", true);
+
+
+	CreateShader<CShadowMapInstancingShader>("ShadowMapInstancingShader", true);
+
+
+	CreateShader<CShadowMapStaticInstancingShader>("ShadowMapStaticInstancingShader", true);
+
 	CreateConstantBuffer("Transform", sizeof(TransformCBuffer), 0);
 	CreateConstantBuffer("Material", sizeof(MaterialCBuffer), 1);
 	CreateConstantBuffer("Animation2D", sizeof(Animation2DCBuffer), 2);
 	CreateConstantBuffer("Global", sizeof(GlobalCBuffer), 3);
-	CreateConstantBuffer("Collider", sizeof(ColliderCBuffer), 10);
+	CreateConstantBuffer("Collider", sizeof(ColliderCBuffer), 13);
 	CreateConstantBuffer("UI", sizeof(UICBuffer), 10);
 	CreateConstantBuffer("UIProgressBar", sizeof(UIProgressBarCBuffer), 11);
 	CreateConstantBuffer("TileMap", sizeof(TileMapCBuffer), 10);
 	CreateConstantBuffer("Light", sizeof(LightCBuffer), 4);
 	CreateConstantBuffer("Instancing", sizeof(InstancingCBuffer), 5, (int)EShaderBufferType::Vertex);
-	CreateConstantBuffer("Animation", sizeof(AnimationCBuffer), 0, (int)EShaderBufferType::Compute);
+	CreateConstantBuffer("Animation", sizeof(AnimationCBuffer), 7, (int)EShaderBufferType::Compute);
 	CreateConstantBuffer("Terrain", sizeof(TerrainCBuffer), 10, (int)EShaderBufferType::Vertex | (int)EShaderBufferType::Pixel);
-	CreateConstantBuffer("ParticleUpdate", sizeof(ParticleCBuffer), 10, (int)EShaderBufferType::Compute);
+
+	CreateConstantBuffer("ParticleCBuffer", sizeof(ParticleCBuffer), 8, (int)EShaderBufferType::Compute);
+
+	CreateConstantBuffer("Shadow", sizeof(ShadowCBuffer), 13, (int)EShaderBufferType::Graphic);
 
 	m_ColliderCBuffer = new CColliderConstantBuffer;
 

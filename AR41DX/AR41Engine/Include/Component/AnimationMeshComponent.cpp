@@ -16,8 +16,10 @@ CAnimationMeshComponent::CAnimationMeshComponent()
 CAnimationMeshComponent::CAnimationMeshComponent(const CAnimationMeshComponent& component) :
 	CPrimitiveComponent(component)
 {
-	m_Skeleton = component.m_Skeleton->Clone();
-
+	if (component.m_Skeleton)
+	{
+		m_Skeleton = component.m_Skeleton->Clone();
+	}
 	m_Socket = nullptr;
 
 	if (component.m_Animation)
@@ -175,7 +177,19 @@ void CAnimationMeshComponent::Start()
 bool CAnimationMeshComponent::Init()
 {
 	if (!CPrimitiveComponent::Init())
+	{
 		return false;
+	}
+
+	if (m_Scene)
+	{
+		m_ShadowMapShader = (CGraphicShader*)m_Scene->GetResource()->FindShader("ShadowMapShader");
+	}
+
+	else
+	{
+		m_ShadowMapShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ShadowMapShader");
+	}
 
 	return true;
 }
@@ -202,6 +216,21 @@ void CAnimationMeshComponent::Render()
 
 	if (m_Animation)
 		m_Animation->ResetShader();
+}
+
+void CAnimationMeshComponent::RenderShadowMap()
+{
+	if (m_Animation)
+	{
+		m_Animation->SetShader();
+	}
+
+	CPrimitiveComponent::RenderShadowMap();
+
+	if (m_Animation)
+	{
+		m_Animation->ResetShader();
+	}
 }
 
 CAnimationMeshComponent* CAnimationMeshComponent::Clone() const

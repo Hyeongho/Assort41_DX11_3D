@@ -104,7 +104,21 @@ void CStaticMeshComponent::Start()
 bool CStaticMeshComponent::Init()
 {
 	if (!CPrimitiveComponent::Init())
+	{
 		return false;
+	}
+
+	if (m_Scene)
+	{
+		m_ShadowMapShader = (CGraphicShader*)m_Scene->GetResource()->FindShader("ShadowMapStaticShader");
+	}
+
+	else
+	{
+		m_ShadowMapShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ShadowMapStaticShader");
+	}
+
+
 	//김범중 에디터에서 빈오브젝트에서 생성했을때 에러 방지용 기본 메쉬
 	SetMesh("SpherePos");
 	AddMaterial("Billboard");
@@ -125,6 +139,11 @@ void CStaticMeshComponent::PostUpdate(float DeltaTime)
 void CStaticMeshComponent::Render()
 {
 	CPrimitiveComponent::Render();
+}
+
+void CStaticMeshComponent::RenderShadowMap()
+{
+	CPrimitiveComponent::RenderShadowMap();
 }
 
 CStaticMeshComponent* CStaticMeshComponent::Clone() const

@@ -27,7 +27,7 @@ private:
     bool m_Grid;
 
 public:
-    //±è¹üÁß ¿¡µğÅÍ¿ë
+    //Â±Ã¨Â¹Ã¼ÃÃŸ Â¿Â¡ÂµÃ°Ã…ÃÂ¿Ã«
     Vector2 GetSize()   const
     {
         return m_Size;
@@ -44,9 +44,19 @@ public:
     }
 
     float GetDetailLevel() const;
-
+    
     int GetSplatCount() const;
-    //
+    
+    void SetCountX(int count)
+    {
+        m_CountX = count;
+    }
+    
+    void SetCountY(int count)
+    {
+        m_CountY = count;
+    }
+
     int GetFaceCount() const
     {
         return (int)m_vecIndex.size() / 3;
@@ -101,8 +111,9 @@ public:
     virtual bool Init();
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
+    virtual void RenderShadowMap();
     virtual void Render();
-    virtual CTerrainComponent* Clone()    const;
+    virtual CTerrainComponent* Clone() const;
     virtual void Save(FILE* File);
     virtual void Load(FILE* File);
 

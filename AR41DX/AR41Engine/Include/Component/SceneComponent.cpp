@@ -2,11 +2,9 @@
 #include "../GameObject/GameObject.h"
 #include "../Resource/Animation/SkeletonSocket.h"
 #include "../Scene/Scene.h"
+#include "../Resource/Shader/GraphicShader.h"
 
-CSceneComponent::CSceneComponent()	:
-	m_Parent(nullptr),
-	m_Socket(nullptr),
-	m_LayerName("Default"),
+CSceneComponent::CSceneComponent() : m_Parent(nullptr), m_Socket(nullptr), m_FrustumCull(false), m_LayerName("Default"), 
 	m_SceneComponentType(SceneComponentType::Scene)
 {
 	SetTypeID<CSceneComponent>();
@@ -21,8 +19,7 @@ CSceneComponent::CSceneComponent()	:
 	m_ComponentTypeName = "SceneComponent";
 }
 
-CSceneComponent::CSceneComponent(const CSceneComponent& component)	:
-	CComponent(component)
+CSceneComponent::CSceneComponent(const CSceneComponent& component) : CComponent(component)
 {
 	m_Socket = nullptr;
 
@@ -324,6 +321,16 @@ void CSceneComponent::Render()
 	CComponent::Render();
 
 	m_Transform->SetTransform();
+}
+
+void CSceneComponent::RenderShadowMap()
+{
+	m_Transform->SetShadowMapTransform();
+
+	if (m_ShadowMapShader)
+	{
+		m_ShadowMapShader->SetShader();
+	}
 }
 
 CSceneComponent* CSceneComponent::Clone() const
@@ -700,6 +707,26 @@ void CSceneComponent::AddRelativePositionZ(float z)
 	m_Transform->AddRelativePositionZ(z);
 }
 
+const Vector3& CSceneComponent::GetCenter() const
+{
+	return m_Transform->GetCenter();
+}
+
+const Vector3& CSceneComponent::GetMin() const
+{
+	return m_Transform->GetMin();
+}
+
+const Vector3& CSceneComponent::GetMax() const
+{
+	return m_Transform->GetMax();
+}
+
+float CSceneComponent::GetRadius() const
+{
+	return m_Transform->GetRadius();
+}
+
 const Vector3& CSceneComponent::GetWorldScale() const
 {
 	return m_Transform->GetWorldScale();
@@ -758,6 +785,16 @@ void CSceneComponent::SetPivot(float x, float y, float z)
 void CSceneComponent::SetPivot(float x, float y)
 {
 	m_Transform->SetPivot(x, y);
+}
+
+void CSceneComponent::SetMin(const Vector3& Min)
+{
+	m_Transform->SetMin(Min);
+}
+
+void CSceneComponent::SetMax(const Vector3& Max)
+{
+	m_Transform->SetMax(Max);
 }
 
 void CSceneComponent::SetMeshSize(const Vector3& MeshSize)

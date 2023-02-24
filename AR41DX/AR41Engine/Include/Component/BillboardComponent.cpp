@@ -7,7 +7,6 @@
 #include "../Scene/CameraManager.h"
 #include "CameraComponent.h"
 #include "../Resource/ResourceManager.h"
-#
 
 CBillboardComponent::CBillboardComponent()
 {
