@@ -13,11 +13,17 @@ protected:
 
 protected:
     CSharedPtr<class CMesh> m_Mesh;
-    std::vector<CSharedPtr<class CMaterial>>    m_vecMaterial;
-    int     m_InstanceID;
-    bool    m_Render;
+    std::vector<CSharedPtr<class CMaterial>> m_vecMaterial;
+    int m_InstanceID;
+    bool m_Render;
+    bool m_ReceiveDecal;
 
 public:
+    bool GetReceiveDecal()	const
+    {
+        return m_ReceiveDecal;
+    }
+
     class CMesh* GetMesh()  const
     {
         return m_Mesh;
@@ -52,6 +58,9 @@ public:
     {
         return (int)m_vecMaterial.size();
     }
+
+public:
+    void SetReceiveDecal(bool Decal);
 
 public:
     virtual bool SetMesh(const std::string& Name);

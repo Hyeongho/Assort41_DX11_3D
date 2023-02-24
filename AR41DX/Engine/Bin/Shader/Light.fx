@@ -169,13 +169,10 @@ PS_OUTPUT_LIGHTACC LightAccPS(VS_OUTPUT_LIGHTACC input)
     float4 ProjPos;
 
     // 여기에 구성한 값은 출력되어 있는 물체의 w로 나누어준 값이 저장된것이다.
-    ProjPos.x = input.ProjPos.x;
-    ProjPos.y = input.ProjPos.y;
-    ProjPos.z = GBuffer3Color.r;
-    ProjPos.w = 1.f;
-
-    // w를 나누어준 값을 곱해서 투영공간의 위치를 구해낸다.
-    ProjPos *= GBuffer3Color.g;
+    ProjPos.x = (UV.x * 2.f - 1.f) * GBuffer3Color.g;
+    ProjPos.y = (UV.y * -2.f + 1.f) * GBuffer3Color.g;
+    ProjPos.z = GBuffer3Color.r * GBuffer3Color.g;
+    ProjPos.w = GBuffer3Color.g;
 
     // 조명연산을 위한 Normal은 뷰공간에 있으므로 뷰 공간의 위치를
     // 구해준다.

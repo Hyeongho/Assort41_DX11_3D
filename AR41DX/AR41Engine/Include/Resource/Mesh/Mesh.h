@@ -97,6 +97,7 @@ public:
 	}
 
 public:
+	void SetReceiveDecal(bool Decal);
 	void AddRenderCount(bool Add = true);
 
 public:

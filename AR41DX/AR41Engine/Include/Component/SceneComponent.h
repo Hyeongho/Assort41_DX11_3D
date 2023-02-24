@@ -24,8 +24,19 @@ protected:
 	std::string m_LayerName;
 	std::string m_ParentName;
 	std::vector<std::string> m_vecChildName;
+	bool m_FrustumCull;
 
 public:
+	bool GetFrustumCull() const
+	{
+		return m_FrustumCull;
+	}
+
+	void SetFrustumCull(bool Cull)
+	{
+		m_FrustumCull = Cull;
+	}
+
 	const std::string& GetSceneName() const
 	{
 		return m_SceneName;
@@ -152,20 +163,26 @@ public:
 	void AddRelativePositionZ(float z);
 
 public:
-	const Vector3& GetWorldScale()	const;
-	const Vector3& GetWorldRot()	const;
-	const Vector3& GetWorldPos()	const;
-	const Vector3& GetWorldAxis(AXIS Axis)	const;
-	const Vector3& GetPivot()	const;
-	const Vector3& GetMeshSize()	const;
-	const Vector3& GetOffset()	const;
-	const Matrix& GetWorldMatrix()	const;
+	const Vector3& GetCenter() const;
+	const Vector3& GetMin()	const;
+	const Vector3& GetMax()	const;
+	float GetRadius() const;
+	const Vector3& GetWorldScale() const;
+	const Vector3& GetWorldRot() const;
+	const Vector3& GetWorldPos() const;
+	const Vector3& GetWorldAxis(AXIS Axis) const;
+	const Vector3& GetPivot() const;
+	const Vector3& GetMeshSize() const;
+	const Vector3& GetOffset() const;
+	const Matrix& GetWorldMatrix() const;
 
 public:
 	void SetPivot(const Vector3& Pivot);
 	void SetPivot(const Vector2& Pivot);
 	void SetPivot(float x, float y, float z);
 	void SetPivot(float x, float y);
+	void SetMin(const Vector3& Min);
+	void SetMax(const Vector3& Max);
 	void SetMeshSize(const Vector3& MeshSize);
 	void SetMeshSize(const Vector2& MeshSize);
 	void SetMeshSize(float x, float y, float z);

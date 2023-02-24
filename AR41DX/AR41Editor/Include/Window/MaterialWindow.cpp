@@ -412,6 +412,7 @@ void CMaterialWindow::TreeCallback(CEditorTreeItem<class CMaterial*>* node, cons
        }
        m_RenderState[i]->SetText(m_SelectMaterial->GetRenderState(i)->GetName().c_str());
     }
+
     m_BaseColor[0]->SetFloat(m_SelectMaterial->GetBaseColor().x);
     m_BaseColor[1]->SetFloat(m_SelectMaterial->GetBaseColor().y);
     m_BaseColor[2]->SetFloat(m_SelectMaterial->GetBaseColor().z);

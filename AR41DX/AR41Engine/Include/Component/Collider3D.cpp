@@ -31,7 +31,11 @@ void CCollider3D::Start()
 bool CCollider3D::Init()
 {
 	if (!CCollider::Init())
+	{
 		return false;
+	}
+
+	m_WireFrame = CRenderManager::GetInst()->FindRenderState<CRenderState>("WireFrame");
 
 	return true;
 }

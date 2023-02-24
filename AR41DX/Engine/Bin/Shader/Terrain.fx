@@ -35,7 +35,7 @@ Texture2DArray g_SplatAlphaTextureArray: register(t13);
 
 float3 ComputeBumpNormalTerrain(float3 Tangent, float3 Binormal, float3 Normal, float2 UV, float2 OriginUV)
 {
-    float3 Result = Normal;
+    float3  Result = Normal;
 
     if (g_MtrlAmbientColor.w == 1.f)
     {
@@ -52,7 +52,7 @@ float3 ComputeBumpNormalTerrain(float3 Tangent, float3 Binormal, float3 Normal, 
         }
 
         // 색상은 0 ~ 1 사이로 나오므로 -1 ~ 1 사이로 변환한다.
-        float3 ConvertNormal = NormalColor.rgb * 2.f - 1.f;
+        float3  ConvertNormal = NormalColor.rgb * 2.f - 1.f;
 
         // z는 무조건 + 방향으로 만들어준다.;
         //ConvertNormal.z = 1.f;
@@ -114,7 +114,7 @@ PS_OUTPUT_GBUFFER TerrainPS(VS_OUTPUT_STATIC input)
     }
 
     // Alpha Texture의 색상을 얻어온다.
-    for (int i = 0; i < g_TerrainSplatCount; i++)
+    for (int i = 0; i < g_TerrainSplatCount; ++i)
     {
         float4 Alpha = g_SplatAlphaTextureArray.Sample(g_LinearSmp, float3(input.UV, i));
 
@@ -122,7 +122,7 @@ PS_OUTPUT_GBUFFER TerrainPS(VS_OUTPUT_STATIC input)
 
         TextureColor.rgb = TextureColor.rgb * (1.f - Alpha.r) + SplatDif.rgb * Alpha.r;
 
-        float4 SplatSpc = g_SplatSpcTextureArray.Sample(g_AnisotropicSmp, float3(DetailUV, i));
+        float4 SplatSpc = g_SplatSpcTextureArray.Sample(g_LinearSmp, float3(DetailUV, i));
 
         SpecularColor.rgb = SpecularColor.rgb * (1.f - Alpha.r) + SplatSpc.rgb * Alpha.r;
     }
@@ -138,7 +138,13 @@ PS_OUTPUT_GBUFFER TerrainPS(VS_OUTPUT_STATIC input)
     output.GBuffer3.r = input.ProjPos.z / input.ProjPos.w;
     output.GBuffer3.g = input.ProjPos.w;
     output.GBuffer3.b = g_MtrlSpecularColor.w;
-    output.GBuffer3.a = 1.f;
+    output.GBuffer3.a = g_MtrlReceiveDecal;
+
+    output.GBuffer5.a = 1.f;
+    output.GBuffer5.rgb = input.Tangent;
+
+    output.GBuffer6.a = 1.f;
+    output.GBuffer6.rgb = input.Normal;
 
     output.GBuffer4.r = ConvertColor(g_MtrlBaseColor);
     output.GBuffer4.g = ConvertColor(g_MtrlAmbientColor);

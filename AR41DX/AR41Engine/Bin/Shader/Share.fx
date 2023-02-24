@@ -28,6 +28,8 @@ struct PS_OUTPUT_GBUFFER
     float4 GBuffer2 : SV_TARGET1;
     float4 GBuffer3 : SV_TARGET2;
     float4 GBuffer4 : SV_TARGET3;
+    float4 GBuffer5 : SV_TARGET4;
+    float4 GBuffer6 : SV_TARGET5;
 };
 
 // 상수버퍼는 16바이트 단위로 맞춰야 한다.
@@ -59,8 +61,9 @@ cbuffer Material : register(b1)
     int g_MtrlTextureType;
     float g_MtrlTextureWidth;
     float g_MtrlTextureHeight;
-    int   g_MtrlAnimation3D;
-    float3  g_MtrlEmpty;
+    int g_MtrlAnimation3D;
+    int g_MtrlReceiveDecal;
+    float2 g_MtrlEmpty;
 };
 
 
@@ -74,7 +77,8 @@ struct InstancingBuffer
     float4 EmissiveColor;
     float Opacity;
     int Animation3D;
-    float2	Empty;
+    int ReceiveDecal;
+    float Empty;
 };
 
 StructuredBuffer<InstancingBuffer> g_InstancingInfoArray : register(t50);

@@ -52,6 +52,8 @@ bool CPrimitiveComponent::SetMesh(const std::string& Name)
 
 	if (m_Mesh)
 	{
+		SetMin(m_Mesh->GetMin());
+		SetMax(m_Mesh->GetMax());
 		SetMeshSize(m_Mesh->GetMeshSize());
 	}
 
@@ -83,6 +85,8 @@ bool CPrimitiveComponent::SetMesh(CMesh* Mesh)
 		return false;
 	}
 
+	SetMin(m_Mesh->GetMin());
+	SetMax(m_Mesh->GetMax());
 	SetMeshSize(m_Mesh->GetMeshSize());
 
 	int SlotCount = m_Mesh->GetSlotCount();

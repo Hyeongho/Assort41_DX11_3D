@@ -7,12 +7,10 @@
 #include "../../Scene/SceneResource.h"
 #include "../Shader/StructuredBuffer.h"
 
-CAnimationMesh::CAnimationMesh()	:
-	m_InstancingCount(100),
-	m_BoneBuffer(nullptr)
+CAnimationMesh::CAnimationMesh() : m_InstancingCount(100), m_BoneBuffer(nullptr)
 {
     m_MeshType = MeshType::Animation;
-
+	
     SetTypeID<CAnimationMesh>();
 }
 

@@ -1,7 +1,7 @@
 
 #include "Share.fx"
 
-cbuffer ParticleCBuffer : register(b10)
+cbuffer ParticleCBuffer : register(b8)
 {
     uint g_ParticleSpawnEnable; // 파티클 생성 여부
     float3 g_ParticleStartMin; // 파티클이 생성될 영역의 Min

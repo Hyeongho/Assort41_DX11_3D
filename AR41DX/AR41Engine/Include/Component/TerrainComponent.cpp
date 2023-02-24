@@ -77,6 +77,8 @@ bool CTerrainComponent::SetMesh(const std::string& Name, const TCHAR* FileName, 
 
 	if (m_Mesh)
 	{
+		SetMin(m_Mesh->GetMin());
+		SetMax(m_Mesh->GetMax());
 		SetMeshSize(m_Mesh->GetMeshSize());
 	}
 
@@ -110,6 +112,8 @@ bool CTerrainComponent::SetMeshFullPath(const std::string& Name, const TCHAR* Fu
 
 	if (m_Mesh)
 	{
+		SetMin(m_Mesh->GetMin());
+		SetMax(m_Mesh->GetMax());
 		SetMeshSize(m_Mesh->GetMeshSize());
 	}
 
@@ -178,6 +182,10 @@ void CTerrainComponent::Load(FILE* File)
 	CNavigationManager3D* NavMgr = (CNavigationManager3D*)m_Scene->GetNavigationManager();
 
 	NavMgr->CreateNavigationMesh(this);
+
+	//SetMin(Min);
+	//SetMax(Max);
+	//SetMeshSize(Max - Min);
 }
 
 void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float SizeY, const TCHAR* HeightMapName, const std::string& HeightMapPath)
@@ -278,6 +286,9 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 		vecY.resize(m_CountX * m_CountY);
 	}
 
+	Vector3	Min(FLT_MAX, FLT_MAX, FLT_MAX);
+	Vector3	Max(FLT_MIN, FLT_MIN, FLT_MIN);
+
 	// 정점정보와 인덱스 정보를 구성한다.
 	for (int i = 0; i < m_CountY; i++)
 	{
@@ -288,11 +299,43 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 			//Vtx.Normal = Vector3(0.f, 1.f, 0.f);
 			Vtx.UV = Vector2((float)j / (float)(m_CountX - 1), (float)i / (float)(m_CountY - 1));
 
+			if (Min.x > Vtx.Pos.x)
+			{
+				Min.x = Vtx.Pos.x;
+			}
+
+			if (Min.y > Vtx.Pos.y)
+			{
+				Min.y = Vtx.Pos.y;
+			}
+
+			if (Min.z > Vtx.Pos.z)
+			{
+				Min.z = Vtx.Pos.z;
+			}
+
+			if (Max.x < Vtx.Pos.x)
+			{
+				Max.x = Vtx.Pos.x;
+			}
+
+			if (Max.y < Vtx.Pos.y)
+			{
+				Max.y = Vtx.Pos.y;
+			}
+
+			if (Max.z < Vtx.Pos.z)
+			{
+				Max.z = Vtx.Pos.z;
+			}
+
 			m_vecVtx.push_back(Vtx);
 		}
 	}
 
-	SetMeshSize(m_Size.x, MaxY, m_Size.y);
+	SetMin(Min);
+	SetMax(Max);
+	SetMeshSize(Max - Min);
 
 	m_vecFaceNormal.resize((m_CountX - 1) * (m_CountY - 1) * 2);
 

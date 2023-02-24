@@ -54,6 +54,7 @@ protected:
     class CMaterialConstantBuffer* m_CBuffer;
     CSharedPtr<CRenderState>    m_RenderState[3];
     bool        m_Animation3D;
+    bool        m_ReceiveDecal;
 
 public:
     void SetBaseColor(const Vector4& Color);
@@ -74,7 +75,7 @@ public:
         unsigned char a);
     void SetOpacity(float Opacity);
     void AddOpacity(float Opacity);
-//김범중 에디터 값 조절용 함수
+    //김범중 에디터 값 조절용 함수
     class CShader* GetShader()
     {
         return m_Shader;
@@ -108,15 +109,16 @@ public:
     bool GetIsSpecular();
     bool GetIsEmissive();
     bool GetIsAnimation3D();
-    void EnableBump();
-    void EnableSpecular();
-    void EnableEmissive();
-    void EnableAnimation3D();
     void UnEnableBump();
     void UnEnableSpecular();
     void UnEnableEmissive();
     void UnEnableAnimation3D();
-//
+    void EnableBump();
+    void EnableSpecular();
+    void EnableEmissive();
+    void EnableAnimation3D();
+    void SetReceiveDecal(bool Receive);
+
     // === Texture 추가 ===
     void AddTexture(int Register, int ShaderBufferType, const std::string& Name,
         class CTexture* Texture);
@@ -168,6 +170,7 @@ public:
     void SetShader(const std::string& Name);
     void SetMaterial();
     void ResetMaterial();
+    void SetShadowMaterial();
     void SetInstancingMaterial();
     void ResetInstancingMaterial();
     CMaterial* Clone()  const;

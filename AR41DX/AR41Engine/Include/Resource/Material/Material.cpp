@@ -7,7 +7,7 @@
 #include "../Shader/Shader.h"
 #include "../../Render/RenderManager.h"
 
-CMaterial::CMaterial()	:
+CMaterial::CMaterial() :
 	m_BaseColor(Vector4::White),
 	m_AmbientColor(0.2f, 0.2f, 0.2f, 1.f),
 	m_SpecularColor(Vector4::White),
@@ -28,7 +28,7 @@ CMaterial::CMaterial()	:
 	m_CBuffer->SetOpacity(m_Opacity);
 }
 
-CMaterial::CMaterial(const CMaterial& Material)	:
+CMaterial::CMaterial(const CMaterial& Material) :
 	CRef(Material)
 {
 	m_Shader = Material.m_Shader;
@@ -259,7 +259,13 @@ void CMaterial::UnEnableAnimation3D()
 	m_CBuffer->SetAnimation3D(false);
 }
 
-void CMaterial::AddTexture(int Register, int ShaderBufferType, 
+void CMaterial::SetReceiveDecal(bool receive)
+{
+	m_ReceiveDecal = receive;
+	//m_CBuffer->SetReceiveDecal(receive);
+}
+
+void CMaterial::AddTexture(int Register, int ShaderBufferType,
 	const std::string& Name, CTexture* Texture)
 {
 	MaterialTextureInfo* Info = new MaterialTextureInfo;
@@ -272,7 +278,7 @@ void CMaterial::AddTexture(int Register, int ShaderBufferType,
 	m_vecTextureInfo.push_back(Info);
 }
 
-void CMaterial::AddTexture(int Register, int ShaderBufferType, 
+void CMaterial::AddTexture(int Register, int ShaderBufferType,
 	const std::string& Name, const TCHAR* FileName, const std::string& PathName)
 {
 	MaterialTextureInfo* Info = new MaterialTextureInfo;
@@ -300,7 +306,7 @@ void CMaterial::AddTexture(int Register, int ShaderBufferType,
 	m_vecTextureInfo.push_back(Info);
 }
 
-void CMaterial::AddTextureFullPath(int Register, int ShaderBufferType, 
+void CMaterial::AddTextureFullPath(int Register, int ShaderBufferType,
 	const std::string& Name, const TCHAR* FullPath)
 {
 	MaterialTextureInfo* Info = new MaterialTextureInfo;
@@ -328,8 +334,8 @@ void CMaterial::AddTextureFullPath(int Register, int ShaderBufferType,
 	m_vecTextureInfo.push_back(Info);
 }
 
-void CMaterial::AddTexture(int Register, int ShaderBufferType, 
-	const std::string& Name, const std::vector<const TCHAR*>& vecFileName, 
+void CMaterial::AddTexture(int Register, int ShaderBufferType,
+	const std::string& Name, const std::vector<const TCHAR*>& vecFileName,
 	const std::string& PathName)
 {
 	MaterialTextureInfo* Info = new MaterialTextureInfo;
@@ -357,7 +363,7 @@ void CMaterial::AddTexture(int Register, int ShaderBufferType,
 	m_vecTextureInfo.push_back(Info);
 }
 
-void CMaterial::AddTextureFullPath(int Register, int ShaderBufferType, 
+void CMaterial::AddTextureFullPath(int Register, int ShaderBufferType,
 	const std::string& Name, const std::vector<const TCHAR*>& vecFullPath)
 {
 	MaterialTextureInfo* Info = new MaterialTextureInfo;
@@ -385,8 +391,8 @@ void CMaterial::AddTextureFullPath(int Register, int ShaderBufferType,
 	m_vecTextureInfo.push_back(Info);
 }
 
-void CMaterial::AddTextureArray(int Register, int ShaderBufferType, 
-	const std::string& Name, const std::vector<const TCHAR*>& vecFileName, 
+void CMaterial::AddTextureArray(int Register, int ShaderBufferType,
+	const std::string& Name, const std::vector<const TCHAR*>& vecFileName,
 	const std::string& PathName)
 {
 	MaterialTextureInfo* Info = new MaterialTextureInfo;
@@ -456,7 +462,7 @@ void CMaterial::SetTexture(int Index, int Register, int ShaderBufferType,
 	Info->Texture = Texture;
 }
 
-void CMaterial::SetTexture(int Index, int Register, int ShaderBufferType, 
+void CMaterial::SetTexture(int Index, int Register, int ShaderBufferType,
 	const std::string& Name, const TCHAR* FileName, const std::string& PathName)
 {
 	if (Index < 0 || Index >= (int)m_vecTextureInfo.size())
@@ -513,7 +519,7 @@ void CMaterial::SetTextureFullPath(int Index, int Register, int ShaderBufferType
 	}
 }
 
-void CMaterial::SetTexture(int Index, int Register, int ShaderBufferType, 
+void CMaterial::SetTexture(int Index, int Register, int ShaderBufferType,
 	const std::string& Name, const std::vector<const TCHAR*>& vecFileName,
 	const std::string& PathName)
 {
@@ -543,8 +549,8 @@ void CMaterial::SetTexture(int Index, int Register, int ShaderBufferType,
 	}
 }
 
-void CMaterial::SetTextureFullPath(int Index, int Register, 
-	int ShaderBufferType, const std::string& Name, 
+void CMaterial::SetTextureFullPath(int Index, int Register,
+	int ShaderBufferType, const std::string& Name,
 	const std::vector<const TCHAR*>& vecFullPath)
 {
 	if (Index < 0 || Index >= (int)m_vecTextureInfo.size())
@@ -717,7 +723,7 @@ void CMaterial::SetMaterial()
 	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecTextureInfo[i]->Texture->SetShader(m_vecTextureInfo[i]->Register,
-			m_vecTextureInfo[i]->ShaderBufferType, 
+			m_vecTextureInfo[i]->ShaderBufferType,
 			m_vecTextureInfo[i]->Index);
 	}
 }
