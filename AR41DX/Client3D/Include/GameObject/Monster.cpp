@@ -18,7 +18,7 @@ CMonster::CMonster() :
 	, m_AttackRange(false)
 	, m_MoveSpeed(100.f)
 	, m_DeltaTime(0.f)
-	, m_MonsterHP(100.f)
+	, m_MonsterHP(100)
 {
 	SetTypeID<CMonster>();
 

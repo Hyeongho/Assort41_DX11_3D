@@ -611,6 +611,11 @@ float CNavigationMesh::GetHeight(const Vector3& Pos)
 		Index++;
 	}
 
+	if(Index== m_vecCell.size())
+	{
+		Index = m_vecCell.size() - 1;
+	}
+
 	NavMeshInfo* Cell = m_vecCell[Index];
 
 	// ÁÂÇÏ´Ü
