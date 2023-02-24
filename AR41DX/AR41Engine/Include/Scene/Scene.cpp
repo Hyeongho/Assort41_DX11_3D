@@ -1,4 +1,6 @@
+
 #include "Scene.h"
+#include "SceneManager.h"
 #include "../GameObject/GameObject.h"
 #include "../Input.h"
 #include "../Component/SpriteComponent.h"
@@ -8,8 +10,6 @@
 #include "../Component/ColliderBox2D.h"
 #include "../Component/TileMapComponent.h"
 #include "../Component/NavigationAgent.h"
-#include "../Component/LightComponent.h"
-#include "../Component/RigidBody.h"
 #include "../Animation/Animation2D.h"
 #include "../UI/UIButton.h"
 #include "../UI/UIImage.h"
@@ -139,17 +139,7 @@ void CScene::CreateCDO()
 
 	CComponent::AddComponentCDO("NavigationAgent", ComCDO);
 
-	ComCDO = new CLightComponent;
 
-	ComCDO->Init();
-
-	CComponent::AddComponentCDO("LightComponent", ComCDO);
-
-	ComCDO = new CRigidBody;
-
-	ComCDO->Init();
-
-	CComponent::AddComponentCDO("RigidBody", ComCDO);
 	// ==================== Animation ====================
 	CAnimation2D* AnimCDO = new CAnimation2D;
 
@@ -193,17 +183,10 @@ void CScene::Start()
 {
 	m_Start = true;
 
-	m_SkySphere = new CSkySphere;
-
-	m_SkySphere->SetName("Sky");
-	m_SkySphere->SetScene(this);
-
-	m_SkySphere->Init();
-
 	auto	iter = m_ObjList.begin();
 	auto	iterEnd = m_ObjList.end();
 
-	for (; iter != iterEnd; iter++)
+	for (; iter != iterEnd; ++iter)
 	{
 		(*iter)->Start();
 	}
@@ -217,15 +200,18 @@ void CScene::Start()
 
 bool CScene::Init()
 {
+	m_SkySphere = new CSkySphere;
+
+	m_SkySphere->SetName("Sky");
+	m_SkySphere->SetScene(this);
+
+	m_SkySphere->Init();
+
 	if (CEngine::GetInst()->GetRender2D())
-	{
 		m_NavManager = new CNavigationManager2D;
-	}
 
 	else
-	{
 		m_NavManager = new CNavigationManager3D;
-	}
 
 	m_NavManager->m_Owner = this;
 
@@ -237,14 +223,12 @@ bool CScene::Init()
 void CScene::Update(float DeltaTime)
 {
 	if (m_SceneInfo)
-	{
 		m_SceneInfo->Update(DeltaTime);
-	}
 
 	m_SkySphere->Update(DeltaTime);
 
-	auto iter = m_ObjList.begin();
-	auto iterEnd = m_ObjList.end();
+	auto	iter = m_ObjList.begin();
+	auto	iterEnd = m_ObjList.end();
 
 	for (; iter != iterEnd;)
 	{
@@ -257,12 +241,12 @@ void CScene::Update(float DeltaTime)
 
 		else if (!(*iter)->GetEnable())
 		{
-			iter++;
+			++iter;
 			continue;
 		}
 
 		(*iter)->Update(DeltaTime);
-		iter++;
+		++iter;
 	}
 
 	m_CameraManager->Update(DeltaTime);
@@ -273,14 +257,12 @@ void CScene::Update(float DeltaTime)
 void CScene::PostUpdate(float DeltaTime)
 {
 	if (m_SceneInfo)
-	{
 		m_SceneInfo->PostUpdate(DeltaTime);
-	}
 
 	m_SkySphere->PostUpdate(DeltaTime);
 
-	auto iter = m_ObjList.begin();
-	auto iterEnd = m_ObjList.end();
+	auto	iter = m_ObjList.begin();
+	auto	iterEnd = m_ObjList.end();
 
 	for (; iter != iterEnd;)
 	{
@@ -293,12 +275,12 @@ void CScene::PostUpdate(float DeltaTime)
 
 		else if (!(*iter)->GetEnable())
 		{
-			iter++;
+			++iter;
 			continue;
 		}
 
 		(*iter)->PostUpdate(DeltaTime);
-		iter++;
+		++iter;
 	}
 
 	m_CameraManager->PostUpdate(DeltaTime);
@@ -306,6 +288,16 @@ void CScene::PostUpdate(float DeltaTime)
 	m_Viewport->PostUpdate(DeltaTime);
 
 	m_LightManager->Update(DeltaTime);
+
+	CCameraComponent* Camera = m_CameraManager->GetCurrentCamera();
+
+	iter = m_ObjList.begin();
+	iterEnd = m_ObjList.end();
+
+	for (; iter != iterEnd; ++iter)
+	{
+		(*iter)->FrustumCull(Camera);
+	}
 }
 
 void CScene::Collision(float DeltaTime)
@@ -342,7 +334,7 @@ void CScene::Save(const char* FullPath)
 	auto	iter = m_ObjList.begin();
 	auto	iterEnd = m_ObjList.end();
 
-	for (; iter != iterEnd; iter++)
+	for (; iter != iterEnd; ++iter)
 	{
 		std::string	ClassTypeName = (*iter)->GetObjectTypeName();
 
@@ -592,7 +584,7 @@ void CScene::GetAllGameObjectHierarchyName(std::vector<HierarchyObjectName>& vec
 	auto    iter = m_ObjList.begin();
 	auto    iterEnd = m_ObjList.end();
 
-	for (; iter != iterEnd; iter++)
+	for (; iter != iterEnd; ++iter)
 	{
 		HierarchyObjectName	Names;
 
@@ -618,11 +610,66 @@ CGameObject* CScene::FindObject(const std::string& Name)
 	auto	iter = m_ObjList.begin();
 	auto	iterEnd = m_ObjList.end();
 
-	for (; iter != iterEnd; iter++)
+	for (; iter != iterEnd; ++iter)
 	{
 		if ((*iter)->GetName() == Name)
 			return *iter;
 	}
 
 	return nullptr;
+}
+
+bool CScene::Picking(PickingResult& result)
+{
+	if (CEngine::GetInst()->GetEditorMode())
+	{
+		// 오브젝트 리스트를 정렬한다.
+		std::list<CSharedPtr<class CGameObject>>	ObjList;
+
+		auto	iter = m_ObjList.begin();
+		auto	iterEnd = m_ObjList.end();
+
+		for (; iter != iterEnd; ++iter)
+		{
+			if (!(*iter)->GetActive() ||
+				!(*iter)->GetEnable())
+				continue;
+
+			else if (!(*iter)->GetFrustumCull())
+				continue;
+
+			ObjList.push_back(*iter);
+
+			//if ((*iter)->Picking(result))
+			//	return true;
+		}
+
+		ObjList.sort(CScene::SortObject);
+
+		iter = ObjList.begin();
+		iterEnd = ObjList.end();
+
+		for (; iter != iterEnd; ++iter)
+		{
+			if ((*iter)->Picking(result))
+				return true;
+		}
+
+		return false;
+	}
+
+	return m_CollisionManager->Picking(result);
+}
+
+bool CScene::SortObject(CGameObject* Src, CGameObject* Dest)
+{
+	Vector3	SrcCenter = Src->GetCenter();
+	Vector3	DestCenter = Dest->GetCenter();
+
+	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
+
+	float	SrcDist = Camera->GetWorldPos().Distance(SrcCenter) - Src->GetObjectRadius();
+	float	DestDist = Camera->GetWorldPos().Distance(DestCenter) - Dest->GetObjectRadius();
+
+	return SrcDist < DestDist;
 }

@@ -7,7 +7,11 @@
 #include "../PathManager.h"
 #include "../Input.h"
 #include "Scene.h"
+#include "SceneManager.h"
 #include "SceneViewport.h"
+#include "../CollisionManager.h"
+#include "CameraManager.h"
+#include "../Component/CameraComponent.h"
 
 CSceneCollision::CSceneCollision()	:
 	m_CollisionWidget(false)
@@ -65,7 +69,7 @@ bool CSceneCollision::Init()
 
 	CreateSection2D(10, 10, Vector2(), Vector2(Width, Height));
 
-	//CreateSection3D(5, 5, 5, Vector3(), Vector3(Width, Height));
+	CreateSection3D(5, 5, 5, Vector3(), Vector3(1000.f, 1000.f, 1000.f));
 
 	return true;
 }
@@ -211,6 +215,8 @@ void CSceneCollision::CreateSection3D(int CountX, int CountY, int CountZ, const 
 
 				Section->m_Min = WorldStart + SectionSize * Vector3((float)k, (float)j, (float)i);
 				Section->m_Max = Section->m_Min + SectionSize;
+				Section->m_Center = (Section->m_Min + Section->m_Max) * 0.5f;
+				Section->m_Radius = (Section->m_Max - Section->m_Min).Length() * 0.5f;
 				Section->m_IndexX = k;
 				Section->m_IndexY = j;
 				Section->m_IndexZ = i;
@@ -550,4 +556,101 @@ PixelInfo* CSceneCollision::FindPixelCollision(const std::string& Name)
 		return nullptr;
 
 	return iter->second;
+}
+
+bool CSceneCollision::Picking(PickingResult& result)
+{
+	Ray	ray = CInput::GetInst()->GetRay();
+
+	Matrix	matView = m_Owner->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
+
+	matView.Inverse();
+
+	ray.ConvertSpace(matView);
+
+	// 광선이 관통하는 구를 찾는다.
+	size_t	SectionCount = m_Section3D.vecSection.size();
+
+	std::list<int>	SectionList;
+
+	for (size_t i = 0; i < SectionCount; ++i)
+	{
+		Vector3 Center = m_Section3D.vecSection[i]->m_Center;
+		float Radius = m_Section3D.vecSection[i]->m_Radius;
+
+		PickingResult	SectionResult;
+		if (CCollisionManager::GetInst()->CollisionRayToSphere(SectionResult, ray, Center, Radius))
+		{
+			SectionList.push_back((int)i);
+		}
+	}
+
+	SectionList.sort(CSceneCollision::SortPickginSection);
+
+	auto iter = SectionList.begin();
+	auto iterEnd = SectionList.end();
+
+	for (; iter != iterEnd; iter++)
+	{
+		int	Idx = *iter;
+
+		std::list<CSharedPtr<CCollider3D>>	List = m_Section3D.vecSection[Idx]->m_ColliderList;
+
+		if (List.empty())
+		{
+			continue;
+		}
+
+		List.sort(CSceneCollision::SortColliderList);
+
+		auto iter1 = List.begin();
+		auto iter1End = List.end();
+
+		for (; iter1 != iter1End; ++iter1)
+		{
+			if (!(*iter1)->GetActive() || !(*iter1)->GetEnable() || (*iter1)->GetFrustumCull())
+			{
+				continue;
+			}
+
+			if (CCollisionManager::GetInst()->CollisionRayToSphere( result, ray, (*iter1)->GetCenter(), (*iter1)->GetRadius()))
+			{
+				result.PickObject = (*iter1)->GetOwner();
+				result.PickComponent = *iter1;
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool CSceneCollision::SortPickginSection(int Src, int Dest)
+{
+	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
+
+	Vector3	CameraPos = Camera->GetWorldPos();
+
+	CSceneCollision* Collision = CSceneManager::GetInst()->GetScene()->GetCollisionManager();
+
+	Vector3	SrcCenter = Collision->m_Section3D.vecSection[Src]->m_Center;
+	Vector3	DestCenter = Collision->m_Section3D.vecSection[Dest]->m_Center;
+
+	float	SrcDist = CameraPos.Distance(SrcCenter);
+	float	DestDist = CameraPos.Distance(DestCenter);
+
+	return SrcDist < DestDist;
+}
+
+bool CSceneCollision::SortColliderList(CSharedPtr<class CCollider3D> Src, CSharedPtr<class CCollider3D> Dest)
+{
+	Vector3	SrcCenter = Src->GetCenter();
+	Vector3	DestCenter = Dest->GetCenter();
+
+	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
+
+	float	SrcDist = Camera->GetWorldPos().Distance(SrcCenter) - Src->GetRadius();
+	float	DestDist = Camera->GetWorldPos().Distance(DestCenter) - Dest->GetRadius();
+
+	return SrcDist < DestDist;
 }

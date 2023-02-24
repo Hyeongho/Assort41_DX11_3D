@@ -111,8 +111,9 @@ public:
     virtual bool Init();
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
+    virtual void RenderShadowMap();
     virtual void Render();
-    virtual CTerrainComponent* Clone()    const;
+    virtual CTerrainComponent* Clone() const;
     virtual void Save(FILE* File);
     virtual void Load(FILE* File);
 

@@ -22,6 +22,11 @@ private:
 	class CStructuredBuffer* m_RandomBuffer;
 
 public:
+	class CGlobalConstantBuffer* GetGlobalCBuffer()	const
+	{
+		return m_GlobalCBuffer;
+	}
+
 	bool GetRender2D()	const
 	{
 		return m_Render2D;

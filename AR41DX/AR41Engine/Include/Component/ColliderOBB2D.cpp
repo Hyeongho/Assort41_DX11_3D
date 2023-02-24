@@ -93,20 +93,31 @@ void CColliderOBB2D::PostUpdate(float DeltaTime)
 	Pos[3] = m_Info.Center + m_Info.Axis[AXIS2D_X] * m_Info.Length[AXIS2D_X] -
 		m_Info.Axis[AXIS2D_Y] * m_Info.Length[AXIS2D_Y];
 
-	m_Min.x = Pos[0].x;
-	m_Min.y = Pos[0].y;
+	Vector3	Min, Max;
 
-	m_Max.x = Pos[0].x;
-	m_Max.y = Pos[0].y;
+	Min.x = Pos[0].x;
+	Min.y = Pos[0].y;
+
+	Max.x = Pos[0].x;
+	Max.y = Pos[0].y;
 
 	for (int i = 1; i < 4; ++i)
 	{
-		m_Min.x = m_Min.x > Pos[i].x ? Pos[i].x : m_Min.x;
-		m_Min.y = m_Min.y > Pos[i].y ? Pos[i].y : m_Min.y;
+		Min.x = Min.x > Pos[i].x ? Pos[i].x : Min.x;
+		Min.y = Min.y > Pos[i].y ? Pos[i].y : Min.y;
 
-		m_Max.x = m_Max.x < Pos[i].x ? Pos[i].x : m_Max.x;
-		m_Max.y = m_Max.y < Pos[i].y ? Pos[i].y : m_Max.y;
+		Max.x = Max.x < Pos[i].x ? Pos[i].x : Max.x;
+		Max.y = Max.y < Pos[i].y ? Pos[i].y : Max.y;
 	}
+
+	Min.x -= GetWorldPos().x;
+	Min.y -= GetWorldPos().y;
+
+	Max.x -= GetWorldPos().x;
+	Max.y -= GetWorldPos().y;
+
+	m_Transform->SetMin(Min);
+	m_Transform->SetMax(Max);
 }
 
 void CColliderOBB2D::Render()

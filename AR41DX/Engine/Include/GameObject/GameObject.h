@@ -62,8 +62,28 @@ protected:
 	std::vector<CSharedPtr<CObjectComponent>>   m_vecObjectComponent;
 	float       m_LifeTime;
 	bool		m_Start;
+	Vector3		m_Min;
+	Vector3		m_Max;
+	Vector3		m_Center;
+	float		m_Radius;
+	bool		m_FrustumCull;
 
 public:
+	const Vector3& GetCenter()	const
+	{
+		return m_Center;
+	}
+
+	float GetObjectRadius()	const
+	{
+		return m_Radius;
+	}
+
+	bool GetFrustumCull()	const
+	{
+		return m_FrustumCull;
+	}
+
 	void SetLifeTime(float LifeTime)
 	{
 		m_LifeTime = LifeTime;
@@ -87,7 +107,7 @@ public:
 		auto	iter = m_SceneComponentList.begin();
 		auto	iterEnd = m_SceneComponentList.end();
 
-		for (; iter != iterEnd; iter++)
+		for (; iter != iterEnd; ++iter)
 		{
 			if (*iter == Component)
 			{
@@ -117,7 +137,7 @@ public:
 		auto    iter = m_SceneComponentList.begin();
 		auto    iterEnd = m_SceneComponentList.end();
 
-		for (; iter != iterEnd; iter++)
+		for (; iter != iterEnd; ++iter)
 		{
 			if ((*iter)->CheckTypeID<T>())
 				return (T*)*iter;
@@ -126,7 +146,7 @@ public:
 		auto    iter1 = m_vecObjectComponent.begin();
 		auto    iter1End = m_vecObjectComponent.end();
 
-		for (; iter1 != iter1End; iter1++)
+		for (; iter1 != iter1End; ++iter1)
 		{
 			if ((*iter1)->CheckTypeID<T>())
 				return (T*)(*iter1).Get();
@@ -144,6 +164,13 @@ public:
 	virtual CGameObject* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+
+public:
+	void FrustumCull(class CCameraComponent* Camera);
+	bool Picking(PickingResult& result);
+	static bool SortComponent(class CSceneComponent* Src,
+		class CSceneComponent* Dest);
 
 
 public:
@@ -255,6 +282,7 @@ public:
 	void AddRelativePositionZ(float z);
 
 public:
+	float GetRadius()	const;
 	const Vector3& GetWorldScale()	const;
 	const Vector3& GetWorldRot()	const;
 	const Vector3& GetWorldPos()	const;

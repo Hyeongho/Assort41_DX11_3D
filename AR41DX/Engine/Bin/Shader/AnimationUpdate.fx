@@ -216,7 +216,7 @@ RWStructuredBuffer<OutputBoneInfo> g_BoneSocketMatrixArray : register(u1);
 RWStructuredBuffer<matrix> g_InstancingBoneMatrixArray : register(u2);
 
 
-cbuffer AnimationCBuffer : register(b0)
+cbuffer AnimationCBuffer : register(b7)
 {
     int		g_AnimBoneCount;
     int		g_AnimCurrentFrame;
