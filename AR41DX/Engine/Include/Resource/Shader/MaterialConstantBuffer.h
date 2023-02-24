@@ -92,5 +92,10 @@ public:
 	{
 		m_BufferData.TextureHeight = Height;
 	}
+
+	void SetReceiveDecal(bool Receive)
+	{
+		m_BufferData.ReceiveDecal = Receive ? 1 : 0;
+	}
 };
 

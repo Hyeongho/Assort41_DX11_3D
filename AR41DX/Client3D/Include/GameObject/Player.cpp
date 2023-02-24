@@ -92,6 +92,10 @@ void CPlayer::Start()
 	{
 		weapon = m_Scene->CreateObject<CWeapon>("Weapon");
 	}
+
+	//源踰붿쨷 ?뚯폆 愿??
+	CWeapon3D* weapon = m_Scene->CreateObject<CWeapon3D>("Weapon");
+
 	AddChildToSocket("Weapon", weapon);
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
@@ -108,16 +112,36 @@ bool CPlayer::Init()
 
 	SetRootComponent(m_Mesh);
 
+	m_Mesh->SetRelativeRotationY(180.f);
+
 	m_Mesh->AddChild(m_Rigid);
 	m_Mesh->AddChild(m_Arm);
 	m_Arm->AddChild(m_Camera);
 
-	m_Camera->SetInheritRotX(true);
-	m_Camera->SetInheritRotY(true);
+	m_Camera->SetInheritRotX(false);
+	m_Camera->SetInheritRotY(false);
 
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
 	m_Rigid->SetGround(true);	//땅에 붙어있다고 설정
+
+	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
+	//LoadSandyAnim();
+
+	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);
+
+	//m_Animation->AddAnimation("PlayerIdle", "PlayerIdle", 1.f, 1.f, true);*/
+
+	//m_Rigid->SetGravity(true);
+	m_Rigid->SetGround(true);	//?낆뿉 遺숈뼱?덈떎怨??ㅼ젙
+
+	LoadSpongebobAnim();
+	LoadPatrickAnim();
+	LoadSandyAnim();
+
+	ChangeSandy();
+	//ChangePatrick();
+
 	return true;
 }
 
@@ -296,11 +320,15 @@ void CPlayer::MoveLeft()
 	default:
 		break;
 	}
+
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
 	float angle = m_Camera->GetWorldRot().y -90.f;
 	SetWorldRotationY(angle + 180.f);
 	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
 	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
+	
+	m_Mesh->AddWorldRotationY(-180.f * CEngine::GetInst()->GetDeltaTime());
+
 }
 
 void CPlayer::MoveRight()
@@ -327,6 +355,7 @@ void CPlayer::MoveRight()
 	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
 }
 
+
 void CPlayer::Stop()
 {
 	switch (m_MainCharacter)
@@ -340,6 +369,8 @@ void CPlayer::Stop()
 	default:
 		break;
 	}
+
+	m_Mesh->AddWorldRotationY(180.f * CEngine::GetInst()->GetDeltaTime());
 }
 
 void CPlayer::Jump()

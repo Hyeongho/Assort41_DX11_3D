@@ -2,6 +2,8 @@
 #include "../../Device.h"
 #include "../ResourceManager.h"
 #include "../Mesh/Mesh.h"
+#include "../../Engine.h"
+#include "../Shader/GlobalConstantBuffer.h"
 
 CRenderTarget::CRenderTarget()	:
 	m_TargetView(nullptr),
@@ -12,7 +14,8 @@ CRenderTarget::CRenderTarget()	:
 	m_Surface(nullptr),
 	m_ClearColor{},
 	m_DebugRender(true),
-	m_CBuffer(nullptr)
+	m_CBuffer(nullptr),
+	m_Scale(100.f, 100.f, 1.f)
 {
 	m_ImageType = EImageType::RenderTarget;
 }
@@ -189,10 +192,15 @@ void CRenderTarget::Render()
 
 	m_CBuffer->UpdateBuffer();
 
+	CGlobalConstantBuffer* Buffer = CEngine::GetInst()->GetGlobalCBuffer();
+
+	Buffer->SetShadowMapResolution((float)GetWidth(), (float)GetHeight());
+
+	Buffer->UpdateBuffer();
+
 	SetTargetShader();
 
 	m_Mesh->Render();
-
 
 	ResetTargetShader();
 }

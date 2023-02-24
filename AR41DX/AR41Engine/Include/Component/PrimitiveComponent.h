@@ -13,11 +13,17 @@ protected:
 
 protected:
     CSharedPtr<class CMesh> m_Mesh;
-    std::vector<CSharedPtr<class CMaterial>>    m_vecMaterial;
-    int     m_InstanceID;
-    bool    m_Render;
+    std::vector<CSharedPtr<class CMaterial>> m_vecMaterial;
+    int m_InstanceID;
+    bool m_Render;
+    bool m_ReceiveDecal;
 
 public:
+    bool GetReceiveDecal()	const
+    {
+        return m_ReceiveDecal;
+    }
+
     class CMesh* GetMesh()  const
     {
         return m_Mesh;
@@ -54,10 +60,12 @@ public:
     }
 
 public:
+    void SetReceiveDecal(bool Decal);
+
+public:
     virtual bool SetMesh(const std::string& Name);
     virtual bool SetMesh(class CMesh* Mesh);
-    virtual bool SetMesh(const std::string& Name, const TCHAR* FileName,
-        const std::string& PathName = TEXTURE_PATH);
+    virtual bool SetMesh(const std::string& Name, const TCHAR* FileName, const std::string& PathName = TEXTURE_PATH);
     virtual bool SetMeshFullPath(const std::string& Name, const TCHAR* FullPath);
     virtual void SetMaterial(int Slot, const std::string& Name);
     virtual void SetMaterial(int Slot, class CMaterial* Material);
@@ -71,7 +79,8 @@ public:
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
     virtual void Render();
-    virtual CPrimitiveComponent* Clone()    const;
+    virtual void RenderShadowMap();
+    virtual CPrimitiveComponent* Clone() const;
     virtual void Save(FILE* File);
     virtual void Load(FILE* File);
 };

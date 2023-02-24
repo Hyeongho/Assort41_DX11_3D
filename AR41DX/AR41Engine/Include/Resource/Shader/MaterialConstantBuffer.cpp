@@ -4,6 +4,7 @@
 CMaterialConstantBuffer::CMaterialConstantBuffer() :
 	m_BufferData{}
 {
+	m_BufferData.ReceiveDecal = 1;
 }
 
 CMaterialConstantBuffer::CMaterialConstantBuffer(const CMaterialConstantBuffer& Buffer) :

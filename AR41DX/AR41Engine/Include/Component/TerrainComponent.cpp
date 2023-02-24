@@ -87,6 +87,8 @@ bool CTerrainComponent::SetMesh(const std::string& Name, const TCHAR* FileName, 
 
 	if (m_Mesh)
 	{
+		SetMin(m_Mesh->GetMin());
+		SetMax(m_Mesh->GetMax());
 		SetMeshSize(m_Mesh->GetMeshSize());
 	}
 
@@ -120,6 +122,8 @@ bool CTerrainComponent::SetMeshFullPath(const std::string& Name, const TCHAR* Fu
 
 	if (m_Mesh)
 	{
+		SetMin(m_Mesh->GetMin());
+		SetMax(m_Mesh->GetMax());
 		SetMeshSize(m_Mesh->GetMeshSize());
 	}
 
@@ -152,7 +156,19 @@ bool CTerrainComponent::Init()
 	{
 		return false;
 	}
-	CreateTerrain(681, 631, 70.f, 70.f, TEXT("LandScape/BikiniCity_Height.png"));
+
+	if (m_Scene)
+	{
+		m_ShadowMapShader = (CGraphicShader*)m_Scene->GetResource()->FindShader("ShadowMapStaticShader");
+	}
+
+	else
+	{
+		m_ShadowMapShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ShadowMapStaticShader");
+	}
+
+  CreateTerrain(681, 631, 70.f, 70.f, TEXT("LandScape/BikiniCity_Height.png"));
+
 	return true;
 }
 
@@ -164,6 +180,11 @@ void CTerrainComponent::Update(float DeltaTime)
 void CTerrainComponent::PostUpdate(float DeltaTime)
 {
 	CPrimitiveComponent::PostUpdate(DeltaTime);
+}
+
+void CTerrainComponent::RenderShadowMap()
+{
+	CPrimitiveComponent::RenderShadowMap();
 }
 
 void CTerrainComponent::Render()
@@ -188,6 +209,10 @@ void CTerrainComponent::Load(FILE* File)
 	CNavigationManager3D* NavMgr = (CNavigationManager3D*)m_Scene->GetNavigationManager();
 
 	NavMgr->CreateNavigationMesh(this);
+
+	//SetMin(Min);
+	//SetMax(Max);
+	//SetMeshSize(Max - Min);
 }
 
 void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float SizeY, const TCHAR* HeightMapName, const std::string& HeightMapPath)
@@ -200,7 +225,7 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 
 	m_Size = m_CellSize * Vector2((float)CountX, (float)CountY);
 
-	// HeightMapÀÌ ÀÖÀ» °æ¿ì ³ôÀÌ Á¤º¸¸¦ ¾ò¾î¿Â´Ù.
+	// HeightMapì´ ìˆì„ ê²½ìš° ë†’ì´ ì •ë³´ë¥¼ ì–»ì–´ì˜¨ë‹¤.
 	std::vector<float>	vecY;
 	float MaxY = 0.f;
 
@@ -288,7 +313,10 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 		vecY.resize(m_CountX * m_CountY);
 	}
 
-	// Á¤Á¡Á¤º¸¿Í ÀÎµ¦½º Á¤º¸¸¦ ±¸¼ºÇÑ´Ù.
+	Vector3	Min(FLT_MAX, FLT_MAX, FLT_MAX);
+	Vector3	Max(FLT_MIN, FLT_MIN, FLT_MIN);
+
+	// ì •ì ì •ë³´ì™€ ì¸ë±ìŠ¤ ì •ë³´ë¥¼ êµ¬ì„±í•œë‹¤.
 	for (int i = 0; i < m_CountY; i++)
 	{
 		for (int j = 0; j < m_CountX; j++)
@@ -298,11 +326,43 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 			//Vtx.Normal = Vector3(0.f, 1.f, 0.f);
 			Vtx.UV = Vector2((float)j / (float)(m_CountX - 1), (float)i / (float)(m_CountY - 1));
 
+			if (Min.x > Vtx.Pos.x)
+			{
+				Min.x = Vtx.Pos.x;
+			}
+
+			if (Min.y > Vtx.Pos.y)
+			{
+				Min.y = Vtx.Pos.y;
+			}
+
+			if (Min.z > Vtx.Pos.z)
+			{
+				Min.z = Vtx.Pos.z;
+			}
+
+			if (Max.x < Vtx.Pos.x)
+			{
+				Max.x = Vtx.Pos.x;
+			}
+
+			if (Max.y < Vtx.Pos.y)
+			{
+				Max.y = Vtx.Pos.y;
+			}
+
+			if (Max.z < Vtx.Pos.z)
+			{
+				Max.z = Vtx.Pos.z;
+			}
+
 			m_vecVtx.push_back(Vtx);
 		}
 	}
 
-	SetMeshSize(m_Size.x, MaxY, m_Size.y);
+	SetMin(Min);
+	SetMax(Max);
+	SetMeshSize(Max - Min);
 
 	m_vecFaceNormal.resize((m_CountX - 1) * (m_CountY - 1) * 2);
 
@@ -362,7 +422,7 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 
 	ComputeTangent();
 
-	// ±¸ÇØÁØ Á¤º¸·Î ¸Ş½¬¸¦ ¸¸µç´Ù.
+	// êµ¬í•´ì¤€ ì •ë³´ë¡œ ë©”ì‰¬ë¥¼ ë§Œë“ ë‹¤.
 	char	MeshName[256] = {};
 
 #ifdef _WIN64
@@ -417,7 +477,7 @@ void CTerrainComponent::ComputeNormal()
 
 void CTerrainComponent::ComputeTangent()
 {
-	// ÅºÁ¨Æ® º¤ÅÍ ±¸ÇÔ.
+	// íƒ„ì  íŠ¸ ë²¡í„° êµ¬í•¨.
 	for (size_t i = 0; i < m_vecFaceNormal.size(); ++i)
 	{
 		unsigned int idx0 = m_vecIndex[i * 3];
