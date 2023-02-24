@@ -1,25 +1,24 @@
 #pragma once
-
 #include "Editor\EditorWindow.h"
 #include "Editor/EditorTree.h"
 #include "GameObject/GameObject.h"
 #include "UI/UIWindow.h"
 
-class CObjectWindow :
-    public CEditorWindow
+class CObjectWindow :public CEditorWindow
 {
+private:
 	friend class CEditorGUIManager;
-
+	class CEditorComboBox* m_CameraTransformCombo;
+	class CEditorComboBox* m_CameraAxisCombo;
+	CEditorTree<CGameObject*>* m_Tree;
+	CEditorTree<CUIWindow*>* m_WindowTree;
+	CSharedPtr<CGameObject>	m_SelectObject;
+	CSharedPtr<CUIWindow>	m_SelectWindow;
+	void TreeCallback(CEditorTreeItem<CGameObject*>* node, const std::string& item);
+	void UICallback(CEditorTreeItem<CUIWindow*>* node, const std::string& item);
 protected:
 	CObjectWindow();
 	virtual ~CObjectWindow();
-
-private:
-	CEditorTree<CGameObject*>* m_Tree;
-	CSharedPtr<CGameObject>	m_SelectObject;
-	CEditorTree<CUIWindow*>* m_WindowTree;
-	CSharedPtr<CUIWindow>	m_SelectWindow;
-
 public:
 	class CGameObject* GetSelectObject()	const
 	{
@@ -29,21 +28,21 @@ public:
 	{
 		return m_SelectWindow;
 	}
-public:
-	bool AddItem(class CGameObject* Object, const std::string& Name, const std::string& ParentName = "Root");
+	bool AddItem(class CGameObject* object, const std::string& name, const std::string& parentName = "Root");
 	bool AddItem(class CUIWindow* window, const std::string& name, const std::string& parentName = "Canvas");
 	void AddItemList(class CScene* scene);
 	void AddInput(class CScene* scene);
-public:
 	virtual bool Init();
-	virtual void Update(float DeltaTime);
+	virtual void Update(float deltaTime);
 	void Clear();
 	void ClearSelect();
 	void Delete();
 	void Pause();
-
-private:
-	void TreeCallback(CEditorTreeItem<CGameObject*>* Node, const std::string& Item);
-	void UICallback(CEditorTreeItem<CUIWindow*>* node, const std::string& item);
+	void UArrow();
+	void DArrow();
+	void LArrow();
+	void RArrow();
+	void PlaceObject();
+	void CreateObject(class CGameObject* object, const std::string& name);
 };
 
