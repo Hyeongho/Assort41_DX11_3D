@@ -141,8 +141,6 @@ void CTerrainComponent::Start()
 {
 	CPrimitiveComponent::Start();
 
-	SetSplatCount(4);
-
 	m_CBuffer->UpdateBuffer();
 }
 
@@ -152,7 +150,7 @@ bool CTerrainComponent::Init()
 	{
 		return false;
 	}
-	CreateTerrain(681, 631, 70.f, 70.f, TEXT("LandScape/BikiniCity_Height.png"));
+	CreateTerrain(681, 631, 1.f, 1.f, TEXT("LandScape/BikiniCity_Height.png"));
 	return true;
 }
 

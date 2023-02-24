@@ -137,33 +137,15 @@ void CClassWindow::ComponentClickCallback(int Index, const std::string& Item)
 
 void CClassWindow::ObjectCreateCallback()
 {
-	CScene* Scene = CSceneManager::GetInst()->GetScene();
-
-	CGameObject* Obj = nullptr;
-
 	if (m_SelectObjectItem == "")
-		return;
-
-	CObjectWindow* Window = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
-
-	if (m_SelectObjectItem == "GameObject")
-		Obj = Scene->CreateObject<CGameObject>(m_SelectObjectItem);
-
-	else if (m_SelectObjectItem == "Player")
-		Obj = Scene->CreateObject<CPlayer>(m_SelectObjectItem);
-
-	else if (m_SelectObjectItem == "Bullet")
-		Obj = Scene->CreateObject<CBullet>(m_SelectObjectItem);
-
-	else if (m_SelectObjectItem == "Monster")
-		Obj = Scene->CreateObject<CMonster>(m_SelectObjectItem);
-
-	else if (m_SelectObjectItem == "Weapon")
-		Obj = Scene->CreateObject<CWeapon>(m_SelectObjectItem);
-
-	if (Window)
 	{
-		Window->AddItem(Obj, m_SelectObjectItem);
+		return;
+	}
+	CGameObject* obj = nullptr;
+	CObjectWindow* window = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
+	if (window)
+	{
+		window->CreateObject(obj, m_SelectObjectItem);
 	}
 }
 

@@ -35,6 +35,7 @@ public:
 	}
 
 public:
+	void SetGlobalLightObject(class CGameObject* light);
 	void AddLight(class CLightComponent* Light);
 	void DeleteLight(class CLightComponent* Light);
 	void DeleteLight(const std::string& Name);

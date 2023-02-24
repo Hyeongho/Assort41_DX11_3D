@@ -94,6 +94,10 @@ void CNavigationManager3D::Move(CNavigationAgent3D* Agent, const Vector3& End)
 
 float CNavigationManager3D::GetHeight(const Vector3& Pos)
 {
+    if(!m_NavigationMesh)
+    {
+        return FLT_MAX;
+    }
     return m_NavigationMesh->GetHeight(Pos);
 }
 
