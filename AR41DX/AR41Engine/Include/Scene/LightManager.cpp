@@ -52,6 +52,11 @@ void CLightManager::DeleteLight(const std::string& Name)
 	}
 }
 
+void CLightManager::SetLightAccShader(const std::string& Name)
+{
+	m_LightAccShader = CResourceManager::GetInst()->FindShader(Name);
+}
+
 void CLightManager::Start()
 {
 }

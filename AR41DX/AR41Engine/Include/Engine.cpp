@@ -40,7 +40,7 @@ CEngine::CEngine()	:
 	m_TimeScale(1.f)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(5242);
+	//_CrtSetBreakAlloc(1470466);
 
 	srand((unsigned int)time(0));
 	rand();
@@ -176,8 +176,8 @@ bool CEngine::Init(HINSTANCE hInst, const TCHAR* Title,
 
 	for (int i = 0; i < 1024 * 1024; i++)
 	{
-		short	Num1 = (short)rand();
-		short	Num2 = (short)rand();
+		short Num1 = (short)rand();
+		short Num2 = (short)rand();
 
 		int	Random = Num1;
 		Random <<= 16;
@@ -194,6 +194,8 @@ bool CEngine::Init(HINSTANCE hInst, const TCHAR* Title,
 	m_RandomBuffer->UpdateBuffer(&vecRand[0], 1024 * 1024);
 
 	m_RandomBuffer->SetShader(51, (int)EShaderBufferType::All);
+
+	CRenderManager::GetInst()->SetShaderType(EShaderType::CelShader);
 
 	return true;
 }
@@ -250,11 +252,13 @@ void CEngine::Logic()
 
 	m_AccTime += DeltaTime;
 
-	Resolution	RS = CDevice::GetInst()->GetResolution();
+	Resolution RS = CDevice::GetInst()->GetResolution();
+	Resolution ShadowMapRS = CRenderManager::GetInst()->GetShadowMapResolution();
 
 	m_GlobalCBuffer->SetDeltaTime(DeltaTime);
 	m_GlobalCBuffer->SetAccTime(m_AccTime);
 	m_GlobalCBuffer->SetResolution((float)RS.Width, (float)RS.Height);
+	m_GlobalCBuffer->SetShadowMapResolution((float)ShadowMapRS.Width, (float)ShadowMapRS.Height);
 
 	CInput::GetInst()->Update(DeltaTime);
 

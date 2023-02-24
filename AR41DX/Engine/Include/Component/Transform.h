@@ -17,27 +17,27 @@ private:
 	class CSceneComponent* m_Owner;
 
 private:
-	bool m_Is2D;
+	bool		m_Is2D;
 	CTransform* m_Parent;
-	std::vector<CTransform*> m_vecChild;
+	std::vector<CTransform*>    m_vecChild;
 	class CTransformConstantBuffer* m_CBuffer;
-	static float m_MinY;
-	static float m_MaxY;
-	float m_2DZ;
+	static float	m_MinY;
+	static float	m_MaxY;
+	float	m_2DZ;
 	class CSkeletonSocket* m_Socket;
 
 private:
-	bool m_InheritScale;
-	bool m_InheritRotX;
-	bool m_InheritRotY;
-	bool m_InheritRotZ;
-	bool m_InheritParentRotationPosX;
-	bool m_InheritParentRotationPosY;
-	bool m_InheritParentRotationPosZ;
-	bool m_UpdateScale;
-	bool m_UpdateRot;
-	bool m_UpdateRotAxis;
-	bool m_UpdatePos;
+	bool	m_InheritScale;
+	bool	m_InheritRotX;
+	bool	m_InheritRotY;
+	bool	m_InheritRotZ;
+	bool	m_InheritParentRotationPosX;
+	bool	m_InheritParentRotationPosY;
+	bool	m_InheritParentRotationPosZ;
+	bool	m_UpdateScale;
+	bool	m_UpdateRot;
+	bool	m_UpdateRotAxis;
+	bool	m_UpdatePos;
 
 public:
 	void SetSocket(class CSkeletonSocket* Socket)
@@ -95,10 +95,10 @@ public:
 	void InheritWorldParentRotationPos();
 
 private:	// Relative
-	Vector3 m_RelativeScale;
-	Vector3 m_RelativeRot;
-	Vector3 m_RelativePos;
-	Vector3 m_RelativeAxis[AXIS_MAX];
+	Vector3		m_RelativeScale;
+	Vector3		m_RelativeRot;
+	Vector3		m_RelativePos;
+	Vector3		m_RelativeAxis[AXIS_MAX];
 
 public:
 	Vector3 GetRelativeScale()	const
@@ -177,59 +177,80 @@ private:
 
 
 private:	// World
-	Vector3 m_WorldScale;
-	Vector3 m_WorldRot;
-	Vector3 m_WorldPos;
-	Vector3 m_WorldAxis[AXIS_MAX];
-	Vector3 m_OriginWorldScale;
-	Vector3 m_OriginWorldRot;
-	Vector3 m_OriginWorldPos;
-	Vector3 m_Pivot;
-	Vector3 m_MeshSize;
-	Vector3 m_Offset;
+	Vector3		m_WorldScale;
+	Vector3		m_WorldRot;
+	Vector3		m_WorldPos;
+	Vector3		m_WorldAxis[AXIS_MAX];
+	Vector3		m_OriginWorldScale;
+	Vector3		m_OriginWorldRot;
+	Vector3		m_OriginWorldPos;
+	Vector3		m_Pivot;
+	Vector3		m_MeshSize;
+	Vector3		m_Min;
+	Vector3		m_Max;
+	Vector3		m_Center;
+	Vector3		m_Offset;
+	float		m_Radius;
 
-	Matrix m_matScale;
-	Matrix m_matRot;
-	Matrix m_matPos;
-	Matrix m_matWorld;
+	Matrix		m_matScale;
+	Matrix		m_matRot;
+	Matrix		m_matPos;
+	Matrix		m_matWorld;
 
 public:
-	const Vector3& GetWorldScale() const
+	const Vector3& GetCenter()	const
+	{
+		return m_Center;
+	}
+
+	const Vector3& GetMin()	const
+	{
+		return m_Min * m_WorldScale + m_WorldPos;
+	}
+
+	const Vector3& GetMax()	const
+	{
+		return m_Max * m_WorldScale + m_WorldPos;
+	}
+
+	float GetRadius()	const;
+
+	const Vector3& GetWorldScale()	const
 	{
 		return m_WorldScale;
 	}
 
-	const Vector3& GetWorldRot() const
+	const Vector3& GetWorldRot()	const
 	{
 		return m_WorldRot;
 	}
 
-	const Vector3& GetWorldPos() const
+	const Vector3& GetWorldPos()	const
 	{
 		return m_WorldPos;
 	}
 
-	const Vector3& GetWorldAxis(AXIS Axis) const
+	const Vector3& GetWorldAxis(AXIS Axis)	const
 	{
 		return m_WorldAxis[Axis];
 	}
 
-	const Vector3& GetPivot() const
+	const Vector3& GetPivot()	const
 	{
 		return m_Pivot;
 	}
 
-	const Vector3& GetMeshSize() const
+	const Vector3& GetMeshSize()	const
 	{
 		return m_MeshSize;
 	}
 
-	const Vector3& GetOffset() const
+	const Vector3& GetOffset()	const
 	{
 		return m_Offset;
 	}
 
-	const Matrix& GetWorldMatrix() const
+	const Matrix& GetWorldMatrix()	const
 	{
 		return m_matWorld;
 	}
@@ -257,26 +278,68 @@ public:
 		m_Pivot.y = y;
 	}
 
+	void SetMin(const Vector3& Min)
+	{
+		m_Min = Min;
+
+		Vector3	ScaleMin = GetMin();
+		Vector3	ScaleMax = GetMax();
+
+		m_Center = (ScaleMin + ScaleMax) * 0.5f;
+		m_Radius = (ScaleMax - ScaleMin).Length() * 0.5f;
+	}
+
+	void SetMax(const Vector3& Max)
+	{
+		m_Max = Max;
+
+		Vector3	ScaleMin = GetMin();
+		Vector3	ScaleMax = GetMax();
+
+		m_Center = (ScaleMin + ScaleMax) * 0.5f;
+		m_Radius = (ScaleMax - ScaleMin).Length() * 0.5f;
+	}
+
 	void SetMeshSize(const Vector3& MeshSize)
 	{
 		m_MeshSize = MeshSize;
+
+		Vector3	MeshSizeScale = m_MeshSize * m_WorldScale;
+
+		m_Radius = MeshSizeScale.Length() * 0.5f;
 	}
 
 	void SetMeshSize(const Vector2& MeshSize)
 	{
 		m_MeshSize.x = MeshSize.x;
 		m_MeshSize.y = MeshSize.y;
+
+		Vector2	MeshSizeScale;
+		MeshSizeScale.x = MeshSize.x * m_WorldScale.x;
+		MeshSizeScale.y = MeshSize.y * m_WorldScale.y;
+
+		m_Radius = MeshSizeScale.Length() * 0.5f;
 	}
 
 	void SetMeshSize(float x, float y, float z)
 	{
 		m_MeshSize = Vector3(x, y, z);
+
+		Vector3	MeshSizeScale = m_MeshSize * m_WorldScale;
+
+		m_Radius = MeshSizeScale.Length() * 0.5f;
 	}
 
 	void SetMeshSize(float x, float y)
 	{
 		m_MeshSize.x = x;
 		m_MeshSize.y = y;
+
+		Vector2	MeshSizeScale;
+		MeshSizeScale.x = m_MeshSize.x * m_WorldScale.x;
+		MeshSizeScale.y = m_MeshSize.y * m_WorldScale.y;
+
+		m_Radius = MeshSizeScale.Length() * 0.5f;
 	}
 
 
@@ -295,7 +358,8 @@ public:
 	void SetWorldRotationX(float x);
 	void SetWorldRotationY(float y);
 	void SetWorldRotationZ(float z);
-	void SetWorldRotationAxis(const Vector3& OriginDir, const Vector3& View);
+	void SetWorldRotationAxis(const Vector3& OriginDir,
+		const Vector3& View);
 	void SetWorldPosition(const Vector3& Pos);
 	void SetWorldPosition(const Vector2& Pos);
 	void SetWorldPosition(float x, float y);
@@ -352,6 +416,7 @@ public:
 	void PostUpdate(float DeltaTime);
 	CTransform* Clone()    const;
 	void SetTransform();	// 트랜스폼 정보를 Shader로 보내준다.
+	void SetShadowMapTransform();	// 트랜스폼 정보를 Shader로 보내준다.
 	void ComputeWorld();	// World정보를 계산한다.
 	void Save(FILE* File);
 	void Load(FILE* File);

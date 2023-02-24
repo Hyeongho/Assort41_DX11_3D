@@ -88,7 +88,7 @@ void CPlayer::Start()
 
 	//源踰붿쨷 ?뚯폆 愿??
 	/*
-		CWeapon3D* weapon = m_Scene->CreateObject<CWeapon3D>("Weapon");
+	CWeapon3D* weapon = m_Scene->CreateObject<CWeapon3D>("Weapon");
 	AddChildToSocket("Weapon", weapon);
 	weapon->GetRootComponent()->SetEnable(false);
 	*/
@@ -105,12 +105,14 @@ bool CPlayer::Init()
 
 	SetRootComponent(m_Mesh);
 
+	m_Mesh->SetRelativeRotationY(180.f);
+
 	m_Mesh->AddChild(m_Rigid);
 	m_Mesh->AddChild(m_Arm);
 	m_Arm->AddChild(m_Camera);
 
-	m_Camera->SetInheritRotX(true);
-	m_Camera->SetInheritRotY(true);
+	m_Camera->SetInheritRotX(false);
+	m_Camera->SetInheritRotY(false);
 
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
@@ -134,8 +136,8 @@ bool CPlayer::Init()
 	LoadPatrickAnim();
 	LoadSandyAnim();
 
-	ChangePatrick();
-	//ChangeSandy();
+	ChangeSandy();
+	//ChangePatrick();
 
 	return true;
 }
@@ -330,7 +332,7 @@ void CPlayer::MoveLeft()
 	//	break;
 	//}
 
-	AddWorldRotationY(180.f * CEngine::GetInst()->GetDeltaTime());
+	m_Mesh->AddWorldRotationY(-180.f * CEngine::GetInst()->GetDeltaTime());
 }
 
 void CPlayer::MoveRight()
@@ -362,7 +364,7 @@ void CPlayer::MoveRight()
 	//	break;
 	//}
 
-	AddWorldRotationY(-180.f * CEngine::GetInst()->GetDeltaTime());
+	m_Mesh->AddWorldRotationY(180.f * CEngine::GetInst()->GetDeltaTime());
 }
 
 void CPlayer::Jump()

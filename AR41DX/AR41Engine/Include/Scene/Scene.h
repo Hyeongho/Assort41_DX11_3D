@@ -75,8 +75,8 @@ public:
 	}
 
 private:
-	bool m_Change;
-	bool m_Start;
+	bool		m_Change;
+	bool		m_Start;
 	CSceneInfo* m_SceneInfo;
 	CSceneResource* m_Resource;
 	CCameraManager* m_CameraManager;
@@ -84,13 +84,13 @@ private:
 	CSceneViewport* m_Viewport;
 	CNavigationManager* m_NavManager;
 	CLightManager* m_LightManager;
-	std::list<CSharedPtr<class CGameObject>> m_ObjList;
+	std::list<CSharedPtr<class CGameObject>>	m_ObjList;
 	std::string	m_Name;
-	std::function<void(float)> m_LoadingCallback;
-	CSharedPtr<class CSkySphere> m_SkySphere;
+	std::function<void(float)>	m_LoadingCallback;
+	CSharedPtr<class CSkySphere>	m_SkySphere;
 
 public:
-	class CSkySphere* GetSky() const
+	class CSkySphere* GetSky()	const
 	{
 		return m_SkySphere;
 	}
@@ -141,8 +141,10 @@ public:
 	}
 
 public:
-	void SetSkyTexture(const std::string& Name, const TCHAR* FileName, const std::string& PathName = TEXTURE_PATH);
+	void SetSkyTexture(const std::string& Name, const TCHAR* FileName,
+		const std::string& PathName = TEXTURE_PATH);
 	void ClearSky();
+
 
 public:
 	void Start();
@@ -158,8 +160,27 @@ public:
 
 public:
 	class CGameObject* FindObject(const std::string& Name);
+	bool Picking(PickingResult& result);
 
 public:
+	template <typename T>
+	bool CreateSceneInfo()
+	{
+		SAFE_DELETE(m_SceneInfo);
+
+		m_SceneInfo = new T;
+
+		m_SceneInfo->m_Owner = this;
+
+		if (!m_SceneInfo->Init())
+		{
+			SAFE_DELETE(m_SceneInfo);
+			return false;
+		}
+
+		return true;
+	}
+
 	template <typename T>
 	bool CreateSceneInfo(const std::string& name = "", const std::string& prevName = "")
 	{
@@ -209,5 +230,8 @@ public:
 	{
 		m_LoadingCallback = std::bind(Func, Obj, std::placeholders::_1);
 	}
+
+public:
+	static bool SortObject(CGameObject* Src, CGameObject* Dest);
 };
 

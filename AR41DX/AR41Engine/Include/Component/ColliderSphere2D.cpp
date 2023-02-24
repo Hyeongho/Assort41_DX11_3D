@@ -68,11 +68,22 @@ void CColliderSphere2D::PostUpdate(float DeltaTime)
 
 	m_Info.Radius = m_Radius * Scale;
 
-	m_Min.x = GetWorldPos().x - m_Info.Radius;
-	m_Min.y = GetWorldPos().y - m_Info.Radius;
+	Vector3	Min, Max;
 
-	m_Max.x = m_Min.x + m_Info.Radius * 2.f;
-	m_Max.y = m_Min.y + m_Info.Radius * 2.f;
+	Min.x = GetWorldPos().x - m_Info.Radius;
+	Min.y = GetWorldPos().y - m_Info.Radius;
+
+	Max.x = Min.x + m_Info.Radius * 2.f;
+	Max.y = Min.y + m_Info.Radius * 2.f;
+
+	Min.x -= GetWorldPos().x;
+	Min.y -= GetWorldPos().y;
+
+	Max.x -= GetWorldPos().x;
+	Max.y -= GetWorldPos().y;
+
+	m_Transform->SetMin(Min);
+	m_Transform->SetMax(Max);
 }
 
 void CColliderSphere2D::Render()

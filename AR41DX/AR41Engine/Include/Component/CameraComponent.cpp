@@ -1,18 +1,29 @@
-
 #include "CameraComponent.h"
 #include "../Device.h"
+#include "../Render/RenderManager.h"
+#include "LightComponent.h"
+#include "../Scene/Scene.h"
+#include "../Scene/LightManager.h"
+#include "LightComponent.h"
 
-CCameraComponent::CCameraComponent()	:
-	m_CameraViewDistance(50000.f),
-	m_CameraType(ECameraType::Camera3D)
+CCameraComponent::CCameraComponent() : m_CameraViewDistance(50000.f), m_CameraType(ECameraType::Camera3D)
 {
 	SetTypeID<CCameraComponent>();
 
 	m_ComponentTypeName = "CameraComponent";
+
+	m_FrustumPos[0] = Vector3(-1.f, 1.f, 0.f);
+	m_FrustumPos[1] = Vector3(1.f, 1.f, 0.f);
+	m_FrustumPos[2] = Vector3(-1.f, -1.f, 0.f);
+	m_FrustumPos[3] = Vector3(1.f, -1.f, 0.f);
+
+	m_FrustumPos[4] = Vector3(-1.f, 1.f, 1.f);
+	m_FrustumPos[5] = Vector3(1.f, 1.f, 1.f);
+	m_FrustumPos[6] = Vector3(-1.f, -1.f, 1.f);
+	m_FrustumPos[7] = Vector3(1.f, -1.f, 1.f);
 }
 
-CCameraComponent::CCameraComponent(const CCameraComponent& component)	:
-	CSceneComponent(component)
+CCameraComponent::CCameraComponent(const CCameraComponent& component) : CSceneComponent(component)
 {
 	m_CameraViewDistance = component.m_CameraViewDistance;
 	m_matView = component.m_matView;
@@ -39,6 +50,13 @@ void CCameraComponent::ComputeProjectionMatrix()
 	case ECameraType::Camera3D:
 		m_matProj = DirectX::XMMatrixPerspectiveFovLH(DegreeToRadian(90.f),
 			(float)RS.Width / (float)RS.Height, 5.f, m_CameraViewDistance);
+
+		Resolution	ShadowRS;
+		ShadowRS = CRenderManager::GetInst()->GetShadowMapResolution();
+
+		m_matShadowProj = DirectX::XMMatrixPerspectiveFovLH(DegreeToRadian(90.f),
+			(float)ShadowRS.Width / (float)ShadowRS.Height, 5.f, m_CameraViewDistance);
+
 		break;
 	case ECameraType::CameraUI:
 		m_matProj = DirectX::XMMatrixOrthographicOffCenterLH(0.f, (float)RS.Width, 0.f,
@@ -152,11 +170,65 @@ void CCameraComponent::PostUpdate(float DeltaTime)
 
 		Vector3	Pos = GetWorldPos();
 
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < 3; i++)
 		{
 			m_matView[3][i] = -Pos.Dot(GetWorldAxis((AXIS)i));
 		}
+
+		CLightComponent* GlobalLight = m_Scene->GetLightManager()->GetGlobalLightComponent();
+
+		Vector3	LightDir[AXIS_MAX];
+
+		for (int i = 0; i < AXIS_MAX; i++)
+		{
+			LightDir[i] = GlobalLight->GetWorldAxis((AXIS)i);
+		}
+
+		Vector3	LightPos = LightDir[2] * -1000.f;
+
+		m_matShadowView.Identity();
+
+		for (int i = 0; i < 3; i++)
+		{
+			memcpy(&m_matShadowView[i][0], &LightDir[i], sizeof(Vector3));
+		}
+
+		m_matShadowView.Transpose();
+
+		for (int i = 0; i < 3; i++)
+		{
+			m_matShadowView[3][i] = -LightPos.Dot(LightDir[i]);
+		}
 	}
+
+	// 절두체를 구성하는 6개의 평면정보를 만든다.
+	Vector3	Pos[8];
+
+	Matrix	matVP = m_matView * m_matProj;
+	matVP.Inverse();
+
+	for (int i = 0; i < 8; i++)
+	{
+		Pos[i] = m_FrustumPos[i].TransformCoord(matVP);
+	}
+
+	// Left
+	m_FrustumPlane[Frustum_Left] = DirectX::XMPlaneFromPoints(Pos[4].Convert(), Pos[0].Convert(), Pos[2].Convert());
+
+	// Right
+	m_FrustumPlane[Frustum_Right] = DirectX::XMPlaneFromPoints(Pos[1].Convert(), Pos[5].Convert(), Pos[7].Convert());
+
+	// Top
+	m_FrustumPlane[Frustum_Top] = DirectX::XMPlaneFromPoints(Pos[4].Convert(), Pos[5].Convert(), Pos[1].Convert());
+
+	// Bottom
+	m_FrustumPlane[Frustum_Bottom] = DirectX::XMPlaneFromPoints(Pos[2].Convert(), Pos[3].Convert(), Pos[7].Convert());
+
+	// Near
+	m_FrustumPlane[Frustum_Near] = DirectX::XMPlaneFromPoints(Pos[0].Convert(), Pos[1].Convert(), Pos[3].Convert());
+
+	// Far
+	m_FrustumPlane[Frustum_Far] = DirectX::XMPlaneFromPoints(Pos[5].Convert(), Pos[4].Convert(), Pos[6].Convert());
 }
 
 void CCameraComponent::Render()
@@ -189,4 +261,34 @@ void CCameraComponent::Load(FILE* File)
 
 	fread(&m_matView, sizeof(Matrix), 1, File);
 	fread(&m_matProj, sizeof(Matrix), 1, File);
+}
+
+bool CCameraComponent::FrustumInPoint(const Vector3& Point)
+{
+	for (int i = 0; i < Frustum_Max; i++)
+	{
+		float Dot = DirectX::XMVectorGetX(DirectX::XMPlaneDotCoord(m_FrustumPlane[i].Convert(), Point.Convert()));
+
+		if (Dot > 0.f)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool CCameraComponent::FrustumInSphere(const Vector3& Center, float Radius)
+{
+	for (int i = 0; i < Frustum_Max; i++)
+	{
+		float Dot = DirectX::XMVectorGetX(DirectX::XMPlaneDotCoord(m_FrustumPlane[i].Convert(), Center.Convert()));
+
+		if (Dot > Radius)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }

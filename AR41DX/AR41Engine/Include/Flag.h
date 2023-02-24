@@ -223,3 +223,9 @@ enum class ENavNodeType
 	Open, 
 	Close
 };
+
+enum class EShaderType
+{
+	Default,
+	CelShader
+};

@@ -145,6 +145,48 @@ bool CMeshManager::Init()
 		&Point, sizeof(Vector3), 1, D3D11_USAGE_IMMUTABLE,
 		D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
+	Vector3	CubePos[8] =
+	{
+		Vector3(-0.5f, 0.5f, -0.5f),
+		Vector3(0.5f, 0.5f, -0.5f),
+		Vector3(-0.5f, -0.5f, -0.5f),
+		Vector3(0.5f, -0.5f, -0.5f),
+
+		Vector3(-0.5f, 0.5f, 0.5f),
+		Vector3(0.5f, 0.5f, 0.5f),
+		Vector3(-0.5f, -0.5f, 0.5f),
+		Vector3(0.5f, -0.5f, 0.5f)
+	};
+
+	int	CubeLineIndex[24] =
+	{
+		0, 1, 1, 3, 2, 3, 0, 2, 4, 0, 5, 1, 6, 2, 7, 3, 4, 5, 5, 7, 7, 6, 6, 4
+	};
+
+
+	CreateMesh(nullptr, MeshType::Static, "CubeLinePos",
+		&CubePos[0], sizeof(Vector3), 8,
+		D3D11_USAGE_DEFAULT, D3D11_PRIMITIVE_TOPOLOGY_LINELIST,
+		&CubeLineIndex[0], sizeof(int), 24,
+		D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT);
+
+	int	CubeIndex[36] =
+	{
+		0, 1, 3, 0, 3, 2,	// Near
+		1, 5, 7, 1, 7, 3,	// Right
+		5, 4, 6, 5, 6, 7,	// Far
+		4, 0, 2, 4, 2, 6,	// Left
+		4, 5, 1, 4, 1, 0,	// Top
+		2, 3, 7, 2, 7, 6	// Bottom
+	};
+
+
+	CreateMesh(nullptr, MeshType::Static, "CubePos",
+		&CubePos[0], sizeof(Vector3), 8,
+		D3D11_USAGE_DEFAULT, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+		&CubeIndex[0], sizeof(int), 36,
+		D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT);
+
 	return true;
 }
 

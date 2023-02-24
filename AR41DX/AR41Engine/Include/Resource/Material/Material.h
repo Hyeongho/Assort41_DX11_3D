@@ -49,12 +49,13 @@ protected:
     Vector4     m_BaseColor;
     Vector4     m_AmbientColor;
     Vector4     m_SpecularColor;
-    Vector4     m_EmissiveColor;    // ÀÚÃ¼ÀûÀ¸·Î ºûÀ» ¹ß»êÇÏ´Â ¹°Ã¼ÀÏ °æ¿ì
-    float       m_Opacity;          // ºÒÅõ¸íµµ.
+    Vector4     m_EmissiveColor;    // ìì²´ì ìœ¼ë¡œ ë¹›ì„ ë°œì‚°í•˜ëŠ” ë¬¼ì²´ì¼ ê²½ìš°
+    float       m_Opacity;          // ë¶ˆíˆ¬ëª…ë„.
     class CMaterialConstantBuffer* m_CBuffer;
     CSharedPtr<CRenderState>    m_RenderState[3];
     bool        m_Animation3D;
     bool        m_ReceiveDecal;
+
 public:
     void SetBaseColor(const Vector4& Color);
     void SetBaseColor(float r, float g, float b, float a);
@@ -74,7 +75,7 @@ public:
         unsigned char a);
     void SetOpacity(float Opacity);
     void AddOpacity(float Opacity);
-//±è¹üÁß ¿¡µğÅÍ °ª Á¶Àı¿ë ÇÔ¼ö
+    //ê¹€ë²”ì¤‘ ì—ë””í„° ê°’ ì¡°ì ˆìš© í•¨ìˆ˜
     class CShader* GetShader()
     {
         return m_Shader;
@@ -112,17 +113,17 @@ public:
     bool GetIsSpecular();
     bool GetIsEmissive();
     bool GetIsAnimation3D();
-    void EnableBump();
-    void EnableSpecular();
-    void EnableEmissive();
-    void EnableAnimation3D();
     void UnEnableBump();
     void UnEnableSpecular();
     void UnEnableEmissive();
     void UnEnableAnimation3D();
-    void SetReceiveDecal(bool receive);
-//
-    // === Texture Ãß°¡ ===
+    void EnableBump();
+    void EnableSpecular();
+    void EnableEmissive();
+    void EnableAnimation3D();
+    void SetReceiveDecal(bool Receive);
+
+    // === Texture ì¶”ê°€ ===
     void AddTexture(int Register, int ShaderBufferType, const std::string& Name,
         class CTexture* Texture);
     void AddTexture(int Register, int ShaderBufferType, const std::string& Name, const TCHAR* FileName,
@@ -141,7 +142,7 @@ public:
     void AddTextureArrayFullPath(int Register, int ShaderBufferType,
         const std::string& Name, const std::vector<const TCHAR*>& vecFullPath);
 
-    // === Ãß°¡µÇ¾î ÀÖ´Â Texture º¯°æ ===
+    // === ì¶”ê°€ë˜ì–´ ìˆëŠ” Texture ë³€ê²½ ===
     void SetTexture(int Index, int Register, int ShaderBufferType, const std::string& Name,
         class CTexture* Texture);
     void SetTexture(int Index, int Register, int ShaderBufferType, const std::string& Name, const TCHAR* FileName,
@@ -173,6 +174,7 @@ public:
     void SetShader(const std::string& Name);
     void SetMaterial();
     void ResetMaterial();
+    void SetShadowMaterial();
     void SetInstancingMaterial();
     void ResetInstancingMaterial();
     CMaterial* Clone()  const;

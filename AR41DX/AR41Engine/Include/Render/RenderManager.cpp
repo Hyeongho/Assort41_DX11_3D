@@ -14,11 +14,11 @@
 #include "../GameObject/SkySphere.h"
 #include "../Component/CameraComponent.h"
 #include "../Component/ParticleComponent.h"
+#include "../Resource/Shader/ShadowConstantBuffer.h"
 
 DEFINITION_SINGLE(CRenderManager)
 
-CRenderManager::CRenderManager()	:
-	m_RenderStateManager(nullptr)
+CRenderManager::CRenderManager() : m_RenderStateManager(nullptr), m_ShaderType(EShaderType::Default)
 {
 }
 
@@ -42,6 +42,25 @@ CRenderManager::~CRenderManager()
 	}
 
 	SAFE_DELETE(m_RenderStateManager);
+}
+
+void CRenderManager::SetShaderType(EShaderType Type)
+{
+	m_ShaderType = Type;
+
+	std::string	Name;
+
+	switch (m_ShaderType)
+	{
+	case EShaderType::Default:
+		Name = "LightAccShader";
+		break;
+	case EShaderType::CelShader:
+		Name = "LightCelShader";
+		break;
+	}
+
+	CSceneManager::GetInst()->GetScene()->GetLightManager()->SetLightAccShader(Name);
 }
 
 CRenderInstancing* CRenderManager::FindInstancing(CMesh* Mesh)
@@ -236,6 +255,9 @@ void CRenderManager::Render3D(float DeltaTime)
 		SkyObj->GetRootComponent()->Render();
 	}
 
+	// ShadowMap 을 그려낸다.
+	RenderShadowMap(DeltaTime);
+
 	// GBuffer를 그려낸다.
 	RenderGBuffer(DeltaTime);
 
@@ -245,7 +267,6 @@ void CRenderManager::Render3D(float DeltaTime)
 	// GBuffer와 Light를 합한 최종 화면을 만든다.
 	RenderScreen(DeltaTime);
 
-
 	// 완성된 타겟을 백버퍼에 출력한다.
 	RenderDeferred(DeltaTime);
 
@@ -253,38 +274,29 @@ void CRenderManager::Render3D(float DeltaTime)
 	RenderParticle(DeltaTime);
 }
 
-void CRenderManager::RenderGBuffer(float DeltaTime)
+void CRenderManager::RenderShadowMap(float DeltaTime)
 {
-	// GBuffer Target을 지워준다.
-	size_t	Size = m_vecGBuffer.size();
+	D3D11_VIEWPORT	vp = {};
+	D3D11_VIEWPORT	PrevVp = {};
 
-	for (size_t i = 0; i < Size; ++i)
-	{
-		m_vecGBuffer[i]->ClearTarget();
-	}
-		
-	// GBuffer Target을 지정한다.
-	std::vector<ID3D11RenderTargetView*> vecTargetView;
-	std::vector<ID3D11RenderTargetView*> vecPrevTargetView;
+	UINT Count = 1;
+	CDevice::GetInst()->GetContext()->RSGetViewports(&Count, &PrevVp);
 
-	vecPrevTargetView.resize(Size);
+	vp.Width = (float)m_ShadowMapRS.Width;
+	vp.Height = (float)m_ShadowMapRS.Height;
+	vp.MaxDepth = 1.f;
 
-	for (size_t i = 0; i < Size; i++)
-	{
-		vecTargetView.push_back(m_vecGBuffer[i]->GetTargetView());
-	}
+	CDevice::GetInst()->GetContext()->RSSetViewports(1, &vp);
 
-	ID3D11DepthStencilView* DepthView = nullptr;
+	m_ShadowMapTarget->ClearTarget();
 
-	CDevice::GetInst()->GetContext()->OMGetRenderTargets((UINT)Size,  &vecPrevTargetView[0], &DepthView);
+	m_ShadowMapTarget->SetTarget();
 
-	CDevice::GetInst()->GetContext()->OMSetRenderTargets((UINT)Size, &vecTargetView[0], DepthView);
+	m_NormalRenderList.clear();
 
-	// GBuffer에 그릴 내용을 출력한다.
+
 	RenderLayer* GBufferLayer = FindLayer("Default");
-	
-	std::list<CSceneComponent*>	RenderList;
-	
+
 	auto iter = GBufferLayer->RenderList.begin();
 	auto iterEnd = GBufferLayer->RenderList.end();
 
@@ -303,9 +315,14 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 			continue;
 		}
 
+		else if ((*iter)->GetFrustumCull())
+		{
+			iter++;
+			continue;
+		}
+
 		// 인스턴싱이 되는 물체들을 판단한다.
-		if ((*iter)->GetSceneComponentType() ==
-			SceneComponentType::Primitive)
+		if ((*iter)->GetSceneComponentType() == SceneComponentType::Primitive)
 		{
 			CMesh* Mesh = ((CPrimitiveComponent*)iter->Get())->GetMesh();
 
@@ -320,19 +337,18 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 				{
 					if (m_EmptyPoolList.empty())
 					{
-						std::vector<CRenderInstancing*>	NewPool =
-							m_vecInstancingPool;
+						std::vector<CRenderInstancing*>	NewPool = m_vecInstancingPool;
 
 						m_vecInstancingPool.clear();
 
 						m_vecInstancingPool.resize(NewPool.size() * 2);
 
-						for (size_t i = 0; i < NewPool.size(); ++i)
+						for (size_t i = 0; i < NewPool.size(); i++)
 						{
 							m_vecInstancingPool[i] = NewPool[i];
 						}
 
-						for (size_t i = NewPool.size(); i < NewPool.size() * 2; ++i)
+						for (size_t i = NewPool.size(); i < NewPool.size() * 2; i++)
 						{
 							m_vecInstancingPool[i] = new CRenderInstancing;
 							m_vecInstancingPool[i]->m_PoolIndex = (int)i;
@@ -358,13 +374,13 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 
 			else
 			{
-				RenderList.push_back(*iter);
+				m_NormalRenderList.push_back(*iter);
 			}
 		}
 
 		else
 		{
-			RenderList.push_back(*iter);
+			m_NormalRenderList.push_back(*iter);
 		}
 
 		//(*iter)->Render();
@@ -372,16 +388,16 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 	}
 
 	// 인스턴싱이 아닌 물체를 그려낸다.
-	auto	iter1 = RenderList.begin();
-	auto	iter1End = RenderList.end();
+	auto iter1 = m_NormalRenderList.begin();
+	auto iter1End = m_NormalRenderList.end();
 
 	for (; iter1 != iter1End; iter1++)
 	{
-		(*iter1)->Render();
+		(*iter1)->RenderShadowMap();
 	}
 
-	auto	iter2 = m_mapInstancing.begin();
-	auto	iter2End = m_mapInstancing.end();
+	auto iter2 = m_mapInstancing.begin();
+	auto iter2End = m_mapInstancing.end();
 
 	for (; iter2 != iter2End;)
 	{
@@ -409,8 +425,260 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 			continue;
 		}
 
+		iter2->second->RenderShadowMap();
+	}
+
+	m_ShadowMapTarget->ResetTarget();
+
+	CDevice::GetInst()->GetContext()->RSSetViewports(1, &PrevVp);
+}
+
+void CRenderManager::RenderGBuffer(float DeltaTime)
+{
+	// GBuffer Target을 지워준다.
+	size_t	Size = m_vecGBuffer.size();
+
+	for (size_t i = 0; i < Size; i++)
+	{
+		m_vecGBuffer[i]->ClearTarget();
+	}
+
+	// GBuffer Target을 지정한다.
+	std::vector<ID3D11RenderTargetView*>	vecTargetView;
+	std::vector<ID3D11RenderTargetView*>	vecPrevTargetView;
+
+	vecPrevTargetView.resize(Size);
+
+	for (size_t i = 0; i < Size; i++)
+	{
+		vecTargetView.push_back(m_vecGBuffer[i]->GetTargetView());
+	}
+
+	ID3D11DepthStencilView* DepthView = nullptr;
+
+	CDevice::GetInst()->GetContext()->OMGetRenderTargets((UINT)Size, &vecPrevTargetView[0], &DepthView);
+
+	CDevice::GetInst()->GetContext()->OMSetRenderTargets((UINT)Size, &vecTargetView[0], DepthView);
+
+	// GBuffer에 그릴 내용을 출력한다.
+	RenderLayer* GBufferLayer = FindLayer("Default");
+
+	//
+	//std::list<CSceneComponent*>	RenderList;
+	//
+	//auto	iter = GBufferLayer->RenderList.begin();
+	//auto	iterEnd = GBufferLayer->RenderList.end();
+
+	//for (; iter != iterEnd;)
+	//{
+	//	if (!(*iter)->GetActive())
+	//	{
+	//		iter = GBufferLayer->RenderList.erase(iter);
+	//		iterEnd = GBufferLayer->RenderList.end();
+	//		continue;
+	//	}
+
+	//	else if (!(*iter)->GetEnable())
+	//	{
+	//		++iter;
+	//		continue;
+	//	}
+
+	//	else if ((*iter)->GetFrustumCull())
+	//	{
+	//		++iter;
+	//		continue;
+	//	}
+
+	//	// 인스턴싱이 되는 물체들을 판단한다.
+	//	if ((*iter)->GetSceneComponentType() ==
+	//		SceneComponentType::Primitive)
+	//	{
+	//		CMesh* Mesh = ((CPrimitiveComponent*)iter->Get())->GetMesh();
+
+	//		if (Mesh->GetRenderCount() >= 5)
+	//		{
+	//			CRenderInstancing* Instancing = nullptr;
+
+	//			Instancing = FindInstancing(Mesh);
+
+	//			// Pool에서 얻어온다.
+	//			if (!Instancing)
+	//			{
+	//				if (m_EmptyPoolList.empty())
+	//				{
+	//					std::vector<CRenderInstancing*>	NewPool =
+	//						m_vecInstancingPool;
+
+	//					m_vecInstancingPool.clear();
+
+	//					m_vecInstancingPool.resize(NewPool.size() * 2);
+
+	//					for (size_t i = 0; i < NewPool.size(); ++i)
+	//					{
+	//						m_vecInstancingPool[i] = NewPool[i];
+	//					}
+
+	//					for (size_t i = NewPool.size(); i < NewPool.size() * 2; ++i)
+	//					{
+	//						m_vecInstancingPool[i] = new CRenderInstancing;
+	//						m_vecInstancingPool[i]->m_PoolIndex = (int)i;
+
+	//						m_EmptyPoolList.push_back((int)i);
+	//					}
+	//				}
+
+	//				int Index = m_EmptyPoolList.front();
+
+	//				m_EmptyPoolList.pop_front();
+
+	//				m_mapInstancing.insert(std::make_pair(Mesh, m_vecInstancingPool[Index]));
+
+	//				m_vecInstancingPool[Index]->m_Key = Mesh;
+
+	//				Instancing = m_vecInstancingPool[Index];
+	//			}
+
+	//			Instancing->m_LayerName = "Default";
+	//			Instancing->AddRenderList((CPrimitiveComponent*)iter->Get());
+	//		}
+
+	//		else
+	//		{
+	//			RenderList.push_back(*iter);
+	//		}
+	//	}
+
+	//	else
+	//	{
+	//		RenderList.push_back(*iter);
+	//	}
+
+	//	//(*iter)->Render();
+	//	++iter;
+	//}
+
+	// 인스턴싱이 아닌 물체를 그려낸다.
+	auto iter1 = m_NormalRenderList.begin();
+	auto iter1End = m_NormalRenderList.end();
+
+	for (; iter1 != iter1End; iter1++)
+	{
+		(*iter1)->Render();
+	}
+
+	//auto	iter2 = m_mapInstancing.begin();
+	//auto	iter2End = m_mapInstancing.end();
+
+	//for (; iter2 != iter2End;)
+	//{
+	//	if (iter2->second->GetInstancingCount() == 0)
+	//	{
+	//		m_EmptyPoolList.push_back(iter2->second->GetPoolIndex());
+	//		iter2->second->m_Key = nullptr;
+
+	//		iter2 = m_mapInstancing.erase(iter2);
+	//		iter2End = m_mapInstancing.end();
+
+	//		continue;
+	//	}
+
+	//	++iter2;
+	//}
+
+	auto iter2 = m_mapInstancing.begin();
+	auto iter2End = m_mapInstancing.end();
+
+	for (; iter2 != iter2End; iter2++)
+	{
+		if (iter2->second->m_LayerName != "Default")
+		{
+			continue;
+		}
+
 		iter2->second->Render();
 	}
+
+	CDevice::GetInst()->GetContext()->OMSetRenderTargets((UINT)Size, &vecPrevTargetView[0], DepthView);
+
+	SAFE_RELEASE(DepthView);
+
+	for (size_t i = 0; i < Size; i++)
+	{
+		SAFE_RELEASE(vecPrevTargetView[i]);
+	}
+}
+
+void CRenderManager::RenderDecal(float DeltaTime)
+{
+	// DecalBuffer Target을 지워준다.
+	size_t	Size = m_vecDecalBuffer.size();
+
+	// DecalBuffer Target을 지정한다.
+	std::vector<ID3D11RenderTargetView*> vecTargetView;
+	std::vector<ID3D11RenderTargetView*> vecPrevTargetView;
+
+	vecPrevTargetView.resize(Size);
+
+	for (size_t i = 0; i < Size; i++)
+	{
+		vecTargetView.push_back(m_vecDecalBuffer[i]->GetTargetView());
+	}
+
+	ID3D11DepthStencilView* DepthView = nullptr;
+
+	CDevice::GetInst()->GetContext()->OMGetRenderTargets((UINT)Size, &vecPrevTargetView[0], &DepthView);
+
+	CDevice::GetInst()->GetContext()->OMSetRenderTargets((UINT)Size, &vecTargetView[0], DepthView);
+
+	m_DepthWriteDisable->SetState();
+
+	m_vecGBuffer[2]->SetTargetShader(16);
+	m_vecGBuffer[4]->SetTargetShader(18);
+	m_vecGBuffer[5]->SetTargetShader(19);
+
+	m_MRTAlphaBlend->SetState();
+
+
+	RenderLayer* DecalLayer = FindLayer("Decal");
+
+
+	std::list<CSceneComponent*>	RenderList;
+
+	auto iter = DecalLayer->RenderList.begin();
+	auto iterEnd = DecalLayer->RenderList.end();
+
+	for (; iter != iterEnd;)
+	{
+		if (!(*iter)->GetActive())
+		{
+			iter = DecalLayer->RenderList.erase(iter);
+			iterEnd = DecalLayer->RenderList.end();
+			continue;
+		}
+
+		else if (!(*iter)->GetEnable())
+		{
+			iter++;
+			continue;
+		}
+
+		else if ((*iter)->GetFrustumCull())
+		{
+			iter++;
+			continue;
+		}
+
+		(*iter)->Render();
+		iter++;
+	}
+
+	m_vecGBuffer[2]->ResetTargetShader(16);
+	m_vecGBuffer[4]->ResetTargetShader(18);
+	m_vecGBuffer[5]->ResetTargetShader(19);
+
+	m_MRTAlphaBlend->ResetState();
+	m_DepthWriteDisable->ResetState();
 
 
 	CDevice::GetInst()->GetContext()->OMSetRenderTargets((UINT)Size, &vecPrevTargetView[0], DepthView);
@@ -493,6 +761,7 @@ void CRenderManager::RenderScreen(float DeltaTime)
 	m_DepthDisable->SetState();
 
 	m_vecGBuffer[0]->SetTargetShader(14);
+	m_vecGBuffer[2]->SetTargetShader(16);
 
 	m_vecLightBuffer[0]->SetTargetShader(18);
 	m_vecLightBuffer[1]->SetTargetShader(19);
@@ -500,7 +769,7 @@ void CRenderManager::RenderScreen(float DeltaTime)
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
-	UINT	Offset = 0;
+	UINT Offset = 0;
 
 	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
@@ -514,6 +783,19 @@ void CRenderManager::RenderScreen(float DeltaTime)
 	m_vecLightBuffer[0]->ResetTargetShader(18);
 	m_vecLightBuffer[1]->ResetTargetShader(19);
 	m_vecLightBuffer[2]->ResetTargetShader(20);
+
+	m_ShadowMapTarget->SetTargetShader(22);
+
+	Matrix	matView, matProj;
+
+	matView = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetShadowViewMatrix();
+	matProj = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetShadowProjMatrix();
+
+	Matrix	matVP = matView * matProj;
+
+	m_ShadowCBuffer->SetShadowVP(matVP);
+
+	m_ShadowCBuffer->UpdateBuffer();
 
 	m_ScreenBuffer->ResetTarget();
 }
@@ -804,8 +1086,6 @@ void CRenderManager::CreateRenderTarget()
 	LightTarget->SetDebugRender(true);
 	m_vecLightBuffer.push_back(LightTarget);
 
-
-
 	// RenderScreenTarget
 	CResourceManager::GetInst()->CreateTarget("RenderScreen", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
@@ -815,10 +1095,23 @@ void CRenderManager::CreateRenderTarget()
 	m_ScreenBuffer->SetScale(Vector3(100.f, 100.f, 1.f));
 	m_ScreenBuffer->SetDebugRender(true);
 
+	// ShadowMapTarget
+	m_ShadowMapRS.Width = 2560;
+	m_ShadowMapRS.Height = 1440;
+	CResourceManager::GetInst()->CreateTarget("ShadowMap", m_ShadowMapRS.Width, m_ShadowMapRS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT,
+		DXGI_FORMAT_D24_UNORM_S8_UINT);
 
+	m_ShadowMapTarget = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("ShadowMap");
 
-	m_ScreenShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ScreenShader");
-	m_DeferredRenderShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("DeferredRenderShader");
+	m_ShadowMapTarget->SetPos(Vector3(300.f, 100.f, 0.f));
+	m_ShadowMapTarget->SetScale(Vector3(300.f, 300.f, 1.f));
+	m_ShadowMapTarget->SetDebugRender(true);
+
+	m_ShadowCBuffer = new CShadowConstantBuffer;
+
+	m_ShadowCBuffer->Init();
+
+	m_ShadowCBuffer->SetShadowResolution(Vector2((float)m_ShadowMapRS.Width, (float)m_ShadowMapRS.Height));
 }
 
 bool CRenderManager::SortAlphaObject(CSceneComponent* Src, CSceneComponent* Dest)

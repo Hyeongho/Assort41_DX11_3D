@@ -66,5 +66,12 @@ public:
 	bool CreatePixelCollisionMultibyte(const std::string& Name, const char* FileName, const std::string& PathName = TEXTURE_PATH);
 	bool CreatePixelCollisionMultibyteFullPath(const std::string& Name, const char* FullPath);
 	PixelInfo* FindPixelCollision(const std::string& Name);
+
+public:
+	bool Picking(PickingResult& result);
+
+private:
+	static bool SortPickginSection(int Src, int Dest);
+	static bool SortColliderList(CSharedPtr<class CCollider3D> Src, CSharedPtr<class CCollider3D> Dest);
 };
 
