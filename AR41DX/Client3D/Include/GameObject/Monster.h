@@ -40,7 +40,7 @@ public:
 		return m_MoveSpeed;
 	}
 
-	float GetMonsterHP()
+	int GetMonsterHP()
 	{
 		return m_MonsterHP;
 	}

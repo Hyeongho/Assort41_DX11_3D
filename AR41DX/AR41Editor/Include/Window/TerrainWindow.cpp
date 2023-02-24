@@ -81,40 +81,40 @@ bool CTerrainWindow::Init()
 	CEditorButton* button = CreateWidget<CEditorButton>("º¯°æ", 50.f, 30.f);
 	button->SetClickCallback<CTerrainWindow>(this, &CTerrainWindow::ChangeTerrain);
 
-	m_CountX = CreateWidget<CEditorInput>("CountX", 80.f, 30.f);
+	m_CountX = CreateWidget<CEditorInput>("CountX", 100.f, 30.f);
 	m_CountX->SetInputType(EImGuiInputType::Int);
 	line = CreateWidget<CEditorSameLine>("Line");
 	line->SetSpacing(45.f);
-	m_CountY = CreateWidget<CEditorInput>("CountY", 80.f, 30.f);
+	m_CountY = CreateWidget<CEditorInput>("CountY", 100.f, 30.f);
 	m_CountY->SetInputType(EImGuiInputType::Int);
 
-	m_HeightMapX = CreateWidget<CEditorInput>("HeightMapX", 80.f, 30.f);
+	m_HeightMapX = CreateWidget<CEditorInput>("HeightMapX", 100.f, 30.f);
 	m_HeightMapX->SetInputType(EImGuiInputType::Int);
 	m_HeightMapX->ReadOnly(true);
 	line = CreateWidget<CEditorSameLine>("Line");
-	m_HeightMapY = CreateWidget<CEditorInput>("HeightMapY", 80.f, 30.f);
+	m_HeightMapY = CreateWidget<CEditorInput>("HeightMapY", 100.f, 30.f);
 	m_HeightMapY->SetInputType(EImGuiInputType::Int);
 	m_HeightMapY->ReadOnly(true);
 
-	m_CellSizeX = CreateWidget<CEditorInput>("CellSizeX", 80.f, 30.f);
+	m_CellSizeX = CreateWidget<CEditorInput>("CellSizeX", 100.f, 30.f);
 	m_CellSizeX->SetInputType(EImGuiInputType::Float);
 	line = CreateWidget<CEditorSameLine>("Line");
 	line->SetSpacing(28.f);
-	m_CellSizeY = CreateWidget<CEditorInput>("CellSizeY", 80.f, 30.f);
+	m_CellSizeY = CreateWidget<CEditorInput>("CellSizeY", 100.f, 30.f);
 	m_CellSizeY->SetInputType(EImGuiInputType::Float);
 
-	m_SizeX = CreateWidget<CEditorInput>("SizeX", 80.f, 30.f);
+	m_SizeX = CreateWidget<CEditorInput>("SizeX", 100.f, 30.f);
 	m_SizeX->SetInputType(EImGuiInputType::Float);
 	line = CreateWidget<CEditorSameLine>("Line");
 	line->SetSpacing(57.f);
-	m_SizeY = CreateWidget<CEditorInput>("SizeY", 80.f, 30.f);
+	m_SizeY = CreateWidget<CEditorInput>("SizeY", 100.f, 30.f);
 	m_SizeY->SetInputType(EImGuiInputType::Float);
 
-	m_DetailLevel = CreateWidget<CEditorInput>("DetailLevel", 80.f, 30.f);
+	m_DetailLevel = CreateWidget<CEditorInput>("DetailLevel", 100.f, 30.f);
 	m_DetailLevel->SetInputType(EImGuiInputType::Float);
 	line = CreateWidget<CEditorSameLine>("Line");
 	line->SetSpacing(13.f);
-	m_SplatCount = CreateWidget<CEditorInput>("SplatCount", 80.f, 30.f);
+	m_SplatCount = CreateWidget<CEditorInput>("SplatCount", 100.f, 30.f);
 	m_SplatCount->SetInputType(EImGuiInputType::Int);
 
 	m_Image = CreateWidget<CEditorImage>("Texture");

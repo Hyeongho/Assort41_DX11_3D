@@ -167,7 +167,7 @@ bool CTerrainComponent::Init()
 		m_ShadowMapShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ShadowMapStaticShader");
 	}
 
-	CreateTerrain(681, 631, 5.f, 5.f, TEXT("LandScape/height1.bmp"));
+  CreateTerrain(681, 631, 70.f, 70.f, TEXT("LandScape/BikiniCity_Height.png"));
 
 	return true;
 }
