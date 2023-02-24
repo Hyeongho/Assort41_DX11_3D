@@ -175,29 +175,32 @@ void CCameraComponent::PostUpdate(float DeltaTime)
 			m_matView[3][i] = -Pos.Dot(GetWorldAxis((AXIS)i));
 		}
 
-		CLightComponent* GlobalLight = m_Scene->GetLightManager()->GetGlobalLightComponent();
-
-		Vector3	LightDir[AXIS_MAX];
-
-		for (int i = 0; i < AXIS_MAX; i++)
+		if (m_Scene)
 		{
-			LightDir[i] = GlobalLight->GetWorldAxis((AXIS)i);
-		}
+			CLightComponent* GlobalLight = m_Scene->GetLightManager()->GetGlobalLightComponent();
 
-		Vector3	LightPos = LightDir[2] * -1000.f;
+			Vector3	LightDir[AXIS_MAX];
 
-		m_matShadowView.Identity();
+			for (int i = 0; i < AXIS_MAX; i++)
+			{
+				LightDir[i] = GlobalLight->GetWorldAxis((AXIS)i);
+			}
 
-		for (int i = 0; i < 3; i++)
-		{
-			memcpy(&m_matShadowView[i][0], &LightDir[i], sizeof(Vector3));
-		}
+			Vector3	LightPos = LightDir[2] * -1000.f;
 
-		m_matShadowView.Transpose();
+			m_matShadowView.Identity();
 
-		for (int i = 0; i < 3; i++)
-		{
-			m_matShadowView[3][i] = -LightPos.Dot(LightDir[i]);
+			for (int i = 0; i < 3; i++)
+			{
+				memcpy(&m_matShadowView[i][0], &LightDir[i], sizeof(Vector3));
+			}
+
+			m_matShadowView.Transpose();
+
+			for (int i = 0; i < 3; i++)
+			{
+				m_matShadowView[3][i] = -LightPos.Dot(LightDir[i]);
+			}
 		}
 	}
 

@@ -16,13 +16,15 @@
 #include "Animation/Animation.h"
 
 CPlayer::CPlayer()
-	: m_Speed(150.f)
+	: m_Speed(2000.f)
+	, m_CameraSpeed(150.f)
 	, m_KeyCount(0)
 	, m_MainCharacter(EMain_Character::Max)
 	, m_IsHolding(false)
 	, m_HoverTime(0.f)
 	, m_BellyAttackTime(0.f)
 	, m_SlamDown(false)
+	, m_IsLoading(false)
 {
 	SetTypeID<CPlayer>();
 
@@ -84,17 +86,19 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
 
+	if (m_IsLoading)
+	{
+		CGameObject* delObj = m_Scene->FindObject("Temp");
+		delObj->Destroy();
+		return;
+	}
 	LoadSpongebobAnim();
 	LoadPatrickAnim();
 	LoadSandyAnim();
 
 	ChangeSpongebob();
 
-	CWeapon* weapon = (CWeapon*)m_Scene->FindObject("Weapon");
-	if (!weapon)
-	{
-		weapon = m_Scene->CreateObject<CWeapon>("Weapon");
-	}
+	CWeapon* weapon = m_Scene->CreateObject<CWeapon>("Temp");
 	AddChildToSocket("Weapon", weapon);
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
@@ -133,7 +137,10 @@ void CPlayer::Update(float DeltaTime)
 
 	CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
 	float Y = Nav->GetHeight(GetWorldPos());
-	SetWorldPositionY(Y);
+	if(Y!=FLT_MAX)
+	{
+		SetWorldPositionY(Y);
+	}
 
 	if (m_Name == "Patrick")
 	{
@@ -174,6 +181,17 @@ void CPlayer::Save(FILE* File)
 void CPlayer::Load(FILE* File)
 {
 	CGameObject::Load(File);
+	m_IsLoading = true;
+	LoadSpongebobAnim();
+	LoadPatrickAnim();
+	LoadSandyAnim();
+
+	ChangeSpongebob();
+
+	CWeapon* weapon = m_Scene->CreateObject<CWeapon>("LoadWeapon");
+	AddChildToSocket("Weapon", weapon);
+	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
+	m_WeaponMesh->SetEnable(false);
 }
 
 void CPlayer::LoadSpongebobAnim()
@@ -379,7 +397,7 @@ void CPlayer::AttackKey()
 
 void CPlayer::CameraRotationKey()
 {
-	const Vector2& mouseMove = CInput::GetInst()->GetMouseMove() * m_Speed * g_DeltaTime;
+	const Vector2& mouseMove = CInput::GetInst()->GetMouseMove() * m_CameraSpeed * g_DeltaTime;
 	m_Arm->AddRelativeRotationY(mouseMove.x);
 	m_Arm->AddRelativeRotationX(mouseMove.y);
 	if (m_Arm->GetRelativeRot().x > 50.f)
@@ -391,7 +409,6 @@ void CPlayer::CameraRotationKey()
 		m_Arm->SetRelativeRotationX(-30.f);
 	}
 }
-
 
 void CPlayer::KeyDown()
 {

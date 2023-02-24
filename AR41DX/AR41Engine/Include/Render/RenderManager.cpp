@@ -24,6 +24,8 @@ CRenderManager::CRenderManager() : m_RenderStateManager(nullptr), m_ShaderType(E
 
 CRenderManager::~CRenderManager()
 {
+	SAFE_DELETE(m_ShadowCBuffer);
+
 	size_t	Size = m_vecInstancingPool.size();
 
 	for (size_t i = 0; i < Size; ++i)
@@ -1112,6 +1114,9 @@ void CRenderManager::CreateRenderTarget()
 	m_ShadowCBuffer->Init();
 
 	m_ShadowCBuffer->SetShadowResolution(Vector2((float)m_ShadowMapRS.Width, (float)m_ShadowMapRS.Height));
+
+	m_ScreenShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ScreenShader");
+	m_DeferredRenderShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("DeferredRenderShader");
 }
 
 bool CRenderManager::SortAlphaObject(CSceneComponent* Src, CSceneComponent* Dest)
