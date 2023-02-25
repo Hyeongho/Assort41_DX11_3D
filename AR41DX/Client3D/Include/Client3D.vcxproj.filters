@@ -34,6 +34,45 @@
     <Filter Include="03. GameObject\02. Monster">
       <UniqueIdentifier>{7c2b04c2-a0d0-4074-b777-fb7d3aeccabd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\02. Monster\01. Boss">
+      <UniqueIdentifier>{78f3038e-3617-4eeb-8e52-c6231cea14a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\02. Robots">
+      <UniqueIdentifier>{2494d4dc-4dce-4530-be50-c5a9d9eb4caf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\03. Etc">
+      <UniqueIdentifier>{cec92be3-6990-4c5c-abfd-bf9b02d9fc2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. UI\01. Menu">
+      <UniqueIdentifier>{0c9146d9-bab0-4163-a31b-fd94c0b76918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. UI\02. InGame">
+      <UniqueIdentifier>{b0760397-e218-416d-b630-5a8df7c51390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. UI\03 .Scene">
+      <UniqueIdentifier>{0b0305be-9f66-42f2-a36e-8db21dbbaaa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. Npc">
+      <UniqueIdentifier>{d60a7752-55a7-42db-975d-14492053197f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\04. Objects">
+      <UniqueIdentifier>{ac110592-9d25-46d5-aa40-cb8f6418ef74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Etc">
+      <UniqueIdentifier>{7fe1503a-ebb0-41ae-8798-5ca4802568f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\04. Objects\CB">
+      <UniqueIdentifier>{c4b3e856-cd63-4966-9449-ebe63c9ce03a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\04. Objects\CBLab">
+      <UniqueIdentifier>{b20d803a-a5ee-4228-9a19-6a462b73c77a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. UI\02. InGame\XmlParser">
+      <UniqueIdentifier>{5dbf96f8-9b2c-4cbd-af38-c0759f81a174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. UI\02. InGame\XmlParser\Code">
+      <UniqueIdentifier>{dfd4297b-dff9-406f-9b92-21b8e409f199}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,38 +90,11 @@
     <ClCompile Include="Setting\DefaultSetting.cpp">
       <Filter>04. Setting</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Weapon.cpp">
-      <Filter>03. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\BikiniBottomBuildings.cpp">
-      <Filter>03. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Bullet.cpp">
-      <Filter>03. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\JellyfishField.cpp">
-      <Filter>03. GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Player.cpp">
       <Filter>03. GameObject\01. Player</Filter>
     </ClCompile>
-    <ClCompile Include="UI\LoadingUI.cpp">
-      <Filter>05. UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PlayerUI.cpp">
-      <Filter>05. UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\StartSceneUI.cpp">
-      <Filter>05. UI</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\LoadingSceneInfo.cpp">
       <Filter>02. Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\TitleSceneUI.cpp">
-      <Filter>05. UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PauseUI.cpp">
-      <Filter>05. UI</Filter>
     </ClCompile>
     <ClCompile Include="Scene\TitleSceneInfo.cpp">
       <Filter>02. Scene</Filter>
@@ -90,20 +102,77 @@
     <ClCompile Include="GameObject\Monster.cpp">
       <Filter>03. GameObject\02. Monster</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Jellyfish.cpp">
-      <Filter>03. GameObject\02. Monster</Filter>
+    <ClCompile Include="UI\LoadingUI.cpp">
+      <Filter>05. UI\01. Menu</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\KingJellyfish.cpp">
-      <Filter>03. GameObject\02. Monster</Filter>
+    <ClCompile Include="UI\PlayerUI.cpp">
+      <Filter>05. UI\02. InGame</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Fodder.cpp">
-      <Filter>03. GameObject\02. Monster</Filter>
+    <ClCompile Include="UI\PauseUI.cpp">
+      <Filter>05. UI\01. Menu</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Hammer.cpp">
-      <Filter>03. GameObject\02. Monster</Filter>
+    <ClCompile Include="UI\StartSceneUI.cpp">
+      <Filter>05. UI\03 .Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\BossUI.cpp">
+      <Filter>05. UI\02. InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\DialogUI.cpp">
+      <Filter>05. UI\02. InGame</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Duplicatotron.cpp">
-      <Filter>03. GameObject\02. Monster</Filter>
+      <Filter>03. GameObject\02. Monster\02. Robots</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Fodder.cpp">
+      <Filter>03. GameObject\02. Monster\02. Robots</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Jellyfish.cpp">
+      <Filter>03. GameObject\02. Monster\03. Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Hammer.cpp">
+      <Filter>03. GameObject\02. Monster\02. Robots</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\KingJellyfish.cpp">
+      <Filter>03. GameObject\02. Monster\01. Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Squidward.cpp">
+      <Filter>03. GameObject\03. Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\MrKrabs.cpp">
+      <Filter>03. GameObject\03. Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\ChumBucketLabSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\RoboSpongeSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BossMonster.cpp">
+      <Filter>03. GameObject\02. Monster\01. Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\RoboSponge.cpp">
+      <Filter>03. GameObject\02. Monster\01. Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BikiniBottomBuildings.cpp">
+      <Filter>03. GameObject\04. Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Bullet.cpp">
+      <Filter>03. GameObject\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\JellyfishField.cpp">
+      <Filter>03. GameObject\04. Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Weapon.cpp">
+      <Filter>03. GameObject\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Map\CBLab\CBLabBaseMesh.cpp">
+      <Filter>03. GameObject\04. Objects\CBLab</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\RapidXml\CXmlParser.cpp">
+      <Filter>05. UI\02. InGame\XmlParser</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\TitleSceneUI.cpp">
+      <Filter>05. UI\01. Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,38 +194,11 @@
     <ClInclude Include="Setting\DefaultSetting.h">
       <Filter>04. Setting</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Weapon.h">
-      <Filter>03. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\BikiniBottomBuildings.h">
-      <Filter>03. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Bullet.h">
-      <Filter>03. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\JellyfishField.h">
-      <Filter>03. GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Player.h">
       <Filter>03. GameObject\01. Player</Filter>
     </ClInclude>
-    <ClInclude Include="UI\LoadingUI.h">
-      <Filter>05. UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PlayerUI.h">
-      <Filter>05. UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\StartSceneUI.h">
-      <Filter>05. UI</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\LoadingSceneInfo.h">
       <Filter>02. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\TitleSceneUI.h">
-      <Filter>05. UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PauseUI.h">
-      <Filter>05. UI</Filter>
     </ClInclude>
     <ClInclude Include="Scene\TitleSceneInfo.h">
       <Filter>02. Scene</Filter>
@@ -164,20 +206,89 @@
     <ClInclude Include="GameObject\Monster.h">
       <Filter>03. GameObject\02. Monster</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Jellyfish.h">
-      <Filter>03. GameObject\02. Monster</Filter>
+    <ClInclude Include="UI\LoadingUI.h">
+      <Filter>05. UI\01. Menu</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\KingJellyfish.h">
-      <Filter>03. GameObject\02. Monster</Filter>
+    <ClInclude Include="UI\PlayerUI.h">
+      <Filter>05. UI\02. InGame</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Fodder.h">
-      <Filter>03. GameObject\02. Monster</Filter>
+    <ClInclude Include="UI\PauseUI.h">
+      <Filter>05. UI\01. Menu</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Hammer.h">
-      <Filter>03. GameObject\02. Monster</Filter>
+    <ClInclude Include="UI\StartSceneUI.h">
+      <Filter>05. UI\03 .Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\BossUI.h">
+      <Filter>05. UI\02. InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\DialogUI.h">
+      <Filter>05. UI\02. InGame</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Duplicatotron.h">
-      <Filter>03. GameObject\02. Monster</Filter>
+      <Filter>03. GameObject\02. Monster\02. Robots</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Fodder.h">
+      <Filter>03. GameObject\02. Monster\02. Robots</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Jellyfish.h">
+      <Filter>03. GameObject\02. Monster\03. Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Hammer.h">
+      <Filter>03. GameObject\02. Monster\02. Robots</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\KingJellyfish.h">
+      <Filter>03. GameObject\02. Monster\01. Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Squidward.h">
+      <Filter>03. GameObject\03. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\MrKrabs.h">
+      <Filter>03. GameObject\03. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ChumBucketLabSceneInfo.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\RoboSpongeSceneInfo.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BossMonster.h">
+      <Filter>03. GameObject\02. Monster\01. Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\RoboSponge.h">
+      <Filter>03. GameObject\02. Monster\01. Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BikiniBottomBuildings.h">
+      <Filter>03. GameObject\04. Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Bullet.h">
+      <Filter>03. GameObject\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\JellyfishField.h">
+      <Filter>03. GameObject\04. Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Weapon.h">
+      <Filter>03. GameObject\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Map\CBLab\CBLabBaseMesh.h">
+      <Filter>03. GameObject\04. Objects\CBLab</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\rapidxml_iterators.hpp">
+      <Filter>05. UI\02. InGame\XmlParser\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\rapidxml_print.hpp">
+      <Filter>05. UI\02. InGame\XmlParser\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\rapidxml_utils.hpp">
+      <Filter>05. UI\02. InGame\XmlParser\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\rapidxml.hpp">
+      <Filter>05. UI\02. InGame\XmlParser\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\CXmlParser.h">
+      <Filter>05. UI\02. InGame\XmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\TitleSceneUI.h">
+      <Filter>05. UI\01. Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

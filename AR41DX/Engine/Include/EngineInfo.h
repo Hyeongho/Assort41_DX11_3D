@@ -47,6 +47,7 @@ extern float g_DeltaTime;
 #define	SCENE_PATH		"Scene"
 #define	SAVE_PATH		"Save"
 #define	MESH_PATH		"Mesh"
+#define	DIALOG_PATH		"Dialog"
 
 #define	DECLARE_SINGLE(Type)	\
 private:\

@@ -213,6 +213,9 @@ void CUITextButton::Update(float DeltaTime)
     {
         // 마우스가 버튼 위에 올라왔는지 체크한다.
         Vector2 MousePos = CInput::GetInst()->GetMousePos();
+        Resolution	RS = CDevice::GetInst()->GetResolution();
+        MousePos.y = RS.Height - MousePos.y;
+
 
         bool    MouseHovered = true;
 

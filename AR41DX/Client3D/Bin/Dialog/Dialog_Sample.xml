@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dialogs>
+	<Dialog Name = "">
+		<Context>
+			<Talker></Talker>
+			<Text></Text>
+		</Context>
+		<Context>
+			<Talker></Talker>
+			<Text></Text>
+		</Context>
+		<Context>
+			<Talker></Talker>
+			<Text></Text>
+		</Context>
+		<Context>
+			<Talker></Talker>
+			<Text></Text>
+		</Context>
+		<Context>
+			<Talker></Talker>
+			<Text></Text>
+		</Context>
+	</Dialog>
+	<Dialog Name = "">
+		<Context>
+			<Talker></Talker>
+			<Text></Text>
+		</Context>
+	</Dialog>
+</Dialogs>
