@@ -86,8 +86,8 @@ void CSceneCollision::Update(float DeltaTime)
 		m_Section3D.vecSection[i]->m_ColliderList.clear();
 	}
 
-	auto	iter = m_ColliderList.begin();
-	auto	iterEnd = m_ColliderList.end();
+	auto iter = m_ColliderList.begin();
+	auto iterEnd = m_ColliderList.end();
 
 	for (; iter != iterEnd;)
 	{

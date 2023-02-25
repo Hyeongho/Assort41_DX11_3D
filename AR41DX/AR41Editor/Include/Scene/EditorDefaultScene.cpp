@@ -20,7 +20,7 @@ bool CEditorDefaultScene::Init()
 	CGameObject* GlobalLightObj = m_Owner->CreateObject<CGameObject>("GlobalLight");
 	CLightComponent*  GlobalLightComponent = GlobalLightObj->CreateComponent<CLightComponent>("GlobalLight");
 	GlobalLightComponent->SetLightType(ELightType::Direction);
-	GlobalLightComponent->SetRelativeRotation(45.f, 90.f, 0.f);
+	GlobalLightComponent->SetRelativeRotation(0, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
 	//m_Owner->GetViewport()->CreateUIWindow<CStartSceneUI>("StartUI");

@@ -42,6 +42,7 @@ protected:
 	CSharedPtr<class CTargetArm> m_Arm;
 	CSharedPtr<class CNavigationAgent3D> m_NavAgent;
 	CSharedPtr<class CRigidBody> m_Rigid;
+	CSharedPtr<class CColliderCube> m_Cube;
 	//
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
 	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];

@@ -70,6 +70,7 @@ void CColliderOBB3D::PostUpdate(float DeltaTime)
 
 	m_Info.Center.x = GetWorldPos().x;
 	m_Info.Center.y = GetWorldPos().y;
+	m_Info.Center.z = GetWorldPos().z;
 
 	for (int i = 0; i < AXIS2D_MAX; ++i)
 	{
@@ -80,8 +81,65 @@ void CColliderOBB3D::PostUpdate(float DeltaTime)
 		m_Info.Length[i] = Size[i];
 	}
 
+	Vector3	Pos[8];
 
-	Vector3	Pos[6];
+	//-++
+	//+-+
+	//++-
+	//--+
+	//-+-
+	//+--
+	//+++
+	//---
+
+	Pos[0] = m_Info.Center - m_Info.Axis[AXIS_X] * m_Info.Length[AXIS_X] + m_Info.Axis[AXIS_Y] * m_Info.Length[AXIS_Y] + m_Info.Axis[AXIS_Z] * m_Info.Length[AXIS_Z];
+
+	Pos[1] = m_Info.Center + m_Info.Axis[AXIS_X] * m_Info.Length[AXIS_X] - m_Info.Axis[AXIS_Y] * m_Info.Length[AXIS_Y] + m_Info.Axis[AXIS_Z] * m_Info.Length[AXIS_Z];
+
+	Pos[2] = m_Info.Center + m_Info.Axis[AXIS_X] * m_Info.Length[AXIS_X] + m_Info.Axis[AXIS_Y] * m_Info.Length[AXIS_Y] - m_Info.Axis[AXIS_Z] * m_Info.Length[AXIS_Z];
+
+	Pos[3] = m_Info.Center - m_Info.Axis[AXIS_X] * m_Info.Length[AXIS_X] - m_Info.Axis[AXIS_Y] * m_Info.Length[AXIS_Y] + m_Info.Axis[AXIS_Z] * m_Info.Length[AXIS_Z];
+
+	Pos[4] = m_Info.Center - m_Info.Axis[AXIS_X] * m_Info.Length[AXIS_X] + m_Info.Axis[AXIS_Y] * m_Info.Length[AXIS_Y] - m_Info.Axis[AXIS_Z] * m_Info.Length[AXIS_Z];
+
+	Pos[5] = m_Info.Center + m_Info.Axis[AXIS_X] * m_Info.Length[AXIS_X] - m_Info.Axis[AXIS_Y] * m_Info.Length[AXIS_Y] - m_Info.Axis[AXIS_Z] * m_Info.Length[AXIS_Z];
+
+	Pos[6] = m_Info.Center + m_Info.Axis[AXIS_X] * m_Info.Length[AXIS_X] + m_Info.Axis[AXIS_Y] * m_Info.Length[AXIS_Y] + m_Info.Axis[AXIS_Z] * m_Info.Length[AXIS_Z];
+
+	Pos[7] = m_Info.Center - m_Info.Axis[AXIS_X] * m_Info.Length[AXIS_X] - m_Info.Axis[AXIS_Y] * m_Info.Length[AXIS_Y] - m_Info.Axis[AXIS_Z] * m_Info.Length[AXIS_Z];
+
+
+	Vector3	Min, Max;
+
+	Min.x = Pos[0].x;
+	Min.y = Pos[0].y;
+	Min.z = Pos[0].z;
+
+	Max.x = Pos[0].x;
+	Max.y = Pos[0].y;
+	Max.z = Pos[0].z;
+
+	for (int i = 1; i < 8; ++i)
+	{
+		Min.x = Min.x > Pos[i].x ? Pos[i].x : Min.x;
+		Min.y = Min.y > Pos[i].y ? Pos[i].y : Min.y;
+		Min.z = Min.z > Pos[i].z ? Pos[i].z : Min.z;
+
+		Max.x = Max.x < Pos[i].x ? Pos[i].x : Max.x;
+		Max.y = Max.y < Pos[i].y ? Pos[i].y : Max.y;
+		Max.z = Max.z < Pos[i].z ? Pos[i].z : Max.z;
+	}
+
+	Min.x -= GetWorldPos().x;
+	Min.y -= GetWorldPos().y;
+	Min.z -= GetWorldPos().z;
+
+	Max.x -= GetWorldPos().x;
+	Max.y -= GetWorldPos().y;
+	Max.z -= GetWorldPos().z;
+
+	m_Transform->SetMin(Min);
+	m_Transform->SetMax(Max);
 }
 
 void CColliderOBB3D::Render()

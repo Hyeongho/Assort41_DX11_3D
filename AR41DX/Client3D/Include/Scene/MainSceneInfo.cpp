@@ -14,6 +14,7 @@
 #include "Component/BillboardComponent.h"
 #include "Component/ParticleComponent.h"
 #include "../UI/PlayerUI.h"
+#include "Component/LightComponent.h"
 
 CMainSceneInfo::CMainSceneInfo()
 {
@@ -29,17 +30,23 @@ bool CMainSceneInfo::Init()
 
 	//SetPlayerObject(Patrick);
 
+	CGameObject* GlobalLightObj = m_Owner->CreateObject<CGameObject>("GlobalLight");
+	CLightComponent* GlobalLightComponent = GlobalLightObj->CreateComponent<CLightComponent>("GlobalLight");
+	GlobalLightComponent->SetLightType(ELightType::Direction);
+	GlobalLightComponent->SetRelativeRotation(45.f, 90.f, 0.f);
+	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
+
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 	//m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 
 	SetPlayerObject(Player);
 
 	//CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
-	// CJellyfish* Jellyfish = m_Owner->CreateObject<CJellyfish>("Jellyfish");
+	CJellyfish* Jellyfish = m_Owner->CreateObject<CJellyfish>("Jellyfish");
 
-	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
-	CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
-	CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
+	//CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
+	//CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
+	//CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
 
 
 	//CJellyfishField* JellyfishField = m_Owner->CreateObject<CJellyfishField>("JellyfishField");
@@ -51,11 +58,11 @@ bool CMainSceneInfo::Init()
 
 	//Player->AddChildToSocket("Weapon", Weapon);
 
-	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("Terrain");
+	//CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("Terrain");
 
-	CTerrainComponent* Terrain = TerrainObj->CreateComponent<CTerrainComponent>("Terrain");
+	//CTerrainComponent* Terrain = TerrainObj->CreateComponent<CTerrainComponent>("Terrain");
 
-	Terrain->CreateTerrain(129, 129, 100.f, 100.f, TEXT("LandScape/height1.bmp"));
+	//Terrain->CreateTerrain(129, 129, 100.f, 100.f, TEXT("LandScape/height1.bmp"));
 
 	//CGameObject* BillboardObj = m_Owner->CreateObject<CGameObject>("Billboard");
 

@@ -1,4 +1,3 @@
-
 #include "Mesh.h"
 #include "../../Device.h"
 #include "../Material/Material.h"

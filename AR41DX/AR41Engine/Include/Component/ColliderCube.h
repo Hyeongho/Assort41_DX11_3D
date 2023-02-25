@@ -23,6 +23,20 @@ public:
         return m_CubeSize;
     }
 
+public:
+    void SetCubeSize(const Vector3& Size)
+    {
+        m_CubeSize = Size;
+    }
+
+    void SetCubeSize(float Width, float Height, float Depth)
+    {
+        m_CubeSize.x = Width;
+        m_CubeSize.y = Height;
+        m_CubeSize.z = Depth;
+    }
+
+public:
     CubeInfo GetCubeInfo() const
     {
         return m_Info;
@@ -34,6 +48,7 @@ public:
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
     virtual void Render();
+    void RenderDebug();
     virtual CColliderCube* Clone() const;
     virtual void Save(FILE* File);
     virtual void Load(FILE* File);

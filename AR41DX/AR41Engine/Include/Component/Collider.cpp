@@ -189,7 +189,7 @@ int CCollider::CheckOverlapSection(CCollider* Dest)
 		{
 			if (*iter1 == *iter2)
 			{
-				++OverlapCount;
+				OverlapCount++;
 
 				if (*iter1 < MinIndex)
 					MinIndex = *iter1;
@@ -259,10 +259,14 @@ void CCollider::Render()
 	CSceneComponent::Render();
 
 	if (m_PrevCollisionList.empty() && !m_MouseCollision)
+	{
 		m_Color = Vector4(0.f, 1.f, 0.f, 1.f);
+	}
 
 	else
+	{
 		m_Color = Vector4(1.f, 0.f, 0.f, 1.f);
+	}
 }
 
 void CCollider::Save(FILE* File)
@@ -283,7 +287,7 @@ void CCollider::Load(FILE* File)
 	fread(&m_ColliderType, sizeof(ECollider_Type), 1, File);
 
 	int	Length = 0;
-	char	Name[256] = {};
+	char Name[256] = {};
 	fread(&Length, sizeof(int), 1, File);
 	fread(Name, 1, Length, File);
 

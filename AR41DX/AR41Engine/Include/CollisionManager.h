@@ -11,12 +11,9 @@ private:
 public:
 	bool Init();
 
-	bool CreateProfile(const std::string& Name, const std::string& ChannelName,
-		bool Enable, ECollision_Interaction BaseInteraction = ECollision_Interaction::Collision);
-	bool SetCollisionInteraction(const std::string& Name, const std::string& ChannelName,
-		ECollision_Interaction Interaction);
-	bool CreateChannel(const std::string& Name,
-		ECollision_Interaction Interaction = ECollision_Interaction::Collision);
+	bool CreateProfile(const std::string& Name, const std::string& ChannelName, bool Enable, ECollision_Interaction BaseInteraction = ECollision_Interaction::Collision);
+	bool SetCollisionInteraction(const std::string& Name, const std::string& ChannelName, ECollision_Interaction Interaction);
+	bool CreateChannel(const std::string& Name, ECollision_Interaction Interaction = ECollision_Interaction::Collision);
 	CollisionProfile* FindProfile(const std::string& Name);
 
 
@@ -62,11 +59,11 @@ public:
 	bool CollisionOBB3DToOBB3D(Vector3& HitPoint, class CColliderOBB3D* Src, class CColliderOBB3D* Dest);
 	bool CollisionOBB3DToCube(Vector3& HitPoint, class CColliderOBB3D* Src, class CColliderCube* Dest);
 
-	bool CollisionCubeToCube(Vector3& HitPoint, const CubeInfo* Src, const CubeInfo* Dest);
-	bool CollisionCubeToOBB3D(Vector3& HitPoint, const CubeInfo* Src, const OBB3DInfo* Dest);
+	bool CollisionCubeToCube(Vector3& HitPoint, const CubeInfo& Src, const CubeInfo& Dest);
+	bool CollisionCubeToOBB3D(Vector3& HitPoint, const CubeInfo& Src, const OBB3DInfo& Dest);
 
-	bool CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo* Src, const OBB3DInfo* Dest);
-	bool CollisionOBB3DToCube(Vector3& HitPoint, const OBB3DInfo* Src, const CubeInfo* Dest);
+	bool CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo& Src, const OBB3DInfo& Dest);
+	bool CollisionOBB3DToCube(Vector3& HitPoint, const OBB3DInfo& Src, const CubeInfo& Dest);
 
 	bool CollisionRayToSphere(PickingResult& result, const Ray& ray, const Vector3& Center, float Radius);
 

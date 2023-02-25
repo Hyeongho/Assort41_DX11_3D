@@ -17,6 +17,8 @@ protected:
 protected:
     CSharedPtr<class CMesh> m_Mesh;
     CSharedPtr<class CShader> m_Shader;
+    CSharedPtr<class CStaticMesh> m_DebugMesh;
+    CSharedPtr<class CMaterial> m_DebugMaterial;
     Vector4 m_Color;
     ECollider_Type m_ColliderType;
     CollisionResult m_Result;

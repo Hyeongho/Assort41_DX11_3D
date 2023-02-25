@@ -19,13 +19,15 @@ void CCollisionSection2D::AddCollider(CCollider2D* Collider)
 void CCollisionSection2D::Collision(float DeltaTime)
 {
 	if (m_ColliderList.size() < 2)
+	{
 		return;
+	}
 
-	auto	iter = m_ColliderList.begin();
-	auto	iterEnd = m_ColliderList.end();
-	--iterEnd;
+	auto iter = m_ColliderList.begin();
+	auto iterEnd = m_ColliderList.end();
+	iterEnd--;
 
-	auto	iter1End = m_ColliderList.end();
+	auto iter1End = m_ColliderList.end();
 
 	for (; iter != iterEnd; iter++)
 	{
@@ -44,7 +46,9 @@ void CCollisionSection2D::Collision(float DeltaTime)
 			// 그래서 -1이 아니고 겹치는 인덱스중 가장 작은 인덱스가 현재 영역의 인덱스보다 작다면
 			// 이미 앞에서 두 물체는 충돌처리를 수행했다는 의미이므로 현재 영역에서는 충돌처리를 패스한다.
 			if (OverlapSection != -1 && OverlapSection < m_Index)
+			{
 				continue;
+			}
 
 			CollisionProfile* SrcProfile = Src->GetCollisionProfile();
 			CollisionProfile* DestProfile = Dest->GetCollisionProfile();
@@ -53,7 +57,9 @@ void CCollisionSection2D::Collision(float DeltaTime)
 				ECollision_Interaction::Ignore ||
 				DestProfile->vecCollisionInteraction[(int)SrcProfile->Channel->Channel] ==
 				ECollision_Interaction::Ignore)
+			{
 				continue;
+			}
 
 			if (Src->Collision(Dest))
 			{
@@ -106,7 +112,9 @@ CCollider* CCollisionSection2D::CollisionMouse(const Vector2& MouseWorldPos, flo
 	for (; iter != iterEnd; iter++)
 	{
 		if ((*iter)->CollisionMouse(MouseWorldPos))
+		{
 			return *iter;
+		}
 	}
 
 	return nullptr;
