@@ -165,6 +165,9 @@
     <ClCompile Include="Window\FBXWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
+    <ClCompile Include="Window\TerrainWindow.cpp">
+      <Filter>03. Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -299,8 +302,18 @@
     <ClInclude Include="Window\FBXWindow.h">
       <Filter>03. Window</Filter>
     </ClInclude>
+    <ClInclude Include="Window\TerrainWindow.h">
+      <Filter>03. Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\Bin\SponegeBob.ico" />
+    <Image Include="..\Bin\SponegeBob.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AR41Editor.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

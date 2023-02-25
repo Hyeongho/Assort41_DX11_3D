@@ -1,4 +1,3 @@
-
 #include "MaterialManager.h"
 
 CMaterialManager::CMaterialManager()

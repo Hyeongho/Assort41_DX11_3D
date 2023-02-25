@@ -7,6 +7,7 @@
 #include "Device.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
+#include "Component/ColliderCube.h"
 
 CJellyfish::CJellyfish()
 {
@@ -34,10 +35,17 @@ bool CJellyfish::Init()
     CGameObject::Init();
 
     m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+    m_Cube = CreateComponent<CColliderCube>("Cube");
 
     SetRootComponent(m_Mesh);
 
+    m_Mesh->AddChild(m_Cube);
+
     m_Mesh->SetMesh("Jellyfish");
+
+    m_Cube->SetCubeSize(100.f, 100.f, 100.f);
+
+    m_Cube->SetCollisionProfile("Monster");
 
     m_Animation = m_Mesh->SetAnimation<CAnimation>("JellyfishAnimation");
 

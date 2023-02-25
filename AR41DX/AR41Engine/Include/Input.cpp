@@ -11,8 +11,7 @@
 
 DEFINITION_SINGLE(CInput)
 
-CInput::CInput() : m_MouseLDown(false), m_MouseLPush(false), m_MouseLUp(false), m_InputSystem(InputSystem_Type::DInput), m_Input(nullptr),
-	m_Keyboard(nullptr), m_Mouse(nullptr), m_KeyArray{}, m_MouseState{}, m_CollisionWidget(false), m_Wheel(0)
+CInput::CInput() : m_MouseLDown(false), m_MouseLPush(false), m_MouseLUp(false), m_InputSystem(InputSystem_Type::DInput), m_Input(nullptr),m_Keyboard(nullptr), m_Mouse(nullptr), m_KeyArray{}, m_MouseState{}, m_CollisionWidget(false), m_Wheel(0)
 {
 }
 
