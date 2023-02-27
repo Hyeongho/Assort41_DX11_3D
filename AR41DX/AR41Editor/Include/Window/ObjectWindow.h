@@ -12,6 +12,7 @@ private:
 	class CEditorComboBox* m_CameraAxisCombo;
 	CEditorTree<CGameObject*>* m_Tree;
 	CEditorTree<CUIWindow*>* m_WindowTree;
+	CSharedPtr<CGameObject>	m_Gizmo;
 	CSharedPtr<CGameObject>	m_SelectObject;
 	CSharedPtr<CUIWindow>	m_SelectWindow;
 	void TreeCallback(CEditorTreeItem<CGameObject*>* node, const std::string& item);
@@ -38,11 +39,12 @@ public:
 	void ClearSelect();
 	void Delete();
 	void Pause();
+	void MoveGizmo();
 	void UArrow();
 	void DArrow();
 	void LArrow();
 	void RArrow();
 	void PlaceObject();
-	void CreateObject(class CGameObject* object, const std::string& name);
+	class CGameObject* CreateObject(const std::string& name);
 };
 
