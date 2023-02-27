@@ -18,8 +18,7 @@ CStructuredBuffer::CStructuredBuffer(const CStructuredBuffer& Buffer)
 {
 	*this = Buffer;
 
-	CDevice::GetInst()->GetDevice()->CreateBuffer(&m_Desc, nullptr,
-		&m_Buffer);
+	CDevice::GetInst()->GetDevice()->CreateBuffer(&m_Desc, nullptr, &m_Buffer);
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC	SRVDesc = {};
 
@@ -29,12 +28,11 @@ CStructuredBuffer::CStructuredBuffer(const CStructuredBuffer& Buffer)
 	SRVDesc.BufferEx.Flags = 0;
 	SRVDesc.BufferEx.NumElements = m_Count;
 
-	CDevice::GetInst()->GetDevice()->CreateShaderResourceView(m_Buffer,
-		&SRVDesc, &m_SRV);
+	CDevice::GetInst()->GetDevice()->CreateShaderResourceView(m_Buffer, &SRVDesc, &m_SRV);
 
 	if (!m_Dynamic)
 	{
-		D3D11_UNORDERED_ACCESS_VIEW_DESC	UAVDesc = {};
+		D3D11_UNORDERED_ACCESS_VIEW_DESC UAVDesc = {};
 
 		UAVDesc.Format = DXGI_FORMAT_UNKNOWN;
 		UAVDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
@@ -42,8 +40,7 @@ CStructuredBuffer::CStructuredBuffer(const CStructuredBuffer& Buffer)
 		UAVDesc.Buffer.Flags = 0;
 		UAVDesc.Buffer.NumElements = m_Count;
 
-		CDevice::GetInst()->GetDevice()->CreateUnorderedAccessView(
-			m_Buffer, &UAVDesc, &m_UAV);
+		CDevice::GetInst()->GetDevice()->CreateUnorderedAccessView(m_Buffer, &UAVDesc, &m_UAV);
 	}
 }
 

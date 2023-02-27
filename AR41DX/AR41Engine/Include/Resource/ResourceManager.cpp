@@ -19,6 +19,7 @@ CResourceManager::~CResourceManager()
 	SAFE_DELETE(CUIWidget::m_CBuffer);
 	SAFE_DELETE(CUIWidget::m_AnimCBuffer);
 
+	SAFE_DELETE(m_ParticleManager);
 	SAFE_DELETE(m_FontManager);
 	SAFE_DELETE(m_SoundManager);
 	SAFE_DELETE(m_AnimationManager);
@@ -215,6 +216,11 @@ CMaterial* CResourceManager::FindMaterial(const std::string& Name)
 void CResourceManager::ReleaseMaterial(const std::string& Name)
 {
 	m_MaterialManager->ReleaseMaterial(Name);
+}
+
+void CResourceManager::GetMaterialNames(std::vector<std::string>& vecNames)
+{
+	m_MaterialManager->GetMaterialNames(vecNames);
 }
 
 bool CResourceManager::CreateAnimationSequence2D(const std::string& Name, const std::string& TextureName, const TCHAR* FileName, const std::string& PathName)

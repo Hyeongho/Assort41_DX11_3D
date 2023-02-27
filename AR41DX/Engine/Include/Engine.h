@@ -19,8 +19,14 @@ private:
 	class CGlobalConstantBuffer* m_GlobalCBuffer;
 	float m_AccTime;
 	float m_TimeScale; // 글로벌 타임 재생 배율(게임 전체의 시간을 조절할때 씀)
+	class CStructuredBuffer* m_RandomBuffer;
 
 public:
+	class CGlobalConstantBuffer* GetGlobalCBuffer()	const
+	{
+		return m_GlobalCBuffer;
+	}
+
 	bool GetRender2D()	const
 	{
 		return m_Render2D;

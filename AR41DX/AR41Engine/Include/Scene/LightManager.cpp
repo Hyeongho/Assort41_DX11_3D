@@ -18,6 +18,15 @@ CLightManager::~CLightManager()
 	SAFE_DELETE(m_LightInfoBuffer);
 }
 
+void CLightManager::SetGlobalLightObject(CGameObject* light)
+{
+	m_GlobalLightObj = light;
+	if (m_GlobalLightObj)
+	{
+		m_GlobalLightComponent = (CLightComponent*)m_GlobalLightObj->GetRootComponent();
+	}
+}
+
 void CLightManager::AddLight(CLightComponent* Light)
 {
 	m_LightList.push_back(Light);
@@ -50,6 +59,11 @@ void CLightManager::DeleteLight(const std::string& Name)
 			break;
 		}
 	}
+}
+
+void CLightManager::SetLightAccShader(const std::string& Name)
+{
+	m_LightAccShader = CResourceManager::GetInst()->FindShader(Name);
 }
 
 void CLightManager::Start()

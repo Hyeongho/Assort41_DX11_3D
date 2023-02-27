@@ -1,3 +1,4 @@
+
 #pragma once
 
 #define	DIRECTINPUT_VERSION	0x0800
@@ -79,8 +80,8 @@ private:\
 
 struct Resolution
 {
-	unsigned int Width;
-	unsigned int Height;
+	unsigned int	Width;
+	unsigned int	Height;
 };
 
 // 위치, 색상 정보를 가지고 있는 정점.
@@ -103,8 +104,8 @@ struct VertexColor
 struct VertexBuffer
 {
 	ID3D11Buffer* Buffer;
-	int Size;	// 정점 1개의 크기
-	int Count;	// 정점 개수
+	int		Size;	// 정점 1개의 크기
+	int		Count;	// 정점 개수
 	void* Data;		// 정점 정보
 
 	VertexBuffer() :
@@ -125,12 +126,17 @@ struct VertexBuffer
 struct IndexBuffer
 {
 	ID3D11Buffer* Buffer;
-	int Size;		// 인덱스 1개의 크기
-	int Count;		// 인덱스 개수
+	int		Size;		// 인덱스 1개의 크기
+	int		Count;		// 인덱스 개수
 	DXGI_FORMAT	Fmt;	// 인덱스 포멧
 	void* Data;			// 인덱스 정보
 
-	IndexBuffer() : Buffer(nullptr), Size(0), Count(0), Fmt(DXGI_FORMAT_UNKNOWN), Data(nullptr)
+	IndexBuffer() :
+		Buffer(nullptr),
+		Size(0),
+		Count(0),
+		Fmt(DXGI_FORMAT_UNKNOWN),
+		Data(nullptr)
 	{
 	}
 
@@ -143,20 +149,20 @@ struct IndexBuffer
 
 struct TransformCBuffer
 {
-	Matrix matWorld;
-	Matrix matView;
-	Matrix matProj;
-	Matrix matWVP;
-	Matrix matWV;
-	Matrix matInvWorld;
-	Matrix matInvView;
-	Matrix matInvProj;
-	Matrix matInvWVP;
-	Matrix matInvVP;
+	Matrix  matWorld;
+	Matrix  matView;
+	Matrix  matProj;
+	Matrix  matWVP;
+	Matrix	matWV;
+	Matrix	matInvWorld;
+	Matrix	matInvView;
+	Matrix	matInvProj;
+	Matrix	matInvWVP;
+	Matrix	matInvVP;
 	Vector3 Pivot;
-	float Proj11;
+	float	Proj11;
 	Vector3 MeshSize;
-	float Proj22;
+	float	Proj22;
 };
 
 struct GlobalCBuffer
@@ -167,6 +173,8 @@ struct GlobalCBuffer
 	float	DeltaTime;
 	Vector3	CameraAxisY;
 	float	AccTime;
+	Vector2 ShadowMapResolution;
+	Vector2 Empty;
 };
 
 // 위치, 색상 정보를 가지고 있는 정점.
@@ -179,7 +187,9 @@ struct VertexUV
 	{
 	}
 
-	VertexUV(const Vector3& _Pos, const Vector2& _UV) : Pos(_Pos), UV(_UV)
+	VertexUV(const Vector3& _Pos, const Vector2& _UV) :
+		Pos(_Pos),
+		UV(_UV)
 	{
 	}
 };
@@ -215,7 +225,8 @@ struct MaterialCBuffer
 	float TextureWidth;
 	float TextureHeight;
 	int Animation3DEnable;
-	Vector3	Empty;
+	int	ReceiveDecal;
+	Vector2	Empty;
 };
 
 struct HierarchyName
@@ -266,7 +277,7 @@ struct CollisionChannel
 struct CollisionProfile
 {
 	std::string							Name;
-	CollisionChannel*					Channel;
+	CollisionChannel* Channel;
 	bool								Enable;
 	std::vector<ECollision_Interaction>	vecCollisionInteraction;
 
@@ -303,9 +314,25 @@ struct Box2DInfo
 	float	Top;
 };
 
+struct CubeInfo
+{
+	float Left;
+	float Bottom;
+	float Right;
+	float Top;
+	float Front;
+	float Back;
+};
+
 struct Sphere2DInfo
 {
 	Vector2	Center;
+	float	Radius;
+};
+
+struct Sphere3DInfo
+{
+	Vector3	Center;
 	float	Radius;
 };
 
@@ -314,6 +341,13 @@ struct OBB2DInfo
 	Vector2	Center;
 	Vector2	Axis[AXIS2D_MAX];
 	float	Length[AXIS2D_MAX];
+};
+
+struct OBB3DInfo
+{
+	Vector3 Center;
+	Vector3	Axis[AXIS_MAX];
+	float	Length[AXIS_MAX];
 };
 
 struct PixelInfo
@@ -445,7 +479,8 @@ struct InstancingBufferInfo
 	Vector4 EmissiveColor;
 	float Opacity;
 	int Animation3D;
-	Vector2	Empty;
+	int	ReceiveDecal;
+	float	Empty;
 };
 
 struct InstancingCBuffer
@@ -456,25 +491,33 @@ struct InstancingCBuffer
 
 struct OutputBoneInfo
 {
-	Matrix matBone;
-	Vector3 Pos;
-	float Empty1;
-	Vector3 Scale;
-	float Empty2;
-	Vector4 Rot;
+	Matrix	matBone;
+	Vector3	Pos;
+	float	Empty1;
+	Vector3	Scale;
+	float	Empty2;
+	Vector4	Rot;
 };
 
 struct TerrainCBuffer
 {
-	float DetailLevel;
-	int SplatCount;
-	Vector2 Empty;
+	float	DetailLevel;
+	int		SplatCount;
+	Vector2	Empty;
 };
 
 struct Ray
 {
 	Vector3	Pos;
 	Vector3	Dir;
+
+public:
+	void ConvertSpace(const Matrix& mat)
+	{
+		Pos = Pos.TransformCoord(mat);
+		Dir = Dir.TransformNormal(mat);
+		Dir.Normalize();
+	}
 };
 
 //김범중 UI관련 구조체
@@ -510,24 +553,24 @@ struct HierarchyWidgetName
 
 struct ParticleCBuffer
 {
-	unsigned int ParticleSpawnEnable;  // 파티클 생성 여부
-	Vector3 ParticleStartMin;     // 파티클이 생성될 영역의 Min
-	Vector3 ParticleStartMax;     // 파티클이 생성될 영역의 Max
-	unsigned int ParticleSpawnCountMax;// 생성될 파티클의 최대 개수
-	Vector3 ParticleScaleMin;     // 생성될 파티클 크기의 Min
-	float ParticleLifeTimeMin;  // 파티클 생명의 최소 시간
-	Vector3 ParticleScaleMax;     // 생성될 파티클 크기의 Max
-	float ParticleLifeTimeMax;  // 파티클 생명의 최대 시간
-	Vector4 ParticleColorMin;     // 생성될 파티클의 색상 Min
-	Vector4 ParticleColorMax;     // 생성될 파티클의 색상 Max
-	float ParticleSpeedMin;     // 파티클 이동 속도 Min
-	float ParticleSpeedMax;     // 파티클 이동 속도 Max
-	unsigned int ParticleMoveEnable;   // 이동 할지 말지.
-	unsigned int ParticleGravity;      // 중력 적용 할지 말지.
-	Vector3 ParticleMoveDir;      // 이동을 할 경우 기준이 될 방향.
-	unsigned int ParticleMoveDirEnable;
-	Vector3 ParticleMoveAngle;    // 기준이 될 방향으로부터 회전할 최대 각도.
-	float ParticleEmpty2;
+	unsigned int    ParticleSpawnEnable;  // 파티클 생성 여부
+	Vector3  ParticleStartMin;     // 파티클이 생성될 영역의 Min
+	Vector3  ParticleStartMax;     // 파티클이 생성될 영역의 Max
+	unsigned int    ParticleSpawnCountMax;// 생성될 파티클의 최대 개수
+	Vector3  ParticleScaleMin;     // 생성될 파티클 크기의 Min
+	float   ParticleLifeTimeMin;  // 파티클 생명의 최소 시간
+	Vector3  ParticleScaleMax;     // 생성될 파티클 크기의 Max
+	float   ParticleLifeTimeMax;  // 파티클 생명의 최대 시간
+	Vector4  ParticleColorMin;     // 생성될 파티클의 색상 Min
+	Vector4  ParticleColorMax;     // 생성될 파티클의 색상 Max
+	float   ParticleSpeedMin;     // 파티클 이동 속도 Min
+	float   ParticleSpeedMax;     // 파티클 이동 속도 Max
+	unsigned int     ParticleMoveEnable;   // 이동 할지 말지.
+	unsigned int    ParticleGravity;      // 중력 적용 할지 말지.
+	Vector3  ParticleMoveDir;      // 이동을 할 경우 기준이 될 방향.
+	unsigned int   ParticleMoveDirEnable;
+	Vector3  ParticleMoveAngle;    // 기준이 될 방향으로부터 회전할 최대 각도.
+	float   ParticleEmpty2;
 
 	ParticleCBuffer() :
 		ParticleSpawnCountMax(100),
@@ -548,25 +591,49 @@ struct ParticleCBuffer
 
 struct ParticleInfo
 {
-	unsigned int Enable;
+	unsigned int     Enable;
 	Vector3 WorldPos;
 	Vector3 Dir;
-	float Speed;
-	float LifeTime;
-	float LifeTimeMax;
-	float FallTime;
-	float FallStartY;
+	float   Speed;
+	float   LifeTime;
+	float   LifeTimeMax;
+	float   FallTime;
+	float   FallStartY;
 };
 
 struct ParticleInfoShare
 {
-	unsigned int SpawnEnable;
+	unsigned int    SpawnEnable;
 
-	Vector3 ScaleMin;
-	Vector3 ScaleMax;
+	Vector3  ScaleMin;
+	Vector3  ScaleMax;
 
-	Vector4 ColorMin;
-	Vector4 ColorMax;
+	Vector4  ColorMin;
+	Vector4  ColorMax;
 
-	unsigned int GravityEnable;
+	unsigned int    GravityEnable;
+};
+
+struct PickingResult
+{
+	class CSceneComponent* PickComponent;
+	class CGameObject* PickObject;
+	Vector3	HitPoint;
+	float	Distance;
+
+	PickingResult() :
+		PickComponent(nullptr),
+		PickObject(nullptr),
+		Distance(0.f)
+	{
+	}
+};
+
+struct ShadowCBuffer
+{
+	Matrix  matShadowVP;
+	Matrix  matShadowInvVP;
+	Vector2 Resolution;
+	float   Bias;
+	float   Empty;
 };

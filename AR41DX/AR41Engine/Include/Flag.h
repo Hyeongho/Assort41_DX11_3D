@@ -101,9 +101,9 @@ enum class ECollision_Channel
 {
 	Default,
 	Mouse,
-	Custom0,
+	Player,
+	Monster,
 	Custom1,
-	Custom2,
 	Custom3,
 	Custom4,
 	Custom5,
@@ -251,4 +251,11 @@ enum class ENpcList // 김기백, Npc 전체 리스트
 	Squidward,
 	Patric,
 	End
+};
+};
+
+enum class EShaderType
+{
+	Default,
+	CelShader
 };

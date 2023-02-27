@@ -63,5 +63,6 @@ public:
 
 public:
 	void Render();
+	void RenderShadowMap();
 };
 

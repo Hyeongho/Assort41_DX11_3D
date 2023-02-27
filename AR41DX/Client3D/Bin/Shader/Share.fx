@@ -28,6 +28,8 @@ struct PS_OUTPUT_GBUFFER
     float4 GBuffer2 : SV_TARGET1;
     float4 GBuffer3 : SV_TARGET2;
     float4 GBuffer4 : SV_TARGET3;
+    float4 GBuffer5 : SV_TARGET4;
+    float4 GBuffer6 : SV_TARGET5;
 };
 
 // 상수버퍼는 16바이트 단위로 맞춰야 한다.
@@ -59,8 +61,9 @@ cbuffer Material : register(b1)
     int g_MtrlTextureType;
     float g_MtrlTextureWidth;
     float g_MtrlTextureHeight;
-    int   g_MtrlAnimation3D;
-    float3  g_MtrlEmpty;
+    int g_MtrlAnimation3D;
+    int g_MtrlReceiveDecal;
+    float2 g_MtrlEmpty;
 };
 
 
@@ -74,10 +77,12 @@ struct InstancingBuffer
     float4 EmissiveColor;
     float Opacity;
     int Animation3D;
-    float2	Empty;
+    int ReceiveDecal;
+    float Empty;
 };
 
 StructuredBuffer<InstancingBuffer> g_InstancingInfoArray : register(t50);
+StructuredBuffer<int> g_RandomArray : register(t51);
 
 SamplerState g_PointSmp : register(s0);
 SamplerState g_LinearSmp : register(s1);
@@ -90,6 +95,7 @@ Texture2D g_EmissiveTexture : register(t3);
 Texture2D g_RoughnessTexture : register(t4);
 Texture2D g_AOTexture : register(t5);
 Texture2D g_GlobalNoiseTexture : register(t6);
+Texture2D g_LUTTexture : register(t7);
 
 cbuffer Animation2D : register(b2)
 {
@@ -111,6 +117,8 @@ cbuffer GlobalCBuffer : register(b3)
     float   g_GlobalDeltaTime;
     float3  g_CameraAxisY;
     float   g_GlobalAccTime;
+    float2  g_ShadowMapResolution;
+    float3  g_GlobalEmpty;
 };
 
 cbuffer LightCBuffer : register(b4)
@@ -313,9 +321,12 @@ float GaussianSample(int2 NoiseUV)
                 UV.y = UV.y - g_GlobalNoiseResolution.y;
             }
 
-            Output += (g_GlobalNoiseTexture[UV].r * g_Gaussian5x5[i * 5 + j]);
+            //Output += (g_GlobalNoiseTexture[UV].r * g_Gaussian5x5[i * 5 + j]);
+            Output += g_GlobalNoiseTexture[UV].r;
         }
     }
+
+    Output /= 25.f;
 
     return Output;
 }
@@ -323,12 +334,27 @@ float GaussianSample(int2 NoiseUV)
 float Rand(float Key)
 {
     // NoiseTexture에서 사용할 UV를 만든다.
-    float2 UV = float2(cos(Key + g_GlobalAccTime), sin(g_GlobalAccTime));
+    float2  UV = float2(cos(Key + g_GlobalAccTime), sin(g_GlobalAccTime));
 
     // 0 ~ 1 사이로 만들어준다.
     UV = UV * 0.5f + 0.5f;
 
-    return GaussianSample(UV * g_GlobalNoiseResolution);
+    //int Index = ((int)(g_GlobalAccTime * Key / 0.0001f)) % (1024 * 1024);
+
+    int Index = 100;
+    //g_RandomIndex = (g_RandomIndex + 1) % 1024 * 1024;
+
+    //return GaussianSample(UV * g_GlobalNoiseResolution);
+    return g_RandomArray[Index] % 100001 / 100000.f;
+}
+
+float Rand(inout int Index)
+{
+    float Number = g_RandomArray[Index] % 100001 / 100000.f;
+
+    Index = (Index + 1) % (1024 * 1024);
+
+    return Number;
 }
 
 float DegreeToRadian(float Angle)

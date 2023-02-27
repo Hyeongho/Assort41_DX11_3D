@@ -110,6 +110,8 @@ void CParticle::CloneStructuredBuffer(
 void CParticle::SetParticleSpawnCountMax(int Count)
 {
 	m_CBuffer->SetParticleSpawnCountMax(Count);
+
+	ResizeStructuredBuffer("ParticleInfo", sizeof(ParticleInfo), Count, 0);
 }
 
 void CParticle::SetParticleSpawnTime(float Time)

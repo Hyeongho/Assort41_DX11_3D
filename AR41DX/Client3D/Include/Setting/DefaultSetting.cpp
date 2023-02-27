@@ -1,4 +1,4 @@
-#include "DefaultSetting.h"
+﻿#include "DefaultSetting.h"
 #include "../GameObject/Player.h"
 //#include "../GameObject/Patrick.h"
 //#include "../GameObject/Sandy.h"
@@ -7,7 +7,7 @@
 //#include "../GameObject/Jellyfish.h"
 //#include "../GameObject/Monster.h"
 //#include "../GameObject/Bullet.h"
-//#include "../UI/StartSceneUI.h"
+#include "../UI/StartSceneUI.h"
 #include "Scene/Scene.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -36,13 +36,12 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateObjectCDO<CPlayer>("Player");
 
     //CScene::CreateObjectCDO<CBikiniBottomBuildings>("BikiniBottomBuildings");
-    //CScene::CreateObjectCDO<CPatrick>("Patrick");
-    //CScene::CreateObjectCDO<CSandy>("Sandy");
-    //CScene::CreateObjectCDO<CKingJellyfish>("KingJellyfish");
 
     //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
 
     //CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
+
+    CScene::CreateUIWindowCDO<CStartSceneUI>("StartSceneUI"); //지우지 말아주세요
 
 }
 
@@ -52,51 +51,15 @@ void CDefaultSetting::LoadResource()
     LoadPatrick();
     LoadSandy();
 
-    LoadMrKrabs();
-    LoadSquidward();
-
     LoadRoboSponge();
+    LoadBuildings();
     LoadKingJellyfish();
     LoadJellyfish();
-    
-    
-    LoadBuildings();
 }
 
 void CDefaultSetting::SetInput()
 {
-
-    //겹치는 키
-    CInput::GetInst()->AddBindKey("W", 'W');
-    CInput::GetInst()->AddBindKey("S", 'S');
-    CInput::GetInst()->AddBindKey("D", 'D');
-    CInput::GetInst()->AddBindKey("A", 'A');
-    CInput::GetInst()->AddBindKey("Space", VK_SPACE);
-    CInput::GetInst()->AddBindKey("LClick", VK_LBUTTON);
-    CInput::GetInst()->AddBindKey("RClick", VK_RBUTTON);
-
-    //안겹치는 키
-
     // 캐릭터 키 하나로 통일 필요! - Move, LButton, RButton, Space
-
-    CInput::GetInst()->AddBindKey("MoveRight", 'D');
-    CInput::GetInst()->AddBindKey("MoveLeft", 'A');
-
-    CInput::GetInst()->AddBindKey("MoveFront", 'W');
-    CInput::GetInst()->AddBindKey("MoveBack", 'S');
-
-    CInput::GetInst()->AddBindKey("Jump", VK_SPACE);
-
-    CInput::GetInst()->AddBindKey("LButton", VK_LBUTTON);
-    CInput::GetInst()->AddBindKey("RButton", VK_RBUTTON);
-
-    CInput::GetInst()->AddBindKey("E", 'E');
-    CInput::GetInst()->AddBindKey("Q", 'Q');
-    CInput::GetInst()->AddBindKey("F", 'F');
-
-    CInput::GetInst()->AddBindKey("Spongebob", VK_F1);
-    CInput::GetInst()->AddBindKey("Patrick", VK_F2);
-    CInput::GetInst()->AddBindKey("Sandy", VK_F3);
 
     // Num, FNum
     CInput::GetInst()->AddBindKey("1", '1');
@@ -113,8 +76,8 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("F1", VK_F1);
     CInput::GetInst()->AddBindKey("F2", VK_F2);
     CInput::GetInst()->AddBindKey("F3", VK_F3);
-    CInput::GetInst()->AddBindKey("F4", VK_F4);
-    CInput::GetInst()->AddBindKey("F5", VK_F5);
+    CInput::GetInst()->AddBindKey("F4", VK_F4);     //에디터 위치변경함수
+    CInput::GetInst()->AddBindKey("F5", VK_F5);     //에디터 일시정지함수
     CInput::GetInst()->AddBindKey("F6", VK_F6);
     CInput::GetInst()->AddBindKey("F7", VK_F7);
     CInput::GetInst()->AddBindKey("F8", VK_F8);
@@ -123,27 +86,32 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("F11", VK_F11);
     CInput::GetInst()->AddBindKey("F12", VK_F12);
 
-    // Arrow
-    CInput::GetInst()->AddBindKey("UArrow", VK_UP);
-    CInput::GetInst()->AddBindKey("DArrow", VK_DOWN);
-    CInput::GetInst()->AddBindKey("LArrow", VK_RIGHT);
-    CInput::GetInst()->AddBindKey("RArrow", VK_LEFT);
 
+    // Arrow
+    //겹치는 키
+    CInput::GetInst()->AddBindKey("W", 'W');
+    CInput::GetInst()->AddBindKey("S", 'S');
+    CInput::GetInst()->AddBindKey("D", 'D');
+    CInput::GetInst()->AddBindKey("A", 'A');
+    CInput::GetInst()->AddBindKey("Space", VK_SPACE);
+    CInput::GetInst()->AddBindKey("LClick", VK_LBUTTON);
+    CInput::GetInst()->AddBindKey("RClick", VK_RBUTTON);
+
+    //안겹치는 키
     CInput::GetInst()->AddBindKey("E", 'E');
     CInput::GetInst()->AddBindKey("Q", 'Q');
     CInput::GetInst()->AddBindKey("F", 'F');
     CInput::GetInst()->AddBindKey("Esc", VK_ESCAPE);
     CInput::GetInst()->AddBindKey("Tab", VK_TAB);
 
-    CInput::GetInst()->AddBindKey("F1", VK_F1);
-    CInput::GetInst()->AddBindKey("F2", VK_F2);
-    CInput::GetInst()->AddBindKey("F3", VK_F3);
-
     //editor
+    CInput::GetInst()->AddBindKey("UArrow", VK_UP);
+    CInput::GetInst()->AddBindKey("DArrow", VK_DOWN);
+    CInput::GetInst()->AddBindKey("LArrow", VK_LEFT);
+    CInput::GetInst()->AddBindKey("RArrow", VK_RIGHT);
+
     CInput::GetInst()->AddBindKey("MClick", VK_MBUTTON);
     CInput::GetInst()->AddBindKey("Del", VK_DELETE);
-    CInput::GetInst()->AddBindKey("ChangePos", VK_F4);
-
 }
 
 void CDefaultSetting::SetCollision()
@@ -176,25 +144,24 @@ void CDefaultSetting::SetCollision()
 void CDefaultSetting::LoadSpongebob()
 {
     CResourceManager* resourceManager = CResourceManager::GetInst();
+    resourceManager->LoadMesh(nullptr, MeshType::Static, "SpongebobWand", TEXT("Spongebob\\wand_bubble_wand.msh"));
 
     resourceManager->LoadMesh(nullptr, MeshType::Animation, "Spongebob", TEXT("Spongebob\\Spongebob_mesh.msh"), MESH_PATH);
-
     resourceManager->LoadSkeleton(nullptr, "SpongebobSkeleton", TEXT("Spongebob\\Spongebob_mesh.bne"), MESH_PATH);
-
     resourceManager->SetMeshSkeleton("Spongebob", "SpongebobSkeleton");
-
+    resourceManager->AddSocket("SpongebobSkeleton", "MiddleFinger3_R", "Weapon");
     resourceManager->LoadAnimationSequence("Spongebob_Idle", TEXT("Spongebob\\Anim_Spongebob_Idle.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Spongebob_Walk", TEXT("Spongebob\\Anim_Spongebob_Walk.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Spongebob_Attack", TEXT("Spongebob\\Anim_Spongebob_BubbleSpin.sqc"), MESH_PATH);
+    resourceManager->LoadAnimationSequence("SpongebobJump", TEXT("Spongebob\\Anim_Spongebob_Jump_Dw.sqc"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadPatrick()
 {
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Patrick", TEXT("Patrick/Patrick11.msh"), MESH_PATH);
+    //소켓이름 "jt_Hand_R"
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Patrick", TEXT("Patrick/Patrick11.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "PatrickSkeleton", TEXT("Patrick/Patrick11.bne"), MESH_PATH);
-
     CResourceManager::GetInst()->SetMeshSkeleton("Patrick", "PatrickSkeleton");
 
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Idle", TEXT("Patrick/Patrick_Idle.fbx"), MESH_PATH);
@@ -213,9 +180,20 @@ void CDefaultSetting::LoadPatrick()
 
 void CDefaultSetting::LoadSandy()
 {
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy", TEXT("Sandy/Sandy_Idle.fbx"), MESH_PATH);
+    //소켓이름 "jt_Hand_R"
 
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy", TEXT("Sandy/Sandy_Idle.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy", TEXT("Sandy/Sandy_Idle.fbx"), MESH_PATH);
+    //CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Walk", TEXT("Sandy/Sandy_Walk.fbx"), MESH_PATH);
+    /*CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Walk", TEXT("Sandy/Sandy_Walk.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Run", TEXT("Sandy/Sandy_Run.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_JumpDW", TEXT("Sandy/Sandy_JumpDW.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_JumpUp", TEXT("Sandy/Sandy_JumpUp.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Jump_Landing_NonAdditive", TEXT("Sandy/Sandy_Jump_Landing_NonAdditive.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_DoubleJump", TEXT("Sandy/Sandy_DoubleJump.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Karate_Chop", TEXT("Sandy/Sandy_Karate_Chop.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Karate_Kick", TEXT("Sandy/Sandy_Karate_Kick.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Lasso_Start", TEXT("Sandy/Sandy_Lasso_Start.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy_Death", TEXT("Sandy/Sandy_Death.fbx"), MESH_PATH);*/
 
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "SandySkeleton", TEXT("Sandy/Sandy_Idle.bne"), MESH_PATH);
 
@@ -271,6 +249,7 @@ void CDefaultSetting::LoadSound()
     // 로딩 UI
     CResourceManager::GetInst()->LoadSound("Effect", "LoadingUI_First", false, "UI/SFX_SB_Spongball_Bubble_010.ogg", SOUND_PATH);
     CResourceManager::GetInst()->LoadSound("Effect", "LoadingUI_Second", false, "UI/SFX_SB_Spongball_Bubble_008.ogg", SOUND_PATH); // first와 같이 재생
+    CResourceManager::GetInst()->LoadSound("Effect", "LoadingUI", false, "UI/SFX_Bubbles_Add_001.ogg");
 
     // Bikini Bottom
     CResourceManager::GetInst()->LoadSound("BGM", "BikiniBottom", false, "Map/MUS_BikiniBottomTheme.ogg", SOUND_PATH);
@@ -285,7 +264,6 @@ void CDefaultSetting::LoadSound()
 
 void CDefaultSetting::LoadBuildings()
 {
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomBuildings", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.msh"), MESH_PATH);
     // 비키니 시티 맵 메쉬
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomBuildings", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "BikiniBottomBuildingsSkeleton", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.bne"), MESH_PATH);
@@ -328,7 +306,7 @@ void CDefaultSetting::LoadRoboSponge()
 
 void CDefaultSetting::LoadKingJellyfish()
 {
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "KingJellyfish", TEXT("KingJellyfish/KingJellyfish.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "KingJellyfish", TEXT("KingJellyfish/KingJellyfish.fbx"), MESH_PATH);
 
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "KingJellyfishSkeleton", TEXT("KingJellyfish/KingJellyfish.bne"), MESH_PATH);
 
@@ -358,7 +336,7 @@ void CDefaultSetting::LoadKingJellyfish()
 
 void CDefaultSetting::LoadJellyfish()
 {
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Jellyfish", TEXT("Jellyfish/Jellyfish.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Jellyfish", TEXT("Jellyfish/Jellyfish.fbx"), MESH_PATH);
 
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "JellyfishSkeleton", TEXT("Jellyfish/Jellyfish.bne"), MESH_PATH);
 
@@ -368,45 +346,4 @@ void CDefaultSetting::LoadJellyfish()
     CResourceManager::GetInst()->LoadAnimationSequence("Jellyfish_Death", TEXT("Jellyfish/Jellyfish_death.sqc"), MESH_PATH);
 
     CResourceManager::GetInst()->LoadSound("Effect", "Jellyfish_Attack", false, "Jellyfish/SFX_Enemy_Jellyfish_Attack_Original.ogg", SOUND_PATH);
-}
-
-void CDefaultSetting::LoadMrKrabs()
-{
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "MrKrabs", TEXT("MrKrabs/MrKrabs.msh"), MESH_PATH);
-
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "MrKrabs_Skeleton", TEXT("MrKrabs/MrKrabs.bne"), MESH_PATH);
-
-    CResourceManager::GetInst()->SetMeshSkeleton("MrKrabs", "MrKrabs_Skeleton");
-
-    CResourceManager::GetInst()->LoadAnimationSequence("MrKrabs_Angry_Loop", TEXT("MrKrabs/MrKrabs_Angry_Loop.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("MrKrabs_Angry_Start", TEXT("MrKrabs/MrKrabs_Angry_Start.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("MrKrabs_Deceptive_Loop", TEXT("MrKrabs/MrKrabs_Deceptive_Loop.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("MrKrabs_Deceptive_Start", TEXT("MrKrabs/MrKrabs_Deceptive_Start.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("MrKrabs_Greedy_Loop", TEXT("MrKrabs/MrKrabs_Greedy_Loop.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("MrKrabs_Greedy_Start", TEXT("MrKrabs/MrKrabs_Greedy_Start.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("MrKrabs_Idle", TEXT("MrKrabs/MrKrabs_Idle.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("MrKrabs_Laughing", TEXT("MrKrabs/MrKrabs_Laughing.sqc"), MESH_PATH);
-}
-
-void CDefaultSetting::LoadSquidward()
-{
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Squidward", TEXT("Squidward/Squidward.msh"), MESH_PATH);
-
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "Squidward_Skeleton", TEXT("Squidward/Squidward.bne"), MESH_PATH);
-
-    CResourceManager::GetInst()->SetMeshSkeleton("Squidward", "Squidward_Skeleton");
-
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Angry_Loop", TEXT("Squidward/Squidward_Angry_Loop.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Angry_Start", TEXT("Squidward/Squidward_Angry_Start.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Annoyed_Loop", TEXT("Squidward/Squidward_Annoyed_Loop.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Annoyed_Start", TEXT("Squidward/Squidward_Annoyed_Start.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Happy_Loop", TEXT("Squidward/Squidward_Happy_Loop.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Happy_Start", TEXT("Squidward/Squidward_Happy_Start.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Hurt_Loop", TEXT("Squidward/Squidward_Hurt_Loop.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Hurt_Start", TEXT("Squidward/Squidward_Hurt_Start.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Idle", TEXT("Squidward/Squidward_Idle.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Sarcastic_Loop", TEXT("Squidward/Squidward_Sarcastic_Loop.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Sarcastic_Start", TEXT("Squidward/Squidward_Sarcastic_Start.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Talk", TEXT("Squidward/Squidward_Talk.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Talk_Idle", TEXT("Squidward/Squidward_Talk_Idle.sqc"), MESH_PATH);
 }

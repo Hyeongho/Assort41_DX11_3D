@@ -1,5 +1,7 @@
 #pragma once
+
 #include "SceneComponent.h"
+
 class CCollider :
     public CSceneComponent
 {
@@ -15,33 +17,22 @@ protected:
 protected:
     CSharedPtr<class CMesh> m_Mesh;
     CSharedPtr<class CShader> m_Shader;
-    Vector4                 m_Color;
-    ECollider_Type          m_ColliderType;
-    Vector3                 m_Min;
-    Vector3                 m_Max;
-    CollisionResult         m_Result;
-    CollisionResult         m_MouseResult;
-    std::list<CCollider*>   m_PrevCollisionList;    // 이전 프레임에 충돌하고 있던 물체들
-    std::list<int>          m_CurrentSectionList;   // 현재 충돌체가 어느 충돌영역에 속해있는지 판단하기 위한 정보.
+    CSharedPtr<class CStaticMesh> m_DebugMesh;
+    CSharedPtr<class CMaterial> m_DebugMaterial;
+    Vector4 m_Color;
+    ECollider_Type m_ColliderType;
+    CollisionResult m_Result;
+    CollisionResult m_MouseResult;
+    std::list<CCollider*> m_PrevCollisionList;    // 이전 프레임에 충돌하고 있던 물체들
+    std::list<int> m_CurrentSectionList;   // 현재 충돌체가 어느 충돌영역에 속해있는지 판단하기 위한 정보.
     CollisionProfile* m_Profile;
-    Vector3                 m_HitPoint;
-    bool                    m_MouseCollision;
-
+    Vector3 m_HitPoint;
+    bool m_MouseCollision;
 
     std::function<void(const CollisionResult&)> m_CollisionCallback[(int)ECollision_Result::Max];
     std::function<void(const CollisionResult&)> m_CollisionMouseCallback[(int)ECollision_Result::Max];
 
 public:
-    const Vector3& GetMin() const
-    {
-        return m_Min;
-    }
-
-    const Vector3& GetMax() const
-    {
-        return m_Max;
-    }
-
     ECollider_Type GetColliderType()    const
     {
         return m_ColliderType;

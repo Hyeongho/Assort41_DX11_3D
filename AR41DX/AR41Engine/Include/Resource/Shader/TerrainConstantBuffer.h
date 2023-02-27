@@ -19,6 +19,16 @@ public:
 	virtual CTerrainConstantBuffer* Clone();
 
 public:
+	//김범중 에디터용
+	float GetDetailLevel() const
+	{
+		return m_BufferData.DetailLevel;
+	}
+	int GetSplatCount() const
+	{
+		return m_BufferData.SplatCount;
+	}
+	//
 	void SetDetailLevel(float Level)
 	{
 		m_BufferData.DetailLevel = Level;

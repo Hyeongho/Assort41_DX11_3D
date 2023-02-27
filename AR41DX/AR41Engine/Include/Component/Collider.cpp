@@ -22,8 +22,6 @@ CCollider::CCollider(const CCollider& component) :
 	m_Mesh = component.m_Mesh;
 	m_Color = component.m_Color;
 	m_ColliderType = component.m_ColliderType;
-	m_Min = component.m_Min;
-	m_Max = component.m_Max;
 	m_Profile = component.m_Profile;
 	m_Result.Src = this;
 	m_MouseCollision = false;
@@ -191,7 +189,7 @@ int CCollider::CheckOverlapSection(CCollider* Dest)
 		{
 			if (*iter1 == *iter2)
 			{
-				++OverlapCount;
+				OverlapCount++;
 
 				if (*iter1 < MinIndex)
 					MinIndex = *iter1;
@@ -217,8 +215,10 @@ void CCollider::Start()
 	CSceneComponent::Start();
 
 	// Scene에 배치가 되고 Start가 호출되면 출력 목록으로 지정한다.
-	if (CEngine::GetEditorMode())
-		CRenderManager::GetInst()->AddRenderList(this);
+	/*if (CEngine::GetEditorMode())
+		CRenderManager::GetInst()->AddRenderList(this);*/
+
+	CRenderManager::GetInst()->AddRenderList(this);
 
 	if (m_Scene)
 	{
@@ -234,11 +234,12 @@ bool CCollider::Init()
 	m_Profile = CCollisionManager::GetInst()->FindProfile("Default");
 
 
-	if (CEngine::GetEditorMode())
+	/*if (CEngine::GetEditorMode())
 	{
 		m_Shader = CResourceManager::GetInst()->FindShader("ColliderShader");
-	}
+	}*/
 
+	m_Shader = CResourceManager::GetInst()->FindShader("ColliderShader");
 
 	return true;
 }
@@ -258,10 +259,14 @@ void CCollider::Render()
 	CSceneComponent::Render();
 
 	if (m_PrevCollisionList.empty() && !m_MouseCollision)
+	{
 		m_Color = Vector4(0.f, 1.f, 0.f, 1.f);
+	}
 
 	else
+	{
 		m_Color = Vector4(1.f, 0.f, 0.f, 1.f);
+	}
 }
 
 void CCollider::Save(FILE* File)
@@ -282,7 +287,7 @@ void CCollider::Load(FILE* File)
 	fread(&m_ColliderType, sizeof(ECollider_Type), 1, File);
 
 	int	Length = 0;
-	char	Name[256] = {};
+	char Name[256] = {};
 	fread(&Length, sizeof(int), 1, File);
 	fread(Name, 1, Length, File);
 

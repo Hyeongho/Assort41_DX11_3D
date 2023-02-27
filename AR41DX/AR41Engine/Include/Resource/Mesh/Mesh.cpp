@@ -1,4 +1,3 @@
-
 #include "Mesh.h"
 #include "../../Device.h"
 #include "../Material/Material.h"
@@ -7,7 +6,7 @@
 #include "../../Scene/SceneResource.h"
 #include "FBXLoader.h"
 
-CMesh::CMesh()	:
+CMesh::CMesh() :
 	m_Min(FLT_MAX, FLT_MAX, FLT_MAX),
 	m_Max(FLT_MIN, FLT_MIN, FLT_MIN),
 	m_RenderCount(0)
@@ -64,8 +63,8 @@ void CMesh::SetMaterial(int Container, int Subset, CMaterial* Material)
 }
 
 bool CMesh::CreateMesh(void* VtxData, int Size, int Count,
-	D3D11_USAGE VtxUsage, D3D11_PRIMITIVE_TOPOLOGY Primitive, 
-	void* IdxData, int IdxSize, int IdxCount, D3D11_USAGE IdxUsage, 
+	D3D11_USAGE VtxUsage, D3D11_PRIMITIVE_TOPOLOGY Primitive,
+	void* IdxData, int IdxSize, int IdxCount, D3D11_USAGE IdxUsage,
 	DXGI_FORMAT Fmt)
 {
 	MeshContainer* Container = new MeshContainer;
@@ -123,7 +122,7 @@ bool CMesh::LoadMeshFullPath(const std::string& Name, const TCHAR* FullPath)
 	return false;
 }
 
-bool CMesh::LoadMeshMultibyte(const std::string& Name, 
+bool CMesh::LoadMeshMultibyte(const std::string& Name,
 	const char* FileName, const std::string& PathName)
 {
 	return false;
@@ -139,7 +138,7 @@ void CMesh::Render()
 {
 	size_t	Size = m_vecMeshSlot.size();
 
-	for(size_t i = 0; i < Size; ++i)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		unsigned int	Stride = (unsigned int)m_vecMeshSlot[i]->VB->Size;
 		unsigned int	Offset = 0;
@@ -253,7 +252,7 @@ void CMesh::RenderInstancing(int Count, int SlotNumber)
 	}
 }
 
-bool CMesh::CreateBuffer(BufferType Type, void* Data, int Size, 
+bool CMesh::CreateBuffer(BufferType Type, void* Data, int Size,
 	int Count, D3D11_USAGE Usage, ID3D11Buffer** Buffer)
 {
 	D3D11_BUFFER_DESC	Desc = {};
@@ -451,7 +450,7 @@ bool CMesh::ConvertFBX(CFBXLoader* Loader, const char* FullPath)
 			if (!vecEmptyIndex[ContainerIndex][i])
 				continue;
 
-			FbxMaterial*    Mtrl = (*iterM)[i];
+			FbxMaterial* Mtrl = (*iterM)[i];
 
 			CMaterial* Material = new CMaterial;
 
@@ -480,7 +479,7 @@ bool CMesh::ConvertFBX(CFBXLoader* Loader, const char* FullPath)
 			if (Ext[0] == '\0')
 			{
 				Material->AddTexture(0, (int)EShaderBufferType::Pixel, "none", TEXT("none.png"));
-		}
+			}
 			else
 			{
 				Material->AddTextureFullPath(0, (int)EShaderBufferType::Pixel, FileName, FullPath);
@@ -594,13 +593,13 @@ bool CMesh::SaveMesh(FILE* File)
 	{
 		MeshContainer* Container = m_vecContainer[i];
 
-		fwrite(&Container->Primitive, 
+		fwrite(&Container->Primitive,
 			sizeof(D3D11_PRIMITIVE_TOPOLOGY), 1, File);
 
 		fwrite(&Container->VB.Size, sizeof(int), 1, File);
 		fwrite(&Container->VB.Count, sizeof(int), 1, File);
 
-		fwrite(Container->VB.Data, Container->VB.Size, 
+		fwrite(Container->VB.Data, Container->VB.Size,
 			Container->VB.Count, File);
 
 		int	SubsetCount = (int)Container->vecSubset.size();
@@ -616,7 +615,7 @@ bool CMesh::SaveMesh(FILE* File)
 			fwrite(&Container->vecSubset[j].IB.Fmt,
 				sizeof(DXGI_FORMAT), 1, File);
 
-			fwrite(Container->vecSubset[j].IB.Data, 
+			fwrite(Container->vecSubset[j].IB.Data,
 				Container->vecSubset[j].IB.Size,
 				Container->vecSubset[j].IB.Count, File);
 
