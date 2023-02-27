@@ -19,6 +19,7 @@
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "../UI/PlayerUI.h"
+#include <PathManager.h>
 
 CPlayer::CPlayer()
 	: m_Speed(500.f)
@@ -35,6 +36,7 @@ CPlayer::CPlayer()
 	SetTypeID<CPlayer>();
 
 	m_ObjectTypeName = "Player";
+	LoadCharacter();
 }
 
 CPlayer::CPlayer(const CPlayer& Obj) 
@@ -50,11 +52,16 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	m_NavAgent = (CNavigationAgent3D*)FindComponent("NavAgent");
 	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 	m_HeadCube = (CColliderCube*)FindComponent("HeadCube");
+	LoadCharacter();
 }
 
 CPlayer::~CPlayer()
 {
-	
+	m_PlayerData.Glittering = 30;
+	if (m_LoadData != m_PlayerData)
+	{
+		SaveCharacter();
+	}
 }
 
 void CPlayer::Start()
@@ -116,6 +123,8 @@ void CPlayer::Start()
 	m_WeaponMesh->SetEnable(false);
 
 	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+
+	LoadCharacter();
 }
 
 bool CPlayer::Init()
@@ -193,6 +202,7 @@ CPlayer* CPlayer::Clone() const
 void CPlayer::Save(FILE* File)
 {
 	CGameObject::Save(File);
+	SaveCharacter();
 }
 
 void CPlayer::Load(FILE* File)
@@ -211,6 +221,57 @@ void CPlayer::Load(FILE* File)
 	m_WeaponMesh->SetEnable(false);
 
 	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+
+	LoadCharacter();
+}
+
+bool CPlayer::SaveCharacter()
+{
+	char	fullPath[MAX_PATH] = {};
+	const PathInfo* path = CPathManager::GetInst()->FindPath(SAVE_PATH);
+	if (path)
+	{
+		strcpy_s(fullPath, path->PathMultibyte);
+	}
+	strcat_s(fullPath, "userData.pref");
+	FILE* file = nullptr;
+	fopen_s(&file, fullPath, "wb");
+	if (!file)
+	{
+		return false;
+	}
+	fwrite(&m_PlayerData.MaxHP, 4, 1, file);
+	fwrite(&m_PlayerData.CurHP, 4, 1, file);
+	fwrite(&m_PlayerData.Socks, 4, 1, file);
+	fwrite(&m_PlayerData.Fritter, 4, 1, file);
+	fwrite(&m_PlayerData.Glittering, 4, 1, file);
+	fclose(file);
+	return true;
+}
+
+bool CPlayer::LoadCharacter()
+{
+	char	fullPath[MAX_PATH] = {};
+	const PathInfo* path = CPathManager::GetInst()->FindPath(SAVE_PATH);
+	if (path)
+	{
+		strcpy_s(fullPath, path->PathMultibyte);
+	}
+	strcat_s(fullPath, "userData.pref");
+	FILE* file = nullptr;
+	fopen_s(&file, fullPath, "rb");
+	if (!file)
+	{
+		return false;
+	}
+	fread(&m_PlayerData.MaxHP, 4, 1, file);
+	fread(&m_PlayerData.CurHP, 4, 1, file);
+	fread(&m_PlayerData.Socks, 4, 1, file);
+	fread(&m_PlayerData.Fritter, 4, 1, file);
+	fread(&m_PlayerData.Glittering, 4, 1, file);
+	fclose(file);
+	m_LoadData = m_PlayerData;
+	return true;
 }
 
 void CPlayer::LoadSpongebobAnim()

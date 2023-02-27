@@ -14,6 +14,31 @@ struct PlayerData
 	{
 
 	}
+	PlayerData& operator = (const PlayerData& v)
+	{
+		MaxHP = v.MaxHP;
+		CurHP = v.CurHP;
+		Socks = v.Socks;
+		Fritter = v.Fritter;
+		Glittering = v.Glittering;
+		return *this;
+	}
+	bool operator == (const PlayerData& v)	const
+	{
+		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering)
+		{
+			return false;
+		}
+		return true;
+	}
+	bool operator != (const PlayerData& v)	const
+	{
+		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering)
+		{
+			return true;
+		}
+		return false;
+	}
 };
 
 enum class EMain_Character
@@ -51,6 +76,7 @@ protected:
 
 protected:
 	PlayerData m_PlayerData;
+	PlayerData m_LoadData;
 	EMain_Character m_MainCharacter;
 	float m_Speed;
 	float m_CameraSpeed;
@@ -72,6 +98,8 @@ public:
 	virtual CPlayer* Clone() const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+	bool SaveCharacter();
+	bool LoadCharacter();
 
 private:
 	void LoadSpongebobAnim(); // 스폰지밥 리소스
