@@ -68,6 +68,15 @@ bool CTextureManager::Init()
 
 	Texture->SetShader(6, (int)EShaderBufferType::All, 0);
 
+	if (!LoadTexture("LUT", TEXT("LUT.png")))
+	{
+		return false;
+	}
+
+	Texture = FindTexture("LUT");
+
+	Texture->SetShader(7, (int)EShaderBufferType::Pixel, 0);
+
 	return true;
 }
 

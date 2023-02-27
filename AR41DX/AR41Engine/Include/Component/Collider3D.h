@@ -12,10 +12,12 @@ protected:
     virtual ~CCollider3D();
 
 protected:
-    ECollider3D_Type          m_Collider3DType;
+    ECollider3D_Type m_Collider3DType;
+    class CRenderState* m_WireFrame;
+
 
 public:
-    ECollider3D_Type GetCollider3DType()    const
+    ECollider3D_Type GetCollider3DType() const
     {
         return m_Collider3DType;
     }

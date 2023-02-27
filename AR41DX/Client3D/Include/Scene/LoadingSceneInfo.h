@@ -13,6 +13,7 @@ private:
     class CLoadingThread* m_LoadingThread;
     class CThreadQueue* m_LoadingQueue;
     class CLoadingUI* m_LoadingUI;
+    float m_StartTime;
 
 public:
     virtual bool Init();

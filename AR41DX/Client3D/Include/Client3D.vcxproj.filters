@@ -72,6 +72,14 @@
     </Filter>
     <Filter Include="05. UI\02. InGame\XmlParser\Code">
       <UniqueIdentifier>{dfd4297b-dff9-406f-9b92-21b8e409f199}</UniqueIdentifier>
+    <Filter Include="06. AI">
+      <UniqueIdentifier>{3ca5223d-e8b4-48c4-bc4a-825c198acf34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\04. Jellyfish">
+      <UniqueIdentifier>{8caa8ffa-c3de-4184-96af-93adfc49d71c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\05. KingJellyfish">
+      <UniqueIdentifier>{8bf6a9ee-0269-40e4-a6da-32c87d24c4f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +142,22 @@
     </ClCompile>
     <ClCompile Include="GameObject\KingJellyfish.cpp">
       <Filter>03. GameObject\02. Monster\01. Boss</Filter>
+      <Filter>03. GameObject\02. Monster\01. Jellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\KingJellyfish.cpp">
+      <Filter>03. GameObject\02. Monster\02. KingJellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\AI\CompositeNode.cpp">
+      <Filter>06. AI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\AI\Node.cpp">
+      <Filter>06. AI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\AI\Selector.cpp">
+      <Filter>06. AI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\AI\Sequence.cpp">
+      <Filter>06. AI</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Squidward.cpp">
       <Filter>03. GameObject\03. Npc</Filter>
@@ -238,6 +262,22 @@
     </ClInclude>
     <ClInclude Include="GameObject\KingJellyfish.h">
       <Filter>03. GameObject\02. Monster\01. Boss</Filter>
+      <Filter>03. GameObject\02. Monster\01. Jellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\KingJellyfish.h">
+      <Filter>03. GameObject\02. Monster\02. KingJellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\AI\CompositeNode.h">
+      <Filter>06. AI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\AI\Node.h">
+      <Filter>06. AI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\AI\Selector.h">
+      <Filter>06. AI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\AI\Sequence.h">
+      <Filter>06. AI</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Squidward.h">
       <Filter>03. GameObject\03. Npc</Filter>

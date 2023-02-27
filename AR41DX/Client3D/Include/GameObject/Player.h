@@ -37,9 +37,12 @@ protected:
 protected:
 	//컴포넌트
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
+	CSharedPtr<class CAnimationMeshComponent>	m_WeaponMesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
+	CSharedPtr<class CNavigationAgent3D> m_NavAgent;
 	CSharedPtr<class CRigidBody> m_Rigid;
+	CSharedPtr<class CColliderCube> m_Cube;
 	//
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
 	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
@@ -48,10 +51,11 @@ protected:
 	PlayerData m_PlayerData;
 	EMain_Character m_MainCharacter;
 	float m_Speed;
+	float m_CameraSpeed;
 	int m_KeyCount;
 	int m_JumpCount;
 	float m_HoverTime; // 내려찍기 등을 위한 공중부양 시간
-
+	bool m_IsLoading;	//로드 체크용 변수-김범중
 	// ========== Patrick 용 ==========
 	bool m_IsHolding; // 물건픽업/쓰로우 액션용
 	float m_BellyAttackTime;
@@ -133,8 +137,6 @@ public:
 		return m_PlayerData.Glittering;
 	}
 
-	void SetMesh(std::string Mesh);
-
 public:
 	//공통
 	void MoveFront();
@@ -152,6 +154,7 @@ public:
 	void IngameUI();
 	void RClick();
 	void LClick(); // Attack
+	void ResetIdle();	//아이들상태로 되돌리는 함수
 
 	// Spongebob
 	void Headbutt();
@@ -170,5 +173,7 @@ public:
 	void ChangeSpongebob();
 	void ChangePatrick();
 	void ChangeSandy();
+
+	void CollisionTest(const CollisionResult& result);
 };
 

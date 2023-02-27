@@ -1,7 +1,13 @@
 #include "GameObject.h"
 #include "../Component/AnimationMeshComponent.h"
+#include "../Component/CameraComponent.h"
 #include "../Resource/Animation/Skeleton.h"
 #include "../Resource/Animation/SkeletonSocket.h"
+#include "../Scene/Scene.h"
+#include "../Scene/SceneManager.h"
+#include "../Scene/CameraManager.h"
+#include "../Input.h"
+#include "../CollisionManager.h"
 
 std::unordered_map<std::string, CGameObject*> CGameObject::m_mapObjectCDO;
 
@@ -9,7 +15,9 @@ CGameObject::CGameObject()  :
 	m_Scene(nullptr),
 	m_LifeTime(-1.f),
 	m_ComponentSerialNumber(0),
-	m_Start(false)
+	m_Start(false),
+	m_FrustumCull(false),
+	m_Radius(0.f)
 {
 	SetTypeID<CGameObject>();
 
@@ -39,7 +47,7 @@ CGameObject::CGameObject(const CGameObject& Obj)    :
 		auto	iter = Obj.m_vecObjectComponent.begin();
 		auto	iterEnd = Obj.m_vecObjectComponent.end();
 
-		for (; iter != iterEnd; iter++)
+		for (; iter != iterEnd; ++iter)
 		{
 			CObjectComponent* Component = (*iter)->Clone();
 
@@ -102,7 +110,7 @@ void CGameObject::AddChildToSocket(const std::string& SocketName,
 	auto	iter = m_SceneComponentList.begin();
 	auto	iterEnd = m_SceneComponentList.end();
 
-	for (; iter != iterEnd; iter++)
+	for (; iter != iterEnd; ++iter)
 	{
 		if ((*iter)->CheckTypeID<CAnimationMeshComponent>())
 		{
@@ -144,7 +152,7 @@ CComponent* CGameObject::FindComponent(const std::string& Name)
 	auto    iter = m_SceneComponentList.begin();
 	auto    iterEnd = m_SceneComponentList.end();
 	
-	for (; iter != iterEnd; iter++)
+	for (; iter != iterEnd; ++iter)
 	{
 		if ((*iter)->GetName() == Name)
 			return *iter;
@@ -153,7 +161,7 @@ CComponent* CGameObject::FindComponent(const std::string& Name)
 	auto    iter1 = m_vecObjectComponent.begin();
 	auto    iter1End = m_vecObjectComponent.end();
 
-	for (; iter1 != iter1End; iter1++)
+	for (; iter1 != iter1End; ++iter1)
 	{
 		if ((*iter1)->GetName() == Name)
 			return *iter1;
@@ -217,6 +225,38 @@ void CGameObject::PostUpdate(float DeltaTime)
 
 	if (m_RootComponent)
 		m_RootComponent->PostUpdate(DeltaTime);
+
+	auto	iter = m_SceneComponentList.begin();
+	auto	iterEnd = m_SceneComponentList.end();
+
+	m_Min = Vector3(FLT_MAX, FLT_MAX, FLT_MAX);
+	m_Max = Vector3(FLT_MIN, FLT_MIN, FLT_MIN);
+
+	for (; iter != iterEnd; ++iter)
+	{
+		Vector3	Min = (*iter)->GetMeshSize() * (*iter)->GetWorldScale();
+
+		if (m_Min.x > (*iter)->GetMin().x)
+			m_Min.x = (*iter)->GetMin().x;
+
+		if (m_Min.y > (*iter)->GetMin().y)
+			m_Min.y = (*iter)->GetMin().y;
+
+		if (m_Min.z > (*iter)->GetMin().z)
+			m_Min.z = (*iter)->GetMin().z;
+
+		if (m_Max.x < (*iter)->GetMax().x)
+			m_Max.x = (*iter)->GetMax().x;
+
+		if (m_Max.y < (*iter)->GetMax().y)
+			m_Max.y = (*iter)->GetMax().y;
+
+		if (m_Max.z < (*iter)->GetMax().z)
+			m_Max.z = (*iter)->GetMax().z;
+	}
+
+	m_Center = (m_Min + m_Max) * 0.5f;
+	m_Radius = (m_Max - m_Min).Length() * 0.5f;
 }
 
 CGameObject* CGameObject::Clone() const
@@ -247,7 +287,7 @@ void CGameObject::Save(FILE* File)
 		auto	iter = m_vecObjectComponent.begin();
 		auto	iterEnd = m_vecObjectComponent.end();
 
-		for (; iter != iterEnd; iter++)
+		for (; iter != iterEnd; ++iter)
 		{
 			int	Length = (int)(*iter)->GetComponentTypeName().length();
 
@@ -332,6 +372,76 @@ void CGameObject::Load(FILE* File)
 			}
 		}
 	}
+}
+
+void CGameObject::FrustumCull(CCameraComponent* Camera)
+{
+	bool	Cull = false;
+
+	auto	iter = m_SceneComponentList.begin();
+	auto	iterEnd = m_SceneComponentList.end();
+
+	for (; iter != iterEnd; ++iter)
+	{
+		if (Camera->FrustumInSphere((*iter)->GetWorldPos(),
+			(*iter)->GetRadius()))
+			Cull = true;
+	}
+
+	m_FrustumCull = Cull;
+}
+
+bool CGameObject::Picking(PickingResult& result)
+{
+	Ray	ray = CInput::GetInst()->GetRay();
+
+	// 월드공간으로 변환한다.
+	CCameraComponent* Camera = m_Scene->GetCameraManager()->GetCurrentCamera();
+
+	Matrix	matView = Camera->GetViewMatrix();
+
+	matView.Inverse();
+
+	ray.Pos = ray.Pos.TransformCoord(matView);
+	ray.Dir = ray.Dir.TransformNormal(matView);
+	ray.Dir.Normalize();
+
+	std::list<CSceneComponent*> SceneComponentList =
+		m_SceneComponentList;
+
+	SceneComponentList.sort(CGameObject::SortComponent);
+
+	auto iter = SceneComponentList.begin();
+	auto iterEnd = SceneComponentList.end();
+
+	for (; iter != iterEnd; ++iter)
+	{
+		Vector3	Center = (*iter)->GetCenter();
+		float	Radius = (*iter)->GetRadius();
+
+		if (CCollisionManager::GetInst()->CollisionRayToSphere(result, ray, Center, Radius))
+		{
+			result.PickObject = this;
+			result.PickComponent = *iter;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool CGameObject::SortComponent(CSceneComponent* Src,
+	CSceneComponent* Dest)
+{
+	Vector3	SrcCenter = Src->GetCenter();
+	Vector3	DestCenter = Dest->GetCenter();
+
+	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
+
+	float	SrcDist = Camera->GetWorldPos().Distance(SrcCenter) - Src->GetRadius();
+	float	DestDist = Camera->GetWorldPos().Distance(DestCenter) - Dest->GetRadius();
+
+	return SrcDist < DestDist;
 }
 
 void CGameObject::SetInheritScale(bool Inherit)
@@ -626,6 +736,11 @@ void CGameObject::AddRelativePositionY(float y)
 void CGameObject::AddRelativePositionZ(float z)
 {
 	m_RootComponent->AddRelativePositionZ(z);
+}
+
+float CGameObject::GetRadius() const
+{
+	return m_RootComponent->GetRadius();
 }
 
 const Vector3& CGameObject::GetWorldScale() const

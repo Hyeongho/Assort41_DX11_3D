@@ -5,18 +5,15 @@
 class CCollisionManager
 {
 private:
-	std::unordered_map<std::string, CollisionProfile*>	m_mapProfile;
+	std::unordered_map<std::string, CollisionProfile*> m_mapProfile;
 	std::vector<CollisionChannel*>	m_vecChannel;
 
 public:
 	bool Init();
 
-	bool CreateProfile(const std::string& Name, const std::string& ChannelName,
-		bool Enable, ECollision_Interaction BaseInteraction = ECollision_Interaction::Collision);
-	bool SetCollisionInteraction(const std::string& Name, const std::string& ChannelName,
-		ECollision_Interaction Interaction);
-	bool CreateChannel(const std::string& Name,
-		ECollision_Interaction Interaction = ECollision_Interaction::Collision);
+	bool CreateProfile(const std::string& Name, const std::string& ChannelName, bool Enable, ECollision_Interaction BaseInteraction = ECollision_Interaction::Collision);
+	bool SetCollisionInteraction(const std::string& Name, const std::string& ChannelName, ECollision_Interaction Interaction);
+	bool CreateChannel(const std::string& Name, ECollision_Interaction Interaction = ECollision_Interaction::Collision);
 	CollisionProfile* FindProfile(const std::string& Name);
 
 
@@ -50,13 +47,25 @@ public:
 	bool CollisionOBB2DToPixel(Vector2& HitPoint, const OBB2DInfo& Src, const PixelInfo& Dest);
 	bool CollisionPixelToPixel(Vector2& HitPoint, const PixelInfo& Src, const PixelInfo& Dest);
 
-
 	bool CollisionPointToBox2D(Vector2& HitPoint, const Vector2& Src, const Box2DInfo& Dest);
 	bool CollisionPointToSphere2D(Vector2& HitPoint, const Vector2& Src, const Sphere2DInfo& Dest);
 	bool CollisionPointToOBB2D(Vector2& HitPoint, const Vector2& Src, const OBB2DInfo& Dest);
 	bool CollisionPointToPixel(Vector2& HitPoint, const Vector2& Src, const PixelInfo& Dest);
 
+public:
+	bool CollisionCubeToCube(Vector3& HitPoint, class CColliderCube* Src, class CColliderCube* Dest);
+	bool CollisionCubeToOBB3D(Vector3& HitPoint, class CColliderCube* Src, class CColliderOBB3D* Dest);
 
+	bool CollisionOBB3DToOBB3D(Vector3& HitPoint, class CColliderOBB3D* Src, class CColliderOBB3D* Dest);
+	bool CollisionOBB3DToCube(Vector3& HitPoint, class CColliderOBB3D* Src, class CColliderCube* Dest);
+
+	bool CollisionCubeToCube(Vector3& HitPoint, const CubeInfo& Src, const CubeInfo& Dest);
+	bool CollisionCubeToOBB3D(Vector3& HitPoint, const CubeInfo& Src, const OBB3DInfo& Dest);
+
+	bool CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo& Src, const OBB3DInfo& Dest);
+	bool CollisionOBB3DToCube(Vector3& HitPoint, const OBB3DInfo& Src, const CubeInfo& Dest);
+
+	bool CollisionRayToSphere(PickingResult& result, const Ray& ray, const Vector3& Center, float Radius);
 
 private:
 	Box2DInfo ConvertBox2DInfo(const Sphere2DInfo& Info);
@@ -65,6 +74,11 @@ private:
 	Box2DInfo OverlapBox2D(const Box2DInfo& Src, const Sphere2DInfo& Dest);
 	Box2DInfo OverlapBox2D(const Box2DInfo& Src, const OBB2DInfo& Dest);
 	void ComputeHitPoint(Vector2& HitPoint, const Box2DInfo& Src, const Box2DInfo& Dest);
+
+	CubeInfo ConvertCubeInfoInfo(const OBB3DInfo& Info);
+	Box2DInfo OverlapCube(const CubeInfo& Src, const CubeInfo& Dest);
+	Box2DInfo OverlapCube(const CubeInfo& Src, const OBB3DInfo& Dest);
+	void ComputeHitPoint(Vector3& HitPoint, const CubeInfo& Src, const CubeInfo& Dest);
 
 	DECLARE_SINGLE(CCollisionManager)
 };

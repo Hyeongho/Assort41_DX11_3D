@@ -27,6 +27,8 @@ bool CRenderStateManager::Init()
 
 	CreateState("FrontFaceCull", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_FRONT);
 
+	CreateState("WireFrame", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME);
+
 	return true;
 }
 

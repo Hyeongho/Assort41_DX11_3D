@@ -1,9 +1,8 @@
-
 #include "GraphicShader.h"
 #include "../../Device.h"
 #include "../../PathManager.h"
 
-CGraphicShader::CGraphicShader()	:
+CGraphicShader::CGraphicShader() :
 	m_VS(nullptr),
 	m_VSBlob(nullptr),
 	m_PS(nullptr),
@@ -178,7 +177,7 @@ bool CGraphicShader::LoadHullShader(const char* EntryName,
 	Flag = D3DCOMPILE_DEBUG;
 #endif // _DEBUG
 
-	TCHAR	FullPath[MAX_PATH] = {};
+	TCHAR FullPath[MAX_PATH] = {};
 
 	const PathInfo* Info = CPathManager::GetInst()->FindPath(PathName);
 
@@ -264,7 +263,7 @@ bool CGraphicShader::LoadGeometryShader(const char* EntryName,
 	Flag = D3DCOMPILE_DEBUG;
 #endif // _DEBUG
 
-	TCHAR	FullPath[MAX_PATH] = {};
+	TCHAR FullPath[MAX_PATH] = {};
 
 	const PathInfo* Info = CPathManager::GetInst()->FindPath(PathName);
 

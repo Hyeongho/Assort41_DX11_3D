@@ -149,8 +149,7 @@ float4 ParticlePS(GS_OUTPUT_PARTICLE input) : SV_TARGET
 
     Alpha = clamp(Alpha, 0.f, 1.f);
 
-
-    Color.rgb = TextureColor.rgb * g_MtrlBaseColor.rgb;
+    Color.rgb = TextureColor.rgb * g_MtrlBaseColor.rgb * input.Color.rgb;
 
     Color.a = TextureColor.a * g_MtrlOpacity * Alpha;
 

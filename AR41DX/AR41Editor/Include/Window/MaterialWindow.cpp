@@ -10,6 +10,7 @@
 #include "Editor/EditorSlider.h"
 #include "Editor/EditorComboBox.h"
 #include "Editor/EditorListBox.h"
+#include "Editor/EditorGroup.h"
 #include "Component/PrimitiveComponent.h"
 #include "Resource/Material/Material.h"
 #include "Resource/Shader/Shader.h"
@@ -21,6 +22,7 @@ CMaterialWindow::CMaterialWindow()
     , m_AmbientColor{}
     , m_SpecularColor{}
     , m_EmissiveColor{}
+    , m_ReceiveDecal(nullptr)
     , m_EnableBump(nullptr)
     , m_EnableSpecular(nullptr)
     , m_EnableEmissive(nullptr)
@@ -28,9 +30,12 @@ CMaterialWindow::CMaterialWindow()
     , m_Shader(nullptr)
     , m_Tree(nullptr)
     , m_TextureTree(nullptr)
+    , m_MultiTextureTree(nullptr)
     , m_Opacity(nullptr)
     , m_Name(nullptr)
     , m_Image(nullptr)
+    , m_MaterialList(nullptr)
+    , m_IsArray(nullptr)
 {
 }
 
@@ -42,8 +47,8 @@ void CMaterialWindow::SetSelectComponent(CPrimitiveComponent* component)
 {
     m_SelectComponent = component;
     Clear();
-    int size=m_SelectComponent->GetSlotCount();
-    for(int i=0;i<size;++i)
+    int size = m_SelectComponent->GetSlotCount();
+    for (int i = 0; i < size; ++i)
     {
         AddItem(m_SelectComponent->GetMaterial(i), m_SelectComponent->GetMaterial(i)->GetName());
     }
@@ -69,26 +74,27 @@ bool CMaterialWindow::Init()
     line = CreateWidget<CEditorSameLine>("Line");
     m_Opacity = CreateWidget<CEditorInput>("투명도", 80.f, 30.f);
     m_Opacity->SetInputType(EImGuiInputType::Float);
-	
+
     m_EnableBump = CreateWidget<CEditorCheckBox>("범프");
     line = CreateWidget<CEditorSameLine>("Line");
     m_EnableSpecular = CreateWidget<CEditorCheckBox>("반사광");
     line = CreateWidget<CEditorSameLine>("Line");
     m_EnableEmissive = CreateWidget<CEditorCheckBox>("발광");
     line = CreateWidget<CEditorSameLine>("Line");
-    m_Animation3D = CreateWidget<CEditorCheckBox>("3D애니메이션");
+    m_Animation3D = CreateWidget<CEditorCheckBox>("3D애니메이션"); \
+        m_ReceiveDecal = CreateWidget<CEditorCheckBox>("데칼 영향");
 
     CEditorLabel* label = CreateWidget<CEditorLabel>("렌더 스테이트");
     label->SetColor(255, 0, 0, 255);
     label->SetAlign(0.5f, 0.5f);
     label->SetSize(100.f, 30.f);
-    m_RenderState[0] = CreateWidget<CEditorInput>("RenderState0", 80.f, 30.f);
+    m_RenderState[0] = CreateWidget<CEditorInput>("RenderState0", 100.f, 30.f);
     m_RenderState[0]->SetHideName("RenderState0");
     line = CreateWidget<CEditorSameLine>("line");
-    m_RenderState[1] = CreateWidget<CEditorInput>("RenderState1", 80.f, 30.f);
+    m_RenderState[1] = CreateWidget<CEditorInput>("RenderState1", 100.f, 30.f);
     m_RenderState[1]->SetHideName("RenderState1");
     line = CreateWidget<CEditorSameLine>("line");
-    m_RenderState[2] = CreateWidget<CEditorInput>("RenderState2", 80.f, 30.f);
+    m_RenderState[2] = CreateWidget<CEditorInput>("RenderState2", 100.f, 30.f);
     m_RenderState[2]->SetHideName("RenderState2");
 
     label = CreateWidget<CEditorLabel>("기본 색상");
@@ -171,17 +177,55 @@ bool CMaterialWindow::Init()
     m_EmissiveColor[3]->SetHideName("EmissiveColorW");
     m_EmissiveColor[3]->SetInputType(EImGuiInputType::Float);
 
-   m_TextureTree = CreateWidget<CEditorTree<CTexture*>>("PathWindow");
-   m_TextureTree->SetHideName("PathWindow");
-   m_TextureTree->UseDragDropSelf(true);
-   m_TextureTree->SetSelectCallback<CMaterialWindow>(this, &CMaterialWindow::TextureTreeCallback);
-   m_TextureTree->SetSize(400.f, 300.f);
-   m_TextureTree->AddItem(nullptr, "Texture");
+    m_TextureTree = CreateWidget<CEditorTree<CTexture*>>("PathWindow");
+    m_TextureTree->SetHideName("PathWindow");
+    m_TextureTree->UseDragDropSelf(true);
+    m_TextureTree->SetSelectCallback<CMaterialWindow>(this, &CMaterialWindow::TextureTreeCallback);
+    m_TextureTree->SetSize(400.f, 300.f);
+    m_TextureTree->AddItem(nullptr, "Texture");
 
-   m_Image= CreateWidget<CEditorImage>("Image");
-   m_Image->SetSize(150.f, 150.f);
-   m_Image->SetHideName("Texture");
-   //m_Image->SetIsFixed(true);
+    m_MultiTextureTree = CreateWidget<CEditorTree<CTexture*>>("MultiTextureTree");
+    m_MultiTextureTree->SetHideName("MultiTextureTree");
+    m_MultiTextureTree->UseDragDropSelf(true);
+    m_MultiTextureTree->SetSelectCallback<CMaterialWindow>(this, &CMaterialWindow::TextureTreeCallback);
+    m_MultiTextureTree->SetSize(200.f, 300.f);
+    m_MultiTextureTree->AddItem(nullptr, "MultiTexture");
+
+    m_Image = CreateWidget<CEditorImage>("Image");
+    m_Image->SetSize(150.f, 150.f);
+    m_Image->SetHideName("Texture");
+    //m_Image->SetIsFixed(true);
+    line = CreateWidget<CEditorSameLine>("line");
+
+    m_IsArray = CreateWidget<CEditorCheckBox>("어레이 텍스처");
+    CEditorCursorPos* pos = CreateWidget<CEditorCursorPos>("pos");
+    pos->SetPos(158.f, -120.f);
+    button = CreateWidget<CEditorButton>("추가", 50.f, 30.f);
+    button->SetClickCallback<CMaterialWindow>(this, &CMaterialWindow::AddMultiTexure);
+    line = CreateWidget<CEditorSameLine>("line");
+    button = CreateWidget<CEditorButton>("삭제", 50.f, 30.f);
+    button->SetClickCallback<CMaterialWindow>(this, &CMaterialWindow::DeleteMultiTexure);
+    line = CreateWidget<CEditorSameLine>("line");
+    button = CreateWidget<CEditorButton>("일괄삭제", 80.f, 30.f);
+    button->SetClickCallback<CMaterialWindow>(this, &CMaterialWindow::ClearMultiTexture);
+
+    pos = CreateWidget<CEditorCursorPos>("pos");
+    pos->SetPosY(90.f);
+    m_MaterialList = CreateWidget<CEditorListBox>("MaterialListBox");
+    m_MaterialList->SetHideName("MaterialListBox");
+    m_MaterialList->SetSize(200.f, 300.f);
+    m_MaterialList->SetPageItemCount(6);
+    m_MaterialList->SetSelectCallback<CMaterialWindow>(this, &CMaterialWindow::ListClickCallback);
+    std::vector<std::string> vecName;
+    CResourceManager::GetInst()->GetMaterialNames(vecName);
+    size_t size = vecName.size();
+    for (size_t i = 0; i < size; ++i)
+    {
+        m_MaterialList->AddItem(vecName[i]);
+    }
+    line = CreateWidget<CEditorSameLine>("Line");
+    button = CreateWidget<CEditorButton>("로드", 50.f, 30.f);
+    button->SetClickCallback<CMaterialWindow>(this, &CMaterialWindow::MaterialLoadCallback);
     return true;
 }
 
@@ -214,6 +258,12 @@ bool CMaterialWindow::AddItem(CTexture* texture, const std::string& name, const 
     return m_TextureTree->AddItem(texture, name, parentName);
 }
 
+bool CMaterialWindow::AddMultiTextureItem(CTexture* texture, const std::string& name,
+    const std::string& parentName)
+{
+    return m_MultiTextureTree->AddItem(texture, name, parentName);
+}
+
 void CMaterialWindow::Clear()
 {
     m_Tree->Clear();
@@ -226,10 +276,32 @@ void CMaterialWindow::ClearTexture()
     m_TextureTree->AddItem(nullptr, "Texture");
 }
 
+void CMaterialWindow::ClearMultiTexture()
+{
+    m_MultiTextureTree->Clear();
+    m_MultiTextureTree->AddItem(nullptr, "MultiTexture");
+}
+
 void CMaterialWindow::ClearSelect()
 {
     m_SelectComponent = nullptr;
     m_SelectMaterial = nullptr;
+}
+
+void CMaterialWindow::ListClickCallback(int index, const std::string& item)
+{
+    m_SelectListItem = item;
+}
+
+void CMaterialWindow::MaterialLoadCallback()
+{
+    //이름이 똑같으면 인덱스가 먼저인게 적용
+    if (!m_SelectComponent || m_SelectListItem == "" || !m_SelectMaterial)
+    {
+        return;
+    }
+    int index = m_Tree->GetHoverItem()->FindIndex(m_SelectMaterial->GetName());
+    m_SelectComponent->SetMaterial(index, m_SelectListItem);
 }
 
 void CMaterialWindow::MaterialChangeCallback()
@@ -276,6 +348,7 @@ void CMaterialWindow::MaterialChangeCallback()
     {
         m_SelectMaterial->UnEnableAnimation3D();
     }
+    m_SelectMaterial->SetReceiveDecal(m_ReceiveDecal->GetCheck());
     Vector4 color;
     color.x = m_BaseColor[0]->GetFloat();
     color.y = m_BaseColor[1]->GetFloat();
@@ -299,11 +372,14 @@ void CMaterialWindow::MaterialChangeCallback()
     m_SelectMaterial->SetEmissiveColor(color);
     m_SelectMaterial->SetOpacity(m_Opacity->GetFloat());
     m_SelectMaterial->SetShader(m_Shader->GetText());
+    //m_SelectMaterial->UpdateBuffer(); 해줘도 달라지는 거 없음
 }
 
 void CMaterialWindow::MaterialCreateCallback()
 {
-    if(m_Name->GetText()=="")
+    //생성만 하고 이미지는 드랍해서 수정하고 저장
+    //매터리얼 파일저장이 없어서 별로인듯
+    if (m_Name->GetText() == "")
     {
         return;
     }
@@ -345,6 +421,7 @@ void CMaterialWindow::MaterialCreateCallback()
     {
         material->UnEnableAnimation3D();
     }
+    material->SetReceiveDecal(m_ReceiveDecal->GetCheck());
     Vector4 color;
     color.x = m_BaseColor[0]->GetFloat();
     color.y = m_BaseColor[1]->GetFloat();
@@ -370,28 +447,71 @@ void CMaterialWindow::MaterialCreateCallback()
     material->SetShader(m_Shader->GetText());
 }
 
+void CMaterialWindow::AddMultiTexure()
+{
+    if (!m_SelectMaterial)
+    {
+        return;
+    }
+    std::vector<const TCHAR*>	vecFileName;
+    int  size = (int)m_MultiTextureTree->ItemSize() - 1;
+    std::string name;
+    for (int i = 0; i < size; ++i)
+    {
+        if (0 == i)
+        {
+            name = m_MultiTextureTree->GetChildItem(i)->GetItemName();
+        }
+        vecFileName.push_back(m_MultiTextureTree->GetChildItem(i)->GetCustomData()->GetFullPath());
+    }
+    if (m_IsArray->GetCheck())
+    {
+        m_SelectMaterial->AddTextureArrayFullPath(0, (int)EShaderBufferType::Pixel, name, vecFileName);
+    }
+    else
+    {
+        m_SelectMaterial->AddTextureFullPath(0, (int)EShaderBufferType::Pixel, name, vecFileName);
+    }
+    size = m_SelectMaterial->GetTextureCount() - 1;
+    m_Image->SetTexture(m_SelectMaterial->GetTexture(size));
+    ClearMultiTexture();
+}
+
+void CMaterialWindow::DeleteMultiTexure()
+{
+    m_MultiTextureTree->DeleteItem(m_SelectTextureItem);
+}
+
 void CMaterialWindow::ImgChangeCallback(const std::string& name, const TCHAR* path)
 {
     if (!m_SelectMaterial)
     {
         return;
     }
-    std::string itemName = m_TextureTree->GetHoverItem()->GetItemName();
-    int index = m_TextureTree->GetHoverItem()->FindIndex(itemName);
-    if ("Texture" == itemName && m_TextureTree->ItemSize() == 1)
+    if (m_TextureTree->GetHoverItem())
     {
-        index = 0;
-        m_SelectMaterial->AddTextureFullPath(0, (int)EShaderBufferType::Pixel, name, path);
-    }
-    else
-    {
-        if (index < 0)
+        std::string itemName = m_TextureTree->GetHoverItem()->GetItemName();
+        int index = m_TextureTree->GetHoverItem()->FindIndex(itemName);
+        if ("Texture" == itemName)
         {
-            return;
+            index = (int)m_TextureTree->ItemSize() - 1;
+            m_SelectMaterial->AddTextureFullPath(0, (int)EShaderBufferType::Pixel, name, path);
         }
-        m_SelectMaterial->SetTextureFullPath(index, 0, (int)EShaderBufferType::Pixel, name, path);
+        else
+        {
+            if (index < 0)
+            {
+                return;
+            }
+            m_SelectMaterial->SetTextureFullPath(index, 0, (int)EShaderBufferType::Pixel, name, path);
+        }
+        m_Image->SetTexture(m_SelectMaterial->GetTexture(index));
     }
-    m_Image->SetTexture(m_SelectMaterial->GetTexture(index));
+    else if (m_MultiTextureTree->GetHoverItem())
+    {
+        m_Image->SetTextureFullPath(name, path);
+        AddMultiTextureItem(m_Image->GetTexture(), name);
+    }
 }
 
 void CMaterialWindow::TreeCallback(CEditorTreeItem<class CMaterial*>* node, const std::string& item)
@@ -401,17 +521,19 @@ void CMaterialWindow::TreeCallback(CEditorTreeItem<class CMaterial*>* node, cons
     {
         return;
     }
+
     std::string name = item;
     m_Name->SetText(name.c_str());
     int size = (int)std::size(m_RenderState);
-    for (int i = 0; i < size;++i)
+    for (int i = 0; i < size; ++i)
     {
-       if(!m_SelectMaterial->GetRenderState(i))
-       {
-           continue;
-       }
-       m_RenderState[i]->SetText(m_SelectMaterial->GetRenderState(i)->GetName().c_str());
+        if (!m_SelectMaterial->GetRenderState(i))
+        {
+            continue;
+        }
+        m_RenderState[i]->SetText(m_SelectMaterial->GetRenderState(i)->GetName().c_str());
     }
+
     m_BaseColor[0]->SetFloat(m_SelectMaterial->GetBaseColor().x);
     m_BaseColor[1]->SetFloat(m_SelectMaterial->GetBaseColor().y);
     m_BaseColor[2]->SetFloat(m_SelectMaterial->GetBaseColor().z);
@@ -428,12 +550,13 @@ void CMaterialWindow::TreeCallback(CEditorTreeItem<class CMaterial*>* node, cons
     m_EmissiveColor[1]->SetFloat(m_SelectMaterial->GetEmissiveColor().y);
     m_EmissiveColor[2]->SetFloat(m_SelectMaterial->GetEmissiveColor().z);
     m_EmissiveColor[3]->SetFloat(m_SelectMaterial->GetEmissiveColor().w);
+    m_ReceiveDecal->SetCheck(m_SelectMaterial->GetReceiveDecal());
     m_EnableBump->SetCheck(m_SelectMaterial->GetIsBump());
     m_EnableSpecular->SetCheck(m_SelectMaterial->GetIsSpecular());
     m_EnableEmissive->SetCheck(m_SelectMaterial->GetIsEmissive());
     m_Animation3D->SetCheck(m_SelectMaterial->GetIsAnimation3D());
     m_Opacity->SetFloat(m_SelectMaterial->GetOpacity());
-    if(m_SelectMaterial->GetShader())
+    if (m_SelectMaterial->GetShader())
     {
         m_Shader->SetText(m_SelectMaterial->GetShader()->GetName().c_str());
     }
@@ -448,4 +571,5 @@ void CMaterialWindow::TreeCallback(CEditorTreeItem<class CMaterial*>* node, cons
 void CMaterialWindow::TextureTreeCallback(CEditorTreeItem<class CTexture*>* node, const std::string& item)
 {
     m_Image->SetTexture(node->GetCustomData());
+    m_SelectTextureItem = item;
 }

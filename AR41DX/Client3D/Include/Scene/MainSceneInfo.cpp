@@ -5,11 +5,16 @@
 #include "../GameObject/Weapon.h"
 #include "../GameObject/KingJellyfish.h"
 #include "../GameObject/Jellyfish.h"
+#include "../GameObject/Fodder.h"
+#include "../GameObject/Hammer.h"
+#include "../GameObject/Duplicatotron.h"
 #include "../GameObject/BikiniBottomBuildings.h"
 #include "../GameObject/JellyfishField.h"
 #include "Component/TerrainComponent.h"
 #include "Component/BillboardComponent.h"
+#include "Component/ParticleComponent.h"
 #include "../UI/PlayerUI.h"
+#include "Component/LightComponent.h"
 
 CMainSceneInfo::CMainSceneInfo()
 {
@@ -24,7 +29,13 @@ bool CMainSceneInfo::Init()
 	CSceneInfo::Init();
 
 	//SetPlayerObject(Patrick);
-	
+
+	CGameObject* GlobalLightObj = m_Owner->CreateObject<CGameObject>("GlobalLight");
+	CLightComponent* GlobalLightComponent = GlobalLightObj->CreateComponent<CLightComponent>("GlobalLight");
+	GlobalLightComponent->SetLightType(ELightType::Direction);
+	GlobalLightComponent->SetRelativeRotation(45.f, 90.f, 0.f);
+	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
+
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 	//m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 
@@ -32,6 +43,11 @@ bool CMainSceneInfo::Init()
 
 	//CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
 	CJellyfish* Jellyfish = m_Owner->CreateObject<CJellyfish>("Jellyfish");
+
+	//CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
+	//CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
+	//CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
+
 
 	//CJellyfishField* JellyfishField = m_Owner->CreateObject<CJellyfishField>("JellyfishField");
 	CBikiniBottomBuildings* BikiniBottomBuildings = m_Owner->CreateObject<CBikiniBottomBuildings>("BikiniBottomBuildings");
@@ -42,17 +58,25 @@ bool CMainSceneInfo::Init()
 
 	//Player->AddChildToSocket("Weapon", Weapon);
 
-	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("Terrain");
+	//CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("Terrain");
 
-	CTerrainComponent* Terrain = TerrainObj->CreateComponent<CTerrainComponent>("Terrain");
+	//CTerrainComponent* Terrain = TerrainObj->CreateComponent<CTerrainComponent>("Terrain");
 
-	Terrain->CreateTerrain(129, 129, 100.f, 100.f, TEXT("LandScape/height1.bmp"));
+	//Terrain->CreateTerrain(129, 129, 100.f, 100.f, TEXT("LandScape/height1.bmp"));
 
-	CGameObject* BillboardObj = m_Owner->CreateObject<CGameObject>("Billboard");
+	//CGameObject* BillboardObj = m_Owner->CreateObject<CGameObject>("Billboard");
 
-	CBillboardComponent* Billboard = BillboardObj->CreateComponent<CBillboardComponent>("Billboard");
+	//CBillboardComponent* Billboard = BillboardObj->CreateComponent<CBillboardComponent>("Billboard");
 
-	Billboard->SetWorldPosition(300.f, 0.f, 500.f);
+	//Billboard->SetWorldPosition(300.f, 0.f, 500.f);
+
+
+	CGameObject* ParticleObj = m_Owner->CreateObject<CGameObject>("Particle");
+
+	CParticleComponent* Particle = ParticleObj->CreateComponent<CParticleComponent>("Particle");
+
+	Particle->SetParticle("GroundBubble");
+	Particle->SetWorldPosition(0.f, 0.f, 300.f);
 
 
 	return true;

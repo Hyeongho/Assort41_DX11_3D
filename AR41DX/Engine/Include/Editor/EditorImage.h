@@ -1,7 +1,7 @@
 #pragma once
 #include "EditorWidget.h"
 class CEditorImage :
-    public CEditorWidget
+	public CEditorWidget
 {
 	friend class CEditorWindow;
 	friend class CEditorGroup;
@@ -21,6 +21,11 @@ private:
 	int			m_ImageIndex;
 
 public:
+	class CTexture* GetTexture()    const
+	{
+		return m_Texture;
+	}
+
 	void SetImageIndex(int Index)
 	{
 		m_ImageIndex = Index;

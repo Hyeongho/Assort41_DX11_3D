@@ -8,6 +8,8 @@
 #include "Thread/ThreadQueue.h"
 #include "Thread/DataStream.h"
 #include "Editor/EditorGUIManager.h"
+#include "Component/ParticleComponent.h"
+#include "GameObject/GameObject.h"
 
 //김범중 클라이언트에서는 에디터 관련된 부분 컴파일 안돼게끔 하기위한 전처리문
 #ifdef __has_include
@@ -21,12 +23,14 @@ CLoadingSceneInfo::CLoadingSceneInfo()
 	: m_LoadingThread(nullptr)
 	, m_LoadingQueue(nullptr)
 	, m_LoadingUI(nullptr)
+	, m_StartTime(1.f)
 {
 	m_ClassTypeName = "LoadingSceneInfo";
 }
 
 CLoadingSceneInfo::~CLoadingSceneInfo()
 {
+	m_Owner->GetResource()->SoundStop("LoadingUI");
 }
 
 bool CLoadingSceneInfo::Init()
@@ -39,6 +43,16 @@ bool CLoadingSceneInfo::Init()
 void CLoadingSceneInfo::Update(float DeltaTime)
 {
 	CSceneInfo::Update(DeltaTime);
+	m_StartTime -= DeltaTime;
+	if (m_StartTime < 0.f)
+	{
+		m_Owner->GetResource()->SoundPlay("LoadingUI");
+		CGameObject* obj = m_Owner->CreateObject<CGameObject>("Particle");
+		CParticleComponent* particle = obj->CreateComponent<CParticleComponent>("Particle");
+		particle->SetParticle("LoadingBubble");
+		obj->SetLifeTime(1.5f);
+		m_StartTime = 100.f;
+	}
 
 	// Queue에 데이터가 있을 경우 받아와서 처리한다.
 	if (!m_LoadingQueue->empty())

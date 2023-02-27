@@ -101,9 +101,9 @@ enum class ECollision_Channel
 {
 	Default,
 	Mouse,
-	Custom0,
+	Player,
+	Monster,
 	Custom1,
-	Custom2,
 	Custom3,
 	Custom4,
 	Custom5,
@@ -135,17 +135,17 @@ enum class ECollider_Type
 
 enum class ECollider2D_Type
 {
-	Box2D,	// È¸Àü¾ø´Â »óÀÚ
-	OBB2D,	// È¸ÀüµÇ´Â »óÀÚ
-	Sphere2D,	// ¿ø
-	Pixel	// ÇÈ¼¿Ãæµ¹¿ë
+	Box2D,	// íšŒì „ì—†ëŠ” ìƒì
+	OBB2D,	// íšŒì „ë˜ëŠ” ìƒì
+	Sphere2D,	// ì›
+	Pixel	// í”½ì…€ì¶©ëŒìš©
 };
 
 enum class ECollider3D_Type
 {
-	Box,	// È¸Àü¾ø´Â »óÀÚ
-	OBB,	// È¸ÀüµÇ´Â »óÀÚ
-	Sphere	// ¿ø
+	Box,	// íšŒì „ì—†ëŠ” ìƒì
+	OBB,	// íšŒì „ë˜ëŠ” ìƒì
+	Sphere	// ì›
 };
 
 enum class ECollision_Result
@@ -224,31 +224,36 @@ enum class ENavNodeType
 	Close
 };
 
-
-enum class EMapList // ±è±â¹é, ¸Ê ÀüÃ¼ ¸®½ºÆ®
+enum class EMapList // ê¹€ê¸°ë°±, ë§µ ì „ì²´ ë¦¬ìŠ¤íŠ¸
 {
-	Patric,				// ¶×ÀÌ
-	DutchMan_Grave,		// ¹Ù´Ùµµ±úºñÀÇ ¹¦Áö
-	Sand_Mountain,		// ¸ğ·¡»ê
-	Goo_Lagoon,			// ²ö²öÀÌ È£¼ö
-	Dome,				// Æ÷¼¼ÀÌµ¼
-	Krusty_Krab,		// Áı°Ô¸®¾Æ
-	Chum_Bucketlab,		// ¹Ì³¢½Ä´ç ½ÇÇè½Ç
-	Merma_Lair,			// ÀÎ¾î Àº½ÅÃ³
-	Bikini_Bottom,		// ºñÅ°´Ï½ÃÆ¼
-	Down_Town,			// ºñÅ°´Ï½ÃÆ¼ µµ½É
-	Krabs,				// Áı°Ô»çÀå
-	Kelp_Forest,		// ÄÌÇÁ ½£
-	Rock_Bottom,		// ¸Ş·Õ½ÃÆ¼
-	Jelly_Fish_Field,	// ÇØÆÄ¸® µ¿»ê
-	Industrial_Park,	// °ø¾÷´ÜÁö
+	Patric,				// ëš±ì´
+	DutchMan_Grave,		// ë°”ë‹¤ë„ê¹¨ë¹„ì˜ ë¬˜ì§€
+	Sand_Mountain,		// ëª¨ë˜ì‚°
+	Goo_Lagoon,			// ëˆëˆì´ í˜¸ìˆ˜
+	Dome,				// í¬ì„¸ì´ë”
+	Krusty_Krab,		// ì§‘ê²Œë¦¬ì•„
+	Chum_Bucketlab,		// ë¯¸ë¼ì‹ë‹¹ ì‹¤í—˜ì‹¤
+	Merma_Lair,			// ì¸ì–´ ì€ì‹ ì²˜
+	Bikini_Bottom,		// ë¹„í‚¤ë‹ˆì‹œí‹°
+	Down_Town,			// ë¹„í‚¤ë‹ˆì‹œí‹° ë„ì‹¬
+	Krabs,				// ì§‘ê²Œì‚¬ì¥
+	Kelp_Forest,		// ì¼ˆí”„ ìˆ²
+	Rock_Bottom,		// ë©”ë¡±ì‹œí‹°
+	Jelly_Fish_Field,	// í•´íŒŒë¦¬ ë™ì‚°
+	Industrial_Park,	// ê³µì—…ë‹¨ì§€
 	End
 };
 
-enum class ENpcList // ±è±â¹é, Npc ÀüÃ¼ ¸®½ºÆ®
+enum class ENpcList // ê¹€ê¸°ë°±, Npc ì „ì²´ ë¦¬ìŠ¤íŠ¸
 {
 	MrKrabs,
 	Squidward,
 	Patric,
 	End
+}
+
+enum class EShaderType
+{
+	Default,
+	CelShader
 };

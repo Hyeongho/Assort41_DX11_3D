@@ -1,9 +1,11 @@
+
 #include "Transform.h"
 #include "../Resource/Shader/TransformConstantBuffer.h"
 #include "../Scene/Scene.h"
 #include "../Scene/CameraManager.h"
 #include "CameraComponent.h"
 #include "../Resource/Animation/SkeletonSocket.h"
+#include "../Engine.h"
 
 float CTransform::m_MinY = FLT_MAX;
 float CTransform::m_MaxY = -FLT_MAX;
@@ -31,7 +33,7 @@ CTransform::CTransform()	:
 	m_MeshSize(1.f, 1.f, 1.f),
 	m_2DZ(0.f)
 {
-	for (int i = 0; i < AXIS_MAX; i++)
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		m_RelativeAxis[i] = Vector3::Axis[i];
 		m_WorldAxis[i] = Vector3::Axis[i];
@@ -75,9 +77,7 @@ void CTransform::InheritRotation(bool Current)
 		// x, y, z 축 회전중 하나라도 부모에 영향을 받고 현재 트랜스폼이 아닌 회전이 일어난
 		// 트랜스폼의 자식 트랜스폼일 경우 위치가 변경이 되어야 한다.
 		if ((m_InheritRotX || m_InheritRotY || m_InheritRotZ) && !Current)
-		{
 			InheritParentRotationPos();
-		}
 	}
 
 	// x, y, z 축 회전 각도를 이용하여 실제 회전행렬을 구하기 위한 사원수를 만들어낸다.
@@ -85,7 +85,8 @@ void CTransform::InheritRotation(bool Current)
 	Vector3	ConvertRot = m_RelativeRot.ConvertAngle();
 
 	// 사원수를 구한다.
-	DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x, ConvertRot.y, ConvertRot.z);
+	DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x,
+		ConvertRot.y, ConvertRot.z);
 
 	// 행렬을 구한다.
 	Matrix	matRot;
@@ -97,7 +98,7 @@ void CTransform::InheritRotation(bool Current)
 	// 곱해주면 된다. 즉, x, y, z 가 있을 경우 4x4 행렬과 곱하기 위해 w를 0으로 만든다면
 	// 행렬의 41, 42, 43에 영향을 안받고 곱해지게 되므로 위치에 영향을 안받을때는 w를 0으로,
 	// 영향을 받을때는 w를 1로 해서 곱하면 된다.
-	for (int i = 0; i < AXIS_MAX; i++)
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		m_RelativeAxis[i] = Vector3::Axis[i].TransformNormal(matRot);
 		m_RelativeAxis[i].Normalize();
@@ -106,12 +107,13 @@ void CTransform::InheritRotation(bool Current)
 	ConvertRot = m_WorldRot.ConvertAngle();
 
 	// 사원수를 구한다.
-	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x, ConvertRot.y, ConvertRot.z);
+	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x,
+		ConvertRot.y, ConvertRot.z);
 
 	// 행렬을 구한다.
 	matRot.RotationQuaternion(Qut);
 
-	for (int i = 0; i < AXIS_MAX; i++)
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		m_WorldAxis[i] = Vector3::Axis[i].TransformNormal(matRot);
 		m_WorldAxis[i].Normalize();
@@ -123,7 +125,7 @@ void CTransform::InheritRotation(bool Current)
 	// 모든 자식노드를 갱신한다.
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->InheritRotation(false);
 	}
@@ -138,25 +140,20 @@ void CTransform::InheritParentRotationPos()
 		Vector3	ParentRot;
 
 		if (m_InheritRotX)
-		{
 			ParentRot.x = m_Parent->GetWorldRot().x;
-		}
 
 		if (m_InheritRotY)
-		{
 			ParentRot.y = m_Parent->GetWorldRot().y;
-		}
 
 		if (m_InheritRotZ)
-		{
 			ParentRot.z = m_Parent->GetWorldRot().z;
-		}
 
 		if (m_InheritRotX || m_InheritRotY || m_InheritRotZ)
 		{
 			Vector3	ConvertRot = ParentRot.ConvertAngle();
 
-			DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x, ConvertRot.y, ConvertRot.z);
+			DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x,
+				ConvertRot.y, ConvertRot.z);
 
 			// 행렬을 구한다.
 			Matrix	matRot;
@@ -181,9 +178,9 @@ void CTransform::InheritParentRotationPos()
 	m_UpdatePos = true;
 
 	// 모든 자식노드를 갱신한다.
-	size_t Size = m_vecChild.size();
+	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->InheritParentRotationPos();
 	}
@@ -199,9 +196,7 @@ void CTransform::InheritWorldRotation(bool Current)
 		// x, y, z 축 회전중 하나라도 부모에 영향을 받고 현재 트랜스폼이 아닌 회전이 일어난
 		// 트랜스폼의 자식 트랜스폼일 경우 위치가 변경이 되어야 한다.
 		if ((m_InheritRotX || m_InheritRotY || m_InheritRotZ) && !Current)
-		{
 			InheritWorldParentRotationPos();
-		}
 	}
 
 	else
@@ -214,7 +209,8 @@ void CTransform::InheritWorldRotation(bool Current)
 	Vector3	ConvertRot = m_RelativeRot.ConvertAngle();
 
 	// 사원수를 구한다.
-	DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x, ConvertRot.y, ConvertRot.z);
+	DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x,
+		ConvertRot.y, ConvertRot.z);
 
 	// 행렬을 구한다.
 	Matrix	matRot;
@@ -226,7 +222,7 @@ void CTransform::InheritWorldRotation(bool Current)
 	// 곱해주면 된다. 즉, x, y, z 가 있을 경우 4x4 행렬과 곱하기 위해 w를 0으로 만든다면
 	// 행렬의 41, 42, 43에 영향을 안받고 곱해지게 되므로 위치에 영향을 안받을때는 w를 0으로,
 	// 영향을 받을때는 w를 1로 해서 곱하면 된다.
-	for (int i = 0; i < AXIS_MAX; i++)
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		m_RelativeAxis[i] = Vector3::Axis[i].TransformNormal(matRot);
 		m_RelativeAxis[i].Normalize();
@@ -235,12 +231,13 @@ void CTransform::InheritWorldRotation(bool Current)
 	ConvertRot = m_WorldRot.ConvertAngle();
 
 	// 사원수를 구한다.
-	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x, ConvertRot.y, ConvertRot.z);
+	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x,
+		ConvertRot.y, ConvertRot.z);
 
 	// 행렬을 구한다.
 	matRot.RotationQuaternion(Qut);
 
-	for (int i = 0; i < AXIS_MAX; i++)
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		m_WorldAxis[i] = Vector3::Axis[i].TransformNormal(matRot);
 		m_WorldAxis[i].Normalize();
@@ -252,7 +249,7 @@ void CTransform::InheritWorldRotation(bool Current)
 	// 모든 자식노드를 갱신한다.
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->InheritWorldRotation(false);
 	}
@@ -267,24 +264,16 @@ void CTransform::InheritWorldParentRotationPos()
 		Vector3	ParentRot;
 
 		if (m_Owner->GetName() == "RightChild")
-		{
 			int a = 0;
-		}
 
 		if (m_InheritRotX)
-		{
 			ParentRot.x = m_Parent->GetWorldRot().x;
-		}
 
 		if (m_InheritRotY)
-		{
 			ParentRot.y = m_Parent->GetWorldRot().y;
-		}
 
 		if (m_InheritRotZ)
-		{
 			ParentRot.z = m_Parent->GetWorldRot().z;
-		}
 
 		if (m_InheritRotX || m_InheritRotY || m_InheritRotZ)
 		{
@@ -325,7 +314,7 @@ void CTransform::InheritWorldParentRotationPos()
 	// 모든 자식노드를 갱신한다.
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->InheritParentRotationPos();
 	}
@@ -337,26 +326,26 @@ void CTransform::SetRelativeScale(const Vector3& Scale)
 
 	// 부모가 없을 경우라면 월드공간에서의 크기는 상대적인 크기와 동일한 크기로 적용을 한다.
 	if (!m_Parent)
-	{
 		m_WorldScale = Scale;
-	}
 
 	else
 	{
 		if (m_InheritScale)
-		{
 			m_WorldScale = m_RelativeScale * m_Parent->GetWorldScale();
-		}
 
 		else
-		{
 			m_WorldScale = m_RelativeScale;
-		}
 	}
+
+	Vector3	MeshSizeScale = m_MeshSize * m_WorldScale;
+
+	m_Radius = MeshSizeScale.Length() * 0.5f;
+
+	m_Center = (GetMin() + GetMax()) * 0.5f;
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetChildRelativeScale(Scale);
 	}
@@ -400,46 +389,32 @@ void CTransform::SetRelativeRotation(const Vector3& Rot)
 
 	// 부모가 없을 경우라면 월드공간에서의 회전을 상대적인 회전과 동일한 회전으로 적용을 한다.
 	if (!m_Parent)
-	{
 		m_WorldRot = Rot;
-	}
 
 	else
 	{
 		if (m_InheritRotX)
-		{
 			m_WorldRot.x = m_RelativeRot.x + m_Parent->GetWorldRot().x;
-		}
 
 		else
-		{
 			m_WorldRot.x = m_RelativeRot.x;
-		}
 
 		if (m_InheritRotY)
-		{
 			m_WorldRot.y = m_RelativeRot.y + m_Parent->GetWorldRot().y;
-		}
 
 		else
-		{
 			m_WorldRot.y = m_RelativeRot.y;
-		}
 
 		if (m_InheritRotZ)
-		{
 			m_WorldRot.z = m_RelativeRot.z + m_Parent->GetWorldRot().z;
-		}
 
 		else
-		{
 			m_WorldRot.z = m_RelativeRot.z;
-		}
 	}
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetChildRelativeRotation(Rot);
 	}
@@ -483,20 +458,16 @@ void CTransform::SetRelativePosition(const Vector3& Pos)
 
 	// 부모가 없을 경우라면 월드공간에서의 위치를 상대적인 위치와 동일한 위치로 적용을 한다.
 	if (!m_Parent)
-	{
 		m_WorldPos = Pos + m_Offset;
-	}
 
 	else
-	{
 		m_WorldPos = Pos + m_Parent->GetWorldPos() + m_Offset;
-	}
 
 	InheritParentRotationPos();
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetChildRelativePosition(Pos);
 	}
@@ -538,26 +509,26 @@ void CTransform::AddRelativeScale(const Vector3& Scale)
 
 	// 부모가 없을 경우라면 월드공간에서의 크기는 상대적인 크기와 동일한 크기로 적용을 한다.
 	if (!m_Parent)
-	{
 		m_WorldScale = m_RelativeScale;
-	}
 
 	else
 	{
 		if (m_InheritScale)
-		{
 			m_WorldScale = m_RelativeScale * m_Parent->GetWorldScale();
-		}
 
 		else
-		{
 			m_WorldScale = m_RelativeScale;
-		}
 	}
+
+	Vector3	MeshSizeScale = m_MeshSize * m_WorldScale;
+
+	m_Radius = MeshSizeScale.Length() * 0.5f;
+
+	m_Center = (GetMin() + GetMax()) * 0.5f;
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddChildRelativeScale(Scale);
 	}
@@ -601,46 +572,32 @@ void CTransform::AddRelativeRotation(const Vector3& Rot)
 
 	// 부모가 없을 경우라면 월드공간에서의 회전을 상대적인 회전과 동일한 회전으로 적용을 한다.
 	if (!m_Parent)
-	{
 		m_WorldRot = m_RelativeRot;
-	}
 
 	else
 	{
 		if (m_InheritRotX)
-		{
 			m_WorldRot.x = m_RelativeRot.x + m_Parent->GetWorldRot().x;
-		}
 
 		else
-		{
 			m_WorldRot.x = m_RelativeRot.x;
-		}
 
 		if (m_InheritRotY)
-		{
 			m_WorldRot.y = m_RelativeRot.y + m_Parent->GetWorldRot().y;
-		}
 
 		else
-		{
 			m_WorldRot.y = m_RelativeRot.y;
-		}
 
 		if (m_InheritRotZ)
-		{
 			m_WorldRot.z = m_RelativeRot.z + m_Parent->GetWorldRot().z;
-		}
 
 		else
-		{
 			m_WorldRot.z = m_RelativeRot.z;
-		}
 	}
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddChildRelativeRotation(Rot);
 	}
@@ -684,20 +641,16 @@ void CTransform::AddRelativePosition(const Vector3& Pos)
 
 	// 부모가 없을 경우라면 월드공간에서의 위치를 상대적인 위치와 동일한 위치로 적용을 한다.
 	if (!m_Parent)
-	{
 		m_WorldPos = m_RelativePos + m_Offset;
-	}
 
 	else
-	{
 		m_WorldPos = m_RelativePos + m_Parent->GetWorldPos() + m_Offset;
-	}
 
 	InheritParentRotationPos();
 
 	/*size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddChildRelativePosition(Pos);
 	}*/
@@ -738,18 +691,14 @@ void CTransform::SetChildRelativeScale(const Vector3& Scale)
 	//m_RelativeScale = Scale;
 
 	if (m_InheritScale)
-	{
 		m_WorldScale = m_RelativeScale * m_Parent->GetWorldScale();
-	}
 
 	else
-	{
 		m_WorldScale = m_RelativeScale;
-	}
 
-	size_t Size = m_vecChild.size();
+	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetChildRelativeScale(Scale);
 	}
@@ -775,22 +724,29 @@ void CTransform::SetChildRelativeRotation(const Vector3& Rot)
 		m_WorldRot.z = m_RelativeRot.z + m_Parent->GetWorldRot().z;
 	}
 
-	Matrix matRot;
-	Vector3 ConvertRot = m_WorldRot.ConvertAngle();
+	// 행렬을 구한다.
+	Matrix	matRot;
+	Vector3	ConvertRot = m_WorldRot.ConvertAngle();
 
-	DirectX::XMVECTOR Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x, ConvertRot.y, ConvertRot.z);
+	// 사원수를 구한다.
+	DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x,
+		ConvertRot.y, ConvertRot.z);
 
+	// 행렬을 구한다.
 	matRot.RotationQuaternion(Qut);
 
-	for (int i = 0; i < AXIS_MAX; i++)
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		m_WorldAxis[i] = Vector3::Axis[i].TransformNormal(matRot);
 		m_WorldAxis[i].Normalize();
 	}
 
+	// 회전에 따라 축까지 모두 완료되었으면 자식노드를 반복하며 연산한다.
+	m_UpdateRot = true;
+
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetChildRelativeRotation(Rot);
 	}
@@ -804,7 +760,7 @@ void CTransform::SetChildRelativePosition(const Vector3& Pos)
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetChildRelativePosition(Pos);
 	}
@@ -815,18 +771,14 @@ void CTransform::AddChildRelativeScale(const Vector3& Scale)
 	//m_RelativeScale += Scale;
 
 	if (m_InheritScale)
-	{
 		m_WorldScale = m_RelativeScale * m_Parent->GetWorldScale();
-	}
 
 	else
-	{
 		m_WorldScale = m_RelativeScale;
-	}
 
-	size_t Size = m_vecChild.size();
+	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddChildRelativeScale(Scale);
 	}
@@ -852,14 +804,18 @@ void CTransform::AddChildRelativeRotation(const Vector3& Rot)
 		m_WorldRot.z = m_RelativeRot.z + m_Parent->GetWorldRot().z;
 	}
 
+	// 행렬을 구한다.
 	Matrix	matRot;
 	Vector3	ConvertRot = m_WorldRot.ConvertAngle();
 
-	DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x, ConvertRot.y, ConvertRot.z);
+	// 사원수를 구한다.
+	DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x,
+		ConvertRot.y, ConvertRot.z);
 
+	// 행렬을 구한다.
 	matRot.RotationQuaternion(Qut);
 
-	for (int i = 0; i < AXIS_MAX; i++)
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		m_WorldAxis[i] = Vector3::Axis[i].TransformNormal(matRot);
 		m_WorldAxis[i].Normalize();
@@ -868,9 +824,9 @@ void CTransform::AddChildRelativeRotation(const Vector3& Rot)
 	// 회전에 따라 축까지 모두 완료되었으면 자식노드를 반복하며 연산한다.
 	m_UpdateRot = true;
 
-	size_t Size = m_vecChild.size();
+	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddChildRelativeRotation(Rot);
 	}
@@ -884,10 +840,21 @@ void CTransform::AddChildRelativePosition(const Vector3& Pos)
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddChildRelativePosition(Pos);
 	}
+}
+
+float CTransform::GetRadius()	const
+{
+	if (CEngine::GetInst()->GetEditorMode())
+	{
+		if (m_Radius < 10.f)
+			return 10.f;
+	}
+
+	return m_Radius;
 }
 
 void CTransform::SetWorldScale(const Vector3& Scale)
@@ -907,9 +874,15 @@ void CTransform::SetWorldScale(const Vector3& Scale)
 			m_RelativeScale = m_WorldScale;
 	}
 
+	Vector3	MeshSizeScale = m_MeshSize * m_WorldScale;
+
+	m_Radius = MeshSizeScale.Length() * 0.5f;
+
+	m_Center = (GetMin() + GetMax()) * 0.5f;
+
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetChildWorldScale(Scale);
 	}
@@ -957,7 +930,7 @@ void CTransform::SetWorldRotation(const Vector3& Rot)
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetChildWorldRotation(Rot);
 	}
@@ -995,7 +968,8 @@ void CTransform::SetWorldRotationZ(float z)
 	SetWorldRotation(Vector3(m_WorldRot.x, m_WorldRot.y, z));
 }
 
-void CTransform::SetWorldRotationAxis(const Vector3& OriginDir, const Vector3& View)
+void CTransform::SetWorldRotationAxis(const Vector3& OriginDir, 
+	const Vector3& View)
 {
 	m_UpdateRotAxis = true;
 
@@ -1004,9 +978,10 @@ void CTransform::SetWorldRotationAxis(const Vector3& OriginDir, const Vector3& V
 
 	float Angle = OriginDir.Angle(View);
 
-	m_matRot = DirectX::XMMatrixRotationAxis(RotAxis.Convert(), DegreeToRadian(Angle));
+	m_matRot = DirectX::XMMatrixRotationAxis(RotAxis.Convert(),
+		DegreeToRadian(Angle));
 
-	for (int i = 0; i < AXIS_MAX; i++)
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		m_WorldAxis[i] = Vector3::Axis[i].TransformNormal(m_matRot);
 		m_WorldAxis[i].Normalize();
@@ -1019,15 +994,13 @@ void CTransform::SetWorldPosition(const Vector3& Pos)
 
 	// 부모가 없을 경우라면 상대적인 위치를 월드공간에서의 위치와 동일한 위치로 적용을 한다.
 	if (!m_Parent)
-	{
 		m_RelativePos = m_WorldPos - m_Offset;
-	}
 
 	InheritWorldParentRotationPos();
 
-	/*size_t Size = m_vecChild.size();
+	/*size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetChildWorldPosition(Pos);
 	}*/
@@ -1071,9 +1044,9 @@ void CTransform::SetOffset(const Vector3& Offset)
 
 	InheritWorldParentRotationPos();
 
-	size_t Size = m_vecChild.size();
+	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetOffset(Offset);
 	}
@@ -1107,9 +1080,15 @@ void CTransform::AddWorldScale(const Vector3& Scale)
 	if (!m_Parent)
 		m_RelativeScale = m_WorldScale;
 
+	Vector3	MeshSizeScale = m_MeshSize * m_WorldScale;
+
+	m_Radius = MeshSizeScale.Length() * 0.5f;
+
+	m_Center = (GetMin() + GetMax()) * 0.5f;
+
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddChildWorldScale(Scale);
 	}
@@ -1157,7 +1136,7 @@ void CTransform::AddWorldRotation(const Vector3& Rot)
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddChildWorldRotation(Rot);
 	}
@@ -1207,7 +1186,7 @@ void CTransform::AddWorldPosition(const Vector3& Pos)
 
 	/*size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddChildWorldPosition(Pos);
 	}*/
@@ -1250,9 +1229,9 @@ void CTransform::AddOffset(const Vector3& Offset)
 
 	InheritWorldParentRotationPos();
 
-	size_t Size = m_vecChild.size();
+	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddOffset(Offset);
 	}
@@ -1283,18 +1262,14 @@ void CTransform::SetChildWorldScale(const Vector3& Scale)
 	//m_WorldScale = Scale;
 
 	if (m_InheritScale)
-	{
 		m_WorldScale = m_RelativeScale * m_Parent->GetWorldScale();
-	}
 
 	else
-	{
 		m_WorldScale = m_RelativeScale;
-	}
 
-	size_t Size = m_vecChild.size();
+	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetChildWorldScale(Scale);
 	}
@@ -1322,14 +1297,25 @@ void CTransform::SetChildWorldRotation(const Vector3& Rot)
 		m_WorldRot.z = m_RelativeRot.z + m_Parent->GetWorldRot().z;
 	}
 
+	// x, y, z 축 회전 각도를 이용하여 실제 회전행렬을 구하기 위한 사원수를 만들어낸다.
+	// Degree를 Radian으로 변환한다.
 	Vector3	ConvertRot = m_RelativeRot.ConvertAngle();
 
-	DirectX::XMVECTOR Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x, ConvertRot.y, ConvertRot.z);
+	// 사원수를 구한다.
+	DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x,
+		ConvertRot.y, ConvertRot.z);
 
+	// 행렬을 구한다.
 	Matrix	matRot;
 	matRot.RotationQuaternion(Qut);
 
-	for (int i = 0; i < AXIS_MAX; i++)
+	// 만들어준 상대적인 회전행렬을 이용해서 상대적인 축을 회전시킨다.
+	// 월드행렬을 구성할때 41, 42, 43 부분에 위치가 들어간다.
+	// 축은 위치가 필요 없는 방향만 존재하므로 위치에 영향을 안받고 회전에만 영향을 받게
+	// 곱해주면 된다. 즉, x, y, z 가 있을 경우 4x4 행렬과 곱하기 위해 w를 0으로 만든다면
+	// 행렬의 41, 42, 43에 영향을 안받고 곱해지게 되므로 위치에 영향을 안받을때는 w를 0으로,
+	// 영향을 받을때는 w를 1로 해서 곱하면 된다.
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		m_RelativeAxis[i] = Vector3::Axis[i].TransformNormal(matRot);
 		m_RelativeAxis[i].Normalize();
@@ -1337,21 +1323,25 @@ void CTransform::SetChildWorldRotation(const Vector3& Rot)
 
 	ConvertRot = m_WorldRot.ConvertAngle();
 
-	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x, ConvertRot.y, ConvertRot.z);
+	// 사원수를 구한다.
+	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x,
+		ConvertRot.y, ConvertRot.z);
 
+	// 행렬을 구한다.
 	matRot.RotationQuaternion(Qut);
 
-	for (int i = 0; i < AXIS_MAX; i++)
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		m_WorldAxis[i] = Vector3::Axis[i].TransformNormal(matRot);
 		m_WorldAxis[i].Normalize();
 	}
 
+	// 회전에 따라 축까지 모두 완료되었으면 자식노드를 반복하며 연산한다.
 	m_UpdateRot = true;
 
-	size_t Size = m_vecChild.size();
+	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetChildWorldRotation(Rot);
 	}
@@ -1365,7 +1355,7 @@ void CTransform::SetChildWorldPosition(const Vector3& Pos)
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->SetChildWorldPosition(Pos);
 	}
@@ -1376,18 +1366,14 @@ void CTransform::AddChildWorldScale(const Vector3& Scale)
 	m_WorldScale += Scale;
 
 	if (m_InheritScale)
-	{
 		m_RelativeScale = m_WorldScale / m_Parent->GetWorldScale();
-	}
 
 	else
-	{
 		m_RelativeScale = m_WorldScale;
-	}
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddChildWorldScale(Scale);
 	}
@@ -1415,14 +1401,25 @@ void CTransform::AddChildWorldRotation(const Vector3& Rot)
 		m_RelativeRot.z = m_WorldRot.z - m_Parent->GetWorldRot().z;
 	}
 
+	// x, y, z 축 회전 각도를 이용하여 실제 회전행렬을 구하기 위한 사원수를 만들어낸다.
+	// Degree를 Radian으로 변환한다.
 	Vector3	ConvertRot = m_RelativeRot.ConvertAngle();
 
-	DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x, ConvertRot.y, ConvertRot.z);
+	// 사원수를 구한다.
+	DirectX::XMVECTOR	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x,
+		ConvertRot.y, ConvertRot.z);
 
+	// 행렬을 구한다.
 	Matrix	matRot;
 	matRot.RotationQuaternion(Qut);
 
-	for (int i = 0; i < AXIS_MAX; i++)
+	// 만들어준 상대적인 회전행렬을 이용해서 상대적인 축을 회전시킨다.
+	// 월드행렬을 구성할때 41, 42, 43 부분에 위치가 들어간다.
+	// 축은 위치가 필요 없는 방향만 존재하므로 위치에 영향을 안받고 회전에만 영향을 받게
+	// 곱해주면 된다. 즉, x, y, z 가 있을 경우 4x4 행렬과 곱하기 위해 w를 0으로 만든다면
+	// 행렬의 41, 42, 43에 영향을 안받고 곱해지게 되므로 위치에 영향을 안받을때는 w를 0으로,
+	// 영향을 받을때는 w를 1로 해서 곱하면 된다.
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		m_RelativeAxis[i] = Vector3::Axis[i].TransformNormal(matRot);
 		m_RelativeAxis[i].Normalize();
@@ -1431,21 +1428,24 @@ void CTransform::AddChildWorldRotation(const Vector3& Rot)
 	ConvertRot = m_WorldRot.ConvertAngle();
 
 	// 사원수를 구한다.
-	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x, ConvertRot.y, ConvertRot.z);
+	Qut = DirectX::XMQuaternionRotationRollPitchYaw(ConvertRot.x,
+		ConvertRot.y, ConvertRot.z);
 
+	// 행렬을 구한다.
 	matRot.RotationQuaternion(Qut);
 
-	for (int i = 0; i < AXIS_MAX; i++)
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		m_WorldAxis[i] = Vector3::Axis[i].TransformNormal(matRot);
 		m_WorldAxis[i].Normalize();
 	}
 
+	// 회전에 따라 축까지 모두 완료되었으면 자식노드를 반복하며 연산한다.
 	m_UpdateRot = true;
 
-	size_t Size = m_vecChild.size();
+	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddChildWorldRotation(Rot);
 	}
@@ -1459,7 +1459,7 @@ void CTransform::AddChildWorldPosition(const Vector3& Pos)
 
 	size_t	Size = m_vecChild.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		m_vecChild[i]->AddChildWorldPosition(Pos);
 	}
@@ -1502,6 +1502,9 @@ void CTransform::PostUpdate(float DeltaTime)
 		m_UpdatePos = true;
 		m_UpdateRot = true;
 	}
+
+	m_Center = (GetMin() + GetMax()) * 0.5f;
+	m_Radius = (GetMax() - GetMin()).Length() * 0.5f;
 
 	Vector3	WorldPos = m_WorldPos;
 
@@ -1555,6 +1558,28 @@ void CTransform::SetTransform()
 
 	Matrix	matView = m_Scene->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
 	Matrix	matProj = m_Scene->GetCameraManager()->GetCurrentCamera()->GetProjMatrix();
+
+	m_CBuffer->SetViewMatrix(matView);
+	m_CBuffer->SetProjMatrix(matProj);
+
+	m_CBuffer->SetPivot(m_Pivot);
+	m_CBuffer->SetMeshSize(m_MeshSize);
+
+	m_CBuffer->UpdateBuffer();
+
+	Clear();
+}
+
+void CTransform::SetShadowMapTransform()
+{
+	m_CBuffer->SetWorldMatrix(m_matWorld);
+
+
+	// 광원의 위치에서 바라보는 그림자 맵용 뷰행렬을 이용한다.
+	Matrix	matView = m_Scene->GetCameraManager()->GetCurrentCamera()->GetShadowViewMatrix();
+
+	// 그림자 맵용 해상도가 적용되는 투영행렬를 이용한다
+	Matrix	matProj = m_Scene->GetCameraManager()->GetCurrentCamera()->GetShadowProjMatrix();
 
 	m_CBuffer->SetViewMatrix(matView);
 	m_CBuffer->SetProjMatrix(matProj);

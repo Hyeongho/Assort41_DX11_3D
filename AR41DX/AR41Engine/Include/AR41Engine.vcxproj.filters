@@ -304,6 +304,30 @@
     <Filter Include="05. Component\02. ObjectComponent\02. AI">
       <UniqueIdentifier>{61f63e5a-7b5b-49c0-bd79-25adfe6b00f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Component\01. SceneComponent\01. Primitive\02. 3D\01. Mesh">
+      <UniqueIdentifier>{b8396796-1086-4e26-9cd8-01447aa00157}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Component\01. SceneComponent\01. Primitive\02. 3D\02. Terrain">
+      <UniqueIdentifier>{b61f9710-8b0f-4a38-a7f8-2cf1f6c52f53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Component\01. SceneComponent\01. Primitive\02. 3D\03. Billboard">
+      <UniqueIdentifier>{133ff82b-6040-4416-8e22-e3f1f1af5792}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Component\01. SceneComponent\01. Primitive\02. 3D\04. Particle">
+      <UniqueIdentifier>{e089ee1b-5fa5-4bcd-93d1-34fe0b3f7b96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Component\01. SceneComponent\01. Primitive\02. 3D\05. Decal">
+      <UniqueIdentifier>{7fc9fb10-75f7-45f1-be82-cf340c3d454a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\02. Shader\02. ShaderClass\16. Decal">
+      <UniqueIdentifier>{569a725f-aaad-4d99-a2ad-eb57d08bd0c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\02. Shader\02. ShaderClass\17. ShadowMap">
+      <UniqueIdentifier>{12316203-97b0-44c8-b02b-900563ea93cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\13. Shadow">
+      <UniqueIdentifier>{e4223d97-5149-4c88-bc03-80ca76c74471}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -330,9 +354,6 @@
     <ClInclude Include="Matrix.h">
       <Filter>01. Manager\02. Math</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\ResourceManager.h">
-      <Filter>02. Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Resource\Mesh\MeshManager.h">
       <Filter>02. Resource\01. Mesh</Filter>
     </ClInclude>
@@ -341,9 +362,6 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>01. Manager\04. Timer</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource\Mesh\Mesh.h">
-      <Filter>02. Resource\01. Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Resource\Mesh\SpriteMesh.h">
       <Filter>02. Resource\01. Mesh</Filter>
@@ -372,9 +390,6 @@
     <ClInclude Include="Scene\SceneManager.h">
       <Filter>03. Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Scene.h">
-      <Filter>03. Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\SceneInfo.h">
       <Filter>03. Scene\01. SceneInfo</Filter>
     </ClInclude>
@@ -390,14 +405,8 @@
     <ClInclude Include="Component\PrimitiveComponent.h">
       <Filter>05. Component\01. SceneComponent\01. Primitive</Filter>
     </ClInclude>
-    <ClInclude Include="Component\Transform.h">
-      <Filter>05. Component\01. SceneComponent</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\SceneResource.h">
       <Filter>03. Scene\02. Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\RenderManager.h">
-      <Filter>06. Render</Filter>
     </ClInclude>
     <ClInclude Include="Resource\Shader\ConstantBuffer.h">
       <Filter>02. Resource\02. Shader\03. ConstantBuffer</Filter>
@@ -410,9 +419,6 @@
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>01. Manager\07. Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\CameraComponent.h">
-      <Filter>05. Component\01. SceneComponent\02. Camera</Filter>
     </ClInclude>
     <ClInclude Include="Scene\CameraManager.h">
       <Filter>03. Scene\03. Camera</Filter>
@@ -433,9 +439,6 @@
       <Filter>02. Resource\02. Shader\02. ShaderClass\01. Sprite</Filter>
     </ClInclude>
     <ClInclude Include="Resource\Material\MaterialManager.h">
-      <Filter>02. Resource\04. Material</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource\Material\Material.h">
       <Filter>02. Resource\04. Material</Filter>
     </ClInclude>
     <ClInclude Include="Resource\Shader\MaterialConstantBuffer.h">
@@ -519,9 +522,6 @@
     <ClInclude Include="Editor\EditorTree.h">
       <Filter>07. Editor\03. Widget</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\GameObject.h">
-      <Filter>04. GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Resource\Animation\AnimationManager.h">
       <Filter>02. Resource\05. Animation</Filter>
     </ClInclude>
@@ -536,9 +536,6 @@
     </ClInclude>
     <ClInclude Include="Resource\Shader\Animation2DConstantBuffer.h">
       <Filter>02. Resource\02. Shader\03. ConstantBuffer\03. Animation2D</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>01. Manager\08. Collision</Filter>
     </ClInclude>
     <ClInclude Include="Component\Collider3D.h">
       <Filter>05. Component\01. SceneComponent\04. Collider\02 3D</Filter>
@@ -723,12 +720,6 @@
     <ClInclude Include="Resource\Mesh\fbxsdk.h">
       <Filter>02. Resource\01. Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="Component\AnimationMeshComponent.h">
-      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\StaticMeshComponent.h">
-      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D</Filter>
-    </ClInclude>
     <ClInclude Include="Resource\Shader\MeshShader.h">
       <Filter>02. Resource\02. Shader\02. ShaderClass\06. Mesh</Filter>
     </ClInclude>
@@ -792,14 +783,8 @@
     <ClInclude Include="GameObject\SkySphere.h">
       <Filter>04. GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Component\TerrainComponent.h">
-      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D</Filter>
-    </ClInclude>
     <ClInclude Include="Render\RasterizerState.h">
       <Filter>06. Render\01. RenderState</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineInfo.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Resource\Shader\SkyShader.h">
       <Filter>02. Resource\02. Shader\02. ShaderClass\12. Sky</Filter>
@@ -846,9 +831,6 @@
     <ClInclude Include="Component\NavigationAgent3D.h">
       <Filter>05. Component\02. ObjectComponent\01. NavAgent</Filter>
     </ClInclude>
-    <ClInclude Include="Component\BillboardComponent.h">
-      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D</Filter>
-    </ClInclude>
     <ClInclude Include="Resource\Shader\BillboardShader.h">
       <Filter>02. Resource\02. Shader\02. ShaderClass\14. Billboard</Filter>
     </ClInclude>
@@ -867,14 +849,89 @@
     <ClInclude Include="Resource\Shader\ParticleUpdateShader.h">
       <Filter>02. Resource\02. Shader\02. ShaderClass\15. Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Component\ParticleComponent.h">
-      <Filter>05. Component\01. SceneComponent\01. Primitive</Filter>
-    </ClInclude>
     <ClInclude Include="Component\BehaviorTree.h">
       <Filter>05. Component\02. ObjectComponent\02. AI</Filter>
     </ClInclude>
     <ClInclude Include="UI\UITextButton.h">
       <Filter>09. UI\02. Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ColliderOBB3D.h">
+      <Filter>05. Component\01. SceneComponent\04. Collider\02 3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ColliderCube.h">
+      <Filter>05. Component\01. SceneComponent\04. Collider\02 3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\AnimationMeshComponent.h">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D\01. Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\TerrainComponent.h">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D\02. Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\BillboardComponent.h">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D\03. Billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\StaticMeshComponent.h">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D\01. Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ParticleComponent.h">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D\04. Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\DecalComponent.h">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D\05. Decal</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\DecalDebugShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\16. Decal</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\DecalShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\16. Decal</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineInfo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Material\Material.h">
+      <Filter>02. Resource\04. Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>03. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\Transform.h">
+      <Filter>05. Component\01. SceneComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Mesh\Mesh.h">
+      <Filter>02. Resource\01. Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\CameraComponent.h">
+      <Filter>05. Component\01. SceneComponent\02. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\RenderManager.h">
+      <Filter>06. Render</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\GameObject.h">
+      <Filter>04. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>01. Manager\08. Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ColliderSphere3D.h">
+      <Filter>05. Component\01. SceneComponent\04. Collider\02 3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\ShadowMapInstancingShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\ShadowMapStaticInstancingShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\ShadowMapStaticShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\ShadowMapShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\LightCelShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\08. Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\ShadowConstantBuffer.h">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\13. Shadow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -896,9 +953,6 @@
     <ClCompile Include="Matrix.cpp">
       <Filter>01. Manager\02. Math</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\ResourceManager.cpp">
-      <Filter>02. Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Resource\Mesh\MeshManager.cpp">
       <Filter>02. Resource\01. Mesh</Filter>
     </ClCompile>
@@ -907,9 +961,6 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>01. Manager\04. Timer</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\Mesh\Mesh.cpp">
-      <Filter>02. Resource\01. Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Resource\Mesh\SpriteMesh.cpp">
       <Filter>02. Resource\01. Mesh</Filter>
@@ -935,9 +986,6 @@
     <ClCompile Include="Scene\SceneManager.cpp">
       <Filter>03. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Scene.cpp">
-      <Filter>03. Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\SceneInfo.cpp">
       <Filter>03. Scene\01. SceneInfo</Filter>
     </ClCompile>
@@ -952,9 +1000,6 @@
     </ClCompile>
     <ClCompile Include="Component\PrimitiveComponent.cpp">
       <Filter>05. Component\01. SceneComponent\01. Primitive</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\Transform.cpp">
-      <Filter>05. Component\01. SceneComponent</Filter>
     </ClCompile>
     <ClCompile Include="Scene\SceneResource.cpp">
       <Filter>03. Scene\02. Resource</Filter>
@@ -991,15 +1036,6 @@
     </ClCompile>
     <ClCompile Include="Resource\Shader\SpriteShader.cpp">
       <Filter>02. Resource\02. Shader\02. ShaderClass\01. Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\Material\MaterialManager.cpp">
-      <Filter>02. Resource\04. Material</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\Material\Material.cpp">
-      <Filter>02. Resource\04. Material</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\Shader\MaterialConstantBuffer.cpp">
-      <Filter>02. Resource\02. Shader\03. ConstantBuffer\02. Material</Filter>
     </ClCompile>
     <ClCompile Include="Render\BlendState.cpp">
       <Filter>06. Render\01. RenderState</Filter>
@@ -1067,9 +1103,6 @@
     <ClCompile Include="Editor\EditorComboBox.cpp">
       <Filter>07. Editor\03. Widget</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\GameObject.cpp">
-      <Filter>04. GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Resource\Animation\AnimationManager.cpp">
       <Filter>02. Resource\05. Animation</Filter>
     </ClCompile>
@@ -1084,9 +1117,6 @@
     </ClCompile>
     <ClCompile Include="Resource\Shader\Animation2DConstantBuffer.cpp">
       <Filter>02. Resource\02. Shader\03. ConstantBuffer\03. Animation2D</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>01. Manager\08. Collision</Filter>
     </ClCompile>
     <ClCompile Include="Component\Collider.cpp">
       <Filter>05. Component\01. SceneComponent\04. Collider</Filter>
@@ -1241,12 +1271,6 @@
     <ClCompile Include="Resource\Mesh\FBXLoader.cpp">
       <Filter>02. Resource\01. Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="Component\AnimationMeshComponent.cpp">
-      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\StaticMeshComponent.cpp">
-      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D</Filter>
-    </ClCompile>
     <ClCompile Include="Resource\Shader\MeshShader.cpp">
       <Filter>02. Resource\02. Shader\02. ShaderClass\06. Mesh</Filter>
     </ClCompile>
@@ -1310,9 +1334,6 @@
     <ClCompile Include="GameObject\SkySphere.cpp">
       <Filter>04. GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Component\TerrainComponent.cpp">
-      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D</Filter>
-    </ClCompile>
     <ClCompile Include="Render\RasterizerState.cpp">
       <Filter>06. Render\01. RenderState</Filter>
     </ClCompile>
@@ -1361,9 +1382,6 @@
     <ClCompile Include="Component\NavigationAgent3D.cpp">
       <Filter>05. Component\02. ObjectComponent\01. NavAgent</Filter>
     </ClCompile>
-    <ClCompile Include="Component\BillboardComponent.cpp">
-      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D</Filter>
-    </ClCompile>
     <ClCompile Include="Resource\Shader\BillboardShader.cpp">
       <Filter>02. Resource\02. Shader\02. ShaderClass\14. Billboard</Filter>
     </ClCompile>
@@ -1382,14 +1400,86 @@
     <ClCompile Include="Resource\Shader\ParticleUpdateShader.cpp">
       <Filter>02. Resource\02. Shader\02. ShaderClass\15. Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Component\ParticleComponent.cpp">
-      <Filter>05. Component\01. SceneComponent\01. Primitive</Filter>
-    </ClCompile>
     <ClCompile Include="Component\BehaviorTree.cpp">
       <Filter>05. Component\02. ObjectComponent\02. AI</Filter>
     </ClCompile>
     <ClCompile Include="UI\UITextButton.cpp">
       <Filter>09. UI\02. Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\ColliderOBB3D.cpp">
+      <Filter>05. Component\01. SceneComponent\04. Collider\02 3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\ColliderCube.cpp">
+      <Filter>05. Component\01. SceneComponent\04. Collider\02 3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\AnimationMeshComponent.cpp">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D\01. Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\StaticMeshComponent.cpp">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D\01. Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\TerrainComponent.cpp">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D\02. Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\BillboardComponent.cpp">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D\03. Billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\ParticleComponent.cpp">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D\04. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\DecalComponent.cpp">
+      <Filter>05. Component\01. SceneComponent\01. Primitive\02. 3D\05. Decal</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\DecalDebugShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\16. Decal</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\DecalShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\16. Decal</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Mesh\Mesh.cpp">
+      <Filter>02. Resource\01. Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Material\Material.cpp">
+      <Filter>02. Resource\04. Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Material\MaterialManager.cpp">
+      <Filter>02. Resource\04. Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>03. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\Transform.cpp">
+      <Filter>05. Component\01. SceneComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\GameObject.cpp">
+      <Filter>04. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>01. Manager\08. Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\MaterialConstantBuffer.cpp">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\02. Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\ColliderSphere3D.cpp">
+      <Filter>05. Component\01. SceneComponent\04. Collider\02 3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\ShadowMapInstancingShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\ShadowMapStaticInstancingShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\ShadowMapStaticShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\ShadowMapShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\17. ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\LightCelShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\08. Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\ShadowConstantBuffer.cpp">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\13. Shadow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1433,6 +1523,12 @@
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\Shader\ParticleRender.fx">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\Decal.fx">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\ShadowMap.fx">
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
   </ItemGroup>
