@@ -16,6 +16,9 @@ bool CRenderStateManager::Init()
 	AddBlendInfo("AlphaBlend");
 	CreateBlendState("AlphaBlend", true, false);
 
+	AddBlendInfo("MRTAlphaBlend");
+	CreateBlendState("MRTAlphaBlend", false, true);
+
 	AddBlendInfo("LightAccBlend", true, D3D11_BLEND_ONE, D3D11_BLEND_ONE);
 	CreateBlendState("LightAccBlend", true, false);
 
