@@ -12,7 +12,6 @@ struct DialogInfo {
 		TextIdx(0),
 		TextMaxIdx(0)
 	{}
-
 };
 
 class CDialogUI :
@@ -30,7 +29,8 @@ protected:
 	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapDialogUI;
 
 private :
-	DialogInfo m_DialogInfo;
+	std::unordered_map<std::string, DialogInfo> m_mapDialogInfo;
+	DialogInfo m_curDialog;
 
 public:
 	virtual void Start();
@@ -50,6 +50,8 @@ private :
 
 public :
 	void SetDialogInfo();
+	void SetDialogInfo(EMapList Map, ENpcList Npc);
+	void SetCurDialog(std::string DialName);
 
 private:
 	void KeyLeftButton();	// 마우스 왼버튼 클릭

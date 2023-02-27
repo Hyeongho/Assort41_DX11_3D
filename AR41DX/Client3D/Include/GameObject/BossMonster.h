@@ -5,6 +5,8 @@
 enum class EBossList {
 	KingJellyFish,
 	RoboSponge,
+	RoboSandy,
+	FlyingDutchman,
 	End
 };
 

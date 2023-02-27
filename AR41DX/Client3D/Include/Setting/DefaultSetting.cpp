@@ -7,7 +7,7 @@
 //#include "../GameObject/Jellyfish.h"
 //#include "../GameObject/Monster.h"
 //#include "../GameObject/Bullet.h"
-//#include "../UI/StartSceneUI.h"
+#include "../UI/StartSceneUI.h"
 #include "Scene/Scene.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -37,26 +37,24 @@ void CDefaultSetting::CreateCDO()
 
     //CScene::CreateObjectCDO<CBikiniBottomBuildings>("BikiniBottomBuildings");
 
-    //CScene::CreateObjectCDO<CPatrick>("Patrick");
-
-    //CScene::CreateObjectCDO<CSandy>("Sandy");
-
     //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
 
     //CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
+
+    CScene::CreateUIWindowCDO<CStartSceneUI>("StartSceneUI"); //지우지 말아주세요
 
 }
 
 void CDefaultSetting::LoadResource()
 {
     LoadSpongebob();
-    //LoadPatrick();
-    //LoadSandy();
+    LoadPatrick();
+    LoadSandy();
 
-    //LoadRoboSponge();
-    //LoadBuildings();
-    //LoadKingJellyfish();
-    //LoadJellyfish();
+    LoadRoboSponge();
+    LoadBuildings();
+    LoadKingJellyfish();
+    LoadJellyfish();
 }
 
 void CDefaultSetting::SetInput()
@@ -78,8 +76,8 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("F1", VK_F1);
     CInput::GetInst()->AddBindKey("F2", VK_F2);
     CInput::GetInst()->AddBindKey("F3", VK_F3);
-    CInput::GetInst()->AddBindKey("F4", VK_F4);
-    CInput::GetInst()->AddBindKey("F5", VK_F5);
+    CInput::GetInst()->AddBindKey("F4", VK_F4);     //에디터 위치변경함수
+    CInput::GetInst()->AddBindKey("F5", VK_F5);     //에디터 일시정지함수
     CInput::GetInst()->AddBindKey("F6", VK_F6);
     CInput::GetInst()->AddBindKey("F7", VK_F7);
     CInput::GetInst()->AddBindKey("F8", VK_F8);
@@ -100,11 +98,6 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("RClick", VK_RBUTTON);
 
     //안겹치는 키
-    CInput::GetInst()->AddBindKey("UArrow", VK_UP);
-    CInput::GetInst()->AddBindKey("DArrow", VK_DOWN);
-    CInput::GetInst()->AddBindKey("LArrow", VK_LEFT);
-    CInput::GetInst()->AddBindKey("RArrow", VK_RIGHT);
-
     CInput::GetInst()->AddBindKey("E", 'E');
     CInput::GetInst()->AddBindKey("Q", 'Q');
     CInput::GetInst()->AddBindKey("F", 'F');
@@ -112,10 +105,13 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("Tab", VK_TAB);
 
     //editor
+    CInput::GetInst()->AddBindKey("UArrow", VK_UP);
+    CInput::GetInst()->AddBindKey("DArrow", VK_DOWN);
+    CInput::GetInst()->AddBindKey("LArrow", VK_LEFT);
+    CInput::GetInst()->AddBindKey("RArrow", VK_RIGHT);
+
     CInput::GetInst()->AddBindKey("MClick", VK_MBUTTON);
     CInput::GetInst()->AddBindKey("Del", VK_DELETE);
-    CInput::GetInst()->AddBindKey("ChangePos", VK_F4);
-
 }
 
 void CDefaultSetting::SetCollision()
@@ -148,7 +144,7 @@ void CDefaultSetting::SetCollision()
 void CDefaultSetting::LoadSpongebob()
 {
     CResourceManager* resourceManager = CResourceManager::GetInst();
-    resourceManager->LoadMesh(nullptr, MeshType::Static, "SpongebobWand", TEXT("Spongebob\\wand_bubble_wand.fbx"));
+    resourceManager->LoadMesh(nullptr, MeshType::Static, "SpongebobWand", TEXT("Spongebob\\wand_bubble_wand.msh"));
 
     resourceManager->LoadMesh(nullptr, MeshType::Animation, "Spongebob", TEXT("Spongebob\\Spongebob_mesh.msh"), MESH_PATH);
     resourceManager->LoadSkeleton(nullptr, "SpongebobSkeleton", TEXT("Spongebob\\Spongebob_mesh.bne"), MESH_PATH);
@@ -157,7 +153,7 @@ void CDefaultSetting::LoadSpongebob()
     resourceManager->LoadAnimationSequence("Spongebob_Idle", TEXT("Spongebob\\Anim_Spongebob_Idle.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Spongebob_Walk", TEXT("Spongebob\\Anim_Spongebob_Walk.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Spongebob_Attack", TEXT("Spongebob\\Anim_Spongebob_BubbleSpin.sqc"), MESH_PATH);
-    resourceManager->LoadAnimationSequence("SpongebobJump", TEXT("Spongebob\\Anim_Spongebob_Jump_Dw.fbx"), MESH_PATH);
+    resourceManager->LoadAnimationSequence("SpongebobJump", TEXT("Spongebob\\Anim_Spongebob_Jump_Dw.sqc"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadPatrick()

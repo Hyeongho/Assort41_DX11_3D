@@ -3,6 +3,8 @@
 #include "Component/ColliderSphere2D.h"
 #include "Component/ColliderOBB2D.h"
 #include "Component/ColliderPixel.h"
+#include "Component/ColliderCube.h"
+#include "Component/ColliderOBB3D.h"
 
 DEFINITION_SINGLE(CCollisionManager)
 
@@ -37,9 +39,13 @@ bool CCollisionManager::Init()
 {
 	CreateChannel("Default", ECollision_Interaction::Collision);
 	CreateChannel("Mouse", ECollision_Interaction::Collision);
+	CreateChannel("Player", ECollision_Interaction::Collision);
+	CreateChannel("Monster", ECollision_Interaction::Collision);
 
 	CreateProfile("Default", "Default", true);
 	CreateProfile("Mouse", "Mouse", true);
+	CreateProfile("Player", "Player", true);
+	CreateProfile("Monster", "Monster", true);
 
 	return true;
 }
@@ -923,6 +929,12 @@ bool CCollisionManager::CollisionPointToPixel(Vector2& HitPoint, const Vector2& 
 
 bool CCollisionManager::CollisionCubeToCube(Vector3& HitPoint,  CColliderCube* Src, CColliderCube* Dest)
 {
+	if (CollisionCubeToCube(HitPoint, Src->GetCubeInfo(), Dest->GetCubeInfo()))
+	{
+		Dest->m_HitPoint = Vector3(HitPoint.x, HitPoint.y, 0.f);
+		return true;
+	}
+
 	return false;
 }
 
@@ -941,22 +953,42 @@ bool CCollisionManager::CollisionOBB3DToCube(Vector3& HitPoint, CColliderOBB3D* 
 	return false;
 }
 
-bool CCollisionManager::CollisionCubeToCube(Vector3& HitPoint, const CubeInfo* Src, const CubeInfo* Dest)
+bool CCollisionManager::CollisionCubeToCube(Vector3& HitPoint, const CubeInfo& Src, const CubeInfo& Dest)
+{
+	if (Src.Left > Dest.Right)
+		return false;
+
+	else if (Src.Right < Dest.Left)
+		return false;
+
+	else if (Src.Bottom > Dest.Top)
+		return false;
+
+	else if (Src.Top < Dest.Bottom)
+		return false;
+
+	else if (Src.Front > Dest.Back)
+		return false;
+
+	else if (Src.Back < Dest.Front)
+		return false;
+
+	ComputeHitPoint(HitPoint, Src, Dest);
+
+	return true;
+}
+
+bool CCollisionManager::CollisionCubeToOBB3D(Vector3& HitPoint, const CubeInfo& Src, const OBB3DInfo& Dest)
 {
 	return false;
 }
 
-bool CCollisionManager::CollisionCubeToOBB3D(Vector3& HitPoint, const CubeInfo* Src, const OBB3DInfo* Dest)
+bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo& Src, const OBB3DInfo& Dest)
 {
 	return false;
 }
 
-bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo* Src, const OBB3DInfo* Dest)
-{
-	return false;
-}
-
-bool CCollisionManager::CollisionOBB3DToCube(Vector3& HitPoint, const OBB3DInfo* Src, const CubeInfo* Dest)
+bool CCollisionManager::CollisionOBB3DToCube(Vector3& HitPoint, const OBB3DInfo& Src, const CubeInfo& Dest)
 {
 	return false;
 }
