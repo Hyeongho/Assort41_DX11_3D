@@ -466,6 +466,22 @@ void CPlayer::Patrick_Throw()
 {
 }
 
+void CPlayer::Sandy_Karate_Chop()
+{
+	if (true)
+	{
+
+	}
+}
+
+void CPlayer::Sandy_Karate_Kick()
+{
+}
+
+void CPlayer::Sandy_Lasso_Start()
+{
+}
+
 void CPlayer::Interaction()
 {
 }
