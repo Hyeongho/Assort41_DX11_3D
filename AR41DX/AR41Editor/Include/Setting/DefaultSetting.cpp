@@ -44,7 +44,6 @@ void CDefaultSetting::CreateCDO()
 
     CScene::CreateUIWindowCDO<CStartSceneUI>("StartSceneUI"); //지우지 말아주세요
     CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
-
 }
 
 void CDefaultSetting::LoadResource()
@@ -87,7 +86,6 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("F10", VK_F10);
     CInput::GetInst()->AddBindKey("F11", VK_F11);
     CInput::GetInst()->AddBindKey("F12", VK_F12);
-
 
     // Arrow
     //겹치는 키
@@ -148,14 +146,23 @@ void CDefaultSetting::LoadSpongebob()
     CResourceManager* resourceManager = CResourceManager::GetInst();
     resourceManager->LoadMesh(nullptr, MeshType::Static, "SpongebobWand", TEXT("Spongebob\\wand_bubble_wand.msh"));
 
-    resourceManager->LoadMesh(nullptr, MeshType::Animation, "Spongebob", TEXT("Spongebob\\Spongebob_mesh.msh"), MESH_PATH);
+    resourceManager->LoadMesh(nullptr, MeshType::Animation, "Spongebob", TEXT("Spongebob\\Spongebob_mesh.msh"));
     resourceManager->LoadSkeleton(nullptr, "SpongebobSkeleton", TEXT("Spongebob\\Spongebob_mesh.bne"), MESH_PATH);
     resourceManager->SetMeshSkeleton("Spongebob", "SpongebobSkeleton");
     resourceManager->AddSocket("SpongebobSkeleton", "MiddleFinger3_R", "Weapon");
     resourceManager->LoadAnimationSequence("Spongebob_Idle", TEXT("Spongebob\\Anim_Spongebob_Idle.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Spongebob_Walk", TEXT("Spongebob\\Anim_Spongebob_Walk.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Spongebob_Attack", TEXT("Spongebob\\Anim_Spongebob_BubbleSpin.sqc"), MESH_PATH);
-    resourceManager->LoadAnimationSequence("SpongebobJump", TEXT("Spongebob\\Anim_Spongebob_Jump_Dw.sqc"), MESH_PATH);
+    resourceManager->LoadAnimationSequence("Spongebob_JumpDw", TEXT("Spongebob\\Anim_Spongebob_Jump_Dw.sqc"), MESH_PATH);
+    resourceManager->LoadAnimationSequence("Spongebob_JumpUp", TEXT("Spongebob\\Anim_Spongebob_Jump_Up.sqc"), MESH_PATH);
+    resourceManager->LoadAnimationSequence("Spongebob_Bowl", TEXT("Spongebob\\Anim_Spongebob_Bubble_Bowl_Loop.sqc"), MESH_PATH);
+    resourceManager->LoadAnimationSequence("Spongebob_BowlThrow", TEXT("Spongebob\\Anim_Spongebob_Bubble_Bowl_Throw.sqc"), MESH_PATH);
+
+    resourceManager->LoadMesh(nullptr, MeshType::Animation, "SpongebobMissile", TEXT("Cruise_Missile\\SK_CruiseMissle.msh"));
+    resourceManager->LoadSkeleton(nullptr, "SpongebobMissileSkeleton", TEXT("Cruise_Missile\\SK_CruiseMissle.bne"), MESH_PATH);
+    resourceManager->SetMeshSkeleton("SpongebobMissile", "SpongebobMissileSkeleton");
+    resourceManager->LoadAnimationSequence("SpongebobMissile_Idle", TEXT("Cruise_Missile\\Anim_Cruise_Missile_Idle.sqc"), MESH_PATH);
+    resourceManager->LoadAnimationSequence("SpongebobMissile_Start", TEXT("Cruise_Missile\\Anim_Cruise_Missile_Start.sqc"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadPatrick()
@@ -267,14 +274,11 @@ void CDefaultSetting::LoadSound()
 void CDefaultSetting::LoadBuildings()
 {
     // 비키니 시티 맵 메쉬
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomBuildings", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "BikiniBottomBuildingsSkeleton", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.bne"), MESH_PATH);
-    CResourceManager::GetInst()->SetMeshSkeleton("BikiniBottomBuildings", "BikiniBottomBuildingsSkeleton");
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomGround", TEXT("Buildings/BikiniBottom/BikiniBottomGround.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RedTree", TEXT("Buildings/BikiniBottom/RedTree.msh"));
 
     // 해파리 동산 맵 메쉬
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField", TEXT("Buildings/JellyfishField/JellyfishScene.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "JellyfishFieldSkeleton", TEXT("Buildings/JellyfishField/JellyfishScene.bne"), MESH_PATH);
-    CResourceManager::GetInst()->SetMeshSkeleton("JellyfishField", "JellyfishFieldSkeleton");
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField", TEXT("Buildings/JellyfishField/JellyfishScene.msh"));
 }
 
 void CDefaultSetting::LoadRoboSponge()

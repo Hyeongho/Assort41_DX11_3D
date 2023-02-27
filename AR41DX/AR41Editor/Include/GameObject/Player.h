@@ -43,6 +43,7 @@ protected:
 	CSharedPtr<class CNavigationAgent3D> m_NavAgent;
 	CSharedPtr<class CRigidBody> m_Rigid;
 	CSharedPtr<class CColliderCube> m_Cube;
+	CSharedPtr<class CColliderCube> m_HeadCube;	//스폰지밥 대가리용
 	//
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
 	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
@@ -57,6 +58,7 @@ protected:
 	int m_JumpCount;
 	float m_HoverTime; // 내려찍기 등을 위한 공중부양 시간
 	bool m_IsLoading;	//로드 체크용 변수-김범중
+	bool m_IsDoubleJump;	//더블점프 -김범중
 	// ========== Patrick 용 ==========
 	bool m_IsHolding; // 물건픽업/쓰로우 액션용
 	float m_BellyAttackTime;
@@ -113,31 +115,6 @@ public:
 		return m_PlayerData;
 	}
 
-	int GetMaxHP() const
-	{
-		return m_PlayerData.MaxHP;
-	}
-
-	int GetCurHP() const
-	{
-		return m_PlayerData.CurHP;
-	}
-
-	int GetSocks() const
-	{
-		return m_PlayerData.Socks;
-	}
-
-	int GetFritter() const
-	{
-		return m_PlayerData.Fritter;
-	}
-
-	int GetGlittering() const
-	{
-		return m_PlayerData.Glittering;
-	}
-
 public:
 	//공통
 	void MoveFront();
@@ -146,6 +123,7 @@ public:
 	void MoveRight();
 	void Stop();
 	void Jump();
+	void JumpCheck();
 	void AttackKey();
 	void CameraRotationKey();
 	void KeyDown();
@@ -160,6 +138,8 @@ public:
 	// Spongebob
 	void Headbutt();
 	void Missile();
+	void Bowl();
+	void BowlThrow();
 
 	// Patrick
 	void Patrick_BellyAttack();
