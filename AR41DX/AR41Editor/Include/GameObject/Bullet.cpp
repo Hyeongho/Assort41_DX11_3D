@@ -1,48 +1,52 @@
 
 #include "Bullet.h"
-#include "Component/SpriteComponent.h"
-#include "Component/ColliderSphere2D.h"
+#include "Component/AnimationMeshComponent.h"
+#include "Component/ColliderCube.h"
 
 CBullet::CBullet()
+	: m_Speed(50.f)
 {
 	SetTypeID<CBullet>();
 
 	m_ObjectTypeName = "Bullet";
 }
 
-CBullet::CBullet(const CBullet& Obj) :
-	CGameObject(Obj)
+CBullet::CBullet(const CBullet& Obj)
+	: CGameObject(Obj)
+	, m_Speed(Obj.m_Speed)
 {
+	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+	m_Body = (CColliderCube*)FindComponent("Body");
 }
 
 CBullet::~CBullet()
 {
 }
 
-void CBullet::SetCollisionProfileName(const std::string& Name)
-{
-	m_Body->SetCollisionProfile(Name);
-}
-
 void CBullet::Start()
 {
 	CGameObject::Start();
+
+	m_Anim = m_Mesh->SetAnimation<CAnimation>("SpongebobMissileAnimation");
+	m_Anim->AddAnimation("MissileStart", "SpongebobMissile_Start", 1.f, 1.f, false);
+	m_Anim->SetCurrentEndFunction<CBullet>("MissileStart", this, &CBullet::ResetIdle);
+	m_Anim->AddAnimation("MissileIdle", "SpongebobMissile_Idle", 1.f, 1.f, true);
+	m_Anim->Start();
 }
 
 bool CBullet::Init()
 {
 	CGameObject::Init();
+	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+	//m_Body = CreateComponent<CColliderCube>("Body");
 
-	m_Body = CreateComponent<CColliderSphere2D>("Body");
-	m_Sprite = CreateComponent<CSpriteComponent>("Sprite");
+	//m_Mesh->AddChild(m_Body);
 
-	m_Body->AddChild(m_Sprite);
+	m_Mesh->SetMesh("SpongebobMissile");
+	//m_Mesh->SetPivot(0.5f, 0.5f);
+	//m_Mesh->SetRelativeScale(50.f, 50.f);
 
-	m_Body->SetCollisionCallback<CBullet>(ECollision_Result::Collision, this, &CBullet::CollisionBullet);
-
-	m_Sprite->SetPivot(0.5f, 0.5f);
-	m_Sprite->SetRelativeScale(50.f, 50.f);
-
+	//m_Body->SetCollisionCallback<CBullet>(ECollision_Result::Collision, this, &CBullet::CollisionBullet);
 	return true;
 }
 
@@ -50,7 +54,10 @@ void CBullet::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
 
-	AddWorldPosition(GetWorldAxis(AXIS_Y) * 300.f * DeltaTime);
+	if (m_Anim->GetCurrentAnimationName() == "MissileIdle")
+	{
+		AddWorldPosition(m_Dir * m_Speed * DeltaTime);
+	}
 }
 
 void CBullet::PostUpdate(float DeltaTime)
@@ -63,7 +70,19 @@ CBullet* CBullet::Clone() const
 	return new CBullet(*this);
 }
 
+void CBullet::SetDir(const Vector3& vec)
+{
+	m_Dir= GetWorldPos()- vec ;
+	m_Dir.x = 0;
+	m_Dir.y = 0;
+}
+
 void CBullet::CollisionBullet(const CollisionResult& result)
 {
 	Destroy();
+}
+
+void CBullet::ResetIdle()
+{
+	m_Anim->ChangeAnimation("MissileIdle");
 }

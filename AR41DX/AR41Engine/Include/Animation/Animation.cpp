@@ -291,7 +291,7 @@ void CAnimation::Update(float DeltaTime)
 
 	CDevice::GetInst()->GetContext()->Map(m_BoneBuffer->GetBuffer(), 0, D3D11_MAP_READ, 0, &Map);
 
-	memcpy(&m_vecBoneInfo[0], Map.pData, sizeof(OutputBoneInfo) * m_vecBoneInfo.size());;
+	memcpy(&m_vecBoneInfo[0], Map.pData, sizeof(OutputBoneInfo) * m_vecBoneInfo.size());
 
 	CDevice::GetInst()->GetContext()->Unmap(m_BoneBuffer->GetBuffer(), 0);
 

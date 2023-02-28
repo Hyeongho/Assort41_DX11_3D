@@ -120,7 +120,9 @@ bool CMaterialManager::Init()
 	Material->EnableSpecular();
 	Material->SetSpecularPower(3.2f);
 
-
+	Material = CreateMaterial<CMaterial>("BikiniCityTerrain");
+	Material->SetShader("TerrainShader");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "BikiniCity", TEXT("LandScape/T_BB_Sand_01_D.tga"));
 
 	Material = CreateMaterial<CMaterial>("Billboard");
 
