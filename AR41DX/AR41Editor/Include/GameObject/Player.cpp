@@ -284,9 +284,26 @@ void CPlayer::LoadSpongebobAnim()
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerAttack", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerJumpDw", "Spongebob_JumpDw", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerJumpUp", "Spongebob_JumpUp", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashStart", "Spongebob_BashStart", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBashStart", this, &CPlayer::StartBash);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashDw", "Spongebob_BashDw", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBash", "Spongebob_Bash", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("SpongebobBash", this, &CPlayer::ResetIdle);
+	//전용 모션
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBounceStart", "Spongebob_BounceStart", 1.f, 1.f, false);
+	//m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBounceStart", this, &CPlayer::);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBounceLoop", "Spongebob_BounceLoop", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBounceLanding", "Spongebob_BounceLanding", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBounceLanding", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBowl", "Spongebob_Bowl", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBowlThrow", "Spongebob_BowlThrow", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBowlThrow", this, &CPlayer::ResetIdle);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerMissileStart", "Spongebob_MissileStart", 1.f, 1.f, false);
+	//m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerMissileStart", this, &CPlayer::);
+	//애니메이션 지속시간 변수 만들어서 지속끝나면 end함수 호출
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerMissileLoop", "Spongebob_MissileLoop", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerMissileEnd", "Spongebob_MissileEnd", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerMissileEnd", this, &CPlayer::ResetIdle);
 }
 
 void CPlayer::LoadPatrickAnim()
@@ -518,7 +535,15 @@ void CPlayer::JumpCheck()
 		{
 			SetWorldPositionY(Y);
 			m_Rigid->SetGround(true);
-			ResetIdle();
+			if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerJumpUp")
+			{
+				m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBash");
+				//충돌체 생성
+			}
+			else
+			{
+				ResetIdle();
+			}
 		}
 	}
 }
@@ -657,9 +682,8 @@ void CPlayer::RClick()
 	case EMain_Character::Sandy:
 		break;
 	}
-	//중력 해제하고 애니메이션만 바뀜
-	//끝날때 중력 키면서 아래로 AddForce주면서 애니메시ㅕㄴ 변경
-	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
+	m_Rigid->SetGravity(false);
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBashStart");
 }
 
 void CPlayer::LClick()
@@ -676,6 +700,14 @@ void CPlayer::LClick()
 	}
 	m_WeaponMesh->SetEnable(true);
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerAttack");
+}
+
+void CPlayer::StartBash()
+{
+	m_Rigid->SetGravity(true);
+	m_Rigid->AddForce(0, -500.f);
+	m_Rigid->SetVelocityY(-500.f);
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBashDw");
 }
 
 void CPlayer::ResetIdle()

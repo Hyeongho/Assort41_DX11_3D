@@ -161,6 +161,7 @@ public:
 	void IngameUI();
 	void RClick();
 	void LClick(); // Attack
+	void StartBash();	//엉찍 시작 함수
 	void ResetIdle();	//아이들상태로 되돌리는 함수
 
 	// Spongebob
