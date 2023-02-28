@@ -77,7 +77,7 @@ bool CComponentWindow::AddWidget(CUIWidget* widget, const std::string& name, con
 void CComponentWindow::AddInput(CScene* scene)
 {
 	CInput::GetInst()->AddBindFunction<CComponentWindow>
-		("ChangePos", Input_Type::Down, this, &CComponentWindow::ChangePos, scene);
+		("F4", Input_Type::Down, this, &CComponentWindow::ChangePos, scene);
 }
 
 void CComponentWindow::Clear()
@@ -107,8 +107,8 @@ void CComponentWindow::ChangePos()
 	}
 	else if (m_SelectWidget)
 	{
-		Vector2 mouseWorldPos = CInput::GetInst()->GetMouseWorldPos();
-		m_SelectWidget->SetPos(mouseWorldPos);
+		Vector2 mousePos = CInput::GetInst()->GetMouseUIPos();
+		m_SelectWidget->SetPos(mousePos);
 	}
 }
 

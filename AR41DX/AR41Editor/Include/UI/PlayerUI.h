@@ -19,7 +19,9 @@ protected:
 	CSharedPtr<class CUIImage>	m_Socks;
 	CSharedPtr<class CUIImage>	m_Fritter;
 	CSharedPtr<class CUIImage>	m_Glittering;
-	//text 3개 필요함
+	CSharedPtr<class CUIText>	m_GlitterText;
+	CSharedPtr<class CUIText>	m_SocksText;
+	CSharedPtr<class CUIText>	m_FritterText;
 
 public:
 	void SetAllOpacity(float opacity)
@@ -35,5 +37,10 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 	void SetPlayerUIOpacity(float opacity);
+	void SetHp(int hp);
+	void SetMaxHp(int hp);
+	void SetGlitter(int i);
+	void SetSocks(int i);
+	void SeFritter(int i);
 };
 
