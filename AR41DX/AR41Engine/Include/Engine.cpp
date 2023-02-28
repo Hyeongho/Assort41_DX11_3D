@@ -40,7 +40,7 @@ CEngine::CEngine()	:
 	m_TimeScale(1.f)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(6145);
+	//_CrtSetBreakAlloc(147808);
 
 	srand((unsigned int)time(0));
 	rand();

@@ -57,11 +57,20 @@ CPlayer::CPlayer(const CPlayer& Obj)
 
 CPlayer::~CPlayer()
 {
-	m_PlayerData.Glittering = 30;
 	if (m_LoadData != m_PlayerData)
 	{
 		SaveCharacter();
 	}
+}
+
+void CPlayer::Destroy()
+{
+	CGameObject::Destroy();
+	if (m_PlayerUI)
+	{
+		m_PlayerUI->Destroy();
+	}
+	CInput::GetInst()->ClearCallback();
 }
 
 void CPlayer::Start()
@@ -122,7 +131,11 @@ void CPlayer::Start()
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
 
-	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	m_PlayerUI = m_Scene->GetViewport()->FindUIWindow<CPlayerUI>("PlayerUI");
+	if(!m_PlayerUI)
+	{
+		m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	}
 
 	LoadCharacter();
 }
@@ -220,7 +233,11 @@ void CPlayer::Load(FILE* File)
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
 
-	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	m_PlayerUI = m_Scene->GetViewport()->FindUIWindow<CPlayerUI>("PlayerUI");
+	if (!m_PlayerUI)
+	{
+		m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	}
 
 	LoadCharacter();
 }

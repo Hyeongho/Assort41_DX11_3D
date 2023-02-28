@@ -1,12 +1,11 @@
 ﻿#include "DefaultSetting.h"
 #include "../GameObject/Player.h"
-//#include "../GameObject/Patrick.h"
-//#include "../GameObject/Sandy.h"
+#include "../GameObject/Weapon.h"
 //#include "../GameObject/BikiniBottomBuildings.h"
 //#include "../GameObject/KingJellyfish.h"
 //#include "../GameObject/Jellyfish.h"
 //#include "../GameObject/Monster.h"
-//#include "../GameObject/Bullet.h"
+#include "../GameObject/Bullet.h"
 #include "../UI/StartSceneUI.h"
 #include "../UI/PlayerUI.h"
 #include "Scene/Scene.h"
@@ -35,6 +34,8 @@ void CDefaultSetting::Init()
 void CDefaultSetting::CreateCDO()
 {
     CScene::CreateObjectCDO<CPlayer>("Player");
+    CScene::CreateObjectCDO<CWeapon>("Weapon");
+    CScene::CreateObjectCDO<CBullet>("Bullet");
 
     //CScene::CreateObjectCDO<CBikiniBottomBuildings>("BikiniBottomBuildings");
 
@@ -49,13 +50,13 @@ void CDefaultSetting::CreateCDO()
 void CDefaultSetting::LoadResource()
 {
     LoadSpongebob();
-    LoadPatrick();
-    LoadSandy();
+   // LoadPatrick();
+   // LoadSandy();
 
     LoadBuildings();
-    LoadRoboSponge();
-    LoadKingJellyfish();
-   /LoadJellyfish();
+    //LoadRoboSponge();
+    //LoadKingJellyfish();
+    //LoadJellyfish();
 }
 
 void CDefaultSetting::SetInput()

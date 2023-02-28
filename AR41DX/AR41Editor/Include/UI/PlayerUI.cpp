@@ -11,6 +11,8 @@ CPlayerUI::CPlayerUI()
 }
 
 CPlayerUI::CPlayerUI(const CPlayerUI& Window)
+	: CUIWindow(Window)
+	, m_AllOpacity(3.f)
 {
 	size_t size = std::size(m_MaxHP);
 	for (size_t i = 0; i < size; ++i)

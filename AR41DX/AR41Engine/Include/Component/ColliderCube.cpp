@@ -37,13 +37,6 @@ CColliderCube::~CColliderCube()
 void CColliderCube::Start()
 {
 	CCollider3D::Start();
-}
-
-bool CColliderCube::Init()
-{
-	if (!CCollider3D::Init())
-		return false;
-
 #ifdef _DEBUG
 	if (m_Scene)
 	{
@@ -57,6 +50,12 @@ bool CColliderCube::Init()
 		m_DebugMaterial = CResourceManager::GetInst()->FindMaterial("DebugDecal");
 	}
 #endif // _DEBUG
+}
+
+bool CColliderCube::Init()
+{
+	if (!CCollider3D::Init())
+		return false;
 
 	return true;
 }
@@ -147,10 +146,16 @@ CColliderCube* CColliderCube::Clone() const
 
 void CColliderCube::Save(FILE* File)
 {
+	CCollider3D::Save(File);
+
+	fwrite(&m_CubeSize, sizeof(Vector3), 1, File);
 }
 
 void CColliderCube::Load(FILE* File)
 {
+	CCollider3D::Load(File);
+
+	fread(&m_CubeSize, sizeof(Vector3), 1, File);
 }
 
 bool CColliderCube::Collision(CCollider* Dest)
