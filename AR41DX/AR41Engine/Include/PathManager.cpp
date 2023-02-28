@@ -72,6 +72,7 @@ bool CPathManager::Init()
 	AddPath(SCENE_PATH, TEXT("Scene/"));
 	AddPath(MESH_PATH, TEXT("Mesh/"));
 	AddPath(SAVE_PATH, TEXT("Save/"));
+	AddPath(DIALOG_PATH, TEXT("Dialog/"));
 
 	return true;
 }

@@ -135,17 +135,17 @@ enum class ECollider_Type
 
 enum class ECollider2D_Type
 {
-	Box2D,	// ȸ������ ����
-	OBB2D,	// ȸ���Ǵ� ����
-	Sphere2D,	// ��
-	Pixel	// �ȼ��浹��
+	Box2D,	// 회전없는 상자
+	OBB2D,	// 회전되는 상자
+	Sphere2D,	// 원
+	Pixel	// 픽셀충돌용
 };
 
 enum class ECollider3D_Type
 {
-	Box,	// ȸ������ ����
-	OBB,	// ȸ���Ǵ� ����
-	Sphere	// ��
+	Box,	// 회전없는 상자
+	OBB,	// 회전되는 상자
+	Sphere	// 원
 };
 
 enum class ECollision_Result
@@ -223,6 +223,34 @@ enum class ENavNodeType
 	Open, 
 	Close
 };
+
+enum class EMapList // 김기백, 맵 전체 리스트
+{
+	Patric,				// 뚱이
+	DutchMan_Grave,		// 바다도깨비의 묘지
+	Sand_Mountain,		// 모래산
+	Goo_Lagoon,			// 끈끈이 호수
+	Dome,				// 포세이돔
+	Krusty_Krab,		// 집게리아
+	Chum_Bucketlab,		// 미끼식당 실험실
+	Merma_Lair,			// 인어 은신처
+	Bikini_Bottom,		// 비키니시티
+	Down_Town,			// 비키니시티 도심
+	Krabs,				// 집게사장
+	Kelp_Forest,		// 켈프 숲
+	Rock_Bottom,		// 메롱시티
+	Jelly_Fish_Field,	// 해파리 동산
+	Industrial_Park,	// 공업단지
+	End
+};
+
+enum class ENpcList // 김기백, Npc 전체 리스트
+{
+	MrKrabs,
+	Squidward,
+	Patric,
+	End
+}
 
 enum class EShaderType
 {

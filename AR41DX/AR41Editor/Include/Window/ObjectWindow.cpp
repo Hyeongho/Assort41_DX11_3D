@@ -13,9 +13,11 @@
 #include "Editor/EditorGUIManager.h"
 #include "Editor/EditorComboBox.h"
 #include "Editor/EditorSameLine.h"
-#include "Component/CameraComponent.h"
 #include "Scene/SceneManager.h"
 #include "Scene/Scene.h"
+#include "Component/CameraComponent.h"
+#include "Component/StaticMeshComponent.h"
+#include "Component/ColliderSphere3D.h"
 #include "../GameObject\Player.h"
 #include "../GameObject\Bullet.h"
 #include "../GameObject\Monster.h"
@@ -64,8 +66,12 @@ bool CObjectWindow::Init()
 	m_WindowTree->SetSize(400.f, 300.f);
 	m_WindowTree->AddItem(nullptr, "Canvas");
 
+	CScene* scene = CSceneManager::GetInst()->GetScene();
+	m_Gizmo = scene->CreateObject<CGameObject>("Gizmo");
+	m_Gizmo->CreateComponent<CStaticMeshComponent>("Mesh");
+
 	//CInput::GetInst()->SetMouseVisible();
-	AddInput(CSceneManager::GetInst()->GetScene());
+	AddInput(scene);
 	return true;
 }
 
@@ -134,6 +140,31 @@ void CObjectWindow::Pause()
 		return;
 	}
 	CEngine::GetInst()->SetTimeScale(1.f);
+}
+
+void CObjectWindow::MoveGizmo()
+{
+	const Vector2& mouseMove = CInput::GetInst()->GetMouseMove() * 150.f * g_DeltaTime;
+	std::string itemName = m_CameraAxisCombo->GetSelectItem();
+	if (itemName == "정지")
+	{
+		return;
+	}
+	else if (itemName == "XY")
+	{
+		m_Gizmo->AddWorldPositionX(mouseMove.x);
+		m_Gizmo->AddWorldPositionY(-mouseMove.y);
+	}
+	else if (itemName == "XZ")
+	{
+		m_Gizmo->AddWorldPositionX(mouseMove.x);
+		m_Gizmo->AddWorldPositionZ(-mouseMove.y);
+	}
+	else if (itemName == "YZ")
+	{
+		m_Gizmo->AddWorldPositionY(-mouseMove.y);
+		m_Gizmo->AddWorldPositionZ(mouseMove.x);
+	}
 }
 
 void CObjectWindow::TreeCallback(CEditorTreeItem<CGameObject*>* node, const std::string& item)
@@ -276,6 +307,7 @@ void CObjectWindow::AddItemList(class CScene* scene)
 void CObjectWindow::AddInput(CScene* scene)
 {
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("Del", Input_Type::Down, this, &CObjectWindow::Delete, scene);
+	CInput::GetInst()->AddBindFunction<CObjectWindow>("LClick", Input_Type::Push, this, &CObjectWindow::MoveGizmo, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("MClick", Input_Type::Down, this, &CObjectWindow::PlaceObject, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("F5", Input_Type::Down, this, &CObjectWindow::Pause, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("UArrow", Input_Type::Push, this, &CObjectWindow::UArrow, scene);
@@ -492,34 +524,13 @@ void CObjectWindow::PlaceObject()
 	{
 		return;
 	}
-	CGameObject* obj = nullptr;
-	CreateObject(obj, objName);
-
-	Vector2 mouseWorldPos = CInput::GetInst()->GetMouseWorldPos();
-	std::string itemName = m_CameraAxisCombo->GetSelectItem();
-	if (itemName == "정지")
-	{
-		return;
-	}
-	else if (itemName == "XY")
-	{
-		obj->SetWorldPositionX(mouseWorldPos.x);
-		obj->SetWorldPositionY(mouseWorldPos.y);
-	}
-	else if (itemName == "XZ")
-	{
-		obj->SetWorldPositionX(mouseWorldPos.x);
-		obj->SetWorldPositionZ(mouseWorldPos.y);
-	}
-	else if (itemName == "YZ")
-	{
-		obj->SetWorldPositionY(mouseWorldPos.x);
-		obj->SetWorldPositionZ(mouseWorldPos.y);
-	}
+	CGameObject* obj = CreateObject(objName);
+	obj->SetWorldPosition(m_Gizmo->GetWorldPos());
 }
 
-void CObjectWindow::CreateObject(class CGameObject* object, const std::string& name)
+class CGameObject* CObjectWindow::CreateObject(const std::string& name)
 {
+	CGameObject* object = nullptr;
 	CScene* scene = CSceneManager::GetInst()->GetScene();
 	if (name == "GameObject")
 	{
@@ -542,4 +553,5 @@ void CObjectWindow::CreateObject(class CGameObject* object, const std::string& n
 		object = scene->CreateObject<CWeapon>(name);
 	}
 	AddItem(object, name);
+	return object;
 }

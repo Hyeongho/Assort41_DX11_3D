@@ -145,7 +145,7 @@ void CClassWindow::ObjectCreateCallback()
 	CObjectWindow* window = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
 	if (window)
 	{
-		window->CreateObject(obj, m_SelectObjectItem);
+		window->CreateObject(m_SelectObjectItem);
 	}
 }
 

@@ -46,6 +46,7 @@ protected:
 	//
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
 	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
+	CSharedPtr<class CPlayerUI>	m_PlayerUI;
 
 protected:
 	PlayerData m_PlayerData;

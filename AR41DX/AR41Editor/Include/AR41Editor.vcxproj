@@ -194,6 +194,7 @@
     <ClCompile Include="Setting\DefaultSetting.cpp" />
     <ClCompile Include="Setting\EngineShareSetting.cpp" />
     <ClCompile Include="UI\LoadingUI.cpp" />
+    <ClCompile Include="UI\PlayerUI.cpp" />
     <ClCompile Include="UI\StartSceneUI.cpp" />
     <ClCompile Include="Window\Animation3DWindow.cpp" />
     <ClCompile Include="Window\CameraWindow.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Setting\DefaultSetting.h" />
     <ClInclude Include="Setting\EngineShareSetting.h" />
     <ClInclude Include="UI\LoadingUI.h" />
+    <ClInclude Include="UI\PlayerUI.h" />
     <ClInclude Include="UI\StartSceneUI.h" />
     <ClInclude Include="Window\Animation3DWindow.h" />
     <ClInclude Include="Window\CameraWindow.h" />
