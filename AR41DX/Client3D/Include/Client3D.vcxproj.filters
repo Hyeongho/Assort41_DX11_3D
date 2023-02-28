@@ -122,7 +122,21 @@
     <ClCompile Include="GameObject\Jellyfish.cpp">
       <Filter>03. GameObject\02. Monster\02. JF</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Tikis\Tiki_Wood.cpp" />
+    <ClCompile Include="GameObject\Tikis\Tiki_Wood.cpp">
+      <Filter>03. GameObject\02. Monster\03. Tiki</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Tikis\Tiki_Stone.cpp">
+      <Filter>03. GameObject\02. Monster\03. Tiki</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Tikis\Tiki_Thunder.cpp">
+      <Filter>03. GameObject\02. Monster\03. Tiki</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\InteractButton.cpp">
+      <Filter>03. GameObject\04. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\Trampoline.cpp">
+      <Filter>03. GameObject\04. Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client3D.h" />
@@ -261,7 +275,21 @@
     <ClInclude Include="GameObject\Jellyfish.h">
       <Filter>03. GameObject\02. Monster\02. JF</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Tikis\Tiki_Wood.h" />
+    <ClInclude Include="GameObject\Tikis\Tiki_Wood.h">
+      <Filter>03. GameObject\02. Monster\03. Tiki</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Tikis\Tiki_Stone.h">
+      <Filter>03. GameObject\02. Monster\03. Tiki</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h">
+      <Filter>03. GameObject\02. Monster\03. Tiki</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\InteractButton.h">
+      <Filter>03. GameObject\04. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\Trampoline.h">
+      <Filter>03. GameObject\04. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client3D.rc" />
