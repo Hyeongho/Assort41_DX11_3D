@@ -36,7 +36,11 @@ CLoadingSceneInfo::~CLoadingSceneInfo()
 bool CLoadingSceneInfo::Init()
 {
 	m_LoadingUI = m_Owner->GetViewport()->CreateUIWindow<CLoadingUI>("LoadingUI");
-
+	m_Particle = m_Owner->CreateObject<CGameObject>("Particle");
+	CParticleComponent* particle = m_Particle->CreateComponent<CParticleComponent>("Particle");
+	particle = m_Particle->CreateComponent<CParticleComponent>("Particle");
+	particle->SetParticle("LoadingBubble");
+	m_Particle->SetEnable(false);
     return true;
 }
 
@@ -47,10 +51,8 @@ void CLoadingSceneInfo::Update(float DeltaTime)
 	if (m_StartTime < 0.f)
 	{
 		m_Owner->GetResource()->SoundPlay("LoadingUI");
-		CGameObject* obj = m_Owner->CreateObject<CGameObject>("Particle");
-		CParticleComponent* particle = obj->CreateComponent<CParticleComponent>("Particle");
-		particle->SetParticle("LoadingBubble");
-		obj->SetLifeTime(1.5f);
+		m_Particle->SetEnable(true);
+		m_Particle->SetLifeTime(1.5f);
 		m_StartTime = 100.f;
 	}
 

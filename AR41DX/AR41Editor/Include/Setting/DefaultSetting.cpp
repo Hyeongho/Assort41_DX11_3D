@@ -52,10 +52,10 @@ void CDefaultSetting::LoadResource()
     LoadPatrick();
     LoadSandy();
 
-    LoadRoboSponge();
     LoadBuildings();
+    LoadRoboSponge();
     LoadKingJellyfish();
-    LoadJellyfish();
+   /LoadJellyfish();
 }
 
 void CDefaultSetting::SetInput()
@@ -112,6 +112,7 @@ void CDefaultSetting::SetInput()
 
     CInput::GetInst()->AddBindKey("MClick", VK_MBUTTON);
     CInput::GetInst()->AddBindKey("Del", VK_DELETE);
+    CInput::GetInst()->SetKeyCtrl("Del", true);
 }
 
 void CDefaultSetting::SetCollision()

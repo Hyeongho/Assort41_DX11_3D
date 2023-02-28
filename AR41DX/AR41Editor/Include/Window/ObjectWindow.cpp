@@ -67,8 +67,8 @@ bool CObjectWindow::Init()
 	m_WindowTree->AddItem(nullptr, "Canvas");
 
 	CScene* scene = CSceneManager::GetInst()->GetScene();
-	m_Gizmo = scene->CreateObject<CGameObject>("Gizmo");
-	m_Gizmo->CreateComponent<CStaticMeshComponent>("Mesh");
+	//m_Gizmo = scene->CreateObject<CGameObject>("Gizmo");
+	//m_Gizmo->CreateComponent<CStaticMeshComponent>("Mesh");
 
 	//CInput::GetInst()->SetMouseVisible();
 	AddInput(scene);
@@ -319,6 +319,16 @@ void CObjectWindow::AddInput(CScene* scene)
 	{
 		componentWindow->AddInput(scene);
 	}
+	if(m_Gizmo)
+	{
+		m_Gizmo->Destroy();
+	}
+	m_Gizmo = scene->FindObject("Gizmo");
+	if(!m_Gizmo)
+	{
+		m_Gizmo = scene->CreateObject<CGameObject>("Gizmo");
+		m_Gizmo->CreateComponent<CStaticMeshComponent>("Mesh");
+	} 
 }
 
 void CObjectWindow::UArrow()

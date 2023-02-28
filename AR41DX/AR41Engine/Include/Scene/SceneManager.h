@@ -50,6 +50,7 @@ public:
 		{
 			return m_Scene->CreateSceneInfo<T>(name, prevName);
 		}
+		m_Scene->FindObject("Gizmo")->Destroy();
 		return m_NextScene->CreateSceneInfo<T>(name, prevName);
 	}
 	DECLARE_SINGLE(CSceneManager)

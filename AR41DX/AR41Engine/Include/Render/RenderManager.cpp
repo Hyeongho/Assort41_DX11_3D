@@ -803,6 +803,7 @@ void CRenderManager::RenderScreen(float DeltaTime)
 	m_ShadowMapTarget->ResetTargetShader(22);
 
 	m_vecGBuffer[0]->ResetTargetShader(14);
+	m_vecGBuffer[2]->ResetTargetShader(16);
 
 	m_vecLightBuffer[0]->ResetTargetShader(18);
 	m_vecLightBuffer[1]->ResetTargetShader(19);

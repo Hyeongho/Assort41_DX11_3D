@@ -265,16 +265,15 @@ void CUIImage::Load(FILE* File)
     if (FrameCount > 0)
         fread(&m_TextureInfo.vecFrameData[0], sizeof(Animation2DFrameData), FrameCount, File);
 
-    char    TexName[256] = {};
-
-    int Length = 0;
-
-    fread(&Length, sizeof(int), 1, File);
-    fread(TexName, 1, Length, File);
-
     EImageType  ImageType;
 
     fread(&ImageType, sizeof(EImageType), 1, File);
+
+    char    TexName[256] = {};
+    int Length = 0;
+
+    //fread(&Length, sizeof(int), 1, File);
+    //fread(TexName, 1, Length, File);
 
     int	TextureSRVCount = 0;
 
