@@ -252,7 +252,6 @@ enum class ENpcList // 김기백, Npc 전체 리스트
 	Patric,
 	End
 };
-};
 
 enum class EShaderType
 {

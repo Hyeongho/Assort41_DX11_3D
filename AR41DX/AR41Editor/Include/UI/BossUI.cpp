@@ -113,8 +113,12 @@ void CBossUI::CreateBossUI(BossData BossData)
     case EBossList::RoboSponge:
         strcat_s(FileName, "Boss_Widgets_Robo_Spongebob.tga");
         break;
-    case EBossList::End:
-        return;
+    case EBossList::RoboSandy:
+        strcat_s(FileName, "rbs_boss_ui_1.tga");
+        break;
+    case EBossList::FlyingDutchman:
+        strcat_s(FileName, "Boss_Widgets_Flying_Dutchman.tga");
+        break;
     }
 
     TCHAR	ConvertFileName[MAX_PATH] = {};

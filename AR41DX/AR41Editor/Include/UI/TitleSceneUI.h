@@ -131,6 +131,7 @@ private: // Mouse/KeyBoard Control
 	void KeyRight();		// 우 화살표/d 입력
 	void KeySpace();		// 스페이스바 입력
 	void KeyBack();			// Esc 입력
+	void KeyF12();			// Esc 입력
 
 private : // Main Menu UI Func
 	void MainUIContinue();
