@@ -8,6 +8,7 @@ class CPlayerUI :
 	friend class CScene;
 
 protected:
+	float m_AllOpacity;
 	CPlayerUI();
 	CPlayerUI(const CPlayerUI& Window);
 	virtual ~CPlayerUI();
@@ -23,12 +24,25 @@ protected:
 	//CSharedPtr<class CUIImage>	m_Glittering;
 
 private :
-	float	m_Timer;  // UI°¡ ÅÇÅ°¿¡ ÀÇÇØ È°¼ºÈ­µÈ ÈÄ, ¾ó¸¶³ª µÇ¾ú´ÂÁö Ã¼Å©ÇÏ±â À§ÇÑ º¯¼ö
-	bool	m_Tabbed; // UI°¡ ÅÇÅ°¿¡ ÀÇÇØ È°¼ºÈ­µÇ¾ú´ÂÁö Ã¼Å©ÇÏ±â À§ÇÑ º¯¼ö
-	bool	m_Boss; // ÇöÀç º¸½ºÀü ÁßÀÎÁö Ã¼Å©ÇÏ±â À§ÇÑ º¯¼ö
+	float	m_Timer;  // UIÂ°Ä„ Ä¹Ã‡Ä¹Â°Å¼Ä„ Å”Ã‡Ã‡Å˜ ÄŒÂ°ÅºÅŸÄŒÂ­Ä¾ÄŒ ÄŒÃ„, Å¾Ã³Â¸Å›Å‚Å Ä¾Ã‡Å¾ÃºÂ´Ã‚ÃÃ¶ Ä‚ÅºÄ¹Å Ã‡ÄÄ…Ã¢ Å”Â§Ã‡Åƒ ÅŸÅ»ÅºÃ¶
+	bool	m_Tabbed; // UIÂ°Ä„ Ä¹Ã‡Ä¹Â°Å¼Ä„ Å”Ã‡Ã‡Å˜ ÄŒÂ°ÅºÅŸÄŒÂ­Ä¾Ã‡Å¾ÃºÂ´Ã‚ÃÃ¶ Ä‚ÅºÄ¹Å Ã‡ÄÄ…Ã¢ Å”Â§Ã‡Åƒ ÅŸÅ»ÅºÃ¶
+	bool	m_Boss; // Ã‡Ã¶Å”Ã§ ÅŸÂ¸ËÅŸÅ”Ã¼ ÃÃŸÅ”ÃÃÃ¶ Ä‚ÅºÄ¹Å Ã‡ÄÄ…Ã¢ Å”Â§Ã‡Åƒ ÅŸÅ»ÅºÃ¶
 
 
 public:
+	CSharedPtr<class CUIImage>	m_MaxHP[5];
+	CSharedPtr<class CUIImage>	m_CurHP[5];
+	CSharedPtr<class CUIImage>	m_Socks;
+	CSharedPtr<class CUIImage>	m_Fritter;
+	CSharedPtr<class CUIImage>	m_Glittering;
+	//text 3Â°Å‚ Ã‡Ä˜Å¼Ã¤Ã‡Ã”
+
+public:
+	void SetAllOpacity(float opacity)
+	{
+		m_AllOpacity = opacity;
+	}
+
 	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
@@ -37,7 +51,6 @@ public:
 	virtual CPlayerUI* Clone();
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
-
 
 private :
 	void CreateHpUI();
@@ -53,5 +66,6 @@ private :
 private:
 	void KeyTab();
 
+	void SetPlayerUIOpacity(float opacity);
 };
 
