@@ -323,8 +323,136 @@ CUITextButton* CUITextButton::Clone()
 
 void CUITextButton::Save(FILE* File)
 {
+    CUIWidget::Save(File);
+
+    for (int i = 0; i < (int)EButtonState::Max; ++i)
+    {
+        fwrite(&m_TextInfo[i].m_TextCapacity, sizeof(int), 1, File);
+        fwrite(&m_TextInfo[i].m_TextCount, sizeof(int), 1, File);
+        fwrite(m_TextInfo[i].m_Text, sizeof(TCHAR), m_TextInfo[i].m_TextCount, File);
+
+        int Length = (int)m_Font->GetName().length();
+
+        fwrite(&Length, sizeof(int), 1, File);
+        fwrite(m_Font->GetName().c_str(), 1, Length, File);
+
+        fwrite(&m_TextInfo[i].m_FontSize, sizeof(float), 1, File);
+        fwrite(&m_TextInfo[i].m_Opacity, sizeof(float), 1, File);
+        fwrite(&m_TextInfo[i].m_Color, sizeof(Vector4), 1, File);
+
+        fwrite(&m_TextInfo[i].m_ShadowColor, sizeof(Vector4), 1, File);
+        fwrite(&m_TextInfo[i].m_ShadowOffset, sizeof(Vector2), 1, File);
+
+        fwrite(&m_TextInfo[i].m_AlignH, sizeof(Text_Align_H), 1, File);
+        fwrite(&m_TextInfo[i].m_AlignV, sizeof(Text_Align_V), 1, File);
+    }
+
+
+    for (int i = 0; i < (int)EButtonState::Max; ++i)
+    {
+        bool    SoundEnable = m_Sound[i] ? true : false;
+
+        fwrite(&SoundEnable, sizeof(bool), 1, File);
+
+        if (SoundEnable)
+        {
+            std::string SoundName = m_Sound[i]->GetName();
+
+            int Length = (int)SoundName.length();
+            fwrite(&Length, sizeof(int), 1, File);
+            fwrite(SoundName.c_str(), 1, Length, File);
+
+            m_Sound[i]->Save(File);
+        }
+    }
 }
 
 void CUITextButton::Load(FILE* File)
 {
+    CUIWidget::Load(File);
+
+    for (int i = 0; i < (int)EButtonState::Max; ++i)
+    {
+
+        SAFE_DELETE_ARRAY(m_TextInfo[i].m_Text);
+
+        fread(&m_TextInfo[i].m_TextCapacity, sizeof(int), 1, File);
+        fread(&m_TextInfo[i].m_TextCount, sizeof(int), 1, File);
+
+        m_TextInfo[i].m_Text = new TCHAR[m_TextInfo[i].m_TextCapacity];
+
+        memset(m_TextInfo[i].m_Text, 0, sizeof(TCHAR) * m_TextInfo[i].m_TextCapacity);
+
+        fread(m_TextInfo[i].m_Text, sizeof(TCHAR), m_TextInfo[i].m_TextCount, File);
+
+        int     Length = 0;
+        char    FontName[256] = {};
+
+        fread(&Length, sizeof(int), 1, File);
+        fread(FontName, 1, Length, File);
+
+        SetFont(FontName);
+
+        fread(&m_TextInfo[i].m_FontSize, sizeof(float), 1, File);
+        fread(&m_TextInfo[i].m_Opacity, sizeof(float), 1, File);
+        fread(&m_TextInfo[i].m_Color, sizeof(Vector4), 1, File);
+
+        fread(&m_TextInfo[i].m_ShadowColor, sizeof(Vector4), 1, File);
+        fread(&m_TextInfo[i].m_ShadowOffset, sizeof(Vector2), 1, File);
+
+        fread(&m_TextInfo[i].m_AlignH, sizeof(Text_Align_H), 1, File);
+        fread(&m_TextInfo[i].m_AlignV, sizeof(Text_Align_V), 1, File);
+
+
+        m_RenderTarget = CDevice::GetInst()->Get2DTarget();
+
+
+        SetText((EButtonState)i, m_TextInfo[i].m_Text, m_TextInfo[i].m_TextCapacity, m_TextInfo[i].m_Color);
+
+
+    }
+
+    for (int i = 0; i < (int)EButtonState::Max; ++i)
+    {
+        bool    SoundEnable = false;
+
+        fread(&SoundEnable, sizeof(bool), 1, File);
+
+        if (SoundEnable)
+        {
+            char    SoundName[256] = {};
+
+            int Length = 0;
+
+            fread(&Length, sizeof(int), 1, File);
+            fread(SoundName, 1, Length, File);
+
+            bool    Loop = false;
+            fread(&Loop, sizeof(bool), 1, File);
+
+            Length = 0;
+            char    GroupName[256] = {};
+
+            fread(&Length, sizeof(int), 1, File);
+            fread(GroupName, 1, Length, File);
+
+            char    FileName[MAX_PATH] = {};
+            char    PathName[MAX_PATH] = {};
+            fread(FileName, sizeof(char), MAX_PATH, File);
+            fread(PathName, sizeof(char), MAX_PATH, File);
+
+            // Group 이름과 Loop 저장해야한다
+            if (m_Scene)
+            {
+                m_Scene->GetResource()->LoadSound(GroupName, SoundName, Loop, FileName, PathName);
+                m_Sound[i] = m_Scene->GetResource()->FindSound(SoundName);
+            }
+
+            else
+            {
+                CResourceManager::GetInst()->LoadSound(GroupName, SoundName, Loop, FileName, PathName);
+                m_Sound[i] = CResourceManager::GetInst()->FindSound(SoundName);
+            }
+        }
+    }
 }

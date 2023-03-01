@@ -224,6 +224,7 @@ enum class ENavNodeType
 	Close
 };
 
+
 enum class EMapList // 김기백, 맵 전체 리스트
 {
 	Patric,				// 뚱이
