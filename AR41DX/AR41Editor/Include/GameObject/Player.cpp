@@ -57,11 +57,20 @@ CPlayer::CPlayer(const CPlayer& Obj)
 
 CPlayer::~CPlayer()
 {
-	m_PlayerData.Glittering = 30;
 	if (m_LoadData != m_PlayerData)
 	{
 		SaveCharacter();
 	}
+}
+
+void CPlayer::Destroy()
+{
+	CGameObject::Destroy();
+	if (m_PlayerUI)
+	{
+		m_PlayerUI->Destroy();
+	}
+	CInput::GetInst()->ClearCallback();
 }
 
 void CPlayer::Start()
@@ -105,6 +114,13 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
 
+	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	m_PlayerUI->SetHp(m_PlayerData.CurHP);
+	m_PlayerUI->SetMaxHp(m_PlayerData.MaxHP);
+	m_PlayerUI->SetGlitter(m_PlayerData.Glittering);
+	m_PlayerUI->SetFritter(m_PlayerData.Fritter);
+	m_PlayerUI->SetSocks(m_PlayerData.Socks);
+
 	if (m_IsLoading)
 	{
 		CGameObject* delObj = m_Scene->FindObject("Temp");
@@ -121,8 +137,6 @@ void CPlayer::Start()
 	AddChildToSocket("Weapon", weapon);
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
-
-	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 
 	LoadCharacter();
 }
@@ -220,7 +234,11 @@ void CPlayer::Load(FILE* File)
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
 
-	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	//m_PlayerUI = m_Scene->GetViewport()->FindUIWindow<CPlayerUI>("PlayerUI");
+	//if (!m_PlayerUI)
+	//{
+	//	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	//}
 
 	LoadCharacter();
 }

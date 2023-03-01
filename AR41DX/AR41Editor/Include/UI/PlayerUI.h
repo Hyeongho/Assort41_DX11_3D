@@ -35,7 +35,13 @@ public:
 	CSharedPtr<class CUIImage>	m_Socks;
 	CSharedPtr<class CUIImage>	m_Fritter;
 	CSharedPtr<class CUIImage>	m_Glittering;
+
+	CSharedPtr<class CUIText>	m_GlitterText;
+	CSharedPtr<class CUIText>	m_SocksText;
+	CSharedPtr<class CUIText>	m_FritterText;
+
 	//text 3°ł ÇĘżäÇÔ
+
 
 public:
 	void SetAllOpacity(float opacity)
@@ -67,5 +73,10 @@ private:
 	void KeyTab();
 
 	void SetPlayerUIOpacity(float opacity);
+	void SetHp(int hp);
+	void SetMaxHp(int hp);
+	void SetGlitter(int i);
+	void SetSocks(int i);
+	void SetFritter(int i);
 };
 

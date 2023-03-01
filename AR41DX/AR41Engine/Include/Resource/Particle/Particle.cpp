@@ -10,6 +10,7 @@
 CParticle::CParticle() :
 	m_Scene(nullptr),
 	m_CBuffer(nullptr)
+	, m_SpawnTime(0.01f)
 {
 }
 

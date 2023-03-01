@@ -91,6 +91,7 @@ protected:
 	bool m_SlamDown;
 
 public:
+	virtual void Destroy();
 	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);

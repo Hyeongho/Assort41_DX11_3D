@@ -229,10 +229,6 @@ void CScene::Start()
 	m_Viewport->Start();
 
 	m_LightManager->Start();
-}
-
-bool CScene::Init()
-{
 
 	if (CEngine::GetInst()->GetRender2D())
 		m_NavManager = new CNavigationManager2D;
@@ -243,7 +239,10 @@ bool CScene::Init()
 	m_NavManager->m_Owner = this;
 
 	m_NavManager->Init();
+}
 
+bool CScene::Init()
+{
 	return true;
 }
 
@@ -555,6 +554,11 @@ void CScene::Load(const char* FullPath)
 		NewObj->SetScene(this);
 
 		NewObj->Load(File);
+
+		if(NewObj->GetName()=="GlobalLight")
+		{
+			m_LightManager->SetGlobalLightObject(NewObj);
+		}
 
 		NextPos = (int)ftell(File);
 
