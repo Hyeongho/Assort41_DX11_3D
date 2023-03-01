@@ -38,20 +38,11 @@
     <ClCompile Include="GameObject\Player.cpp">
       <Filter>03. GameObject\01. Player</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\ChumBucketLabSceneInfo.cpp">
-      <Filter>02. Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\TitleSceneInfo.cpp">
-      <Filter>02. Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\RoboSpongeSceneInfo.cpp">
       <Filter>02. Scene</Filter>
     </ClCompile>
     <ClCompile Include="UI\LoadingUI.cpp">
       <Filter>04. UI\01. Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\DialogUI.cpp">
-      <Filter>04. UI\02. InGame</Filter>
     </ClCompile>
     <ClCompile Include="UI\PauseUI.cpp">
       <Filter>04. UI\02. InGame</Filter>
@@ -65,9 +56,6 @@
     <ClCompile Include="UI\TitleSceneUI.cpp">
       <Filter>04. UI\03. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="UI\RapidXml\CXmlParser.cpp">
-      <Filter>04. UI\02. InGame\XmlParser</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Bullet.cpp">
       <Filter>03. GameObject\ETC</Filter>
     </ClCompile>
@@ -79,36 +67,6 @@
     </ClCompile>
     <ClCompile Include="GameObject\KingJellyfish.cpp">
       <Filter>03. GameObject\03. BossMonster\01. KingJellyFish</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSponge.cpp">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeBT.cpp">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackHoriz.cpp">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackVirtic.cpp">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackWords.cpp">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\BossMonster\BossMonster.cpp">
-      <Filter>03. GameObject\03. BossMonster</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Npc\Patric.cpp">
-      <Filter>03. GameObject\05. Npc</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Npc\MrKrabs.cpp">
-      <Filter>03. GameObject\05. Npc</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Npc\Squidward.cpp">
-      <Filter>03. GameObject\05. Npc</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Npc\TaxiDriver.cpp">
-      <Filter>03. GameObject\05. Npc</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Duplicatotron.cpp">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
@@ -122,20 +80,8 @@
     <ClCompile Include="GameObject\Jellyfish.cpp">
       <Filter>03. GameObject\02. Monster\02. JF</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Tikis\Tiki_Wood.cpp">
-      <Filter>03. GameObject\02. Monster\03. Tiki</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Tikis\Tiki_Stone.cpp">
-      <Filter>03. GameObject\02. Monster\03. Tiki</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Tikis\Tiki_Thunder.cpp">
-      <Filter>03. GameObject\02. Monster\03. Tiki</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Object\InteractButton.cpp">
-      <Filter>03. GameObject\04. Object</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Object\Trampoline.cpp">
-      <Filter>03. GameObject\04. Object</Filter>
+    <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,20 +122,11 @@
     <ClInclude Include="GameObject\Player.h">
       <Filter>03. GameObject\01. Player</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\ChumBucketLabSceneInfo.h">
-      <Filter>02. Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\TitleSceneInfo.h">
-      <Filter>02. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\RoboSpongeSceneInfo.h">
       <Filter>02. Scene</Filter>
     </ClInclude>
     <ClInclude Include="UI\LoadingUI.h">
       <Filter>04. UI\01. Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\DialogUI.h">
-      <Filter>04. UI\02. InGame</Filter>
     </ClInclude>
     <ClInclude Include="UI\PauseUI.h">
       <Filter>04. UI\02. InGame</Filter>
@@ -202,21 +139,6 @@
     </ClInclude>
     <ClInclude Include="UI\TitleSceneUI.h">
       <Filter>04. UI\03. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\RapidXml\rapidxml.hpp">
-      <Filter>04. UI\02. InGame\XmlParser\Code</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\RapidXml\rapidxml_iterators.hpp">
-      <Filter>04. UI\02. InGame\XmlParser\Code</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\RapidXml\rapidxml_print.hpp">
-      <Filter>04. UI\02. InGame\XmlParser\Code</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\RapidXml\rapidxml_utils.hpp">
-      <Filter>04. UI\02. InGame\XmlParser\Code</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\RapidXml\CXmlParser.h">
-      <Filter>04. UI\02. InGame\XmlParser</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Bullet.h">
       <Filter>03. GameObject\ETC</Filter>
@@ -233,36 +155,6 @@
     <ClInclude Include="GameObject\KingJellyfish.h">
       <Filter>03. GameObject\03. BossMonster\01. KingJellyFish</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSponge.h">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeBT.h">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackHoriz.h">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackVirtic.h">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackWords.h">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\BossMonster\BossMonster.h">
-      <Filter>03. GameObject\03. BossMonster</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Npc\Patric.h">
-      <Filter>03. GameObject\05. Npc</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Npc\MrKrabs.h">
-      <Filter>03. GameObject\05. Npc</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Npc\Squidward.h">
-      <Filter>03. GameObject\05. Npc</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Npc\TaxiDriver.h">
-      <Filter>03. GameObject\05. Npc</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Duplicatotron.h">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
     </ClInclude>
@@ -275,20 +167,8 @@
     <ClInclude Include="GameObject\Jellyfish.h">
       <Filter>03. GameObject\02. Monster\02. JF</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Tikis\Tiki_Wood.h">
-      <Filter>03. GameObject\02. Monster\03. Tiki</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Tikis\Tiki_Stone.h">
-      <Filter>03. GameObject\02. Monster\03. Tiki</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h">
-      <Filter>03. GameObject\02. Monster\03. Tiki</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Object\InteractButton.h">
-      <Filter>03. GameObject\04. Object</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Object\Trampoline.h">
-      <Filter>03. GameObject\04. Object</Filter>
+    <ClInclude Include="Scene\JellyfishFieldSceneInfo.h">
+      <Filter>02. Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
