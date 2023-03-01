@@ -117,6 +117,9 @@ void CPlayer::Start()
 	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 	m_PlayerUI->SetHp(m_PlayerData.CurHP);
 	m_PlayerUI->SetMaxHp(m_PlayerData.MaxHP);
+	m_PlayerUI->SetGlitter(m_PlayerData.Glittering);
+	m_PlayerUI->SetFritter(m_PlayerData.Fritter);
+	m_PlayerUI->SetSocks(m_PlayerData.Socks);
 
 	if (m_IsLoading)
 	{

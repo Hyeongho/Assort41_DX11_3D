@@ -203,7 +203,7 @@ void CPlayerUI::SetSocks(int i)
 	m_SocksText->SetIntText(i,true);
 }
 
-void CPlayerUI::SeFritter(int i)
+void CPlayerUI::SetFritter(int i)
 {
 	m_FritterText->SetIntText(i, true);
 }

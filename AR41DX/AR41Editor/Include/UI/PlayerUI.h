@@ -41,6 +41,6 @@ public:
 	void SetMaxHp(int hp);
 	void SetGlitter(int i);
 	void SetSocks(int i);
-	void SeFritter(int i);
+	void SetFritter(int i);
 };
 

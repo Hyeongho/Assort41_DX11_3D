@@ -40,12 +40,8 @@ CEngine::CEngine()	:
 	m_TimeScale(1.f)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(159743);
+	//_CrtSetBreakAlloc(159741);
 	/*
-{159742} normal block at 0x000002002CD4E200, 32 bytes long.
- Data: <ParticleInfoShar> 50 61 72 74 69 63 6C 65 49 6E 66 6F 53 68 61 72 
-{159741} normal block at 0x000002002CD55900, 16 bytes long.
- Data: <@I"-            > 40 49 22 2D 00 02 00 00 00 00 00 00 00 00 00 00 
 {159740} normal block at 0x000002002D224940, 112 bytes long.
  Data: < Y ,       ,    > 00 59 D5 2C 00 02 00 00 00 E2 D4 2C 00 02 00 00 
 {159739} normal block at 0x000002002CD55D60, 16 bytes long.

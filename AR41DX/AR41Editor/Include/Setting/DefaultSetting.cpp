@@ -50,13 +50,16 @@ void CDefaultSetting::CreateCDO()
 void CDefaultSetting::LoadResource()
 {
     LoadSpongebob();
-   // LoadPatrick();
-   // LoadSandy();
+    LoadPatrick();
+    LoadSandy();
 
     LoadBuildings();
-    //LoadRoboSponge();
-    //LoadKingJellyfish();
-    //LoadJellyfish();
+    LoadRoboSponge();
+    LoadKingJellyfish();
+    LoadJellyfish();
+
+    //sound
+    LoadSound();
 }
 
 void CDefaultSetting::SetInput()
