@@ -69,36 +69,36 @@ bool CLightManager::Init()
 
 
 
+	//==
+	CGameObject* LightObj = m_Owner->CreateObject<CGameObject>("Light1");
 
-	//CGameObject* LightObj = m_Owner->CreateObject<CGameObject>("Light1");
+	CLightComponent* LightCom = LightObj->CreateComponent<CLightComponent>("Light");
 
-	//CLightComponent* LightCom = LightObj->CreateComponent<CLightComponent>("Light");
-
-	//LightCom->SetLightType(ELightType::Point);
-	//LightCom->SetWorldPosition(-300.f, 400.f, -100.f);
-	//LightCom->SetLightColor(Vector4(1.f, 0.f, 0.f, 1.f));
-	//LightCom->SetLightDistance(2000.f);
-
-
-	//LightObj = m_Owner->CreateObject<CGameObject>("Light2");
-
-	//LightCom = LightObj->CreateComponent<CLightComponent>("Light");
-
-	//LightCom->SetLightType(ELightType::Point);
-	//LightCom->SetWorldPosition(300.f, 400.f, -100.f);
-	//LightCom->SetLightColor(Vector4(0.f, 1.f, 0.f, 1.f));
-	//LightCom->SetLightDistance(2000.f);
+	LightCom->SetLightType(ELightType::Point);
+	LightCom->SetWorldPosition(-300.f, 400.f, -100.f);
+	LightCom->SetLightColor(Vector4(1.f, 0.f, 0.f, 1.f));
+	LightCom->SetLightDistance(2000.f);
 
 
+	LightObj = m_Owner->CreateObject<CGameObject>("Light2");
 
-	//LightObj = m_Owner->CreateObject<CGameObject>("Light3");
+	LightCom = LightObj->CreateComponent<CLightComponent>("Light");
 
-	//LightCom = LightObj->CreateComponent<CLightComponent>("Light");
+	LightCom->SetLightType(ELightType::Point);
+	LightCom->SetWorldPosition(300.f, 400.f, -100.f);
+	LightCom->SetLightColor(Vector4(0.f, 1.f, 0.f, 1.f));
+	LightCom->SetLightDistance(2000.f);
 
-	//LightCom->SetLightType(ELightType::Point);
-	//LightCom->SetWorldPosition(0.f, 100.f, -50.f);
-	//LightCom->SetLightColor(Vector4(1.f, 0.f, 1.f, 1.f));
-	//LightCom->SetLightDistance(2000.f);
+
+
+	LightObj = m_Owner->CreateObject<CGameObject>("Light3");
+
+	LightCom = LightObj->CreateComponent<CLightComponent>("Light");
+
+	LightCom->SetLightType(ELightType::Point);
+	LightCom->SetWorldPosition(0.f, 100.f, -50.f);
+	LightCom->SetLightColor(Vector4(1.f, 0.f, 1.f, 1.f));
+	LightCom->SetLightDistance(2000.f);
 
 
 	return true;

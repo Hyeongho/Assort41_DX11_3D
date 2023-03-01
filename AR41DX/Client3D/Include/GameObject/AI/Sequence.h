@@ -7,5 +7,6 @@ class CSequence :
 {
 public:
     virtual bool Run();
+    virtual bool Run(class CGameObject* Object) ;
 };
 

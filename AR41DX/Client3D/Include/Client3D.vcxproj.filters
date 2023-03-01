@@ -43,6 +43,18 @@
     <Filter Include="03. GameObject\02. Monster\02. KingJellyfish">
       <UniqueIdentifier>{8bf6a9ee-0269-40e4-a6da-32c87d24c4f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\02. Monster\03. Fod/Ham/Dup">
+      <UniqueIdentifier>{65c24551-f590-422c-8ee8-8ab566833107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\03. Fod/Ham/Dup\01. Fodder">
+      <UniqueIdentifier>{eb696916-5eae-4b0e-96f0-b82697808e9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\03. Fod/Ham/Dup\02. Hammer">
+      <UniqueIdentifier>{5ac6a39e-8851-49d1-9ffd-c61990780bec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\03. Fod/Ham/Dup\03. Duplicatotron">
+      <UniqueIdentifier>{2e833e77-e315-41c3-b9cd-5c21e64dfcbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -117,14 +129,32 @@
     <ClCompile Include="GameObject\AI\Sequence.cpp">
       <Filter>06. AI</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Fodder.cpp">
-      <Filter>03. GameObject\02. Monster</Filter>
+    <ClCompile Include="GameObject\Chase.cpp">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Hammer.cpp">
-      <Filter>03. GameObject\02. Monster</Filter>
+    <ClCompile Include="GameObject\Walk.cpp">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Attack.cpp">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Duplicatotron.cpp">
-      <Filter>03. GameObject\02. Monster</Filter>
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup\03. Duplicatotron</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Fodder.cpp">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup\01. Fodder</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\FodderBT.cpp">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup\01. Fodder</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Hammer.cpp">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup\02. Hammer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\HammerBT.cpp">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup\02. Hammer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Dead.cpp">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -203,14 +233,32 @@
     <ClInclude Include="GameObject\AI\Sequence.h">
       <Filter>06. AI</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Fodder.h">
-      <Filter>03. GameObject\02. Monster</Filter>
+    <ClInclude Include="GameObject\Chase.h">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Hammer.h">
-      <Filter>03. GameObject\02. Monster</Filter>
+    <ClInclude Include="GameObject\Walk.h">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Attack.h">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Duplicatotron.h">
-      <Filter>03. GameObject\02. Monster</Filter>
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup\03. Duplicatotron</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Fodder.h">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup\01. Fodder</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\FodderBT.h">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup\01. Fodder</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Hammer.h">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup\02. Hammer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\HammerBT.h">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup\02. Hammer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Dead.h">
+      <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

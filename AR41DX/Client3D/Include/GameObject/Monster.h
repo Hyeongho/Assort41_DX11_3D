@@ -2,6 +2,17 @@
 
 #include "GameObject\GameObject.h"
 
+
+enum class EMonsterState
+{
+	None,
+	MonsterWalk,
+	MonsterChase,
+	MonsterAttack,
+	MonsterDead,
+	Max
+};
+
 class CMonster :
 	public CGameObject
 {
@@ -23,6 +34,7 @@ protected:
 	float	m_MoveSpeed;
 	float	m_DeltaTime;
 	int		m_MonsterHP;
+	EMonsterState m_MonsterState;
 
 public:
 	void SetMoveSpeed(float MoveSpeed)
@@ -40,10 +52,10 @@ public:
 		return m_MoveSpeed;
 	}
 
-	float GetMonsterHP()
-	{
-		return m_MonsterHP;
-	}
+	//float GetMonsterHP()
+	//{
+	//	return m_MonsterHP;
+	//}
 
 public:
 	virtual void Start();

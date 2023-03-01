@@ -569,3 +569,21 @@ struct ParticleInfoShare
 
 	unsigned int GravityEnable;
 };
+
+struct FXAACBuffer
+{
+	float FXAAQualitySubpix; // controls the quality of the anti-aliasing effect by adjusting the sub-pixel accuracy of the algorithm.
+	float FXAARcpFrameOpt; // the reciprocal of the screen resolution, used to calculate the optimal edge threshold.
+	float FXAASpanMax; // controls the maximum amount of pixels that the algorithm can consider when searching for edges.
+	float FXAATexelWidth; // the reciprocal of the screen resolution, used to calculate the texture coordinates of the current pixel.
+	float FXAATexelHeight;
+		
+	FXAACBuffer() :
+		FXAAQualitySubpix(0.75f),
+		FXAARcpFrameOpt(1.0f / (1280.0f, 720.0f)),
+		FXAASpanMax(8.0f),
+		FXAATexelWidth(1.0f / 1280.0f),
+		FXAATexelHeight(1.0f / 720.0f)
+	{
+	}
+};

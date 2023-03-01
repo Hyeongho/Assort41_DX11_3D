@@ -8,6 +8,7 @@
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "Engine.h"
+#include "FodderBT.h"
 
 CFodder::CFodder()
 {
@@ -29,9 +30,9 @@ void CFodder::Start()
 	CMonster::Start();
 
 	// 테스트용 키세팅
-	CInput::GetInst()->AddBindFunction<CFodder>("Q", Input_Type::Down, this, &CFodder::Chase, m_Scene);
-	CInput::GetInst()->AddBindFunction<CFodder>("W", Input_Type::Down, this, &CFodder::Attack, m_Scene);
-	CInput::GetInst()->AddBindFunction<CFodder>("E", Input_Type::Down, this, &CFodder::Dead, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CFodder>("Q", Input_Type::Down, this, &CFodder::Chase, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CFodder>("W", Input_Type::Down, this, &CFodder::Attack, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CFodder>("E", Input_Type::Down, this, &CFodder::Dead, m_Scene);
 
 
 	// 탐지범위에 플레이어가 들어올 시 Notice 애니메이션 후 Walk 로 변경.
@@ -59,6 +60,9 @@ bool CFodder::Init()
 	m_Animation->AddAnimation("Fodder_Notice", "Fodder_Notice", 1.f, 1.f, false);
 	m_Animation->AddAnimation("Fodder_Dead", "Fodder_Dead", 1.f, 1.f, false);
 
+
+	m_MonsterState = EMonsterState::MonsterWalk;
+
 	return true;
 }
 
@@ -66,22 +70,60 @@ void CFodder::Update(float DeltaTime)
 {
 	CMonster::Update(DeltaTime);
 
+	//if (m_DetectRange) // 탐지 범위내에 있으면
+	//{
+	//	if (m_Scene->FindObject("Player"))
+	//		Chase();
+
+	//	if (m_AttackRange) // 공격 범위 내에 있으면
+	//	{
+	//		if (m_Scene->FindObject("Player"))
+	//			Attack();
+	//	}
+	//}
+
+
+
+
+	// MonsterState 적용후
 	if (m_DetectRange) // 탐지 범위내에 있으면
 	{
 		if (m_Scene->FindObject("Player"))
-			Chase();
+			m_MonsterState = EMonsterState::MonsterChase;
 
 		if (m_AttackRange) // 공격 범위 내에 있으면
 		{
 			if (m_Scene->FindObject("Player"))
-				Attack();
+				m_MonsterState = EMonsterState::MonsterAttack;
 		}
 	}
+
+	m_FodderBT->Run(this);
 }
 
 void CFodder::PostUpdate(float DeltaTime)
 {
 	CMonster::PostUpdate(DeltaTime);
+
+	switch (m_MonsterState)
+	{
+	case EMonsterState::None:
+		break;
+	case EMonsterState::MonsterWalk:
+		Walk();
+		break;
+	case EMonsterState::MonsterChase:
+		Chase();
+		break;
+	case EMonsterState::MonsterAttack:
+		Attack();
+		break;
+	case EMonsterState::MonsterDead:
+		Dead();
+		break;
+	case EMonsterState::Max:
+		break;
+	}
 }
 
 CFodder* CFodder::Clone() const
@@ -108,34 +150,34 @@ void CFodder::Chase()
 {
 	m_Animation->ChangeAnimation("Fodder_Notice");
 
-	Vector3 FodderPos = m_Mesh->GetWorldPos();
-	Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
+	//Vector3 FodderPos = m_Mesh->GetWorldPos();
+	//Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
 
-	Vector3 Dir = FodderPos - PlayerPos;
+	//Vector3 Dir = FodderPos - PlayerPos;
 
-	Dir.y = 0.f; // Y축으로 이동 불가. 
+	//Dir.y = 0.f; // Y축으로 이동 불가. 
 
-	Dir.Normalize();
+	//Dir.Normalize();
 
-	// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 1.5배 빠르게.
-	m_Mesh->AddWorldPosition(Dir * m_MoveSpeed * 1.5 * g_DeltaTime);
+	//// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 1.5배 빠르게.
+	//m_Mesh->AddWorldPosition(Dir * m_MoveSpeed * 1.5 * g_DeltaTime);
 }
 
 void CFodder::Attack()
 {
 	m_Animation->ChangeAnimation("Fodder_Attack");
 
-	Vector3 FodderPos = m_Mesh->GetWorldPos();
-	Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
+	//Vector3 FodderPos = m_Mesh->GetWorldPos();
+	//Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
 
-	Vector3 Dir = FodderPos - PlayerPos;
+	//Vector3 Dir = FodderPos - PlayerPos;
 
-	Dir.y = 0.f; // Y축으로 이동 불가. 
+	//Dir.y = 0.f; // Y축으로 이동 불가. 
 
-	Dir.Normalize();
+	//Dir.Normalize();
 
-	// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 2배 빠르게.
-	m_Mesh->AddWorldPosition(Dir * 2 * m_MoveSpeed * g_DeltaTime);
+	//// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 2배 빠르게.
+	//m_Mesh->AddWorldPosition(Dir * 2 * m_MoveSpeed * g_DeltaTime);
 }
 
 void CFodder::Dead()

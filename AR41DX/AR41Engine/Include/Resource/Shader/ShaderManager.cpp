@@ -22,6 +22,7 @@
 #include "BillboardShader.h"
 #include "ParticleUpdateShader.h"
 #include "ParticleRenderShader.h"
+#include "FXAAShader.h"
 
 CShaderManager::CShaderManager()
 {
@@ -93,6 +94,8 @@ bool CShaderManager::Init()
 
 	CreateShader<CParticleRenderShader>("ParticleRenderShader", true);
 
+	// CreateShader<CFXAAShader>("FXAAShader", true);
+
 
 	CreateConstantBuffer("Transform", sizeof(TransformCBuffer), 0);
 	CreateConstantBuffer("Material", sizeof(MaterialCBuffer), 1);
@@ -107,6 +110,7 @@ bool CShaderManager::Init()
 	CreateConstantBuffer("Animation", sizeof(AnimationCBuffer), 0, (int)EShaderBufferType::Compute);
 	CreateConstantBuffer("Terrain", sizeof(TerrainCBuffer), 10, (int)EShaderBufferType::Vertex | (int)EShaderBufferType::Pixel);
 	CreateConstantBuffer("ParticleUpdate", sizeof(ParticleCBuffer), 10, (int)EShaderBufferType::Compute);
+	CreateConstantBuffer("FXAA", sizeof(FXAACBuffer), 19, (int)EShaderBufferType::Pixel);
 
 	m_ColliderCBuffer = new CColliderConstantBuffer;
 

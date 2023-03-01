@@ -304,6 +304,12 @@
     <Filter Include="05. Component\02. ObjectComponent\02. AI">
       <UniqueIdentifier>{61f63e5a-7b5b-49c0-bd79-25adfe6b00f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Resource\02. Shader\02. ShaderClass\16. FXAA">
+      <UniqueIdentifier>{9471244b-1c41-4c69-9d88-9fcee0ad1580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\13. FXAA">
+      <UniqueIdentifier>{3d120dfd-1086-47f5-9561-53501ec10f49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -876,6 +882,12 @@
     <ClInclude Include="Resource\ResourceManager.h">
       <Filter>02. Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\Shader\FXAAShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\16. FXAA</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\FXAAConstantBuffer.h">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\13. FXAA</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1391,6 +1403,12 @@
     <ClCompile Include="Resource\ResourceManager.cpp">
       <Filter>02. Resource</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\Shader\FXAAShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\16. FXAA</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\FXAAConstantBuffer.cpp">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\13. FXAA</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\Shader\Share.fx">
@@ -1433,6 +1451,9 @@
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\Shader\ParticleRender.fx">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\FXAA.fx">
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
   </ItemGroup>

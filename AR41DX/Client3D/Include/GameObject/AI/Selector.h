@@ -7,5 +7,6 @@ class CSelector :
 {
 public:
     virtual bool Run();
+    virtual bool Run(class CGameObject* Object);
 };
 
