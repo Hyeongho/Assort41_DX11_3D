@@ -17,7 +17,7 @@ protected:
 	class CScene* m_Owner;
 	std::vector<CSharedPtr<CUIWindow>>	m_vecWindow;
 	CSharedPtr<class CUIWidget>	m_CollisionWidget;
-
+	bool		m_Start;
 public:
 	void LoadComplete();
 
@@ -72,7 +72,10 @@ public:
 		}
 
 		m_vecWindow.push_back((CUIWindow*)Window);
-
+		if (m_Start)
+		{
+			Window->Start();
+		}
 		return Window;
 	}
 };

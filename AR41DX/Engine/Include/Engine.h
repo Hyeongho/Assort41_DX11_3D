@@ -87,7 +87,7 @@ public:
 		unsigned int DeviceWidth, unsigned int DeviceHeight,
 		bool WindowMode = true, int MenuID = 0);
 	int Run();
-
+	void Exit();
 private:
 	void Logic();
 	void Input(float DeltaTime);
@@ -95,7 +95,6 @@ private:
 	bool PostUpdate(float DeltaTime);
 	bool Collision(float DeltaTime);
 	void Render(float DeltaTime);
-
 
 private:
 	void Register(const TCHAR* ClassName, int IconID, int SmallIconID, int MenuID);
