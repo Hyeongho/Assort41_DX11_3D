@@ -63,6 +63,9 @@ void CTitleSceneUI::Start()
 
 		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("LButton", Input_Type::Up, this, &CTitleSceneUI::KeyLeftButton, m_Scene);
 		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("RButton", Input_Type::Up, this, &CTitleSceneUI::KeyRightButton, m_Scene);
+
+
+		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("F1", Input_Type::Up, this, &CTitleSceneUI::KeyF12, m_Scene);
 	}
 }
 
@@ -1685,6 +1688,15 @@ void CTitleSceneUI::KeyBack()
 
 		break;
 	}
+}
+
+void CTitleSceneUI::KeyF12()
+{
+	Vector2 test = CInput::GetInst()->GetMousePos();
+
+	std::string OutputDebug = "Mouse : " + std::to_string(test.x) + ", " + std::to_string(test.y) + "\n";
+
+	OutputDebugStringA(OutputDebug.c_str());
 }
 
 void CTitleSceneUI::MainUIContinue()

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dialogs>
+	<Dialog Name="First_Contact">
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>안녕 뚱아? 양말이 멋있네.</Text>
+		</Context>
+		<Context>
+			<Talker>뚱이</Talker>
+			<Text>무슨 양말?</Text>
+		</Context>
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>네가 신고 있는 양말 말이야.</Text>
+		</Context>
+		<Context>
+			<Talker>뚱이</Talker>
+			<Text>아, 그거. 잃어버렸어.</Text>
+		</Context>
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>음... 그걸 잃어버렸으면 다른 양말은 어디 있는데?</Text>
+		</Context>
+		<Context>
+			<Talker>뚱이</Talker>
+			<Text>로봇 떼거리가 이곳을 지나가면서 내 양말 컬렉션을 몽땅 훔쳐갔어.</Text>
+		</Context>
+		<Context>
+			<Talker>뚱이</Talker>
+			<Text>양말을 되찾을 수 있게 좀 도와줄래?</Text>
+		</Context>
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>물론이지, 뚱아. 단짝 좋은 게 뭐겠어?</Text>
+		</Context>
+		<Context>
+			<Talker>뚱이</Talker>
+			<Text>좋았어. 양말 1켤레를 가져올 때마다 황금색 칠면조 바스터를 줄게.</Text>
+		</Context>
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>뒤집개 말하는 거야?</Text>
+		</Context>
+		<Context>
+			<Talker>뚱이</Talker>
+			<Text>축복을 빌어줄게.</Text>
+		</Context>
+	</Dialog>
+	<Dialog Name="Not_Enough_Socks">
+		<Context>
+			<Talker>뚱이</Talker>
+			<Text>양말 1켤레 찾았어?</Text>
+		</Context>
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>아직 아니야, 뚱아.</Text>
+		</Context>
+		<Context>
+			<Talker>뚱이</Talker>
+			<Text>아... 그들이 널 찾은거야?</Text>
+		</Context>
+	</Dialog>
+	<Dialog Name="Enough_Socks">
+		<Context>
+			<Talker>뚱이</Talker>
+			<Text>양말 1켤레 찾았어?</Text>
+		</Context>
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>여기 있어, 뚱아.</Text>
+		</Context>
+		<Context>
+			<Talker>뚱이</Talker>
+			<Text>와 난 양말 부자야. 여기 약속한 황금색 칠면조 바스터.</Text>
+		</Context>
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>뒤집개 고마워, 뚱아.</Text>
+		</Context>
+	</Dialog>
+</Dialogs>
