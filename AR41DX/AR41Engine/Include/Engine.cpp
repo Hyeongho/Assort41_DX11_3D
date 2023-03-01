@@ -508,6 +508,11 @@ void CEngine::Render(float DeltaTime)
 	CInput::GetInst()->SetWheel(0);
 }
 
+void CEngine::Exit()
+{
+	DestroyWindow(m_hWnd);
+}
+
 void CEngine::Register(const TCHAR* ClassName, int IconID, int SmallIconID, int MenuID)
 {
 	// 레지스터에 등록할 윈도우 클래스 구조체를 만들어준다.

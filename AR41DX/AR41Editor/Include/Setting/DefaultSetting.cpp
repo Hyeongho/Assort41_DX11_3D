@@ -8,6 +8,7 @@
 #include "../GameObject/Bullet.h"
 #include "../UI/StartSceneUI.h"
 #include "../UI/PlayerUI.h"
+#include "../UI/PauseUI.h"
 #include "Scene/Scene.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -45,6 +46,7 @@ void CDefaultSetting::CreateCDO()
 
     CScene::CreateUIWindowCDO<CStartSceneUI>("StartSceneUI"); //지우지 말아주세요
     CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
+    CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
 }
 
 void CDefaultSetting::LoadResource()

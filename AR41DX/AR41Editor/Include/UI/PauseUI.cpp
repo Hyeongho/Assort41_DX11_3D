@@ -11,11 +11,11 @@
 #include "UI/UIImage.h"
 #include "UI/UITextButton.h"
 
-#include "../Scene/TitleSceneInfo.h"
+#include "../Scene/LoadingSceneInfo.h"
 
 CPauseUI::CPauseUI() :
 	m_NowUIMode(EUIPauseMode::Close),
-	m_MapSelected(EUIMapList::End),
+	m_MapSelected(EMapList::End),
 	m_PauseSelected(EUIPauseList::OptionSound),
 	m_SoundSelected(EUISoundList::SFX),
 	m_CameraSelected(EUICameraList::End),
@@ -27,7 +27,7 @@ CPauseUI::CPauseUI() :
 CPauseUI::CPauseUI(const CPauseUI& Window) :
 	CUIWindow(Window),
 	m_NowUIMode(EUIPauseMode::Close),
-	m_MapSelected(EUIMapList::End),
+	m_MapSelected(EMapList::End),
 	m_PauseSelected(EUIPauseList::OptionSound),
 	m_SoundSelected(EUISoundList::SFX),
 	m_CameraSelected(EUICameraList::End),
@@ -58,11 +58,11 @@ void CPauseUI::Start()
 		CInput::GetInst()->AddBindFunction<CPauseUI>("D", Input_Type::Up, this, &CPauseUI::KeyRight, m_Scene);
 
 		CInput::GetInst()->AddBindFunction<CPauseUI>("Space", Input_Type::Up, this, &CPauseUI::KeySpace, m_Scene);
-		CInput::GetInst()->AddBindFunction<CPauseUI>("Esc", Input_Type::Up, this, &CPauseUI::KeyEsc, m_Scene);
+		//CInput::GetInst()->AddBindFunction<CPauseUI>("Esc", Input_Type::Up, this, &CPauseUI::KeyEsc, m_Scene);
 		CInput::GetInst()->AddBindFunction<CPauseUI>("E", Input_Type::Up, this, &CPauseUI::KeyE, m_Scene);
-
-		CInput::GetInst()->AddBindFunction<CPauseUI>("LButton", Input_Type::Up, this, &CPauseUI::KeyLeftButton, m_Scene);
-		CInput::GetInst()->AddBindFunction<CPauseUI>("RButton", Input_Type::Up, this, &CPauseUI::KeyRightButton, m_Scene);
+		 
+		CInput::GetInst()->AddBindFunction<CPauseUI>("LClick", Input_Type::Up, this, &CPauseUI::KeyLeftButton, m_Scene);
+		CInput::GetInst()->AddBindFunction<CPauseUI>("RClick", Input_Type::Up, this, &CPauseUI::KeyRightButton, m_Scene);
 	}
 }
 
@@ -131,10 +131,12 @@ void CPauseUI::OpenUI()
 {
 	CloseUI();
 
+	m_NowUIMode = EUIPauseMode::PauseMain;
 	ActiveBackUI();
-	ActiveMapUI();
+	ActivePauseUI();
 
-	m_NowUIMode = EUIPauseMode::PauseMap;
+	CUIImage* Image = (CUIImage*)m_mapBackUI.find("BackUI_BackgroundOverlay")->second.Get();
+	Image->SetTexture("PuaseUIBackgroundOverlay", TEXT("UI/Pause/UI_Map_bamboo_overlay.tga"));
 }
 
 void CPauseUI::CloseUI()
@@ -746,15 +748,18 @@ void CPauseUI::KeyRightButton()
 
 	CSound* Sound = m_Scene->GetResource()->FindSound("UI_Backward");
 
-	if (Sound) {
+	if (Sound)
+	{
 		Sound->Play();
 	}
 
 	if (m_NowUIMode == EUIPauseMode::PauseMap)
 	{
 		// UI 끄기
-		CloseUI();
-
+		InActiveMapUI();
+		OpenUI();
+		m_NowUIMode = EUIPauseMode::PauseMain;
+		ActivePauseUI();
 	}
 	else if (m_NowUIMode == EUIPauseMode::PauseMain) 
 	{
@@ -771,49 +776,49 @@ void CPauseUI::KeyRightButton()
 
 		switch (m_MapSelected)
 		{
-		case EUIMapList::Patric:
+		case EMapList::Patric:
 			Text->SetText("뚱이");
 			break;
-		case EUIMapList::DutchMan_Grave:
+		case EMapList::DutchMan_Grave:
 			Text->SetText("바다도깨비의 묘지");
 			break;
-		case EUIMapList::Sand_Mountain:
+		case EMapList::Sand_Mountain:
 			Text->SetText("모래산");
 			break;
-		case EUIMapList::Goo_Lagoon:
+		case EMapList::Goo_Lagoon:
 			Text->SetText("끈끈이 호수");
 			break;
-		case EUIMapList::Dome:
+		case EMapList::Dome:
 			Text->SetText("포세이돔");
 			break;
-		case EUIMapList::KK:
-			Text->SetText("스폰지밥의 꿈");
+		case EMapList::Krusty_Krab:
+			Text->SetText("집게리아");
 			break;
-		case EUIMapList::Chum_Bucketlab:
+		case EMapList::Chum_Bucketlab:
 			Text->SetText("미끼식당 실험실");
 			break;
-		case EUIMapList::Merma_Lair:
+		case EMapList::Merma_Lair:
 			Text->SetText("인어 은신처");
 			break;
-		case EUIMapList::Bikini_Bottom:
+		case EMapList::Bikini_Bottom:
 			Text->SetText("비키니시티");
 			break;
-		case EUIMapList::Down_Town:
+		case EMapList::Down_Town:
 			Text->SetText("비키니시티 도심");
 			break;
-		case EUIMapList::Krabs:
+		case EMapList::Krabs:
 			Text->SetText("집게사장");
 			break;
-		case EUIMapList::Kelp_Forest:
+		case EMapList::Kelp_Forest:
 			Text->SetText("켈프 숲");
 			break;
-		case EUIMapList::Rock_Bottom:
+		case EMapList::Rock_Bottom:
 			Text->SetText("메롱 시티");
 			break;
-		case EUIMapList::Jelly_Fish_Field:
+		case EMapList::Jelly_Fish_Field:
 			Text->SetText("해파리 동산");
 			break;
-		case EUIMapList::Industrial_Park:
+		case EMapList::Industrial_Park:
 			Text->SetText("공업단지");
 			break;
 		}
@@ -966,13 +971,13 @@ void CPauseUI::PauseUILoad()
 void CPauseUI::PauseUIBackToTitle()
 {
 	CSceneManager::GetInst()->CreateNextScene(true);
-	CSceneManager::GetInst()->CreateSceneInfo<CTitleSceneInfo>(false);
+	CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "Title.scn");
 }
 
 void CPauseUI::PauseUIQuit()
 {
 	// 게임 종료 처리.
-
+	CEngine::GetInst()->Exit();
 }
 
 void CPauseUI::PauseUISoundHovered()

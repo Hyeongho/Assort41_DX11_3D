@@ -13,13 +13,14 @@
 #include "Component/ColliderCube.h"
 #include "Input.h"
 #include "Engine.h"
+#include "PathManager.h"
 #include "Scene/Scene.h"
 #include "Scene/CameraManager.h"
 #include "Scene/NavigationManager3D.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "../UI/PlayerUI.h"
-#include <PathManager.h>
+#include "../UI/PauseUI.h"
 
 CPlayer::CPlayer()
 	: m_Speed(500.f)
@@ -69,6 +70,10 @@ void CPlayer::Destroy()
 	if (m_PlayerUI)
 	{
 		m_PlayerUI->Destroy();
+	}
+	if (m_PauseUI)
+	{
+		m_PauseUI->Destroy();
 	}
 	CInput::GetInst()->ClearCallback();
 }
@@ -120,6 +125,8 @@ void CPlayer::Start()
 	m_PlayerUI->SetGlitter(m_PlayerData.Glittering);
 	m_PlayerUI->SetFritter(m_PlayerData.Fritter);
 	m_PlayerUI->SetSocks(m_PlayerData.Socks);
+	m_PauseUI = m_Scene->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
+	m_PauseUI->SetEnable(false);
 
 	if (m_IsLoading)
 	{
@@ -233,12 +240,6 @@ void CPlayer::Load(FILE* File)
 	AddChildToSocket("Weapon", weapon);
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
-
-	//m_PlayerUI = m_Scene->GetViewport()->FindUIWindow<CPlayerUI>("PlayerUI");
-	//if (!m_PlayerUI)
-	//{
-	//	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
-	//}
 
 	LoadCharacter();
 }
@@ -636,13 +637,13 @@ void CPlayer::BowlThrow()
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerBowl")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBowlThrow");
+		m_Speed = 500.f;
+		CBullet* bullet = m_Scene->CreateObject<CBullet>("SpongeBobBowl");
+		bullet->SetWorldRotationY(GetWorldRot().y - 90.f);
+		bullet->SetWorldPosition(-30.f, 50.f, -100.f);
+		bullet->SetDir(GetWorldPos());
+		bullet->SetLifeTime(3.f);
 	}
-	m_Speed = 500.f;
-	CBullet* bullet = m_Scene->CreateObject<CBullet>("SpongeBobBowl");
-	bullet->SetWorldRotationY(GetWorldRot().y-90.f);
-	bullet->SetWorldPosition(-30.f,50.f,-100.f);
-	bullet->SetDir(GetWorldPos());
-	bullet->SetLifeTime(3.f);
 }
 
 void CPlayer::Patrick_BellyAttack()
@@ -677,6 +678,17 @@ void CPlayer::Interaction()
 
 void CPlayer::Menu()
 {
+	if(m_PauseUI->GetEnable())
+	{
+		m_PauseUI->SetEnable(false);
+		CEngine::GetInst()->SetTimeScale(1.f);
+	}
+	else
+	{
+		m_PauseUI->SetEnable(true);
+		m_PauseUI->OpenUI();
+		CEngine::GetInst()->SetTimeScale(0.f);
+	}
 }
 
 void CPlayer::IngameUI()

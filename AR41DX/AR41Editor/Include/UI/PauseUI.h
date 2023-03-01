@@ -3,26 +3,6 @@
 #include "UI/UIWindow.h"
 #include "TitleSceneUI.h"
 
-enum class EUIMapList // 일시중지 맵 선택 메뉴에서 선택된 메뉴를 체크하기 위한 플래그
-{
-	Patric,				// 뚱이
-	DutchMan_Grave,		// 바다도깨비의 묘지
-	Sand_Mountain,		// 모래산
-	Goo_Lagoon,			// 끈끈이 호수
-	Dome,				// 포세이돔
-	KK,					// 스폰지밥의 꿈
-	Chum_Bucketlab,		// 미끼식당 실험실
-	Merma_Lair,			// 인어 은신처
-	Bikini_Bottom,		// 비키니시티
-	Down_Town,			// 비키니시티 도심
-	Krabs,				// 집게사장
-	Kelp_Forest,		// 켈프 숲
-	Rock_Bottom,		// 메롱시티
-	Jelly_Fish_Field,	// 해파리 동산
-	Industrial_Park,	// 공업단지
-	End
-};
-
 enum class EUIPauseMode // 타이틀 메뉴에서 현재 메뉴 모드를 체크하기 위한 플래그
 {
 	PauseMap,
@@ -72,7 +52,7 @@ protected:
 	
 private :
 	EUIPauseMode	m_NowUIMode;		// 현재 UI
-	EUIMapList		m_MapSelected;		// 맵에서 현재 선택된 UI
+	EMapList		m_MapSelected;		// 맵에서 현재 선택된 UI
 	EUIPauseList	m_PauseSelected;	// 일시중지 메뉴에서 현재 선택된 UI
 	EUISoundList	m_SoundSelected;	// 사운드 옵션 메뉴에서 현재 선택된 UI
 	EUICameraList	m_CameraSelected;	// 카메라 옵션 메뉴에서 현재 선택된 UI
