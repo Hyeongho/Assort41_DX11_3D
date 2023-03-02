@@ -44,7 +44,7 @@ public:
 
 		for (size_t i = 0; i < Size; ++i)
 		{
-			if (m_vecWindow[i]->GetName() == Name)
+			if (m_vecWindow[i]->GetWindowTypeName() == Name)
 				return (T*)m_vecWindow[i].Get();
 		}
 
