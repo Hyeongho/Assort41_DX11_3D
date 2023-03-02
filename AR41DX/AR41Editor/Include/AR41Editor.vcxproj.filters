@@ -34,6 +34,18 @@
     <Filter Include="03. Window\01. DetailWindow">
       <UniqueIdentifier>{4621b128-08a2-4b3a-9908-a7ee536d6e03}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Window\02. 2D">
+      <UniqueIdentifier>{b5c7ec8a-55aa-49bd-b0de-37db749986f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Window\03. 3D">
+      <UniqueIdentifier>{0eb92676-3909-47b1-ac68-60c7e07a5f67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Window\04. UI">
+      <UniqueIdentifier>{c58b05c8-e87f-47a8-af24-1adfb8e85f55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Window\05. Component">
+      <UniqueIdentifier>{c8a219a6-9e27-47d3-bc09-ebb71af44f8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,13 +72,7 @@
     <ClCompile Include="Window\ComponentWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
-    <ClCompile Include="Window\TransformWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
     <ClCompile Include="Window\SceneWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\DetailWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
     <ClCompile Include="UI\StartSceneUI.cpp">
@@ -77,9 +83,6 @@
     </ClCompile>
     <ClCompile Include="Setting\EngineShareSetting.cpp">
       <Filter>06. Setting</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\ResourceWindow.cpp">
-      <Filter>03. Window</Filter>
     </ClCompile>
     <ClCompile Include="Window\DetailWindow\CameraWidgetList.cpp">
       <Filter>03. Window\01. DetailWindow</Filter>
@@ -111,40 +114,7 @@
     <ClCompile Include="GameObject\Player.cpp">
       <Filter>04. GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Window\Animation3DWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\CameraWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Weapon.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\UITextWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\UIProgressBarWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\UINumberWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\UIImageWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\UIButtonWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\TargetArmWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\RigidBodyWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
     <ClCompile Include="Window\PathWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\ParticleWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
     <ClCompile Include="Window\MeshWindow.cpp">
@@ -153,17 +123,65 @@
     <ClCompile Include="Window\MaterialWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
-    <ClCompile Include="Window\LightWindow.cpp">
-      <Filter>03. Window</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Duplicatotron.cpp">
       <Filter>04. GameObject</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Fodder.cpp">
       <Filter>04. GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="Window\Animation3DWindow.cpp">
+      <Filter>03. Window\03. 3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\CameraWindow.cpp">
+      <Filter>03. Window\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\DetailWindow.cpp">
+      <Filter>03. Window\01. DetailWindow</Filter>
+    </ClCompile>
     <ClCompile Include="Window\FBXWindow.cpp">
-      <Filter>03. Window</Filter>
+      <Filter>03. Window\03. 3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\LightWindow.cpp">
+      <Filter>03. Window\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\ParticleWindow.cpp">
+      <Filter>03. Window\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\ResourceWindow.cpp">
+      <Filter>03. Window\02. 2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\RigidBodyWindow.cpp">
+      <Filter>03. Window\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\TargetArmWindow.cpp">
+      <Filter>03. Window\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\TransformWindow.cpp">
+      <Filter>03. Window\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UIButtonWindow.cpp">
+      <Filter>03. Window\04. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UIImageWindow.cpp">
+      <Filter>03. Window\04. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UINumberWindow.cpp">
+      <Filter>03. Window\04. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UIProgressBarWindow.cpp">
+      <Filter>03. Window\04. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\UITextWindow.cpp">
+      <Filter>03. Window\04. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Weapon.cpp">
+      <Filter>04. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\TerrainWindow.cpp">
+      <Filter>03. Window\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PlayerUI.cpp">
+      <Filter>05. UI</Filter>
     </ClCompile>
     <ClCompile Include="Window\TerrainWindow.cpp">
       <Filter>03. Window</Filter>
@@ -197,13 +215,7 @@
     <ClInclude Include="Window\ComponentWindow.h">
       <Filter>03. Window</Filter>
     </ClInclude>
-    <ClInclude Include="Window\TransformWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
     <ClInclude Include="Window\SceneWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\DetailWindow.h">
       <Filter>03. Window</Filter>
     </ClInclude>
     <ClInclude Include="UI\StartSceneUI.h">
@@ -214,9 +226,6 @@
     </ClInclude>
     <ClInclude Include="Setting\EngineShareSetting.h">
       <Filter>06. Setting</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\ResourceWindow.h">
-      <Filter>03. Window</Filter>
     </ClInclude>
     <ClInclude Include="Window\DetailWindow\CameraWidgetList.h">
       <Filter>03. Window\01. DetailWindow</Filter>
@@ -248,40 +257,10 @@
     <ClInclude Include="GameObject\Player.h">
       <Filter>04. GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Window\Animation3DWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\CameraWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Weapon.h">
       <Filter>04. GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Window\UITextWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\UIProgressBarWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\UINumberWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\UIImageWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\UIButtonWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\TargetArmWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\RigidBodyWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
     <ClInclude Include="Window\PathWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\ParticleWindow.h">
       <Filter>03. Window</Filter>
     </ClInclude>
     <ClInclude Include="Window\MeshWindow.h">
@@ -290,17 +269,62 @@
     <ClInclude Include="Window\MaterialWindow.h">
       <Filter>03. Window</Filter>
     </ClInclude>
-    <ClInclude Include="Window\LightWindow.h">
-      <Filter>03. Window</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Duplicatotron.h">
       <Filter>04. GameObject</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Fodder.h">
       <Filter>04. GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Window\Animation3DWindow.h">
+      <Filter>03. Window\03. 3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\CameraWindow.h">
+      <Filter>03. Window\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\DetailWindow.h">
+      <Filter>03. Window\01. DetailWindow</Filter>
+    </ClInclude>
     <ClInclude Include="Window\FBXWindow.h">
-      <Filter>03. Window</Filter>
+      <Filter>03. Window\03. 3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\LightWindow.h">
+      <Filter>03. Window\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\ParticleWindow.h">
+      <Filter>03. Window\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\ResourceWindow.h">
+      <Filter>03. Window\02. 2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\RigidBodyWindow.h">
+      <Filter>03. Window\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\TargetArmWindow.h">
+      <Filter>03. Window\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\TransformWindow.h">
+      <Filter>03. Window\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UIButtonWindow.h">
+      <Filter>03. Window\04. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UIImageWindow.h">
+      <Filter>03. Window\04. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UINumberWindow.h">
+      <Filter>03. Window\04. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UIProgressBarWindow.h">
+      <Filter>03. Window\04. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\UITextWindow.h">
+      <Filter>03. Window\04. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\TerrainWindow.h">
+      <Filter>03. Window\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PlayerUI.h">
+      <Filter>05. UI</Filter>
     </ClInclude>
     <ClInclude Include="Window\TerrainWindow.h">
       <Filter>03. Window</Filter>
@@ -310,6 +334,11 @@
     <Image Include="..\Bin\SponegeBob.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AR41Editor.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AR41Editor.rc">

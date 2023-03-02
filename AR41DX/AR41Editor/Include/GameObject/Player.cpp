@@ -1,5 +1,8 @@
 #include "Player.h"
 #include "Weapon.h"
+#include "Input.h"
+#include "Engine.h"
+#include "Device.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/AnimationMeshComponent.h"
 #include "Component/CameraComponent.h"
@@ -13,9 +16,9 @@
 #include "Scene/Scene.h"
 #include "Scene/CameraManager.h"
 #include "Scene/NavigationManager3D.h"
-#include "Device.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
+#include "../UI/PlayerUI.h"
 
 CPlayer::CPlayer()
 	: m_Speed(2000.f)
@@ -33,10 +36,11 @@ CPlayer::CPlayer()
 	m_ObjectTypeName = "Player";
 }
 
-CPlayer::CPlayer(const CPlayer& Obj) : CGameObject(Obj)
-, m_Speed(Obj.m_Speed)
-, m_KeyCount(Obj.m_KeyCount)
-, m_MainCharacter(EMain_Character::Max)
+CPlayer::CPlayer(const CPlayer& Obj) 
+	: CGameObject(Obj)
+	, m_Speed(Obj.m_Speed)
+	, m_KeyCount(Obj.m_KeyCount)
+	, m_MainCharacter(EMain_Character::Max)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
@@ -47,6 +51,7 @@ CPlayer::CPlayer(const CPlayer& Obj) : CGameObject(Obj)
 
 CPlayer::~CPlayer()
 {
+	//m_PlayerUI->Destroy();
 }
 
 void CPlayer::Start()
@@ -104,6 +109,8 @@ void CPlayer::Start()
 	AddChildToSocket("Weapon", weapon);
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
+
+	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 }
 
 bool CPlayer::Init()
@@ -202,6 +209,8 @@ void CPlayer::Load(FILE* File)
 	AddChildToSocket("Weapon", weapon);
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
+
+	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 }
 
 void CPlayer::LoadSpongebobAnim()
@@ -380,7 +389,7 @@ void CPlayer::Stop()
 
 void CPlayer::Jump()
 {
-	if (m_Rigid->GetGround() == false)
+	if (!m_Rigid->GetGround())
 	{
 		return;
 	}
@@ -399,6 +408,7 @@ void CPlayer::Jump()
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJump");
 	m_Rigid->SetGround(false);
 	m_Rigid->AddForce(0, 3500.f);
+	m_Rigid->SetVelocityY(3500.f);
 }
 
 void CPlayer::AttackKey()
@@ -479,6 +489,7 @@ void CPlayer::Menu()
 
 void CPlayer::IngameUI()
 {
+	m_PlayerUI->SetAllOpacity(3.f);
 }
 
 void CPlayer::RClick()
