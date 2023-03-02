@@ -33,10 +33,11 @@ CPauseUI::CPauseUI(const CPauseUI& Window) :
 	m_CameraSelected(EUICameraList::End),
 	m_SaveSelected(EUISaveList::First)
 {
+
 }
 
 CPauseUI::~CPauseUI()
-{
+{	
 }
 
 void CPauseUI::Start()
@@ -64,12 +65,7 @@ void CPauseUI::Start()
 		CInput::GetInst()->AddBindFunction<CPauseUI>("LClick", Input_Type::Up, this, &CPauseUI::KeyLeftButton, m_Scene);
 		CInput::GetInst()->AddBindFunction<CPauseUI>("RClick", Input_Type::Up, this, &CPauseUI::KeyRightButton, m_Scene);
 	}
-}
-
-bool CPauseUI::Init()
-{
-	CUIWindow::Init();
-
+	//로드시 다시 생성
 	CreateBackgroundUI();
 	CreateMapUI();
 	CreatePauseUI();
@@ -78,10 +74,6 @@ bool CPauseUI::Init()
 	CreateControlUI();
 	CreateSaveSelectUI();
 
-	//CloseUI();
-
-	
-	// Test
 	m_NowUIMode = EUIPauseMode::PauseMain;
 
 	InActiveMapUI();
@@ -92,7 +84,11 @@ bool CPauseUI::Init()
 
 	ActiveBackUI();
 	ActivePauseUI();
+}
 
+bool CPauseUI::Init()
+{
+	CUIWindow::Init();
 
 	return true;
 }
@@ -119,6 +115,7 @@ CPauseUI* CPauseUI::Clone()
 
 void CPauseUI::Save(FILE* File)
 {
+	m_vecWidget.clear();
 	CUIWindow::Save(File);
 }
 

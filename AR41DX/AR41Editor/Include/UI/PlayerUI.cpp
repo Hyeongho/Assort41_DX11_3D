@@ -136,6 +136,19 @@ void CPlayerUI::Save(FILE* File)
 void CPlayerUI::Load(FILE* File)
 {
 	CUIWindow::Load(File);
+	size_t size = std::size(m_MaxHP);
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_MaxHP[i] = FindWidget<CUIImage>("MaxHP" + std::to_string(i));
+		m_CurHP[i] = FindWidget<CUIImage>("CurHP" + std::to_string(i));
+	}
+	m_Socks = FindWidget<CUIImage>("Socks");
+	m_Fritter = FindWidget<CUIImage>("Fritter");
+	m_Glittering = FindWidget<CUIImage>("Glittering");
+
+	m_SocksText = FindWidget<CUIText>("SocksText");
+	m_FritterText = FindWidget<CUIText>("FritterText");
+	m_GlitterText = FindWidget<CUIText>("GlitterText");
 }
 
 void CPlayerUI::SetPlayerUIOpacity(float opacity)

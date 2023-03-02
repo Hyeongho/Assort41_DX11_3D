@@ -43,7 +43,7 @@ CPlayer::CPlayer()
 CPlayer::CPlayer(const CPlayer& Obj) 
 	: CGameObject(Obj)
 	, m_Speed(Obj.m_Speed)
-	, m_KeyCount(Obj.m_KeyCount)
+	, m_CameraSpeed(Obj.m_CameraSpeed)
 	, m_MainCharacter(EMain_Character::Max)
 	, m_IsDoubleJump(false)
 {
