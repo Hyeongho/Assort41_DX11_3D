@@ -38,6 +38,9 @@
 #include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Editor\Include\UI\LoadingUI.cpp"
 
 
+#include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Editor\Include\UI\PlayerUI.cpp"
+
+
 #include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\AR41Editor\Include\UI\StartSceneUI.cpp"
 
 
