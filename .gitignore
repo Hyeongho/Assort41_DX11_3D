@@ -46,3 +46,6 @@
 .AR41DX/AR41Engine/BinObj/
 .AR41DX/Client3D/BinObj/
 *.recipe
+/AR41DX/AR41Editor/BinObjDebug
+/AR41DX/AR41Engine/BinObjDebug
+/AR41DX/Client3D/BinObj_Debug
