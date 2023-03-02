@@ -29,10 +29,11 @@ public:
         m_BoxHalfSize = Size;
     }
 
-    void SetBoxHalfSize(float Width, float Height)
+    void SetBoxHalfSize(float Width, float Height, float Depth)
     {
         m_BoxHalfSize.x = Width;
         m_BoxHalfSize.y = Height;
+        m_BoxHalfSize.z = Depth;
     }
 
 public:
@@ -41,6 +42,7 @@ public:
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
     virtual void Render();
+    virtual void RenderDebug();
     virtual CColliderOBB3D* Clone()    const;
     virtual void Save(FILE* File);
     virtual void Load(FILE* File);

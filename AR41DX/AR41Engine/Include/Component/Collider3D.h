@@ -28,6 +28,7 @@ public:
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
     virtual void Render();
+    virtual void RenderDebug();
     virtual CCollider3D* Clone()    const = 0;
     virtual void Save(FILE* File);
     virtual void Load(FILE* File);

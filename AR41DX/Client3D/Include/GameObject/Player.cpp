@@ -7,6 +7,7 @@
 #include "Component/NavigationAgent3D.h"
 #include "Component/RigidBody.h"
 #include "Component/ColliderCube.h"
+#include "Component/ColliderOBB3D.h"
 #include "Input.h"
 #include "Engine.h"
 #include "Scene/Scene.h"
@@ -87,12 +88,15 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
 
+	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionTest);
+
 	if (m_IsLoading)
 	{
 		CGameObject* delObj = m_Scene->FindObject("Temp");
 		delObj->Destroy();
 		return;
 	}
+
 	LoadSpongebobAnim();
 	LoadPatrickAnim();
 	LoadSandyAnim();
@@ -114,7 +118,7 @@ bool CPlayer::Init()
 	m_Arm = CreateComponent<CTargetArm>("Arm");
 	m_NavAgent = CreateComponent<CNavigationAgent3D>("NavAgent");
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
-	m_Cube = CreateComponent<CColliderCube>("Cube");
+	m_Cube = CreateComponent<CColliderOBB3D>("Cube");
 
 	SetRootComponent(m_Mesh);
 
@@ -123,16 +127,18 @@ bool CPlayer::Init()
 	m_Mesh->AddChild(m_Cube);
 	m_Arm->AddChild(m_Camera);
 
-	m_Cube->SetCubeSize(500.f, 500.f, 500.f);
+	m_Cube->SetBoxHalfSize(500.f, 500.f, 500.f);
 
-	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionTest);
+	m_Cube->SetInheritRotX(true);
+	m_Cube->SetInheritRotY(true);
+	m_Cube->SetInheritRotZ(true);
 
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
 
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
-	m_Rigid->SetGround(true); //땅에 붙어있다고 설정
+	m_Rigid->SetGround(true);	//땅에 붙어있다고 설정
 	return true;
 }
 
@@ -463,22 +469,6 @@ void CPlayer::Patrick_PickUp()
 }
 
 void CPlayer::Patrick_Throw()
-{
-}
-
-void CPlayer::Sandy_Karate_Chop()
-{
-	if (true)
-	{
-
-	}
-}
-
-void CPlayer::Sandy_Karate_Kick()
-{
-}
-
-void CPlayer::Sandy_Lasso_Start()
 {
 }
 

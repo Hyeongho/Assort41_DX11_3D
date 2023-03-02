@@ -5,6 +5,8 @@
 #include "Device.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
+#include "JellyFishField.h"
+
 
 CJellyfishField::CJellyfishField()
 {

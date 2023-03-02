@@ -7,6 +7,7 @@
 #include "Component/NavigationAgent3D.h"
 #include "Component/RigidBody.h"
 #include "Component/ColliderCube.h"
+#include "Component/ColliderOBB3D.h"
 #include "Input.h"
 #include "Engine.h"
 #include "Scene/Scene.h"
@@ -114,7 +115,7 @@ bool CPlayer::Init()
 	m_Arm = CreateComponent<CTargetArm>("Arm");
 	m_NavAgent = CreateComponent<CNavigationAgent3D>("NavAgent");
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
-	m_Cube = CreateComponent<CColliderCube>("Cube");
+	m_Cube = CreateComponent<CColliderOBB3D>("Cube");
 
 	SetRootComponent(m_Mesh);
 
@@ -123,7 +124,11 @@ bool CPlayer::Init()
 	m_Mesh->AddChild(m_Cube);
 	m_Arm->AddChild(m_Camera);
 
-	m_Cube->SetCubeSize(500.f, 500.f, 500.f);
+	m_Cube->SetBoxHalfSize(500.f, 500.f, 500.f);
+
+	m_Cube->SetInheritRotX(true);
+	m_Cube->SetInheritRotY(true);
+	m_Cube->SetInheritRotZ(true);
 
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);

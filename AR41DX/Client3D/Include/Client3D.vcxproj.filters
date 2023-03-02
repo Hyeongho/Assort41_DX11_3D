@@ -126,6 +126,9 @@
     <ClCompile Include="GameObject\Duplicatotron.cpp">
       <Filter>03. GameObject\02. Monster</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\JellyFishSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -211,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Duplicatotron.h">
       <Filter>03. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyFishSceneInfo.h">
+      <Filter>02. Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
