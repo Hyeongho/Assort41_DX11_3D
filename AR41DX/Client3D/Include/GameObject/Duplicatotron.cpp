@@ -123,5 +123,5 @@ void CDuplicatotron::SpawnHammers()
 {
 	m_SpawnOn = true;
 
-	m_Hammer = m_Scene->CreateObject<CHammer>("Hammer");
+	//m_Hammer = m_Scene->CreateObject<CHammer>("Hammer");
 }

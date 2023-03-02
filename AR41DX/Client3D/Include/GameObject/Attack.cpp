@@ -1,11 +1,10 @@
 #include "Attack.h"
 #include "../GameObject/Fodder.h"
 #include "../GameObject/Hammer.h"
-#include "Scene/Scene.h"
+#include "Scene/SceneManager.h"
 
 CAttack::CAttack() :
-	m_Scene(nullptr)
-	, m_Fodder(nullptr)
+	  m_Fodder(nullptr)
 	, m_Hammer(nullptr)
 {
 }
@@ -24,15 +23,15 @@ bool CAttack::Run(CGameObject* Object)
 {
 	if (Object->GetObjectTypeName() == "Fodder")
 	{
-		m_Fodder = dynamic_cast<CFodder*>(m_Scene->FindObject("Fodder"));
+		m_Fodder = dynamic_cast<CFodder*>(CSceneManager::GetInst()->GetScene()->FindObject("Fodder"));
 
 		if (!m_Fodder)
 		{
 			return false;
 		}
 
-		Vector3 FodderPos = m_Scene->FindObject("Fodder")->GetWorldPos();
-		Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
+		Vector3 FodderPos = CSceneManager::GetInst()->GetScene()->FindObject("Fodder")->GetWorldPos();
+		Vector3 PlayerPos = CSceneManager::GetInst()->GetScene()->FindObject("Player")->GetWorldPos();
 
 		Vector3 Dir = FodderPos - PlayerPos;
 
@@ -48,15 +47,15 @@ bool CAttack::Run(CGameObject* Object)
 
 	if (Object->GetObjectTypeName() == "Hammer")
 	{
-		m_Hammer = dynamic_cast<CHammer*>(m_Scene->FindObject("Hammer"));
+		m_Hammer = dynamic_cast<CHammer*>(CSceneManager::GetInst()->GetScene()->FindObject("Hammer"));
 
 		if (!m_Hammer)
 		{
 			return false;
 		}
 
-		Vector3 HammerPos = m_Scene->FindObject("Hammer")->GetWorldPos();
-		Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
+		Vector3 HammerPos = CSceneManager::GetInst()->GetScene()->FindObject("Hammer")->GetWorldPos();
+		Vector3 PlayerPos = CSceneManager::GetInst()->GetScene()->FindObject("Player")->GetWorldPos();
 
 		Vector3 Dir = HammerPos - PlayerPos;
 

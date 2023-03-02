@@ -11,12 +11,18 @@ public:
 	virtual ~CHammerBT();
 
 private:
-	CSharedPtr<CSequence> m_Root;
-	CSharedPtr<CSequence> m_Sequence;
-	CSharedPtr<CWalk>	m_Walk;
-	CSharedPtr<CChase>  m_Chase;
-	CSharedPtr<CAttack>	m_Attack;
-	CSharedPtr<CDead>	m_Dead;
+	CSharedPtr<class CSequence> m_Root;
+	CSharedPtr<class CSequence> m_Sequence;
+
+	CSharedPtr<class CWalk>	m_Walk;
+	CSharedPtr<class CChase>  m_Chase;
+	CSharedPtr<class CAttack>	m_Attack;
+	CSharedPtr<class CDead>	m_Dead;
+
+	//class CWalk* m_Walk;
+	//class CChase* m_Chase;
+	//class CAttack* m_Attack;
+	//class CDead* m_Dead;
 
 public:
 	void Start();

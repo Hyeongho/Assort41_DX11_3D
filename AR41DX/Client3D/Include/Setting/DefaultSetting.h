@@ -25,13 +25,21 @@ private:
     void LoadPlayerSound();
     void LoadSound();
 
+    // Objects
     void LoadBuildings();
+    void LoadJellyfishFields();
+
+    // Boss
     void LoadRoboSponge();
     void LoadKingJellyfish();
+
+    // Enemies
+    void LoadEnemies();
     void LoadJellyfish();
+    
+    // NPC
     void LoadMrKrabs();
     void LoadSquidward();
 
-    void LoadEnemies();
 };
 

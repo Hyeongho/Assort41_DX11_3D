@@ -3,7 +3,11 @@
 #include "../GameObject/Hammer.h"
 #include "Scene/Scene.h"
 
-CDead::CDead()
+CDead::CDead()  :
+      m_Scene(nullptr)
+    , m_Fodder(nullptr)
+    , m_Hammer(nullptr)
+
 {
 }
 

@@ -2,8 +2,13 @@
 #include "Fodder.h"
 #include "Hammer.h"
 #include "Scene/Scene.h"
+#include "Scene/SceneManager.h"
 
-CChase::CChase()
+CChase::CChase()	:
+	  m_Scene(nullptr)
+	, m_Fodder(nullptr)
+	, m_Hammer(nullptr)
+
 {
 }
 
@@ -20,7 +25,7 @@ bool CChase::Run(CGameObject* Object)
 {
 	if (Object->GetObjectTypeName() == "Fodder")
 	{
-		m_Fodder = dynamic_cast<CFodder*>(m_Scene->FindObject("Fodder"));
+		m_Fodder = dynamic_cast<CFodder*>(CSceneManager::GetInst()->GetScene()->FindObject("Fodder"));
 
 		if (!m_Fodder)
 		{
@@ -29,8 +34,8 @@ bool CChase::Run(CGameObject* Object)
 
 		//m_Fodder->Attack();
 
-		Vector3 FodderPos = m_Scene->FindObject("Fodder")->GetWorldPos();
-		Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
+		Vector3 FodderPos = CSceneManager::GetInst()->GetScene()->FindObject("Fodder")->GetWorldPos();
+		Vector3 PlayerPos = CSceneManager::GetInst()->GetScene()->FindObject("Player")->GetWorldPos();
 
 		Vector3 Dir = FodderPos - PlayerPos;
 
@@ -44,15 +49,15 @@ bool CChase::Run(CGameObject* Object)
 
 	if (Object->GetObjectTypeName() == "Hammer")
 	{
-		m_Hammer = dynamic_cast<CHammer*>(m_Scene->FindObject("Hammer"));
+		m_Hammer = dynamic_cast<CHammer*>(CSceneManager::GetInst()->GetScene()->FindObject("Hammer"));
 
 		if (!m_Hammer)
 		{
 			return false;
 		}
 
-		Vector3 HammerPos = m_Scene->FindObject("Hammer")->GetWorldPos();
-		Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
+		Vector3 HammerPos = CSceneManager::GetInst()->GetScene()->FindObject("Hammer")->GetWorldPos();
+		Vector3 PlayerPos = CSceneManager::GetInst()->GetScene()->FindObject("Player")->GetWorldPos();
 
 		Vector3 Dir = HammerPos - PlayerPos;
 
@@ -61,7 +66,7 @@ bool CChase::Run(CGameObject* Object)
 		Dir.Normalize();
 
 		// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 2배 빠르게.
-		m_Fodder->AddWorldPosition(Dir * 2 * 100.f * g_DeltaTime);
+		m_Hammer->AddWorldPosition(Dir * 2 * 100.f * g_DeltaTime);
 	}
 
 	return true;

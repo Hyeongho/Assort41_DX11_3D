@@ -1,7 +1,7 @@
 #include "HammerBT.h"
 #include "../GameObject/AI/Sequence.h"
 #include "../GameObject/AI/Selector.h"
-#include "../GameObject/Hammer.h"
+#include "Hammer.h"
 #include "../GameObject/Walk.h"
 #include "../GameObject/Chase.h"
 #include "../GameObject/Attack.h"

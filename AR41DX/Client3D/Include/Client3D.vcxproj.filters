@@ -55,6 +55,15 @@
     <Filter Include="03. GameObject\02. Monster\03. Fod/Ham/Dup\03. Duplicatotron">
       <UniqueIdentifier>{2e833e77-e315-41c3-b9cd-5c21e64dfcbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\04. Objects">
+      <UniqueIdentifier>{7282654d-1b22-4a0c-a21f-ad33753552f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\04. Objects\01. BikiniBottomObject">
+      <UniqueIdentifier>{111e072c-de21-4eb8-b197-4c8bfa061b74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\04. Objects\02. JellyfishFieldObject">
+      <UniqueIdentifier>{4fbccc7d-6761-46a4-9048-3e241232a938}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -73,9 +82,6 @@
       <Filter>04. Setting</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Weapon.cpp">
-      <Filter>03. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\BikiniBottomBuildings.cpp">
       <Filter>03. GameObject</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Bullet.cpp">
@@ -156,6 +162,15 @@
     <ClCompile Include="GameObject\Dead.cpp">
       <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BikiniBottomBuildings.cpp">
+      <Filter>03. GameObject\04. Objects\01. BikiniBottomObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\JellyfishFieldObj.cpp">
+      <Filter>03. GameObject\04. Objects\02. JellyfishFieldObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -177,9 +192,6 @@
       <Filter>04. Setting</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Weapon.h">
-      <Filter>03. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\BikiniBottomBuildings.h">
       <Filter>03. GameObject</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Bullet.h">
@@ -259,6 +271,15 @@
     </ClInclude>
     <ClInclude Include="GameObject\Dead.h">
       <Filter>03. GameObject\02. Monster\03. Fod/Ham/Dup</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyfishFieldSceneInfo.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BikiniBottomBuildings.h">
+      <Filter>03. GameObject\04. Objects\01. BikiniBottomObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\JellyfishFieldObj.h">
+      <Filter>03. GameObject\04. Objects\02. JellyfishFieldObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

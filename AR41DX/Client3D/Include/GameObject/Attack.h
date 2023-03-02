@@ -14,7 +14,6 @@ public:
     ~CAttack();
 
 private:
-    class CScene* m_Scene;
     class CFodder* m_Fodder;
     class CHammer* m_Hammer;
 

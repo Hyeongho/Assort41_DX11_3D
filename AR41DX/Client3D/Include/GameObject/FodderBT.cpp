@@ -3,11 +3,11 @@
 #include "Scene/Scene.h"
 #include "../GameObject/AI/Sequence.h"
 #include "../GameObject/AI/Selector.h"
-#include "../GameObject/Fodder.h"
-#include "../GameObject/Walk.h"
-#include "../GameObject/Chase.h"
-#include "../GameObject/Attack.h"
-#include "../GameObject/Dead.h"
+#include "Fodder.h"
+#include "Walk.h"
+#include "Chase.h"
+#include "Attack.h"
+#include "Dead.h"
 
 CFodderBT::CFodderBT()
 {

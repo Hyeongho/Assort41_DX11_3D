@@ -1,7 +1,7 @@
 
 #include "Share.fx"
 
-struct FXAAConstantCBuffer : register(b19)
+struct FXAAConstantCBuffer : register(t10)
 {
 	float FXAAQualitySubpix;
 	float FXAARcpFrameOpt;

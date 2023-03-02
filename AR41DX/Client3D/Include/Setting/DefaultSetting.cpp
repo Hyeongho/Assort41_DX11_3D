@@ -1,7 +1,5 @@
 #include "DefaultSetting.h"
 #include "../GameObject/Player.h"
-//#include "../GameObject/Patrick.h"
-//#include "../GameObject/Sandy.h"
 //#include "../GameObject/BikiniBottomBuildings.h"
 //#include "../GameObject/KingJellyfish.h"
 //#include "../GameObject/Jellyfish.h"
@@ -12,6 +10,7 @@
 #include "Scene/Scene.h"
 #include "Input.h"
 #include "CollisionManager.h"
+//#include "../GameObject/JellyfishFieldObj.h"
 
 CDefaultSetting::CDefaultSetting()
 {
@@ -62,6 +61,7 @@ void CDefaultSetting::LoadResource()
     LoadJellyfish();
 
     LoadEnemies();
+    LoadJellyfishFields();
 }
 
 void CDefaultSetting::SetInput()
@@ -192,12 +192,12 @@ void CDefaultSetting::LoadSpongebob()
 
 void CDefaultSetting::LoadPatrick()
 {
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Patrick", TEXT("Patrick/Patrick11.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Patrick", TEXT("Patrick/Patrick11.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "PatrickSkeleton", TEXT("Patrick/Patrick11.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("Patrick", "PatrickSkeleton");
 
-    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Idle", TEXT("Patrick/Patrick_Idle.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Walk", TEXT("Patrick/Patrick_Walk.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Idle", TEXT("Patrick/Patrick_Idle.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Walk", TEXT("Patrick/Patrick_Walk.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Run", TEXT("Patrick/Patrick_Run.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_DoubleJump", TEXT("Patrick/Patrick_DoubleJump.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Jump", TEXT("Patrick/Patrick_JumpUp.sqc"), MESH_PATH);
@@ -206,7 +206,7 @@ void CDefaultSetting::LoadPatrick()
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_PickUpIdle", TEXT("Patrick/Patrick_PickUpIdle.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_PickUpWalk", TEXT("Patrick/Patrick_PickUpWalk.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Throw", TEXT("Patrick/Patrick_Throw.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Slam", TEXT("Patrick/Patrick_Slam.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Slam", TEXT("Patrick/Patrick_Slam.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_BellyAttack", TEXT("Patrick/Patrick_BellyAttack.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Death", TEXT("Patrick/Patrick_Death.sqc"), MESH_PATH);
 }
@@ -287,12 +287,36 @@ void CDefaultSetting::LoadSound()
 void CDefaultSetting::LoadBuildings()
 {
     // 비키니 시티 맵 메쉬
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomBuildings", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomBuildings", TEXT("Buildings/BikiniBottom/BikiniBottomBuildings.msh"), MESH_PATH);
 
     // 해파리 동산 맵 메쉬
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField", TEXT("Buildings/JellyfishField/JellyfishScene.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField", TEXT("Buildings/JellyfishField/JellyfishScene.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "JellyfishFieldSkeleton", TEXT("Buildings/JellyfishField/JellyfishScene.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("JellyfishField", "JellyfishFieldSkeleton");
+}
+
+void CDefaultSetting::LoadJellyfishFields()
+{
+    /*
+    더블나무 : 빨강, 노랑, 보라
+    작은 나무 : 빨강, 보라
+    핑크 산호초(Seaflower) 
+    젤리나무(BouncingTree),
+    조개(Clam)
+    미사일,
+    다리
+    */
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/DoubleTree_Red.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/DoubleTree_Yellow.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/DoubleTree_Purple.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/SmallTree_Red.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/SmallTree_Purple.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/Seaflower.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/BouncingTree.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/Clam.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/Missile.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/Bridge.fbx"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadRoboSponge()
@@ -354,6 +378,48 @@ void CDefaultSetting::LoadKingJellyfish()
 
 }
 
+void CDefaultSetting::LoadEnemies()
+{
+    // Fodder
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Fodder", TEXT("Enemies/Fodder/SK_Enemy_Fodder.msh"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "FodderSkeleton", TEXT("Enemies/Fodder/FodderMesh1.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("Fodder", "FodderSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Fodder_Walk", TEXT("Enemies/Fodder/Fodder_Walk.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Fodder_Attack", TEXT("Enemies/Fodder/Fodder_Attack.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Fodder_Dead", TEXT("Enemies/Fodder/Fodder_Dead.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Fodder_Notice", TEXT("Enemies/Fodder/Fodder_Notice.sqc"), MESH_PATH);
+
+
+    // Hammer
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Hammer", TEXT("Enemies/Hammer/HammerMesh.msh"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "HammerSkeleton", TEXT("Enemies/Hammer/HammerMesh.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("Hammer", "HammerSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_Attack", TEXT("Enemies/Hammer/Hammer_Attack.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_Notice", TEXT("Enemies/Hammer/Hammer_Notice.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_Walk", TEXT("Enemies/Hammer/Hammer_Walk.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_Dead", TEXT("Enemies/Hammer/Hammer_Dead.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_Stunned", TEXT("Enemies/Hammer/Hammer_Stunned.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_Lassoed", TEXT("Enemies/Hammer/Hammer_Lassoed.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_LassoedStart", TEXT("Enemies/Hammer/Hammer_LassoedStart.sqc"), MESH_PATH);
+
+
+    // Duplicatotron    
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Duplicatotron", TEXT("Enemies/Duplicatotron/DuplicatotronMesh.fbx"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "DuplicatotronMeshSkeleton", TEXT("Enemies/DuplicatotronMesh/DuplicatotronMesh.bne"), MESH_PATH);
+
+    CResourceManager::GetInst()->SetMeshSkeleton("Duplicatotron", "DuplicatotronSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Duplicatotron_Idle", TEXT("Enemies/Duplicatotron/Duplicatotron_Idle.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Duplicatotron_Destroyed", TEXT("Enemies/Duplicatotron/Duplicatotron_Destroyed.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Duplicatotron_SpawnEnemies", TEXT("Enemies/Duplicatotron/Duplicatotron_SpawnEnemies.sqc"), MESH_PATH);
+
+}
+
 void CDefaultSetting::LoadJellyfish()
 {
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Jellyfish", TEXT("Jellyfish/Jellyfish.fbx"), MESH_PATH);
@@ -368,44 +434,3 @@ void CDefaultSetting::LoadJellyfish()
     CResourceManager::GetInst()->LoadSound("Effect", "Jellyfish_Attack", false, "Jellyfish/SFX_Enemy_Jellyfish_Attack_Original.ogg", SOUND_PATH);
 }
 
-void CDefaultSetting::LoadEnemies()
-{
-    // Fodder
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Fodder", TEXT("Enemies/Fodder/SK_Enemy_Fodder.fbx"), MESH_PATH);
-
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "FodderSkeleton", TEXT("Enemies/Fodder/FodderMesh1.bne"), MESH_PATH);
-    CResourceManager::GetInst()->SetMeshSkeleton("Fodder", "FodderSkeleton");
-
-    CResourceManager::GetInst()->LoadAnimationSequence("Fodder_Walk", TEXT("Enemies/Fodder/Fodder_Walk.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Fodder_Attack", TEXT("Enemies/Fodder/Fodder_Attack.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Fodder_Dead", TEXT("Enemies/Fodder/Fodder_Dead.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Fodder_Notice", TEXT("Enemies/Fodder/Fodder_Notice.fbx"), MESH_PATH);
-
-
-    // Hammer
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Hammer", TEXT("Enemies/Hammer/HammerMesh.fbx"), MESH_PATH);
-
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "HammerSkeleton", TEXT("Enemies/Hammer/HammerMesh.bne"), MESH_PATH);
-    CResourceManager::GetInst()->SetMeshSkeleton("Hammer", "HammerSkeleton");
-
-    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_Attack", TEXT("Enemies/Hammer/Hammer_Attack.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_Notice", TEXT("Enemies/Hammer/Hammer_Notice.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_Walk", TEXT("Enemies/Hammer/Hammer_Walk.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_Dead", TEXT("Enemies/Hammer/Hammer_Dead.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_Stunned", TEXT("Enemies/Hammer/Hammer_Stunned.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_Lassoed", TEXT("Enemies/Hammer/Hammer_Lassoed.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Hammer_LassoedStart", TEXT("Enemies/Hammer/Hammer_LassoedStart.fbx"), MESH_PATH);
-
-
-    // Duplicatotron    
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Duplicatotron", TEXT("Enemies/Duplicatotron/DuplicatotronMesh.fbx"), MESH_PATH);
-
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "DuplicatotronMeshSkeleton", TEXT("Enemies/DuplicatotronMesh/DuplicatotronMesh.bne"), MESH_PATH);
-
-    CResourceManager::GetInst()->SetMeshSkeleton("Duplicatotron", "DuplicatotronSkeleton");
-
-    CResourceManager::GetInst()->LoadAnimationSequence("Duplicatotron_Idle", TEXT("Enemies/Duplicatotron/Duplicatotron_Idle.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Duplicatotron_Destroyed", TEXT("Enemies/Duplicatotron/Duplicatotron_Destroyed.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Duplicatotron_SpawnEnemies", TEXT("Enemies/Duplicatotron/Duplicatotron_SpawnEnemies.fbx"), MESH_PATH);
-
-}

@@ -2,6 +2,9 @@
 
 #include "GameObject\GameObject.h"
 
+#include "FodderBT.h"
+#include "HammerBT.h"
+
 
 enum class EMonsterState
 {
@@ -25,8 +28,8 @@ protected:
 
 protected:
 	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
-	CSharedPtr<class CAnimation>		m_Animation;
-	CSharedPtr<class CRigidBody>		m_Rigid;
+	CSharedPtr<class CAnimation>				m_Animation;
+	CSharedPtr<class CRigidBody>				m_Rigid;
 
 protected:
 	bool	m_DetectRange;

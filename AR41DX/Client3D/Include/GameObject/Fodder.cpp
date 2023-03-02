@@ -8,7 +8,6 @@
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "Engine.h"
-#include "FodderBT.h"
 
 CFodder::CFodder()
 {
@@ -34,6 +33,7 @@ void CFodder::Start()
 	//CInput::GetInst()->AddBindFunction<CFodder>("W", Input_Type::Down, this, &CFodder::Attack, m_Scene);
 	//CInput::GetInst()->AddBindFunction<CFodder>("E", Input_Type::Down, this, &CFodder::Dead, m_Scene);
 
+	m_FodderBT->Start();
 
 	// 탐지범위에 플레이어가 들어올 시 Notice 애니메이션 후 Walk 로 변경.
 	m_Animation->SetCurrentEndFunction("Fodder_Notice", this, &CFodder::Walk);
@@ -62,6 +62,10 @@ bool CFodder::Init()
 
 
 	m_MonsterState = EMonsterState::MonsterWalk;
+
+
+
+	m_FodderBT = new CFodderBT;
 
 	return true;
 }
