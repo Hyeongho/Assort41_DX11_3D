@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Weapon.h"
+#include "Bullet.h"
 #include "Input.h"
 #include "Engine.h"
 #include "Device.h"
@@ -13,15 +14,17 @@
 #include "Component/ColliderOBB3D.h"
 #include "Input.h"
 #include "Engine.h"
+#include "PathManager.h"
 #include "Scene/Scene.h"
 #include "Scene/CameraManager.h"
 #include "Scene/NavigationManager3D.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "../UI/PlayerUI.h"
+#include "../UI/PauseUI.h"
 
 CPlayer::CPlayer()
-	: m_Speed(2000.f)
+	: m_Speed(500.f)
 	, m_CameraSpeed(150.f)
 	, m_KeyCount(0)
 	, m_MainCharacter(EMain_Character::Max)
@@ -30,10 +33,12 @@ CPlayer::CPlayer()
 	, m_BellyAttackTime(0.f)
 	, m_SlamDown(false)
 	, m_IsLoading(false)
+	, m_IsDoubleJump(false)
 {
 	SetTypeID<CPlayer>();
 
 	m_ObjectTypeName = "Player";
+	LoadCharacter();
 }
 
 CPlayer::CPlayer(const CPlayer& Obj) 
@@ -41,17 +46,37 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	, m_Speed(Obj.m_Speed)
 	, m_KeyCount(Obj.m_KeyCount)
 	, m_MainCharacter(EMain_Character::Max)
+	, m_IsDoubleJump(false)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
 	m_Arm = (CTargetArm*)FindComponent("Arm");
 	m_NavAgent = (CNavigationAgent3D*)FindComponent("NavAgent");
 	m_Rigid = (CRigidBody*)FindComponent("Rigid");
+	m_HeadCube = (CColliderCube*)FindComponent("HeadCube");
+	LoadCharacter();
 }
 
 CPlayer::~CPlayer()
 {
-	//m_PlayerUI->Destroy();
+	if (m_LoadData != m_PlayerData)
+	{
+		SaveCharacter();
+	}
+}
+
+void CPlayer::Destroy()
+{
+	CGameObject::Destroy();
+	if (m_PlayerUI)
+	{
+		m_PlayerUI->Destroy();
+	}
+	if (m_PauseUI)
+	{
+		m_PauseUI->Destroy();
+	}
+	CInput::GetInst()->ClearCallback();
 }
 
 void CPlayer::Start()
@@ -87,11 +112,22 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("Tab", Input_Type::Down, this, &CPlayer::IngameUI, m_Scene);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("LClick", Input_Type::Down, this, &CPlayer::LClick, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("RClick", Input_Type::Push, this, &CPlayer::RClick, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("RClick", Input_Type::Down, this, &CPlayer::RClick, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("RClick", Input_Type::Push, this, &CPlayer::Bowl, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("RClick", Input_Type::Up, this, &CPlayer::BowlThrow, m_Scene);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Push, this, &CPlayer::ChangeSpongebob, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
+
+	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	m_PlayerUI->SetHp(m_PlayerData.CurHP);
+	m_PlayerUI->SetMaxHp(m_PlayerData.MaxHP);
+	m_PlayerUI->SetGlitter(m_PlayerData.Glittering);
+	m_PlayerUI->SetFritter(m_PlayerData.Fritter);
+	m_PlayerUI->SetSocks(m_PlayerData.Socks);
+	m_PauseUI = m_Scene->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
+	m_PauseUI->SetEnable(false);
 
 	if (m_IsLoading)
 	{
@@ -110,7 +146,7 @@ void CPlayer::Start()
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
 
-	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	LoadCharacter();
 }
 
 bool CPlayer::Init()
@@ -122,13 +158,17 @@ bool CPlayer::Init()
 	m_Arm = CreateComponent<CTargetArm>("Arm");
 	m_NavAgent = CreateComponent<CNavigationAgent3D>("NavAgent");
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
+
 	m_Cube = CreateComponent<CColliderOBB3D>("Cube");
+
+	m_HeadCube = CreateComponent<CColliderCube>("HeadCube");
 
 	SetRootComponent(m_Mesh);
 
 	m_Mesh->AddChild(m_Rigid);
 	m_Mesh->AddChild(m_Arm);
-	m_Mesh->AddChild(m_Cube);
+	//m_Mesh->AddChild(m_Cube);
+	m_Mesh->AddChild(m_HeadCube);
 	m_Arm->AddChild(m_Camera);
 
 	m_Cube->SetBoxHalfSize(500.f, 500.f, 500.f);
@@ -137,12 +177,18 @@ bool CPlayer::Init()
 	m_Cube->SetInheritRotY(true);
 	m_Cube->SetInheritRotZ(true);
 
+	//m_Cube->SetCubeSize(500.f, 500.f, 500.f);
+
+
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
 
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
 	m_Rigid->SetGround(true);	//땅에 붙어있다고 설정
+	//m_Rigid->SetGravity(true);
+
+	m_HeadCube->SetEnable(false);
 	return true;
 }
 
@@ -151,13 +197,7 @@ void CPlayer::Update(float DeltaTime)
 	CGameObject::Update(DeltaTime);
 
 	CameraRotationKey();
-
-	CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
-	float Y = Nav->GetHeight(GetWorldPos());
-	if(Y!=FLT_MAX)
-	{
-		SetWorldPositionY(Y);
-	}
+	JumpCheck();
 
 	if (m_Name == "Patrick")
 	{
@@ -193,6 +233,7 @@ CPlayer* CPlayer::Clone() const
 void CPlayer::Save(FILE* File)
 {
 	CGameObject::Save(File);
+	SaveCharacter();
 }
 
 void CPlayer::Load(FILE* File)
@@ -210,7 +251,56 @@ void CPlayer::Load(FILE* File)
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
 
-	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	LoadCharacter();
+}
+
+bool CPlayer::SaveCharacter()
+{
+	char	fullPath[MAX_PATH] = {};
+	const PathInfo* path = CPathManager::GetInst()->FindPath(SAVE_PATH);
+	if (path)
+	{
+		strcpy_s(fullPath, path->PathMultibyte);
+	}
+	strcat_s(fullPath, "userData.pref");
+	FILE* file = nullptr;
+	fopen_s(&file, fullPath, "wb");
+	if (!file)
+	{
+		return false;
+	}
+	fwrite(&m_PlayerData.MaxHP, 4, 1, file);
+	fwrite(&m_PlayerData.CurHP, 4, 1, file);
+	fwrite(&m_PlayerData.Socks, 4, 1, file);
+	fwrite(&m_PlayerData.Fritter, 4, 1, file);
+	fwrite(&m_PlayerData.Glittering, 4, 1, file);
+	fclose(file);
+	return true;
+}
+
+bool CPlayer::LoadCharacter()
+{
+	char	fullPath[MAX_PATH] = {};
+	const PathInfo* path = CPathManager::GetInst()->FindPath(SAVE_PATH);
+	if (path)
+	{
+		strcpy_s(fullPath, path->PathMultibyte);
+	}
+	strcat_s(fullPath, "userData.pref");
+	FILE* file = nullptr;
+	fopen_s(&file, fullPath, "rb");
+	if (!file)
+	{
+		return false;
+	}
+	fread(&m_PlayerData.MaxHP, 4, 1, file);
+	fread(&m_PlayerData.CurHP, 4, 1, file);
+	fread(&m_PlayerData.Socks, 4, 1, file);
+	fread(&m_PlayerData.Fritter, 4, 1, file);
+	fread(&m_PlayerData.Glittering, 4, 1, file);
+	fclose(file);
+	m_LoadData = m_PlayerData;
+	return true;
 }
 
 void CPlayer::LoadSpongebobAnim()
@@ -221,7 +311,28 @@ void CPlayer::LoadSpongebobAnim()
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerAttack", "Spongebob_Attack", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerAttack", this, &CPlayer::ResetIdle);
-	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerJump", "SpongebobJump", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerJumpDw", "Spongebob_JumpDw", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerJumpUp", "Spongebob_JumpUp", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashStart", "Spongebob_BashStart", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBashStart", this, &CPlayer::StartBash);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashDw", "Spongebob_BashDw", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBash", "Spongebob_Bash", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("SpongebobBash", this, &CPlayer::ResetIdle);
+	//전용 모션
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBounceStart", "Spongebob_BounceStart", 1.f, 1.f, false);
+	//m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBounceStart", this, &CPlayer::);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBounceLoop", "Spongebob_BounceLoop", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBounceLanding", "Spongebob_BounceLanding", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBounceLanding", this, &CPlayer::ResetIdle);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBowl", "Spongebob_Bowl", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBowlThrow", "Spongebob_BowlThrow", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBowlThrow", this, &CPlayer::ResetIdle);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerMissileStart", "Spongebob_MissileStart", 1.f, 1.f, false);
+	//m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerMissileStart", this, &CPlayer::);
+	//애니메이션 지속시간 변수 만들어서 지속끝나면 end함수 호출
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerMissileLoop", "Spongebob_MissileLoop", 1.f, 1.f, true);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerMissileEnd", "Spongebob_MissileEnd", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerMissileEnd", this, &CPlayer::ResetIdle);
 }
 
 void CPlayer::LoadPatrickAnim()
@@ -292,7 +403,10 @@ void CPlayer::MoveFront()
 		break;
 	}
 
-	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+	}
 	float angle = m_Camera->GetWorldRot().y;
 	SetWorldRotationY(angle+180.f);
 	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
@@ -317,7 +431,10 @@ void CPlayer::MoveBack()
 		break;
 	}
 
-	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+	}
 	float angle = m_Camera->GetWorldRot().y-180.f;
 	SetWorldRotationY(angle+180.f);
 	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
@@ -341,7 +458,10 @@ void CPlayer::MoveLeft()
 	default:
 		break;
 	}
-	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+	}
 	float angle = m_Camera->GetWorldRot().y -90.f;
 	SetWorldRotationY(angle + 180.f);
 	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
@@ -365,7 +485,10 @@ void CPlayer::MoveRight()
 	default:
 		break;
 	}
-	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+	}
 	float angle = m_Camera->GetWorldRot().y +90.f;
 	SetWorldRotationY(angle+180.f);
 	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
@@ -404,11 +527,54 @@ void CPlayer::Jump()
 	default:
 		break;
 	}
-
-	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJump");
+	if (!m_Rigid->GetGround() && !m_IsDoubleJump)
+	{
+		m_IsDoubleJump = true;
+	}
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
 	m_Rigid->SetGround(false);
-	m_Rigid->AddForce(0, 3500.f);
-	m_Rigid->SetVelocityY(3500.f);
+	m_Rigid->AddForce(0, 500.f);
+	m_Rigid->SetVelocityY(500.f);
+}
+
+void CPlayer::JumpCheck()
+{
+	//땅에 붙어있을때만 높이 갱신
+	if (m_Rigid->GetGround())
+	{
+		CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
+		float Y = Nav->GetHeight(GetWorldPos());
+		if (Y != FLT_MAX)
+		{
+			SetWorldPositionY(Y);
+		}
+	}
+	//플레이어의 속력이 음수가 되면 애니메이션 전환
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerJumpUp"
+		&& m_Rigid->GetVelocity().y < 0.f)
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpDw");
+	}
+	//아래로 내려오고 있을때 현재 높이와 지형의 차이가 50미만이면 아이들로 전환
+	if (m_Rigid->GetVelocity().y < 0.f)
+	{
+		CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
+		float Y = Nav->GetHeight(GetWorldPos());
+		if (Y != FLT_MAX && GetWorldPos().y - Y < 50.f)
+		{
+			SetWorldPositionY(Y);
+			m_Rigid->SetGround(true);
+			if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerJumpUp")
+			{
+				m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBash");
+				//충돌체 생성
+			}
+			else
+			{
+				ResetIdle();
+			}
+		}
+	}
 }
 
 void CPlayer::AttackKey()
@@ -447,10 +613,47 @@ void CPlayer::KeyUp()
 
 void CPlayer::Headbutt()
 {
+	if (!m_Rigid->GetGround())
+	{
+		return;
+	}
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
+	m_Rigid->SetGround(false);
+	m_Rigid->AddForce(0, 500.f);
+	m_Rigid->SetVelocityY(500.f);
+	m_HeadCube->SetEnable(true);
 }
 
 void CPlayer::Missile()
 {
+}
+
+void CPlayer::Bowl()
+{
+	if (!m_Rigid->GetGround())
+	{
+		return;
+	}
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBowl");
+	}
+	m_Speed = 200.f;
+}
+
+void CPlayer::BowlThrow()
+{	
+	//불릿 바라보는 방향으로 발사
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerBowl")
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBowlThrow");
+		m_Speed = 500.f;
+		CBullet* bullet = m_Scene->CreateObject<CBullet>("SpongeBobBowl");
+		bullet->SetWorldRotationY(GetWorldRot().y - 90.f);
+		bullet->SetWorldPosition(-30.f, 50.f, -100.f);
+		bullet->SetDir(GetWorldPos());
+		bullet->SetLifeTime(3.f);
+	}
 }
 
 void CPlayer::Patrick_BellyAttack()
@@ -485,6 +688,17 @@ void CPlayer::Interaction()
 
 void CPlayer::Menu()
 {
+	if(m_PauseUI->GetEnable())
+	{
+		m_PauseUI->SetEnable(false);
+		CEngine::GetInst()->SetTimeScale(1.f);
+	}
+	else
+	{
+		m_PauseUI->SetEnable(true);
+		m_PauseUI->OpenUI();
+		CEngine::GetInst()->SetTimeScale(0.f);
+	}
 }
 
 void CPlayer::IngameUI()
@@ -494,6 +708,22 @@ void CPlayer::IngameUI()
 
 void CPlayer::RClick()
 {
+	if (m_Rigid->GetGround())
+	{
+		return;
+	}
+	//엉찍 사운드
+	switch (m_MainCharacter)
+	{
+	case EMain_Character::Spongebob:
+		break;
+	case EMain_Character::Patrick:
+		break;
+	case EMain_Character::Sandy:
+		break;
+	}
+	m_Rigid->SetGravity(false);
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBashStart");
 }
 
 void CPlayer::LClick()
@@ -512,10 +742,19 @@ void CPlayer::LClick()
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerAttack");
 }
 
+void CPlayer::StartBash()
+{
+	m_Rigid->SetGravity(true);
+	m_Rigid->AddForce(0, -500.f);
+	m_Rigid->SetVelocityY(-500.f);
+	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBashDw");
+}
+
 void CPlayer::ResetIdle()
 {
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
 	m_WeaponMesh->SetEnable(false);
+	m_IsDoubleJump = false;
 }
 
 void CPlayer::ChangeSpongebob()
@@ -564,4 +803,14 @@ void CPlayer::ChangeSandy()
 	m_Anim[(int)m_MainCharacter]->Start();
 }
 
+void CPlayer::CollisionTest(const CollisionResult& result)
+{
+	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Monster)
+	{
+		TCHAR	Text[256] = {};
 
+		wsprintf(Text, TEXT("Collision\n"));
+
+		OutputDebugString(Text);
+	}
+}

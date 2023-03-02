@@ -158,14 +158,13 @@ bool CTerrainComponent::Init()
 	if (m_Scene)
 	{
 		m_ShadowMapShader = (CGraphicShader*)m_Scene->GetResource()->FindShader("ShadowMapStaticShader");
+		CreateTerrain(681, 631, 30.f, 30.f, TEXT("LandScape/BikiniCity_Height.png"));
 	}
 
 	else
 	{
 		m_ShadowMapShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ShadowMapStaticShader");
 	}
-
-	CreateTerrain(681, 631, 1.f, 1.f, TEXT("LandScape/BikiniCity_Height.png"));
 	return true;
 }
 
@@ -442,7 +441,7 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 
 	m_Mesh = m_Scene->GetResource()->FindMesh(MeshName);
 
-	AddMaterial("DefaultTerrain");
+	AddMaterial("BikiniCityTerrain");
 
 	CNavigationManager3D* NavMgr = (CNavigationManager3D*)m_Scene->GetNavigationManager();
 

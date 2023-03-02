@@ -13,20 +13,20 @@ protected:
 	virtual ~CBullet();
 
 private:
-	CSharedPtr<class CSpriteComponent>	m_Sprite;
-	CSharedPtr<class CColliderSphere2D>	m_Body;
-
-public:
-	void SetCollisionProfileName(const std::string& Name);
-
+	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
+	CSharedPtr<class CColliderCube> m_Body;
+	CSharedPtr<class CAnimation> m_Anim;
+	Vector3 m_Dir;
+	float m_Speed;
 public:
 	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
 	virtual void PostUpdate(float DeltaTime);
 	virtual CBullet* Clone()    const;
-
+	void SetDir(const Vector3& vec);
 private:
 	void CollisionBullet(const CollisionResult& result);
+	void ResetIdle();	//아이들상태로 되돌리는 함수
 };
 

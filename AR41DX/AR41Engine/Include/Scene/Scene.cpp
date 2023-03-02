@@ -9,6 +9,10 @@
 #include "../Component/SceneComponent.h"
 #include "../Component/ColliderBox2D.h"
 #include "../Component/TileMapComponent.h"
+#include "../Component/TerrainComponent.h"
+#include "../Component/LightComponent.h"
+#include "../Component/StaticMeshComponent.h"
+#include "../Component/AnimationMeshComponent.h"
 #include "../Component/NavigationAgent.h"
 #include "../Animation/Animation2D.h"
 #include "../UI/UIButton.h"
@@ -139,7 +143,29 @@ void CScene::CreateCDO()
 
 	CComponent::AddComponentCDO("NavigationAgent", ComCDO);
 
+	ComCDO = new CTerrainComponent;
 
+	ComCDO->Init();
+
+	CComponent::AddComponentCDO("TerrainComponent", ComCDO);
+
+	ComCDO = new CLightComponent;
+
+	ComCDO->Init();
+
+	CComponent::AddComponentCDO("LightComponent", ComCDO);
+
+	ComCDO = new CStaticMeshComponent;
+
+	ComCDO->Init();
+
+	CComponent::AddComponentCDO("StaticMeshComponent", ComCDO);
+
+	ComCDO = new CAnimationMeshComponent;
+
+	ComCDO->Init();
+
+	CComponent::AddComponentCDO("AnimationMeshComponent", ComCDO);
 	// ==================== Animation ====================
 	CAnimation2D* AnimCDO = new CAnimation2D;
 
@@ -183,6 +209,13 @@ void CScene::Start()
 {
 	m_Start = true;
 
+	m_SkySphere = new CSkySphere;
+
+	m_SkySphere->SetName("Sky");
+	m_SkySphere->SetScene(this);
+
+	m_SkySphere->Init();
+
 	auto	iter = m_ObjList.begin();
 	auto	iterEnd = m_ObjList.end();
 
@@ -196,16 +229,6 @@ void CScene::Start()
 	m_Viewport->Start();
 
 	m_LightManager->Start();
-}
-
-bool CScene::Init()
-{
-	m_SkySphere = new CSkySphere;
-
-	m_SkySphere->SetName("Sky");
-	m_SkySphere->SetScene(this);
-
-	m_SkySphere->Init();
 
 	if (CEngine::GetInst()->GetRender2D())
 		m_NavManager = new CNavigationManager2D;
@@ -216,7 +239,10 @@ bool CScene::Init()
 	m_NavManager->m_Owner = this;
 
 	m_NavManager->Init();
+}
 
+bool CScene::Init()
+{
 	return true;
 }
 
@@ -528,6 +554,11 @@ void CScene::Load(const char* FullPath)
 		NewObj->SetScene(this);
 
 		NewObj->Load(File);
+
+		if(NewObj->GetName()=="GlobalLight")
+		{
+			m_LightManager->SetGlobalLightObject(NewObj);
+		}
 
 		NextPos = (int)ftell(File);
 

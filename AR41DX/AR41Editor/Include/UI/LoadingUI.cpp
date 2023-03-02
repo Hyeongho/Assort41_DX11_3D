@@ -12,7 +12,6 @@ CLoadingUI::CLoadingUI()
 CLoadingUI::CLoadingUI(const CLoadingUI& Window) 
     : CUIWindow(Window)
 {
-    m_LoadingBG = FindWidget<CUIImage>("LoadingBG");
     m_LoadingCircle = FindWidget<CUIImage>("LoadingCircle");
     m_LoadingText = FindWidget<CUIText>("Title");
 }
@@ -34,11 +33,6 @@ void CLoadingUI::Start()
 bool CLoadingUI::Init()
 {
     CUIWindow::Init();
-
-    m_LoadingBG = CreateWidget<CUIImage>("LoadingBG");
-    m_LoadingBG->SetSize(1280.f, 720.f);
-    m_LoadingBG->SetTexture("LoadingBG", TEXT("UI\\load_bg.tga"));
-
     m_LoadingCircle = CreateWidget<CUIImage>("LoadingCircle");
     m_LoadingCircle->SetPos(1220.f, 60.f);
     m_LoadingCircle->SetSize(100.f, 100.f);
@@ -85,7 +79,6 @@ void CLoadingUI::Save(FILE* File)
 void CLoadingUI::Load(FILE* File)
 {
     CUIWindow::Load(File);
-    m_LoadingBG = FindWidget<CUIImage>("LoadingBG");
     m_LoadingCircle = FindWidget<CUIImage>("LoadingCircle");
     m_LoadingText = FindWidget<CUIText>("Title");
 }

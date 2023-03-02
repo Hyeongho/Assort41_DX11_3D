@@ -20,8 +20,12 @@
 
 DEFINITION_SINGLE(CRenderManager)
 
-CRenderManager::CRenderManager() : m_RenderStateManager(nullptr), m_ShaderType(EShaderType::Default)
+CRenderManager::CRenderManager() 
+	: m_ShadowMapRS{}
+	, m_ShaderType(EShaderType::Default)
 {
+	m_RenderStateManager = new CRenderStateManager;
+	m_ShadowCBuffer = new CShadowConstantBuffer;
 }
 
 CRenderManager::~CRenderManager()
@@ -154,8 +158,6 @@ void CRenderManager::AddRenderList(CSceneComponent* Component)
 
 bool CRenderManager::Init()
 {
-	m_RenderStateManager = new CRenderStateManager;
-
 	if (!m_RenderStateManager->Init())
 		return false;
 
@@ -232,21 +234,12 @@ void CRenderManager::Render(float DeltaTime)
 	m_DepthDisable->SetState();
 
 	CSceneManager::GetInst()->GetScene()->GetViewport()->Render();
-
-	m_DepthDisable->ResetState();
-	m_AlphaBlend->ResetState();
-
 #ifdef _DEBUG
-
-	m_AlphaBlend->SetState();
-	m_DepthDisable->SetState();
-
 	CResourceManager::GetInst()->RenderTexture();
+#endif // _DEBUG
 
 	m_DepthDisable->ResetState();
 	m_AlphaBlend->ResetState();
-
-#endif // _DEBUG
 }
 
 void CRenderManager::Render3D(float DeltaTime)
@@ -1208,8 +1201,6 @@ void CRenderManager::CreateRenderTarget()
 	m_ShadowMapTarget->SetPos(Vector3(300.f, 100.f, 0.f));
 	m_ShadowMapTarget->SetScale(Vector3(300.f, 300.f, 1.f));
 	m_ShadowMapTarget->SetDebugRender(true);
-
-	m_ShadowCBuffer = new CShadowConstantBuffer;
 
 	m_ShadowCBuffer->Init();
 

@@ -163,54 +163,36 @@ void CUIWindow::Load(FILE* File)
 	fread(&m_ZOrder, sizeof(int), 1, File);
 	fread(&m_Pos, sizeof(Vector2), 1, File);
 	fread(&m_Size, sizeof(Vector2), 1, File);
-
-	int	Count = 0;
-
-	fread(&Count, sizeof(int), 1, File);
-
-	for (int i = 0; i < Count; ++i)
+	int	count = 0;
+	fread(&count, sizeof(int), 1, File);
+	for (int i = 0; i < count; ++i)
 	{
+		char	typeName[256] = {};
+		int	length = 0;
+		fread(&length, sizeof(int), 1, File);
+		assert(length >= 0);
+		fread(typeName, 1, length, File);
 		if (m_vecWidget.empty())
 		{
-			char	TypeName[256] = {};
-
-			int	Length = 0;
-			fread(&Length, sizeof(int), 1, File);
-			fread(TypeName, 1, Length, File);
-
-			CUIWidget* CDO = CUIWidget::FindCDO(TypeName);
-
-			CUIWidget* Widget = CDO->Clone();
-
-			Widget->m_Owner = this;
-			Widget->m_Scene = m_Scene;
-
-			Widget->Init();
-			Widget->Load(File);
-
-			m_vecWidget.push_back(Widget);
+			CUIWidget* CDO = CUIWidget::FindCDO(typeName);
+			CUIWidget* widget = CDO->Clone();
+			widget->m_Owner = this;
+			widget->m_Scene = m_Scene;
+			widget->Init();
+			widget->Load(File);
+			m_vecWidget.push_back(widget);
 		}
-
 		else
 		{
-			char	TypeName[256] = {};
-
-			int	Length = 0;
-			fread(&Length, sizeof(int), 1, File);
-			fread(TypeName, 1, Length, File);
-
 			m_vecWidget[i]->m_Owner = this;
 			m_vecWidget[i]->m_Scene = m_Scene;
-
 			m_vecWidget[i]->Init();
 			m_vecWidget[i]->Load(File);
-			m_vecWidget[i]->SetWidgetTypeName(TypeName);
+			m_vecWidget[i]->SetWidgetTypeName(typeName);
 		}
 	}
-
-	size_t	Size = m_vecWidget.size();
-
-	for (size_t i = 0; i < Size; ++i)
+	size_t	size = m_vecWidget.size();
+	for (size_t i = 0; i < size; ++i)
 	{
 		m_vecWidget[i]->m_Scene = m_Scene;
 	}

@@ -43,7 +43,7 @@
 #include "Component/StaticMeshComponent.h"
 #include "Component/ParticleComponent.h"
 #include "Component/TerrainComponent.h"
-//#include "Component/DecalComponent.h"
+#include "Component/DecalComponent.h"
 
 #include "UI/UIWidget.h"
 #include "UI/UIButton.h"
@@ -51,6 +51,8 @@
 #include "UI/UINumber.h"
 #include "UI/UIProgressBar.h"
 #include "UI/UIText.h"
+
+#include "GameObject/GameObject.h"
 
 CComponentWindow::CComponentWindow()
 	: m_Tree(nullptr)
@@ -75,7 +77,7 @@ bool CComponentWindow::AddWidget(CUIWidget* widget, const std::string& name, con
 void CComponentWindow::AddInput(CScene* scene)
 {
 	CInput::GetInst()->AddBindFunction<CComponentWindow>
-		("ChangePos", Input_Type::Down, this, &CComponentWindow::ChangePos, scene);
+		("F4", Input_Type::Down, this, &CComponentWindow::ChangePos, scene);
 }
 
 void CComponentWindow::Clear()
@@ -96,21 +98,17 @@ void CComponentWindow::ChangePos()
 	{
 		return;
 	}
-	Vector2 mouseWorldPos = CInput::GetInst()->GetMouseWorldPos();
+
 	if (m_SelectComponent)
 	{
 		CSceneComponent* component = (CSceneComponent*)m_SelectComponent.Get();
-		if (!CEngine::GetInst()->GetRender2D())
-		{
-			return;
-			//Vector2 mousePos = CInput::GetInst()->GetMousePos();
-			//mouseWorldPos -= mousePos;
-		}
-		component->SetWorldPosition(mouseWorldPos);
+		Vector3 pos=CSceneManager::GetInst()->GetScene()->FindObject("Gizmo")->GetWorldPos();
+		component->SetWorldPosition(pos);
 	}
 	else if (m_SelectWidget)
 	{
-		m_SelectWidget->SetPos(mouseWorldPos);
+		Vector2 mousePos = CInput::GetInst()->GetMouseUIPos();
+		m_SelectWidget->SetPos(mousePos);
 	}
 }
 
