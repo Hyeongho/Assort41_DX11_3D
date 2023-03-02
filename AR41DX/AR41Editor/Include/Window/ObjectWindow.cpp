@@ -13,6 +13,7 @@
 #include "Editor/EditorGUIManager.h"
 #include "Editor/EditorComboBox.h"
 #include "Editor/EditorSameLine.h"
+#include "Editor/EditorInput.h"
 #include "Scene/SceneManager.h"
 #include "Scene/Scene.h"
 #include "Component/CameraComponent.h"
@@ -28,6 +29,7 @@ CObjectWindow::CObjectWindow()
 	, m_WindowTree(nullptr)
 	, m_CameraTransformCombo(nullptr)
 	, m_CameraAxisCombo(nullptr)
+	, m_CameraSpeed(nullptr)
 {
 }
 
@@ -54,6 +56,10 @@ bool CObjectWindow::Init()
 	m_CameraAxisCombo->Sort(false);
 	m_CameraAxisCombo->SetSelectPrevViewName(true);
 	m_CameraAxisCombo->SetSelectIndex(3);
+	line = CreateWidget<CEditorSameLine>("Line");
+	m_CameraSpeed = CreateWidget<CEditorInput>("CameraSpeed",80.f,30.f);
+	m_CameraSpeed->SetInputType(EImGuiInputType::Float);
+	m_CameraSpeed->SetFloat(200.f);
 
 	m_Tree = CreateWidget<CEditorTree<CGameObject*>>("ObjectTree");
 	m_Tree->SetHideName("ObjectTree");
@@ -67,8 +73,6 @@ bool CObjectWindow::Init()
 	m_WindowTree->AddItem(nullptr, "Canvas");
 
 	CScene* scene = CSceneManager::GetInst()->GetScene();
-	//m_Gizmo = scene->CreateObject<CGameObject>("Gizmo");
-	//m_Gizmo->CreateComponent<CStaticMeshComponent>("Mesh");
 
 	//CInput::GetInst()->SetMouseVisible();
 	AddInput(scene);
@@ -144,7 +148,7 @@ void CObjectWindow::Pause()
 
 void CObjectWindow::MoveGizmo()
 {
-	const Vector2& mouseMove = CInput::GetInst()->GetMouseMove() * 150.f * g_DeltaTime;
+	const Vector2& mouseMove = CInput::GetInst()->GetMouseMove() * m_CameraSpeed->GetFloat() * g_DeltaTime;
 	std::string itemName = m_CameraAxisCombo->GetSelectItem();
 	if (itemName == "정지")
 	{
@@ -344,11 +348,11 @@ void CObjectWindow::UArrow()
 		itemName = m_CameraTransformCombo->GetSelectItem();
 		if (itemName == "이동")
 		{
-			camera->AddWorldPositionY(200.f * g_DeltaTime);
+			camera->AddWorldPositionY(m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 		else if (itemName == "회전")
 		{
-			camera->AddWorldRotationX(-200.f * g_DeltaTime);
+			camera->AddWorldRotationX(-m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 	}
 	else if (itemName == "XZ")
@@ -357,11 +361,11 @@ void CObjectWindow::UArrow()
 		itemName = m_CameraTransformCombo->GetSelectItem();
 		if (itemName == "이동")
 		{
-			camera->AddWorldPositionZ(200.f * g_DeltaTime);
+			camera->AddWorldPositionZ(m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 		else if (itemName == "회전")
 		{
-			camera->AddWorldRotationZ(-200.f * g_DeltaTime);
+			camera->AddWorldRotationZ(-m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 	}
 	else if (itemName == "YZ")
@@ -370,11 +374,11 @@ void CObjectWindow::UArrow()
 		itemName = m_CameraTransformCombo->GetSelectItem();
 		if (itemName == "이동")
 		{
-			camera->AddWorldPositionZ(200.f * g_DeltaTime);
+			camera->AddWorldPositionZ(m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 		else if (itemName == "회전")
 		{
-			camera->AddWorldRotationZ(-200.f * g_DeltaTime);
+			camera->AddWorldRotationZ(-m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 	}
 }
@@ -392,11 +396,11 @@ void CObjectWindow::DArrow()
 		itemName = m_CameraTransformCombo->GetSelectItem();
 		if (itemName == "이동")
 		{
-			camera->AddWorldPositionY(-200.f * g_DeltaTime);
+			camera->AddWorldPositionY(-m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 		else if (itemName == "회전")
 		{
-			camera->AddWorldRotationX(200.f * g_DeltaTime);
+			camera->AddWorldRotationX(m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 	}
 	else if (itemName == "XZ")
@@ -405,11 +409,11 @@ void CObjectWindow::DArrow()
 		itemName = m_CameraTransformCombo->GetSelectItem();
 		if (itemName == "이동")
 		{
-			camera->AddWorldPositionZ(-200.f * g_DeltaTime);
+			camera->AddWorldPositionZ(-m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 		else if (itemName == "회전")
 		{
-			camera->AddWorldRotationZ(200.f * g_DeltaTime);
+			camera->AddWorldRotationZ(m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 	}
 	else if (itemName == "YZ")
@@ -418,11 +422,11 @@ void CObjectWindow::DArrow()
 		itemName = m_CameraTransformCombo->GetSelectItem();
 		if (itemName == "이동")
 		{
-			camera->AddWorldPositionZ(-200.f * g_DeltaTime);
+			camera->AddWorldPositionZ(-m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 		else if (itemName == "회전")
 		{
-			camera->AddWorldRotationZ(200.f * g_DeltaTime);
+			camera->AddWorldRotationZ(m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 	}
 }
@@ -440,11 +444,11 @@ void CObjectWindow::LArrow()
 		itemName = m_CameraTransformCombo->GetSelectItem();
 		if (itemName == "이동")
 		{
-			camera->AddWorldPositionX(-200.f * g_DeltaTime);
+			camera->AddWorldPositionX(-m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 		else if (itemName == "회전")
 		{
-			camera->AddWorldRotationY(-200.f * g_DeltaTime);
+			camera->AddWorldRotationY(-m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 	}
 	else if (itemName == "XZ")
@@ -453,11 +457,11 @@ void CObjectWindow::LArrow()
 		itemName = m_CameraTransformCombo->GetSelectItem();
 		if (itemName == "이동")
 		{
-			camera->AddWorldPositionX(-200.f * g_DeltaTime);
+			camera->AddWorldPositionX(-m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 		else if (itemName == "회전")
 		{
-			camera->AddWorldRotationY(-200.f * g_DeltaTime);
+			camera->AddWorldRotationY(-m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 	}
 	else if (itemName == "YZ")
@@ -466,11 +470,11 @@ void CObjectWindow::LArrow()
 		itemName = m_CameraTransformCombo->GetSelectItem();
 		if (itemName == "이동")
 		{
-			camera->AddWorldPositionY(-200.f * g_DeltaTime);
+			camera->AddWorldPositionY(-m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 		else if (itemName == "회전")
 		{
-			camera->AddWorldRotationX(-200.f * g_DeltaTime);
+			camera->AddWorldRotationX(-m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 	}
 }
@@ -488,11 +492,11 @@ void CObjectWindow::RArrow()
 		itemName = m_CameraTransformCombo->GetSelectItem();
 		if (itemName == "이동")
 		{
-			camera->AddWorldPositionX(200.f * g_DeltaTime);
+			camera->AddWorldPositionX(m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 		else if (itemName == "회전")
 		{
-			camera->AddWorldRotationY(200.f * g_DeltaTime);
+			camera->AddWorldRotationY(m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 	}
 	else if (itemName == "XZ")
@@ -501,11 +505,11 @@ void CObjectWindow::RArrow()
 		itemName = m_CameraTransformCombo->GetSelectItem();
 		if (itemName == "이동")
 		{
-			camera->AddWorldPositionX(200.f * g_DeltaTime);
+			camera->AddWorldPositionX(m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 		else if (itemName == "회전")
 		{
-			camera->AddWorldRotationY(200.f * g_DeltaTime);
+			camera->AddWorldRotationY(m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 	}
 	else if (itemName == "YZ")
@@ -514,11 +518,11 @@ void CObjectWindow::RArrow()
 		itemName = m_CameraTransformCombo->GetSelectItem();
 		if (itemName == "이동")
 		{
-			camera->AddWorldPositionY(200.f * g_DeltaTime);
+			camera->AddWorldPositionY(m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 		else if (itemName == "회전")
 		{
-			camera->AddWorldRotationX(200.f * g_DeltaTime);
+			camera->AddWorldRotationX(m_CameraSpeed->GetFloat() * g_DeltaTime);
 		}
 	}
 }

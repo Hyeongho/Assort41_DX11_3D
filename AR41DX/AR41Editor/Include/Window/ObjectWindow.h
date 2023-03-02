@@ -10,6 +10,7 @@ private:
 	friend class CEditorGUIManager;
 	class CEditorComboBox* m_CameraTransformCombo;
 	class CEditorComboBox* m_CameraAxisCombo;
+	class CEditorInput* m_CameraSpeed;
 	CEditorTree<CGameObject*>* m_Tree;
 	CEditorTree<CUIWindow*>* m_WindowTree;
 	CSharedPtr<CGameObject>	m_Gizmo;
