@@ -25,11 +25,6 @@ bool CSelector::Run()
 
 bool CSelector::Run(CGameObject* Object)
 {
-	if (!Object)
-	{
-		return false;
-	}
-
 	std::vector<CNode*> Children = GetChildren();
 
 	if (Children.empty())
@@ -42,9 +37,20 @@ bool CSelector::Run(CGameObject* Object)
 
 	for (; iter != iterEnd; iter++)
 	{
-		if ((*iter)->Run(Object))
+		if (!Object)
 		{
-			return true;
+			if ((*iter)->Run())
+			{
+				return true;
+			}
+		}
+
+		else
+		{
+			if ((*iter)->Run(Object))
+			{
+				return true;
+			}
 		}
 	}
 

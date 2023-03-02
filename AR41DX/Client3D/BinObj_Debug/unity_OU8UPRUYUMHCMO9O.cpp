@@ -50,6 +50,9 @@
 #include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\Client3D\Include\main.cpp"
 
 
+#include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\Client3D\Include\Scene\JellyFishSceneInfo.cpp"
+
+
 #include "D:\C++_Client\DX11_3D\Assort41_DX11_3D\AR41DX\Client3D\Include\Scene\LoadingSceneInfo.cpp"
 
 

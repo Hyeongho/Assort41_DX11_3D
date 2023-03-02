@@ -18,6 +18,8 @@ CColliderCube::CColliderCube()
 {
 	SetTypeID<CColliderCube>();
 
+	SetRenderLayerName("Collider");
+
 	m_ComponentTypeName = "ColliderCube";
 	m_Collider3DType = ECollider3D_Type::Box;
 	m_CubeSize.x = 100.f;
@@ -136,7 +138,7 @@ void CColliderCube::Render()
 
 void CColliderCube::RenderDebug()
 {
-	CSceneComponent::Render();
+	CCollider3D::RenderDebug();
 }
 
 CColliderCube* CColliderCube::Clone() const
@@ -177,7 +179,7 @@ bool CColliderCube::Collision(CCollider* Dest)
 
 	}
 
-	m_HitPoint = Vector3(HitPoint.x, HitPoint.y, 0.f);
+	m_HitPoint = Vector3(HitPoint.x, HitPoint.y, HitPoint.z);
 
 	return Result;
 }

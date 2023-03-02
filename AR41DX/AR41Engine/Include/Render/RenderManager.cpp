@@ -16,6 +16,7 @@
 #include "../Component/ParticleComponent.h"
 #include "../Component/DecalComponent.h"
 #include "../Resource/Shader/ShadowConstantBuffer.h"
+#include "../Component/Collider3D.h"
 
 DEFINITION_SINGLE(CRenderManager)
 
@@ -164,6 +165,7 @@ bool CRenderManager::Init()
 	CreateLayer("Back", 0);
 	CreateLayer("Particle", 3);
 	CreateLayer("Decal", 2);
+	CreateLayer("Collider", 2);
 
 	SetLayerAlphaBlend("Default");
 
@@ -776,7 +778,7 @@ void CRenderManager::RenderScreen(float DeltaTime)
 	matView = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetShadowViewMatrix();
 	matProj = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetShadowProjMatrix();
 
-	Matrix	matVP = matView * matProj;
+	Matrix matVP = matView * matProj;
 
 	m_ShadowCBuffer->SetShadowVP(matVP);
 
@@ -830,31 +832,60 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	// 디버그 모드일 경우 데칼 디버깅용 육면체를 출력한다.
 #ifdef _DEBUG
 
-	RenderLayer* DecalLayer = FindLayer("Decal");
-
-
-	std::list<CSceneComponent*>	RenderList;
-
-	auto	iter = DecalLayer->RenderList.begin();
-	auto	iterEnd = DecalLayer->RenderList.end();
-
-	for (; iter != iterEnd;)
 	{
-		if (!(*iter)->GetActive())
-		{
-			iter = DecalLayer->RenderList.erase(iter);
-			iterEnd = DecalLayer->RenderList.end();
-			continue;
-		}
+		RenderLayer* DecalLayer = FindLayer("Decal");
 
-		else if (!(*iter)->GetEnable())
+		std::list<CSceneComponent*>	RenderList;
+
+		auto	iter = DecalLayer->RenderList.begin();
+		auto	iterEnd = DecalLayer->RenderList.end();
+
+		for (; iter != iterEnd;)
 		{
+			if (!(*iter)->GetActive())
+			{
+				iter = DecalLayer->RenderList.erase(iter);
+				iterEnd = DecalLayer->RenderList.end();
+				continue;
+			}
+
+			else if (!(*iter)->GetEnable())
+			{
+				++iter;
+				continue;
+			}
+
+			((CDecalComponent*)(*iter).Get())->RenderDebug();
 			++iter;
-			continue;
 		}
+	}
 
-		((CDecalComponent*)(*iter).Get())->RenderDebug();
-		++iter;
+	{
+		RenderLayer* ColliderLayer = FindLayer("Collider");
+
+		std::list<CSceneComponent*>	RenderList;
+
+		auto	iter = ColliderLayer->RenderList.begin();
+		auto	iterEnd = ColliderLayer->RenderList.end();
+
+		for (; iter != iterEnd;)
+		{
+			if (!(*iter)->GetActive())
+			{
+				iter = ColliderLayer->RenderList.erase(iter);
+				iterEnd = ColliderLayer->RenderList.end();
+				continue;
+			}
+
+			else if (!(*iter)->GetEnable())
+			{
+				++iter;
+				continue;
+			}
+
+			((CCollider3D*)(*iter).Get())->RenderDebug();
+			++iter;
+		}
 	}
 
 #endif // _DEBUG
@@ -1098,7 +1129,6 @@ void CRenderManager::CreateRenderTarget()
 	GBufferTarget->SetScale(Vector3(100.f, 100.f, 1.f));
 	GBufferTarget->SetDebugRender(true);
 	m_vecGBuffer.push_back(GBufferTarget);
-	m_vecDecalBuffer.push_back(GBufferTarget);
 
 	GBufferTarget = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("GBuffer4");
 

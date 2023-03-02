@@ -55,6 +55,16 @@ void CCollider3D::Render()
 	CCollider::Render();
 }
 
+void CCollider3D::RenderDebug()
+{
+	CCollider::Render();
+}
+
+CCollider3D* CCollider3D::Clone() const
+{
+	return nullptr;
+}
+
 void CCollider3D::Save(FILE* File)
 {
 	CCollider::Save(File);
@@ -67,6 +77,11 @@ void CCollider3D::Load(FILE* File)
 	CCollider::Load(File);
 
 	fread(&m_Collider3DType, sizeof(ECollider3D_Type), 1, File);
+}
+
+bool CCollider3D::Collision(CCollider* Dest)
+{
+	return false;
 }
 
 

@@ -83,6 +83,9 @@
     <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp">
       <Filter>02. Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\JellyFishSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client3D.h" />
@@ -168,6 +171,9 @@
       <Filter>03. GameObject\02. Monster\02. JF</Filter>
     </ClInclude>
     <ClInclude Include="Scene\JellyfishFieldSceneInfo.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyFishSceneInfo.h">
       <Filter>02. Scene</Filter>
     </ClInclude>
   </ItemGroup>

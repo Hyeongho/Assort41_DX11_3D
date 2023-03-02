@@ -42,10 +42,11 @@ protected:
 	CSharedPtr<class CTargetArm> m_Arm;
 	CSharedPtr<class CNavigationAgent3D> m_NavAgent;
 	CSharedPtr<class CRigidBody> m_Rigid;
-	CSharedPtr<class CColliderCube> m_Cube;
+	CSharedPtr<class CColliderOBB3D> m_Cube;
 	//
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
 	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
+	CSharedPtr<class CPlayerUI>	m_PlayerUI;
 
 protected:
 	PlayerData m_PlayerData;
@@ -168,16 +169,13 @@ public:
 	void Patrick_Throw();
 
 	// Sandy
-	void Sandy_Karate_Chop();
-	void Sandy_Karate_Kick();
-	void Sandy_Lasso_Start();
 
 	// Change Charater
 	void ChangeSpongebob();
 	void ChangePatrick();
 	void ChangeSandy();
 
-	// 충돌체 테스트 함수
+	// 충돌체 테스트 용
 	void CollisionTest(const CollisionResult& result);
 };
 

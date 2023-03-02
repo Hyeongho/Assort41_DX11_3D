@@ -11,6 +11,7 @@
 #include "Component/NavigationAgent3D.h"
 #include "Component/RigidBody.h"
 #include "Component/ColliderCube.h"
+#include "Component/ColliderOBB3D.h"
 #include "Input.h"
 #include "Engine.h"
 #include "PathManager.h"
@@ -157,7 +158,9 @@ bool CPlayer::Init()
 	m_Arm = CreateComponent<CTargetArm>("Arm");
 	m_NavAgent = CreateComponent<CNavigationAgent3D>("NavAgent");
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
-	//m_Cube = CreateComponent<CColliderCube>("Cube");
+
+	m_Cube = CreateComponent<CColliderOBB3D>("Cube");
+
 	m_HeadCube = CreateComponent<CColliderCube>("HeadCube");
 
 	SetRootComponent(m_Mesh);
@@ -168,7 +171,14 @@ bool CPlayer::Init()
 	m_Mesh->AddChild(m_HeadCube);
 	m_Arm->AddChild(m_Camera);
 
+	m_Cube->SetBoxHalfSize(500.f, 500.f, 500.f);
+
+	m_Cube->SetInheritRotX(true);
+	m_Cube->SetInheritRotY(true);
+	m_Cube->SetInheritRotZ(true);
+
 	//m_Cube->SetCubeSize(500.f, 500.f, 500.f);
+
 
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
@@ -793,4 +803,14 @@ void CPlayer::ChangeSandy()
 	m_Anim[(int)m_MainCharacter]->Start();
 }
 
+void CPlayer::CollisionTest(const CollisionResult& result)
+{
+	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Monster)
+	{
+		TCHAR	Text[256] = {};
 
+		wsprintf(Text, TEXT("Collision\n"));
+
+		OutputDebugString(Text);
+	}
+}

@@ -9,13 +9,16 @@
 #include "CameraComponent.h"
 #include "../Resource/Shader/ColliderConstantBuffer.h"
 #include "../CollisionManager.h"
-#include "ColliderCube.h"
 #include "ColliderSphere2D.h"
 #include "ColliderPixel.h"
+#include "ColliderCube.h"
+#include "../Resource/Mesh/StaticMesh.h"
 
 CColliderOBB3D::CColliderOBB3D()
 {
 	SetTypeID<CColliderOBB3D>();
+
+	SetRenderLayerName("Collider");
 
 	m_ComponentTypeName = "ColliderOBB3D";
 	m_Collider3DType = ECollider3D_Type::OBB;
@@ -45,11 +48,19 @@ bool CColliderOBB3D::Init()
 		return false;
 	}
 
-
-	if (CEngine::GetEditorMode())
+#ifdef _DEBUG
+	if (m_Scene)
 	{
-		m_Mesh = CResourceManager::GetInst()->FindMesh("Box3DLineMesh");
+		m_DebugMesh = (CStaticMesh*)m_Scene->GetResource()->FindMesh("CubeLinePos");
+		m_DebugMaterial = m_Scene->GetResource()->FindMaterial("DebugDecal");
 	}
+
+	else
+	{
+		m_DebugMesh = (CStaticMesh*)CResourceManager::GetInst()->FindMesh("CubeLinePos");
+		m_DebugMaterial = CResourceManager::GetInst()->FindMaterial("DebugDecal");
+	}
+#endif // _DEBUG
 
 	return true;
 }
@@ -72,7 +83,7 @@ void CColliderOBB3D::PostUpdate(float DeltaTime)
 	m_Info.Center.y = GetWorldPos().y;
 	m_Info.Center.z = GetWorldPos().z;
 
-	for (int i = 0; i < AXIS2D_MAX; ++i)
+	for (int i = 0; i < AXIS_MAX; ++i)
 	{
 		Vector3	Axis = GetWorldAxis((AXIS)i);
 
@@ -144,6 +155,36 @@ void CColliderOBB3D::PostUpdate(float DeltaTime)
 
 void CColliderOBB3D::Render()
 {
+	CCollider3D::Render();
+}
+
+void CColliderOBB3D::RenderDebug()
+{
+	CCollider3D::RenderDebug();
+
+	Matrix	matScale, matRot, matTranslate, matWorld;
+
+	Matrix	matView = m_Scene->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
+	Matrix	matProj = m_Scene->GetCameraManager()->GetCurrentCamera()->GetProjMatrix();
+
+	Vector3	Scale = Vector3(m_Info.Length[0] * 2.f, m_Info.Length[1] * 2.f, m_Info.Length[2] * 2.f);
+
+	matScale.Scaling(Scale);
+	matRot.Rotation(GetWorldRot());
+	matTranslate.Translation(GetWorldPos());
+
+	matWorld = matScale * matRot * matTranslate;
+
+	CColliderConstantBuffer* Buffer = CResourceManager::GetInst()->GetColliderCBuffer();
+
+	Buffer->SetColor(m_Color);
+	Buffer->SetWVP(matWorld * matView * matProj);
+
+	Buffer->UpdateBuffer();
+
+	m_Shader->SetShader();
+
+	m_DebugMesh->Render();
 }
 
 CColliderOBB3D* CColliderOBB3D::Clone() const
@@ -161,6 +202,25 @@ void CColliderOBB3D::Load(FILE* File)
 
 bool CColliderOBB3D::Collision(CCollider* Dest)
 {
-	return true;
+	Vector3	HitPoint;
+	bool Result = false;
+
+	switch (((CCollider3D*)Dest)->GetCollider3DType())
+	{
+	case ECollider3D_Type::Box:
+		Result = CCollisionManager::GetInst()->CollisionOBB3DToCube(HitPoint, this, (CColliderCube*)Dest);
+		break;
+	case ECollider3D_Type::OBB:
+		Result = CCollisionManager::GetInst()->CollisionOBB3DToOBB3D(HitPoint, this, (CColliderOBB3D*)Dest);
+		break;
+	case ECollider3D_Type::Sphere:
+		//Result = CCollisionManager::GetInst()->CollisionBox2DToSphere2D(HitPoint, this, (CColliderSphere2D*)Dest);
+		break;
+
+	}
+
+	m_HitPoint = Vector3(HitPoint.x, HitPoint.y, HitPoint.z);
+
+	return Result;
 }
 
