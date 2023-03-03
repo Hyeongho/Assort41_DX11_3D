@@ -189,6 +189,9 @@
     <ClCompile Include="UI\PauseUI.cpp">
       <Filter>05. UI</Filter>
     </ClCompile>
+    <ClCompile Include="UI\TitleSceneUI.cpp">
+      <Filter>05. UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -333,6 +336,9 @@
       <Filter>03. Window</Filter>
     </ClInclude>
     <ClInclude Include="UI\PauseUI.h">
+      <Filter>05. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\TitleSceneUI.h">
       <Filter>05. UI</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,6 +9,7 @@
 #include "../UI/StartSceneUI.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
+#include "../UI/TitleSceneUI.h"
 #include "Scene/Scene.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -47,6 +48,7 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateUIWindowCDO<CStartSceneUI>("StartSceneUI"); //지우지 말아주세요
     CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
     CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
+    CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
 }
 
 void CDefaultSetting::LoadResource()
@@ -285,6 +287,10 @@ void CDefaultSetting::LoadSound()
 
     // BossStage BGM
     CResourceManager::GetInst()->LoadSound("BGM", "BossStage", false, "Map/MUS_BossFightTheme.ogg", SOUND_PATH);
+
+    //Tile BGM
+    CResourceManager::GetInst()->LoadSound("UI", "UI_Backward", false, "Sfx/SFX_UI_Backward_001.ogg");
+    CResourceManager::GetInst()->LoadSound("BGM", "Title_Bgm", false, "Music/MUS_WavesSeagullsBg.ogg");
 
 }
 
