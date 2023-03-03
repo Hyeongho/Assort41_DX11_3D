@@ -4,6 +4,7 @@
 #include "Scene/SceneViewport.h"
 #include "../UI/StartSceneUI.h"
 //#include "../UI/LoadingUI.h"
+#include "../UI/TitleSceneUI.h"
 #include "Component/LightComponent.h"
 
 CEditorDefaultScene::CEditorDefaultScene()
@@ -26,5 +27,7 @@ bool CEditorDefaultScene::Init()
 	//m_Owner->GetViewport()->CreateUIWindow<CStartSceneUI>("StartUI");
 	//m_Owner->GetViewport()->CreateUIWindow<CLoadingUI>("LoadingUI");
 
+	//tile
+	//m_Owner->GetViewport()->CreateUIWindow<CTitleSceneUI>("TitleSceneUI");
 	return true;
 }

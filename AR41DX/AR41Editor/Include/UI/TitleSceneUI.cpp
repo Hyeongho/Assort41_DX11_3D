@@ -11,7 +11,7 @@
 #include "UI/UIImage.h"
 #include "UI/UITextButton.h"
 
-#include "../Scene/MainSceneInfo.h"
+#include "../Scene/LoadingSceneInfo.h"
 
 CTitleSceneUI::CTitleSceneUI() :
 	m_NowUIMode(EUIMode::Main),
@@ -37,12 +37,16 @@ CTitleSceneUI::CTitleSceneUI(const CTitleSceneUI& Window) :
 
 CTitleSceneUI::~CTitleSceneUI()
 {
+	if(m_Scene)
+	{
+		m_Scene->GetResource()->SoundStop("Title_Bgm");
+	}
 }
 
 void CTitleSceneUI::Start()
 {
 	CUIWindow::Start();
-	
+	m_Scene->GetResource()->SoundPlay("Title_Bgm");
 
 	// KeySetting
 	{
@@ -61,19 +65,12 @@ void CTitleSceneUI::Start()
 		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("Space", Input_Type::Up, this, &CTitleSceneUI::KeySpace, m_Scene);
 		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("Esc", Input_Type::Up, this, &CTitleSceneUI::KeyBack, m_Scene);
 
-		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("LButton", Input_Type::Up, this, &CTitleSceneUI::KeyLeftButton, m_Scene);
-		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("RButton", Input_Type::Up, this, &CTitleSceneUI::KeyRightButton, m_Scene);
+		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("LClick", Input_Type::Up, this, &CTitleSceneUI::KeyLeftButton, m_Scene);
+		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("RClick", Input_Type::Up, this, &CTitleSceneUI::KeyRightButton, m_Scene);
 
 
 		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("F1", Input_Type::Up, this, &CTitleSceneUI::KeyF12, m_Scene);
 	}
-}
-
-bool CTitleSceneUI::Init()
-{
-	CUIWindow::Init();
-
-
 	CreateBackgroundUI();
 	CreateMainUI();
 	CreateOptionUI();
@@ -89,8 +86,11 @@ bool CTitleSceneUI::Init()
 	InActiveSaveSelectUI();
 	InActiveControlUI();
 	InActiveCreditsUI();
+}
 
-
+bool CTitleSceneUI::Init()
+{
+	CUIWindow::Init();
 	return true;
 }
 
@@ -116,12 +116,28 @@ CTitleSceneUI* CTitleSceneUI::Clone()
 
 void CTitleSceneUI::Save(FILE* File)
 {
+	m_vecWidget.clear();
 	CUIWindow::Save(File);
 }
 
 void CTitleSceneUI::Load(FILE* File)
 {
 	CUIWindow::Load(File);
+	CreateBackgroundUI();
+	CreateMainUI();
+	CreateOptionUI();
+	CreateOptionSoundUI();
+	CreateOptionCameraUI();
+	CreateSaveSelectUI();
+	CreateControlUI();
+	CreateCreditsUI();
+
+	InActiveOptionUI();
+	InActiveOptionSoundUI();
+	InActiveOptionCameraUI();
+	InActiveSaveSelectUI();
+	InActiveControlUI();
+	InActiveCreditsUI();
 }
 
 void CTitleSceneUI::CreateBackgroundUI()
@@ -1753,7 +1769,7 @@ void CTitleSceneUI::MainUICredits()
 void CTitleSceneUI::MainUIQuit()
 {
 	// 게임 종료 처리.
-
+	CEngine::GetInst()->Exit();
 }
 
 void CTitleSceneUI::MainUIContinueHovered()
@@ -1844,27 +1860,31 @@ void CTitleSceneUI::GameStart()
 	if (m_NowUIMode == EUIMode::Continue)
 	{
 		// 이어하기 모드 상태
+		CSceneManager::GetInst()->CreateNextScene(true);
+		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity.scn");
 	}
 	else if (m_NowUIMode == EUIMode::NewGame)
 	{
 		// 새 게임 상태
+		CSceneManager::GetInst()->CreateNextScene(true);
+		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity.scn");
 	}
 
 	switch (m_SaveSelected)
 	{
 	case EUISaveList::First:
 		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>(false);
+		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity.scn");
 
 		break;
 	case EUISaveList::Second:
 		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>(false);
+		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity.scn");
 
 		break;
 	case EUISaveList::Third:
 		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>(false);
+		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity.scn");
 
 		break;
 	}

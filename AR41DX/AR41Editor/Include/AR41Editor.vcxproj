@@ -197,6 +197,7 @@
     <ClCompile Include="UI\PauseUI.cpp" />
     <ClCompile Include="UI\PlayerUI.cpp" />
     <ClCompile Include="UI\StartSceneUI.cpp" />
+    <ClCompile Include="UI\TitleSceneUI.cpp" />
     <ClCompile Include="Window\Animation3DWindow.cpp" />
     <ClCompile Include="Window\CameraWindow.cpp" />
     <ClCompile Include="Window\ClassWindow.cpp" />
@@ -246,6 +247,7 @@
     <ClInclude Include="UI\PauseUI.h" />
     <ClInclude Include="UI\PlayerUI.h" />
     <ClInclude Include="UI\StartSceneUI.h" />
+    <ClInclude Include="UI\TitleSceneUI.h" />
     <ClInclude Include="Window\Animation3DWindow.h" />
     <ClInclude Include="Window\CameraWindow.h" />
     <ClInclude Include="Window\ClassWindow.h" />
