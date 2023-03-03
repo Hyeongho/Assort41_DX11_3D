@@ -115,9 +115,9 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("RClick", Input_Type::Push, this, &CPlayer::Bowl, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("RClick", Input_Type::Up, this, &CPlayer::BowlThrow, m_Scene);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Push, this, &CPlayer::ChangeSpongebob, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Down, this, &CPlayer::ChangeSpongebob, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Down, this, &CPlayer::ChangePatrick, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Down, this, &CPlayer::ChangeSandy, m_Scene);
 
 	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 	m_PlayerUI->SetHp(m_PlayerData.CurHP);
@@ -572,13 +572,13 @@ void CPlayer::CameraRotationKey()
 	const Vector2& mouseMove = CInput::GetInst()->GetMouseMove() * m_CameraSpeed * g_DeltaTime;
 	m_Arm->AddRelativeRotationY(mouseMove.x);
 	m_Arm->AddRelativeRotationX(mouseMove.y);
-	if (m_Arm->GetRelativeRot().x > 50.f)
+	if (m_Arm->GetRelativeRot().x > 70.f)
 	{
-		m_Arm->SetRelativeRotationX(50.f);
+		m_Arm->SetRelativeRotationX(70.f);
 	}
-	else if (m_Arm->GetRelativeRot().x < -30.f)
+	else if (m_Arm->GetRelativeRot().x < -20.f)
 	{
-		m_Arm->SetRelativeRotationX(-30.f);
+		m_Arm->SetRelativeRotationX(-20.f);
 	}
 }
 
@@ -624,7 +624,6 @@ void CPlayer::Bowl()
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBowl");
 	}
-	m_Speed = 200.f;
 }
 
 void CPlayer::BowlThrow()
@@ -633,10 +632,14 @@ void CPlayer::BowlThrow()
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerBowl")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBowlThrow");
-		m_Speed = 500.f;
 		CBullet* bullet = m_Scene->CreateObject<CBullet>("SpongeBobBowl");
-		bullet->SetWorldRotationY(GetWorldRot().y - 90.f);
-		bullet->SetWorldPosition(-30.f, 50.f, -100.f);
+		float angle = GetWorldRot().y;
+		bullet->AddWorldRotationY(GetWorldRot().y - 90.f);
+		bullet->SetWorldPosition(GetWorldPos());
+		//int intAngle = (int)GetWorldRot().y % 360;
+		AddWorldPositionX(sinf(angle) * 100.f);
+		AddWorldPositionY(50.f);
+		AddWorldPositionZ(cosf(angle) * 100.f);
 		bullet->SetDir(GetWorldPos());
 		bullet->SetLifeTime(3.f);
 	}
