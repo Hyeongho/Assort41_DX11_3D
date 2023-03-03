@@ -299,6 +299,7 @@ void CDefaultSetting::LoadBuildings()
     // 비키니 시티 맵 메쉬
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomGround", TEXT("Buildings/BikiniBottom/BikiniBottomGround.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RedTree", TEXT("Buildings/BikiniBottom/RedTree.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomRoad", TEXT("Buildings/BikiniBottom/BikiniBottomRoad.msh"));
 
     // 해파리 동산 맵 메쉬
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField", TEXT("Buildings/JellyfishField/JellyfishScene.msh"));
