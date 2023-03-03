@@ -153,6 +153,9 @@
     <ClCompile Include="GameObject\Bullet.cpp">
       <Filter>03. GameObject\04. ETC</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -241,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Bullet.h">
       <Filter>03. GameObject\04. ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyfishFieldSceneInfo.h">
+      <Filter>02. Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

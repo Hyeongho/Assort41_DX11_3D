@@ -613,7 +613,7 @@ bool CSceneCollision::Picking(PickingResult& result)
 				continue;
 			}
 
-			if (CCollisionManager::GetInst()->CollisionRayToSphere( result, ray, (*iter1)->GetCenter(), (*iter1)->GetRadius()))
+			if (CCollisionManager::GetInst()->CollisionRayToSphere(result, ray, (*iter1)->GetCenter(), (*iter1)->GetRadius()))
 			{
 				result.PickObject = (*iter1)->GetOwner();
 				result.PickComponent = *iter1;
