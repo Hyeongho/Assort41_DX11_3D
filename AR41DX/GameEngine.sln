@@ -23,10 +23,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AR41Editor", "AR41Editor\In
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client3D", "Client3D\Include\Client3D.vcxproj", "{02227A29-E9AF-4139-B34B-1447C2EA44B4}"
-	ProjectSection(ProjectDependencies) = postProject
-		{26BC9DA5-192F-4B8E-A96C-72AB3CCE74C3} = {26BC9DA5-192F-4B8E-A96C-72AB3CCE74C3}
-		{5E603626-8885-400C-9B28-A0AAD94BA626} = {5E603626-8885-400C-9B28-A0AAD94BA626}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

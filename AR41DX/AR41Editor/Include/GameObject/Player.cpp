@@ -44,7 +44,7 @@ CPlayer::CPlayer()
 CPlayer::CPlayer(const CPlayer& Obj) 
 	: CGameObject(Obj)
 	, m_Speed(Obj.m_Speed)
-	, m_KeyCount(Obj.m_KeyCount)
+	, m_CameraSpeed(Obj.m_CameraSpeed)
 	, m_MainCharacter(EMain_Character::Max)
 	, m_IsDoubleJump(false)
 {
@@ -186,7 +186,7 @@ bool CPlayer::Init()
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
 	m_Rigid->SetGround(true);	//땅에 붙어있다고 설정
-	//m_Rigid->SetGravity(true);
+	m_Rigid->SetGravity(true);
 
 	m_HeadCube->SetEnable(false);
 	return true;
@@ -313,7 +313,7 @@ void CPlayer::LoadSpongebobAnim()
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerAttack", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerJumpDw", "Spongebob_JumpDw", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerJumpUp", "Spongebob_JumpUp", 1.f, 1.f, false);
-	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashStart", "Spongebob_BashStart", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashStart", "Spongebob_BashStart", 1.f, 2.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBashStart", this, &CPlayer::StartBash);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashDw", "Spongebob_BashDw", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBash", "Spongebob_Bash", 1.f, 1.f, false);
@@ -512,10 +512,6 @@ void CPlayer::Stop()
 
 void CPlayer::Jump()
 {
-	if (!m_Rigid->GetGround())
-	{
-		return;
-	}
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
@@ -560,7 +556,7 @@ void CPlayer::JumpCheck()
 	{
 		CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
 		float Y = Nav->GetHeight(GetWorldPos());
-		if (Y != FLT_MAX && GetWorldPos().y - Y < 50.f)
+		if (Y != FLT_MAX && GetWorldPos().y - Y < 40.f)
 		{
 			SetWorldPositionY(Y);
 			m_Rigid->SetGround(true);

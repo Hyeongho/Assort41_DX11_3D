@@ -27,7 +27,6 @@ CUITextButton::CUITextButton(const CUITextButton& Button) :
     for (int i = 0; i < (int)EButtonState::Max; ++i)
     {
         m_TextInfo[i] = Button.m_TextInfo[i];
-      //  CreateLayout((EButtonState)i);
     }
 
     for (int i = 0; i < (int)EButtonEventState::Max; ++i)
@@ -40,14 +39,9 @@ CUITextButton::~CUITextButton()
 {
     SAFE_RELEASE(m_Layout);
 
-    /*
-        for (UIWidgetTextInfo iter : m_TextInfo) {
-        SAFE_DELETE_ARRAY(iter.m_Text);
-        }
-    */
-    for (int i = 0; i < (int)EButtonState::Max; ++i)
+    for (UIWidgetTextInfo iter : m_TextInfo)
     {
-        SAFE_DELETE_ARRAY(m_TextInfo[i].m_Text);
+        SAFE_DELETE_ARRAY(iter.m_Text);
     }
 }
 

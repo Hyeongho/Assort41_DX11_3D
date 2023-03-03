@@ -76,6 +76,10 @@ void CRigidBody::Update(float deltaTime)
 void CRigidBody::PostUpdate(float deltaTime)
 {
 	CSceneComponent::PostUpdate(deltaTime);
+	if(m_Ground)
+	{
+		return;
+	}
 	//중력 옵션
 	if (m_Gravity)
 	{

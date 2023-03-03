@@ -159,6 +159,7 @@ bool CTerrainComponent::Init()
 	{
 		m_ShadowMapShader = (CGraphicShader*)m_Scene->GetResource()->FindShader("ShadowMapStaticShader");
 		CreateTerrain(681, 631, 30.f, 30.f, TEXT("LandScape/BikiniCity_Height.png"));
+		//CreateTerrain(360, 672, 30.f, 30.f, TEXT("LandScape/ZellyFishField.png"));
 	}
 
 	else
@@ -299,7 +300,7 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 					MaxY = Y;
 				}
 
-				vecY.push_back(Y);
+				vecY.push_back(Y*10.f);
 			}
 		}
 	}
