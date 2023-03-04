@@ -160,8 +160,8 @@ bool CTerrainComponent::Init()
 	if (m_Scene)
 	{
 		m_ShadowMapShader = (CGraphicShader*)m_Scene->GetResource()->FindShader("ShadowMapStaticShader");
-		CreateTerrain(681, 631, 30.f, 30.f, TEXT("LandScape/BikiniCity_Height.png"));
-		//CreateTerrain(360, 672, 30.f, 30.f, TEXT("LandScape/ZellyFishField.png"));
+		CreateTerrain(680, 631, 40.f, 40.f, TEXT("LandScape/BikiniCity_Height.png"));
+		//CreateTerrain(360, 672, 40.f, 40.f, TEXT("LandScape/ZellyFishField.png"));
 	}
 
 	else
@@ -225,8 +225,6 @@ void CTerrainComponent::Load(FILE* File)
 	CreateTerrain(m_CountX, m_CountY, m_CellSize.x, m_CellSize.y, t_filename);
 	SAFE_DELETE_ARRAY(t_filename);
 	CSceneComponent::Load(File);
-	CNavigationManager3D* NavMgr = (CNavigationManager3D*)m_Scene->GetNavigationManager();
-	NavMgr->CreateNavigationMesh(this);
 }
 
 void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float SizeY, const TCHAR* HeightMapName, 

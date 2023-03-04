@@ -220,6 +220,7 @@
     <ClCompile Include="Window\ResourceWindow.cpp" />
     <ClCompile Include="Window\RigidBodyWindow.cpp" />
     <ClCompile Include="Window\SceneWindow.cpp" />
+    <ClCompile Include="Window\StatusWindow.cpp" />
     <ClCompile Include="Window\TargetArmWindow.cpp" />
     <ClCompile Include="Window\TerrainWindow.cpp" />
     <ClCompile Include="Window\TransformWindow.cpp" />
@@ -270,6 +271,7 @@
     <ClInclude Include="Window\ResourceWindow.h" />
     <ClInclude Include="Window\RigidBodyWindow.h" />
     <ClInclude Include="Window\SceneWindow.h" />
+    <ClInclude Include="Window\StatusWindow.h" />
     <ClInclude Include="Window\TargetArmWindow.h" />
     <ClInclude Include="Window\TerrainWindow.h" />
     <ClInclude Include="Window\TransformWindow.h" />

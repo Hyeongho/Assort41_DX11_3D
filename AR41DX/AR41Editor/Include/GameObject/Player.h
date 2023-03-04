@@ -107,7 +107,8 @@ private:
 	void LoadSpongebobAnim(); // 스폰지밥 리소스
 	void LoadPatrickAnim(); // 뚱이 리소스
 	void LoadSandyAnim(); // 다람이 리소스
-
+	void LoadCheck();
+	void CollisionCube(const CollisionResult& result);
 public:
 	void SetPlayerData(PlayerData Playerdata)
 	{

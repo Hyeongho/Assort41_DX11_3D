@@ -7,6 +7,7 @@
 #include "UINumberWindow.h"
 #include "UIProgressBarWindow.h"
 #include "UITextWindow.h"
+#include "StatusWindow.h"
 #include "Animation3DWindow.h"
 #include "RigidBodyWindow.h"
 #include "LightWindow.h"
@@ -164,6 +165,11 @@ void CComponentWindow::TreeCallback(CEditorTreeItem<class CComponent*>* node, co
 	{
 		detailWindow->SetSelectComponent((CSceneComponent*)m_SelectComponent.Get());
 	}
+	CStatusWindow* statusWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CStatusWindow>("StatusWindow");
+	if (statusWindow)
+	{
+		statusWindow->SetSelectComponent((CSceneComponent*)m_SelectComponent.Get());
+	}
 	CMeshWindow* meshWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMeshWindow>("MeshWindow");
 	CMaterialWindow* materialWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMaterialWindow>("MaterialWindow");
 	if (m_SelectComponent->GetComponentTypeName() == "SpriteComponent")
@@ -296,11 +302,6 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 	if (!m_SelectComponent)
 	{
 		return;
-	}
-	CDetailWindow* detailWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CDetailWindow>("DetailWindow");
-	if (detailWindow)
-	{
-		detailWindow->SetSelectComponent((CSceneComponent*)m_SelectComponent.Get());
 	}
 	CMeshWindow* meshWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMeshWindow>("MeshWindow");
 	CMaterialWindow* materialWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CMaterialWindow>("MaterialWindow");
@@ -441,6 +442,11 @@ void CComponentWindow::WidgetCallback(CEditorTreeItem<class CUIWidget*>* node, c
 	if (!m_SelectWidget)
 	{
 		return;
+	}
+	CStatusWindow* statusWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CStatusWindow>("StatusWindow");
+	if (statusWindow)
+	{
+		statusWindow->SetSelectWidget(m_SelectWidget.Get());
 	}
 	if (m_SelectWidget->GetWidgetTypeName() == "UIButton")
 	{

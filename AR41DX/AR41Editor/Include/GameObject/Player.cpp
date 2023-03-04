@@ -128,24 +128,8 @@ void CPlayer::Start()
 	m_PauseUI = m_Scene->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
 	m_PauseUI->SetEnable(false);
 
-	if (m_IsLoading)
-	{
-		CGameObject* delObj = m_Scene->FindObject("Temp");
-		delObj->Destroy();
-		return;
-	}
-	LoadSpongebobAnim();
-	LoadPatrickAnim();
-	LoadSandyAnim();
-
-	ChangeSpongebob();
-
-	CWeapon* weapon = m_Scene->CreateObject<CWeapon>("Temp");
-	AddChildToSocket("Weapon", weapon);
-	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
-	m_WeaponMesh->SetEnable(false);
-
-	LoadCharacter();
+	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
+	LoadCheck();
 }
 
 bool CPlayer::Init()
@@ -157,27 +141,29 @@ bool CPlayer::Init()
 	m_Arm = CreateComponent<CTargetArm>("Arm");
 	m_NavAgent = CreateComponent<CNavigationAgent3D>("NavAgent");
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
-	//m_Cube = CreateComponent<CColliderCube>("Cube");
+	m_Cube = CreateComponent<CColliderCube>("Cube");
 	m_HeadCube = CreateComponent<CColliderCube>("HeadCube");
 
 	SetRootComponent(m_Mesh);
 
 	m_Mesh->AddChild(m_Rigid);
 	m_Mesh->AddChild(m_Arm);
-	//m_Mesh->AddChild(m_Cube);
+	m_Mesh->AddChild(m_Cube);
 	m_Mesh->AddChild(m_HeadCube);
 	m_Arm->AddChild(m_Camera);
 
-	//m_Cube->SetCubeSize(500.f, 500.f, 500.f);
+	m_Cube->SetCubeSize(80.f, 140.f, 50.f);
+	m_Cube->SetRelativePositionY(70.f);
+	m_Cube->SetCollisionProfile("Player");
 
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
 
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
-	m_Rigid->SetGround(true);	//땅에 붙어있다고 설정
 	m_Rigid->SetGravity(true);
 
+	m_HeadCube->SetCollisionProfile("PlayerAttack");
 	m_HeadCube->SetEnable(false);
 	return true;
 }
@@ -230,18 +216,7 @@ void CPlayer::Load(FILE* File)
 {
 	CGameObject::Load(File);
 	m_IsLoading = true;
-	LoadSpongebobAnim();
-	LoadPatrickAnim();
-	LoadSandyAnim();
-
-	ChangeSpongebob();
-
-	CWeapon* weapon = m_Scene->CreateObject<CWeapon>("LoadWeapon");
-	AddChildToSocket("Weapon", weapon);
-	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
-	m_WeaponMesh->SetEnable(false);
-
-	LoadCharacter();
+	LoadCheck();
 }
 
 bool CPlayer::SaveCharacter()
@@ -370,6 +345,34 @@ void CPlayer::LoadSandyAnim()
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Karate_Kick", "Sandy_Karate_Kick", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Lasso_Start", "Sandy_Lasso_Start", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Death", "Sandy_Death", 1.f, 1.f, true);
+}
+
+void CPlayer::LoadCheck()
+{
+	if (m_IsLoading)
+	{
+		CGameObject* delObj = m_Scene->FindObject("Temp");
+		delObj->Destroy();
+		return;
+	}
+	LoadSpongebobAnim();
+	LoadPatrickAnim();
+	LoadSandyAnim();
+
+	ChangeSpongebob();
+
+	CWeapon* weapon = m_Scene->CreateObject<CWeapon>("Temp");
+	AddChildToSocket("Weapon", weapon);
+	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
+	m_WeaponMesh->SetEnable(false);
+
+	LoadCharacter();
+}
+
+void CPlayer::CollisionCube(const CollisionResult& result)
+{
+	int a = 0;
+	CollisionResult b = result;
 }
 
 void CPlayer::MoveFront()
