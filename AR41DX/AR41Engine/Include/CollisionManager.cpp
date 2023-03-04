@@ -123,6 +123,31 @@ bool CCollisionManager::SetCollisionInteraction(const std::string& Name,
 	return true;
 }
 
+bool CCollisionManager::CheckCollisionInteraction(const std::string& name, const std::string& channelName,
+	ECollision_Interaction interaction)
+{
+	CollisionProfile* profile = FindProfile(name);
+	if (!profile)
+	{
+		return false;
+	}
+	CollisionChannel* channel = nullptr;
+	size_t	count = m_vecChannel.size();
+	for (size_t i = 0; i < count; ++i)
+	{
+		if (m_vecChannel[i]->Name == channelName)
+		{
+			channel = m_vecChannel[i];
+			break;
+		}
+	}
+	if (!channel)
+	{
+		return false;
+	}
+	return profile->vecCollisionInteraction[(int)channel->Channel] == interaction;
+}
+
 bool CCollisionManager::CreateChannel(const std::string& Name, 
 	ECollision_Interaction Interaction)
 {
@@ -161,6 +186,16 @@ CollisionProfile* CCollisionManager::FindProfile(const std::string& Name)
 		return nullptr;
 
 	return iter->second;
+}
+
+void CCollisionManager::GetProfileNames(std::vector<std::string>& vecNames)
+{
+	auto	iter = m_mapProfile.begin();
+	auto	iterEnd = m_mapProfile.end();
+	for (; iter != iterEnd; ++iter)
+	{
+		vecNames.push_back(iter->first);
+	}
 }
 
 bool CCollisionManager::CollisionBox2DToBox2D(Vector2& HitPoint, CColliderBox2D* Src, CColliderBox2D* Dest)

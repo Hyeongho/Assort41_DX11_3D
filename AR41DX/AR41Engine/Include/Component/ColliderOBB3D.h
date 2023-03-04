@@ -29,10 +29,11 @@ public:
         m_BoxHalfSize = Size;
     }
 
-    void SetBoxHalfSize(float Width, float Height)
+    void SetBoxHalfSize(float Width, float Height, float Depth)
     {
         m_BoxHalfSize.x = Width;
         m_BoxHalfSize.y = Height;
+        m_BoxHalfSize.z = Depth;
     }
 
 public:

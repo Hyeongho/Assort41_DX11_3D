@@ -62,7 +62,6 @@ void CDefaultSetting::LoadResource()
     LoadKingJellyfish();
     LoadJellyfish();
 
-    //sound
     LoadSound();
 }
 
@@ -303,7 +302,7 @@ void CDefaultSetting::LoadBuildings()
     // 비키니 시티 맵 메쉬
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomGround", TEXT("Buildings/BikiniBottom/BikiniBottomGround.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomRoad", TEXT("Buildings/BikiniBottom/BikiniBottomRoad.msh"));
-  //  CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PineAppleHouse", TEXT("Buildings/BikiniBottom/PineAppleHouse.fbx"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PineAppleHouse", TEXT("Buildings/BikiniBottom/PineAppleHouse.fbx"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PatrickHouse", TEXT("Buildings/BikiniBottom/PatrickHouse.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SquidHouse", TEXT("Buildings/BikiniBottom/SquidHouse.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "ChumBucket", TEXT("Buildings/BikiniBottom/ChumBucket.msh"));
