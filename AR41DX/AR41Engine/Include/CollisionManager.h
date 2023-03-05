@@ -78,9 +78,9 @@ private:
 	Box2DInfo OverlapBox2D(const Box2DInfo& Src, const OBB2DInfo& Dest);
 	void ComputeHitPoint(Vector2& HitPoint, const Box2DInfo& Src, const Box2DInfo& Dest);
 
-	CubeInfo ConvertCubeInfoInfo(const OBB3DInfo& Info);
-	Box2DInfo OverlapCube(const CubeInfo& Src, const CubeInfo& Dest);
-	Box2DInfo OverlapCube(const CubeInfo& Src, const OBB3DInfo& Dest);
+	CubeInfo ConvertCubeInfo(const OBB3DInfo& Info);
+	CubeInfo OverlapCube(const CubeInfo& Src, const CubeInfo& Dest);
+	CubeInfo OverlapCube(const CubeInfo& Src, const OBB3DInfo& Dest);
 	void ComputeHitPoint(Vector3& HitPoint, const CubeInfo& Src, const CubeInfo& Dest);
 
 	DECLARE_SINGLE(CCollisionManager)

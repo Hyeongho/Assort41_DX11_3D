@@ -8,6 +8,7 @@
 //#include "../GameObject/Monster.h"
 //#include "../GameObject/Bullet.h"
 #include "../UI/StartSceneUI.h"
+#include "../UI/PlayerUI.h"
 #include "Scene/Scene.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -42,6 +43,7 @@ void CDefaultSetting::CreateCDO()
     //CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
 
     CScene::CreateUIWindowCDO<CStartSceneUI>("StartSceneUI"); //지우지 말아주세요
+    CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
 
 }
 

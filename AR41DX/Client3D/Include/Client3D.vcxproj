@@ -180,6 +180,8 @@
     <ClCompile Include="GameObject\Player.cpp" />
     <ClCompile Include="GameObject\Weapon.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp" />
+    <ClCompile Include="Scene\JellyFishSceneInfo.cpp" />
     <ClCompile Include="Scene\LoadingSceneInfo.cpp" />
     <ClCompile Include="Scene\MainSceneInfo.cpp" />
     <ClCompile Include="Scene\TitleSceneInfo.cpp" />
@@ -210,6 +212,8 @@
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\Weapon.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Scene\JellyfishFieldSceneInfo.h" />
+    <ClInclude Include="Scene\JellyFishSceneInfo.h" />
     <ClInclude Include="Scene\LoadingSceneInfo.h" />
     <ClInclude Include="Scene\MainSceneInfo.h" />
     <ClInclude Include="Scene\TitleSceneInfo.h" />

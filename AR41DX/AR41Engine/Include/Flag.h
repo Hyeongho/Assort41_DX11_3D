@@ -103,7 +103,7 @@ enum class ECollision_Channel
 	Mouse,
 	Player,
 	Monster,
-	Custom1,
+	Ground,
 	Custom3,
 	Custom4,
 	Custom5,

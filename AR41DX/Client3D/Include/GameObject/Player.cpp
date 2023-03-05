@@ -1,5 +1,8 @@
 #include "Player.h"
 #include "Weapon.h"
+#include "Input.h"
+#include "Engine.h"
+#include "Device.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/AnimationMeshComponent.h"
 #include "Component/CameraComponent.h"
@@ -7,14 +10,15 @@
 #include "Component/NavigationAgent3D.h"
 #include "Component/RigidBody.h"
 #include "Component/ColliderCube.h"
+#include "Component/ColliderOBB3D.h"
 #include "Input.h"
 #include "Engine.h"
 #include "Scene/Scene.h"
 #include "Scene/CameraManager.h"
 #include "Scene/NavigationManager3D.h"
-#include "Device.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
+#include "../UI/PlayerUI.h"
 
 CPlayer::CPlayer()
 	: m_Speed(2000.f)
@@ -32,10 +36,11 @@ CPlayer::CPlayer()
 	m_ObjectTypeName = "Player";
 }
 
-CPlayer::CPlayer(const CPlayer& Obj) : CGameObject(Obj)
-, m_Speed(Obj.m_Speed)
-, m_KeyCount(Obj.m_KeyCount)
-, m_MainCharacter(EMain_Character::Max)
+CPlayer::CPlayer(const CPlayer& Obj) 
+	: CGameObject(Obj)
+	, m_Speed(Obj.m_Speed)
+	, m_KeyCount(Obj.m_KeyCount)
+	, m_MainCharacter(EMain_Character::Max)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
@@ -46,6 +51,7 @@ CPlayer::CPlayer(const CPlayer& Obj) : CGameObject(Obj)
 
 CPlayer::~CPlayer()
 {
+	//m_PlayerUI->Destroy();
 }
 
 void CPlayer::Start()
@@ -87,6 +93,8 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
 
+	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionTest);
+	
 	if (m_IsLoading)
 	{
 		CGameObject* delObj = m_Scene->FindObject("Temp");
@@ -103,6 +111,8 @@ void CPlayer::Start()
 	AddChildToSocket("Weapon", weapon);
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
+
+	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 }
 
 bool CPlayer::Init()
@@ -114,7 +124,9 @@ bool CPlayer::Init()
 	m_Arm = CreateComponent<CTargetArm>("Arm");
 	m_NavAgent = CreateComponent<CNavigationAgent3D>("NavAgent");
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
-	m_Cube = CreateComponent<CColliderCube>("Cube");
+	m_Cube = CreateComponent<CColliderOBB3D>("Cube");
+
+	m_Cube->SetCollisionProfile("Player");
 
 	SetRootComponent(m_Mesh);
 
@@ -123,16 +135,18 @@ bool CPlayer::Init()
 	m_Mesh->AddChild(m_Cube);
 	m_Arm->AddChild(m_Camera);
 
-	m_Cube->SetCubeSize(500.f, 500.f, 500.f);
+	m_Cube->SetBoxHalfSize(500.f, 500.f, 500.f);
 
-	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionTest);
+	m_Cube->SetInheritRotX(true);
+	m_Cube->SetInheritRotY(true);
+	m_Cube->SetInheritRotZ(true);
 
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
 
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
-	m_Rigid->SetGround(true); //땅에 붙어있다고 설정
+	m_Rigid->SetGround(true);	//땅에 붙어있다고 설정
 	return true;
 }
 
@@ -199,6 +213,8 @@ void CPlayer::Load(FILE* File)
 	AddChildToSocket("Weapon", weapon);
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
+
+	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 }
 
 void CPlayer::LoadSpongebobAnim()
@@ -377,7 +393,7 @@ void CPlayer::Stop()
 
 void CPlayer::Jump()
 {
-	if (m_Rigid->GetGround() == false)
+	if (!m_Rigid->GetGround())
 	{
 		return;
 	}
@@ -396,6 +412,7 @@ void CPlayer::Jump()
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJump");
 	m_Rigid->SetGround(false);
 	m_Rigid->AddForce(0, 3500.f);
+	m_Rigid->SetVelocityY(3500.f);
 }
 
 void CPlayer::AttackKey()
@@ -466,22 +483,6 @@ void CPlayer::Patrick_Throw()
 {
 }
 
-void CPlayer::Sandy_Karate_Chop()
-{
-	if (true)
-	{
-
-	}
-}
-
-void CPlayer::Sandy_Karate_Kick()
-{
-}
-
-void CPlayer::Sandy_Lasso_Start()
-{
-}
-
 void CPlayer::Interaction()
 {
 }
@@ -492,6 +493,7 @@ void CPlayer::Menu()
 
 void CPlayer::IngameUI()
 {
+	m_PlayerUI->SetAllOpacity(3.f);
 }
 
 void CPlayer::RClick()
@@ -577,5 +579,3 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 		OutputDebugString(Text);
 	}
 }
-
-
