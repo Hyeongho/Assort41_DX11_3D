@@ -192,6 +192,18 @@
     <ClCompile Include="UI\TitleSceneUI.cpp">
       <Filter>05. UI</Filter>
     </ClCompile>
+    <ClCompile Include="Window\StatusWindow.cpp">
+      <Filter>03. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\ColliderCubeWindow.cpp">
+      <Filter>03. Window\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\ColliderSphere3dWindow.cpp">
+      <Filter>03. Window\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\ColliderObb3dWindow.cpp">
+      <Filter>03. Window\05. Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -340,6 +352,18 @@
     </ClInclude>
     <ClInclude Include="UI\TitleSceneUI.h">
       <Filter>05. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\StatusWindow.h">
+      <Filter>03. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\ColliderCubeWindow.h">
+      <Filter>03. Window\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\ColliderSphere3dWindow.h">
+      <Filter>03. Window\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\ColliderObb3dWindow.h">
+      <Filter>03. Window\05. Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -332,6 +332,7 @@ void CObjectWindow::AddInput(CScene* scene)
 	{
 		m_Gizmo = scene->CreateObject<CGameObject>("Gizmo");
 		m_Gizmo->CreateComponent<CStaticMeshComponent>("Mesh");
+		m_Gizmo->SetWorldScale(10.f, 10.f, 10.f);
 	} 
 }
 

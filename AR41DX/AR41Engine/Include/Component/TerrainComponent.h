@@ -25,7 +25,7 @@ private:
     std::vector<Vector3> m_vecFaceNormal;
     class CTerrainConstantBuffer* m_CBuffer;
     bool m_Grid;
-
+    std::string m_FileName;
 public:
     //김범중 에디터용
     Vector2 GetSize()   const
