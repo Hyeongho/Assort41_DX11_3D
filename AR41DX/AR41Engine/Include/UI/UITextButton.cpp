@@ -408,7 +408,7 @@ void CUITextButton::Load(FILE* File)
         m_RenderTarget = CDevice::GetInst()->Get2DTarget();
 
 
-        SetText((EButtonState)i, m_TextInfo[i].m_Text, m_TextInfo[i].m_TextCapacity, m_TextInfo[i].m_Color);
+        SetText((EButtonState)i, m_TextInfo[i].m_Text, m_TextInfo[i].m_FontSize, m_TextInfo[i].m_Color);
 
 
     }

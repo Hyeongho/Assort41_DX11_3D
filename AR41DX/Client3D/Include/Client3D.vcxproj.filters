@@ -153,6 +153,27 @@
     <ClCompile Include="GameObject\Bullet.cpp">
       <Filter>03. GameObject\04. ETC</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\FodderBT.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\01. Fodder</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\HammerBT.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\02. Hammer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Chase.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Dead.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Attack.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Walk.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -241,6 +262,27 @@
     </ClInclude>
     <ClInclude Include="GameObject\Bullet.h">
       <Filter>03. GameObject\04. ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyfishFieldSceneInfo.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\FodderBT.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\01. Fodder</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\HammerBT.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\02. Hammer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Chase.h">
+      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Dead.h">
+      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Attack.h">
+      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Walk.h">
+      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

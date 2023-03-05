@@ -231,10 +231,33 @@ CParticleComponent* CParticleComponent::Clone() const
 
 void CParticleComponent::Save(FILE* File)
 {
-	CPrimitiveComponent::Save(File);
+	CSceneComponent::Save(File);
+	int	Length = (int)m_Mesh->GetName().length();
+	fwrite(&Length, 4, 1, File);
+	fwrite(m_Mesh->GetName().c_str(), 1, Length, File);
+
+	Length = (int)m_Particle->GetName().length();
+	fwrite(&Length, 4, 1, File);
+	fwrite(m_Particle->GetName().c_str(), 1, Length, File);
+
+	fwrite(&m_SpawnTimeMax, sizeof(float), 1, File);
+	fwrite(&m_SpawnCountMax, sizeof(int), 1, File);
 }
 
 void CParticleComponent::Load(FILE* File)
 {
-	CPrimitiveComponent::Load(File);
+	CSceneComponent::Load(File);
+	int	Length = 0;
+	char	Name[256] = {};
+	fread(&Length, 4, 1, File);
+	fread(Name, 1, Length, File);
+	SetMesh(Name);
+
+	fread(&Length, 4, 1, File);
+	fread(Name, 1, Length, File);
+	SetParticle(Name);
+
+	fread(&m_SpawnTimeMax, sizeof(float), 1, File);
+	fread(&m_SpawnCountMax, sizeof(int), 1, File);
+	SetSpawnCountMax(m_SpawnCountMax);
 }

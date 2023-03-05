@@ -34,8 +34,15 @@ bool CJellyfishFieldSceneInfo::Init()
 	GlobalLightComponent->SetRelativeRotation(45.f, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
+	CJellyfishField* JellyfishField = m_Owner->CreateObject<CJellyfishField>("JellyfishField");
+
+
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 	//m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+
+	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
+	CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
+	CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
 
 	SetPlayerObject(Player);
 

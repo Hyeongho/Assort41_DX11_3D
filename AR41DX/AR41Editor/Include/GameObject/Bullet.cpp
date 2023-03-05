@@ -38,15 +38,16 @@ bool CBullet::Init()
 {
 	CGameObject::Init();
 	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
-	//m_Body = CreateComponent<CColliderCube>("Body");
+	m_Body = CreateComponent<CColliderCube>("Body");
 
-	//m_Mesh->AddChild(m_Body);
+	m_Mesh->AddChild(m_Body);
 
 	m_Mesh->SetMesh("SpongebobMissile");
-	//m_Mesh->SetPivot(0.5f, 0.5f);
-	//m_Mesh->SetRelativeScale(50.f, 50.f);
+	m_Mesh->SetPivot(0.5f, 0.5f);
+	m_Mesh->SetRelativeScale(50.f, 50.f);
 
-	//m_Body->SetCollisionCallback<CBullet>(ECollision_Result::Collision, this, &CBullet::CollisionBullet);
+	m_Body->SetCollisionProfile("PlayerAttack");
+	m_Body->SetCollisionCallback<CBullet>(ECollision_Result::Collision, this, &CBullet::CollisionBullet);
 	return true;
 }
 

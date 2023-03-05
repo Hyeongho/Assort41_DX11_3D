@@ -126,6 +126,8 @@ bool CPlayer::Init()
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
 	m_Cube = CreateComponent<CColliderOBB3D>("Cube");
 
+	m_Cube->SetCollisionProfile("Player");
+
 	SetRootComponent(m_Mesh);
 
 	m_Mesh->AddChild(m_Rigid);

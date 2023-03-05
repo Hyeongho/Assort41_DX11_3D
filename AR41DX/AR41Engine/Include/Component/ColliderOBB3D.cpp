@@ -94,15 +94,6 @@ void CColliderOBB3D::PostUpdate(float DeltaTime)
 
 	Vector3	Pos[8];
 
-	//-++
-	//+-+
-	//++-
-	//--+
-	//-+-
-	//+--
-	//+++
-	//---
-
 	Pos[0] = m_Info.Center - m_Info.Axis[AXIS_X] * m_Info.Length[AXIS_X] + m_Info.Axis[AXIS_Y] * m_Info.Length[AXIS_Y] + m_Info.Axis[AXIS_Z] * m_Info.Length[AXIS_Z];
 
 	Pos[1] = m_Info.Center + m_Info.Axis[AXIS_X] * m_Info.Length[AXIS_X] - m_Info.Axis[AXIS_Y] * m_Info.Length[AXIS_Y] + m_Info.Axis[AXIS_Z] * m_Info.Length[AXIS_Z];

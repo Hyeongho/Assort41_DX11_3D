@@ -8,6 +8,7 @@
 #include "GameObject\Monster.h"
 #include "GameObject\Weapon.h"
 
+#include "Window/StatusWindow.h"
 #include "Window\ObjectWindow.h"
 #include "Window\ClassWindow.h"
 #include "Window\ComponentWindow.h"
@@ -56,6 +57,7 @@ bool CEditorManager::Init(HINSTANCE hInst)
     CEditorGUIManager::GetInst()->CreateEditorWindow<CComponentWindow>("ComponentWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CTransformWindow>("TransformWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CSceneWindow>("SceneWindow");
+    CEditorGUIManager::GetInst()->CreateEditorWindow<CStatusWindow>("StatusWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CFBXWindow>("FBXWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CPathWindow>("PathWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMaterialWindow>("MaterialWindow");

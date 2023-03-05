@@ -108,6 +108,11 @@ void CColliderCube::PostUpdate(float DeltaTime)
 void CColliderCube::Render()
 {
 	CCollider3D::Render();
+}
+
+void CColliderCube::RenderDebug()
+{
+	CCollider3D::RenderDebug();
 
 	Matrix matScale, matTranslate, matWorld;
 
@@ -134,11 +139,6 @@ void CColliderCube::Render()
 	m_Shader->SetShader();
 
 	m_DebugMesh->Render();
-}
-
-void CColliderCube::RenderDebug()
-{
-	CCollider3D::RenderDebug();
 }
 
 CColliderCube* CColliderCube::Clone() const
