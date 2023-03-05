@@ -152,6 +152,9 @@ bool CMaterialManager::Init()
 	Material->EnableBump();
 	Material->EnableSpecular();
 
+	Material = CreateMaterial<CMaterial>("Bubble");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Bubble", TEXT("Particle/Bubbles50px.png"));
+	Material->SetShader("SpriteShader");
 	return true;
 }
 

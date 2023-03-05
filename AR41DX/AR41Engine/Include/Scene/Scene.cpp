@@ -13,6 +13,7 @@
 #include "../Component/LightComponent.h"
 #include "../Component/StaticMeshComponent.h"
 #include "../Component/AnimationMeshComponent.h"
+#include "../Component/ParticleComponent.h"
 #include "../Component/NavigationAgent.h"
 #include "../Animation/Animation2D.h"
 #include "../UI/UIButton.h"
@@ -67,6 +68,16 @@ CScene::CScene()	:
 	m_LightManager->m_Owner = this;
 
 	m_LightManager->Init();
+
+	if (CEngine::GetInst()->GetRender2D())
+		m_NavManager = new CNavigationManager2D;
+
+	else
+		m_NavManager = new CNavigationManager3D;
+
+	m_NavManager->m_Owner = this;
+
+	m_NavManager->Init();
 }
 
 CScene::~CScene()
@@ -166,6 +177,12 @@ void CScene::CreateCDO()
 	ComCDO->Init();
 
 	CComponent::AddComponentCDO("AnimationMeshComponent", ComCDO);
+
+	ComCDO = new CParticleComponent;
+
+	ComCDO->Init();
+
+	CComponent::AddComponentCDO("ParticleComponent", ComCDO);
 	// ==================== Animation ====================
 	CAnimation2D* AnimCDO = new CAnimation2D;
 
@@ -233,17 +250,6 @@ void CScene::Start()
 
 bool CScene::Init()
 {
-
-	if (CEngine::GetInst()->GetRender2D())
-		m_NavManager = new CNavigationManager2D;
-
-	else
-		m_NavManager = new CNavigationManager3D;
-
-	m_NavManager->m_Owner = this;
-
-	m_NavManager->Init();
-
 	return true;
 }
 
@@ -555,6 +561,11 @@ void CScene::Load(const char* FullPath)
 		NewObj->SetScene(this);
 
 		NewObj->Load(File);
+
+		if(NewObj->GetName()=="GlobalLight")
+		{
+			m_LightManager->SetGlobalLightObject(NewObj);
+		}
 
 		NextPos = (int)ftell(File);
 

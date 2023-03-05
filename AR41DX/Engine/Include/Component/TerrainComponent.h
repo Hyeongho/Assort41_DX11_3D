@@ -25,9 +25,9 @@ private:
     std::vector<Vector3> m_vecFaceNormal;
     class CTerrainConstantBuffer* m_CBuffer;
     bool m_Grid;
-
+    std::string m_FileName;
 public:
-    //Â±Ã¨Â¹Ã¼ÃÃŸ Â¿Â¡ÂµÃ°Ã…ÃÂ¿Ã«
+    //±è¹üÁß ¿¡µğÅÍ¿ë
     Vector2 GetSize()   const
     {
         return m_Size;
@@ -44,19 +44,17 @@ public:
     }
 
     float GetDetailLevel() const;
-    
+
     int GetSplatCount() const;
-    
     void SetCountX(int count)
     {
         m_CountX = count;
     }
-    
     void SetCountY(int count)
     {
         m_CountY = count;
     }
-
+    //
     int GetFaceCount() const
     {
         return (int)m_vecIndex.size() / 3;

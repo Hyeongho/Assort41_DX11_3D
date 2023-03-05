@@ -10,7 +10,7 @@
 #include "../Thread/ThreadManager.h"
 #include "../Scene/NavigationManager3D.h"
 
-CTerrainComponent::CTerrainComponent() : m_CountX(0), m_CountY(0), m_HeightMapX(0), m_HeightMapY(0), m_Grid(false)
+CTerrainComponent::CTerrainComponent() : m_CountX(0), m_CountY(0), m_HeightMapX(0), m_HeightMapY(0), m_Grid(true)
 {
 	SetTypeID<CTerrainComponent>();
 
@@ -28,8 +28,10 @@ CTerrainComponent::CTerrainComponent(const CTerrainComponent& component) : CPrim
 
 	m_Size = component.m_Size;
 	m_CellSize = component.m_CellSize;
-	
-	m_CBuffer = m_CBuffer->Clone();
+	if (component.m_CBuffer)
+	{
+		m_CBuffer = component.m_CBuffer->Clone();
+	}
 
 	m_Grid = component.m_Grid;
 }
@@ -158,7 +160,8 @@ bool CTerrainComponent::Init()
 	if (m_Scene)
 	{
 		m_ShadowMapShader = (CGraphicShader*)m_Scene->GetResource()->FindShader("ShadowMapStaticShader");
-		CreateTerrain(681, 631, 30.f, 30.f, TEXT("LandScape/BikiniCity_Height.png"));
+		CreateTerrain(680, 631, 40.f, 40.f, TEXT("LandScape/BikiniCity_Height.png"));
+		//CreateTerrain(360, 672, 40.f, 40.f, TEXT("LandScape/ZellyFishField.png"));
 	}
 
 	else
@@ -195,23 +198,37 @@ CTerrainComponent* CTerrainComponent::Clone() const
 
 void CTerrainComponent::Save(FILE* File)
 {
-	CPrimitiveComponent::Save(File);
+	fwrite(&m_CountX, sizeof(int), 1, File);
+	fwrite(&m_CountY, sizeof(int), 1, File);
+	fwrite(&m_CellSize, sizeof(Vector2), 1, File);
+	fwrite(&m_Grid, sizeof(bool), 1, File);
+	int Length = (int)m_FileName.length();
+	fwrite(&Length, 4, 1, File);
+	fwrite(m_FileName.c_str(), 1, Length, File);
+	CSceneComponent::Save(File);
 }
 
 void CTerrainComponent::Load(FILE* File)
 {
-	CPrimitiveComponent::Load(File);
-
-	CNavigationManager3D* NavMgr = (CNavigationManager3D*)m_Scene->GetNavigationManager();
-
-	NavMgr->CreateNavigationMesh(this);
-
-	//SetMin(Min);
-	//SetMax(Max);
-	//SetMeshSize(Max - Min);
+	fread(&m_CountX, sizeof(int), 1, File);
+	fread(&m_CountY, sizeof(int), 1, File);
+	fread(&m_CellSize, sizeof(Vector2), 1, File);
+	fread(&m_Grid, sizeof(bool), 1, File);
+	int Length = 0;
+	char	Name[256] = {};
+	fread(&Length, 4, 1, File);
+	fread(Name, 1, Length, File);
+	m_FileName = Name;
+	TCHAR* t_filename = new TCHAR[m_FileName.size() + 1];
+	t_filename[m_FileName.size()] = 0;
+	std::copy(m_FileName.begin(), m_FileName.end(), t_filename);
+	CreateTerrain(m_CountX, m_CountY, m_CellSize.x, m_CellSize.y, t_filename);
+	SAFE_DELETE_ARRAY(t_filename);
+	CSceneComponent::Load(File);
 }
 
-void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float SizeY, const TCHAR* HeightMapName, const std::string& HeightMapPath)
+void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float SizeY, const TCHAR* HeightMapName, 
+	const std::string& HeightMapPath)
 {
 	m_CountX = CountX;
 	m_CountY = CountY;
@@ -225,6 +242,7 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 	std::vector<float>	vecY;
 	float MaxY = 0.f;
 
+	char	MeshName[256] = {};
 	if (HeightMapName)
 	{
 		TCHAR FullPath[MAX_PATH] = {};
@@ -245,10 +263,13 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 
 		int	Length = WideCharToMultiByte(CP_ACP, 0, FullPath, -1, nullptr, 0, nullptr, nullptr);
 		WideCharToMultiByte(CP_ACP, 0, FullPath, -1, FullPathMultibyte, Length, nullptr, nullptr);
-
+		Length = WideCharToMultiByte(CP_ACP, 0, HeightMapName, -1, nullptr, 0, nullptr, nullptr);
+		WideCharToMultiByte(CP_ACP, 0, HeightMapName, -1, MeshName, Length, nullptr, nullptr);
+		m_FileName = MeshName;
 #else
 
 		strcpy_s(FileNameMultibyte, FullPath);
+		strcpy_s(MeshName, HeightMapName);
 
 #endif // UNICODE
 
@@ -299,7 +320,7 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 					MaxY = Y;
 				}
 
-				vecY.push_back(Y);
+				vecY.push_back(Y*10.f);
 			}
 		}
 	}
@@ -419,19 +440,16 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 	ComputeTangent();
 
 	// 구해준 정보로 메쉬를 만든다.
-	char	MeshName[256] = {};
 
-#ifdef _WIN64
-
-	sprintf_s(MeshName, "%s%lli", m_Name.c_str(), (__int64)this);
-
-#else
-
-	sprintf_s(MeshName, "%s%d", m_Name.c_str(), (int)this);
-
-#endif // _WIN64
-
-	m_Grid = true;
+//#ifdef _WIN64
+//
+//	sprintf_s(MeshName, "%s%lli", m_Name.c_str(), (__int64)this);
+//
+//#else
+//
+//	sprintf_s(MeshName, "%s%d", m_Name.c_str(), (int)this);
+//
+//#endif // _WIN64
 
 	m_Scene->GetResource()->CreateMesh(MeshType::Static, MeshName,
 		&m_vecVtx[0], sizeof(Vertex3DStatic), (int)m_vecVtx.size(),

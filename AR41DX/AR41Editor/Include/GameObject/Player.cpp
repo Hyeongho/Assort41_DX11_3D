@@ -11,15 +11,17 @@
 #include "Component/NavigationAgent3D.h"
 #include "Component/RigidBody.h"
 #include "Component/ColliderCube.h"
+#include "Component/ColliderOBB3D.h"
 #include "Input.h"
 #include "Engine.h"
+#include "PathManager.h"
 #include "Scene/Scene.h"
 #include "Scene/CameraManager.h"
 #include "Scene/NavigationManager3D.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "../UI/PlayerUI.h"
-#include <PathManager.h>
+#include "../UI/PauseUI.h"
 
 CPlayer::CPlayer()
 	: m_Speed(500.f)
@@ -42,7 +44,7 @@ CPlayer::CPlayer()
 CPlayer::CPlayer(const CPlayer& Obj) 
 	: CGameObject(Obj)
 	, m_Speed(Obj.m_Speed)
-	, m_KeyCount(Obj.m_KeyCount)
+	, m_CameraSpeed(Obj.m_CameraSpeed)
 	, m_MainCharacter(EMain_Character::Max)
 	, m_IsDoubleJump(false)
 {
@@ -57,11 +59,24 @@ CPlayer::CPlayer(const CPlayer& Obj)
 
 CPlayer::~CPlayer()
 {
-	m_PlayerData.Glittering = 30;
 	if (m_LoadData != m_PlayerData)
 	{
 		SaveCharacter();
 	}
+}
+
+void CPlayer::Destroy()
+{
+	CGameObject::Destroy();
+	if (m_PlayerUI)
+	{
+		m_PlayerUI->Destroy();
+	}
+	if (m_PauseUI)
+	{
+		m_PauseUI->Destroy();
+	}
+	CInput::GetInst()->ClearCallback();
 }
 
 void CPlayer::Start()
@@ -101,30 +116,21 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("RClick", Input_Type::Push, this, &CPlayer::Bowl, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("RClick", Input_Type::Up, this, &CPlayer::BowlThrow, m_Scene);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Push, this, &CPlayer::ChangeSpongebob, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Push, this, &CPlayer::ChangePatrick, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Push, this, &CPlayer::ChangeSandy, m_Scene);
-
-	if (m_IsLoading)
-	{
-		CGameObject* delObj = m_Scene->FindObject("Temp");
-		delObj->Destroy();
-		return;
-	}
-	LoadSpongebobAnim();
-	LoadPatrickAnim();
-	LoadSandyAnim();
-
-	ChangeSpongebob();
-
-	CWeapon* weapon = m_Scene->CreateObject<CWeapon>("Temp");
-	AddChildToSocket("Weapon", weapon);
-	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
-	m_WeaponMesh->SetEnable(false);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Down, this, &CPlayer::ChangeSpongebob, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Down, this, &CPlayer::ChangePatrick, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Down, this, &CPlayer::ChangeSandy, m_Scene);
 
 	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	m_PlayerUI->SetHp(m_PlayerData.CurHP);
+	m_PlayerUI->SetMaxHp(m_PlayerData.MaxHP);
+	m_PlayerUI->SetGlitter(m_PlayerData.Glittering);
+	m_PlayerUI->SetFritter(m_PlayerData.Fritter);
+	m_PlayerUI->SetSocks(m_PlayerData.Socks);
+	m_PauseUI = m_Scene->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
+	m_PauseUI->SetEnable(false);
 
-	LoadCharacter();
+	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
+	LoadCheck();
 }
 
 bool CPlayer::Init()
@@ -136,28 +142,39 @@ bool CPlayer::Init()
 	m_Arm = CreateComponent<CTargetArm>("Arm");
 	m_NavAgent = CreateComponent<CNavigationAgent3D>("NavAgent");
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
-	//m_Cube = CreateComponent<CColliderCube>("Cube");
+	m_Cube = CreateComponent<CColliderOBB3D>("Cube");
+
 	m_HeadCube = CreateComponent<CColliderCube>("HeadCube");
 
 	SetRootComponent(m_Mesh);
 
 	m_Mesh->AddChild(m_Rigid);
 	m_Mesh->AddChild(m_Arm);
-	//m_Mesh->AddChild(m_Cube);
+	m_Mesh->AddChild(m_Cube);
 	m_Mesh->AddChild(m_HeadCube);
 	m_Arm->AddChild(m_Camera);
 
-	//m_Cube->SetCubeSize(500.f, 500.f, 500.f);
+	m_Cube->SetRelativePositionY(70.f);
+	m_Cube->SetCollisionProfile("Player");
+	m_Cube->SetBoxHalfSize(500.f, 500.f, 500.f);
+
+	m_Cube->SetInheritRotX(true);
+	m_Cube->SetInheritRotY(true);
+	m_Cube->SetInheritRotZ(true);
+
+
 
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
 
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
-	m_Rigid->SetGround(true);	//땅에 붙어있다고 설정
-	//m_Rigid->SetGravity(true);
+	m_Rigid->SetGravity(true);
 
+	m_HeadCube->SetCollisionProfile("PlayerAttack");
 	m_HeadCube->SetEnable(false);
+	m_HeadCube->SetRelativePositionY(175.f);
+	m_HeadCube->SetCubeSize(100.f, 75.f, 100.f);
 	return true;
 }
 
@@ -209,20 +226,7 @@ void CPlayer::Load(FILE* File)
 {
 	CGameObject::Load(File);
 	m_IsLoading = true;
-	LoadSpongebobAnim();
-	LoadPatrickAnim();
-	LoadSandyAnim();
-
-	ChangeSpongebob();
-
-	CWeapon* weapon = m_Scene->CreateObject<CWeapon>("LoadWeapon");
-	AddChildToSocket("Weapon", weapon);
-	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
-	m_WeaponMesh->SetEnable(false);
-
-	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
-
-	LoadCharacter();
+	LoadCheck();
 }
 
 bool CPlayer::SaveCharacter()
@@ -284,7 +288,7 @@ void CPlayer::LoadSpongebobAnim()
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerAttack", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerJumpDw", "Spongebob_JumpDw", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerJumpUp", "Spongebob_JumpUp", 1.f, 1.f, false);
-	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashStart", "Spongebob_BashStart", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashStart", "Spongebob_BashStart", 1.f, 2.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBashStart", this, &CPlayer::StartBash);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashDw", "Spongebob_BashDw", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBash", "Spongebob_Bash", 1.f, 1.f, false);
@@ -351,6 +355,34 @@ void CPlayer::LoadSandyAnim()
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Karate_Kick", "Sandy_Karate_Kick", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Lasso_Start", "Sandy_Lasso_Start", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("Sandy_Death", "Sandy_Death", 1.f, 1.f, true);
+}
+
+void CPlayer::LoadCheck()
+{
+	if (m_IsLoading)
+	{
+		CGameObject* delObj = m_Scene->FindObject("Temp");
+		delObj->Destroy();
+		return;
+	}
+	LoadSpongebobAnim();
+	LoadPatrickAnim();
+	LoadSandyAnim();
+
+	ChangeSpongebob();
+
+	CWeapon* weapon = m_Scene->CreateObject<CWeapon>("Temp");
+	AddChildToSocket("Weapon", weapon);
+	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
+	m_WeaponMesh->SetEnable(false);
+
+	LoadCharacter();
+}
+
+void CPlayer::CollisionCube(const CollisionResult& result)
+{
+	int a = 0;
+	CollisionResult b = result;
 }
 
 void CPlayer::MoveFront()
@@ -483,10 +515,6 @@ void CPlayer::Stop()
 
 void CPlayer::Jump()
 {
-	if (!m_Rigid->GetGround())
-	{
-		return;
-	}
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
@@ -531,7 +559,7 @@ void CPlayer::JumpCheck()
 	{
 		CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
 		float Y = Nav->GetHeight(GetWorldPos());
-		if (Y != FLT_MAX && GetWorldPos().y - Y < 50.f)
+		if (Y != FLT_MAX && GetWorldPos().y - Y < 40.f)
 		{
 			SetWorldPositionY(Y);
 			m_Rigid->SetGround(true);
@@ -557,13 +585,13 @@ void CPlayer::CameraRotationKey()
 	const Vector2& mouseMove = CInput::GetInst()->GetMouseMove() * m_CameraSpeed * g_DeltaTime;
 	m_Arm->AddRelativeRotationY(mouseMove.x);
 	m_Arm->AddRelativeRotationX(mouseMove.y);
-	if (m_Arm->GetRelativeRot().x > 50.f)
+	if (m_Arm->GetRelativeRot().x > 70.f)
 	{
-		m_Arm->SetRelativeRotationX(50.f);
+		m_Arm->SetRelativeRotationX(70.f);
 	}
-	else if (m_Arm->GetRelativeRot().x < -30.f)
+	else if (m_Arm->GetRelativeRot().x < -20.f)
 	{
-		m_Arm->SetRelativeRotationX(-30.f);
+		m_Arm->SetRelativeRotationX(-20.f);
 	}
 }
 
@@ -609,7 +637,6 @@ void CPlayer::Bowl()
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBowl");
 	}
-	m_Speed = 200.f;
 }
 
 void CPlayer::BowlThrow()
@@ -618,13 +645,17 @@ void CPlayer::BowlThrow()
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerBowl")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBowlThrow");
+		CBullet* bullet = m_Scene->CreateObject<CBullet>("SpongeBobBowl");
+		float angle = GetWorldRot().y;
+		bullet->AddWorldRotationY(GetWorldRot().y - 90.f);
+		bullet->SetWorldPosition(GetWorldPos());
+		//int intAngle = (int)GetWorldRot().y % 360;
+		AddWorldPositionX(sinf(angle) * 100.f);
+		AddWorldPositionY(50.f);
+		AddWorldPositionZ(cosf(angle) * 100.f);
+		bullet->SetDir(GetWorldPos());
+		bullet->SetLifeTime(3.f);
 	}
-	m_Speed = 500.f;
-	CBullet* bullet = m_Scene->CreateObject<CBullet>("SpongeBobBowl");
-	bullet->SetWorldRotationY(GetWorldRot().y-90.f);
-	bullet->SetWorldPosition(-30.f,50.f,-100.f);
-	bullet->SetDir(GetWorldPos());
-	bullet->SetLifeTime(3.f);
 }
 
 void CPlayer::Patrick_BellyAttack()
@@ -659,6 +690,17 @@ void CPlayer::Interaction()
 
 void CPlayer::Menu()
 {
+	if(m_PauseUI->GetEnable())
+	{
+		m_PauseUI->SetEnable(false);
+		CEngine::GetInst()->SetTimeScale(1.f);
+	}
+	else
+	{
+		m_PauseUI->SetEnable(true);
+		m_PauseUI->OpenUI();
+		CEngine::GetInst()->SetTimeScale(0.f);
+	}
 }
 
 void CPlayer::IngameUI()
@@ -714,6 +756,7 @@ void CPlayer::ResetIdle()
 {
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
 	m_WeaponMesh->SetEnable(false);
+	m_HeadCube->SetEnable(false);
 	m_IsDoubleJump = false;
 }
 
@@ -763,4 +806,14 @@ void CPlayer::ChangeSandy()
 	m_Anim[(int)m_MainCharacter]->Start();
 }
 
+void CPlayer::CollisionTest(const CollisionResult& result)
+{
+	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Monster)
+	{
+		TCHAR	Text[256] = {};
 
+		wsprintf(Text, TEXT("Collision\n"));
+
+		OutputDebugString(Text);
+	}
+}

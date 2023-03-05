@@ -1,7 +1,7 @@
 
 #include "Share.fx"
 
-cbuffer UICBuffer : register(b10)
+cbuffer UICBuffer : register(b9)
 {
     float4 g_UITint;
     matrix g_UIWVP;

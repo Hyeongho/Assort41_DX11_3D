@@ -9,6 +9,7 @@
 #include "Thread/DataStream.h"
 #include "Editor/EditorGUIManager.h"
 #include "Component/ParticleComponent.h"
+#include "Component/SpriteComponent.h"
 #include "GameObject/GameObject.h"
 
 //김범중 클라이언트에서는 에디터 관련된 부분 컴파일 안돼게끔 하기위한 전처리문
@@ -36,11 +37,15 @@ CLoadingSceneInfo::~CLoadingSceneInfo()
 bool CLoadingSceneInfo::Init()
 {
 	m_LoadingUI = m_Owner->GetViewport()->CreateUIWindow<CLoadingUI>("LoadingUI");
+	CGameObject* bg= m_Owner->CreateObject<CGameObject>("BG");
+	CSpriteComponent* img = bg->CreateComponent<CSpriteComponent>("BG");
+	img->SetTexture("LoadingBG", TEXT("UI\\load_bg.tga"));
+	img->SetWorldScale(1920.f,1080.f);
+	img->SetWorldPosition(-960.f,-540.f);
 	m_Particle = m_Owner->CreateObject<CGameObject>("Particle");
-	CParticleComponent* particle = m_Particle->CreateComponent<CParticleComponent>("Particle");
-	particle = m_Particle->CreateComponent<CParticleComponent>("Particle");
-	particle->SetParticle("LoadingBubble");
+	m_Particle->CreateComponent<CParticleComponent>("Particle");
 	m_Particle->SetEnable(false);
+	m_Particle->SetLifeTime(m_StartTime+0.5f);
     return true;
 }
 
@@ -52,7 +57,6 @@ void CLoadingSceneInfo::Update(float DeltaTime)
 	{
 		m_Owner->GetResource()->SoundPlay("LoadingUI");
 		m_Particle->SetEnable(true);
-		m_Particle->SetLifeTime(1.5f);
 		m_StartTime = 100.f;
 	}
 
