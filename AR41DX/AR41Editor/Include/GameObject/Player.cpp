@@ -165,6 +165,8 @@ bool CPlayer::Init()
 
 	m_HeadCube->SetCollisionProfile("PlayerAttack");
 	m_HeadCube->SetEnable(false);
+	m_HeadCube->SetRelativePositionY(175.f);
+	m_HeadCube->SetCubeSize(100.f, 75.f, 100.f);
 	return true;
 }
 
@@ -746,6 +748,7 @@ void CPlayer::ResetIdle()
 {
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
 	m_WeaponMesh->SetEnable(false);
+	m_HeadCube->SetEnable(false);
 	m_IsDoubleJump = false;
 }
 
