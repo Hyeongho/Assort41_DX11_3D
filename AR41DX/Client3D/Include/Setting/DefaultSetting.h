@@ -32,6 +32,7 @@ private:
     void LoadKingJellyfish();
     void LoadJellyfish();
     void LoadTikis();
+    void LoadRobots();
 
     // NPC
     void LoadMrKrabs();
@@ -40,9 +41,10 @@ private:
     void LoadTaxi();
 
 
+    // Objects
     void LoadBuildings();
+    void LoadJellyfishFieldsObj();
     void LoadEnemies();
     void LoadParticle();
-
 };
 
