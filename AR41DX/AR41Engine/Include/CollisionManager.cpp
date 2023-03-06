@@ -431,7 +431,7 @@ bool CCollisionManager::CollisionOBB2DToOBB2D(Vector2& HitPoint, const OBB2DInfo
 
 	CenterProjDist = abs(CenterLine.Dot(Axis));
 
-	SrcDist = abs(Axis.Dot(Src.Axis[AXIS2D_X]) * Src.Length[AXIS2D_X]) + abs(Axis.Dot(Src.Axis[AXIS2D_Y]) * Src.Length[AXIS2D_Y]);;
+	SrcDist = abs(Axis.Dot(Src.Axis[AXIS2D_X]) * Src.Length[AXIS2D_X]) + abs(Axis.Dot(Src.Axis[AXIS2D_Y]) * Src.Length[AXIS2D_Y]);
 	DestDist = Dest.Length[AXIS2D_Y];
 
 	if (CenterProjDist > SrcDist + DestDist)
@@ -1033,11 +1033,11 @@ bool CCollisionManager::CollisionCubeToOBB3D(Vector3& HitPoint, const CubeInfo& 
 	SrcInfo.Center = Vector3((Src.Left + Src.Right) / 2.f, (Src.Top + Src.Bottom) / 2.f, (Src.Front + Src.Back) / 2.f);
 	SrcInfo.Axis[AXIS_X] = Vector3(1.f, 0.f, 0.f);
 	SrcInfo.Axis[AXIS_Y] = Vector3(0.f, 1.f, 0.f);
-	SrcInfo.Axis[AXIS_Y] = Vector3(0.f, 0.f, 1.f);
+	SrcInfo.Axis[AXIS_Z] = Vector3(0.f, 0.f, 1.f);
 
 	SrcInfo.Length[AXIS_X] = (Src.Right - Src.Left) / 2.f;
 	SrcInfo.Length[AXIS_Y] = (Src.Top - Src.Bottom) / 2.f;
-	SrcInfo.Length[AXIS_Y] = (Src.Top - Src.Bottom) / 2.f;
+	SrcInfo.Length[AXIS_Z] = (Src.Back - Src.Front) / 2.f;
 
 	return CollisionOBB3DToOBB3D(HitPoint, SrcInfo, Dest);
 }
@@ -1054,7 +1054,8 @@ bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo
 
 	SrcDist = Src.Length[AXIS_X];
 	DestDist = abs(Axis.Dot(Dest.Axis[AXIS_X]) * Dest.Length[AXIS_X]) +
-		abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y]);
+			   abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y])+
+			   abs(Axis.Dot(Dest.Axis[AXIS_Z]) * Dest.Length[AXIS_Z]);
 
 	if (CenterProjDist > SrcDist + DestDist)
 		return false;
@@ -1065,17 +1066,28 @@ bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo
 
 	SrcDist = Src.Length[AXIS_Y];
 	DestDist = abs(Axis.Dot(Dest.Axis[AXIS_X]) * Dest.Length[AXIS_X]) +
-		abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y]);
+			   abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y])+
+			   abs(Axis.Dot(Dest.Axis[AXIS_Z]) * Dest.Length[AXIS_Z]);
 
 	if (CenterProjDist > SrcDist + DestDist)
 		return false;
-
+//
+	Axis = Src.Axis[AXIS_Z];
+	CenterProjDist = abs(CenterLine.Dot(Axis));
+	SrcDist = Src.Length[AXIS_Z];
+	DestDist = abs(Axis.Dot(Dest.Axis[AXIS_X]) * Dest.Length[AXIS_X]) + 
+			   abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y])+
+			   abs(Axis.Dot(Dest.Axis[AXIS_Z]) * Dest.Length[AXIS_Z]);
+	if (CenterProjDist > SrcDist + DestDist)
+		return false;
+//
 	Axis = Dest.Axis[AXIS_X];
 
 	CenterProjDist = abs(CenterLine.Dot(Axis));
 
 	SrcDist = abs(Axis.Dot(Src.Axis[AXIS_X]) * Src.Length[AXIS_X]) +
-		abs(Axis.Dot(Src.Axis[AXIS_Y]) * Src.Length[AXIS_Y]);
+			  abs(Axis.Dot(Src.Axis[AXIS_Y]) * Src.Length[AXIS_Y])+
+			  abs(Axis.Dot(Src.Axis[AXIS_Z]) * Src.Length[AXIS_Z]);
 	DestDist = Dest.Length[AXIS_X];
 
 	if (CenterProjDist > SrcDist + DestDist)
@@ -1085,14 +1097,27 @@ bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo
 
 	CenterProjDist = abs(CenterLine.Dot(Axis));
 
-	SrcDist = abs(Axis.Dot(Src.Axis[AXIS_X]) * Src.Length[AXIS_X]) + abs(Axis.Dot(Src.Axis[AXIS_Y]) * Src.Length[AXIS_Y]);;
+	SrcDist = abs(Axis.Dot(Src.Axis[AXIS_X]) * Src.Length[AXIS_X]) + 
+			  abs(Axis.Dot(Src.Axis[AXIS_Y]) * Src.Length[AXIS_Y])+
+			  abs(Axis.Dot(Src.Axis[AXIS_Z]) * Src.Length[AXIS_Z]);
 	DestDist = Dest.Length[AXIS_Y];
 
 	if (CenterProjDist > SrcDist + DestDist)
 	{
 		return false;
 	}
-
+	//
+	Axis = Dest.Axis[AXIS_Z];
+	CenterProjDist = abs(CenterLine.Dot(Axis));
+	SrcDist = abs(Axis.Dot(Src.Axis[AXIS_X]) * Src.Length[AXIS_X]) + 
+			  abs(Axis.Dot(Src.Axis[AXIS_Y]) * Src.Length[AXIS_Y])+
+			  abs(Axis.Dot(Src.Axis[AXIS_Z]) * Src.Length[AXIS_Z]);
+	DestDist = Dest.Length[AXIS_Z];
+	if (CenterProjDist > SrcDist + DestDist)
+	{
+		return false;
+	}
+	//
 
 	CubeInfo SrcInfo = ConvertCubeInfo(Src);
 	CubeInfo DestInfo = ConvertCubeInfo(Dest);
@@ -1113,7 +1138,7 @@ bool CCollisionManager::CollisionOBB3DToCube(Vector3& HitPoint, const OBB3DInfo&
 
 	DestInfo.Length[AXIS_X] = (Dest.Right - Dest.Left) / 2.f;
 	DestInfo.Length[AXIS_Y] = (Dest.Top - Dest.Bottom) / 2.f;
-	DestInfo.Length[AXIS_Z] = (Dest.Front - Dest.Back) / 2.f;
+	DestInfo.Length[AXIS_Z] = (Dest.Back - Dest.Front) / 2.f;
 
 	return CollisionOBB3DToOBB3D(HitPoint, Src, DestInfo);
 }

@@ -203,7 +203,7 @@ bool CColliderOBB3D::Collision(CCollider* Dest)
 	switch (((CCollider3D*)Dest)->GetCollider3DType())
 	{
 	case ECollider3D_Type::Box:
-		Result = CCollisionManager::GetInst()->CollisionOBB3DToCube(HitPoint, this, (CColliderCube*)Dest);
+		Result = CCollisionManager::GetInst()->CollisionCubeToOBB3D(HitPoint, (CColliderCube*)Dest, this);
 		break;
 	case ECollider3D_Type::OBB:
 		Result = CCollisionManager::GetInst()->CollisionOBB3DToOBB3D(HitPoint, this, (CColliderOBB3D*)Dest);
