@@ -11,11 +11,14 @@ private:
 public:
 	bool Init();
 
-	bool CreateProfile(const std::string& Name, const std::string& ChannelName, bool Enable, ECollision_Interaction BaseInteraction = ECollision_Interaction::Collision);
+	bool CreateProfile(const std::string& Name, const std::string& ChannelName, bool Enable, 
+		ECollision_Interaction BaseInteraction = ECollision_Interaction::Collision);
 	bool SetCollisionInteraction(const std::string& Name, const std::string& ChannelName, ECollision_Interaction Interaction);
+	bool CheckCollisionInteraction(const std::string& name, const std::string& channelName,
+		ECollision_Interaction interaction);
 	bool CreateChannel(const std::string& Name, ECollision_Interaction Interaction = ECollision_Interaction::Collision);
 	CollisionProfile* FindProfile(const std::string& Name);
-
+	void GetProfileNames(std::vector<std::string>& vecNames);
 
 public:
 	bool CollisionBox2DToBox2D(Vector2& HitPoint, class CColliderBox2D* Src, class CColliderBox2D* Dest);

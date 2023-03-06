@@ -25,7 +25,7 @@ bool CClient3DManager::Init(HINSTANCE hInst)
     CEngineShareSetting::Setting();
 
     // SceneInfo »ý¼º
-    CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>();
     CSceneManager::GetInst()->CreateSceneInfo<CJellyfishFieldSceneInfo>();
     //CSceneManager::GetInst()->GetScene()->Load("Start.scn", SCENE_PATH);
 

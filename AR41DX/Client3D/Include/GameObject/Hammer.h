@@ -12,6 +12,7 @@ class CHammer :
 
 private:;
 	   bool		m_Stunned; // 뚱이 공격시 스턴
+	   CSharedPtr<CHammerBT>	m_HammerBT;
 
 public:
 	virtual void Start();
