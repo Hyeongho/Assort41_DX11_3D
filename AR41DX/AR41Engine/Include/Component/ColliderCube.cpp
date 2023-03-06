@@ -28,6 +28,7 @@ CColliderCube::CColliderCube()
 }
 
 CColliderCube::CColliderCube(const CColliderCube& component)
+	: CCollider3D(component)
 {
 	m_CubeSize = component.m_CubeSize;
 }

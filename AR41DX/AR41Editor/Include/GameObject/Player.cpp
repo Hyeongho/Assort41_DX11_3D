@@ -53,6 +53,7 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	m_Arm = (CTargetArm*)FindComponent("Arm");
 	m_NavAgent = (CNavigationAgent3D*)FindComponent("NavAgent");
 	m_Rigid = (CRigidBody*)FindComponent("Rigid");
+	m_Cube = (CColliderOBB3D*)FindComponent("Cube");
 	m_HeadCube = (CColliderCube*)FindComponent("HeadCube");
 	LoadCharacter();
 }
@@ -131,6 +132,13 @@ void CPlayer::Start()
 
 	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionTest);
 	m_HeadCube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
+
+	if (m_IsLoading)
+	{
+		CGameObject* delObj = m_Scene->FindObject("Temp");
+		delObj->Destroy();
+		return;
+	}
 	LoadCheck();
 }
 
@@ -360,12 +368,6 @@ void CPlayer::LoadSandyAnim()
 
 void CPlayer::LoadCheck()
 {
-	if (m_IsLoading)
-	{
-		CGameObject* delObj = m_Scene->FindObject("Temp");
-		delObj->Destroy();
-		return;
-	}
 	LoadSpongebobAnim();
 	LoadPatrickAnim();
 	LoadSandyAnim();

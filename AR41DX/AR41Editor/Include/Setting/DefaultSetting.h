@@ -40,6 +40,7 @@ private:
     void LoadTaxi();
 
     void LoadBuildings();
+    void LoadJellyfishFieldsObj();
     void LoadEnemies();
     void LoadParticle();
 };

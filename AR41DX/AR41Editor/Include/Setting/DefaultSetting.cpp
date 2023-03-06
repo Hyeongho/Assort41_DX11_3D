@@ -3,9 +3,11 @@
 #include "../GameObject/Weapon.h"
 //#include "../GameObject/KingJellyfish.h"
 //#include "../GameObject/Jellyfish.h"
-//#include "../GameObject/Monster.h"
+#include "../GameObject/Npc/MrKrabs.h"
+#include "../GameObject/Npc/Patric.h"
+#include "../GameObject/Npc/Squidward.h"
+#include "../GameObject/Npc/TaxiDriver.h"
 #include "../GameObject/Bullet.h"
-#include "../UI/StartSceneUI.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 #include "../UI/TitleSceneUI.h"
@@ -37,12 +39,13 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateObjectCDO<CPlayer>("Player");
     CScene::CreateObjectCDO<CWeapon>("Weapon");
     CScene::CreateObjectCDO<CBullet>("Bullet");
+    CScene::CreateObjectCDO<CMrKrabs>("MrKrabs");
+    CScene::CreateObjectCDO<CSquidward>("Squidward");
 
     //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
 
     //CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
 
-    CScene::CreateUIWindowCDO<CStartSceneUI>("StartSceneUI"); //지우지 말아주세요
     CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
     CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
     CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
@@ -55,6 +58,7 @@ void CDefaultSetting::LoadResource()
     LoadSandy();
 
     LoadBuildings();
+    LoadJellyfishFieldsObj();
     LoadRoboSponge();
     LoadKingJellyfish();
     LoadJellyfish();
@@ -67,6 +71,8 @@ void CDefaultSetting::LoadResource()
 
     LoadSound();
     LoadPlayerSound();
+
+    LoadParticle();
 }
 
 void CDefaultSetting::SetInput()
@@ -292,8 +298,6 @@ void CDefaultSetting::LoadSound()
 
 void CDefaultSetting::LoadBuildings()
 {
-    // 비키니 시티 맵 메쉬
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomGround", TEXT("Buildings/BikiniBottom/BikiniBottomGround.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomRoad", TEXT("Buildings/BikiniBottom/BikiniBottomRoad.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PineAppleHouse", TEXT("Buildings/BikiniBottom/PineAppleHouse.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PatrickHouse", TEXT("Buildings/BikiniBottom/PatrickHouse.msh"));
@@ -315,9 +319,31 @@ void CDefaultSetting::LoadBuildings()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "CoconutTree", TEXT("Buildings/BikiniBottom/CoconutTree.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SM_BB_FloatSign_01", TEXT("Buildings/BikiniBottom/SM_BB_FloatSign_01.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "fountain", TEXT("Buildings/BikiniBottom/fountain.msh"));
+}
 
+void CDefaultSetting::LoadJellyfishFieldsObj()
+{
     // 해파리 동산 맵 메쉬
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField", TEXT("Buildings/JellyfishField/JellyfishScene.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishfieldsSign", TEXT("Buildings/JellyfishField/JellyfishfieldsSign.fbx"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Water", TEXT("Buildings/JellyfishField/water.msh"));
+    /*
+    더블나무 : 빨강, 노랑, 보라
+    작은 나무 : 빨강, 보라
+    핑크 산호초(Seaflower)
+    젤리나무(BouncingTree),
+    조개(Clam)
+    미사일,
+    다리
+    */
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DoubleTree_Red", TEXT("Objects/JellyfishFields/DoubleTree_Red.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DoubleTree_Yellow", TEXT("Objects/JellyfishFields/DoubleTree_Yellow.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DoubleTree_Purple", TEXT("Objects/JellyfishFields/DoubleTree_Purple.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SmallTree_Red", TEXT("Objects/JellyfishFields/SmallTree_Red.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SmallTree_Purple", TEXT("Objects/JellyfishFields/SmallTree_Purple.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Seaflower", TEXT("Objects/JellyfishFields/Seaflower.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BouncingTree", TEXT("Objects/JellyfishFields/BouncingTree.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Clam", TEXT("Objects/JellyfishFields/Clam.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge.fbx"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadEnemies()
@@ -326,6 +352,32 @@ void CDefaultSetting::LoadEnemies()
 
 void CDefaultSetting::LoadParticle()
 {
+    CParticle* Particle = nullptr;
+
+    // 맵 바닥에서 올라오는 거품 파티클
+    CResourceManager::GetInst()->CreateParticle("GroundBubble");
+
+    Particle = CResourceManager::GetInst()->FindParticle("GroundBubble");
+
+    Particle->SetMaterial("Bubble");
+
+    Particle->SetParticleSpawnTime(0.8f);
+    Particle->SetParticleStartMin(Vector3(-10.f, -10.f, -10.f));
+    Particle->SetParticleStartMax(Vector3(10.f, 10.f, 10.f));
+    Particle->SetParticleSpawnCountMax(1000);
+    Particle->SetParticleScaleMin(Vector3(5.f, 5.f, 5.f));
+    Particle->SetParticleScaleMax(Vector3(60.f, 60.f, 60.f));
+    Particle->SetParticleLifeTimeMin(8.f);
+    Particle->SetParticleLifeTimeMax(12.f);
+    Particle->SetParticleColorMin(Vector4(0.5f, 0.f, 1.f, 0.5f));
+    Particle->SetParticleColorMax(Vector4(0.7f, 0.f, 1.f, 0.7f));
+    Particle->SetParticleSpeedMin(40.f);
+    Particle->SetParticleSpeedMax(60.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(0.f, 1.f, 0.f));
+    Particle->SetParticleMoveDirEnable(true);
+    Particle->SetParticleMoveAngle(Vector3(0.f, 0.f, 5.f));
 }
 
 void CDefaultSetting::LoadRoboSponge()
