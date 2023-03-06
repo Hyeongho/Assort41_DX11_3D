@@ -49,9 +49,6 @@
     <Filter Include="04. GameObject\01. Player">
       <UniqueIdentifier>{c753723e-058d-4d6a-822e-8ebc2b1fc30c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. GameObject\04. ECT">
-      <UniqueIdentifier>{f4fa5e2d-2216-4a3e-8193-ae6964e601ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. GameObject\02. Monster">
       <UniqueIdentifier>{7c49aa3c-3c6a-417d-a284-9052b5015671}</UniqueIdentifier>
     </Filter>
@@ -78,6 +75,9 @@
     </Filter>
     <Filter Include="05. UI\01. RapidXml">
       <UniqueIdentifier>{994c5b32-6590-4b21-89c2-e8c932fd0e17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\04. ETC">
+      <UniqueIdentifier>{f4fa5e2d-2216-4a3e-8193-ae6964e601ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -223,10 +223,10 @@
       <Filter>04. GameObject\01. Player</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Weapon.cpp">
-      <Filter>04. GameObject\04. ECT</Filter>
+      <Filter>04. GameObject\04. ETC</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Bullet.cpp">
-      <Filter>04. GameObject\04. ECT</Filter>
+      <Filter>04. GameObject\04. ETC</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\AI\CompositeNode.cpp">
       <Filter>07. AI</Filter>
@@ -270,6 +270,15 @@
     <ClCompile Include="GameObject\Object\Trampoline.cpp">
       <Filter>04. GameObject\03. Object</Filter>
     </ClCompile>
+    <ClCompile Include="UI\DialogUI.cpp">
+      <Filter>05. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Hammer.cpp">
+      <Filter>04. GameObject\02. Monster\01. Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\RapidXml\CXmlParser.cpp">
+      <Filter>05. UI\01. RapidXml</Filter>
+    </ClCompile>
     <ClCompile Include="GameObject\Npc\MrKrabs.cpp">
       <Filter>04. GameObject\05. Npc</Filter>
     </ClCompile>
@@ -281,15 +290,6 @@
     </ClCompile>
     <ClCompile Include="GameObject\Npc\TaxiDriver.cpp">
       <Filter>04. GameObject\05. Npc</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\DialogUI.cpp">
-      <Filter>05. UI</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Hammer.cpp">
-      <Filter>04. GameObject\02. Monster\01. Robot</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\RapidXml\CXmlParser.cpp">
-      <Filter>05. UI\01. RapidXml</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -438,10 +438,10 @@
       <Filter>04. GameObject\01. Player</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Weapon.h">
-      <Filter>04. GameObject\04. ECT</Filter>
+      <Filter>04. GameObject\04. ETC</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Bullet.h">
-      <Filter>04. GameObject\04. ECT</Filter>
+      <Filter>04. GameObject\04. ETC</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\AI\CompositeNode.h">
       <Filter>07. AI</Filter>
@@ -485,18 +485,6 @@
     <ClInclude Include="GameObject\Object\Trampoline.h">
       <Filter>04. GameObject\03. Object</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Npc\MrKrabs.h">
-      <Filter>04. GameObject\05. Npc</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Npc\Patric.h">
-      <Filter>04. GameObject\05. Npc</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Npc\Squidward.h">
-      <Filter>04. GameObject\05. Npc</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Npc\TaxiDriver.h">
-      <Filter>04. GameObject\05. Npc</Filter>
-    </ClInclude>
     <ClInclude Include="UI\DialogUI.h">
       <Filter>05. UI</Filter>
     </ClInclude>
@@ -517,6 +505,18 @@
     </ClInclude>
     <ClInclude Include="UI\RapidXml\rapidxml_utils.hpp">
       <Filter>05. UI\01. RapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\MrKrabs.h">
+      <Filter>04. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\Patric.h">
+      <Filter>04. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\Squidward.h">
+      <Filter>04. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\TaxiDriver.h">
+      <Filter>04. GameObject\05. Npc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

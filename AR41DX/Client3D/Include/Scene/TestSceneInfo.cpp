@@ -35,6 +35,8 @@ bool CTestSceneInfo::Init()
 	GlobalLightComponent->SetRelativeRotation(45.f, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
+
+
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 
 	SetPlayerObject(Player);
