@@ -254,8 +254,9 @@ void CParticleComponent::Load(FILE* File)
 	SetMesh(Name);
 
 	fread(&Length, 4, 1, File);
-	fread(Name, 1, Length, File);
-	SetParticle(Name);
+	char	ParticleName[256] = {};
+	fread(ParticleName, 1, Length, File);
+	SetParticle(ParticleName);
 
 	fread(&m_SpawnTimeMax, sizeof(float), 1, File);
 	fread(&m_SpawnCountMax, sizeof(int), 1, File);

@@ -18,18 +18,30 @@ private:
     void SetInput();
     void SetCollision();
 
+    // Player
     void LoadSpongebob();
     void LoadPatrick();
     void LoadSandy();
 
+    // Sound
     void LoadPlayerSound();
     void LoadSound();
 
-    void LoadBuildings();
+    // Monster
     void LoadRoboSponge();
-
     void LoadKingJellyfish();
-
     void LoadJellyfish();
+    void LoadTikis();
+
+    // NPC
+    void LoadMrKrabs();
+    void LoadSquidward();
+    void LoadPatric_Npc();
+    void LoadTaxi();
+
+    void LoadBuildings();
+    void LoadJellyfishFieldsObj();
+    void LoadEnemies();
+    void LoadParticle();
 };
 

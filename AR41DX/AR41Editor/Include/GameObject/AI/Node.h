@@ -1,6 +1,13 @@
 #pragma once
 
-#include "../../Client3DManager.h"
+#ifdef __has_include
+#	if __has_include( "../../Client3DManager.h")
+#		include "../../Client3DManager.h"
+#   else
+#		include "../../EditorManager.h"
+#	endif
+#endif
+
 #include "Ref.h"
 
 class CNode :

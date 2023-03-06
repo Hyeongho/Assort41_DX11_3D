@@ -123,3 +123,50 @@ void CPlayerUI::SetPlayerUIOpacity(float opacity)
 	m_Fritter->SetOpacity(opacity);
 	m_Glittering->SetOpacity(opacity);
 }
+
+void CPlayerUI::SetHp(int hp)
+{
+	size_t size = std::size(m_CurHP);
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (hp > i)
+		{
+			m_CurHP[i]->SetEnable(true);
+		}
+		else
+		{
+			m_CurHP[i]->SetEnable(false);
+		}
+	}
+}
+
+void CPlayerUI::SetMaxHp(int hp)
+{
+	size_t size = std::size(m_MaxHP);
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (hp > i)
+		{
+			m_MaxHP[i]->SetEnable(true);
+		}
+		else
+		{
+			m_MaxHP[i]->SetEnable(false);
+		}
+	}
+}
+
+void CPlayerUI::SetGlitter(int i)
+{
+	m_GlitterText->SetIntText(i);
+}
+
+void CPlayerUI::SetSocks(int i)
+{
+	m_SocksText->SetIntText(i, true);
+}
+
+void CPlayerUI::SetFritter(int i)
+{
+	m_FritterText->SetIntText(i, true);
+}

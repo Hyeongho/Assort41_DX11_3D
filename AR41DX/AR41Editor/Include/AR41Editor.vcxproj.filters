@@ -46,6 +46,39 @@
     <Filter Include="03. Window\05. Component">
       <UniqueIdentifier>{c8a219a6-9e27-47d3-bc09-ebb71af44f8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GameObject\01. Player">
+      <UniqueIdentifier>{c753723e-058d-4d6a-822e-8ebc2b1fc30c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\04. ECT">
+      <UniqueIdentifier>{f4fa5e2d-2216-4a3e-8193-ae6964e601ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\02. Monster">
+      <UniqueIdentifier>{7c49aa3c-3c6a-417d-a284-9052b5015671}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. AI">
+      <UniqueIdentifier>{464b180e-0795-495d-92ad-11b697629cec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\02. Monster\01. Robot">
+      <UniqueIdentifier>{65200d44-150f-4dd2-87b9-b0289f9aed8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\02. Monster\02. Jellyfish">
+      <UniqueIdentifier>{a8140203-fe90-48df-a5b0-62a050610f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\02. Monster\03. Boss">
+      <UniqueIdentifier>{b2e55efa-50a9-4c34-961c-3aa28f1cc7aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\02. Monster\04. Tikis">
+      <UniqueIdentifier>{020a7ceb-72b1-42b1-ba59-454eacb9d264}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\03. Object">
+      <UniqueIdentifier>{f96bf854-730d-4e00-9212-4c101327c8d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\05. Npc">
+      <UniqueIdentifier>{0c06df95-d494-4ef4-bf6f-05d0aede3f24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. UI\01. RapidXml">
+      <UniqueIdentifier>{994c5b32-6590-4b21-89c2-e8c932fd0e17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -56,12 +89,6 @@
     </ClCompile>
     <ClCompile Include="Scene\EditorDefaultScene.cpp">
       <Filter>02. Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Monster.cpp">
-      <Filter>04. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Bullet.cpp">
-      <Filter>04. GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Window\ObjectWindow.cpp">
       <Filter>03. Window</Filter>
@@ -111,9 +138,6 @@
     <ClCompile Include="Window\DetailWindow\TileMapWidgetList.cpp">
       <Filter>03. Window\01. DetailWindow</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Player.cpp">
-      <Filter>04. GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Window\PathWindow.cpp">
       <Filter>03. Window</Filter>
     </ClCompile>
@@ -122,12 +146,6 @@
     </ClCompile>
     <ClCompile Include="Window\MaterialWindow.cpp">
       <Filter>03. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Duplicatotron.cpp">
-      <Filter>04. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Fodder.cpp">
-      <Filter>04. GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Window\Animation3DWindow.cpp">
       <Filter>03. Window\03. 3D</Filter>
@@ -174,12 +192,6 @@
     <ClCompile Include="Window\UITextWindow.cpp">
       <Filter>03. Window\04. UI</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Weapon.cpp">
-      <Filter>04. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Window\TerrainWindow.cpp">
-      <Filter>03. Window\05. Component</Filter>
-    </ClCompile>
     <ClCompile Include="UI\PlayerUI.cpp">
       <Filter>05. UI</Filter>
     </ClCompile>
@@ -204,6 +216,81 @@
     <ClCompile Include="Window\ColliderObb3dWindow.cpp">
       <Filter>03. Window\05. Component</Filter>
     </ClCompile>
+    <ClCompile Include="Window\TerrainWindow.cpp">
+      <Filter>03. Window\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Player.cpp">
+      <Filter>04. GameObject\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Weapon.cpp">
+      <Filter>04. GameObject\04. ECT</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Bullet.cpp">
+      <Filter>04. GameObject\04. ECT</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\AI\CompositeNode.cpp">
+      <Filter>07. AI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\AI\Node.cpp">
+      <Filter>07. AI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\AI\Selector.cpp">
+      <Filter>07. AI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\AI\Sequence.cpp">
+      <Filter>07. AI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Duplicatotron.cpp">
+      <Filter>04. GameObject\02. Monster\01. Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Fodder.cpp">
+      <Filter>04. GameObject\02. Monster\01. Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Jellyfish.cpp">
+      <Filter>04. GameObject\02. Monster\02. Jellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\KingJellyfish.cpp">
+      <Filter>04. GameObject\02. Monster\03. Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Monster.cpp">
+      <Filter>04. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Tikis\Tiki_Stone.cpp">
+      <Filter>04. GameObject\02. Monster\04. Tikis</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Tikis\Tiki_Thunder.cpp">
+      <Filter>04. GameObject\02. Monster\04. Tikis</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Tikis\Tiki_Wood.cpp">
+      <Filter>04. GameObject\02. Monster\04. Tikis</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\InteractButton.cpp">
+      <Filter>04. GameObject\03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\Trampoline.cpp">
+      <Filter>04. GameObject\03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Npc\MrKrabs.cpp">
+      <Filter>04. GameObject\05. Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Npc\Patric.cpp">
+      <Filter>04. GameObject\05. Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Npc\Squidward.cpp">
+      <Filter>04. GameObject\05. Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Npc\TaxiDriver.cpp">
+      <Filter>04. GameObject\05. Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\DialogUI.cpp">
+      <Filter>05. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Hammer.cpp">
+      <Filter>04. GameObject\02. Monster\01. Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\RapidXml\CXmlParser.cpp">
+      <Filter>05. UI\01. RapidXml</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -217,12 +304,6 @@
     </ClInclude>
     <ClInclude Include="Scene\EditorDefaultScene.h">
       <Filter>02. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Bullet.h">
-      <Filter>04. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Monster.h">
-      <Filter>04. GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Window\ObjectWindow.h">
       <Filter>03. Window</Filter>
@@ -272,12 +353,6 @@
     <ClInclude Include="Window\DetailWindow\TileMapWidgetList.h">
       <Filter>03. Window\01. DetailWindow</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Player.h">
-      <Filter>04. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Weapon.h">
-      <Filter>04. GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Window\PathWindow.h">
       <Filter>03. Window</Filter>
     </ClInclude>
@@ -286,12 +361,6 @@
     </ClInclude>
     <ClInclude Include="Window\MaterialWindow.h">
       <Filter>03. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Duplicatotron.h">
-      <Filter>04. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Fodder.h">
-      <Filter>04. GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Window\Animation3DWindow.h">
       <Filter>03. Window\03. 3D</Filter>
@@ -338,9 +407,6 @@
     <ClInclude Include="Window\UITextWindow.h">
       <Filter>03. Window\04. UI</Filter>
     </ClInclude>
-    <ClInclude Include="Window\TerrainWindow.h">
-      <Filter>03. Window\05. Component</Filter>
-    </ClInclude>
     <ClInclude Include="UI\PlayerUI.h">
       <Filter>05. UI</Filter>
     </ClInclude>
@@ -364,6 +430,93 @@
     </ClInclude>
     <ClInclude Include="Window\ColliderObb3dWindow.h">
       <Filter>03. Window\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\TerrainWindow.h">
+      <Filter>03. Window\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Player.h">
+      <Filter>04. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Weapon.h">
+      <Filter>04. GameObject\04. ECT</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Bullet.h">
+      <Filter>04. GameObject\04. ECT</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\AI\CompositeNode.h">
+      <Filter>07. AI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\AI\Node.h">
+      <Filter>07. AI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\AI\Selector.h">
+      <Filter>07. AI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\AI\Sequence.h">
+      <Filter>07. AI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Duplicatotron.h">
+      <Filter>04. GameObject\02. Monster\01. Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Fodder.h">
+      <Filter>04. GameObject\02. Monster\01. Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Jellyfish.h">
+      <Filter>04. GameObject\02. Monster\02. Jellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\KingJellyfish.h">
+      <Filter>04. GameObject\02. Monster\03. Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Monster.h">
+      <Filter>04. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Tikis\Tiki_Stone.h">
+      <Filter>04. GameObject\02. Monster\04. Tikis</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h">
+      <Filter>04. GameObject\02. Monster\04. Tikis</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Tikis\Tiki_Wood.h">
+      <Filter>04. GameObject\02. Monster\04. Tikis</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\InteractButton.h">
+      <Filter>04. GameObject\03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\Trampoline.h">
+      <Filter>04. GameObject\03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\MrKrabs.h">
+      <Filter>04. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\Patric.h">
+      <Filter>04. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\Squidward.h">
+      <Filter>04. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\TaxiDriver.h">
+      <Filter>04. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\DialogUI.h">
+      <Filter>05. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Hammer.h">
+      <Filter>04. GameObject\02. Monster\01. Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\CXmlParser.h">
+      <Filter>05. UI\01. RapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\rapidxml.hpp">
+      <Filter>05. UI\01. RapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\rapidxml_iterators.hpp">
+      <Filter>05. UI\01. RapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\rapidxml_print.hpp">
+      <Filter>05. UI\01. RapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\rapidxml_utils.hpp">
+      <Filter>05. UI\01. RapidXml</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -53,6 +53,7 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	m_Arm = (CTargetArm*)FindComponent("Arm");
 	m_NavAgent = (CNavigationAgent3D*)FindComponent("NavAgent");
 	m_Rigid = (CRigidBody*)FindComponent("Rigid");
+	m_Cube = (CColliderOBB3D*)FindComponent("Cube");
 	m_HeadCube = (CColliderCube*)FindComponent("HeadCube");
 	LoadCharacter();
 }
@@ -129,7 +130,15 @@ void CPlayer::Start()
 	m_PauseUI = m_Scene->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
 	m_PauseUI->SetEnable(false);
 
-	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
+	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionTest);
+	m_HeadCube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
+
+	if (m_IsLoading)
+	{
+		CGameObject* delObj = m_Scene->FindObject("Temp");
+		delObj->Destroy();
+		return;
+	}
 	LoadCheck();
 }
 
@@ -156,7 +165,7 @@ bool CPlayer::Init()
 
 	m_Cube->SetRelativePositionY(70.f);
 	m_Cube->SetCollisionProfile("Player");
-	m_Cube->SetBoxHalfSize(500.f, 500.f, 500.f);
+	m_Cube->SetBoxHalfSize(50.f, 60.f, 20.f);
 
 	m_Cube->SetInheritRotX(true);
 	m_Cube->SetInheritRotY(true);
@@ -359,12 +368,6 @@ void CPlayer::LoadSandyAnim()
 
 void CPlayer::LoadCheck()
 {
-	if (m_IsLoading)
-	{
-		CGameObject* delObj = m_Scene->FindObject("Temp");
-		delObj->Destroy();
-		return;
-	}
 	LoadSpongebobAnim();
 	LoadPatrickAnim();
 	LoadSandyAnim();

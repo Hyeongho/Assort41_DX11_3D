@@ -186,12 +186,13 @@ void CDecalComponent::Render()
 void CDecalComponent::RenderDebug()
 {
 	CSceneComponent::Render();
-
+#ifdef _DEBUG
 	m_DebugMaterial->SetMaterial();
 
 	m_DebugMesh->Render();
 
 	m_DebugMaterial->ResetMaterial();
+#endif // _DEBUG
 }
 
 CDecalComponent* CDecalComponent::Clone() const
