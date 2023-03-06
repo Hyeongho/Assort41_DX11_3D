@@ -27,6 +27,11 @@ protected:
 
 public:
 	void SetPlayerObject(class CGameObject* Player);
+	CSharedPtr<class CGameObject> GetPlayerObject() const
+	{
+		return m_PlayerObject;
+	}
+
 	void LoadComplete();
 
 public:
