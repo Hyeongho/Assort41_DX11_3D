@@ -1109,11 +1109,11 @@ bool CCollisionManager::CollisionOBB3DToCube(Vector3& HitPoint, const OBB3DInfo&
 	DestInfo.Center = Vector3((Dest.Left + Dest.Right) / 2.f, (Dest.Top + Dest.Bottom) / 2.f, (Dest.Front + Dest.Back) / 2.f);
 	DestInfo.Axis[AXIS_X] = Vector3(1.f, 0.f, 0.f);
 	DestInfo.Axis[AXIS_Y] = Vector3(0.f, 1.f, 0.f);
-	DestInfo.Axis[AXIS_Y] = Vector3(0.f, 0.f, 1.f);
+	DestInfo.Axis[AXIS_Z] = Vector3(0.f, 0.f, 1.f);
 
 	DestInfo.Length[AXIS_X] = (Dest.Right - Dest.Left) / 2.f;
 	DestInfo.Length[AXIS_Y] = (Dest.Top - Dest.Bottom) / 2.f;
-	DestInfo.Length[AXIS_Y] = (Dest.Top - Dest.Bottom) / 2.f;
+	DestInfo.Length[AXIS_Z] = (Dest.Front - Dest.Back) / 2.f;
 
 	return CollisionOBB3DToOBB3D(HitPoint, Src, DestInfo);
 }
