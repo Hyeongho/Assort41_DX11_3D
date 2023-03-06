@@ -129,7 +129,8 @@ void CPlayer::Start()
 	m_PauseUI = m_Scene->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
 	m_PauseUI->SetEnable(false);
 
-	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
+	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionTest);
+	m_HeadCube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
 	LoadCheck();
 }
 
@@ -156,7 +157,7 @@ bool CPlayer::Init()
 
 	m_Cube->SetRelativePositionY(70.f);
 	m_Cube->SetCollisionProfile("Player");
-	m_Cube->SetBoxHalfSize(500.f, 500.f, 500.f);
+	m_Cube->SetBoxHalfSize(50.f, 60.f, 20.f);
 
 	m_Cube->SetInheritRotX(true);
 	m_Cube->SetInheritRotY(true);

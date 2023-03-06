@@ -6,6 +6,10 @@
 //#include "../UI/LoadingUI.h"
 #include "../UI/TitleSceneUI.h"
 #include "../GameObject/Player.h"
+#include "../GameObject/Npc/MrKrabs.h"
+#include "../GameObject/Npc/Patric.h"
+#include "../GameObject/Npc/Squidward.h"
+#include "../GameObject/Npc/TaxiDriver.h"
 #include "Component/LightComponent.h"
 #include "Component/TerrainComponent.h"
 #include "Component/StaticMeshComponent.h"
@@ -40,8 +44,21 @@ bool CEditorDefaultScene::Init()
 	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
 
+	CMrKrabs* MrKrabs = m_Owner->CreateObject<CMrKrabs>("MrKrabs");
+	MrKrabs->SetWorldPosition(16500.f, 0.f, 12200.f);
+
+	CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
+	Patric->SetWorldPosition(16500.f, 0.f, 12200.f);
+
+	CSquidward* Squidward = m_Owner->CreateObject<CSquidward>("Squidward");
+	Squidward->SetWorldPosition(16500.f, 0.f, 12200.f);
+
+	CTaxiDriver* TaxiDriver = m_Owner->CreateObject<CTaxiDriver>("TaxiDriver");
+	TaxiDriver->SetWorldPosition(16500.f, 0.f, 12200.f);
+
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
-	TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
+	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
+	TerrainComponent->CreateTerrain(680, 631, 40.f, 40.f, TEXT("LandScape/BikiniCity_Height.png"));
 
 	CGameObject* Road = m_Owner->CreateObject<CGameObject>("Road");
 	CStaticMeshComponent* RoadMesh = Road->CreateComponent<CStaticMeshComponent>("RoadMesh");
@@ -269,5 +286,12 @@ bool CEditorDefaultScene::Init()
 	//CParticleComponent* particle = PariticleObj->CreateComponent<CParticleComponent>("ParticleComponent");
 
 	//Á©¸®ÇÇ½¬
+	//CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
+	//Player->SetWorldPosition(9000.f, 300.f, 700.f);
+	//SetPlayerObject(Player);
+
+	//CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
+	//CTerrainComponent* TerrainComponent= TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
+	//TerrainComponent->CreateTerrain(360, 672, 40.f, 40.f, TEXT("LandScape/ZellyFishField.png"));
 	return true;
 }

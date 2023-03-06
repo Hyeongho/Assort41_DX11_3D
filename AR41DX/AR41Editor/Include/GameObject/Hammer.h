@@ -1,23 +1,24 @@
 #pragma once
-
 #include "Monster.h"
 
-class CFodder :
+class CHammer :
 	public CMonster
 {
 	friend class CScene;
 
-protected:
-	CFodder();
-	CFodder(const CFodder& Obj);
-	virtual ~CFodder();
+	CHammer();
+	CHammer(const CHammer& Obj);
+	virtual ~CHammer();
+
+private:;
+	   bool		m_Stunned; // 뚱이 공격시 스턴
 
 public:
 	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
 	virtual void PostUpdate(float DeltaTime);
-	virtual CFodder* Clone() const;
+	virtual CHammer* Clone() const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
@@ -25,6 +26,8 @@ private:
 	void Walk();
 	void Chase();
 	void Attack();
+	void Lassoed(); // 플레이어가 다람이일 때 올가미공격
+	void Stunned(); // 플레이어가 뚱이일 때 스턴
 	void Dead();
-	void Debris(); // 잔해로 변경.
+	void Debris();
 };
