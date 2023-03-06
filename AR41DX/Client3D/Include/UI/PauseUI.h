@@ -137,13 +137,13 @@ private: // SaveSelect Menu UI Func
 	void SaveSelectLoadGame();		// 게임 불러와 시작
 
 
-private: // Option Menu UI Func
+private: // Sound Option Menu UI Func
 	void SoundOptionUISFX();
 	void SoundOptionUIMusic();
 	void SoundOptionUITalk();
 	void SoundOptionUIReset();
 
-private:
+private: // Camera Option Menu UI Func
 	void CameraOptionUISensitive();
 	void CameraOptionUISensitiveMinus();
 	void CameraOptionUISensitivePlus();

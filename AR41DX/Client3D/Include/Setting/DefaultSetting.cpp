@@ -49,6 +49,8 @@ void CDefaultSetting::CreateCDO()
 
 void CDefaultSetting::LoadResource()
 {
+    LoadTaxi();
+
     // Player
     LoadSpongebob();
     LoadPatrick();

@@ -4,42 +4,51 @@
 		<Context>
 			<Talker>집게사장</Talker>
 			<Text>스폰지밥, 잘들어. 이번 로봇 사태 때문에 집게리아가 손해를 보고 있단다.</Text>
+			<Anim></Anim>
 		</Context>
 		<Context>
 			<Talker>집게사장</Talker>
 			<Text>돈이 없으면 집게리아도 없다고. 집게리아가 없으면 너도 패티를 못굽고.</Text>
+			<Anim></Anim>
 		</Context>
 		<Context>
 			<Talker>스폰지밥</Talker>
 			<Text>패티를 모,못 굽는다구요?</Text>
+			<Anim></Anim>
 		</Context>
 		<Context>
 			<Talker>집게사장</Talker>
 			<Text>하지만 넌 착한 녀석이니 도와주도록 하마. 물론 내게도 돌아오는게 있어야지.</Text>
+			<Anim></Anim>
 		</Context>
 		<Context>
 			<Talker>집게사장</Talker>
 			<Text>금 뒤집개가 몇 개 있는데, 반짝이와 바꿔주도록 하마.</Text>
+			<Anim></Anim>
 		</Context>
 	</Dialog>
 	<Dialog Name="Not_Enough_Flower">
 		<Context>
 			<Talker>집게사장</Talker>
 			<Text>보물상자가 조금 가벼워 보이는구나. 내가 바보인 줄아니?</Text>
+			<Anim></Anim>
 		</Context>
 		<Context>
 			<Talker>집게사장</Talker>
 			<Text>난 자선 사업가가 아니라고. 반짝이 500개가 준비되면 다시 찾아오도록 해.</Text>
+			<Anim></Anim>
 		</Context>
 	</Dialog>
 	<Dialog Name="Enough_Flower">
 		<Context>
 			<Talker>집게사장</Talker>
 			<Text>그래 그거야 스폰지밥. 아주 잘 했어.</Text>
+			<Anim></Anim>
 		</Context>
 		<Context>
 			<Talker>집게사장</Talker>
 			<Text>흐흐 난 돈이 좋아. 뭘봐? 얼른 이 뒤집개 가지고 가.</Text>
+			<Anim></Anim>
 		</Context>
 	</Dialog>
 </Dialogs>

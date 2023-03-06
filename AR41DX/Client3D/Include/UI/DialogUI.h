@@ -5,6 +5,7 @@
 struct DialogInfo {
 	std::vector<std::wstring> vecTalker;
 	std::vector<std::wstring> vecText;
+	std::vector<std::wstring> vecAnim;
 	int TextIdx;
 	int TextMaxIdx;
 
@@ -50,10 +51,7 @@ private :
 	void InActiveDialogUI();
 
 public :
-	void OpenDialog() {
-		KeyLeftButton();
-		ActiveDialogUI();
-	}
+	void OpenDialog();
 
 public :
 	void SetDialogInfo(EMapList Map, ENpcList Npc);

@@ -12,7 +12,7 @@ CSquidward::CSquidward()
 	m_ObjectTypeName = "Squidward";
 
     m_DialogCount = 0;
-    m_NpcType = ENpcList::MrKrabs;
+    m_NpcType = ENpcList::Squidward;
     m_NpcMapPos = EMapList::Bikini_Bottom;
     m_EnableDialog = false;
 }
@@ -37,6 +37,7 @@ void CSquidward::Start()
 {
     CGameObject::Start();
 
+#ifdef DEBUG
     CInput::GetInst()->AddBindFunction<CSquidward>("F1", Input_Type::Up, this, &CSquidward::ChangeAnim_Angry_Start, m_Scene);
     CInput::GetInst()->AddBindFunction<CSquidward>("F2", Input_Type::Up, this, &CSquidward::ChangeAnim_Annoyed_Start, m_Scene);
     CInput::GetInst()->AddBindFunction<CSquidward>("F3", Input_Type::Up, this, &CSquidward::ChangeAnim_Happy_Start, m_Scene);
@@ -45,11 +46,12 @@ void CSquidward::Start()
     CInput::GetInst()->AddBindFunction<CSquidward>("F6", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk, m_Scene);
     CInput::GetInst()->AddBindFunction<CSquidward>("F7", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk_Idle, m_Scene);
     CInput::GetInst()->AddBindFunction<CSquidward>("F8", Input_Type::Up, this, &CSquidward::ChangeAnim_Idle, m_Scene);
+#endif // DEBUG
 }
 
 bool CSquidward::Init()
 {
-    CGameObject::Init();
+    CNpc::Init();
 
     m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 

@@ -32,16 +32,17 @@ private:
     void LoadKingJellyfish();
     void LoadJellyfish();
     void LoadTikis();
+    void LoadRobots();
 
     // NPC
     void LoadMrKrabs();
     void LoadSquidward();
     void LoadPatric_Npc();
     void LoadTaxi();
-    void LoadBusDriver();
 
     
     void LoadBuildings();
+    void LoadJellyfishFieldsObj();
 
     void LoadCBObjects();
     void LoadCBLabObjects();

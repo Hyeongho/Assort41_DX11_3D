@@ -37,11 +37,13 @@ void CMrKrabs::Start()
 {
     CNpc::Start();
 
+#ifdef DEBUG
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F1", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Angry_Start, m_Scene);
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F2", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Deceptive_Start, m_Scene);
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F3", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Greedy_Start, m_Scene);
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F4", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Laughing, m_Scene);
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F5", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Idle, m_Scene);
+#endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F", Input_Type::Up, this, &CMrKrabs::StartDialog, m_Scene);
 }

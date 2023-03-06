@@ -11,6 +11,7 @@ struct DialogTextInfo {
 	std::string DialogName;
 	std::vector<std::wstring> vecTalker;
 	std::vector<std::wstring> vecText;
+	std::vector<std::wstring> vecAnim;
 
 	DialogTextInfo() :
 		DialogName("")

@@ -35,6 +35,7 @@ CPatric::~CPatric()
 
 void CPatric::Start()
 {
+    CNpc::Init();
 }
 
 bool CPatric::Init()
@@ -49,7 +50,7 @@ bool CPatric::Init()
 
     m_Animation = m_Mesh->SetAnimation<CAnimation>("PatricNpcAnimation");
 
-    m_Animation->AddAnimation("Patric_Npc_Confused", "Patric_Npc_Confused", 1.f, 1.f, true);
+    m_Animation->AddAnimation("Patric_Npc_Confused", "Patric_Npc_Confused", 1.f, 1.f, false);
     m_Animation->AddAnimation("Patric_Npc_Default", "Patric_Npc_Default", 1.f, 1.f, true);
     m_Animation->AddAnimation("Patric_Npc_Excited", "Patric_Npc_Excited", 1.f, 1.f, true);
     m_Animation->AddAnimation("Patric_Npc_Scowl_Start", "Patric_Npc_Scowl_Start", 1.f, 1.f, true);

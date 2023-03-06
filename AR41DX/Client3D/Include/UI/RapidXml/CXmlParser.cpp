@@ -53,7 +53,7 @@ void CXmlParser::init(const std::string& _strFile)
 					if (strcmp("Talker", contextItem->name()) == 0) {
 						char* value = contextItem->value();
 
-						int rq_cch = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value, strlen(value), nullptr , 0);
+						int rq_cch = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value, static_cast<int>(strlen(value)), nullptr , 0);
 
 						std::wstring wValue;
 						wValue.clear();
@@ -70,7 +70,7 @@ void CXmlParser::init(const std::string& _strFile)
 					if (strcmp("Text", contextItem->name()) == 0) {
 						char* value = contextItem->value();
 
-						int rq_cch = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value, strlen(value), nullptr, 0);
+						int rq_cch = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value, static_cast<int>(strlen(value)), nullptr, 0);
 
 						std::wstring wValue;
 						wValue.clear();
@@ -83,9 +83,25 @@ void CXmlParser::init(const std::string& _strFile)
 
 						Info.vecText.push_back(wValue);
 					}
+
+					if (strcmp("Anim", contextItem->name()) == 0) {
+						char* value = contextItem->value();
+
+						int rq_cch = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value, static_cast<int>(strlen(value)), nullptr, 0);
+
+						std::wstring wValue;
+						wValue.clear();
+						wValue.resize(rq_cch);
+
+						MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value,
+							static_cast<int>(strlen(value)),
+							const_cast<wchar_t*>(wValue.c_str()),
+							static_cast<int>(wValue.size()));
+
+						Info.vecAnim.push_back(wValue);
+					}
 				}
 			}
-
 
 			m_vecDialTextInfo.push_back(Info);
 		}
@@ -97,7 +113,7 @@ void CXmlParser::init(const std::string& _strFile)
 
 int CXmlParser::GetDialogCount()
 {
-	return m_vecDialTextInfo.size();
+	return static_cast<int>(m_vecDialTextInfo.size());
 }
 
 std::string CXmlParser::GetDialogInfoByIndex(int Idx, DialogInfo* Info) const
@@ -106,11 +122,12 @@ std::string CXmlParser::GetDialogInfoByIndex(int Idx, DialogInfo* Info) const
 	size_t MaxSize = m_vecDialTextInfo[Idx].vecTalker.size();
 
 	Info->TextIdx = 0;
-	Info->TextMaxIdx = MaxSize;
+	Info->TextMaxIdx = static_cast<int>(MaxSize);
 
 	for (size_t size = 0; size < MaxSize; size++) {
 		Info->vecTalker.push_back(m_vecDialTextInfo[Idx].vecTalker[size]);
 		Info->vecText.push_back(m_vecDialTextInfo[Idx].vecText[size]);
+		Info->vecAnim.push_back(m_vecDialTextInfo[Idx].vecAnim[size]);
 	}
 
 

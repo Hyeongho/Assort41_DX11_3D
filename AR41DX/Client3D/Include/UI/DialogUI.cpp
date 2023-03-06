@@ -10,6 +10,8 @@
 #include "UI/UIImage.h"
 #include "UI/UITextButton.h"
 #include "RapidXml/CXmlParser.h"
+#include "InteractUI.h"
+
 
 CDialogUI::CDialogUI()
 {
@@ -23,6 +25,7 @@ CDialogUI::CDialogUI(const CDialogUI& Window) :
 
 CDialogUI::~CDialogUI()
 {
+	m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI")->ActiveInteractUI();
 }
 
 void CDialogUI::Start()
@@ -106,7 +109,7 @@ void CDialogUI::CreateDialogUI()
 	Text->SetAlignV(Text_Align_V::Middle);
 	Text->SetColor(Vector4::Green);
 	Text->SetShadowEnable(false);
-	Text->SetText("test : ");
+	Text->SetText("");
 	Text->SetFontSize(30.f);
 	Text->SetSize(DialogXSize * 0.2f , DialogYSize);
 	Text->SetPos(DialogXPos + DialogXSize * 0.05f, 10.f);
@@ -120,7 +123,7 @@ void CDialogUI::CreateDialogUI()
 	Text->SetAlignV(Text_Align_V::Middle);
 	Text->SetColor(Vector4::Black);
 	Text->SetShadowEnable(false);
-	Text->SetText("Blah BlahBlahBlah BlahBlah BlahBlah");
+	Text->SetText("");
 	Text->SetFontSize(30.f);
 	Text->SetSize(DialogXSize * 0.6f, DialogYSize);
 	Text->SetPos(DialogXPos + DialogXSize * 0.25f, 10.f);
@@ -140,52 +143,28 @@ void CDialogUI::InActiveDialogUI()
 		iter.second->SetEnable(false);
 }
 
+void CDialogUI::OpenDialog()
+{
+	KeyLeftButton();
+	ActiveDialogUI();
+
+	m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI")->InActiveInteractUI();
+}
+
 void CDialogUI::SetDialogInfo(EMapList Map, ENpcList Npc)
 {
 	std::string FileName = "";
 
 	switch (Map)
 	{
-	case EMapList::Patric:
-	case EMapList::Krabs:
 	case EMapList::Bikini_Bottom:
 		FileName = "BB";
-		break;
-	case EMapList::DutchMan_Grave:
-		FileName = "DMG";
-		break;
-	case EMapList::Sand_Mountain:
-		FileName = "SM";
-		break;
-	case EMapList::Goo_Lagoon:
-		FileName = "GL";
-		break;
-	case EMapList::Dome:
-		FileName = "Dome";
-		break;
-	case EMapList::Krusty_Krab:
-		FileName = "KK";
 		break;
 	case EMapList::Chum_Bucketlab:
 		FileName = "CB";
 		break;
-	case EMapList::Merma_Lair:
-		FileName = "ML";
-		break;
-	case EMapList::Down_Town:
-		FileName = "DT";
-		break;
-	case EMapList::Kelp_Forest:
-		FileName = "KF";
-		break;
-	case EMapList::Rock_Bottom:
-		FileName = "RB";
-		break;
 	case EMapList::Jelly_Fish_Field:
 		FileName = "JFF";
-		break;
-	case EMapList::Industrial_Park:
-		FileName = "IP";
 		break;
 	}
 
@@ -201,6 +180,9 @@ void CDialogUI::SetDialogInfo(EMapList Map, ENpcList Npc)
 		break;
 	case ENpcList::Patric:
 		FileName += "Patric";
+		break;
+	case ENpcList::BusDriver:
+		FileName += "BusDriver";
 		break;
 	}
 
