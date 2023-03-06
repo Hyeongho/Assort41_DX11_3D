@@ -93,9 +93,6 @@
     <ClCompile Include="GameObject\Jellyfish.cpp">
       <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\JellyFishSceneInfo.cpp">
-      <Filter>02. Scene</Filter>
-    </ClCompile>
     <ClCompile Include="UI\PauseUI.cpp">
       <Filter>05. UI</Filter>
     </ClCompile>
@@ -174,6 +171,12 @@
     <ClCompile Include="GameObject\Walk.cpp">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\TeeterRock.cpp">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\TestSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -202,9 +205,6 @@
     </ClInclude>
     <ClInclude Include="GameObject\Jellyfish.h">
       <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\JellyFishSceneInfo.h">
-      <Filter>02. Scene</Filter>
     </ClInclude>
     <ClInclude Include="UI\PauseUI.h">
       <Filter>05. UI</Filter>
@@ -283,6 +283,12 @@
     </ClInclude>
     <ClInclude Include="GameObject\Walk.h">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\TeeterRock.h">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\TestSceneInfo.h">
+      <Filter>02. Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

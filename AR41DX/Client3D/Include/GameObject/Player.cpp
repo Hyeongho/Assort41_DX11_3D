@@ -135,7 +135,7 @@ bool CPlayer::Init()
 	m_Mesh->AddChild(m_Cube);
 	m_Arm->AddChild(m_Camera);
 
-	m_Cube->SetBoxHalfSize(500.f, 500.f, 500.f);
+	m_Cube->SetBoxHalfSize(100.f, 100.f, 100.f);
 
 	m_Cube->SetInheritRotX(true);
 	m_Cube->SetInheritRotY(true);
@@ -480,6 +480,18 @@ void CPlayer::Patrick_PickUp()
 }
 
 void CPlayer::Patrick_Throw()
+{
+}
+
+void CPlayer::Sandy_Karate_Chop()
+{
+}
+
+void CPlayer::Sandy_Karate_Kick()
+{
+}
+
+void CPlayer::Sandy_Lasso_Start()
 {
 }
 

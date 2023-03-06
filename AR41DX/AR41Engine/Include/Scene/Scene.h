@@ -162,6 +162,11 @@ public:
 	class CGameObject* FindObject(const std::string& Name);
 	bool Picking(PickingResult& result);
 
+	CGameObject* GetPlayerObject() const
+	{
+		return m_SceneInfo->GetPlayerObject();
+	}
+
 public:
 	template <typename T>
 	bool CreateSceneInfo()

@@ -57,7 +57,9 @@ void CCollisionSection3D::Collision(float DeltaTime)
 				ECollision_Interaction::Ignore ||
 				DestProfile->vecCollisionInteraction[(int)SrcProfile->Channel->Channel] ==
 				ECollision_Interaction::Ignore)
+			{
 				continue;
+			}
 
 			if (Src->Collision(Dest))
 			{
