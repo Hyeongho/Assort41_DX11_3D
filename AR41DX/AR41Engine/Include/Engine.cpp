@@ -40,8 +40,7 @@ CEngine::CEngine()	:
 	m_TimeScale(1.f)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(6145);
-
+	//_CrtSetBreakAlloc(112063);
 	srand((unsigned int)time(0));
 	rand();
 }
@@ -342,6 +341,11 @@ void CEngine::Render(float DeltaTime)
 	CDevice::GetInst()->Flip();
 
 	CInput::GetInst()->SetWheel(0);
+}
+
+void CEngine::Exit()
+{
+	DestroyWindow(m_hWnd);
 }
 
 void CEngine::Register(const TCHAR* ClassName, int IconID, int SmallIconID, int MenuID)

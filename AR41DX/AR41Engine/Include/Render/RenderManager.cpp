@@ -14,12 +14,18 @@
 #include "../GameObject/SkySphere.h"
 #include "../Component/CameraComponent.h"
 #include "../Component/ParticleComponent.h"
+#include "../Component/DecalComponent.h"
 #include "../Resource/Shader/ShadowConstantBuffer.h"
+#include "../Component/Collider3D.h"
 
 DEFINITION_SINGLE(CRenderManager)
 
-CRenderManager::CRenderManager() : m_RenderStateManager(nullptr), m_ShaderType(EShaderType::Default)
+CRenderManager::CRenderManager() 
+	: m_ShadowMapRS{}
+	, m_ShaderType(EShaderType::Default)
 {
+	m_RenderStateManager = new CRenderStateManager;
+	m_ShadowCBuffer = new CShadowConstantBuffer;
 }
 
 CRenderManager::~CRenderManager()
@@ -152,18 +158,19 @@ void CRenderManager::AddRenderList(CSceneComponent* Component)
 
 bool CRenderManager::Init()
 {
-	m_RenderStateManager = new CRenderStateManager;
-
 	if (!m_RenderStateManager->Init())
 		return false;
 
 	CreateLayer("Default", 1);
 	CreateLayer("Back", 0);
-	CreateLayer("Particle", 2);
+	CreateLayer("Particle", 3);
+	CreateLayer("Decal", 2);
+	CreateLayer("Collider", 2);
 
 	SetLayerAlphaBlend("Default");
 
 	m_AlphaBlend = m_RenderStateManager->FindRenderState<CBlendState>("AlphaBlend");
+	m_MRTAlphaBlend = m_RenderStateManager->FindRenderState<CBlendState>("MRTAlphaBlend");
 	m_DepthDisable = m_RenderStateManager->FindRenderState<CDepthStencilState>("DepthDisable");
 	m_DepthWriteDisable = m_RenderStateManager->FindRenderState<CDepthStencilState>("DepthWriteDisable");
 	m_LightAccBlend = m_RenderStateManager->FindRenderState<CBlendState>("LightAccBlend");
@@ -227,21 +234,12 @@ void CRenderManager::Render(float DeltaTime)
 	m_DepthDisable->SetState();
 
 	CSceneManager::GetInst()->GetScene()->GetViewport()->Render();
-
-	m_DepthDisable->ResetState();
-	m_AlphaBlend->ResetState();
-
 #ifdef _DEBUG
-
-	m_AlphaBlend->SetState();
-	m_DepthDisable->SetState();
-
 	CResourceManager::GetInst()->RenderTexture();
+#endif // _DEBUG
 
 	m_DepthDisable->ResetState();
 	m_AlphaBlend->ResetState();
-
-#endif // _DEBUG
 }
 
 void CRenderManager::Render3D(float DeltaTime)
@@ -262,6 +260,9 @@ void CRenderManager::Render3D(float DeltaTime)
 
 	// GBuffer를 그려낸다.
 	RenderGBuffer(DeltaTime);
+
+	// Decal을 그려낸다.
+	RenderDecal(DeltaTime);
 
 	// 조명 처리된 정보를 그려낸다.
 	RenderLight(DeltaTime);
@@ -725,13 +726,14 @@ void CRenderManager::RenderLight(float DeltaTime)
 	m_DepthDisable->SetState();
 	m_LightAccBlend->SetState();
 
+	m_vecGBuffer[0]->SetTargetShader(14);
 	m_vecGBuffer[1]->SetTargetShader(15);
 	m_vecGBuffer[2]->SetTargetShader(16);
 	m_vecGBuffer[3]->SetTargetShader(17);
 
 	CSceneManager::GetInst()->GetScene()->GetLightManager()->Render();
 
-
+	m_vecGBuffer[0]->SetTargetShader(14);
 	m_vecGBuffer[1]->ResetTargetShader(15);
 	m_vecGBuffer[2]->ResetTargetShader(16);
 	m_vecGBuffer[3]->ResetTargetShader(17);
@@ -769,9 +771,22 @@ void CRenderManager::RenderScreen(float DeltaTime)
 	m_vecLightBuffer[1]->SetTargetShader(19);
 	m_vecLightBuffer[2]->SetTargetShader(20);
 
+	m_ShadowMapTarget->SetTargetShader(22);
+
+	Matrix	matView, matProj;
+
+	matView = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetShadowViewMatrix();
+	matProj = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetShadowProjMatrix();
+
+	Matrix matVP = matView * matProj;
+
+	m_ShadowCBuffer->SetShadowVP(matVP);
+
+	m_ShadowCBuffer->UpdateBuffer();
+
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
-	UINT Offset = 0;
+	UINT	Offset = 0;
 
 	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
@@ -780,24 +795,14 @@ void CRenderManager::RenderScreen(float DeltaTime)
 
 	m_DepthDisable->ResetState();
 
+	m_ShadowMapTarget->ResetTargetShader(22);
+
 	m_vecGBuffer[0]->ResetTargetShader(14);
+	m_vecGBuffer[2]->ResetTargetShader(16);
 
 	m_vecLightBuffer[0]->ResetTargetShader(18);
 	m_vecLightBuffer[1]->ResetTargetShader(19);
 	m_vecLightBuffer[2]->ResetTargetShader(20);
-
-	m_ShadowMapTarget->SetTargetShader(22);
-
-	Matrix	matView, matProj;
-
-	matView = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetShadowViewMatrix();
-	matProj = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetShadowProjMatrix();
-
-	Matrix	matVP = matView * matProj;
-
-	m_ShadowCBuffer->SetShadowVP(matVP);
-
-	m_ShadowCBuffer->UpdateBuffer();
 
 	m_ScreenBuffer->ResetTarget();
 }
@@ -823,6 +828,67 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	m_DepthDisable->ResetState();
 
 	m_ScreenBuffer->ResetTargetShader(21);
+
+	// 디버그 모드일 경우 데칼 디버깅용 육면체를 출력한다.
+#ifdef _DEBUG
+
+	{
+		RenderLayer* DecalLayer = FindLayer("Decal");
+
+		std::list<CSceneComponent*>	RenderList;
+
+		auto	iter = DecalLayer->RenderList.begin();
+		auto	iterEnd = DecalLayer->RenderList.end();
+
+		for (; iter != iterEnd;)
+		{
+			if (!(*iter)->GetActive())
+			{
+				iter = DecalLayer->RenderList.erase(iter);
+				iterEnd = DecalLayer->RenderList.end();
+				continue;
+			}
+
+			else if (!(*iter)->GetEnable())
+			{
+				++iter;
+				continue;
+			}
+
+			((CDecalComponent*)(*iter).Get())->RenderDebug();
+			++iter;
+		}
+	}
+
+	{
+		RenderLayer* ColliderLayer = FindLayer("Collider");
+
+		std::list<CSceneComponent*>	RenderList;
+
+		auto	iter = ColliderLayer->RenderList.begin();
+		auto	iterEnd = ColliderLayer->RenderList.end();
+
+		for (; iter != iterEnd;)
+		{
+			if (!(*iter)->GetActive())
+			{
+				iter = ColliderLayer->RenderList.erase(iter);
+				iterEnd = ColliderLayer->RenderList.end();
+				continue;
+			}
+
+			else if (!(*iter)->GetEnable())
+			{
+				++iter;
+				continue;
+			}
+
+			((CCollider3D*)(*iter).Get())->RenderDebug();
+			++iter;
+		}
+	}
+
+#endif // _DEBUG
 }
 
 void CRenderManager::RenderParticle(float DeltaTime)
@@ -850,6 +916,12 @@ void CRenderManager::RenderParticle(float DeltaTime)
 		}
 
 		else if (!(*iter)->GetEnable())
+		{
+			iter++;
+			continue;
+		}
+
+		else if ((*iter)->GetFrustumCull())
 		{
 			iter++;
 			continue;
@@ -1031,12 +1103,17 @@ void CRenderManager::CreateRenderTarget()
 
 	CResourceManager::GetInst()->CreateTarget("GBuffer4", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
+	CResourceManager::GetInst()->CreateTarget("GBuffer5", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	CResourceManager::GetInst()->CreateTarget("GBuffer6", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
 	CRenderTarget* GBufferTarget = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("GBuffer1");
 
 	GBufferTarget->SetPos(Vector3(0.f, 0.f, 0.f));
 	GBufferTarget->SetScale(Vector3(100.f, 100.f, 1.f));
 	GBufferTarget->SetDebugRender(true);
 	m_vecGBuffer.push_back(GBufferTarget);
+	m_vecDecalBuffer.push_back(GBufferTarget);
 
 	GBufferTarget = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("GBuffer2");
 
@@ -1044,6 +1121,7 @@ void CRenderManager::CreateRenderTarget()
 	GBufferTarget->SetScale(Vector3(100.f, 100.f, 1.f));
 	GBufferTarget->SetDebugRender(true);
 	m_vecGBuffer.push_back(GBufferTarget);
+	m_vecDecalBuffer.push_back(GBufferTarget);
 
 	GBufferTarget = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("GBuffer3");
 
@@ -1055,6 +1133,21 @@ void CRenderManager::CreateRenderTarget()
 	GBufferTarget = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("GBuffer4");
 
 	GBufferTarget->SetPos(Vector3(0.f, 300.f, 0.f));
+	GBufferTarget->SetScale(Vector3(100.f, 100.f, 1.f));
+	GBufferTarget->SetDebugRender(true);
+	m_vecGBuffer.push_back(GBufferTarget);
+	m_vecDecalBuffer.push_back(GBufferTarget);
+
+	GBufferTarget = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("GBuffer5");
+
+	GBufferTarget->SetPos(Vector3(0.f, 400.f, 0.f));
+	GBufferTarget->SetScale(Vector3(100.f, 100.f, 1.f));
+	GBufferTarget->SetDebugRender(true);
+	m_vecGBuffer.push_back(GBufferTarget);
+
+	GBufferTarget = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("GBuffer6");
+
+	GBufferTarget->SetPos(Vector3(0.f, 500.f, 0.f));
 	GBufferTarget->SetScale(Vector3(100.f, 100.f, 1.f));
 	GBufferTarget->SetDebugRender(true);
 	m_vecGBuffer.push_back(GBufferTarget);
@@ -1108,8 +1201,6 @@ void CRenderManager::CreateRenderTarget()
 	m_ShadowMapTarget->SetPos(Vector3(300.f, 100.f, 0.f));
 	m_ShadowMapTarget->SetScale(Vector3(300.f, 300.f, 1.f));
 	m_ShadowMapTarget->SetDebugRender(true);
-
-	m_ShadowCBuffer = new CShadowConstantBuffer;
 
 	m_ShadowCBuffer->Init();
 

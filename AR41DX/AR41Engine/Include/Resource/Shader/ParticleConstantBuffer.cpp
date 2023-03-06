@@ -16,7 +16,7 @@ CParticleConstantBuffer::~CParticleConstantBuffer()
 
 bool CParticleConstantBuffer::Init()
 {
-	SetConstantBuffer("ParticleUpdate");
+	SetConstantBuffer("ParticleCBuffer");
 
 	return true;
 }

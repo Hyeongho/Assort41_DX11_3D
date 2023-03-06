@@ -5,6 +5,7 @@
 
 CSceneViewport::CSceneViewport()
 	: m_Owner(nullptr)
+	, m_Start(false)
 {
 }
 
@@ -18,6 +19,7 @@ void CSceneViewport::LoadComplete()
 
 void CSceneViewport::Start()
 {
+	m_Start = true;
 	size_t	Size = m_vecWindow.size();
 
 	for (size_t i = 0; i < Size; ++i)

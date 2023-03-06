@@ -120,7 +120,10 @@ bool CMaterialManager::Init()
 	Material->EnableSpecular();
 	Material->SetSpecularPower(3.2f);
 
-
+	Material = CreateMaterial<CMaterial>("BikiniCityTerrain");
+	Material->SetShader("TerrainShader");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "BikiniCity", TEXT("LandScape/T_BB_Sand_01_D.tga"));
+	Material->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
 
 	Material = CreateMaterial<CMaterial>("Billboard");
 
@@ -149,8 +152,9 @@ bool CMaterialManager::Init()
 	Material->EnableBump();
 	Material->EnableSpecular();
 
-	//Material->SetRenderState("AlphaBlend");
-
+	Material = CreateMaterial<CMaterial>("Bubble");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Bubble", TEXT("Particle/Bubbles50px.png"));
+	Material->SetShader("SpriteShader");
 	return true;
 }
 

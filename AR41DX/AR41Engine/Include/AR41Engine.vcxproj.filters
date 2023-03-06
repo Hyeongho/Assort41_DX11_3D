@@ -933,6 +933,9 @@
     <ClInclude Include="Resource\Shader\ShadowConstantBuffer.h">
       <Filter>02. Resource\02. Shader\03. ConstantBuffer\13. Shadow</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\ResourceManager.h">
+      <Filter>02. Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1481,6 +1484,9 @@
     <ClCompile Include="Resource\Shader\ShadowConstantBuffer.cpp">
       <Filter>02. Resource\02. Shader\03. ConstantBuffer\13. Shadow</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\ResourceManager.cpp">
+      <Filter>02. Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\Shader\Share.fx">
@@ -1529,6 +1535,9 @@
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\Shader\ShadowMap.fx">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\FXAA.fx">
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
   </ItemGroup>

@@ -165,14 +165,13 @@ private:
 	void UpdateKeyState(float DeltaTime);
 	void UpdateBindKey(float DeltaTime);
 
-	void SetKeyCtrl(const std::string& Name, bool Ctrl = true);
-	void SetKeyAlt(const std::string& Name, bool Alt = true);
-	void SetKeyShift(const std::string& Name, bool Shift = true);
-
 	KeyState* FindKeyState(unsigned char Key);
 	BindKey* FindBindKey(const std::string& Name);
 
 public:
+	void SetKeyCtrl(const std::string& Name, bool Ctrl = true);
+	void SetKeyAlt(const std::string& Name, bool Alt = true);
+	void SetKeyShift(const std::string& Name, bool Shift = true);
 	bool AddBindKey(const std::string& Name, unsigned char Key);
 	void ClearCallback();
 	void ClearCallback(class CScene* Scene);

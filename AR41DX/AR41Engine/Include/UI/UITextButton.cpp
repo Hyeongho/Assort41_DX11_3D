@@ -39,7 +39,8 @@ CUITextButton::~CUITextButton()
 {
     SAFE_RELEASE(m_Layout);
 
-    for (UIWidgetTextInfo iter : m_TextInfo) {
+    for (UIWidgetTextInfo iter : m_TextInfo)
+    {
         SAFE_DELETE_ARRAY(iter.m_Text);
     }
 }
@@ -348,7 +349,7 @@ void CUITextButton::Save(FILE* File)
     }
 
 
-    for (int i = 0; i < (int)EButtonState::Max; ++i)
+    for (int i = 0; i < (int)EButtonEventState::Max; ++i)
     {
         bool    SoundEnable = m_Sound[i] ? true : false;
 
@@ -407,12 +408,12 @@ void CUITextButton::Load(FILE* File)
         m_RenderTarget = CDevice::GetInst()->Get2DTarget();
 
 
-        SetText((EButtonState)i, m_TextInfo[i].m_Text, m_TextInfo[i].m_TextCapacity, m_TextInfo[i].m_Color);
+        SetText((EButtonState)i, m_TextInfo[i].m_Text, m_TextInfo[i].m_FontSize, m_TextInfo[i].m_Color);
 
 
     }
 
-    for (int i = 0; i < (int)EButtonState::Max; ++i)
+    for (int i = 0; i < (int)EButtonEventState::Max; ++i)
     {
         bool    SoundEnable = false;
 

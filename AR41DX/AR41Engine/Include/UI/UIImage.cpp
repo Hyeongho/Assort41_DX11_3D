@@ -244,6 +244,9 @@ void CUIImage::Save(FILE* File)
     if (FrameCount > 0)
         fwrite(&m_TextureInfo.vecFrameData[0], sizeof(Animation2DFrameData), FrameCount, File);
 
+    FrameCount = (int)m_TextureInfo.Texture->GetName().length();
+    fwrite(&FrameCount, 4, 1, File);
+    fwrite(m_TextureInfo.Texture->GetName().c_str(), 1, FrameCount, File);
     m_TextureInfo.Texture->Save(File);
 }
 
@@ -266,9 +269,7 @@ void CUIImage::Load(FILE* File)
         fread(&m_TextureInfo.vecFrameData[0], sizeof(Animation2DFrameData), FrameCount, File);
 
     char    TexName[256] = {};
-
     int Length = 0;
-
     fread(&Length, sizeof(int), 1, File);
     fread(TexName, 1, Length, File);
 

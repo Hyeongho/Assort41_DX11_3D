@@ -126,7 +126,7 @@ bool CShaderManager::Init()
 	CreateConstantBuffer("Animation2D", sizeof(Animation2DCBuffer), 2);
 	CreateConstantBuffer("Global", sizeof(GlobalCBuffer), 3);
 	CreateConstantBuffer("Collider", sizeof(ColliderCBuffer), 13);
-	CreateConstantBuffer("UI", sizeof(UICBuffer), 10);
+	CreateConstantBuffer("UI", sizeof(UICBuffer), 9);
 	CreateConstantBuffer("UIProgressBar", sizeof(UIProgressBarCBuffer), 11);
 	CreateConstantBuffer("TileMap", sizeof(TileMapCBuffer), 10);
 	CreateConstantBuffer("Light", sizeof(LightCBuffer), 4);

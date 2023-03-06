@@ -42,5 +42,5 @@ void CLoadingThread::LoadingCallback(float Rate)
 	m_Queue.push((int)ELoadingHeader::LoadingRate, stream.GetSize(),
 		Buffer);
 
-	Sleep(200);
+	//Sleep(200);
 }

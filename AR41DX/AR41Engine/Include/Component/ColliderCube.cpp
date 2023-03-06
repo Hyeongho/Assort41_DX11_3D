@@ -18,6 +18,8 @@ CColliderCube::CColliderCube()
 {
 	SetTypeID<CColliderCube>();
 
+	SetRenderLayerName("Collider");
+
 	m_ComponentTypeName = "ColliderCube";
 	m_Collider3DType = ECollider3D_Type::Box;
 	m_CubeSize.x = 100.f;
@@ -37,13 +39,6 @@ CColliderCube::~CColliderCube()
 void CColliderCube::Start()
 {
 	CCollider3D::Start();
-}
-
-bool CColliderCube::Init()
-{
-	if (!CCollider3D::Init())
-		return false;
-
 #ifdef _DEBUG
 	if (m_Scene)
 	{
@@ -57,6 +52,12 @@ bool CColliderCube::Init()
 		m_DebugMaterial = CResourceManager::GetInst()->FindMaterial("DebugDecal");
 	}
 #endif // _DEBUG
+}
+
+bool CColliderCube::Init()
+{
+	if (!CCollider3D::Init())
+		return false;
 
 	return true;
 }
@@ -107,6 +108,11 @@ void CColliderCube::PostUpdate(float DeltaTime)
 void CColliderCube::Render()
 {
 	CCollider3D::Render();
+}
+
+void CColliderCube::RenderDebug()
+{
+	CCollider3D::RenderDebug();
 
 	Matrix matScale, matTranslate, matWorld;
 
@@ -135,11 +141,6 @@ void CColliderCube::Render()
 	m_DebugMesh->Render();
 }
 
-void CColliderCube::RenderDebug()
-{
-	CSceneComponent::Render();
-}
-
 CColliderCube* CColliderCube::Clone() const
 {
 	return new CColliderCube(*this);
@@ -147,10 +148,16 @@ CColliderCube* CColliderCube::Clone() const
 
 void CColliderCube::Save(FILE* File)
 {
+	CCollider3D::Save(File);
+
+	fwrite(&m_CubeSize, sizeof(Vector3), 1, File);
 }
 
 void CColliderCube::Load(FILE* File)
 {
+	CCollider3D::Load(File);
+
+	fread(&m_CubeSize, sizeof(Vector3), 1, File);
 }
 
 bool CColliderCube::Collision(CCollider* Dest)
@@ -172,7 +179,7 @@ bool CColliderCube::Collision(CCollider* Dest)
 
 	}
 
-	m_HitPoint = Vector3(HitPoint.x, HitPoint.y, 0.f);
+	m_HitPoint = Vector3(HitPoint.x, HitPoint.y, HitPoint.z);
 
 	return Result;
 }

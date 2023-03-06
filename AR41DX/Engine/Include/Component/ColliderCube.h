@@ -48,7 +48,7 @@ public:
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
     virtual void Render();
-    void RenderDebug();
+    virtual void RenderDebug();
     virtual CColliderCube* Clone() const;
     virtual void Save(FILE* File);
     virtual void Load(FILE* File);
