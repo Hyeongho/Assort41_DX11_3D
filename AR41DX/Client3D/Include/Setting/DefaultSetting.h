@@ -44,7 +44,7 @@ private:
     // Objects
     void LoadBuildings();
     void LoadJellyfishFieldsObj();
-
+    void LoadEnemies();
     void LoadParticle();
 };
 

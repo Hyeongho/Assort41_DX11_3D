@@ -4,15 +4,40 @@
 
 struct PlayerData
 {
-	int MaxHP; // ÃÖ´ë HP;
-	int CurHP; // ÇöÀç Ã¼·Â
-	int Socks; // ¾ç¸»
-	int Fritter; // µÚÁı°³
-	int Glittering; // ¹İÂ¦ÀÌ
+	int MaxHP; // ìµœëŒ€ HP;
+	int CurHP; // í˜„ì¬ ì²´ë ¥
+	int Socks; // ì–‘ë§
+	int Fritter; // ë’¤ì§‘ê°œ
+	int Glittering; // ë°˜ì§ì´
 
 	PlayerData() : MaxHP(5), CurHP(3), Socks(0), Fritter(0), Glittering(0)
 	{
 
+	}
+	PlayerData& operator = (const PlayerData& v)
+	{
+		MaxHP = v.MaxHP;
+		CurHP = v.CurHP;
+		Socks = v.Socks;
+		Fritter = v.Fritter;
+		Glittering = v.Glittering;
+		return *this;
+	}
+	bool operator == (const PlayerData& v)	const
+	{
+		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering)
+		{
+			return false;
+		}
+		return true;
+	}
+	bool operator != (const PlayerData& v)	const
+	{
+		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering)
+		{
+			return true;
+		}
+		return false;
 	}
 };
 
@@ -35,33 +60,42 @@ protected:
 	virtual ~CPlayer();
 
 protected:
-	//ÄÄÆ÷³ÍÆ®
+	//ì»´í¬ë„ŒíŠ¸
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CAnimationMeshComponent>	m_WeaponMesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
 	CSharedPtr<class CNavigationAgent3D> m_NavAgent;
 	CSharedPtr<class CRigidBody> m_Rigid;
+
 	CSharedPtr<class CColliderOBB3D> m_Cube;
+
+	CSharedPtr<class CColliderCube> m_HeadCube;	//ìŠ¤í°ì§€ë°¥ ëŒ€ê°€ë¦¬ìš©
+
+	//
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
 	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
 	CSharedPtr<class CPlayerUI>	m_PlayerUI;
+	CSharedPtr<class CPauseUI>	m_PauseUI;
 
 protected:
 	PlayerData m_PlayerData;
+	PlayerData m_LoadData;
 	EMain_Character m_MainCharacter;
 	float m_Speed;
 	float m_CameraSpeed;
 	int m_KeyCount;
 	int m_JumpCount;
-	float m_HoverTime; // ³»·ÁÂï±â µîÀ» À§ÇÑ °øÁßºÎ¾ç ½Ã°£
-	bool m_IsLoading;	//·Îµå Ã¼Å©¿ë º¯¼ö-±è¹üÁß
-	// ========== Patrick ¿ë ==========
-	bool m_IsHolding; // ¹°°ÇÇÈ¾÷/¾²·Î¿ì ¾×¼Ç¿ë
+	float m_HoverTime; // ë‚´ë ¤ì°ê¸° ë“±ì„ ìœ„í•œ ê³µì¤‘ë¶€ì–‘ ì‹œê°„
+	bool m_IsLoading;	//ë¡œë“œ ì²´í¬ìš© ë³€ìˆ˜-ê¹€ë²”ì¤‘
+	bool m_IsDoubleJump;	//ë”ë¸”ì í”„ -ê¹€ë²”ì¤‘
+	// ========== Patrick ìš© ==========
+	bool m_IsHolding; // ë¬¼ê±´í”½ì—…/ì“°ë¡œìš° ì•¡ì…˜ìš©
 	float m_BellyAttackTime;
 	bool m_SlamDown;
 
 public:
+	virtual void Destroy();
 	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
@@ -69,11 +103,15 @@ public:
 	virtual CPlayer* Clone() const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+	bool SaveCharacter();
+	bool LoadCharacter();
 
 private:
-	void LoadSpongebobAnim(); // ½ºÆùÁö¹ä ¸®¼Ò½º
-	void LoadPatrickAnim(); // ¶×ÀÌ ¸®¼Ò½º
-	void LoadSandyAnim(); // ´Ù¶÷ÀÌ ¸®¼Ò½º
+	void LoadCheck();
+	void CollisionCube(const CollisionResult& result);
+	void LoadSpongebobAnim(); // ìŠ¤í°ì§€ë°¥ ë¦¬ì†ŒìŠ¤
+	void LoadPatrickAnim(); // ëš±ì´ ë¦¬ì†ŒìŠ¤
+	void LoadSandyAnim(); // ë‹¤ëŒì´ ë¦¬ì†ŒìŠ¤
 
 public:
 	void SetPlayerData(PlayerData Playerdata)
@@ -138,13 +176,14 @@ public:
 	}
 
 public:
-	//°øÅë
+	//ê³µí†µ
 	void MoveFront();
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
 	void Stop();
 	void Jump();
+	void JumpCheck();
 	void AttackKey();
 	void CameraRotationKey();
 	void KeyDown();
@@ -154,16 +193,19 @@ public:
 	void IngameUI();
 	void RClick();
 	void LClick(); // Attack
-	void ResetIdle();	//¾ÆÀÌµé»óÅÂ·Î µÇµ¹¸®´Â ÇÔ¼ö
+	void StartBash();	//ì—‰ì° ì‹œì‘ í•¨ìˆ˜
+	void ResetIdle();	//ì•„ì´ë“¤ìƒíƒœë¡œ ë˜ëŒë¦¬ëŠ” í•¨ìˆ˜
 
 	// Spongebob
 	void Headbutt();
 	void Missile();
+	void Bowl();
+	void BowlThrow();
 
 	// Patrick
 	void Patrick_BellyAttack();
 	void Patrick_BellyAttackMove();
-	void Patrick_SlamDown(); // ³»·ÁÂï±â
+	void Patrick_SlamDown(); // ë‚´ë ¤ì°ê¸°
 	void Patrick_PickUp();
 	void Patrick_Throw();
 
@@ -173,8 +215,8 @@ public:
 	void ChangeSpongebob();
 	void ChangePatrick();
 	void ChangeSandy();
-
-	// Ãæµ¹Ã¼ Å×½ºÆ® ¿ë
+  
+  // ì¶©ëŒì²´ í…ŒìŠ¤íŠ¸ ìš©
 	void CollisionTest(const CollisionResult& result);
 };
 
