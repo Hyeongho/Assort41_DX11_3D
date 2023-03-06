@@ -67,6 +67,12 @@
     <Filter Include="03. GameObject\04. ETC">
       <UniqueIdentifier>{a898e103-04eb-4e22-835d-6b2185e62725}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. UI\01. RapidXml">
+      <UniqueIdentifier>{f5c86bee-0430-4298-9e31-997d03e1a89d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\05. Npc">
+      <UniqueIdentifier>{bff369d7-7298-4fac-b383-74c40dada249}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -173,6 +179,24 @@
     </ClCompile>
     <ClCompile Include="GameObject\Walk.cpp">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\DialogUI.cpp">
+      <Filter>05. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\RapidXml\CXmlParser.cpp">
+      <Filter>05. UI\01. RapidXml</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Npc\MrKrabs.cpp">
+      <Filter>03. GameObject\05. Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Npc\Patric.cpp">
+      <Filter>03. GameObject\05. Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Npc\Squidward.cpp">
+      <Filter>03. GameObject\05. Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Npc\TaxiDriver.cpp">
+      <Filter>03. GameObject\05. Npc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +307,36 @@
     </ClInclude>
     <ClInclude Include="GameObject\Walk.h">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\DialogUI.h">
+      <Filter>05. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\CXmlParser.h">
+      <Filter>05. UI\01. RapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\rapidxml.hpp">
+      <Filter>05. UI\01. RapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\rapidxml_iterators.hpp">
+      <Filter>05. UI\01. RapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\rapidxml_print.hpp">
+      <Filter>05. UI\01. RapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RapidXml\rapidxml_utils.hpp">
+      <Filter>05. UI\01. RapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\MrKrabs.h">
+      <Filter>03. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\Patric.h">
+      <Filter>03. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\Squidward.h">
+      <Filter>03. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\TaxiDriver.h">
+      <Filter>03. GameObject\05. Npc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
