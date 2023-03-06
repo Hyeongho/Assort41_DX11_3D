@@ -29,16 +29,15 @@ void CDialogUI::Start()
 {
 	CUIWindow::Start();
 
-	CInput::GetInst()->AddBindFunction<CDialogUI>("LButton", Input_Type::Up, this, &CDialogUI::KeyLeftButton, m_Scene);
-	CInput::GetInst()->AddBindFunction<CDialogUI>("RButton", Input_Type::Up, this, &CDialogUI::KeyRightButton, m_Scene);
+	CInput::GetInst()->AddBindFunction<CDialogUI>("LClick", Input_Type::Up, this, &CDialogUI::KeyLeftButton, m_Scene);
+	CInput::GetInst()->AddBindFunction<CDialogUI>("RClick", Input_Type::Up, this, &CDialogUI::KeyRightButton, m_Scene);
+
+	CreaeteAllUI();
 }
 
 bool CDialogUI::Init()
 {
 	CUIWindow::Init();
-
-	CreateDialogUI();
-	SetDialogInfo();
 
 	return true;
 }
@@ -71,6 +70,17 @@ void CDialogUI::Save(FILE* File)
 void CDialogUI::Load(FILE* File)
 {
 	CUIWindow::Load(File);
+
+	CreaeteAllUI();
+}
+
+void CDialogUI::CreaeteAllUI()
+{
+	if (!m_mapDialogUI.empty())
+		return;
+
+	CreateDialogUI();
+	InActiveDialogUI();
 }
 
 void CDialogUI::CreateDialogUI()
@@ -113,7 +123,7 @@ void CDialogUI::CreateDialogUI()
 	Text->SetText("Blah BlahBlahBlah BlahBlah BlahBlah");
 	Text->SetFontSize(30.f);
 	Text->SetSize(DialogXSize * 0.6f, DialogYSize);
-	Text->SetPos(DialogXPos + DialogXSize * 0.2f, 10.f);
+	Text->SetPos(DialogXPos + DialogXSize * 0.25f, 10.f);
 
 	m_mapDialogUI.insert(std::make_pair("DialogUI_TextBox", Text));
 }
@@ -128,41 +138,6 @@ void CDialogUI::InActiveDialogUI()
 {
 	for (auto iter : m_mapDialogUI)
 		iter.second->SetEnable(false);
-}
-
-void CDialogUI::SetDialogInfo()
-{
-	// FileSystem으로 해당하는 텍스트 찾아 구조체에 넣는다.
-
-	// 아래는 테스트용 구조체 생성
-	int TextCount = 5;
-	m_curDialog.TextMaxIdx = TextCount;
-	m_curDialog.TextIdx = 0;
-
-	m_curDialog.vecTalker.resize(TextCount);
-	m_curDialog.vecText.resize(TextCount);
-
-	m_curDialog.vecTalker[0] = "Sponge";
-	m_curDialog.vecTalker[1] = "Sponge";
-	m_curDialog.vecTalker[2] = "Sandy";
-	m_curDialog.vecTalker[3] = "Sandy";
-	m_curDialog.vecTalker[4] = "Sponge";
-
-	m_curDialog.vecText[0] = "Hello Sandy?";
-	m_curDialog.vecText[1] = "Good day. Do u think so too?";
-	m_curDialog.vecText[2] = "Oh. Spongebob.";
-	m_curDialog.vecText[3] = "I don't think so.";
-	m_curDialog.vecText[4] = "Oh... okok.";
-
-
-	CUIText* Text = (CUIText*)m_mapDialogUI.find("DialogUI_TextTalker")->second.Get();
-	std::string strTalker = m_curDialog.vecTalker[0] + ":";
-	Text->SetText(strTalker.c_str());
-
-
-	Text = (CUIText*)m_mapDialogUI.find("DialogUI_TextBox")->second.Get();
-	Text->SetText(m_curDialog.vecText[0].c_str());
-
 }
 
 void CDialogUI::SetDialogInfo(EMapList Map, ENpcList Npc)
@@ -247,7 +222,6 @@ void CDialogUI::SetDialogInfo(EMapList Map, ENpcList Npc)
 
 			m_mapDialogInfo.insert(std::make_pair(DialogName, Info));
 		}
-
 	}
 
 	SAFE_DELETE(Parser)
@@ -274,11 +248,10 @@ void CDialogUI::KeyLeftButton()
 
 
 	// Text chnage
-	std::string strTalker = m_curDialog.vecTalker[m_curDialog.TextIdx];
-	std::string strText = m_curDialog.vecText[m_curDialog.TextIdx];
+	std::wstring strTalker = m_curDialog.vecTalker[m_curDialog.TextIdx];
+	std::wstring strText = m_curDialog.vecText[m_curDialog.TextIdx];
 
 	CUIText* Text = (CUIText*)m_mapDialogUI.find("DialogUI_TextTalker")->second.Get();
-	strTalker += ":";
 	Text->SetText(strTalker.c_str());
 
 	Text = (CUIText*)m_mapDialogUI.find("DialogUI_TextBox")->second.Get();
@@ -287,7 +260,5 @@ void CDialogUI::KeyLeftButton()
 
 void CDialogUI::KeyRightButton()
 {
-	SetDialogInfo();
-	ActiveDialogUI();
-
+	return;
 }

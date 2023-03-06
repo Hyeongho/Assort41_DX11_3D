@@ -2,10 +2,6 @@
 <Dialogs>
 	<Dialog Name="First_Contact">
 		<Context>
-			<Talker>test1</Talker>
-			<Text>testText.</Text>
-		</Context>
-		<Context>
 			<Talker>집게사장</Talker>
 			<Text>스폰지밥, 잘들어. 이번 로봇 사태 때문에 집게리아가 손해를 보고 있단다.</Text>
 		</Context>

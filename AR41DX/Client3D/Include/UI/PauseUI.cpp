@@ -64,35 +64,13 @@ void CPauseUI::Start()
 		CInput::GetInst()->AddBindFunction<CPauseUI>("LButton", Input_Type::Up, this, &CPauseUI::KeyLeftButton, m_Scene);
 		CInput::GetInst()->AddBindFunction<CPauseUI>("RButton", Input_Type::Up, this, &CPauseUI::KeyRightButton, m_Scene);
 	}
+
+	CreaeteAllUI();
 }
 
 bool CPauseUI::Init()
 {
 	CUIWindow::Init();
-
-	CreateBackgroundUI();
-	CreateMapUI();
-	CreatePauseUI();
-	CreateOptionSoundUI();
-	CreateOptionCameraUI();
-	CreateControlUI();
-	CreateSaveSelectUI();
-
-	//CloseUI();
-
-	
-	// Test
-	m_NowUIMode = EUIPauseMode::PauseMain;
-
-	InActiveMapUI();
-	InActiveControlUI();
-	InActiveOptionSoundUI();
-	InActiveOptionCameraUI();
-	InActiveSaveSelectUI();
-
-	ActiveBackUI();
-	ActivePauseUI();
-
 
 	return true;
 }
@@ -125,6 +103,8 @@ void CPauseUI::Save(FILE* File)
 void CPauseUI::Load(FILE* File)
 {
 	CUIWindow::Load(File);
+
+	CreaeteAllUI();
 }
 
 void CPauseUI::OpenUI()
@@ -148,6 +128,24 @@ void CPauseUI::CloseUI()
 	InActiveControlUI();
 
 	m_NowUIMode = EUIPauseMode::Close;
+}
+
+void CPauseUI::CreaeteAllUI()
+{
+	if (!m_mapBackUI.empty())
+		return;
+
+	CreateBackgroundUI();
+	CreateMapUI();
+	CreatePauseUI();
+	CreateOptionSoundUI();
+	CreateOptionCameraUI();
+	CreateControlUI();
+	CreateSaveSelectUI();
+
+	m_NowUIMode = EUIPauseMode::Close;
+
+	CloseUI();
 }
 
 void CPauseUI::CreateBackgroundUI()
@@ -560,9 +558,166 @@ void CPauseUI::CreateOptionCameraUI()
 	float ButtonPosX = RS.Width / 2.f - ButtonSizeX / 2.f;
 	float ButtonPosY = RS.Height - 200.f;
 
-	float ButtonYInterval = ButtonSizeY + 50.f;
+	float ButtonYInterval = ButtonSizeY + 10.f;
 
 	float FontSize = 30.f;
+
+
+
+	CUIImage* Image = CreateWidget<CUIImage>("CameraOptionUI_SelectedSplotch");
+	Image->SetTexture("SelectBackSplotch", TEXT("UI/Title/Color_splotch_2.tga"));
+	Image->SetSize(ButtonSizeX * 1.2f, ButtonSizeY * 1.4f);
+	Image->SetPivot(0.f, 0.3f);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_SelectedSplotch", Image));
+
+
+	CUIText* Text = CreateWidget<CUIText>("CameraOptionUI_Text");
+
+	Text->SetSize(ButtonSizeX * 2.f, ButtonSizeY);
+	Text->SetAlignH(Text_Align_H::Center);
+	Text->SetPos(ButtonPosX - ButtonSizeX / 2.f, ButtonPosY);
+	Text->SetFontSize(30.f);
+	Text->SetText(TEXT("카메라 옵션"));
+	Text->SetColor(Vector4::Black);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_Text", Text));
+
+	ButtonPosY -= ButtonYInterval;
+	ButtonPosY -= 50.f;
+
+	ButtonPosX = RS.Width / 3.f - ButtonSizeX / 2.f;
+
+
+	// 감도 조절
+
+	CUITextButton* TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonMouseSensitive");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("감도"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("감도"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("감도"), FontSize, Vector4::White);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonMouseSensitiveHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonMouseSensitiveClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUISensitive);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonMouseSensitive", TextButton));
+
+
+	Text = CreateWidget<CUIText>("CameraOptionUI_TextSensitive");
+
+	Text->SetSize(ButtonSizeX * 2.f, ButtonSizeY);
+	Text->SetAlignH(Text_Align_H::Center);
+	Text->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	Text->SetFontSize(30.f);
+	Text->SetText(TEXT("30"));
+	Text->SetColor(Vector4::Black);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_TextSensitive", Text));
+
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonSensitiveMinus");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX * 2.f, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonSensitiveMinusHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonSensitiveMinusClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUISensitive);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUISensitiveMinus);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonSensitiveMinus", TextButton));
+
+
+	//Image = CreateWidget<CUIImage>("CameraOptionUI_ImageSensitiveSlideBar");
+	//Image = CreateWidget<CUIImage>("CameraOptionUI_ImageSensitiveSlideBar");
+
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonSensitivePlus");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX * 3.f, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonSensitivePlusHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonSensitivePlusClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUISensitive);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUISensitivePlus);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonSensitivePlus", TextButton));
+
+
+	ButtonPosY -= ButtonYInterval;
+
+
+	// X 축 반전
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonMouseControlXReverse");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("X축 반전"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("X축 반전"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("X축 반전"), FontSize, Vector4::White);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonMouseControlXReverseHorvered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonMouseControlXReverseClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUIXReverse);
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonMouseControlXReverse", TextButton));
+
+
+
+	Image = CreateWidget<CUIImage>("CameraOptionUI_XReverseSelectedSplotch");
+	Image->SetTexture("XReverseBackSplotch", TEXT("UI/Title/Color_splotch_2.tga"));
+	Image->SetSize(ButtonSizeX, ButtonSizeY * 1.2f);
+	Image->SetPivot(0.f, 0.3f);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_XReverseSelectedSplotch", Image));
+
+
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonMouseControlXReverseNormal");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("Normal"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("Normal"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("Normal"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonMouseControlXReverseHorvered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonMouseControlXReverseClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUIXReverse_Normal);
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonMouseControlXReverseNormal", TextButton));
+
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonMouseControlXReverseReverse");
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonMouseControlXReverseReverse", TextButton));
+
+
+	ButtonPosY -= ButtonYInterval;
+
+
+
+	// Y 축 반전
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonMouseControlYReverse");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("Y축 반전"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("Y축 반전"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("Y축 반전"), FontSize, Vector4::White);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonMouseControlYReverseHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonMouseControlYReverseClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUIYReverse);
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonMouseControlYReverse", TextButton));
+
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonMouseControlYReverseNormal");
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonMouseControlYReverseNormal", TextButton));
+
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonMouseControlYReverseReverse");
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonMouseControlYReverseReverse", TextButton));
+
+
+
 }
 
 void CPauseUI::CreateControlUI()
@@ -1152,4 +1307,75 @@ void CPauseUI::SoundOptionUIReset()
 	auto iterSplotch = m_mapSoundOptionUI.find("SoundOptionUI_SelectedSplotch");
 	Vector2 vecPos = m_mapSoundOptionUI.find("SoundOptionUI_ButtonReset")->second->GetPos();
 	iterSplotch->second->SetPos(vecPos);
+}
+
+void CPauseUI::CameraOptionUISensitive()
+{
+	m_CameraSelected = EUICameraList::Sensitive;
+
+	auto iterSplotch = m_mapSoundOptionUI.find("CameraOptionUI_SelectedSplotch");
+	Vector2 vecPos = m_mapSoundOptionUI.find("CameraOptionUI_ButtonMouseSensitive")->second->GetPos();
+	iterSplotch->second->SetPos(vecPos);
+}
+
+void CPauseUI::CameraOptionUISensitiveMinus()
+{
+	CUIText* Text = (CUIText*)m_mapCameraOptionUI.find("CameraOptionUI_TextSensitive")->second.Get();
+
+	if (wcscmp(L"0", Text->GetText()) == 0)
+		return;
+
+	// 수치 조절 후 해당 값을 Text에 SetText
+
+
+
+	Text->SetText("");
+}
+
+void CPauseUI::CameraOptionUISensitivePlus()
+{
+	CUIText* Text = (CUIText*)m_mapCameraOptionUI.find("CameraOptionUI_TextSensitive")->second.Get();
+
+	if (wcscmp(L"100", Text->GetText()) == 0)
+		return;
+
+	// 수치 조절 후 해당 값을 Text에 SetText
+
+
+
+	Text->SetText("");
+}
+
+void CPauseUI::CameraOptionUIXReverse()
+{
+	m_CameraSelected = EUICameraList::XReverse;
+
+	auto iterSplotch = m_mapSoundOptionUI.find("CameraOptionUI_SelectedSplotch");
+	Vector2 vecPos = m_mapSoundOptionUI.find("CameraOptionUI_ButtonMouseControlXReverse")->second->GetPos();
+	iterSplotch->second->SetPos(vecPos);
+}
+
+void CPauseUI::CameraOptionUIXReverse_Normal()
+{
+}
+
+void CPauseUI::CameraOptionUIXReverse_Reverse()
+{
+}
+
+void CPauseUI::CameraOptionUIYReverse()
+{
+	m_CameraSelected = EUICameraList::YReverse;
+
+	auto iterSplotch = m_mapSoundOptionUI.find("CameraOptionUI_SelectedSplotch");
+	Vector2 vecPos = m_mapSoundOptionUI.find("CameraOptionUI_ButtonMouseControlYReverse")->second->GetPos();
+	iterSplotch->second->SetPos(vecPos);
+}
+
+void CPauseUI::CameraOptionUIYReverse_Normal()
+{
+}
+
+void CPauseUI::CameraOptionUIYReverse_Reverse()
+{
 }

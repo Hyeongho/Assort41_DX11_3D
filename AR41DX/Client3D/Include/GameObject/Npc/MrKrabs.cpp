@@ -3,19 +3,29 @@
 #include "Input.h"
 #include "Component/AnimationMeshComponent.h"
 #include "Scene/Scene.h"
+#include "../../UI/DialogUI.h"
 
-
-CMrKrabs::CMrKrabs()
+CMrKrabs::CMrKrabs() 
 {
     SetTypeID<CMrKrabs>();
 
     m_ObjectTypeName = "MrKrabs";
 
+    m_DialogCount = 0;
+    m_NpcType = ENpcList::MrKrabs;
+    m_NpcMapPos = EMapList::Bikini_Bottom;
+    m_EnableDialog = false;
 }
 
-CMrKrabs::CMrKrabs(const CMrKrabs& Obj) : CGameObject(Obj)
+CMrKrabs::CMrKrabs(const CMrKrabs& Obj) : CNpc(Obj)
 {
     m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+    m_Animation = (CAnimation*)FindComponent("MrKrabsAnimation");
+
+    m_DialogCount = Obj.m_DialogCount;
+    m_NpcType = Obj.m_NpcType;
+    m_NpcMapPos = Obj.m_NpcMapPos;
+    m_EnableDialog = Obj.m_EnableDialog;
 }
 
 CMrKrabs::~CMrKrabs()
@@ -25,18 +35,20 @@ CMrKrabs::~CMrKrabs()
 
 void CMrKrabs::Start()
 {
-    CGameObject::Start();
+    CNpc::Start();
 
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F1", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Angry_Start, m_Scene);
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F2", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Deceptive_Start, m_Scene);
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F3", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Greedy_Start, m_Scene);
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F4", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Laughing, m_Scene);
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F5", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Idle, m_Scene);
+
+    CInput::GetInst()->AddBindFunction<CMrKrabs>("F", Input_Type::Up, this, &CMrKrabs::StartDialog, m_Scene);
 }
 
 bool CMrKrabs::Init()
 {
-    CGameObject::Init();
+    CNpc::Init();
 
     m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 
@@ -67,18 +79,12 @@ bool CMrKrabs::Init()
 
 void CMrKrabs::Update(float DeltaTime)
 {
-    CGameObject::Update(DeltaTime);
-
-
-    // 플레이어가 특정 범위(Radius)내에 들어오면 플레이어를 바라보게끔.
-
-    // 플레이어가 가까이(충돌 혹은 특정 범위 내에 있을 때) F를 누르면 대화가 발생하게끔.
-
+    CNpc::Update(DeltaTime);
 }
 
 void CMrKrabs::PostUpdate(float DeltaTime)
 {
-    CGameObject::PostUpdate(DeltaTime);
+    CNpc::PostUpdate(DeltaTime);
 }
 
 CMrKrabs* CMrKrabs::Clone() const
@@ -88,12 +94,12 @@ CMrKrabs* CMrKrabs::Clone() const
 
 void CMrKrabs::Save(FILE* File)
 {
-    CGameObject::Save(File);
+    CNpc::Save(File);
 }
 
 void CMrKrabs::Load(FILE* File)
 {
-    CGameObject::Load(File);
+    CNpc::Load(File);
 }
 
 void CMrKrabs::ChangeAnim_Angry_Loop()
@@ -134,4 +140,35 @@ void CMrKrabs::ChangeAnim_Laughing()
 void CMrKrabs::ChangeAnim_Idle()
 {
     m_Animation->ChangeAnimation("MrKrabs_Idle");
+}
+
+void CMrKrabs::StartDialog()
+{
+    if (!m_EnableDialog)
+        return;
+
+    CDialogUI* DialogUI = m_Scene->GetViewport()->FindUIWindow<CDialogUI>("DialogUI");
+
+    if (!DialogUI)
+        return;
+
+    DialogUI->SetDialogInfo(m_NpcMapPos, m_NpcType);
+
+    if(m_DialogCount == 0)
+        DialogUI->SetCurDialog("First_Contact");
+    else {
+        // 추후 플레이어로부터 플라워 카운트를 받아 체크. 
+        int FlowerCount = 500;
+        // CPlayer* Player = m_Scene->FindObject<CPlayer>("Player");
+        // int FlowerCount = Player->GetFlowerCount();
+
+        if (FlowerCount >= 500)
+            DialogUI->SetCurDialog("Enough_Flower");
+        else
+            DialogUI->SetCurDialog("Not_Enough_Flower");
+    }
+
+    DialogUI->OpenDialog();
+
+    m_DialogCount++;
 }

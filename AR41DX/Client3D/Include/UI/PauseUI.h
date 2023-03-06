@@ -74,6 +74,7 @@ public :
 	bool IsOpen() { return m_NowUIMode == EUIPauseMode::Close ? false : true; }
 
 private:
+	void CreaeteAllUI();
 	void CreateBackgroundUI();
 	void CreateMapUI();
 	void CreatePauseUI();
@@ -141,6 +142,17 @@ private: // Option Menu UI Func
 	void SoundOptionUIMusic();
 	void SoundOptionUITalk();
 	void SoundOptionUIReset();
+
+private:
+	void CameraOptionUISensitive();
+	void CameraOptionUISensitiveMinus();
+	void CameraOptionUISensitivePlus();
+	void CameraOptionUIXReverse();
+	void CameraOptionUIXReverse_Normal();
+	void CameraOptionUIXReverse_Reverse();
+	void CameraOptionUIYReverse();
+	void CameraOptionUIYReverse_Normal();
+	void CameraOptionUIYReverse_Reverse();
 
 };
 

@@ -2,17 +2,31 @@
 
 #include "Input.h"
 #include "Component/AnimationMeshComponent.h"
+#include "Scene/Scene.h"
+#include "../../UI/DialogUI.h"
 
 CSquidward::CSquidward()
 {
 	SetTypeID<CSquidward>();
 
 	m_ObjectTypeName = "Squidward";
+
+    m_DialogCount = 0;
+    m_NpcType = ENpcList::MrKrabs;
+    m_NpcMapPos = EMapList::Bikini_Bottom;
+    m_EnableDialog = false;
 }
 
-CSquidward::CSquidward(const CSquidward& Obj) : CGameObject(Obj)
+CSquidward::CSquidward(const CSquidward& Obj) 
+    : CNpc(Obj)
 {
-	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+    m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+    m_Animation = (CAnimation*)FindComponent("PatricNpcAnimation");
+
+    m_DialogCount = Obj.m_DialogCount;
+    m_NpcType = Obj.m_NpcType;
+    m_NpcMapPos = Obj.m_NpcMapPos;
+    m_EnableDialog = Obj.m_EnableDialog;
 }
 
 CSquidward::~CSquidward()
@@ -72,12 +86,12 @@ bool CSquidward::Init()
 
 void CSquidward::Update(float DeltaTime)
 {
-    CGameObject::Update(DeltaTime);
+    CNpc::Update(DeltaTime);
 }
 
 void CSquidward::PostUpdate(float DeltaTime)
 {
-    CGameObject::PostUpdate(DeltaTime);
+    CNpc::PostUpdate(DeltaTime);
 }
 
 CSquidward* CSquidward::Clone() const
@@ -87,12 +101,34 @@ CSquidward* CSquidward::Clone() const
 
 void CSquidward::Save(FILE* File)
 {
-    CGameObject::Save(File);
+    CNpc::Save(File);
 }
 
 void CSquidward::Load(FILE* File)
 {
-    CGameObject::Load(File);
+    CNpc::Load(File);
+}
+
+void CSquidward::StartDialog()
+{
+    if (!m_EnableDialog)
+        return;
+
+    CDialogUI* DialogUI = m_Scene->GetViewport()->FindUIWindow<CDialogUI>("DialogUI");
+
+    if (!DialogUI)
+        return;
+
+    DialogUI->SetDialogInfo(m_NpcMapPos, m_NpcType);
+
+    if (m_DialogCount == 0)
+        DialogUI->SetCurDialog("First_Contact");
+    else
+        DialogUI->SetCurDialog("Second_Contact");
+
+    DialogUI->OpenDialog();
+
+    m_DialogCount++;
 }
 
 void CSquidward::ChangeAnim_Angry_Loop()

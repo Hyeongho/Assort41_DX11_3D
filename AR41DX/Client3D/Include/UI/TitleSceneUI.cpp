@@ -43,7 +43,6 @@ void CTitleSceneUI::Start()
 {
 	CUIWindow::Start();
 	
-
 	// KeySetting
 	{
 		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("UArrow", Input_Type::Up, this, &CTitleSceneUI::KeyUp, m_Scene);
@@ -64,29 +63,13 @@ void CTitleSceneUI::Start()
 		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("LButton", Input_Type::Up, this, &CTitleSceneUI::KeyLeftButton, m_Scene);
 		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("RButton", Input_Type::Up, this, &CTitleSceneUI::KeyRightButton, m_Scene);
 	}
+
+	CreaeteAllUI();
 }
 
 bool CTitleSceneUI::Init()
 {
 	CUIWindow::Init();
-
-
-	CreateBackgroundUI();
-	CreateMainUI();
-	CreateOptionUI();
-	CreateOptionSoundUI();
-	CreateOptionCameraUI();
-	CreateSaveSelectUI();
-	CreateControlUI();
-	CreateCreditsUI();
-
-	InActiveOptionUI();
-	InActiveOptionSoundUI();
-	InActiveOptionCameraUI();
-	InActiveSaveSelectUI();
-	InActiveControlUI();
-	InActiveCreditsUI();
-
 
 	return true;
 }
@@ -119,6 +102,30 @@ void CTitleSceneUI::Save(FILE* File)
 void CTitleSceneUI::Load(FILE* File)
 {
 	CUIWindow::Load(File);
+
+	CreaeteAllUI();
+}
+
+void CTitleSceneUI::CreaeteAllUI()
+{
+	if (!m_mapBackUI.empty())
+		return;
+
+	CreateBackgroundUI();
+	CreateMainUI();
+	CreateOptionUI();
+	CreateOptionSoundUI();
+	CreateOptionCameraUI();
+	CreateSaveSelectUI();
+	CreateControlUI();
+	CreateCreditsUI();
+
+	InActiveOptionUI();
+	InActiveOptionSoundUI();
+	InActiveOptionCameraUI();
+	InActiveSaveSelectUI();
+	InActiveControlUI();
+	InActiveCreditsUI();
 }
 
 void CTitleSceneUI::CreateBackgroundUI()

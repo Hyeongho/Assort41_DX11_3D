@@ -38,9 +38,14 @@ private:
     void LoadSquidward();
     void LoadPatric_Npc();
     void LoadTaxi();
+    void LoadBusDriver();
 
-
+    
     void LoadBuildings();
+
+    void LoadCBObjects();
+    void LoadCBLabObjects();
+
     void LoadEnemies();
     void LoadParticle();
 

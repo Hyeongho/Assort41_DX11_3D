@@ -32,7 +32,7 @@ void CXmlParser::init(const std::string& _strFile)
 	xmlFile.read(&xmlData.front(), (std::streamsize)size);
 
 	xml_document<char> xmlDoc;
-	xmlDoc.parse<0>(&xmlData.front());
+	xmlDoc.parse<parse_default>(&xmlData.front());
 
 	xml_node<char>* pRootNode = xmlDoc.first_node();
 	xml_attribute<char>* attr;
@@ -51,11 +51,37 @@ void CXmlParser::init(const std::string& _strFile)
 			for (xml_node<char>* subItem = item->first_node(); subItem; subItem = subItem->next_sibling()) {
 				for (xml_node<char>* contextItem = subItem->first_node(); contextItem; contextItem = contextItem->next_sibling()) {
 					if (strcmp("Talker", contextItem->name()) == 0) {
-						Info.vecTalker.push_back(contextItem->value());
+						char* value = contextItem->value();
+
+						int rq_cch = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value, strlen(value), nullptr , 0);
+
+						std::wstring wValue;
+						wValue.clear();
+						wValue.resize(rq_cch);
+
+						MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value,
+							static_cast<int>(strlen(value)),
+							const_cast<wchar_t*>(wValue.c_str()),
+							static_cast<int>(wValue.size()));
+
+						Info.vecTalker.push_back(wValue);
 					}
 
 					if (strcmp("Text", contextItem->name()) == 0) {
-						Info.vecText.push_back(contextItem->value());
+						char* value = contextItem->value();
+
+						int rq_cch = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value, strlen(value), nullptr, 0);
+
+						std::wstring wValue;
+						wValue.clear();
+						wValue.resize(rq_cch);
+
+						MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value,
+							static_cast<int>(strlen(value)),
+							const_cast<wchar_t*>(wValue.c_str()),
+							static_cast<int>(wValue.size()));
+
+						Info.vecText.push_back(wValue);
 					}
 				}
 			}

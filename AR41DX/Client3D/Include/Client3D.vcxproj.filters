@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Client3DManager.cpp">
       <Filter>01. ClientManager</Filter>
     </ClCompile>
@@ -107,7 +106,7 @@
     <ClCompile Include="GameObject\Npc\Squidward.cpp">
       <Filter>03. GameObject\05. Npc</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Npc\TaxiDriver.cpp">
+    <ClCompile Include="GameObject\Npc\BusDriver.cpp">
       <Filter>03. GameObject\05. Npc</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Duplicatotron.cpp">
@@ -137,9 +136,20 @@
     <ClCompile Include="GameObject\Object\Trampoline.cpp">
       <Filter>03. GameObject\04. Object</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\InteractUI.cpp">
+      <Filter>04. UI\02. InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\TestScene.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Npc\Npc.cpp">
+      <Filter>03. GameObject\05. Npc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Client3D.h" />
     <ClInclude Include="Client3DManager.h">
       <Filter>01. ClientManager</Filter>
     </ClInclude>
@@ -260,7 +270,7 @@
     <ClInclude Include="GameObject\Npc\Squidward.h">
       <Filter>03. GameObject\05. Npc</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Npc\TaxiDriver.h">
+    <ClInclude Include="GameObject\Npc\BusDriver.h">
       <Filter>03. GameObject\05. Npc</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Duplicatotron.h">
@@ -290,12 +300,18 @@
     <ClInclude Include="GameObject\Object\Trampoline.h">
       <Filter>03. GameObject\04. Object</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Client3D.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="icon1.ico" />
+    <ClInclude Include="Client3D.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\InteractUI.h">
+      <Filter>04. UI\02. InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\TestScene.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\Npc.h">
+      <Filter>03. GameObject\05. Npc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01. ClientManager">
@@ -367,5 +383,24 @@
     <Filter Include="03. GameObject\02. Monster\03. Tiki">
       <UniqueIdentifier>{e38bf290-ef65-4b44-b2ff-e0690e8f3ce9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{bf05ff85-7d3f-4464-9665-d78258f9dd6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{f5d8aee4-2c19-447a-aaf0-01f2d693733b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{c80cf7e0-f053-4830-b51e-a4949a721066}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client3D.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>
