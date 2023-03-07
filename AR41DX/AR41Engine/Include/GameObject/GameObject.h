@@ -164,7 +164,8 @@ public:
 	virtual CGameObject* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
-
+	virtual int InflictDamage(int damage);
+	virtual void Reset();
 
 public:
 	void FrustumCull(class CCameraComponent* Camera);

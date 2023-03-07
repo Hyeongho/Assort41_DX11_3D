@@ -374,6 +374,15 @@ void CGameObject::Load(FILE* File)
 	}
 }
 
+int CGameObject::InflictDamage(int damage)
+{
+	return 0;
+}
+
+void CGameObject::Reset()
+{
+}
+
 void CGameObject::FrustumCull(CCameraComponent* Camera)
 {
 	bool	Cull = false;

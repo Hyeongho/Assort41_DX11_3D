@@ -122,11 +122,6 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Down, this, &CPlayer::ChangeSandy, m_Scene);
 
 	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
-	m_PlayerUI->SetHp(m_PlayerData.CurHP);
-	m_PlayerUI->SetMaxHp(m_PlayerData.MaxHP);
-	m_PlayerUI->SetGlitter(m_PlayerData.Glittering);
-	m_PlayerUI->SetFritter(m_PlayerData.Fritter);
-	m_PlayerUI->SetSocks(m_PlayerData.Socks);
 	m_PauseUI = m_Scene->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
 	m_PauseUI->SetEnable(false);
 
@@ -238,6 +233,38 @@ void CPlayer::Load(FILE* File)
 	LoadCheck();
 }
 
+int CPlayer::InflictDamage(int damage)
+{
+	CGameObject::InflictDamage(damage);
+	int hp = --m_PlayerData.CurHP > 0? m_PlayerData.CurHP :0;
+	m_PlayerUI->SetHp(hp);
+	m_Cube->SetEnable(false);
+	if (hp == 0)	//사망
+	{
+		//m_Scene->GetResource()->SoundPlay("OutHole_" + name + std::to_string(ranNum));
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerDeath");
+	}
+	else //피격 모션
+	{		
+		//m_Scene->GetResource()->SoundPlay("OutHole_" + name + std::to_string(ranNum));
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerHit");
+	}
+	return m_PlayerData.CurHP;
+}
+
+void CPlayer::Reset()
+{
+	m_PlayerData.CurHP = 3;
+	m_PlayerUI->SetHp(m_PlayerData.CurHP);
+	m_PlayerUI->SetMaxHp(m_PlayerData.MaxHP);
+	m_PlayerUI->SetGlitter(m_PlayerData.Glittering);
+	m_PlayerUI->SetFritter(m_PlayerData.Fritter);
+	m_PlayerUI->SetSocks(m_PlayerData.Socks);
+	IngameUI();
+	//위치 초기위치 혹은 체크포인트 위치로
+	ResetIdle();
+}
+
 bool CPlayer::SaveCharacter()
 {
 	char	fullPath[MAX_PATH] = {};
@@ -301,7 +328,11 @@ void CPlayer::LoadSpongebobAnim()
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBashStart", this, &CPlayer::StartBash);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashDw", "Spongebob_BashDw", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBash", "Spongebob_Bash", 1.f, 1.f, false);
-	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("SpongebobBash", this, &CPlayer::ResetIdle);
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBash", this, &CPlayer::ResetIdle);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerHit", "Spongebob_Hit", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerHit", this, &CPlayer::ResetIdle);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerDeath", "Spongebob_Death", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerDeath", this, &CPlayer::Reset);
 	//전용 모션
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBounceStart", "Spongebob_BounceStart", 1.f, 1.f, false);
 	//m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBounceStart", this, &CPlayer::);
@@ -379,13 +410,8 @@ void CPlayer::LoadCheck()
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
 
+	Reset();
 	LoadCharacter();
-}
-
-void CPlayer::CollisionCube(const CollisionResult& result)
-{
-	int a = 0;
-	CollisionResult b = result;
 }
 
 void CPlayer::MoveFront()
@@ -760,6 +786,7 @@ void CPlayer::ResetIdle()
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
 	m_WeaponMesh->SetEnable(false);
 	m_HeadCube->SetEnable(false);
+	m_Cube->SetEnable(true);
 	m_IsDoubleJump = false;
 }
 
@@ -811,12 +838,22 @@ void CPlayer::ChangeSandy()
 
 void CPlayer::CollisionTest(const CollisionResult& result)
 {
-	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Monster)
+	std::string name = result.Dest->GetCollisionProfile()->Name;
+	if (name == "Monster"|| name == "MonsterAttack")
 	{
-		TCHAR	Text[256] = {};
+		InflictDamage(1);
+	}
+}
 
-		wsprintf(Text, TEXT("Collision\n"));
-
-		OutputDebugString(Text);
+void CPlayer::CollisionCube(const CollisionResult& result)
+{
+	std::string name = result.Dest->GetCollisionProfile()->Name;
+	if (name == "Wall")
+	{
+		//InflictDamage(1);
+	}
+	else if(name == "Monster")
+	{
+		result.Dest->GetOwner()->InflictDamage(1);
 	}
 }
