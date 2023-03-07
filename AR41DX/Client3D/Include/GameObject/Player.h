@@ -103,6 +103,8 @@ public:
 	virtual CPlayer* Clone() const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+	virtual int InflictDamage(int damage);
+	virtual void Reset();
 	bool SaveCharacter();
 	bool LoadCharacter();
 
@@ -148,31 +150,6 @@ public:
 	PlayerData GetPlayerData() const
 	{
 		return m_PlayerData;
-	}
-
-	int GetMaxHP() const
-	{
-		return m_PlayerData.MaxHP;
-	}
-
-	int GetCurHP() const
-	{
-		return m_PlayerData.CurHP;
-	}
-
-	int GetSocks() const
-	{
-		return m_PlayerData.Socks;
-	}
-
-	int GetFritter() const
-	{
-		return m_PlayerData.Fritter;
-	}
-
-	int GetGlittering() const
-	{
-		return m_PlayerData.Glittering;
 	}
 
 public:

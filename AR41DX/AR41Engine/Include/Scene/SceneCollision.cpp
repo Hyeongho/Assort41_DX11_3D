@@ -383,13 +383,17 @@ void CSceneCollision::CheckSection(CCollider* Collider)
 		IndexMaxY = (int)(Max.y / m_Section3D.SectionSize.y);
 		IndexMaxZ = (int)(Max.z / m_Section3D.SectionSize.z);
 
-		IndexMinX = IndexMinX < 0 ? 0 : IndexMinX;
-		IndexMinY = IndexMinY < 0 ? 0 : IndexMinY;
-		IndexMinZ = IndexMinZ < 0 ? 0 : IndexMinZ;
-
 		IndexMaxX = IndexMaxX >= m_Section3D.CountX ? m_Section3D.CountX - 1 : IndexMaxX;
 		IndexMaxY = IndexMaxY >= m_Section3D.CountY ? m_Section3D.CountY - 1 : IndexMaxY;
 		IndexMaxZ = IndexMaxZ >= m_Section3D.CountZ ? m_Section3D.CountZ - 1 : IndexMaxZ;
+
+		IndexMinX = IndexMinX > IndexMaxX ? IndexMaxX : IndexMinX;
+		IndexMinY = IndexMinY > IndexMaxY ? IndexMaxY : IndexMinY;
+		IndexMinZ = IndexMinZ > IndexMaxZ ? IndexMaxZ : IndexMinZ;
+
+		IndexMinX = IndexMinX < 0 ? 0 : IndexMinX;
+		IndexMinY = IndexMinY < 0 ? 0 : IndexMinY;
+		IndexMinZ = IndexMinZ < 0 ? 0 : IndexMinZ;
 
 		for (int i = IndexMinZ; i <= IndexMaxZ; ++i)
 		{
@@ -397,7 +401,7 @@ void CSceneCollision::CheckSection(CCollider* Collider)
 			{
 				for (int k = IndexMinX; k <= IndexMaxX; ++k)
 				{
-					int	Index = i * m_Section3D.CountX * m_Section3D.CountY * + j * m_Section3D.CountX + k;
+					int	Index = i * m_Section3D.CountX * m_Section3D.CountY  + j * m_Section3D.CountX + k;
 
 					m_Section3D.vecSection[Index]->AddCollider((CCollider3D*)Collider);
 				}

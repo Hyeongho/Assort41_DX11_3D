@@ -12,6 +12,7 @@
 #include "../GameObject/Npc/Patric.h"
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/TaxiDriver.h"
+#include "../GameObject/JellyfishField.h"
 #include "Component/LightComponent.h"
 #include "Component/TerrainComponent.h"
 #include "Component/StaticMeshComponent.h"

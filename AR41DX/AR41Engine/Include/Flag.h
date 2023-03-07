@@ -250,6 +250,7 @@ enum class ENpcList // 김기백, Npc 전체 리스트
 	MrKrabs,
 	Squidward,
 	Patric,
+	BusDriver,
 	End
 };
 
