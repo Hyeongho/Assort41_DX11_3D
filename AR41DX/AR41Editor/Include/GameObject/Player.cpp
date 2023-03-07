@@ -159,12 +159,9 @@ bool CPlayer::Init()
 	m_Cube->SetRelativePositionY(70.f);
 	m_Cube->SetCollisionProfile("Player");
 	m_Cube->SetBoxHalfSize(50.f, 60.f, 20.f);
-
 	m_Cube->SetInheritRotX(true);
 	m_Cube->SetInheritRotY(true);
 	m_Cube->SetInheritRotZ(true);
-
-
 
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
@@ -269,11 +266,10 @@ int CPlayer::InflictDamage(int damage)
 			break;
 		}
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerHit");
-		float angle = GetWorldRot().y + 90.f;
+		float angle = GetWorldRot().y;
 		m_Rigid->SetGround(false);
-		m_Rigid->AddForce(sinf(DegreeToRadian(angle)), cosf(DegreeToRadian(angle)),  tanf(DegreeToRadian(angle)));
-		m_Rigid->MulForce(100.f);
-		m_Rigid->SetVelocityY(100.f);
+		m_Rigid->AddForce(sinf(DegreeToRadian(angle))*500.f, 500.f, tanf(DegreeToRadian(angle))*500.f);
+		m_Rigid->SetVelocity(sinf(DegreeToRadian(angle))*500.f, 500.f, tanf(DegreeToRadian(angle))*500.f);
 	}
 	return m_PlayerData.CurHP;
 }
@@ -441,7 +437,7 @@ void CPlayer::LoadCheck()
 
 void CPlayer::MoveFront()
 {
-	if(m_Anim[(int)m_MainCharacter]->GetChangeAnimation())
+	if(!m_Cube->GetEnable())
 	{
 		return;
 	}
@@ -475,6 +471,10 @@ void CPlayer::MoveFront()
 
 void CPlayer::MoveBack()
 {
+	if (!m_Cube->GetEnable())
+	{
+		return;
+	}
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
@@ -505,6 +505,10 @@ void CPlayer::MoveBack()
 
 void CPlayer::MoveLeft()
 {
+	if (!m_Cube->GetEnable())
+	{
+		return;
+	}
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
@@ -535,6 +539,10 @@ void CPlayer::MoveLeft()
 
 void CPlayer::MoveRight()
 {
+	if (!m_Cube->GetEnable())
+	{
+		return;
+	}
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
@@ -598,8 +606,8 @@ void CPlayer::Jump()
 	}
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
 	m_Rigid->SetGround(false);
-	m_Rigid->AddForce(0, 500.f);
-	m_Rigid->SetVelocityY(500.f);
+	m_Rigid->AddForce(0, 400.f);
+	m_Rigid->SetVelocityY(400.f);
 }
 
 void CPlayer::JumpCheck()
@@ -681,7 +689,10 @@ void CPlayer::KeyDown()
 void CPlayer::KeyUp()
 {
 	--m_KeyCount;
-
+	if (!m_Cube->GetEnable())
+	{
+		return;
+	}
 	if (m_KeyCount == 0)
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
@@ -849,6 +860,7 @@ void CPlayer::ResetIdle()
 	m_WeaponMesh->SetEnable(false);
 	m_HeadCube->SetEnable(false);
 	m_Cube->SetEnable(true);
+	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
 	m_IsDoubleJump = false;
 }
 
