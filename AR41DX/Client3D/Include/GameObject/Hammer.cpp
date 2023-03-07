@@ -29,8 +29,6 @@ void CHammer::Start()
 {
 	CMonster::Start();
 
-	m_HammerBT->Start();
-
 	// 올가미 공격 당할시, Hammer_LassoedStart -> Hammer_Lassoed 로 변경
 	m_Animation->SetCurrentEndFunction("Hammer_LassoedStart", this, &CHammer::Lassoed);
 
@@ -61,9 +59,6 @@ bool CHammer::Init()
 	m_Animation->AddAnimation("Hammer_Stunned", "Hammer_Stunned", 1.f, 1.f, false);
 	m_Animation->AddAnimation("Hammer_LassoedStart", "Hammer_LassoedStart", 1.f, 1.f, false);
 	m_Animation->AddAnimation("Hammer_Lassoed", "Hammer_Lassoed", 1.f, 1.f, false);
-
-
-	m_HammerBT = new CHammerBT;
 
 	return true;
 }
@@ -101,7 +96,6 @@ void CHammer::Update(float DeltaTime)
 		}
 	}
 
-	m_HammerBT->Run(this);
 
 }
 
