@@ -22,6 +22,5 @@ public:
 	void Start();
 	void Run();
 	void Run(CFodder* Fodder);
-
 };
 

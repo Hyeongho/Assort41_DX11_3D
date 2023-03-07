@@ -3,8 +3,9 @@
 #include "UI/UIWindow.h"
 
 struct DialogInfo {
-	std::vector<std::string> vecTalker;
-	std::vector<std::string> vecText;
+	std::vector<std::wstring> vecTalker;
+	std::vector<std::wstring> vecText;
+	std::vector<std::wstring> vecAnim;
 	int TextIdx;
 	int TextMaxIdx;
 
@@ -43,13 +44,16 @@ public:
 	virtual void Load(FILE* File);
 
 private :
+	void CreaeteAllUI();
 	void CreateDialogUI();
 
 	void ActiveDialogUI();
 	void InActiveDialogUI();
 
 public :
-	void SetDialogInfo();
+	void OpenDialog();
+
+public :
 	void SetDialogInfo(EMapList Map, ENpcList Npc);
 	void SetCurDialog(std::string DialName);
 

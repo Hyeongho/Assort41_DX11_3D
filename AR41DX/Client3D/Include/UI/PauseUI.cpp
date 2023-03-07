@@ -65,25 +65,8 @@ void CPauseUI::Start()
 		CInput::GetInst()->AddBindFunction<CPauseUI>("LClick", Input_Type::Up, this, &CPauseUI::KeyLeftButton, m_Scene);
 		CInput::GetInst()->AddBindFunction<CPauseUI>("RClick", Input_Type::Up, this, &CPauseUI::KeyRightButton, m_Scene);
 	}
-	//·Îµå½Ã ´Ù½Ã »ý¼º
-	CreateBackgroundUI();
-	CreateMapUI();
-	CreatePauseUI();
-	CreateOptionSoundUI();
-	CreateOptionCameraUI();
-	CreateControlUI();
-	CreateSaveSelectUI();
 
-	m_NowUIMode = EUIPauseMode::PauseMain;
-
-	InActiveMapUI();
-	InActiveControlUI();
-	InActiveOptionSoundUI();
-	InActiveOptionCameraUI();
-	InActiveSaveSelectUI();
-
-	ActiveBackUI();
-	ActivePauseUI();
+	CreaeteAllUI();
 }
 
 bool CPauseUI::Init()
@@ -122,6 +105,8 @@ void CPauseUI::Save(FILE* File)
 void CPauseUI::Load(FILE* File)
 {
 	CUIWindow::Load(File);
+
+	CreaeteAllUI();
 }
 
 void CPauseUI::OpenUI()
@@ -147,6 +132,24 @@ void CPauseUI::CloseUI()
 	InActiveControlUI();
 
 	m_NowUIMode = EUIPauseMode::Close;
+}
+
+void CPauseUI::CreaeteAllUI()
+{
+	if (!m_mapBackUI.empty())
+		return;
+
+	CreateBackgroundUI();
+	CreateMapUI();
+	CreatePauseUI();
+	CreateOptionSoundUI();
+	CreateOptionCameraUI();
+	CreateControlUI();
+	CreateSaveSelectUI();
+
+	m_NowUIMode = EUIPauseMode::Close;
+
+	CloseUI();
 }
 
 void CPauseUI::CreateBackgroundUI()
@@ -206,7 +209,7 @@ void CPauseUI::CreateBackgroundUI()
 	Text->SetAlignV(Text_Align_V::Middle);
 	Text->SetPos((float)RS.Width / 2.f - TextBannerSizeX, (float)RS.Height - FontSize * 1.5f);
 	Text->SetFontSize(FontSize);
-	Text->SetText(TEXT("¿É¼Ç"));
+	Text->SetText(TEXT("ï¿½É¼ï¿½"));
 	Text->SetColor(Vector4::Black);
 
 	m_mapBackUI.insert(std::make_pair("BackUI_TextBanner", Text));
@@ -348,9 +351,9 @@ void CPauseUI::CreatePauseUI()
 	CUITextButton* TextButton = CreateWidget<CUITextButton>("PauseUI_ButtonSoundOption");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("»ç¿îµå ¼³Á¤"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("»ç¿îµå ¼³Á¤"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("»ç¿îµå ¼³Á¤"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonSoundOptionHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonSoundOptionClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUISoundHovered);
@@ -363,9 +366,9 @@ void CPauseUI::CreatePauseUI()
 	TextButton = CreateWidget<CUITextButton>("PauseUI_ButtonCameraOption");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("Ä«¸Þ¶ó ¼³Á¤"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("Ä«¸Þ¶ó ¼³Á¤"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("Ä«¸Þ¶ó ¼³Á¤"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonCameraOptionHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonCameraOptionClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUICameraHovered);
@@ -378,9 +381,9 @@ void CPauseUI::CreatePauseUI()
 	TextButton = CreateWidget<CUITextButton>("PauseUI_ButtonControl");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("Á¶ÀÛ¹ý"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("Á¶ÀÛ¹ý"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("Á¶ÀÛ¹ý"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("ï¿½ï¿½ï¿½Û¹ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("ï¿½ï¿½ï¿½Û¹ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("ï¿½ï¿½ï¿½Û¹ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonControlHovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonControlClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUIControlHovered);
@@ -393,9 +396,9 @@ void CPauseUI::CreatePauseUI()
 	TextButton = CreateWidget<CUITextButton>("PauseUI_ButtonSaveGame");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("°ÔÀÓ ÀúÀå"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("°ÔÀÓ ÀúÀå"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("°ÔÀÓ ÀúÀå"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonSaveGameHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonSaveGameClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUISaveHovered);
@@ -408,9 +411,9 @@ void CPauseUI::CreatePauseUI()
 	TextButton = CreateWidget<CUITextButton>("PauseUI_ButtonLoadGame");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("°ÔÀÓ ºÒ·¯¿À±â"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("°ÔÀÓ ºÒ·¯¿À±â"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("°ÔÀÓ ºÒ·¯¿À±â"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonLoadGameHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonLoadGameClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUILoadHovered);
@@ -423,9 +426,9 @@ void CPauseUI::CreatePauseUI()
 	TextButton = CreateWidget<CUITextButton>("PauseUI_ButtonBackToTitle");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("±âº» ¸Þ´º·Î µ¹¾Æ°¡±â"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("±âº» ¸Þ´º·Î µ¹¾Æ°¡±â"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("±âº» ¸Þ´º·Î µ¹¾Æ°¡±â"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("ï¿½âº» ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("ï¿½âº» ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("ï¿½âº» ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonBackToTitleHovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonBackToTitleClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUIBackToTitleHovered);
@@ -438,9 +441,9 @@ void CPauseUI::CreatePauseUI()
 	TextButton = CreateWidget<CUITextButton>("PauseUI_ButtonQuit");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("Á¾·á"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("Á¾·á"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("Á¾·á"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "PauseUI_ButtonQuitHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "PauseUI_ButtonQuitClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::PauseUIQuitHovered);
@@ -479,7 +482,7 @@ void CPauseUI::CreateOptionSoundUI()
 	Text->SetAlignH(Text_Align_H::Center);
 	Text->SetPos(ButtonPosX - ButtonSizeX / 2.f, ButtonPosY);
 	Text->SetFontSize(30.f);
-	Text->SetText(TEXT("»ç¿îµå ¿É¼Ç"));
+	Text->SetText(TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½"));
 	Text->SetColor(Vector4::Black);
 
 	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_Text", Text));
@@ -492,9 +495,9 @@ void CPauseUI::CreateOptionSoundUI()
 	CUITextButton* TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonSfx");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("SFX º¼·ý"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("SFX º¼·ý"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("SFX º¼·ý"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("SFX ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("SFX ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("SFX ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonSfxHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonSfxClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUISFX);
@@ -507,9 +510,9 @@ void CPauseUI::CreateOptionSoundUI()
 	TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonMusic");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("Music º¼·ý"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("Music º¼·ý"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("Music º¼·ý"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("Music ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("Music ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("Music ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonMusicHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonMusicClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUIMusic);
@@ -521,9 +524,9 @@ void CPauseUI::CreateOptionSoundUI()
 	TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonTalk");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("Talk º¼·ý"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("Talk º¼·ý"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("Talk º¼·ý"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("Talk ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("Talk ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("Talk ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonTalkHovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonTalkClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUITalk);
@@ -539,9 +542,9 @@ void CPauseUI::CreateOptionSoundUI()
 	TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonReset");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("º¼·ý ¼³Á¤ ÃÊ±âÈ­"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("º¼·ý ¼³Á¤ ÃÊ±âÈ­"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("º¼·ý ¼³Á¤ ÃÊ±âÈ­"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonResetHovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonResetClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUIReset);
@@ -559,9 +562,198 @@ void CPauseUI::CreateOptionCameraUI()
 	float ButtonPosX = RS.Width / 2.f - ButtonSizeX / 2.f;
 	float ButtonPosY = RS.Height - 200.f;
 
-	float ButtonYInterval = ButtonSizeY + 50.f;
+	float ButtonYInterval = ButtonSizeY + 10.f;
 
 	float FontSize = 30.f;
+
+
+
+	CUIImage* Image = CreateWidget<CUIImage>("CameraOptionUI_SelectedSplotch");
+	Image->SetTexture("SelectBackSplotch", TEXT("UI/Title/Color_splotch_2.tga"));
+	Image->SetSize(ButtonSizeX * 1.2f, ButtonSizeY * 1.4f);
+	Image->SetPivot(0.f, 0.3f);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_SelectedSplotch", Image));
+
+
+	CUIText* Text = CreateWidget<CUIText>("CameraOptionUI_Text");
+
+	Text->SetSize(ButtonSizeX * 2.f, ButtonSizeY);
+	Text->SetAlignH(Text_Align_H::Center);
+	Text->SetPos(ButtonPosX - ButtonSizeX / 2.f, ButtonPosY);
+	Text->SetFontSize(30.f);
+	Text->SetText(TEXT("Ä«ï¿½Þ¶ï¿½ ï¿½É¼ï¿½"));
+	Text->SetColor(Vector4::Black);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_Text", Text));
+
+	ButtonPosY -= ButtonYInterval;
+	ButtonPosY -= 50.f;
+
+	ButtonPosX = RS.Width / 3.f - ButtonSizeX / 2.f;
+
+
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+	CUITextButton* TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonMouseSensitive");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonMouseSensitiveHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonMouseSensitiveClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUISensitive);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonMouseSensitive", TextButton));
+
+
+	Text = CreateWidget<CUIText>("CameraOptionUI_TextSensitive");
+
+	Text->SetSize(ButtonSizeX * 2.f, ButtonSizeY);
+	Text->SetAlignH(Text_Align_H::Center);
+	Text->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	Text->SetFontSize(30.f); 
+	Text->SetText(TEXT("30"));
+	Text->SetColor(Vector4::Black);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_TextSensitive", Text));
+
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonSensitiveMinus");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonSensitiveMinusHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonSensitiveMinusClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUISensitive);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::CameraOptionUISensitiveMinus);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonSensitiveMinus", TextButton));
+
+
+	//Image = CreateWidget<CUIImage>("CameraOptionUI_ImageSensitiveSlideBar");
+	//Image = CreateWidget<CUIImage>("CameraOptionUI_ImageSensitiveSlideBar");
+
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonSensitivePlus");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX * 2.f, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonSensitivePlusHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonSensitivePlusClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUISensitive);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::CameraOptionUISensitivePlus);
+
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonSensitivePlus", TextButton));
+
+
+	ButtonPosY -= ButtonYInterval;
+
+
+	// X ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonXReverse");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("Xï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("Xï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("Xï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonXReverseHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonXReverseClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUIXReverse);
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonXReverse", TextButton));
+
+
+
+	Image = CreateWidget<CUIImage>("CameraOptionUI_XReverseSelectedSplotch");
+	Image->SetTexture("ReverseBackSplotch", TEXT("UI/Title/Color_splotch_2.tga"));
+	Image->SetSize(ButtonSizeX * 0.6f, ButtonSizeY * 0.8f);
+	Image->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	Image->SetPivot(-0.4f, 0.f);
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_XReverseSelectedSplotch", Image));
+
+
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonXReverseNormal");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("Normal"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("Normal"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("Normal"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonXReverseNormalHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonXReverseNormalClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUIXReverse);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::CameraOptionUIXReverse_Normal);
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonXReverseNormal", TextButton));
+
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonXReverseReverse");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX * 2.f, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("Reverse"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("Reverse"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("Reverse"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonXReverseReverseHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonXReverseReverseClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUIXReverse);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::CameraOptionUIXReverse_Reverse);
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonXReverseReverse", TextButton));
+
+
+	ButtonPosY -= ButtonYInterval;
+
+
+
+	// Y ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonYReverse");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("Yï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("Yï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("Yï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonYReverseHovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonYReverseClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUIYReverse);
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonYReverse", TextButton));
+
+
+
+	Image = CreateWidget<CUIImage>("CameraOptionUI_YReverseSelectedSplotch");
+	Image->SetTexture("ReverseBackSplotch", TEXT("UI/Title/Color_splotch_2.tga"));
+	Image->SetSize(ButtonSizeX * 0.6f, ButtonSizeY * 0.8f);
+	Image->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	Image->SetPivot(-0.4f, 0.f);
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_YReverseSelectedSplotch", Image));
+
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonYReverseNormal");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("Normal"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("Normal"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("Normal"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonYReverseNormalHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonYReverseNormalClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUIYReverse);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::CameraOptionUIYReverse_Normal);
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonYReverseNormal", TextButton));
+
+
+	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonYReverseReverse");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX * 2.f, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("Reverse"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("Reverse"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("Reverse"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "CameraOptionUI_ButtonYReverseReverseHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "CameraOptionUI_ButtonYReverseReverseClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::CameraOptionUIYReverse);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::CameraOptionUIYReverse_Reverse);
+	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonYReverseReverse", TextButton));
 }
 
 void CPauseUI::CreateControlUI()
@@ -597,7 +789,7 @@ void CPauseUI::CreateSaveSelectUI()
 	Text->SetAlignH(Text_Align_H::Center);
 	Text->SetPos(ButtonPosX - ButtonSizeX / 2.f, ButtonPosY);
 	Text->SetFontSize(30.f);
-	Text->SetText(TEXT("½½·ÔÀ» ¼±ÅÃÇÏ¿©"));
+	Text->SetText(TEXT("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½"));
 	Text->SetColor(Vector4::Black);
 
 	m_mapSaveSelectUI.insert(std::make_pair("SaveSelectUI_Text", Text));
@@ -608,9 +800,9 @@ void CPauseUI::CreateSaveSelectUI()
 	CUITextButton* TextButton = CreateWidget<CUITextButton>("SaveSelectUI_ButtonSaveSLot1");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("ºó ½½·Ô"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("ºó ½½·Ô"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("ºó ½½·Ô"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot1Hovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot1Click", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SaveSelectUISaveSlot1Hoverd);
@@ -624,9 +816,9 @@ void CPauseUI::CreateSaveSelectUI()
 	TextButton = CreateWidget<CUITextButton>("SaveSelectUI_ButtonSaveSLot2");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("ºó ½½·Ô"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("ºó ½½·Ô"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("ºó ½½·Ô"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot2Hovered", false, "Sfx/SFX_UI_Scroll_002.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot2Click", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SaveSelectUISaveSlot2Hoverd);
@@ -639,9 +831,9 @@ void CPauseUI::CreateSaveSelectUI()
 	TextButton = CreateWidget<CUITextButton>("SaveSelectUI_ButtonSaveSLot3");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
-	TextButton->SetText(EButtonState::Normal, TEXT("ºó ½½·Ô"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("ºó ½½·Ô"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("ºó ½½·Ô"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), FontSize, Vector4::White);
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot3Hovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot3Click", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SaveSelectUISaveSlot3Hoverd);
@@ -752,7 +944,7 @@ void CPauseUI::KeyRightButton()
 
 	if (m_NowUIMode == EUIPauseMode::PauseMap)
 	{
-		// UI ²ô±â
+		// UI ï¿½ï¿½ï¿½ï¿½
 		InActiveMapUI();
 		OpenUI();
 		m_NowUIMode = EUIPauseMode::PauseMain;
@@ -760,7 +952,7 @@ void CPauseUI::KeyRightButton()
 	}
 	else if (m_NowUIMode == EUIPauseMode::PauseMain) 
 	{
-		// ¸ÊÀ¸·Î ÀÌµ¿. 
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½. 
 		m_NowUIMode = EUIPauseMode::PauseMap;
 		InActivePauseUI();
 		ActiveMapUI();
@@ -774,49 +966,22 @@ void CPauseUI::KeyRightButton()
 		switch (m_MapSelected)
 		{
 		case EMapList::Patric:
-			Text->SetText("¶×ÀÌ");
-			break;
-		case EMapList::DutchMan_Grave:
-			Text->SetText("¹Ù´Ùµµ±úºñÀÇ ¹¦Áö");
-			break;
-		case EMapList::Sand_Mountain:
-			Text->SetText("¸ð·¡»ê");
-			break;
-		case EMapList::Goo_Lagoon:
-			Text->SetText("²ö²öÀÌ È£¼ö");
-			break;
-		case EMapList::Dome:
-			Text->SetText("Æ÷¼¼ÀÌµ¼");
-			break;
-		case EMapList::Krusty_Krab:
-			Text->SetText("Áý°Ô¸®¾Æ");
+			Text->SetText("ï¿½ï¿½ï¿½ï¿½");
 			break;
 		case EMapList::Chum_Bucketlab:
-			Text->SetText("¹Ì³¢½Ä´ç ½ÇÇè½Ç");
-			break;
-		case EMapList::Merma_Lair:
-			Text->SetText("ÀÎ¾î Àº½ÅÃ³");
+			Text->SetText("ï¿½Ì³ï¿½ï¿½Ä´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½");
 			break;
 		case EMapList::Bikini_Bottom:
-			Text->SetText("ºñÅ°´Ï½ÃÆ¼");
-			break;
-		case EMapList::Down_Town:
-			Text->SetText("ºñÅ°´Ï½ÃÆ¼ µµ½É");
+			Text->SetText("ï¿½ï¿½Å°ï¿½Ï½ï¿½Æ¼");
 			break;
 		case EMapList::Krabs:
-			Text->SetText("Áý°Ô»çÀå");
-			break;
-		case EMapList::Kelp_Forest:
-			Text->SetText("ÄÌÇÁ ½£");
+			Text->SetText("ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½");
 			break;
 		case EMapList::Rock_Bottom:
-			Text->SetText("¸Þ·Õ ½ÃÆ¼");
+			Text->SetText("ï¿½Þ·ï¿½ ï¿½ï¿½Æ¼");
 			break;
 		case EMapList::Jelly_Fish_Field:
-			Text->SetText("ÇØÆÄ¸® µ¿»ê");
-			break;
-		case EMapList::Industrial_Park:
-			Text->SetText("°ø¾÷´ÜÁö");
+			Text->SetText("ï¿½ï¿½ï¿½Ä¸ï¿½ ï¿½ï¿½ï¿½ï¿½");
 			break;
 		}
 	}
@@ -843,7 +1008,7 @@ void CPauseUI::KeyRightButton()
 		ActivePauseUI();
 
 		CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
-		Text->SetText("¿É¼Ç");
+		Text->SetText("ï¿½É¼ï¿½");
 	}
 }
 
@@ -871,7 +1036,7 @@ void CPauseUI::KeyE()
 		Image->SetTexture("PuaseUIBackgroundOverlay", TEXT("UI/Pause/UI_Map_bamboo_overlay.tga"));
 
 		CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
-		Text->SetText("¿É¼Ç");
+		Text->SetText("ï¿½É¼ï¿½");
 
 		InActiveMapUI();
 		ActivePauseUI();
@@ -902,9 +1067,9 @@ void CPauseUI::PauseUISound()
 	ActiveOptionSoundUI();
 
 	CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
-	Text->SetText("»ç¿îµå ¼³Á¤");
+	Text->SetText("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 
-	// Splotch À§Ä¡ Á¶Á¤À» À§ÇÑ Hover ¾×¼Ç 1È¸ ½ÇÇà
+	// Splotch ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Hover ï¿½×¼ï¿½ 1È¸ ï¿½ï¿½ï¿½ï¿½
 	SoundOptionUISFX();
 }
 
@@ -917,9 +1082,9 @@ void CPauseUI::PauseUICamera()
 
 
 	CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
-	Text->SetText("Ä«¸Þ¶ó ¼³Á¤");
+	Text->SetText("Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½");
 
-	// Splotch À§Ä¡ Á¶Á¤À» À§ÇÑ Hover ¾×¼Ç 1È¸ ½ÇÇà
+	// Splotch ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Hover ï¿½×¼ï¿½ 1È¸ ï¿½ï¿½ï¿½ï¿½
 
 }
 
@@ -932,7 +1097,7 @@ void CPauseUI::PauseUIControl()
 
 
 	CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
-	Text->SetText("Á¶ÀÛ¹ý");
+	Text->SetText("ï¿½ï¿½ï¿½Û¹ï¿½");
 }
 
 void CPauseUI::PauseUISave()
@@ -944,9 +1109,9 @@ void CPauseUI::PauseUISave()
 
 
 	CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
-	Text->SetText("°ÔÀÓ ÀúÀå");
+	Text->SetText("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 
-	// Splotch À§Ä¡ Á¶Á¤À» À§ÇÑ Hover ¾×¼Ç 1È¸ ½ÇÇà
+	// Splotch ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Hover ï¿½×¼ï¿½ 1È¸ ï¿½ï¿½ï¿½ï¿½
 	SaveSelectUISaveSlot1Hoverd();
 }
 
@@ -959,9 +1124,9 @@ void CPauseUI::PauseUILoad()
 
 
 	CUIText* Text = (CUIText*)m_mapBackUI.find("BackUI_TextBanner")->second.Get();
-	Text->SetText("°ÔÀÓ ºÒ·¯¿À±â");
+	Text->SetText("ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½");
 
-	// Splotch À§Ä¡ Á¶Á¤À» À§ÇÑ Hover ¾×¼Ç 1È¸ ½ÇÇà
+	// Splotch ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Hover ï¿½×¼ï¿½ 1È¸ ï¿½ï¿½ï¿½ï¿½
 	SaveSelectUISaveSlot1Hoverd();
 }
 
@@ -973,7 +1138,7 @@ void CPauseUI::PauseUIBackToTitle()
 
 void CPauseUI::PauseUIQuit()
 {
-	// °ÔÀÓ Á¾·á Ã³¸®.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½.
 	CEngine::GetInst()->Exit();
 }
 
@@ -1094,7 +1259,7 @@ void CPauseUI::SaveSelectSaveGame()
 	switch (m_SaveSelected)
 	{
 	case EUISaveList::First:
-		// °ÔÀÓ ¼¼ÀÌºê ±â´É ½ÇÇà
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 		break;
 	case EUISaveList::Second:
@@ -1109,7 +1274,7 @@ void CPauseUI::SaveSelectLoadGame()
 	switch (m_SaveSelected)
 	{
 	case EUISaveList::First:
-		// °ÔÀÓ ·Îµå ±â´É ½ÇÇà
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 
 		break;
@@ -1153,5 +1318,92 @@ void CPauseUI::SoundOptionUIReset()
 
 	auto iterSplotch = m_mapSoundOptionUI.find("SoundOptionUI_SelectedSplotch");
 	Vector2 vecPos = m_mapSoundOptionUI.find("SoundOptionUI_ButtonReset")->second->GetPos();
+	iterSplotch->second->SetPos(vecPos);
+}
+
+void CPauseUI::CameraOptionUISensitive()
+{
+	m_CameraSelected = EUICameraList::Sensitive;
+
+	auto iterSplotch = m_mapCameraOptionUI.find("CameraOptionUI_SelectedSplotch");
+	Vector2 vecPos = m_mapCameraOptionUI.find("CameraOptionUI_ButtonMouseSensitive")->second->GetPos();
+	iterSplotch->second->SetPos(vecPos);
+}
+
+void CPauseUI::CameraOptionUISensitiveMinus()
+{
+	CUIText* Text = (CUIText*)m_mapCameraOptionUI.find("CameraOptionUI_TextSensitive")->second.Get();
+
+	if (wcscmp(L"0", Text->GetText()) == 0)
+		return;
+
+	// ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ Textï¿½ï¿½ SetText
+
+	return;
+
+	Text->SetText("");
+}
+
+void CPauseUI::CameraOptionUISensitivePlus()
+{
+	CUIText* Text = (CUIText*)m_mapCameraOptionUI.find("CameraOptionUI_TextSensitive")->second.Get();
+
+	if (wcscmp(L"100", Text->GetText()) == 0)
+		return;
+
+	// ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ Textï¿½ï¿½ SetText
+
+	return;
+
+
+
+	Text->SetText("");
+}
+
+void CPauseUI::CameraOptionUIXReverse()
+{
+	m_CameraSelected = EUICameraList::XReverse;
+
+	auto iterSplotch = m_mapCameraOptionUI.find("CameraOptionUI_SelectedSplotch");
+	Vector2 vecPos = m_mapCameraOptionUI.find("CameraOptionUI_ButtonXReverse")->second->GetPos();
+	iterSplotch->second->SetPos(vecPos);
+}
+
+void CPauseUI::CameraOptionUIXReverse_Normal()
+{
+	auto iterSplotch = m_mapCameraOptionUI.find("CameraOptionUI_XReverseSelectedSplotch");
+	Vector2 vecPos = m_mapCameraOptionUI.find("CameraOptionUI_ButtonXReverseNormal")->second->GetPos();
+	iterSplotch->second->SetPos(vecPos);
+}
+
+void CPauseUI::CameraOptionUIXReverse_Reverse()
+{
+	auto iterSplotch = m_mapCameraOptionUI.find("CameraOptionUI_XReverseSelectedSplotch");
+	Vector2 vecPos = m_mapCameraOptionUI.find("CameraOptionUI_ButtonXReverseReverse")->second->GetPos();
+	iterSplotch->second->SetPos(vecPos);
+}
+
+void CPauseUI::CameraOptionUIYReverse()
+{
+	m_CameraSelected = EUICameraList::YReverse;
+
+	auto iterSplotch = m_mapCameraOptionUI.find("CameraOptionUI_SelectedSplotch");
+	Vector2 vecPos = m_mapCameraOptionUI.find("CameraOptionUI_ButtonYReverse")->second->GetPos();
+	iterSplotch->second->SetPos(vecPos);
+}
+
+void CPauseUI::CameraOptionUIYReverse_Normal()
+{
+	auto iterSplotch = m_mapCameraOptionUI.find("CameraOptionUI_YReverseSelectedSplotch");
+	Vector2 vecPos = m_mapCameraOptionUI.find("CameraOptionUI_ButtonYReverseNormal")->second->GetPos();
+	iterSplotch->second->SetPos(vecPos);
+
+
+}
+
+void CPauseUI::CameraOptionUIYReverse_Reverse()
+{
+	auto iterSplotch = m_mapCameraOptionUI.find("CameraOptionUI_YReverseSelectedSplotch");
+	Vector2 vecPos = m_mapCameraOptionUI.find("CameraOptionUI_ButtonYReverseReverse")->second->GetPos();
 	iterSplotch->second->SetPos(vecPos);
 }

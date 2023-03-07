@@ -38,14 +38,13 @@ CTitleSceneUI::CTitleSceneUI(const CTitleSceneUI& Window) :
 CTitleSceneUI::~CTitleSceneUI()
 {
 	if(m_Scene)
-	{
 		m_Scene->GetResource()->SoundStop("Title_Bgm");
-	}
 }
 
 void CTitleSceneUI::Start()
 {
 	CUIWindow::Start();
+
 	m_Scene->GetResource()->SoundPlay("Title_Bgm");
 
 	// KeySetting
@@ -67,30 +66,15 @@ void CTitleSceneUI::Start()
 
 		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("LClick", Input_Type::Up, this, &CTitleSceneUI::KeyLeftButton, m_Scene);
 		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("RClick", Input_Type::Up, this, &CTitleSceneUI::KeyRightButton, m_Scene);
-
-
-		CInput::GetInst()->AddBindFunction<CTitleSceneUI>("F1", Input_Type::Up, this, &CTitleSceneUI::KeyF12, m_Scene);
 	}
-	CreateBackgroundUI();
-	CreateMainUI();
-	CreateOptionUI();
-	CreateOptionSoundUI();
-	CreateOptionCameraUI();
-	CreateSaveSelectUI();
-	CreateControlUI();
-	CreateCreditsUI();
 
-	InActiveOptionUI();
-	InActiveOptionSoundUI();
-	InActiveOptionCameraUI();
-	InActiveSaveSelectUI();
-	InActiveControlUI();
-	InActiveCreditsUI();
+	CreaeteAllUI();
 }
 
 bool CTitleSceneUI::Init()
 {
 	CUIWindow::Init();
+
 	return true;
 }
 
@@ -117,12 +101,22 @@ CTitleSceneUI* CTitleSceneUI::Clone()
 void CTitleSceneUI::Save(FILE* File)
 {
 	m_vecWidget.clear();
+
 	CUIWindow::Save(File);
 }
 
 void CTitleSceneUI::Load(FILE* File)
 {
 	CUIWindow::Load(File);
+
+	CreaeteAllUI();
+}
+
+void CTitleSceneUI::CreaeteAllUI()
+{
+	if (!m_mapBackUI.empty())
+		return;
+
 	CreateBackgroundUI();
 	CreateMainUI();
 	CreateOptionUI();
@@ -1704,15 +1698,6 @@ void CTitleSceneUI::KeyBack()
 
 		break;
 	}
-}
-
-void CTitleSceneUI::KeyF12()
-{
-	Vector2 test = CInput::GetInst()->GetMousePos();
-
-	std::string OutputDebug = "Mouse : " + std::to_string(test.x) + ", " + std::to_string(test.y) + "\n";
-
-	OutputDebugStringA(OutputDebug.c_str());
 }
 
 void CTitleSceneUI::MainUIContinue()

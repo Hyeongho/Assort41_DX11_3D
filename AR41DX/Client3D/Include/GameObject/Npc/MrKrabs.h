@@ -1,9 +1,10 @@
 #pragma once
 
 #include "GameObject\GameObject.h"
+#include "Npc.h"
 
 class CMrKrabs
-	: public CGameObject
+	: public CNpc
 {
 	friend class CScene;
 
@@ -11,11 +12,6 @@ protected:
 	CMrKrabs();
 	CMrKrabs(const CMrKrabs& Obj);
 	virtual ~CMrKrabs();
-
-protected:
-	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
-	CSharedPtr<class CAnimation>				m_Animation;
-	CSharedPtr<class CDialogUI>					m_DialogUI;
 
 public:
 	virtual void Start();
@@ -25,6 +21,9 @@ public:
 	virtual CMrKrabs* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+protected:
+	virtual void StartDialog();
 
 private:
 	void ChangeAnim_Angry_Loop();
