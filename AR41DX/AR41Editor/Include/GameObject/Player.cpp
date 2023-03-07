@@ -38,7 +38,6 @@ CPlayer::CPlayer()
 	SetTypeID<CPlayer>();
 
 	m_ObjectTypeName = "Player";
-	LoadCharacter();
 }
 
 CPlayer::CPlayer(const CPlayer& Obj) 
@@ -55,7 +54,6 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 	m_Cube = (CColliderOBB3D*)FindComponent("Cube");
 	m_HeadCube = (CColliderCube*)FindComponent("HeadCube");
-	LoadCharacter();
 }
 
 CPlayer::~CPlayer()
@@ -235,32 +233,59 @@ void CPlayer::Load(FILE* File)
 
 int CPlayer::InflictDamage(int damage)
 {
-	CGameObject::InflictDamage(damage);
+	//CGameObject::InflictDamage(damage);
 	int hp = --m_PlayerData.CurHP > 0? m_PlayerData.CurHP :0;
 	m_PlayerUI->SetHp(hp);
+	IngameUI();
 	m_Cube->SetEnable(false);
 	if (hp == 0)	//사망
 	{
-		//m_Scene->GetResource()->SoundPlay("OutHole_" + name + std::to_string(ranNum));
+		switch (m_MainCharacter)
+		{
+		case EMain_Character::Spongebob:
+			m_Scene->GetResource()->SoundPlay("Spongebob_Death");
+			break;
+		case EMain_Character::Patrick:
+			m_Scene->GetResource()->SoundPlay("Patrick_Death");
+			break;
+		case EMain_Character::Sandy:
+			m_Scene->GetResource()->SoundPlay("Sandy_Death");
+			break;
+		}
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerDeath");
 	}
 	else //피격 모션
 	{		
-		//m_Scene->GetResource()->SoundPlay("OutHole_" + name + std::to_string(ranNum));
+		switch (m_MainCharacter)
+		{
+		case EMain_Character::Spongebob:
+			m_Scene->GetResource()->SoundPlay("Spongebob_Damage");
+			break;
+		case EMain_Character::Patrick:
+			m_Scene->GetResource()->SoundPlay("Patrick_Damage");
+			break;
+		case EMain_Character::Sandy:
+			m_Scene->GetResource()->SoundPlay("Sandy_Damage");
+			break;
+		}
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerHit");
+		float angle = GetWorldRot().y + 90.f;
+		m_Rigid->SetGround(false);
+		m_Rigid->AddForce(sinf(DegreeToRadian(angle)), cosf(DegreeToRadian(angle)),  tanf(DegreeToRadian(angle)));
+		m_Rigid->MulForce(100.f);
+		m_Rigid->SetVelocityY(100.f);
 	}
 	return m_PlayerData.CurHP;
 }
 
 void CPlayer::Reset()
 {
-	m_PlayerData.CurHP = 3;
+	m_PlayerData.CurHP = m_PlayerData.MaxHP;
 	m_PlayerUI->SetHp(m_PlayerData.CurHP);
 	m_PlayerUI->SetMaxHp(m_PlayerData.MaxHP);
 	m_PlayerUI->SetGlitter(m_PlayerData.Glittering);
 	m_PlayerUI->SetFritter(m_PlayerData.Fritter);
 	m_PlayerUI->SetSocks(m_PlayerData.Socks);
-	IngameUI();
 	//위치 초기위치 혹은 체크포인트 위치로
 	ResetIdle();
 }
@@ -410,16 +435,20 @@ void CPlayer::LoadCheck()
 	m_WeaponMesh = (CAnimationMeshComponent*)weapon->GetRootComponent();
 	m_WeaponMesh->SetEnable(false);
 
-	Reset();
 	LoadCharacter();
+	Reset();
 }
 
 void CPlayer::MoveFront()
 {
-	//여기에 사운드
+	if(m_Anim[(int)m_MainCharacter]->GetChangeAnimation())
+	{
+		return;
+	}
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
+		m_Scene->GetResource()->SoundPlay("Spongebob_WalkLeft");
 		break;
 	case EMain_Character::Patrick:
 		CResourceManager::GetInst()->SoundPlay("Patrick_Step");
@@ -430,8 +459,7 @@ void CPlayer::MoveFront()
 		}
 		break;
 	case EMain_Character::Sandy:
-		break;
-	default:
+		m_Scene->GetResource()->SoundPlay("Sandy_Walk");
 		break;
 	}
 
@@ -450,16 +478,18 @@ void CPlayer::MoveBack()
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
+		m_Scene->GetResource()->SoundPlay("Spongebob_WalkLeft");
 		break;
 	case EMain_Character::Patrick:
+		CResourceManager::GetInst()->SoundPlay("Patrick_Step");
+		CResourceManager::GetInst()->SetVolume(100);
 		if (m_IsHolding)
 		{
 			m_Anim[(int)m_MainCharacter]->ChangeAnimation("Patrick_PickUpWalk");
 		}
 		break;
 	case EMain_Character::Sandy:
-		break;
-	default:
+		m_Scene->GetResource()->SoundPlay("Sandy_Walk");
 		break;
 	}
 
@@ -478,18 +508,21 @@ void CPlayer::MoveLeft()
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
+		m_Scene->GetResource()->SoundPlay("Spongebob_WalkLeft");
 		break;
 	case EMain_Character::Patrick:
+		CResourceManager::GetInst()->SoundPlay("Patrick_Step");
+		CResourceManager::GetInst()->SetVolume(100);
 		if (m_IsHolding)
 		{
 			m_Anim[(int)m_MainCharacter]->ChangeAnimation("Patrick_PickUpWalk");
 		}
 		break;
 	case EMain_Character::Sandy:
-		break;
-	default:
+		m_Scene->GetResource()->SoundPlay("Sandy_Walk");
 		break;
 	}
+
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
@@ -505,18 +538,21 @@ void CPlayer::MoveRight()
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
+		m_Scene->GetResource()->SoundPlay("Spongebob_WalkLeft");
 		break;
 	case EMain_Character::Patrick:
+		CResourceManager::GetInst()->SoundPlay("Patrick_Step");
+		CResourceManager::GetInst()->SetVolume(100);
 		if (m_IsHolding)
 		{
 			m_Anim[(int)m_MainCharacter]->ChangeAnimation("Patrick_PickUpWalk");
 		}
 		break;
 	case EMain_Character::Sandy:
-		break;
-	default:
+		m_Scene->GetResource()->SoundPlay("Sandy_Walk");
 		break;
 	}
+
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
@@ -547,12 +583,13 @@ void CPlayer::Jump()
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
+		m_Scene->GetResource()->SoundPlay("Spongebob_Jump");
 		break;
 	case EMain_Character::Patrick:
+		m_Scene->GetResource()->SoundPlay("Patrick_Jump");
 		break;
 	case EMain_Character::Sandy:
-		break;
-	default:
+		m_Scene->GetResource()->SoundPlay("Sandy_Jump");
 		break;
 	}
 	if (!m_Rigid->GetGround() && !m_IsDoubleJump)
@@ -594,6 +631,18 @@ void CPlayer::JumpCheck()
 			m_Rigid->SetGround(true);
 			if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerJumpUp")
 			{
+				switch (m_MainCharacter)
+				{
+				case EMain_Character::Spongebob:
+					m_Scene->GetResource()->SoundPlay("Spongebob_BubbleBash");
+					break;
+				case EMain_Character::Patrick:
+					m_Scene->GetResource()->SoundPlay("Patrick_BubbleBash");
+					break;
+				case EMain_Character::Sandy:
+					m_Scene->GetResource()->SoundPlay("Sandy_BubbleBash");
+					break;
+				}
 				m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBash");
 				//충돌체 생성
 			}
@@ -645,6 +694,7 @@ void CPlayer::Headbutt()
 	{
 		return;
 	}
+	m_Scene->GetResource()->SoundPlay("Spongebob_DoubleJump");
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
 	m_Rigid->SetGround(false);
 	m_Rigid->AddForce(0, 500.f);
@@ -664,6 +714,7 @@ void CPlayer::Bowl()
 	}
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
+		m_Scene->GetResource()->SoundPlay("Spongebob_Bowl_Charge");
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBowl");
 	}
 }
@@ -673,6 +724,7 @@ void CPlayer::BowlThrow()
 	//불릿 바라보는 방향으로 발사
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerBowl")
 	{
+		m_Scene->GetResource()->SoundPlay("Spongebob_Bowl_Throw");
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBowlThrow");
 		CBullet* bullet = m_Scene->CreateObject<CBullet>("SpongeBobBowl");
 		float angle = GetWorldRot().y;
@@ -743,15 +795,16 @@ void CPlayer::RClick()
 	{
 		return;
 	}
-	//엉찍 사운드
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
+		m_Scene->GetResource()->SoundPlay("Spongebob_BubbleBash");
 		break;
 	case EMain_Character::Patrick:
+		m_Scene->GetResource()->SoundPlay("Patrick_Bash");
 		break;
 	case EMain_Character::Sandy:
-		break;
+		return;
 	}
 	m_Rigid->SetGravity(false);
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBashStart");
@@ -765,8 +818,17 @@ void CPlayer::LClick()
 		m_Scene->GetResource()->SoundPlay("Spongebob_BubbleSpin");
 		break;
 	case EMain_Character::Patrick:
+		m_Scene->GetResource()->SoundPlay("Patrick_Attack");
 		break;
 	case EMain_Character::Sandy:
+		if(m_Rigid->GetGround())
+		{
+			m_Scene->GetResource()->SoundPlay("Sandy_Chop");
+		}
+		else
+		{
+			m_Scene->GetResource()->SoundPlay("Sandy_Kick");
+		}
 		break;
 	}
 	m_WeaponMesh->SetEnable(true);
@@ -839,10 +901,10 @@ void CPlayer::ChangeSandy()
 void CPlayer::CollisionTest(const CollisionResult& result)
 {
 	std::string name = result.Dest->GetCollisionProfile()->Name;
-	if (name == "Monster"|| name == "MonsterAttack")
-	{
+//	if (name == "Monster"|| name == "MonsterAttack")
+//	{
 		InflictDamage(1);
-	}
+//	}
 }
 
 void CPlayer::CollisionCube(const CollisionResult& result)

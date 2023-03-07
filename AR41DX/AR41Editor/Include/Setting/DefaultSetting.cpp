@@ -260,7 +260,7 @@ void CDefaultSetting::LoadPlayerSound()
 
     // Spongebob
     CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_BubbleSpin", false, "Spongebob/SB_bubble_spin_rework_v2.ogg", SOUND_PATH); // 해파리채 공격
-    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_BubbleBesh", false, "Spongebob/SFX_SB_BubbleBash_V2.ogg", SOUND_PATH); // 해파리채 공격 강타
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_BubbleBash", false, "Spongebob/SFX_SB_BubbleBash_V2.ogg", SOUND_PATH); // 해파리채 공격 강타
     CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_Jump", false, "Spongebob/SB_jump_sngl.ogg", SOUND_PATH); // 점프
     CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_DoubleJump", false, "Spongebob/SB_jump_dub.ogg", SOUND_PATH); // 이단 점프
     CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_BubbleExplode", false, "Spongebob/SFX_SB_CruiseBubble_Explode.ogg", SOUND_PATH); // 미사일 명중
@@ -271,9 +271,8 @@ void CDefaultSetting::LoadPlayerSound()
     CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_WalkRight", false, "Spongebob/SFX_SB_Run_R.ogg", SOUND_PATH); // 걷기 오른발
     CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_Damage", false, "Spongebob/SB_ouch1.ogg", SOUND_PATH); // 다쳤을 때
     CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_Death", false, "Spongebob/SFX_SB_Death.ogg", SOUND_PATH); // 죽음
-
-
-
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_Bowl_Charge", false, "Spongebob/SFX_SB_BubbleBowl_Charge.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_Bowl_Throw", false, "Spongebob/SFX_SB_BubbleBowl_Throw.ogg");
 }
 
 void CDefaultSetting::LoadSound()
