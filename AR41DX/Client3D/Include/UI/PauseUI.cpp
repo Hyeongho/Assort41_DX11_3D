@@ -966,22 +966,22 @@ void CPauseUI::KeyRightButton()
 		switch (m_MapSelected)
 		{
 		case EMapList::Patric:
-			Text->SetText("����");
+			//Text->SetText("����");
 			break;
 		case EMapList::Chum_Bucketlab:
-			Text->SetText("�̳��Ĵ� �����");
+			//Text->SetText("�̳��Ĵ� �����");
 			break;
 		case EMapList::Bikini_Bottom:
-			Text->SetText("��Ű�Ͻ�Ƽ");
+			//Text->SetText("��Ű�Ͻ�Ƽ");
 			break;
 		case EMapList::Krabs:
-			Text->SetText("���Ի���");
+			//Text->SetText("���Ի���");
 			break;
 		case EMapList::Rock_Bottom:
-			Text->SetText("�޷� ��Ƽ");
+			//Text->SetText("�޷� ��Ƽ");
 			break;
 		case EMapList::Jelly_Fish_Field:
-			Text->SetText("���ĸ� ����");
+			//Text->SetText("���ĸ� ����");
 			break;
 		}
 	}
