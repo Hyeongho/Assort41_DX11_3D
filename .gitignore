@@ -37,6 +37,10 @@
 *.log
 *.ilk
 
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
 .svn/
 .vs/
 .AR41DX/AR41Editor/BinObjDebug/
