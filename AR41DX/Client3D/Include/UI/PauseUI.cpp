@@ -11,7 +11,7 @@
 #include "UI/UIImage.h"
 #include "UI/UITextButton.h"
 
-#include "../Scene/TitleSceneInfo.h"
+#include "../Scene/LoadingSceneInfo.h"
 
 CPauseUI::CPauseUI() :
 	m_NowUIMode(EUIPauseMode::Close),
@@ -33,10 +33,11 @@ CPauseUI::CPauseUI(const CPauseUI& Window) :
 	m_CameraSelected(EUICameraList::End),
 	m_SaveSelected(EUISaveList::First)
 {
+
 }
 
 CPauseUI::~CPauseUI()
-{
+{	
 }
 
 void CPauseUI::Start()
@@ -58,18 +59,13 @@ void CPauseUI::Start()
 		CInput::GetInst()->AddBindFunction<CPauseUI>("D", Input_Type::Up, this, &CPauseUI::KeyRight, m_Scene);
 
 		CInput::GetInst()->AddBindFunction<CPauseUI>("Space", Input_Type::Up, this, &CPauseUI::KeySpace, m_Scene);
-		CInput::GetInst()->AddBindFunction<CPauseUI>("Esc", Input_Type::Up, this, &CPauseUI::KeyEsc, m_Scene);
+		//CInput::GetInst()->AddBindFunction<CPauseUI>("Esc", Input_Type::Up, this, &CPauseUI::KeyEsc, m_Scene);
 		CInput::GetInst()->AddBindFunction<CPauseUI>("E", Input_Type::Up, this, &CPauseUI::KeyE, m_Scene);
-
-		CInput::GetInst()->AddBindFunction<CPauseUI>("LButton", Input_Type::Up, this, &CPauseUI::KeyLeftButton, m_Scene);
-		CInput::GetInst()->AddBindFunction<CPauseUI>("RButton", Input_Type::Up, this, &CPauseUI::KeyRightButton, m_Scene);
+		 
+		CInput::GetInst()->AddBindFunction<CPauseUI>("LClick", Input_Type::Up, this, &CPauseUI::KeyLeftButton, m_Scene);
+		CInput::GetInst()->AddBindFunction<CPauseUI>("RClick", Input_Type::Up, this, &CPauseUI::KeyRightButton, m_Scene);
 	}
-}
-
-bool CPauseUI::Init()
-{
-	CUIWindow::Init();
-
+	//로드시 다시 생성
 	CreateBackgroundUI();
 	CreateMapUI();
 	CreatePauseUI();
@@ -78,10 +74,6 @@ bool CPauseUI::Init()
 	CreateControlUI();
 	CreateSaveSelectUI();
 
-	//CloseUI();
-
-	
-	// Test
 	m_NowUIMode = EUIPauseMode::PauseMain;
 
 	InActiveMapUI();
@@ -92,7 +84,11 @@ bool CPauseUI::Init()
 
 	ActiveBackUI();
 	ActivePauseUI();
+}
 
+bool CPauseUI::Init()
+{
+	CUIWindow::Init();
 
 	return true;
 }
@@ -119,6 +115,7 @@ CPauseUI* CPauseUI::Clone()
 
 void CPauseUI::Save(FILE* File)
 {
+	m_vecWidget.clear();
 	CUIWindow::Save(File);
 }
 
@@ -131,10 +128,12 @@ void CPauseUI::OpenUI()
 {
 	CloseUI();
 
+	m_NowUIMode = EUIPauseMode::PauseMain;
 	ActiveBackUI();
-	ActiveMapUI();
+	ActivePauseUI();
 
-	m_NowUIMode = EUIPauseMode::PauseMap;
+	CUIImage* Image = (CUIImage*)m_mapBackUI.find("BackUI_BackgroundOverlay")->second.Get();
+	Image->SetTexture("PuaseUIBackgroundOverlay", TEXT("UI/Pause/UI_Map_bamboo_overlay.tga"));
 }
 
 void CPauseUI::CloseUI()
@@ -746,15 +745,18 @@ void CPauseUI::KeyRightButton()
 
 	CSound* Sound = m_Scene->GetResource()->FindSound("UI_Backward");
 
-	if (Sound) {
+	if (Sound)
+	{
 		Sound->Play();
 	}
 
 	if (m_NowUIMode == EUIPauseMode::PauseMap)
 	{
 		// UI 끄기
-		CloseUI();
-
+		InActiveMapUI();
+		OpenUI();
+		m_NowUIMode = EUIPauseMode::PauseMain;
+		ActivePauseUI();
 	}
 	else if (m_NowUIMode == EUIPauseMode::PauseMain) 
 	{
@@ -966,13 +968,13 @@ void CPauseUI::PauseUILoad()
 void CPauseUI::PauseUIBackToTitle()
 {
 	CSceneManager::GetInst()->CreateNextScene(true);
-	CSceneManager::GetInst()->CreateSceneInfo<CTitleSceneInfo>(false);
+	CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "Title.scn");
 }
 
 void CPauseUI::PauseUIQuit()
 {
 	// 게임 종료 처리.
-
+	CEngine::GetInst()->Exit();
 }
 
 void CPauseUI::PauseUISoundHovered()

@@ -13,7 +13,7 @@ protected:
 	virtual ~CDuplicatotron();
 
 private:
-	//	CSharedPtr<class CHammer>	m_Hammer;
+	CSharedPtr<class CHammer>	m_Hammer;
 	bool		m_SpawnOn;
 	float		m_DelayTime;
 

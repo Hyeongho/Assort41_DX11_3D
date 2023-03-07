@@ -2,7 +2,7 @@
 #include "UI\UIWindow.h"
 
 class CPlayerUI :
-	public CUIWindow
+    public CUIWindow
 {
 	friend class CSceneViewport;
 	friend class CScene;
@@ -19,7 +19,6 @@ protected:
 	CSharedPtr<class CUIImage>	m_Socks;
 	CSharedPtr<class CUIImage>	m_Fritter;
 	CSharedPtr<class CUIImage>	m_Glittering;
-	//text 3개 필요함
 
 	CSharedPtr<class CUIText>	m_GlitterText;
 	CSharedPtr<class CUIText>	m_SocksText;
