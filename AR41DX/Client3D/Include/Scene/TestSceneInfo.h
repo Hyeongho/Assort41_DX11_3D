@@ -2,13 +2,15 @@
 
 #include "Scene/SceneInfo.h"
 
-class CJellyFishSceneInfo :
+class CTestSceneInfo :
     public CSceneInfo
 {
 public:
-    CJellyFishSceneInfo();
-    ~CJellyFishSceneInfo();
+    CTestSceneInfo();
+    ~CTestSceneInfo();
 
+private:
+    class CPlayerUI* m_PlayerUI;
 public:
     virtual bool Init();
 };
