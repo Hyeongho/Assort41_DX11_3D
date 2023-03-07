@@ -52,6 +52,9 @@ enum class EUISoundList // 타이틀 사운드 옵션 메뉴에서 현재 커서가 가 있는(선택�
 
 enum class EUICameraList // 타이틀 카메라 옵션 메뉴에서 현재 커서가 가 있는(선택된) 메뉴를 체크하기 위한 플래그
 {
+	Sensitive,
+	XReverse,
+	YReverse,
 	End
 };
 
@@ -96,6 +99,7 @@ public:
 	virtual void Load(FILE* File);
 
 private :
+	void CreaeteAllUI();
 	void CreateBackgroundUI();
 	void CreateMainUI();
 	void CreateOptionUI();
@@ -131,7 +135,6 @@ private: // Mouse/KeyBoard Control
 	void KeyRight();		// 우 화살표/d 입력
 	void KeySpace();		// 스페이스바 입력
 	void KeyBack();			// Esc 입력
-	void KeyF12();			// Esc 입력
 
 private : // Main Menu UI Func
 	void MainUIContinue();

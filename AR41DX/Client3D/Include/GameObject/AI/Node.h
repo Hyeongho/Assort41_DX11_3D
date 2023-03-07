@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../Client3DManager.h"
 #include "Ref.h"
 
 class CNode :

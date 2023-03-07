@@ -29,8 +29,7 @@ void CStartSceneUI::Start()
 {
     CUIWindow::Start();
 
-    m_Button->SetCallback<CStartSceneUI>(EButtonEventState::Click,
-        this, &CStartSceneUI::StartButtonClick);
+    m_Button->SetCallback<CStartSceneUI>(EButtonEventState::Click, this, &CStartSceneUI::StartButtonClick);
 }
 
 bool CStartSceneUI::Init()
@@ -47,9 +46,6 @@ bool CStartSceneUI::Init()
     m_Button->SetTexture(EButtonState::Hovered, "StartButton", TEXT("Start.png"));
     m_Button->SetTexture(EButtonState::Click, "StartButton", TEXT("Start.png"));
     m_Button->SetTexture(EButtonState::Disable, "StartButton", TEXT("Start.png"));
-
-    m_Button->SetSound(EButtonEventState::Hovered, "UI", "ButtonHovered", false, "Demasia.mp3");
-    m_Button->SetSound(EButtonEventState::Click, "UI", "ButtonClick", false, "TeemoSmile.mp3");
 
     m_Title = CreateWidget<CUIText>("Title");
 
