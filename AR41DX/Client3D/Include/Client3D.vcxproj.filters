@@ -73,6 +73,15 @@
     <Filter Include="05. UI\01. RapidXml">
       <UniqueIdentifier>{95b2b51f-87de-415c-ab89-f8adf3ebbb40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\02. Monster\04. Tikis">
+      <UniqueIdentifier>{8a318b79-a9da-4e18-ba03-7ff33cae508e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\03. Boss\01. KingJellyfish">
+      <UniqueIdentifier>{bf193944-e225-4af2-aaa7-6781ab6f416c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\03. Boss\02. RoboSponge">
+      <UniqueIdentifier>{786f4391-c971-43a9-be73-a01d91c5fc47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -131,9 +140,6 @@
     </ClCompile>
     <ClCompile Include="Scene\LoadingSceneInfo.cpp">
       <Filter>02. Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\KingJellyfish.cpp">
-      <Filter>03. GameObject\02. Monster\03. Boss</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Duplicatotron.cpp">
       <Filter>03. GameObject\02. Monster\01. Robot\03. Duplicatotron</Filter>
@@ -201,6 +207,60 @@
     <ClCompile Include="UI\RapidXml\CXmlParser.cpp">
       <Filter>05. UI\01. RapidXml</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Tikis\Tiki_Stone.cpp">
+      <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Tikis\Tiki_Thunder.cpp">
+      <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Tikis\Tiki_Wood.cpp">
+      <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\KingJellyfish.cpp">
+      <Filter>03. GameObject\02. Monster\03. Boss\01. KingJellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSponge.cpp">
+      <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackHoriz.cpp">
+      <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackVirtic.cpp">
+      <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackWords.cpp">
+      <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeBT.cpp">
+      <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\RoboSpongeSceneInfo.cpp">
+      <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Npc\Npc.cpp">
+      <Filter>03. GameObject\05. Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\Trampoline.cpp">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\InteractUI.cpp">
+      <Filter>05. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\InteractButton.cpp">
+      <Filter>03. GameObject\03. Objects\01. BikiniBottom</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\ChumBucketLabSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\BusStop.cpp">
+      <Filter>03. GameObject\03. Objects\01. BikiniBottom</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Npc\BusDriver.cpp">
+      <Filter>03. GameObject\05. Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BossMonster\BossMonster.cpp">
+      <Filter>03. GameObject\02. Monster\03. Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -262,9 +322,6 @@
     </ClInclude>
     <ClInclude Include="Scene\LoadingSceneInfo.h">
       <Filter>02. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\KingJellyfish.h">
-      <Filter>03. GameObject\02. Monster\03. Boss</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Fodder.h">
       <Filter>03. GameObject\02. Monster\01. Robot\01. Fodder</Filter>
@@ -343,6 +400,60 @@
     </ClInclude>
     <ClInclude Include="UI\RapidXml\rapidxml_utils.hpp">
       <Filter>05. UI\01. RapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Tikis\Tiki_Wood.h">
+      <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Tikis\Tiki_Stone.h">
+      <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h">
+      <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\KingJellyfish.h">
+      <Filter>03. GameObject\02. Monster\03. Boss\01. KingJellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSponge.h">
+      <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackHoriz.h">
+      <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackVirtic.h">
+      <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackWords.h">
+      <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeBT.h">
+      <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\RoboSpongeSceneInfo.h">
+      <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\Npc.h">
+      <Filter>03. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\Trampoline.h">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\InteractUI.h">
+      <Filter>05. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\InteractButton.h">
+      <Filter>03. GameObject\03. Objects\01. BikiniBottom</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ChumBucketLabSceneInfo.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\BusStop.h">
+      <Filter>03. GameObject\03. Objects\01. BikiniBottom</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Npc\BusDriver.h">
+      <Filter>03. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BossMonster\BossMonster.h">
+      <Filter>03. GameObject\02. Monster\03. Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
