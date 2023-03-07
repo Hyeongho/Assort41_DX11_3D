@@ -2,6 +2,7 @@
 #include "Scene/SceneManager.h"
 #include "Scene/MainSceneInfo.h"
 #include "Scene/JellyfishFieldSceneInfo.h"
+#include "Scene/TestSceneInfo.h"
 #include "Input.h"
 #include "Setting/EngineShareSetting.h"
 
@@ -26,7 +27,8 @@ bool CClient3DManager::Init(HINSTANCE hInst)
 
     // SceneInfo »ý¼º
     //CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>();
-    CSceneManager::GetInst()->CreateSceneInfo<CJellyfishFieldSceneInfo>();
+    CSceneManager::GetInst()->CreateSceneInfo<CTestSceneInfo>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishFieldSceneInfo>();
     //CSceneManager::GetInst()->GetScene()->Load("Start.scn", SCENE_PATH);
 
     return true;

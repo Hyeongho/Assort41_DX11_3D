@@ -187,6 +187,9 @@ public:
 	void Patrick_Throw();
 
 	// Sandy
+	void Sandy_Karate_Chop();
+	void Sandy_Karate_Kick();
+	void Sandy_Lasso_Start();
 
 	// Change Charater
 	void ChangeSpongebob();
