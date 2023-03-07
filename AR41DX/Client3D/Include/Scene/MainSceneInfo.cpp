@@ -50,7 +50,7 @@ bool CMainSceneInfo::Init()
 
 
 	//CJellyfishField* JellyfishField = m_Owner->CreateObject<CJellyfishField>("JellyfishField");
-	CBikiniBottomBuildings* BikiniBottomBuildings = m_Owner->CreateObject<CBikiniBottomBuildings>("BikiniBottomBuildings");
+	//CBikiniBottomBuildings* BikiniBottomBuildings = m_Owner->CreateObject<CBikiniBottomBuildings>("BikiniBottomBuildings");
 	//SetPlayerObject(BikiniBottomBuildings);
 	//BikiniBottomBuildings->SetWorldPosition(100.f, 100.f);
 

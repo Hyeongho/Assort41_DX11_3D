@@ -39,15 +39,6 @@ CColliderOBB3D::~CColliderOBB3D()
 void CColliderOBB3D::Start()
 {
 	CCollider3D::Start();
-}
-
-bool CColliderOBB3D::Init()
-{
-	if (!CCollider3D::Init())
-	{
-		return false;
-	}
-
 #ifdef _DEBUG
 	if (m_Scene)
 	{
@@ -61,7 +52,14 @@ bool CColliderOBB3D::Init()
 		m_DebugMaterial = CResourceManager::GetInst()->FindMaterial("DebugDecal");
 	}
 #endif // _DEBUG
+}
 
+bool CColliderOBB3D::Init()
+{
+	if (!CCollider3D::Init())
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -185,10 +183,16 @@ CColliderOBB3D* CColliderOBB3D::Clone() const
 
 void CColliderOBB3D::Save(FILE* File)
 {
+	CCollider3D::Save(File);
+
+	fwrite(&m_BoxHalfSize, sizeof(Vector3), 1, File);
 }
 
 void CColliderOBB3D::Load(FILE* File)
 {
+	CCollider3D::Load(File);
+
+	fread(&m_BoxHalfSize, sizeof(Vector3), 1, File);
 }
 
 bool CColliderOBB3D::Collision(CCollider* Dest)
@@ -199,7 +203,7 @@ bool CColliderOBB3D::Collision(CCollider* Dest)
 	switch (((CCollider3D*)Dest)->GetCollider3DType())
 	{
 	case ECollider3D_Type::Box:
-		Result = CCollisionManager::GetInst()->CollisionOBB3DToCube(HitPoint, this, (CColliderCube*)Dest);
+		Result = CCollisionManager::GetInst()->CollisionCubeToOBB3D(HitPoint, (CColliderCube*)Dest, this);
 		break;
 	case ECollider3D_Type::OBB:
 		Result = CCollisionManager::GetInst()->CollisionOBB3DToOBB3D(HitPoint, this, (CColliderOBB3D*)Dest);

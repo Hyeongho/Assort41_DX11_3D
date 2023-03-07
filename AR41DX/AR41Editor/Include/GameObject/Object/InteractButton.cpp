@@ -1,5 +1,4 @@
 #include "InteractButton.h"
-
 #include "Scene/Scene.h"
 #include "Component/AnimationMeshComponent.h"
 
@@ -64,3 +63,4 @@ void CInteractButton::Load(FILE* File)
 {
     CGameObject::Load(File);
 }
+

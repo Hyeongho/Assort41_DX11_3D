@@ -431,7 +431,7 @@ bool CCollisionManager::CollisionOBB2DToOBB2D(Vector2& HitPoint, const OBB2DInfo
 
 	CenterProjDist = abs(CenterLine.Dot(Axis));
 
-	SrcDist = abs(Axis.Dot(Src.Axis[AXIS2D_X]) * Src.Length[AXIS2D_X]) + abs(Axis.Dot(Src.Axis[AXIS2D_Y]) * Src.Length[AXIS2D_Y]);;
+	SrcDist = abs(Axis.Dot(Src.Axis[AXIS2D_X]) * Src.Length[AXIS2D_X]) + abs(Axis.Dot(Src.Axis[AXIS2D_Y]) * Src.Length[AXIS2D_Y]);
 	DestDist = Dest.Length[AXIS2D_Y];
 
 	if (CenterProjDist > SrcDist + DestDist)
@@ -562,11 +562,11 @@ bool CCollisionManager::CollisionSphere2DToOBB2D(Vector2& HitPoint, const Sphere
 bool CCollisionManager::CollisionBox2DToPixel(Vector2& HitPoint, const Box2DInfo& Src, 
 	const PixelInfo& Dest)
 {
-	// ÇÈ¼¿Ãæµ¹Ã¼¸¦ ±¸¼ºÇÏ´Â »ç°¢Çü°ú Ãæµ¹Ã³¸®¸¦ ¸ÕÀú ÇÑ´Ù.
+	// í”½ì…€ì¶©ëŒì²´ë¥¼ êµ¬ì„±í•˜ëŠ” ì‚¬ê°í˜•ê³¼ ì¶©ëŒì²˜ë¦¬ë¥¼ ë¨¼ì € í•œë‹¤.
 	if (!CollisionBox2DToBox2D(HitPoint, Src, Dest.Box2D))
 		return false;
 
-	// µÎ »ç°¢ÇüÀÌ °ãÃÄÁö´Â ¿µ¿ªÀ» ±¸ÇÏ°í ÇØ´ç ¿µ¿ªÀÇ ÇÈ¼¿Á¤º¸¸¦ È®ÀÎÇÏ¿© Ãæµ¹ÀÌ µÇ¾ú´ÂÁö¸¦ ÆÇ´ÜÇÑ´Ù.
+	// ë‘ ì‚¬ê°í˜•ì´ ê²¹ì³ì§€ëŠ” ì˜ì—­ì„ êµ¬í•˜ê³  í•´ë‹¹ ì˜ì—­ì˜ í”½ì…€ì •ë³´ë¥¼ í™•ì¸í•˜ì—¬ ì¶©ëŒì´ ë˜ì—ˆëŠ”ì§€ë¥¼ íŒë‹¨í•œë‹¤.
 	Box2DInfo OverlapInfo = OverlapBox2D(Src, Dest.Box2D);
 
 	OverlapInfo.Left -= Dest.Box2D.Left;
@@ -583,7 +583,7 @@ bool CCollisionManager::CollisionBox2DToPixel(Vector2& HitPoint, const Box2DInfo
 	OverlapInfo.Right = OverlapInfo.Right > Width ? Width - 1.f : OverlapInfo.Right;
 	OverlapInfo.Top = OverlapInfo.Top > Height ? Height - 1.f : OverlapInfo.Top;
 
-	// Bottom°ú TopÀ» µÚÁý¾î¼­ ÀÌ¹ÌÁö¿¡ ¸ÂÃçÁØ´Ù.
+	// Bottomê³¼ Topì„ ë’¤ì§‘ì–´ì„œ ì´ë¯¸ì§€ì— ë§žì¶°ì¤€ë‹¤.
 	OverlapInfo.Bottom = Height - OverlapInfo.Bottom;
 	OverlapInfo.Top = Height - OverlapInfo.Top;
 
@@ -649,11 +649,11 @@ bool CCollisionManager::CollisionBox2DToPixel(Vector2& HitPoint, const Box2DInfo
 bool CCollisionManager::CollisionSphere2DToPixel(Vector2& HitPoint, const Sphere2DInfo& Src, 
 	const PixelInfo& Dest)
 {
-	// ÇÈ¼¿Ãæµ¹Ã¼¸¦ ±¸¼ºÇÏ´Â »ç°¢Çü°ú Ãæµ¹Ã³¸®¸¦ ¸ÕÀú ÇÑ´Ù.
+	// í”½ì…€ì¶©ëŒì²´ë¥¼ êµ¬ì„±í•˜ëŠ” ì‚¬ê°í˜•ê³¼ ì¶©ëŒì²˜ë¦¬ë¥¼ ë¨¼ì € í•œë‹¤.
 	if (!CollisionBox2DToSphere2D(HitPoint, Dest.Box2D, Src))
 		return false;
 
-	// µÎ »ç°¢ÇüÀÌ °ãÃÄÁö´Â ¿µ¿ªÀ» ±¸ÇÏ°í ÇØ´ç ¿µ¿ªÀÇ ÇÈ¼¿Á¤º¸¸¦ È®ÀÎÇÏ¿© Ãæµ¹ÀÌ µÇ¾ú´ÂÁö¸¦ ÆÇ´ÜÇÑ´Ù.
+	// ë‘ ì‚¬ê°í˜•ì´ ê²¹ì³ì§€ëŠ” ì˜ì—­ì„ êµ¬í•˜ê³  í•´ë‹¹ ì˜ì—­ì˜ í”½ì…€ì •ë³´ë¥¼ í™•ì¸í•˜ì—¬ ì¶©ëŒì´ ë˜ì—ˆëŠ”ì§€ë¥¼ íŒë‹¨í•œë‹¤.
 	Box2DInfo OverlapInfo = OverlapBox2D(Dest.Box2D, Src);
 
 	OverlapInfo.Left -= Dest.Box2D.Left;
@@ -670,7 +670,7 @@ bool CCollisionManager::CollisionSphere2DToPixel(Vector2& HitPoint, const Sphere
 	OverlapInfo.Right = OverlapInfo.Right > Width ? Width - 1.f : OverlapInfo.Right;
 	OverlapInfo.Top = OverlapInfo.Top > Height ? Height - 1.f : OverlapInfo.Top;
 
-	// Bottom°ú TopÀ» µÚÁý¾î¼­ ÀÌ¹ÌÁö¿¡ ¸ÂÃçÁØ´Ù.
+	// Bottomê³¼ Topì„ ë’¤ì§‘ì–´ì„œ ì´ë¯¸ì§€ì— ë§žì¶°ì¤€ë‹¤.
 	OverlapInfo.Bottom = Height - OverlapInfo.Bottom;
 	OverlapInfo.Top = Height - OverlapInfo.Top;
 
@@ -682,7 +682,7 @@ bool CCollisionManager::CollisionSphere2DToPixel(Vector2& HitPoint, const Sphere
 		{
 			int	Index = y * (int)Dest.Width * 4 + x * 4;
 
-			// ÇÈ¼¿ÀÇ ÀÎµ¦½º¸¦ ÀÌ¿ëÇÏ¿© ¿ùµå°ø°£À¸·Î º¯È¯ÇØÁØ´Ù.
+			// í”½ì…€ì˜ ì¸ë±ìŠ¤ë¥¼ ì´ìš©í•˜ì—¬ ì›”ë“œê³µê°„ìœ¼ë¡œ ë³€í™˜í•´ì¤€ë‹¤.
 			Vector2	PixelWorldPos = Vector2(Dest.Box2D.Left, Dest.Box2D.Bottom) +
 				Vector2((float)x, (float)Height - (float)y);
 
@@ -743,11 +743,11 @@ bool CCollisionManager::CollisionSphere2DToPixel(Vector2& HitPoint, const Sphere
 bool CCollisionManager::CollisionOBB2DToPixel(Vector2& HitPoint, const OBB2DInfo& Src,
 	const PixelInfo& Dest)
 {
-	// ÇÈ¼¿Ãæµ¹Ã¼¸¦ ±¸¼ºÇÏ´Â »ç°¢Çü°ú Ãæµ¹Ã³¸®¸¦ ¸ÕÀú ÇÑ´Ù.
+	// í”½ì…€ì¶©ëŒì²´ë¥¼ êµ¬ì„±í•˜ëŠ” ì‚¬ê°í˜•ê³¼ ì¶©ëŒì²˜ë¦¬ë¥¼ ë¨¼ì € í•œë‹¤.
 	if (!CollisionBox2DToOBB2D(HitPoint, Dest.Box2D, Src))
 		return false;
 
-	// µÎ »ç°¢ÇüÀÌ °ãÃÄÁö´Â ¿µ¿ªÀ» ±¸ÇÏ°í ÇØ´ç ¿µ¿ªÀÇ ÇÈ¼¿Á¤º¸¸¦ È®ÀÎÇÏ¿© Ãæµ¹ÀÌ µÇ¾ú´ÂÁö¸¦ ÆÇ´ÜÇÑ´Ù.
+	// ë‘ ì‚¬ê°í˜•ì´ ê²¹ì³ì§€ëŠ” ì˜ì—­ì„ êµ¬í•˜ê³  í•´ë‹¹ ì˜ì—­ì˜ í”½ì…€ì •ë³´ë¥¼ í™•ì¸í•˜ì—¬ ì¶©ëŒì´ ë˜ì—ˆëŠ”ì§€ë¥¼ íŒë‹¨í•œë‹¤.
 	Box2DInfo OverlapInfo = OverlapBox2D(Dest.Box2D, Src);
 
 	OverlapInfo.Left -= Dest.Box2D.Left;
@@ -764,7 +764,7 @@ bool CCollisionManager::CollisionOBB2DToPixel(Vector2& HitPoint, const OBB2DInfo
 	OverlapInfo.Right = OverlapInfo.Right > Width ? Width - 1.f : OverlapInfo.Right;
 	OverlapInfo.Top = OverlapInfo.Top > Height ? Height - 1.f : OverlapInfo.Top;
 
-	// Bottom°ú TopÀ» µÚÁý¾î¼­ ÀÌ¹ÌÁö¿¡ ¸ÂÃçÁØ´Ù.
+	// Bottomê³¼ Topì„ ë’¤ì§‘ì–´ì„œ ì´ë¯¸ì§€ì— ë§žì¶°ì¤€ë‹¤.
 	OverlapInfo.Bottom = Height - OverlapInfo.Bottom;
 	OverlapInfo.Top = Height - OverlapInfo.Top;
 
@@ -776,7 +776,7 @@ bool CCollisionManager::CollisionOBB2DToPixel(Vector2& HitPoint, const OBB2DInfo
 		{
 			int	Index = y * (int)Dest.Width * 4 + x * 4;
 
-			// ÇÈ¼¿ÀÇ ÀÎµ¦½º¸¦ ÀÌ¿ëÇÏ¿© ¿ùµå°ø°£À¸·Î º¯È¯ÇØÁØ´Ù.
+			// í”½ì…€ì˜ ì¸ë±ìŠ¤ë¥¼ ì´ìš©í•˜ì—¬ ì›”ë“œê³µê°„ìœ¼ë¡œ ë³€í™˜í•´ì¤€ë‹¤.
 			Vector2	PixelWorldPos = Vector2(Dest.Box2D.Left, Dest.Box2D.Bottom) +
 				Vector2((float)x, (float)Height - (float)y);
 
@@ -897,7 +897,7 @@ bool CCollisionManager::CollisionPointToOBB2D(Vector2& HitPoint, const Vector2& 
 bool CCollisionManager::CollisionPointToPixel(Vector2& HitPoint, const Vector2& Src, 
 	const PixelInfo& Dest)
 {
-	// ÇÈ¼¿Ãæµ¹Ã¼¸¦ ±¸¼ºÇÏ´Â »ç°¢Çü°ú Ãæµ¹Ã³¸®¸¦ ¸ÕÀú ÇÑ´Ù.
+	// í”½ì…€ì¶©ëŒì²´ë¥¼ êµ¬ì„±í•˜ëŠ” ì‚¬ê°í˜•ê³¼ ì¶©ëŒì²˜ë¦¬ë¥¼ ë¨¼ì € í•œë‹¤.
 	if (!CollisionPointToBox2D(HitPoint, Src, Dest.Box2D))
 		return false;
 
@@ -1033,11 +1033,11 @@ bool CCollisionManager::CollisionCubeToOBB3D(Vector3& HitPoint, const CubeInfo& 
 	SrcInfo.Center = Vector3((Src.Left + Src.Right) / 2.f, (Src.Top + Src.Bottom) / 2.f, (Src.Front + Src.Back) / 2.f);
 	SrcInfo.Axis[AXIS_X] = Vector3(1.f, 0.f, 0.f);
 	SrcInfo.Axis[AXIS_Y] = Vector3(0.f, 1.f, 0.f);
-	SrcInfo.Axis[AXIS_Y] = Vector3(0.f, 0.f, 1.f);
+	SrcInfo.Axis[AXIS_Z] = Vector3(0.f, 0.f, 1.f);
 
 	SrcInfo.Length[AXIS_X] = (Src.Right - Src.Left) / 2.f;
 	SrcInfo.Length[AXIS_Y] = (Src.Top - Src.Bottom) / 2.f;
-	SrcInfo.Length[AXIS_Y] = (Src.Top - Src.Bottom) / 2.f;
+	SrcInfo.Length[AXIS_Z] = (Src.Back - Src.Front) / 2.f;
 
 	return CollisionOBB3DToOBB3D(HitPoint, SrcInfo, Dest);
 }
@@ -1053,11 +1053,15 @@ bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo
 	float SrcDist, DestDist;
 
 	SrcDist = Src.Length[AXIS_X];
+
 	DestDist = abs(Axis.Dot(Dest.Axis[AXIS_X]) * Dest.Length[AXIS_X]) +
-		abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y]);
+			   abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y])+
+			   abs(Axis.Dot(Dest.Axis[AXIS_Z]) * Dest.Length[AXIS_Z]);
 
 	if (CenterProjDist > SrcDist + DestDist)
+	{
 		return false;
+	}
 
 	Axis = Src.Axis[AXIS_Y];
 
@@ -1065,8 +1069,20 @@ bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo
 
 	SrcDist = Src.Length[AXIS_Y];
 	DestDist = abs(Axis.Dot(Dest.Axis[AXIS_X]) * Dest.Length[AXIS_X]) +
-		abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y]);
+			   abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y])+
+			   abs(Axis.Dot(Dest.Axis[AXIS_Z]) * Dest.Length[AXIS_Z]);
 
+	if (CenterProjDist > SrcDist + DestDist)
+	{
+		return false;
+  }
+
+	Axis = Src.Axis[AXIS_Z];
+	CenterProjDist = abs(CenterLine.Dot(Axis));
+	SrcDist = Src.Length[AXIS_Z];
+	DestDist = abs(Axis.Dot(Dest.Axis[AXIS_X]) * Dest.Length[AXIS_X]) + 
+			   abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y])+
+			   abs(Axis.Dot(Dest.Axis[AXIS_Z]) * Dest.Length[AXIS_Z]);
 	if (CenterProjDist > SrcDist + DestDist)
 		return false;
 
@@ -1075,7 +1091,9 @@ bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo
 	CenterProjDist = abs(CenterLine.Dot(Axis));
 
 	SrcDist = abs(Axis.Dot(Src.Axis[AXIS_X]) * Src.Length[AXIS_X]) +
-		abs(Axis.Dot(Src.Axis[AXIS_Y]) * Src.Length[AXIS_Y]);
+			  abs(Axis.Dot(Src.Axis[AXIS_Y]) * Src.Length[AXIS_Y])+
+			  abs(Axis.Dot(Src.Axis[AXIS_Z]) * Src.Length[AXIS_Z]);
+
 	DestDist = Dest.Length[AXIS_X];
 
 	if (CenterProjDist > SrcDist + DestDist)
@@ -1085,7 +1103,11 @@ bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo
 
 	CenterProjDist = abs(CenterLine.Dot(Axis));
 
-	SrcDist = abs(Axis.Dot(Src.Axis[AXIS_X]) * Src.Length[AXIS_X]) + abs(Axis.Dot(Src.Axis[AXIS_Y]) * Src.Length[AXIS_Y]);;
+
+	SrcDist = abs(Axis.Dot(Src.Axis[AXIS_X]) * Src.Length[AXIS_X]) + 
+			  abs(Axis.Dot(Src.Axis[AXIS_Y]) * Src.Length[AXIS_Y])+
+			  abs(Axis.Dot(Src.Axis[AXIS_Z]) * Src.Length[AXIS_Z]);
+
 	DestDist = Dest.Length[AXIS_Y];
 
 	if (CenterProjDist > SrcDist + DestDist)
@@ -1093,6 +1115,17 @@ bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo
 		return false;
 	}
 
+	Axis = Dest.Axis[AXIS_Z];
+	CenterProjDist = abs(CenterLine.Dot(Axis));
+	SrcDist = abs(Axis.Dot(Src.Axis[AXIS_X]) * Src.Length[AXIS_X]) + 
+			  abs(Axis.Dot(Src.Axis[AXIS_Y]) * Src.Length[AXIS_Y])+
+			  abs(Axis.Dot(Src.Axis[AXIS_Z]) * Src.Length[AXIS_Z]);
+	DestDist = Dest.Length[AXIS_Z];
+
+	if (CenterProjDist > SrcDist + DestDist)
+	{
+		return false;
+	}
 
 	CubeInfo SrcInfo = ConvertCubeInfo(Src);
 	CubeInfo DestInfo = ConvertCubeInfo(Dest);
@@ -1109,11 +1142,11 @@ bool CCollisionManager::CollisionOBB3DToCube(Vector3& HitPoint, const OBB3DInfo&
 	DestInfo.Center = Vector3((Dest.Left + Dest.Right) / 2.f, (Dest.Top + Dest.Bottom) / 2.f, (Dest.Front + Dest.Back) / 2.f);
 	DestInfo.Axis[AXIS_X] = Vector3(1.f, 0.f, 0.f);
 	DestInfo.Axis[AXIS_Y] = Vector3(0.f, 1.f, 0.f);
-	DestInfo.Axis[AXIS_Y] = Vector3(0.f, 0.f, 1.f);
+	DestInfo.Axis[AXIS_Z] = Vector3(0.f, 0.f, 1.f);
 
 	DestInfo.Length[AXIS_X] = (Dest.Right - Dest.Left) / 2.f;
 	DestInfo.Length[AXIS_Y] = (Dest.Top - Dest.Bottom) / 2.f;
-	DestInfo.Length[AXIS_Y] = (Dest.Top - Dest.Bottom) / 2.f;
+	DestInfo.Length[AXIS_Z] = (Dest.Back - Dest.Front) / 2.f;
 
 	return CollisionOBB3DToOBB3D(HitPoint, Src, DestInfo);
 }

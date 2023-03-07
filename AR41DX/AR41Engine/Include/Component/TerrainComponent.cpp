@@ -160,8 +160,6 @@ bool CTerrainComponent::Init()
 	if (m_Scene)
 	{
 		m_ShadowMapShader = (CGraphicShader*)m_Scene->GetResource()->FindShader("ShadowMapStaticShader");
-		CreateTerrain(680, 631, 40.f, 40.f, TEXT("LandScape/BikiniCity_Height.png"));
-		//CreateTerrain(360, 672, 40.f, 40.f, TEXT("LandScape/ZellyFishField.png"));
 	}
 
 	else

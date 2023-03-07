@@ -3,7 +3,7 @@
 #include "GameObject/GameObject.h"
 
 class CBullet :
-    public CGameObject
+	public CGameObject
 {
 	friend class CScene;
 

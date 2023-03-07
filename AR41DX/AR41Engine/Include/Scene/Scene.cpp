@@ -8,6 +8,7 @@
 #include "../Component/TargetArm.h"
 #include "../Component/SceneComponent.h"
 #include "../Component/ColliderBox2D.h"
+#include "../Component/ColliderCube.h"
 #include "../Component/TileMapComponent.h"
 #include "../Component/TerrainComponent.h"
 #include "../Component/LightComponent.h"
@@ -141,6 +142,12 @@ void CScene::CreateCDO()
 	ComCDO->Init();
 
 	CComponent::AddComponentCDO("Box2D", ComCDO);
+
+	ComCDO = new CColliderCube;
+
+	ComCDO->Init();
+
+	CComponent::AddComponentCDO("ColliderCube", ComCDO);
 
 	ComCDO = new CTileMapComponent;
 

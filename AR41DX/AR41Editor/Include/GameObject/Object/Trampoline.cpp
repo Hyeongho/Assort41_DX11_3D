@@ -1,5 +1,4 @@
 #include "Trampoline.h"
-
 #include "Component/ColliderCube.h"
 #include "Component/StaticMeshComponent.h"
 

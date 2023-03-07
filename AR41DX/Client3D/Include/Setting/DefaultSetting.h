@@ -40,7 +40,6 @@ private:
     void LoadPatric_Npc();
     void LoadTaxi();
 
-    
     void LoadBuildings();
     void LoadJellyfishFieldsObj();
 

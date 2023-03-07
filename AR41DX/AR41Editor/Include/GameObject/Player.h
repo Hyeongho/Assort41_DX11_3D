@@ -103,6 +103,8 @@ public:
 	virtual CPlayer* Clone() const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+	virtual int InflictDamage(int damage);
+	virtual void Reset();
 	bool SaveCharacter();
 	bool LoadCharacter();
 

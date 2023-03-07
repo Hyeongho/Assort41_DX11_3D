@@ -2,10 +2,13 @@
 #include "EditorDefaultScene.h"
 #include "Scene/Scene.h"
 #include "Scene/SceneViewport.h"
-#include "../UI/StartSceneUI.h"
 //#include "../UI/LoadingUI.h"
 #include "../UI/TitleSceneUI.h"
 #include "../GameObject/Player.h"
+#include "../GameObject/Npc/MrKrabs.h"
+#include "../GameObject/Npc/Patric.h"
+#include "../GameObject/Npc/Squidward.h"
+#include "../GameObject/Npc/TaxiDriver.h"
 #include "Component/LightComponent.h"
 #include "Component/TerrainComponent.h"
 #include "Component/StaticMeshComponent.h"
@@ -29,7 +32,6 @@ bool CEditorDefaultScene::Init()
 	GlobalLightComponent->SetRelativeRotation(0, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
-	//m_Owner->GetViewport()->CreateUIWindow<CStartSceneUI>("StartUI");
 	//m_Owner->GetViewport()->CreateUIWindow<CLoadingUI>("LoadingUI");
 
 	//title
@@ -40,8 +42,24 @@ bool CEditorDefaultScene::Init()
 	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
 
+	CMrKrabs* MrKrabs = m_Owner->CreateObject<CMrKrabs>("MrKrabs");
+	MrKrabs->SetWorldPosition(11000.f, 0.f, 13000.f);
+	MrKrabs->SetWorldRotationY(180.f);
+
+	//애니메이션 문제
+	//CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
+	//Patric->SetWorldPosition(16500.f, 0.f, 12200.f);
+
+	CSquidward* Squidward = m_Owner->CreateObject<CSquidward>("Squidward");
+	Squidward->SetWorldPosition(15100.f, 0.f, 14000.f);
+
+	//내부에서 컴포넌트생성을 안해줌
+	//CTaxiDriver* TaxiDriver = m_Owner->CreateObject<CTaxiDriver>("TaxiDriver");
+	//TaxiDriver->SetWorldPosition(16500.f, 0.f, 12200.f);
+
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
-	TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
+	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
+	TerrainComponent->CreateTerrain(680, 631, 40.f, 40.f, TEXT("LandScape/BikiniCity_Height.png"));
 
 	CGameObject* Road = m_Owner->CreateObject<CGameObject>("Road");
 	CStaticMeshComponent* RoadMesh = Road->CreateComponent<CStaticMeshComponent>("RoadMesh");
@@ -54,7 +72,7 @@ bool CEditorDefaultScene::Init()
 	PatrickHouseMesh->SetMesh("PatrickHouse");
 	PatrickHouseMesh->SetWorldPosition(14300.f, 500.f, 14500.f);
 	CColliderCube* PatrickHouseCube = PatrickHouse->CreateComponent<CColliderCube>("PatrickHouseCube");
-	PatrickHouseMesh->AddChild(PatrickHouseCube); 
+	PatrickHouseMesh->AddChild(PatrickHouseCube);
 	PatrickHouseCube->SetCubeSize(800.f, 400.f, 800.f);
 	PatrickHouseCube->SetRelativePositionY(-300.f);
 	PatrickHouseCube->SetCollisionProfile("Wall");
@@ -75,8 +93,8 @@ bool CEditorDefaultScene::Init()
 	PineAppleHouseMesh->SetWorldPosition(17000.f, 0.f, 13500.f);
 	CColliderCube* PineAppleHouseCube = PineAppleHouse->CreateComponent<CColliderCube>("PineAppleHouseCube");
 	PineAppleHouseMesh->AddChild(PineAppleHouseCube);
-	PineAppleHouseCube->SetRelativePositionY(350.f);
-	PineAppleHouseCube->SetCubeSize(50.f, 400.f, 50.f);
+	PineAppleHouseCube->SetRelativePositionY(400.f);
+	PineAppleHouseCube->SetCubeSize(800.f, 800.f, 800.f);
 	PineAppleHouseCube->SetCollisionProfile("Wall");
 
 	CGameObject* ChumBucket = m_Owner->CreateObject<CGameObject>("ChumBucket");
@@ -99,7 +117,7 @@ bool CEditorDefaultScene::Init()
 	Buliding_02Mesh->SetMesh("Buliding_02");
 	Buliding_02Mesh->SetWorldPosition(11700.f, 0.f, 8800.f);
 	Buliding_02Mesh->SetWorldRotationY(60.f);
-	Buliding_02Mesh->SetWorldScale(1.2f,1.2f,1.2f);
+	Buliding_02Mesh->SetWorldScale(1.2f, 1.2f, 1.2f);
 	Buliding_02 = m_Owner->CreateObject<CGameObject>("Buliding_04");
 	Buliding_02Mesh = Buliding_02->CreateComponent<CStaticMeshComponent>("Buliding_04Mesh");
 	Buliding_02Mesh->SetMesh("Buliding_02");
@@ -219,7 +237,7 @@ bool CEditorDefaultScene::Init()
 	Rock2Mesh->SetMesh("Rock2");
 	Rock2Mesh->SetWorldPosition(18900.f, 0.f, 11900.f);
 	Rock2Mesh->SetWorldRotationY(180.f);
-	Rock2Mesh->SetWorldScale(10.f,10.f,10.f);
+	Rock2Mesh->SetWorldScale(10.f, 10.f, 10.f);
 	CColliderCube* Rock2Cube = Rock2->CreateComponent<CColliderCube>("Rock2Cube");
 	Rock2Mesh->AddChild(Rock2Cube);
 	Rock2Cube->SetRelativePositionY(200.f);
@@ -265,9 +283,23 @@ bool CEditorDefaultScene::Init()
 	CoconutTreeCube->SetCubeSize(160.f, 600.f, 200.f);
 	CoconutTreeCube->SetCollisionProfile("Wall");
 
-	//CGameObject* PariticleObj = m_Owner->CreateObject<CGameObject>("PariticleObj");
-	//CParticleComponent* particle = PariticleObj->CreateComponent<CParticleComponent>("ParticleComponent");
+	for (int i = 0; i < 10; ++i)
+	{
+		int x = rand() % 3700 + 11300;
+		int z = rand() % 11500 + 7500;
+		CGameObject* PariticleObj = m_Owner->CreateObject<CGameObject>("PariticleObj" + std::to_string(i));
+		CParticleComponent* particle = PariticleObj->CreateComponent<CParticleComponent>("ParticleComponent" + std::to_string(i));
+		particle->SetParticle("GroundBubble");
+		PariticleObj->SetWorldPosition((float)x, 0.f, (float)z);
+	}
 
 	//젤리피쉬
+	//CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
+	//Player->SetWorldPosition(9000.f, 300.f, 700.f);
+	//SetPlayerObject(Player);
+
+	//CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
+	//CTerrainComponent* TerrainComponent= TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
+	//TerrainComponent->CreateTerrain(360, 672, 40.f, 40.f, TEXT("LandScape/ZellyFishField.png"));
 	return true;
 }
