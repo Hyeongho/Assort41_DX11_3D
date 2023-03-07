@@ -206,10 +206,6 @@
     <ClCompile Include="GameObject\Npc\Squidward.cpp" />
     <ClCompile Include="GameObject\Npc\TaxiDriver.cpp" />
     <ClCompile Include="GameObject\Object\BusStop.cpp" />
-    <ClCompile Include="GameObject\Npc\MrKrabs.cpp" />
-    <ClCompile Include="GameObject\Npc\Patric.cpp" />
-    <ClCompile Include="GameObject\Npc\Squidward.cpp" />
-    <ClCompile Include="GameObject\Npc\TaxiDriver.cpp" />
     <ClCompile Include="GameObject\Object\InteractButton.cpp" />
     <ClCompile Include="GameObject\Object\Trampoline.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
@@ -287,11 +283,7 @@
     <ClInclude Include="GameObject\KingJellyfish.h" />
     <ClInclude Include="GameObject\Monster.h" />
     <ClInclude Include="GameObject\Npc\BusDriver.h" />
-    <ClInclude Include="GameObject\Npc\MrKrabs.h" />
     <ClInclude Include="GameObject\Npc\Npc.h" />
-    <ClInclude Include="GameObject\Npc\Patric.h" />
-    <ClInclude Include="GameObject\Npc\Squidward.h" />
-    <ClInclude Include="GameObject\Npc\TaxiDriver.h" />
     <ClInclude Include="GameObject\Object\BusStop.h" />
     <ClInclude Include="GameObject\Npc\MrKrabs.h" />
     <ClInclude Include="GameObject\Npc\Patric.h" />
