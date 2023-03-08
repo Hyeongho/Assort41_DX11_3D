@@ -723,18 +723,22 @@ bool CMesh::LoadMesh(FILE* File)
 
 			Material->Load(File);
 
-			if (Material->GetSpecularColor() == Vector4(0.f, 0.f, 0.f, 0.f))
+			if (Material)
 			{
-				Vector4 color = Material->GetBaseColor();
-				color.w = 0.f;
-				Material->SetEmissiveColor(color);
-			}
-			else
-			{
-				Material->SetEmissiveColor(1.f,1.f,1.f,0.f);
+				if (Material->GetSpecularColor() == Vector4(0.f, 0.f, 0.f, 0.f))
+				{
+					Vector4 color = Material->GetBaseColor();
+					color.w = 0.f;
+					Material->SetEmissiveColor(color);
+				}
+				else
+				{
+					Material->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
+				}
+
+				SetMaterial(i, j, Material);
 			}
 
-			SetMaterial(i, j, Material);
 		}
 	}
 

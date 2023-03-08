@@ -15,9 +15,12 @@ protected:
 private:
 	CSharedPtr<class CStaticMeshComponent> m_Mesh;
 
-	CSharedPtr<class CColliderOBB3D> m_Cube;
+	CSharedPtr<class CColliderOBB3D> m_LeftCube;
+	CSharedPtr<class CColliderOBB3D> m_RightCube;
+	//CSharedPtr<class CColliderOBB3D> m_Cube;
 
-	bool m_IsCollison;
+	bool m_LeftCollison;
+	bool m_RightCollison;
 
 public:
 	virtual void Start();
@@ -29,7 +32,10 @@ public:
 	virtual void Load(FILE* File);
 
 public:
-	void CollisonPlayer(const CollisionResult& result);
-	void ReleasePlayer(const CollisionResult& result);
+	void LeftCollisonPlayer(const CollisionResult& result);
+	void RightCollisonPlayer(const CollisionResult& result);
+
+	void LeftReleasePlayer(const CollisionResult& result);
+	void RightReleasePlayer(const CollisionResult& result);
 };
 
