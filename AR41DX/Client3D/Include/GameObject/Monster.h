@@ -2,20 +2,6 @@
 
 #include "GameObject\GameObject.h"
 
-#include "FodderBT.h"
-#include "HammerBT.h"
-
-
-enum class EMonsterState
-{
-	None,
-	MonsterWalk,
-	MonsterChase,
-	MonsterAttack,
-	MonsterDead,
-	Max
-};
-
 class CMonster :
 	public CGameObject
 {
@@ -28,8 +14,8 @@ protected:
 
 protected:
 	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
-	CSharedPtr<class CAnimation>				m_Animation;
-	CSharedPtr<class CRigidBody>				m_Rigid;
+	CSharedPtr<class CAnimation>		m_Animation;
+	CSharedPtr<class CRigidBody>		m_Rigid;
 
 protected:
 	bool	m_DetectRange;
@@ -37,7 +23,6 @@ protected:
 	float	m_MoveSpeed;
 	float	m_DeltaTime;
 	int		m_MonsterHP;
-	EMonsterState m_MonsterState;
 
 public:
 	void SetMoveSpeed(float MoveSpeed)
@@ -55,10 +40,10 @@ public:
 		return m_MoveSpeed;
 	}
 
-	//float GetMonsterHP()
-	//{
-	//	return m_MonsterHP;
-	//}
+	int GetMonsterHP()
+	{
+		return m_MonsterHP;
+	}
 
 public:
 	virtual void Start();

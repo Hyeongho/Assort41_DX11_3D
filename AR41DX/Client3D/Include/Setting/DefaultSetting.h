@@ -40,11 +40,14 @@ private:
     void LoadPatric_Npc();
     void LoadTaxi();
 
-
-    // Objects
     void LoadBuildings();
     void LoadJellyfishFieldsObj();
+
+    void LoadCBObjects();
+    void LoadCBLabObjects();
+
     void LoadEnemies();
     void LoadParticle();
+
 };
 

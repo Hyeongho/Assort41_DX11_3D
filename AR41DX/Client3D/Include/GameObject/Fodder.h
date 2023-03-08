@@ -6,16 +6,12 @@ class CFodder :
 	public CMonster
 {
 	friend class CScene;
-	friend class CChase;
-	friend class CFodHamAttack;
 
 protected:
 	CFodder();
 	CFodder(const CFodder& Obj);
 	virtual ~CFodder();
 
-private:
-	CSharedPtr<CFodderBT>	m_FodderBT;
 public:
 	virtual void Start();
 	virtual bool Init();

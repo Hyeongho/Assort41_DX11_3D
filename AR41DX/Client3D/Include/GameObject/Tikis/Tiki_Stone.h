@@ -16,6 +16,7 @@ private:
 	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
 	CSharedPtr<class CAnimation>				m_Animation;
 	CSharedPtr<class CRigidBody>				m_Rigid;
+	CSharedPtr<class CColliderCube>				m_Cube;
 
 public:
 	virtual void Start();
@@ -32,5 +33,4 @@ private:
 
 private:
 	void Tiki_Die(); // ÆÄ±«Ã³¸®
-
 };
