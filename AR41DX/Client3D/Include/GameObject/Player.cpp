@@ -54,6 +54,7 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 	m_Cube = (CColliderOBB3D*)FindComponent("Cube");
 	m_HeadCube = (CColliderCube*)FindComponent("HeadCube");
+	m_TailCube = (CColliderCube*)FindComponent("TailCube");
 }
 
 CPlayer::~CPlayer()
@@ -118,6 +119,7 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Down, this, &CPlayer::ChangeSpongebob, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Down, this, &CPlayer::ChangePatrick, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Down, this, &CPlayer::ChangeSandy, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F6", Input_Type::Down, this, &CPlayer::Reset, m_Scene);
 
 	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 	m_PauseUI = m_Scene->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
@@ -125,6 +127,7 @@ void CPlayer::Start()
 
 	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionTest);
 	m_HeadCube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
+	m_TailCube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
 
 	if (m_IsLoading)
 	{
@@ -147,6 +150,7 @@ bool CPlayer::Init()
 	m_Cube = CreateComponent<CColliderOBB3D>("Cube");
 
 	m_HeadCube = CreateComponent<CColliderCube>("HeadCube");
+	m_TailCube = CreateComponent<CColliderCube>("TailCube");
 
 	SetRootComponent(m_Mesh);
 
@@ -154,6 +158,7 @@ bool CPlayer::Init()
 	m_Mesh->AddChild(m_Arm);
 	m_Mesh->AddChild(m_Cube);
 	m_Mesh->AddChild(m_HeadCube);
+	m_Mesh->AddChild(m_TailCube);
 	m_Arm->AddChild(m_Camera);
 
 	m_Cube->SetRelativePositionY(70.f);
@@ -171,9 +176,13 @@ bool CPlayer::Init()
 	m_Rigid->SetGravity(true);
 
 	m_HeadCube->SetCollisionProfile("PlayerAttack");
-	m_HeadCube->SetEnable(false);
+	//m_HeadCube->SetEnable(false);
 	m_HeadCube->SetRelativePositionY(175.f);
 	m_HeadCube->SetCubeSize(100.f, 75.f, 100.f);
+	m_TailCube->SetCollisionProfile("PlayerAttack");
+	//m_TailCube->SetEnable(false);
+	m_TailCube->SetRelativePositionY(25.f);
+	m_TailCube->SetCubeSize(500.f, 50.f, 500.f);
 	return true;
 }
 
@@ -273,8 +282,8 @@ int CPlayer::InflictDamage(int damage)
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerHit");
 		float angle = GetWorldRot().y;
 		m_Rigid->SetGround(false);
-		m_Rigid->AddForce(sinf(DegreeToRadian(angle))*400.f, 200.f, cosf(DegreeToRadian(angle))*400.f);
-		m_Rigid->SetVelocity(sinf(DegreeToRadian(angle))*400.f, 200.f, cosf(DegreeToRadian(angle))*400.f);
+		m_Rigid->AddForce(sinf(DegreeToRadian(angle))*400.f, 250.f, cosf(DegreeToRadian(angle))*400.f);
+		m_Rigid->SetVelocity(sinf(DegreeToRadian(angle))*400.f, 250.f, cosf(DegreeToRadian(angle))*400.f);
 	}
 	return m_PlayerData.CurHP;
 }
@@ -601,7 +610,7 @@ void CPlayer::JumpCheck()
 		{
 			SetWorldPositionY(Y);
 			m_Rigid->SetGround(true);
-			if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerJumpUp")
+			if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerBashDw")
 			{
 				switch (m_MainCharacter)
 				{
@@ -616,7 +625,7 @@ void CPlayer::JumpCheck()
 					break;
 				}
 				m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBash");
-				//충돌체 생성
+				m_TailCube->SetEnable(true);
 			}
 			else
 			{
@@ -869,6 +878,7 @@ void CPlayer::ResetIdle()
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
 	m_WeaponMesh->SetEnable(false);
 	m_HeadCube->SetEnable(false);
+	m_TailCube->SetEnable(false);
 	m_Cube->SetEnable(true);
 	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
 	m_IsDoubleJump = false;

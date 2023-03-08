@@ -70,7 +70,8 @@ protected:
 
 	CSharedPtr<class CColliderOBB3D> m_Cube;
 
-	CSharedPtr<class CColliderCube> m_HeadCube;	//스폰지밥 대가리용
+	CSharedPtr<class CColliderCube> m_HeadCube;	//spongebob head
+	CSharedPtr<class CColliderCube> m_TailCube;	//spongebob bash
 
 	//
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];

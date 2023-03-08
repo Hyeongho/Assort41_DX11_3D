@@ -69,7 +69,6 @@ protected:
 	CSharedPtr<class CRigidBody> m_Rigid;
 
 	CSharedPtr<class CColliderOBB3D> m_Cube;
-
 	CSharedPtr<class CColliderCube> m_HeadCube;	//spongebob head
 	CSharedPtr<class CColliderCube> m_TailCube;	//spongebob bash
 
@@ -88,13 +87,11 @@ protected:
 	float m_CameraSpeed;
 	int m_KeyCount;
 	int m_JumpCount;
-	float m_HoverTime; // 내려찍기 등을 위한 공중부양 시간
 	bool m_IsLoading;	//로드 체크용 변수-김범중
 	bool m_IsDoubleJump;	//더블점프 -김범중
 	// ========== Patrick 용 ==========
 	bool m_IsHolding; // 물건픽업/쓰로우 액션용
 	float m_BellyAttackTime;
-	bool m_SlamDown;
 
 public:
 	virtual void Destroy();
@@ -181,21 +178,20 @@ public:
 	void Interaction();
 	void Menu();
 	void IngameUI();
-	void RClick();
 	void LClick(); // Attack
+	void RClickDown();
+	void RClickPush();
+	void RClickUp();
 	void StartBash();	//엉찍 시작 함수
 	void ResetIdle();	//아이들상태로 되돌리는 함수
 
 	// Spongebob
 	void Headbutt();
 	void Missile();
-	void Bowl();
-	void BowlThrow();
 
 	// Patrick
 	void Patrick_BellyAttack();
 	void Patrick_BellyAttackMove();
-	void Patrick_SlamDown(); // 내려찍기
 	void Patrick_PickUp();
 	void Patrick_Throw();
 
