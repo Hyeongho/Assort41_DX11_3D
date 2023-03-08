@@ -15,6 +15,7 @@ protected:
 private:
 	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
 	CSharedPtr<class CColliderOBB3D> m_Body;
+	CSharedPtr<class CAnimation> m_Anim;
 	void CollisionWeapon(const CollisionResult& result);
 public:
 	virtual void Start();
@@ -25,5 +26,7 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 	bool SetMesh(const std::string& Name);
+	void StartAtk();
+	void StopAnim();
 };
 

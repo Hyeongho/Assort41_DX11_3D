@@ -6,7 +6,7 @@
 #include "../GameObject/Npc/MrKrabs.h"
 #include "../GameObject/Npc/Patric.h"
 #include "../GameObject/Npc/Squidward.h"
-#include "../GameObject/Npc/TaxiDriver.h"
+#include "../GameObject/Npc/BusDriver.h"
 #include "../GameObject/Bullet.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
@@ -41,6 +41,7 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateObjectCDO<CBullet>("Bullet");
     CScene::CreateObjectCDO<CMrKrabs>("MrKrabs");
     CScene::CreateObjectCDO<CSquidward>("Squidward");
+    CScene::CreateObjectCDO<CBusDriver>("BusDriver");
 
     //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
 
@@ -57,24 +58,20 @@ void CDefaultSetting::LoadResource()
     LoadPatrick();
     LoadSandy();
 
-    // Npc
-    LoadPatric_Npc();
-    LoadSquidward();
-    LoadMrKrabs();
-    LoadTaxi();
-    LoadPatric_Npc();
-
-    // Monster
+    LoadBuildings();
+    LoadJellyfishFieldsObj();
     LoadRoboSponge();
     LoadKingJellyfish();
     LoadJellyfish();
-    LoadTikis(); 
+    LoadTikis();
+
+    LoadMrKrabs();
+    LoadSquidward();
+    LoadPatric_Npc();
+    LoadTaxi();
 
     LoadSound();
     LoadPlayerSound();
-
-    LoadBuildings();
-    LoadJellyfishFieldsObj();
 
     LoadParticle();
 }
@@ -228,13 +225,13 @@ void CDefaultSetting::LoadPatrick()
 
 void CDefaultSetting::LoadSandy()
 {
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Lasso", TEXT("Sandy\\Lasso\\Lasso.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Lasso", TEXT("Sandy\\Lasso\\Lasso.fbx"));
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "LassoSkeleton", TEXT("Sandy\\Lasso\\Lasso.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("Lasso", "LassoSkeleton");
 
-    CResourceManager::GetInst()->LoadAnimationSequence("LassoStart", TEXT("Sandy\\Lasso\\Anim_lasso_attack_start.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("LassoEnd", TEXT("Sandy\\Lasso\\Anim_lasso_attack_end.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("LassoCopter", TEXT("Sandy\\Lasso\\Anim_lasso_copter.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Lasso_Start", TEXT("Sandy\\Lasso\\Anim_lasso_attack_start.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Lasso_End", TEXT("Sandy\\Lasso\\Anim_lasso_attack_end.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Lasso_Copter", TEXT("Sandy\\Lasso\\Anim_lasso_copter.sqc"), MESH_PATH);
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy", TEXT("Sandy/Sandy_Idle.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "SandySkeleton", TEXT("Sandy/Sandy_Idle.bne"), MESH_PATH);
@@ -391,18 +388,12 @@ void CDefaultSetting::LoadParticle()
     Particle->SetParticleMoveAngle(Vector3(0.f, 0.f, 5.f));
 }
 
-void CDefaultSetting::LoadCBObjects()
-{
-}
-
-void CDefaultSetting::LoadCBLabObjects()
-{
-}
-
 void CDefaultSetting::LoadRoboSponge()
 {
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Robo_Sponge", TEXT("Robo_Sponge/Robo_Sponge.msh"), MESH_PATH);
+
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "Robo_Sponge_Skeleton", TEXT("Robo_Sponge/Robo_Sponge.bne"), MESH_PATH);
+
     CResourceManager::GetInst()->SetMeshSkeleton("Robo_Sponge", "Robo_Sponge_Skeleton");
 
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L.sqc"), MESH_PATH);
@@ -502,7 +493,9 @@ void CDefaultSetting::LoadTikis()
 void CDefaultSetting::LoadMrKrabs()
 {
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "MrKrabs", TEXT("MrKrabs/MrKrabs.msh"), MESH_PATH);
+
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "MrKrabs_Skeleton", TEXT("MrKrabs/MrKrabs.bne"), MESH_PATH);
+
     CResourceManager::GetInst()->SetMeshSkeleton("MrKrabs", "MrKrabs_Skeleton");
 
     CResourceManager::GetInst()->LoadAnimationSequence("MrKrabs_Angry_Loop", TEXT("MrKrabs/MrKrabs_Angry_Loop.sqc"), MESH_PATH);
@@ -518,7 +511,9 @@ void CDefaultSetting::LoadMrKrabs()
 void CDefaultSetting::LoadSquidward()
 {
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Squidward", TEXT("Squidward/Squidward.msh"), MESH_PATH);
+
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "Squidward_Skeleton", TEXT("Squidward/Squidward.bne"), MESH_PATH);
+
     CResourceManager::GetInst()->SetMeshSkeleton("Squidward", "Squidward_Skeleton");
 
     CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Angry_Loop", TEXT("Squidward/Squidward_Angry_Loop.sqc"), MESH_PATH);
@@ -539,7 +534,9 @@ void CDefaultSetting::LoadSquidward()
 void CDefaultSetting::LoadPatric_Npc()
 {
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Patric_Npc", TEXT("Patric_Npc/Patric.msh"), MESH_PATH);
+
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "Patric_Npc_Skeleton", TEXT("Patric_Npc/Patric.bne"), MESH_PATH);
+
     CResourceManager::GetInst()->SetMeshSkeleton("Patric_Npc", "Patric_Npc_Skeleton");
 
     CResourceManager::GetInst()->LoadAnimationSequence("Patric_Npc_Confused", TEXT("Patric_Npc/Patric_Npc_Confused.sqc"), MESH_PATH);
@@ -556,7 +553,6 @@ void CDefaultSetting::LoadTaxi()
 {
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Taxi_Driver", TEXT("Taxi/Taxi.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Taxi_Stop", TEXT("Taxi/TaxiStop.msh"), MESH_PATH);
-
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Bus_Driver", TEXT("Taxi/Bus_Driver.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "Bus_Driver_Skeleton", TEXT("Taxi/Bus_Driver.bne"), MESH_PATH);

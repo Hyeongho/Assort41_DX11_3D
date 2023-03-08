@@ -13,8 +13,8 @@ protected:
 	virtual ~CSquidward();
 
 protected:
-	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
-	CSharedPtr<class CAnimation>				m_Animation;
+	//CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
+	//CSharedPtr<class CAnimation>				m_Animation;
 
 public:
 	virtual void Start();

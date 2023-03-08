@@ -6,11 +6,13 @@
 #include "../GameObject/Npc/MrKrabs.h"
 #include "../GameObject/Npc/Patric.h"
 #include "../GameObject/Npc/Squidward.h"
-#include "../GameObject/Npc/TaxiDriver.h"
+#include "../GameObject/Npc/BusDriver.h"
 #include "../GameObject/Bullet.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 #include "../UI/TitleSceneUI.h"
+#include "../UI/DialogUI.h"
+#include "../UI/InteractUI.h"
 #include "Scene/Scene.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -41,6 +43,7 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateObjectCDO<CBullet>("Bullet");
     CScene::CreateObjectCDO<CMrKrabs>("MrKrabs");
     CScene::CreateObjectCDO<CSquidward>("Squidward");
+    CScene::CreateObjectCDO<CBusDriver>("BusDriver");
 
     //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
 
@@ -49,6 +52,8 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
     CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
     CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
+    CScene::CreateUIWindowCDO<CDialogUI>("DialogUI");
+    CScene::CreateUIWindowCDO<CInteractUI>("InteractUI");
 }
 
 void CDefaultSetting::LoadResource()
@@ -224,13 +229,13 @@ void CDefaultSetting::LoadPatrick()
 
 void CDefaultSetting::LoadSandy()
 {
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Lasso", TEXT("Sandy\\Lasso\\Lasso.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Lasso", TEXT("Sandy\\Lasso\\Lasso.fbx"));
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "LassoSkeleton", TEXT("Sandy\\Lasso\\Lasso.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("Lasso", "LassoSkeleton");
 
-    CResourceManager::GetInst()->LoadAnimationSequence("LassoStart", TEXT("Sandy\\Lasso\\Anim_lasso_attack_start.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("LassoEnd", TEXT("Sandy\\Lasso\\Anim_lasso_attack_end.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("LassoCopter", TEXT("Sandy\\Lasso\\Anim_lasso_copter.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Lasso_Start", TEXT("Sandy\\Lasso\\Anim_lasso_attack_start.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Lasso_End", TEXT("Sandy\\Lasso\\Anim_lasso_attack_end.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Lasso_Copter", TEXT("Sandy\\Lasso\\Anim_lasso_copter.sqc"), MESH_PATH);
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy", TEXT("Sandy/Sandy_Idle.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "SandySkeleton", TEXT("Sandy/Sandy_Idle.bne"), MESH_PATH);
@@ -552,4 +557,11 @@ void CDefaultSetting::LoadTaxi()
 {
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Taxi_Driver", TEXT("Taxi/Taxi.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Taxi_Stop", TEXT("Taxi/TaxiStop.msh"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Bus_Driver", TEXT("Taxi/Bus_Driver.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "Bus_Driver_Skeleton", TEXT("Taxi/Bus_Driver.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("Bus_Driver", "Bus_Driver_Skeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Bus_Driver_Drive", TEXT("Taxi/Bus_Driver_Drive.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Bus_Driver_Stop", TEXT("Taxi/Bus_Driver_Stop.sqc"), MESH_PATH);
 }

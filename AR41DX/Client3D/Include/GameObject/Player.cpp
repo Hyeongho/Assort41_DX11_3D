@@ -402,10 +402,6 @@ void CPlayer::LoadCheck()
 	LoadSpongebobAnim();
 	LoadPatrickAnim();
 	LoadSandyAnim();
-
-	m_Weapon = m_Scene->CreateObject<CWeapon>("Temp");
-	AddChildToSocket("Weapon", m_Weapon);
-
 	ChangeSpongebob();
 	LoadCharacter();
 	Reset();
@@ -867,12 +863,20 @@ void CPlayer::ChangeSpongebob()
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
 	m_Anim[(int)m_MainCharacter]->Start();
+
 	if (m_Weapon)
 	{
-		m_Weapon->SetMesh("Lasso");
-		//m_Weapon->SetMesh("SpongebobWand");
+		m_Weapon->Destroy();
+		m_Weapon = m_Scene->CreateObject<CWeapon>("Temp");
+		AddChildToSocket("Weapon", m_Weapon);
+		m_Weapon->SetMesh("SpongebobWand");
 		m_Weapon->SetWorldScale(0.5f, 0.5f, 0.5f);
 		m_Weapon->GetRootComponent()->SetEnable(false);
+	}
+	else
+	{
+		m_Weapon = m_Scene->CreateObject<CWeapon>("Temp");
+		AddChildToSocket("Weapon", m_Weapon);
 	}
 }
 
@@ -900,12 +904,21 @@ void CPlayer::ChangeSandy()
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
+
 	m_Anim[(int)m_MainCharacter]->Start();
 	if (m_Weapon)
 	{
+		m_Weapon->Destroy();
+		m_Weapon = m_Scene->CreateObject<CWeapon>("Temp");
+		AddChildToSocket("Weapon", m_Weapon);
 		m_Weapon->SetMesh("Lasso");
 		//m_Weapon->SetWorldScale(0.5f, 0.5f, 0.5f);
 		m_Weapon->GetRootComponent()->SetEnable(true);
+	}
+	else
+	{
+		m_Weapon = m_Scene->CreateObject<CWeapon>("Temp");
+		AddChildToSocket("Weapon", m_Weapon);
 	}
 }
 
