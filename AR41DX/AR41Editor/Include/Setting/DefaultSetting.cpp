@@ -233,6 +233,7 @@ void CDefaultSetting::LoadSandy()
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "LassoSkeleton", TEXT("Sandy\\Lasso\\Lasso.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("Lasso", "LassoSkeleton");
 
+    CResourceManager::GetInst()->LoadAnimationSequence("Lasso_Idle", TEXT("Sandy\\Lasso\\Anim_lasso_Pose_Straight_Rope.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Lasso_Start", TEXT("Sandy\\Lasso\\Anim_lasso_attack_start.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Lasso_End", TEXT("Sandy\\Lasso\\Anim_lasso_attack_end.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Lasso_Copter", TEXT("Sandy\\Lasso\\Anim_lasso_copter.sqc"), MESH_PATH);
@@ -240,7 +241,7 @@ void CDefaultSetting::LoadSandy()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy", TEXT("Sandy/Sandy_Idle.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "SandySkeleton", TEXT("Sandy/Sandy_Idle.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("Sandy", "SandySkeleton");
-    CResourceManager::GetInst()->AddSocket("SandySkeleton", "jt_lasso", "Weapon");
+    CResourceManager::GetInst()->AddSocket("SandySkeleton", "jt_lasso", "Weapon",Vector3(-30.f,100.f,30.f));
 
     CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Idle", TEXT("Sandy/Sandy_Idle.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Walk", TEXT("Sandy/Sandy_Walk.sqc"), MESH_PATH);

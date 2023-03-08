@@ -25,7 +25,11 @@ CDialogUI::CDialogUI(const CDialogUI& Window) :
 
 CDialogUI::~CDialogUI()
 {
-	m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI")->ActiveInteractUI();
+	if(m_Scene)
+	{
+		CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
+		InteractUI->ActiveInteractUI();
+	}
 }
 
 void CDialogUI::Start()

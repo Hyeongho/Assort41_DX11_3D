@@ -20,7 +20,6 @@
 #include "Scene/NavigationManager3D.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
-#include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 
 CPlayer::CPlayer()
@@ -79,11 +78,12 @@ void CPlayer::Destroy()
 void CPlayer::Start()
 {
 	CGameObject::Start();
-
-	if (m_Scene)
+	if (!m_Scene)
 	{
-		m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
+		return;
 	}
+
+	m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
@@ -733,6 +733,8 @@ void CPlayer::LClick()
 		else
 		{
 			m_Scene->GetResource()->SoundPlay("Sandy_Kick");
+			m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerKick");
+			return;
 		}
 		break;
 	}
@@ -743,29 +745,30 @@ void CPlayer::RClickDown()
 {
 	if (m_Rigid->GetGround())
 	{
-		switch (m_MainCharacter)
+		if(m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 		{
-		case EMain_Character::Spongebob:
-			m_Scene->GetResource()->SoundPlay("Spongebob_Bowl_Charge");
-			break;
-		case EMain_Character::Patrick:
-			if(m_IsHolding)		//집고있으면 던짐	
+			switch (m_MainCharacter)
 			{
-			}
-			else			//집는 소리
-			{
-			
-			}
-			break;
-		case EMain_Character::Sandy:
-			m_Scene->GetResource()->SoundPlay("Sandy_LassoAttack");
-			if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
-			{
+			case EMain_Character::Spongebob:
+				m_Scene->GetResource()->SoundPlay("Spongebob_Bowl_Charge");
+				break;
+			case EMain_Character::Patrick:
+				if (m_IsHolding)		//집고있으면 던짐	
+				{
+				}
+				else			//집는 소리
+				{
+
+				}
+				break;
+			case EMain_Character::Sandy:
+				m_Scene->GetResource()->SoundPlay("Sandy_LassoAttack");
 				m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerLassoStart");
+				m_Weapon->Lasso();
+				break;
 			}
-			break;
+			return;
 		}
-		return;
 	}
 	switch (m_MainCharacter)
 	{
@@ -912,7 +915,7 @@ void CPlayer::ChangeSandy()
 		m_Weapon = m_Scene->CreateObject<CWeapon>("Temp");
 		AddChildToSocket("Weapon", m_Weapon);
 		m_Weapon->SetMesh("Lasso");
-		//m_Weapon->SetWorldScale(0.5f, 0.5f, 0.5f);
+		m_Weapon->ResetIdle();
 		m_Weapon->GetRootComponent()->SetEnable(true);
 	}
 	else

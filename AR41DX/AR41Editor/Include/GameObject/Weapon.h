@@ -26,7 +26,8 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 	bool SetMesh(const std::string& Name);
-	void StartAtk();
-	void StopAnim();
+	void Lasso();
+	void StartLassoAtk();
+	void ResetIdle();
 };
 

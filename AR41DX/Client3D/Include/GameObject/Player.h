@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject/GameObject.h"
+#include "../UI/PlayerUI.h"
 
 struct PlayerData
 {
@@ -122,26 +123,31 @@ public:
 	void SetMaxHP(int HP)
 	{
 		m_PlayerData.MaxHP = HP;
+		m_PlayerUI->SetMaxHp(HP);
 	}
 
 	void SetCurHP(int HP)
 	{
 		m_PlayerData.CurHP = HP;
+		m_PlayerUI->SetHp(HP);
 	}
 
 	void SetSocks(int Socks)
 	{
 		m_PlayerData.Socks = Socks;
+		m_PlayerUI->SetSocks(Socks);
 	}
 
 	void SetFritter(int Fritter)
 	{
 		m_PlayerData.Fritter = Fritter;
+		m_PlayerUI->SetFritter(Fritter);
 	}
 
 	void SetGlittering(int Glittering)
 	{
 		m_PlayerData.Glittering = Glittering;
+		m_PlayerUI->SetGlitter(Glittering);
 	}
 
 	void SetRespawnPos(const Vector3& vec)
