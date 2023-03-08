@@ -74,7 +74,6 @@ CBullet* CBullet::Clone() const
 void CBullet::SetDir(const Vector3& vec)
 {
 	m_Dir= GetWorldPos()- vec ;
-	m_Dir.x = 0;
 	m_Dir.y = 0;
 }
 
