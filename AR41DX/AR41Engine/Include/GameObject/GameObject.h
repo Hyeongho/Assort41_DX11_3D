@@ -62,6 +62,8 @@ protected:
 	std::vector<CSharedPtr<CObjectComponent>>   m_vecObjectComponent;
 	float       m_LifeTime;
 	bool		m_Start;
+	Vector3		m_PrevPos;
+	Vector3		m_Move;
 	Vector3		m_Min;
 	Vector3		m_Max;
 	Vector3		m_Center;
@@ -69,6 +71,16 @@ protected:
 	bool		m_FrustumCull;
 
 public:
+//kbj
+	const Vector3& GetPrevPos()	const
+	{
+		return m_PrevPos;
+	}
+	const Vector3& GetMove()	const
+	{
+		return m_Move;
+	}
+//
 	const Vector3& GetCenter()	const
 	{
 		return m_Center;

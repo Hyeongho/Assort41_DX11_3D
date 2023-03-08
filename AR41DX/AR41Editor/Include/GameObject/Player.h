@@ -1,5 +1,4 @@
 #pragma once
-
 #include "GameObject/GameObject.h"
 
 struct PlayerData
@@ -49,8 +48,7 @@ enum class EMain_Character
 	Max,
 };
 
-class CPlayer :
-	public CGameObject
+class CPlayer : public CGameObject
 {
 	friend class CScene;
 
@@ -62,17 +60,15 @@ protected:
 protected:
 	//컴포넌트
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
-	CSharedPtr<class CAnimationMeshComponent>	m_WeaponMesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
 	CSharedPtr<class CNavigationAgent3D> m_NavAgent;
 	CSharedPtr<class CRigidBody> m_Rigid;
-
 	CSharedPtr<class CColliderOBB3D> m_Cube;
 	CSharedPtr<class CColliderCube> m_HeadCube;	//spongebob head
 	CSharedPtr<class CColliderCube> m_TailCube;	//spongebob bash
-
 	//
+	CSharedPtr<class CWeapon>	m_Weapon;
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
 	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
 	CSharedPtr<class CPlayerUI>	m_PlayerUI;
@@ -82,6 +78,7 @@ protected:
 	PlayerData m_PlayerData;
 	PlayerData m_LoadData;
 	EMain_Character m_MainCharacter;
+	CollisionResult m_WallCollision;	//벽이랑 부딪히고 있는경우
 	Vector3		m_RespawnPos;
 	float m_Speed;
 	float m_CameraSpeed;
@@ -110,6 +107,8 @@ public:
 private:
 	void LoadCheck();
 	void CollisionCube(const CollisionResult& result);
+	void CollisionTest(const CollisionResult& result);	// 충돌체 테스트 용
+	void CollisionTestOut(const CollisionResult& result);
 	void LoadSpongebobAnim(); // 스폰지밥 리소스
 	void LoadPatrickAnim(); // 뚱이 리소스
 	void LoadSandyAnim(); // 다람이 리소스
@@ -168,14 +167,11 @@ public:
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
-	void Stop();
 	void Jump();
 	void JumpCheck();
-	void AttackKey();
 	void CameraRotationKey();
 	void KeyDown();
 	void KeyUp();
-	void Interaction();
 	void Menu();
 	void IngameUI();
 	void LClick(); // Attack
@@ -201,8 +197,5 @@ public:
 	void ChangeSpongebob();
 	void ChangePatrick();
 	void ChangeSandy();
-  
-  // 충돌체 테스트 용
-	void CollisionTest(const CollisionResult& result);
 };
 

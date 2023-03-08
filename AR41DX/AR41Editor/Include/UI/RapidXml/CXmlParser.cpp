@@ -24,7 +24,7 @@ void CXmlParser::init(const std::string& _strFile)
 
 	std::basic_ifstream<char> xmlFile(strFilePath);
 	xmlFile.seekg(0, std::ios::end);
-	unsigned int size = xmlFile.tellg();
+	unsigned int size = (unsigned int)xmlFile.tellg();
 	xmlFile.seekg(0);
 
 	std::vector<char> xmlData(size + 1);
@@ -71,7 +71,7 @@ void CXmlParser::init(const std::string& _strFile)
 
 int CXmlParser::GetDialogCount()
 {
-	return m_vecDialTextInfo.size();
+	return (int)m_vecDialTextInfo.size();
 }
 
 std::string CXmlParser::GetDialogInfoByIndex(int Idx, DialogInfo* Info) const
@@ -80,7 +80,7 @@ std::string CXmlParser::GetDialogInfoByIndex(int Idx, DialogInfo* Info) const
 	size_t MaxSize = m_vecDialTextInfo[Idx].vecTalker.size();
 
 	Info->TextIdx = 0;
-	Info->TextMaxIdx = MaxSize;
+	Info->TextMaxIdx = (int)MaxSize;
 
 	for (size_t size = 0; size < MaxSize; size++) {
 		Info->vecTalker.push_back(m_vecDialTextInfo[Idx].vecTalker[size]);

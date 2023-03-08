@@ -44,7 +44,7 @@ bool CBullet::Init()
 
 	m_Mesh->SetMesh("SpongebobMissile");
 	m_Mesh->SetPivot(0.5f, 0.5f);
-	m_Mesh->SetRelativeScale(50.f, 50.f);
+	m_Mesh->SetRelativeScale(5.f, 5.f);
 
 	m_Body->SetCollisionProfile("PlayerAttack");
 	m_Body->SetCollisionCallback<CBullet>(ECollision_Result::Collision, this, &CBullet::CollisionBullet);
@@ -74,7 +74,6 @@ CBullet* CBullet::Clone() const
 void CBullet::SetDir(const Vector3& vec)
 {
 	m_Dir= GetWorldPos()- vec ;
-	m_Dir.x = 0;
 	m_Dir.y = 0;
 }
 
