@@ -1,9 +1,9 @@
 #pragma once
 
-#include "GameObject\GameObject.h"
+#include "Npc.h"
 
 class CSquidward
-	: public CGameObject
+	: public CNpc
 {
 	friend class CScene;
 
@@ -24,6 +24,9 @@ public:
 	virtual CSquidward* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+protected:
+	virtual void StartDialog();
 
 private:
 	void ChangeAnim_Angry_Loop();

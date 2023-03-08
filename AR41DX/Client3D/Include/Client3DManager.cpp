@@ -6,6 +6,8 @@
 #include "Input.h"
 #include "Setting/EngineShareSetting.h"
 
+//#include "Scene/TestScene.h"
+
 CClient3DManager::CClient3DManager()
 {
 }
@@ -25,7 +27,8 @@ bool CClient3DManager::Init(HINSTANCE hInst)
 
     CEngineShareSetting::Setting();
 
-    // SceneInfo »ý¼º
+    // SceneInfo Â»Ã½Â¼Âº
+    //CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
     //CSceneManager::GetInst()->CreateSceneInfo<CMainSceneInfo>();
     CSceneManager::GetInst()->CreateSceneInfo<CTestSceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishFieldSceneInfo>();

@@ -15,5 +15,6 @@ class CNode :
 {
 public:
 	virtual bool Run() = 0;
+	virtual bool Run(class CGameObject* Object) = 0;
 };
 

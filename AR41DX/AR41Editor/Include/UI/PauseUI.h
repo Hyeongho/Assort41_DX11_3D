@@ -74,6 +74,7 @@ public :
 	bool IsOpen() { return m_NowUIMode == EUIPauseMode::Close ? false : true; }
 
 private:
+	void CreaeteAllUI();
 	void CreateBackgroundUI();
 	void CreateMapUI();
 	void CreatePauseUI();
@@ -136,11 +137,22 @@ private: // SaveSelect Menu UI Func
 	void SaveSelectLoadGame();		// 게임 불러와 시작
 
 
-private: // Option Menu UI Func
+private: // Sound Option Menu UI Func
 	void SoundOptionUISFX();
 	void SoundOptionUIMusic();
 	void SoundOptionUITalk();
 	void SoundOptionUIReset();
+
+private: // Camera Option Menu UI Func
+	void CameraOptionUISensitive();
+	void CameraOptionUISensitiveMinus();
+	void CameraOptionUISensitivePlus();
+	void CameraOptionUIXReverse();
+	void CameraOptionUIXReverse_Normal();
+	void CameraOptionUIXReverse_Reverse();
+	void CameraOptionUIYReverse();
+	void CameraOptionUIYReverse_Normal();
+	void CameraOptionUIYReverse_Reverse();
 
 };
 

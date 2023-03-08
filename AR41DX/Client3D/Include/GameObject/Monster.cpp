@@ -18,21 +18,15 @@ CMonster::CMonster() :
 	, m_AttackRange(false)
 	, m_MoveSpeed(100.f)
 	, m_DeltaTime(0.f)
-	, m_MonsterState(EMonsterState::Max)
-	//, m_MonsterHP(100.f)
+	, m_MonsterHP(100)
 {
 	SetTypeID<CMonster>();
 
 	m_ObjectTypeName = "Monster";
 }
 
-CMonster::CMonster(const CMonster& Obj) : CGameObject(Obj)
-, m_DetectRange(false)
-, m_AttackRange(false)
-, m_MoveSpeed(100.f)
-, m_DeltaTime(0.f)
-, m_MonsterState(EMonsterState::Max)
-//, m_MonsterHP(100.f)
+CMonster::CMonster(const CMonster& Obj) :
+	CGameObject(Obj)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Rigid = (CRigidBody*)FindComponent("Rigid");
