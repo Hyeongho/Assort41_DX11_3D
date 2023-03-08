@@ -52,6 +52,8 @@ void CColliderCube::Start()
 		m_DebugMesh = (CStaticMesh*)CResourceManager::GetInst()->FindMesh("CubeLinePos");
 		m_DebugMaterial = CResourceManager::GetInst()->FindMaterial("DebugDecal");
 	}
+
+	m_DebugMaterial->SetEmissiveColor(1.0f, 1.0f, 1.0f, 0.f);
 #endif // _DEBUG
 }
 
