@@ -376,7 +376,7 @@ void CGameObject::Load(FILE* File)
 
 int CGameObject::InflictDamage(int damage)
 {
-	return 0;
+	return -1;
 }
 
 void CGameObject::Reset()

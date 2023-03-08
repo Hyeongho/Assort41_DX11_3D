@@ -53,6 +53,12 @@ public:
 		m_Force.y = y;
 		m_Force.z = z;
 	}
+	void MulForce(float f)
+	{
+		m_Force.x *= f;
+		m_Force.y *= f;
+		m_Force.z *= f;
+	}
 	Vector3 GetAccel()
 	{
 		return m_Accel;

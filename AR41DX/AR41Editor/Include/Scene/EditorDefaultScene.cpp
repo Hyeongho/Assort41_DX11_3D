@@ -39,7 +39,7 @@ bool CEditorDefaultScene::Init()
 
 	//비키니시티 맵
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
+	Player->SetRespawnPos(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
 
 	CMrKrabs* MrKrabs = m_Owner->CreateObject<CMrKrabs>("MrKrabs");
