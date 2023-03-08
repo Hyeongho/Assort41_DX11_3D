@@ -82,6 +82,7 @@ protected:
 	PlayerData m_PlayerData;
 	PlayerData m_LoadData;
 	EMain_Character m_MainCharacter;
+	Vector3		m_RespawnPos;
 	float m_Speed;
 	float m_CameraSpeed;
 	int m_KeyCount;
@@ -146,6 +147,17 @@ public:
 		m_PlayerData.Glittering = Glittering;
 	}
 
+	void SetRespawnPos(const Vector3& vec)
+	{
+		m_RespawnPos = vec;
+	}
+	void SetRespawnPos(float x, float y, float z)
+	{
+		m_RespawnPos.x = x;
+		m_RespawnPos.y = y;
+		m_RespawnPos.z = z;
+	}
+
 public:
 	PlayerData GetPlayerData() const
 	{
@@ -187,9 +199,6 @@ public:
 	void Patrick_Throw();
 
 	// Sandy
-	void Sandy_Karate_Chop();
-	void Sandy_Karate_Kick();
-	void Sandy_Lasso_Start();
 
 	// Change Charater
 	void ChangeSpongebob();

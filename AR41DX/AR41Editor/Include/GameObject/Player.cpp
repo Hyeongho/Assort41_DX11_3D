@@ -54,6 +54,7 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 	m_Cube = (CColliderOBB3D*)FindComponent("Cube");
 	m_HeadCube = (CColliderCube*)FindComponent("HeadCube");
+	m_TailCube = (CColliderCube*)FindComponent("TailCube");
 }
 
 CPlayer::~CPlayer()
@@ -118,6 +119,7 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Down, this, &CPlayer::ChangeSpongebob, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F2", Input_Type::Down, this, &CPlayer::ChangePatrick, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Down, this, &CPlayer::ChangeSandy, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F6", Input_Type::Down, this, &CPlayer::Reset, m_Scene);
 
 	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
 	m_PauseUI = m_Scene->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
@@ -125,6 +127,7 @@ void CPlayer::Start()
 
 	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionTest);
 	m_HeadCube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
+	m_TailCube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
 
 	if (m_IsLoading)
 	{
@@ -147,6 +150,7 @@ bool CPlayer::Init()
 	m_Cube = CreateComponent<CColliderOBB3D>("Cube");
 
 	m_HeadCube = CreateComponent<CColliderCube>("HeadCube");
+	m_TailCube = CreateComponent<CColliderCube>("TailCube");
 
 	SetRootComponent(m_Mesh);
 
@@ -154,6 +158,7 @@ bool CPlayer::Init()
 	m_Mesh->AddChild(m_Arm);
 	m_Mesh->AddChild(m_Cube);
 	m_Mesh->AddChild(m_HeadCube);
+	m_Mesh->AddChild(m_TailCube);
 	m_Arm->AddChild(m_Camera);
 
 	m_Cube->SetRelativePositionY(70.f);
@@ -174,6 +179,10 @@ bool CPlayer::Init()
 	m_HeadCube->SetEnable(false);
 	m_HeadCube->SetRelativePositionY(175.f);
 	m_HeadCube->SetCubeSize(100.f, 75.f, 100.f);
+	m_TailCube->SetCollisionProfile("PlayerAttack");
+	//m_TailCube->SetEnable(false);
+	//m_TailCube->SetRelativePositionY(175.f);
+	//m_TailCube->SetCubeSize(100.f, 75.f, 100.f);
 	return true;
 }
 
@@ -230,7 +239,6 @@ void CPlayer::Load(FILE* File)
 
 int CPlayer::InflictDamage(int damage)
 {
-	//CGameObject::InflictDamage(damage);
 	int hp = --m_PlayerData.CurHP > 0? m_PlayerData.CurHP :0;
 	m_PlayerUI->SetHp(hp);
 	IngameUI();
@@ -240,12 +248,15 @@ int CPlayer::InflictDamage(int damage)
 		switch (m_MainCharacter)
 		{
 		case EMain_Character::Spongebob:
+			m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
 			m_Scene->GetResource()->SoundPlay("Spongebob_Death");
 			break;
 		case EMain_Character::Patrick:
+			CResourceManager::GetInst()->SoundStop("Patrick_Step");
 			m_Scene->GetResource()->SoundPlay("Patrick_Death");
 			break;
 		case EMain_Character::Sandy:
+			m_Scene->GetResource()->SoundStop("Sandy_Walk");
 			m_Scene->GetResource()->SoundPlay("Sandy_Death");
 			break;
 		}
@@ -256,20 +267,23 @@ int CPlayer::InflictDamage(int damage)
 		switch (m_MainCharacter)
 		{
 		case EMain_Character::Spongebob:
+			m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
 			m_Scene->GetResource()->SoundPlay("Spongebob_Damage");
 			break;
 		case EMain_Character::Patrick:
+			CResourceManager::GetInst()->SoundStop("Patrick_Step");
 			m_Scene->GetResource()->SoundPlay("Patrick_Damage");
 			break;
 		case EMain_Character::Sandy:
+			m_Scene->GetResource()->SoundStop("Sandy_Walk");
 			m_Scene->GetResource()->SoundPlay("Sandy_Damage");
 			break;
 		}
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerHit");
 		float angle = GetWorldRot().y;
 		m_Rigid->SetGround(false);
-		m_Rigid->AddForce(sinf(DegreeToRadian(angle))*500.f, 500.f, tanf(DegreeToRadian(angle))*500.f);
-		m_Rigid->SetVelocity(sinf(DegreeToRadian(angle))*500.f, 500.f, tanf(DegreeToRadian(angle))*500.f);
+		m_Rigid->AddForce(sinf(DegreeToRadian(angle))*400.f, 250.f, cosf(DegreeToRadian(angle))*400.f);
+		m_Rigid->SetVelocity(sinf(DegreeToRadian(angle))*400.f, 250.f, cosf(DegreeToRadian(angle))*400.f);
 	}
 	return m_PlayerData.CurHP;
 }
@@ -282,7 +296,7 @@ void CPlayer::Reset()
 	m_PlayerUI->SetGlitter(m_PlayerData.Glittering);
 	m_PlayerUI->SetFritter(m_PlayerData.Fritter);
 	m_PlayerUI->SetSocks(m_PlayerData.Socks);
-	//위치 초기위치 혹은 체크포인트 위치로
+	SetWorldPosition(m_RespawnPos);
 	ResetIdle();
 }
 
@@ -441,27 +455,16 @@ void CPlayer::MoveFront()
 	{
 		return;
 	}
-	switch (m_MainCharacter)
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
-	case EMain_Character::Spongebob:
-		m_Scene->GetResource()->SoundPlay("Spongebob_WalkLeft");
-		break;
-	case EMain_Character::Patrick:
-		CResourceManager::GetInst()->SoundPlay("Patrick_Step");
-		CResourceManager::GetInst()->SetVolume(100);
 		if (m_IsHolding)
 		{
 			m_Anim[(int)m_MainCharacter]->ChangeAnimation("Patrick_PickUpWalk");
 		}
-		break;
-	case EMain_Character::Sandy:
-		m_Scene->GetResource()->SoundPlay("Sandy_Walk");
-		break;
-	}
-
-	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
-	{
-		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+		else
+		{
+			m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+		}
 	}
 	float angle = m_Camera->GetWorldRot().y;
 	SetWorldRotationY(angle+180.f);
@@ -475,27 +478,16 @@ void CPlayer::MoveBack()
 	{
 		return;
 	}
-	switch (m_MainCharacter)
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
-	case EMain_Character::Spongebob:
-		m_Scene->GetResource()->SoundPlay("Spongebob_WalkLeft");
-		break;
-	case EMain_Character::Patrick:
-		CResourceManager::GetInst()->SoundPlay("Patrick_Step");
-		CResourceManager::GetInst()->SetVolume(100);
 		if (m_IsHolding)
 		{
 			m_Anim[(int)m_MainCharacter]->ChangeAnimation("Patrick_PickUpWalk");
 		}
-		break;
-	case EMain_Character::Sandy:
-		m_Scene->GetResource()->SoundPlay("Sandy_Walk");
-		break;
-	}
-
-	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
-	{
-		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+		else
+		{
+			m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+		}
 	}
 	float angle = m_Camera->GetWorldRot().y-180.f;
 	SetWorldRotationY(angle+180.f);
@@ -509,27 +501,16 @@ void CPlayer::MoveLeft()
 	{
 		return;
 	}
-	switch (m_MainCharacter)
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
-	case EMain_Character::Spongebob:
-		m_Scene->GetResource()->SoundPlay("Spongebob_WalkLeft");
-		break;
-	case EMain_Character::Patrick:
-		CResourceManager::GetInst()->SoundPlay("Patrick_Step");
-		CResourceManager::GetInst()->SetVolume(100);
 		if (m_IsHolding)
 		{
 			m_Anim[(int)m_MainCharacter]->ChangeAnimation("Patrick_PickUpWalk");
 		}
-		break;
-	case EMain_Character::Sandy:
-		m_Scene->GetResource()->SoundPlay("Sandy_Walk");
-		break;
-	}
-
-	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
-	{
-		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+		else
+		{
+			m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+		}
 	}
 	float angle = m_Camera->GetWorldRot().y -90.f;
 	SetWorldRotationY(angle + 180.f);
@@ -543,27 +524,16 @@ void CPlayer::MoveRight()
 	{
 		return;
 	}
-	switch (m_MainCharacter)
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
-	case EMain_Character::Spongebob:
-		m_Scene->GetResource()->SoundPlay("Spongebob_WalkLeft");
-		break;
-	case EMain_Character::Patrick:
-		CResourceManager::GetInst()->SoundPlay("Patrick_Step");
-		CResourceManager::GetInst()->SetVolume(100);
 		if (m_IsHolding)
 		{
 			m_Anim[(int)m_MainCharacter]->ChangeAnimation("Patrick_PickUpWalk");
 		}
-		break;
-	case EMain_Character::Sandy:
-		m_Scene->GetResource()->SoundPlay("Sandy_Walk");
-		break;
-	}
-
-	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
-	{
-		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+		else
+		{
+			m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
+		}
 	}
 	float angle = m_Camera->GetWorldRot().y +90.f;
 	SetWorldRotationY(angle+180.f);
@@ -591,12 +561,15 @@ void CPlayer::Jump()
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
+		m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
 		m_Scene->GetResource()->SoundPlay("Spongebob_Jump");
 		break;
 	case EMain_Character::Patrick:
+		CResourceManager::GetInst()->SoundStop("Patrick_Step");
 		m_Scene->GetResource()->SoundPlay("Patrick_Jump");
 		break;
 	case EMain_Character::Sandy:
+		m_Scene->GetResource()->SoundStop("Sandy_Walk");
 		m_Scene->GetResource()->SoundPlay("Sandy_Jump");
 		break;
 	}
@@ -652,11 +625,26 @@ void CPlayer::JumpCheck()
 					break;
 				}
 				m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBash");
-				//충돌체 생성
+				m_TailCube->SetEnable(true);
 			}
 			else
 			{
 				ResetIdle();
+			}
+			if(m_KeyCount>0)
+			{
+				switch (m_MainCharacter)
+				{
+				case EMain_Character::Spongebob:
+					m_Scene->GetResource()->SoundPlay("Spongebob_WalkLeft");
+					break;
+				case EMain_Character::Patrick:
+					CResourceManager::GetInst()->SoundPlay("Patrick_Step");
+					break;
+				case EMain_Character::Sandy:
+					m_Scene->GetResource()->SoundPlay("Sandy_Walk");
+					break;
+				}
 			}
 		}
 	}
@@ -684,6 +672,25 @@ void CPlayer::CameraRotationKey()
 void CPlayer::KeyDown()
 {
 	++m_KeyCount;
+	if (!m_Cube->GetEnable()||!m_Rigid->GetGround())
+	{
+		return;
+	}
+	switch (m_MainCharacter)
+	{
+	case EMain_Character::Spongebob:
+		m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
+		m_Scene->GetResource()->SoundPlay("Spongebob_WalkLeft");
+		break;
+	case EMain_Character::Patrick:
+		CResourceManager::GetInst()->SoundStop("Patrick_Step");
+		CResourceManager::GetInst()->SoundPlay("Patrick_Step");
+		break;
+	case EMain_Character::Sandy:
+		m_Scene->GetResource()->SoundStop("Sandy_Walk");
+		m_Scene->GetResource()->SoundPlay("Sandy_Walk");
+		break;
+	}
 }
 
 void CPlayer::KeyUp()
@@ -695,6 +702,18 @@ void CPlayer::KeyUp()
 	}
 	if (m_KeyCount == 0)
 	{
+		switch (m_MainCharacter)
+		{
+		case EMain_Character::Spongebob:
+			m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
+			break;
+		case EMain_Character::Patrick:
+			CResourceManager::GetInst()->SoundStop("Patrick_Step");
+			break;
+		case EMain_Character::Sandy:
+			m_Scene->GetResource()->SoundStop("Sandy_Walk");
+			break;
+		}
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
 	}
 }
@@ -708,8 +727,8 @@ void CPlayer::Headbutt()
 	m_Scene->GetResource()->SoundPlay("Spongebob_DoubleJump");
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
 	m_Rigid->SetGround(false);
-	m_Rigid->AddForce(0, 500.f);
-	m_Rigid->SetVelocityY(500.f);
+	m_Rigid->AddForce(0, 400.f);
+	m_Rigid->SetVelocityY(400.f);
 	m_HeadCube->SetEnable(true);
 }
 
@@ -859,6 +878,7 @@ void CPlayer::ResetIdle()
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
 	m_WeaponMesh->SetEnable(false);
 	m_HeadCube->SetEnable(false);
+	m_TailCube->SetEnable(false);
 	m_Cube->SetEnable(true);
 	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
 	m_IsDoubleJump = false;
