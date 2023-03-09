@@ -9,6 +9,8 @@
 #include "CameraComponent.h"
 #include "../Resource/Shader/ColliderConstantBuffer.h"
 #include "../CollisionManager.h"
+#include "ColliderCube.h"
+#include "ColliderOBB3D.h"
 
 CColliderSphere3D::CColliderSphere3D()
 {
@@ -133,19 +135,19 @@ void CColliderSphere3D::Load(FILE* File)
 
 bool CColliderSphere3D::Collision(CCollider* Dest)
 {
-	Vector2	HitPoint;
+	Vector3	HitPoint;
 	bool	Result = false;
 
 	switch (((CCollider3D*)Dest)->GetCollider3DType())
 	{
 	case ECollider3D_Type::Box:
-		//Result = CCollisionManager::GetInst()->CollisionBox2DToSphere2D(HitPoint, (CColliderBox2D*)Dest, this);
+		Result = CCollisionManager::GetInst()->CollisionSphere3DToCube(HitPoint, this, (CColliderCube*)Dest);
 		break;
 	case ECollider3D_Type::OBB:
-		//Result = CCollisionManager::GetInst()->CollisionSphere2DToOBB2D(HitPoint, this, (CColliderOBB2D*)Dest);
+		Result = CCollisionManager::GetInst()->CollisionSphere3DToOBB3D(HitPoint, this, (CColliderOBB3D*)Dest);
 		break;
 	case ECollider3D_Type::Sphere:
-		//Result = CCollisionManager::GetInst()->CollisionSphere2DToSphere2D(HitPoint, this, (CColliderSphere3D*)Dest);
+		Result = CCollisionManager::GetInst()->CollisionSphere3DToSphere3D(HitPoint, this, (CColliderSphere3D*)Dest);
 		break;
 	}
 

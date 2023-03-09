@@ -5,6 +5,7 @@
 #include "Component/ColliderPixel.h"
 #include "Component/ColliderCube.h"
 #include "Component/ColliderOBB3D.h"
+#include "Component/ColliderSphere3D.h"
 
 DEFINITION_SINGLE(CCollisionManager)
 
@@ -979,6 +980,17 @@ bool CCollisionManager::CollisionCubeToOBB3D(Vector3& HitPoint, CColliderCube* S
 	return false;
 }
 
+bool CCollisionManager::CollisionCubeToSphere3D(Vector3& HitPoint, CColliderCube* Src, CColliderSphere3D* Dest)
+{
+	if (CollisionCubeToSphere3D(HitPoint, Src->GetCubeInfo(), Dest->GetInfo()))
+	{
+		Dest->m_HitPoint = Vector3(HitPoint.x, HitPoint.y, HitPoint.z);
+		return true;
+	}
+
+	return false;
+}
+
 bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, CColliderOBB3D* Src, CColliderOBB3D* Dest)
 {
 	if (CollisionOBB3DToOBB3D(HitPoint, Src->GetInfo(), Dest->GetInfo()))
@@ -993,6 +1005,50 @@ bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, CColliderOBB3D*
 bool CCollisionManager::CollisionOBB3DToCube(Vector3& HitPoint, CColliderOBB3D* Src, CColliderCube* Dest)
 {
 	if (CollisionOBB3DToCube(HitPoint, Src->GetInfo(), Dest->GetCubeInfo()))
+	{
+		Dest->m_HitPoint = Vector3(HitPoint.x, HitPoint.y, HitPoint.z);
+		return true;
+	}
+
+	return false;
+}
+
+bool CCollisionManager::CollisionOBB3DToSphere3D(Vector3& HitPoint, CColliderOBB3D* Src, CColliderSphere3D* Dest)
+{
+	if (CollisionOBB3DToSphere3D(HitPoint, Src->GetInfo(), Dest->GetInfo()))
+	{
+		Dest->m_HitPoint = Vector3(HitPoint.x, HitPoint.y, HitPoint.z);
+		return true;
+	}
+
+	return false;
+}
+
+bool CCollisionManager::CollisionSphere3DToCube(Vector3& HitPoint, CColliderSphere3D* Src, CColliderCube* Dest)
+{
+	if (CollisionSphere3DToCube(HitPoint, Src->GetInfo(), Dest->GetCubeInfo()))
+	{
+		Dest->m_HitPoint = Vector3(HitPoint.x, HitPoint.y, HitPoint.z);
+		return true;
+	}
+
+	return false;
+}
+
+bool CCollisionManager::CollisionSphere3DToOBB3D(Vector3& HitPoint, CColliderSphere3D* Src, CColliderOBB3D* Dest)
+{
+	if (CollisionSphere3DToOBB3D(HitPoint, Src->GetInfo(), Dest->GetInfo()))
+	{
+		Dest->m_HitPoint = Vector3(HitPoint.x, HitPoint.y, HitPoint.z);
+		return true;
+	}
+
+	return false;
+}
+
+bool CCollisionManager::CollisionSphere3DToSphere3D(Vector3& HitPoint, CColliderSphere3D* Src, CColliderSphere3D* Dest)
+{
+	if (CollisionSphere3DToSphere3D(HitPoint, Src->GetInfo(), Dest->GetInfo()))
 	{
 		Dest->m_HitPoint = Vector3(HitPoint.x, HitPoint.y, HitPoint.z);
 		return true;
@@ -1040,6 +1096,74 @@ bool CCollisionManager::CollisionCubeToOBB3D(Vector3& HitPoint, const CubeInfo& 
 	SrcInfo.Length[AXIS_Z] = (Src.Back - Src.Front) / 2.f;
 
 	return CollisionOBB3DToOBB3D(HitPoint, SrcInfo, Dest);
+}
+
+bool CCollisionManager::CollisionCubeToSphere3D(Vector3& HitPoint, const CubeInfo& Src, const Sphere3DInfo& Dest)
+{
+	if ((Src.Left <= Dest.Center.x && Dest.Center.x <= Src.Right) ||
+		(Src.Bottom <= Dest.Center.y && Dest.Center.y <= Src.Top) ||
+		(Src.Front <= Dest.Center.z && Dest.Center.z <= Src.Back))
+	{
+		CubeInfo Info = Src;
+		Info.Left -= Dest.Radius;
+		Info.Bottom -= Dest.Radius;
+		Info.Right += Dest.Radius;
+		Info.Top += Dest.Radius;
+		Info.Front -= Dest.Radius;
+		Info.Back += Dest.Radius;
+
+		if (Info.Left > Dest.Center.x)
+			return false;
+
+		else if (Info.Bottom > Dest.Center.y)
+			return false;
+
+		else if (Info.Front > Dest.Center.z)
+			return false;
+
+		else if (Info.Right < Dest.Center.x)
+			return false;
+
+		else if (Info.Top < Dest.Center.y)
+			return false;
+
+		else if (Info.Back < Dest.Center.z)
+			return false;
+
+		CubeInfo	OverlapBox = ConvertCubeInfo(Dest);
+
+		ComputeHitPoint(HitPoint, Src, OverlapBox);
+
+		return true;
+	}
+
+	Vector3	Pos[8] =
+	{
+		Vector3(Src.Left, Src.Bottom, Src.Front),
+		Vector3(Src.Left, Src.Bottom, Src.Back),
+		Vector3(Src.Left, Src.Top, Src.Front),
+		Vector3(Src.Left, Src.Top, Src.Back),
+		Vector3(Src.Right, Src.Bottom, Src.Front),
+		Vector3(Src.Right, Src.Bottom, Src.Back),
+		Vector3(Src.Right, Src.Top, Src.Front),
+		Vector3(Src.Right, Src.Top, Src.Back),
+	};
+
+	for (int i = 0; i < 8; ++i)
+	{
+		float Dist = Dest.Center.Distance(Pos[i]);
+
+		if (Dist <= Dest.Radius)
+		{
+			CubeInfo OverlapBox = ConvertCubeInfo(Dest);
+
+			ComputeHitPoint(HitPoint, Src, OverlapBox);
+
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo& Src, const OBB3DInfo& Dest)
@@ -1149,6 +1273,195 @@ bool CCollisionManager::CollisionOBB3DToCube(Vector3& HitPoint, const OBB3DInfo&
 	DestInfo.Length[AXIS_Z] = (Dest.Back - Dest.Front) / 2.f;
 
 	return CollisionOBB3DToOBB3D(HitPoint, Src, DestInfo);
+}
+
+bool CCollisionManager::CollisionOBB3DToSphere3D(Vector3& HitPoint, const OBB3DInfo& Src, const Sphere3DInfo& Dest)
+{
+	Vector3	CenterLine = Dest.Center - Src.Center;
+
+	float CenterProjDist = CenterLine.Length();
+
+	Vector3	Axis = CenterLine;
+	Axis.Normalize();
+
+	float SrcDist, DestDist;
+
+	SrcDist = Dest.Radius;
+	DestDist = abs(Axis.Dot(Src.Axis[AXIS_X]) * Src.Length[AXIS_X]) +
+		abs(Axis.Dot(Src.Axis[AXIS_Y]) * Src.Length[AXIS_Y]) + 
+		abs(Axis.Dot(Src.Axis[AXIS_Z]) * Src.Length[AXIS_Z]);
+
+	if (CenterProjDist > SrcDist + DestDist)
+		return false;
+
+	Axis = Src.Axis[AXIS_X];
+
+	CenterProjDist = abs(Axis.Dot(CenterLine));
+
+	DestDist = Src.Length[AXIS_X];
+
+	if (CenterProjDist > SrcDist + DestDist)
+		return false;
+
+	Axis = Src.Axis[AXIS_Y];
+
+	CenterProjDist = abs(Axis.Dot(CenterLine));
+
+	DestDist = Src.Length[AXIS_Y];
+
+	if (CenterProjDist > SrcDist + DestDist)
+		return false;
+
+	Axis = Src.Axis[AXIS_Z];
+
+	CenterProjDist = abs(Axis.Dot(CenterLine));
+
+	DestDist = Src.Length[AXIS_Z];
+
+	if (CenterProjDist > SrcDist + DestDist)
+		return false;
+
+	CubeInfo SrcInfo, DestInfo;
+	SrcInfo = ConvertCubeInfo(Src);
+	DestInfo = ConvertCubeInfo(Dest);
+
+	ComputeHitPoint(HitPoint, SrcInfo, DestInfo);
+
+	return true;
+}
+
+bool CCollisionManager::CollisionSphere3DToCube(Vector3& HitPoint, const Sphere3DInfo& Src, const CubeInfo& Dest)
+{
+	if ((Dest.Left <= Src.Center.x && Src.Center.x <= Dest.Right) ||
+		(Dest.Bottom <= Src.Center.y && Src.Center.y <= Dest.Top) ||
+		(Dest.Front <= Src.Center.z && Src.Center.z <= Dest.Back))
+	{
+		CubeInfo Info = Dest;
+		Info.Left -= Src.Radius;
+		Info.Bottom -= Src.Radius;
+		Info.Right += Src.Radius;
+		Info.Top += Src.Radius;
+		Info.Front -= Src.Radius;
+		Info.Back += Src.Radius;
+
+		if (Info.Left > Src.Center.x)
+			return false;
+
+		else if (Info.Bottom > Src.Center.y)
+			return false;
+
+		else if (Info.Front > Src.Center.z)
+			return false;
+
+		else if (Info.Right < Src.Center.x)
+			return false;
+
+		else if (Info.Top < Src.Center.y)
+			return false;
+
+		else if (Info.Back < Src.Center.z)
+			return false;
+
+		CubeInfo OverlapBox = ConvertCubeInfo(Src);
+
+		ComputeHitPoint(HitPoint, Dest, OverlapBox);
+
+		return true;
+	}
+
+	Vector3	Pos[8] =
+	{
+		Vector3(Dest.Left, Dest.Bottom, Dest.Front),
+		Vector3(Dest.Left, Dest.Bottom, Dest.Back),
+		Vector3(Dest.Left, Dest.Top, Dest.Front),
+		Vector3(Dest.Left, Dest.Top, Dest.Back),
+		Vector3(Dest.Right, Dest.Bottom, Dest.Front),
+		Vector3(Dest.Right, Dest.Bottom, Dest.Back),
+		Vector3(Dest.Right, Dest.Top, Dest.Front),
+		Vector3(Dest.Right, Dest.Top, Dest.Back),
+	};
+
+	for (int i = 0; i < 8; ++i)
+	{
+		float Dist = Src.Center.Distance(Pos[i]);
+
+		if (Dist <= Src.Radius)
+		{
+			CubeInfo OverlapBox = ConvertCubeInfo(Src);
+
+			ComputeHitPoint(HitPoint, Dest, OverlapBox);
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool CCollisionManager::CollisionSphere3DToOBB3D(Vector3& HitPoint, const Sphere3DInfo& Src, const OBB3DInfo& Dest)
+{
+	Vector3	CenterLine = Dest.Center - Src.Center;
+
+	float CenterProjDist = CenterLine.Length();
+
+	Vector3	Axis = CenterLine;
+	Axis.Normalize();
+
+	float SrcDist, DestDist;
+
+	SrcDist = Src.Radius;
+	DestDist = abs(Axis.Dot(Dest.Axis[AXIS_X]) * Dest.Length[AXIS_X]) +
+		abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y]) +
+		abs(Axis.Dot(Dest.Axis[AXIS_Z]) * Dest.Length[AXIS_Z]);
+
+	if (CenterProjDist > SrcDist + DestDist)
+		return false;
+
+	Axis = Dest.Axis[AXIS_X];
+
+	CenterProjDist = abs(Axis.Dot(CenterLine));
+
+	DestDist = Dest.Length[AXIS_X];
+
+	if (CenterProjDist > SrcDist + DestDist)
+		return false;
+
+	Axis = Dest.Axis[AXIS_Y];
+
+	CenterProjDist = abs(Axis.Dot(CenterLine));
+
+	DestDist = Dest.Length[AXIS_Y];
+
+	if (CenterProjDist > SrcDist + DestDist)
+		return false;
+
+	Axis = Dest.Axis[AXIS_Z];
+
+	CenterProjDist = abs(Axis.Dot(CenterLine));
+
+	DestDist = Dest.Length[AXIS_Z];
+
+	if (CenterProjDist > SrcDist + DestDist)
+		return false;
+
+	CubeInfo SrcInfo, DestInfo;
+	SrcInfo = ConvertCubeInfo(Src);
+	DestInfo = ConvertCubeInfo(Dest);
+
+	ComputeHitPoint(HitPoint, SrcInfo, DestInfo);
+
+	return true;
+}
+
+bool CCollisionManager::CollisionSphere3DToSphere3D(Vector3& HitPoint, const Sphere3DInfo& Src, const Sphere3DInfo& Dest)
+{
+	float Dist = Src.Center.Distance(Dest.Center);
+
+	bool result = Dist <= Src.Radius + Dest.Radius;
+
+	HitPoint = (Src.Center + Dest.Center) / 2.f;
+
+	return result;
 }
 
 bool CCollisionManager::CollisionRayToSphere(PickingResult& result, const Ray& ray, const Vector3& Center, float Radius)
@@ -1277,6 +1590,20 @@ void CCollisionManager::ComputeHitPoint(Vector2& HitPoint, const Box2DInfo& Src,
 	HitPoint.y = (Top + Bottom) / 2.f;
 }
 
+CubeInfo CCollisionManager::ConvertCubeInfo(const Sphere3DInfo& Info)
+{
+	CubeInfo result;
+
+	result.Left = Info.Center.x - Info.Radius;
+	result.Bottom = Info.Center.y - Info.Radius;
+	result.Front = Info.Center.z - Info.Radius;
+	result.Right = Info.Center.x + Info.Radius;
+	result.Top = Info.Center.y + Info.Radius;
+	result.Back = Info.Center.y + Info.Radius;
+
+	return result;
+}
+
 CubeInfo CCollisionManager::ConvertCubeInfo(const OBB3DInfo& Info)
 {
 	CubeInfo result;
@@ -1338,6 +1665,22 @@ CubeInfo CCollisionManager::OverlapCube(const CubeInfo& Src, const CubeInfo& Des
 CubeInfo CCollisionManager::OverlapCube(const CubeInfo& Src, const OBB3DInfo& Dest)
 {
 	CubeInfo Info, DestInfo;
+
+	DestInfo = ConvertCubeInfo(Dest);
+
+	Info.Left = Src.Left > DestInfo.Left ? Src.Left : DestInfo.Left;
+	Info.Bottom = Src.Bottom > DestInfo.Bottom ? Src.Bottom : DestInfo.Bottom;
+	Info.Right = Src.Right < DestInfo.Right ? Src.Right : DestInfo.Right;
+	Info.Top = Src.Top < DestInfo.Top ? Src.Top : DestInfo.Top;
+	Info.Front = Src.Front < DestInfo.Front ? Src.Front : DestInfo.Front;
+	Info.Back = Src.Back < DestInfo.Back ? Src.Back : DestInfo.Back;
+
+	return Info;
+}
+
+CubeInfo CCollisionManager::OverlapCube(const CubeInfo& Src, const Sphere3DInfo& Dest)
+{
+	CubeInfo	Info, DestInfo;
 
 	DestInfo = ConvertCubeInfo(Dest);
 

@@ -788,19 +788,25 @@ void CPlayer::RClickDown()
 			m_Scene->GetResource()->SoundPlay("Spongebob_Bowl_Charge");
 			break;
 		case EMain_Character::Patrick:
-			if(m_IsHolding)		//집고있으면 던짐	
+		{
+			if (m_IsHolding)		//집고있으면 던짐	
 			{
 			}
+
 			else			//집는 소리
 			{
-			
+
 			}
 			break;
+		}
 		case EMain_Character::Sandy:
 			//채찍
+			break;
 		}
-		return;
+		
 	}
+
+
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
@@ -812,6 +818,7 @@ void CPlayer::RClickDown()
 	case EMain_Character::Sandy:
 		return;
 	}
+
 	m_Rigid->SetGravity(false);
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBashStart");
 }
