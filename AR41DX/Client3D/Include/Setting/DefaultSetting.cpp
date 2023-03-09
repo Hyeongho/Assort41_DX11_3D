@@ -261,8 +261,8 @@ void CDefaultSetting::LoadSpongebob()
     resourceManager->LoadAnimationSequence("Spongebob_BashStart", TEXT("Spongebob\\Anim_Spongebob_BubbleBash_Dw_Start.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Spongebob_BashDw", TEXT("Spongebob\\Anim_Spongebob_Bubblebash_Dw.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Spongebob_Bash", TEXT("Spongebob\\Anim_Spongebob_BubbleBash.sqc"), MESH_PATH);
-    resourceManager->LoadAnimationSequence("Spongebob_Death", TEXT("Spongebob\\Anim_Spongebob_Death_02.fbx"), MESH_PATH);
-    resourceManager->LoadAnimationSequence("Spongebob_Hit", TEXT("Spongebob\\Anim_Spongebob_Hit_01.fbx"), MESH_PATH);
+    resourceManager->LoadAnimationSequence("Spongebob_Death", TEXT("Spongebob\\Anim_Spongebob_Death_02.sqc"), MESH_PATH);
+    resourceManager->LoadAnimationSequence("Spongebob_Hit", TEXT("Spongebob\\Anim_Spongebob_Hit_01.sqc"), MESH_PATH);
 //전용 모션
     resourceManager->LoadAnimationSequence("Spongebob_Bowl", TEXT("Spongebob\\Anim_Spongebob_Bubble_Bowl_Loop.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Spongebob_BowlThrow", TEXT("Spongebob\\Anim_Spongebob_Bubble_Bowl_Throw.sqc"), MESH_PATH);
@@ -282,23 +282,32 @@ void CDefaultSetting::LoadSpongebob()
 
 void CDefaultSetting::LoadPatrick()
 {
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Ice", TEXT("Objects/JellyfishFields/Ice.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "IceSkeleton", TEXT("Objects/JellyfishFields/Ice.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("Ice", "IceSkeleton");
+
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Patrick", TEXT("Patrick/Patrick11.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "PatrickSkeleton", TEXT("Patrick/Patrick11.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("Patrick", "PatrickSkeleton");
-    CResourceManager::GetInst()->AddSocket("PatrickSkeleton", "jt_hand_R", "Weapon");
+    CResourceManager::GetInst()->AddSocket("PatrickSkeleton", "jt_hand_R", "Weapon",Vector3(),Vector3(-45.f,0.f,0.f));
 
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Idle", TEXT("Patrick/Patrick_Idle.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Walk", TEXT("Patrick/Patrick_Walk.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Run", TEXT("Patrick/Patrick_Run.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_DoubleJump", TEXT("Patrick/Patrick_DoubleJump.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Jump", TEXT("Patrick/Patrick_JumpUp.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_BellyAttack", TEXT("Patrick/Patrick_BellyAttack.sqc"), MESH_PATH);
+    //CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Run", TEXT("Patrick/Patrick_Run.sqc"), MESH_PATH);
+    //CResourceManager::GetInst()->LoadAnimationSequence("Patrick_DoubleJump", TEXT("Patrick/Patrick_DoubleJump.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_JumpUp", TEXT("Patrick/Patrick_JumpUp.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_JumpDw", TEXT("Patrick/Anim_Patrick_Jump_DW.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_SlamStart", TEXT("Patrick/Anim_Patrick_Slam_Start.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_SlamLoop", TEXT("Patrick/Anim_Patrick_Slam_Loop.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_SlamEnd", TEXT("Patrick/Anim_Patrick_Slam_End.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Hit", TEXT("Patrick\\anim_patrick_Hit.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Death", TEXT("Patrick\\Anim_Patrick_Death_01.fbx"), MESH_PATH);
+    //전용 모션
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_PickUp", TEXT("Patrick/Patrick_PickUp.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_PickUpIdle", TEXT("Patrick/Patrick_PickUpIdle.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_PickUpWalk", TEXT("Patrick/Patrick_PickUpWalk.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Throw", TEXT("Patrick/Patrick_Throw.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Slam", TEXT("Patrick/Patrick_Slam.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_BellyAttack", TEXT("Patrick/Patrick_BellyAttack.sqc"), MESH_PATH);
-    CResourceManager::GetInst()->LoadAnimationSequence("Patrick_Death", TEXT("Patrick/Patrick_Death.sqc"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadSandy()
@@ -315,7 +324,7 @@ void CDefaultSetting::LoadSandy()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Sandy", TEXT("Sandy/Sandy_Idle.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "SandySkeleton", TEXT("Sandy/Sandy_Idle.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("Sandy", "SandySkeleton");
-    CResourceManager::GetInst()->AddSocket("SandySkeleton", "jt_lasso", "Weapon",Vector3(-30.f,100.f,-30.f));
+    CResourceManager::GetInst()->AddSocket("SandySkeleton", "jt_lasso", "Weapon",Vector3(-5.f,105.f,105.f));
 
     CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Idle", TEXT("Sandy/Sandy_Idle.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Sandy_Walk", TEXT("Sandy/Sandy_Walk.sqc"), MESH_PATH);

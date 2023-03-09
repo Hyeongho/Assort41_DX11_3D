@@ -1,5 +1,4 @@
 #include "PauseUI.h"
-
 #include "Device.h"
 #include "Engine.h"
 #include "Input.h"
@@ -11,7 +10,7 @@
 #include "UI/UIImage.h"
 #include "UI/UITextButton.h"
 
-#include "../Scene/TitleSceneInfo.h"
+#include "../Scene/LoadingSceneInfo.h"
 
 CPauseUI::CPauseUI() :
 	m_NowUIMode(EUIPauseMode::Close),
@@ -58,7 +57,7 @@ void CPauseUI::Start()
 		CInput::GetInst()->AddBindFunction<CPauseUI>("D", Input_Type::Up, this, &CPauseUI::KeyRight, m_Scene);
 
 		CInput::GetInst()->AddBindFunction<CPauseUI>("Space", Input_Type::Up, this, &CPauseUI::KeySpace, m_Scene);
-		CInput::GetInst()->AddBindFunction<CPauseUI>("Esc", Input_Type::Up, this, &CPauseUI::KeyEsc, m_Scene);
+		//CInput::GetInst()->AddBindFunction<CPauseUI>("Esc", Input_Type::Up, this, &CPauseUI::KeyEsc, m_Scene);
 		CInput::GetInst()->AddBindFunction<CPauseUI>("E", Input_Type::Up, this, &CPauseUI::KeyE, m_Scene);
 
 		CInput::GetInst()->AddBindFunction<CPauseUI>("LButton", Input_Type::Up, this, &CPauseUI::KeyLeftButton, m_Scene);
@@ -112,9 +111,9 @@ void CPauseUI::OpenUI()
 	CloseUI();
 
 	ActiveBackUI();
-	ActiveMapUI();
+	ActivePauseUI();
 
-	m_NowUIMode = EUIPauseMode::PauseMap;
+	m_NowUIMode = EUIPauseMode::PauseMain;
 }
 
 void CPauseUI::CloseUI()
@@ -1126,13 +1125,13 @@ void CPauseUI::PauseUILoad()
 void CPauseUI::PauseUIBackToTitle()
 {
 	CSceneManager::GetInst()->CreateNextScene(true);
-	CSceneManager::GetInst()->CreateSceneInfo<CTitleSceneInfo>(false);
+	CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "Title.scn");
 }
 
 void CPauseUI::PauseUIQuit()
 {
 	// 게임 종료 처리.
-
+	CEngine::GetInst()->Exit();
 }
 
 void CPauseUI::PauseUISoundHovered()

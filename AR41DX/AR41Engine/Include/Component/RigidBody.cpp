@@ -4,6 +4,7 @@
 CRigidBody::CRigidBody()
 	: m_Mass(100.f)
 	, m_FricCoeff(100.f)
+	, m_GravityForce(-500.f)
 	, m_MaxVelocity(Vector3(1500.f, 1500.f, 1500.f))
 	, m_MinVelocity(Vector3(-1500.f, -800.f, 1500.f))
 	, m_Gravity(false)
@@ -79,7 +80,7 @@ void CRigidBody::PostUpdate(float deltaTime)
 	//중력 옵션
 	if (m_Gravity)
 	{
-		m_AccelA = Vector3(0.f, -500.f, 0.f);
+		m_AccelA = Vector3(0.f, m_GravityForce, 0.f);
 	}
 	if (m_Ground)
 	{

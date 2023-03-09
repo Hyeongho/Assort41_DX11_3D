@@ -15,6 +15,7 @@ protected:
 	float m_Mass;		//질량
 	float m_FricCoeff;	//마찰계수
 	//중력 옵션
+	float m_GravityForce;
 	bool m_Gravity;
 	bool m_Ground;
 	CRigidBody();
@@ -169,6 +170,14 @@ public:
 	void SetFricCoeff(float f)
 	{
 		m_FricCoeff = f;
+	}
+	float GetGravityForce()
+	{
+		return m_GravityForce;
+	}
+	void SetGravityForce(float f)
+	{
+		m_GravityForce = f;
 	}
 	bool GetGravity()
 	{
