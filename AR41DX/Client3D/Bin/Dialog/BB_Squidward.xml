@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dialogs>
+	<Dialog Name = "First_Contact">
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>안녕 징징아! 정말 좋~은 날이야. 안그래?</Text>
+			<Anim></Anim>
+		</Context>
+		<Context>
+			<Talker>징징이</Talker>
+			<Text>쳇 스폰지밥이잖아.</Text>
+			<Anim></Anim>
+		</Context>
+		<Context>
+			<Talker>징징이</Talker>
+			<Text>네 덕분에 아~주 좋은 날 되겠어. 고맙다.</Text>
+			<Anim></Anim>
+		</Context>
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>뭘 그런걸 가지고.</Text>
+			<Anim></Anim>
+		</Context>
+	</Dialog>
+	<Dialog Name = "Contact">
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>안녕 징징아!</Text>
+			<Anim></Anim>
+		</Context>
+		<Context>
+			<Talker>징징이</Talker>
+			<Text>귀찮게 하지 말고 저리로 가.</Text>
+			<Anim></Anim>
+		</Context>
+	</Dialog>
+	<Dialog Name = "EasterEgg">
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>안녕 징징아!</Text>
+			<Anim></Anim>
+		</Context>
+		<Context>
+			<Talker>징징이</Talker>
+			<Text>이거 줄테니 제발 그만해!</Text>
+			<Anim></Anim>
+		</Context>
+	</Dialog>
+</Dialogs>

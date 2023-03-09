@@ -12,8 +12,8 @@ protected:
 	virtual ~CInteractButton();
 
 protected:
-	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
-	CSharedPtr<class CAnimation>				m_Animation;
+	CSharedPtr<class CStaticMeshComponent>		m_MeshButton;
+	CSharedPtr<class CStaticMeshComponent>		m_MeshButtonPlate;
 	CSharedPtr<class CColliderCube>				m_Cube;
 
 public:

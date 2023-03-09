@@ -4,23 +4,18 @@
 #include "Scene/SceneViewport.h"
 //#include "../UI/LoadingUI.h"
 #include "../UI/TitleSceneUI.h"
-#include "../UI/DialogUI.h"
-#include "../UI/InteractUI.h"
 #include "../GameObject/Player.h"
 #include "../GameObject/Npc/MrKrabs.h"
 #include "../GameObject/Npc/Patric.h"
 #include "../GameObject/Npc/Squidward.h"
-#include "../GameObject/Npc/BusDriver.h"
-#include "../GameObject/Object/InteractButton.h"
-#include "../GameObject/Object/BusStop.h"
-#include "../GameObject/Tikis/Tiki_Stone.h"
-#include "../GameObject/Tikis/Tiki_Thunder.h"
-#include "../GameObject/Tikis/Tiki_Wood.h"
+#include "../GameObject/Npc/TaxiDriver.h"
 #include "Component/LightComponent.h"
 #include "Component/TerrainComponent.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/ParticleComponent.h"
 #include "Component/ColliderCube.h"
+
+#include "../GameObject/Tikis/Tiki_Wood.h"
 
 CEditorDefaultScene::CEditorDefaultScene()
 {
@@ -39,42 +34,34 @@ bool CEditorDefaultScene::Init()
 	GlobalLightComponent->SetRelativeRotation(0, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
-	m_Owner->GetViewport()->CreateUIWindow<CDialogUI>("DialogUI");
-	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
+	//m_Owner->GetViewport()->CreateUIWindow<CLoadingUI>("LoadingUI");
 
 	//title
 	//m_Owner->GetViewport()->CreateUIWindow<CTitleSceneUI>("TitleSceneUI");
 
 	//비키니시티 맵
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetRespawnPos(16500.f, 0.f, 12200.f);
+	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
 
-//텍스쳐 출력문제
-	//CTiki_Stone* Tiki_Stone = m_Owner->CreateObject<CTiki_Stone>("Tiki_Stone");
-	//Tiki_Stone->SetWorldPosition(16500.f, 0.f, 12200.f);
 
-	//CTiki_Thunder* Tiki_Thunder = m_Owner->CreateObject<CTiki_Thunder>("Tiki_Thunder");
-	//Tiki_Thunder->SetWorldPosition(16500.f, 0.f, 12200.f);
-
-	//CTiki_Wood* Tiki_Wood = m_Owner->CreateObject<CTiki_Wood>("Tiki_Wood");
-	//Tiki_Wood->SetWorldPosition(16500.f, 0.f, 12200.f);
-//애니메이션 문제
-	//CInteractButton* InteractButton = m_Owner->CreateObject<CInteractButton>("InteractButton");
-	//InteractButton->SetWorldPosition(16500.f, 0.f, 12200.f);
-
-	//CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
-	//Patric->SetWorldPosition(16500.f, 0.f, 12200.f);
+	CTiki_Wood* Tiki = m_Owner->CreateObject<CTiki_Wood>("TikiWoods");
+	Tiki->SetWorldPosition(16700.f, 0.f, 12500.f);
 
 	CMrKrabs* MrKrabs = m_Owner->CreateObject<CMrKrabs>("MrKrabs");
 	MrKrabs->SetWorldPosition(11000.f, 0.f, 13000.f);
 	MrKrabs->SetWorldRotationY(180.f);
 
+	//애니메이션 문제
+	//CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
+	//Patric->SetWorldPosition(16500.f, 0.f, 12200.f);
+
 	CSquidward* Squidward = m_Owner->CreateObject<CSquidward>("Squidward");
 	Squidward->SetWorldPosition(15100.f, 0.f, 14000.f);
 
-	CBusDriver* BusDriver = m_Owner->CreateObject<CBusDriver>("BusDriver");
-	BusDriver->SetWorldPosition(9400.f, 0.f, 12700.f);
+	//내부에서 컴포넌트생성을 안해줌
+	//CTaxiDriver* TaxiDriver = m_Owner->CreateObject<CTaxiDriver>("TaxiDriver");
+	//TaxiDriver->SetWorldPosition(16500.f, 0.f, 12200.f);
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");

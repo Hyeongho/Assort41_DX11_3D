@@ -5,9 +5,13 @@
 #include "Component/ColliderCube.h"
 #include "Input.h"
 #include "Scene/Scene.h"
+#include "../Player.h"
 
 CTiki_Stone::CTiki_Stone()
 {
+	SetTypeID<CTiki_Stone>();
+
+	m_ObjectTypeName = "Tiki_Stone";
 }
 
 CTiki_Stone::CTiki_Stone(const CTiki_Stone& Obj)
@@ -45,6 +49,12 @@ bool CTiki_Stone::Init()
 
 	m_Mesh->SetMesh("Tiki_Stone");
 
+	m_Mesh->AddChild(m_Cube);
+
+	m_Cube->SetCubeSize(m_Mesh->GetMeshSize());
+	m_Cube->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
+	m_Cube->SetCollisionProfile("Monster");
+
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("TikiStoneAnimation");
 
 	m_Animation->AddAnimation("Tiki_Stone_Idle", "Tiki_Stone_Idle", 1.f, 1.f, true);
@@ -60,6 +70,20 @@ bool CTiki_Stone::Init()
 void CTiki_Stone::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
+
+
+	// 항상 플레이어를 바라보게 한다.
+	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+
+	if (!Player)
+		return;
+
+	Vector3 PlayerPos = Player->GetWorldPos();
+
+	float Degree = atan2(GetWorldPos().z - PlayerPos.z, GetWorldPos().x - PlayerPos.x);
+	Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
+
+	SetWorldRotationY(Degree);
 }
 
 void CTiki_Stone::PostUpdate(float DeltaTime)
@@ -94,5 +118,16 @@ void CTiki_Stone::ChangeAnim_Die()
 
 void CTiki_Stone::Tiki_Die()
 {
+	CreateFlowers();
 	Destroy();
+}
+
+void CTiki_Stone::CreateFlowers()
+{
+}
+
+void CTiki_Stone::AttackedCollision(const CollisionResult& result)
+{
+	// 튕겨나가는 사운드 재생
+
 }

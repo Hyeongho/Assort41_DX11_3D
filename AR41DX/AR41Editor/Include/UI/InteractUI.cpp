@@ -71,7 +71,7 @@ void CInteractUI::CreaeteAllUI()
 {
 	if (!m_mapInteractUI.empty())
 		return;
-		
+
 	CreateInteractUI();
 	InActiveInteractUI();
 }
@@ -92,7 +92,7 @@ void CInteractUI::CreateInteractUI()
 	Image->SetTexture("KeyGuideMouseLeft", TEXT("UI/Key/KEY_F_InGame.tga"));
 
 	Image->SetSize(GuideSizeX, GuideSizeY);
-	Image->SetPos(RS.Width/2.f - GuideSizeX * 2.5f, GuidePosY);
+	Image->SetPos(RS.Width / 2.f - GuideSizeX * 2.5f, GuidePosY);
 
 	m_mapInteractUI.insert(std::make_pair("InteractUI_ImageGuide", Image));
 
@@ -124,7 +124,7 @@ void CInteractUI::InActiveInteractUI()
 
 void CInteractUI::SetTarget(EInteractTarget Target)
 {
-	CUIText* Text = (CUIText*) m_mapInteractUI.find("InteractUI_TextGuide")->second.Get();
+	CUIText* Text = (CUIText*)m_mapInteractUI.find("InteractUI_TextGuide")->second.Get();
 
 
 	switch (Target)

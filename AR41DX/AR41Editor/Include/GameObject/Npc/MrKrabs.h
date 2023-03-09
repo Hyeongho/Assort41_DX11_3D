@@ -1,6 +1,5 @@
 #pragma once
 
-#include "GameObject\GameObject.h"
 #include "Npc.h"
 
 class CMrKrabs
@@ -22,7 +21,8 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
-protected:
+public:
+	virtual void ChangeAnimByName(const std::string& Name);
 	virtual void StartDialog();
 
 private:

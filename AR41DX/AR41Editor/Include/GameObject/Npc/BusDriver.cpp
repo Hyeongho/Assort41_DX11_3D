@@ -15,18 +15,20 @@ CBusDriver::CBusDriver()
     m_NpcType = ENpcList::BusDriver;
     m_NpcMapPos = EMapList::Bikini_Bottom;
     m_EnableDialog = false;
+    m_NpcMeshType = MeshType::Animation;
 }
 
 CBusDriver::CBusDriver(const CBusDriver& Obj)
-	: CNpc(Obj)
+    : CNpc(Obj)
 {
-    m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+    m_AnimMesh = (CAnimationMeshComponent*)FindComponent("Mesh");
     m_Animation = (CAnimation*)FindComponent("BusDriverAnimation");
 
     m_DialogCount = Obj.m_DialogCount;
     m_NpcType = Obj.m_NpcType;
     m_NpcMapPos = Obj.m_NpcMapPos;
     m_EnableDialog = Obj.m_EnableDialog;
+    m_NpcMeshType = Obj.m_NpcMeshType;
 }
 
 CBusDriver::~CBusDriver()
@@ -35,7 +37,7 @@ CBusDriver::~CBusDriver()
 
 void CBusDriver::Start()
 {
-	CNpc::Start();
+    CNpc::Start();
 
 #ifdef DEBUG
     CInput::GetInst()->AddBindFunction<CBusDriver>("F1", Input_Type::Up, this, &CBusDriver::DebugKeyF1, m_Scene);
@@ -48,47 +50,47 @@ void CBusDriver::Start()
 
 bool CBusDriver::Init()
 {
-	CNpc::Init();
+    CNpc::Init();
 
-    m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 
-    SetRootComponent(m_Mesh);
+    SetRootComponent(m_AnimMesh);
 
-    m_Mesh->SetMesh("Bus_Driver");
+    m_AnimMesh->SetMesh("Bus_Driver");
 
-    m_Animation = m_Mesh->SetAnimation<CAnimation>("BusDriverAnimation");
+    m_Animation = m_AnimMesh->SetAnimation<CAnimation>("BusDriverAnimation");
 
     m_Animation->AddAnimation("Bus_Driver_Drive", "Bus_Driver_Drive", 1.f, 1.f, true);
     m_Animation->AddAnimation("Bus_Driver_Stop", "Bus_Driver_Stop", 1.f, 1.f, false);
 
     m_Animation->SetCurrentAnimation("Bus_Driver_Stop");
 
-	return true;
+    return true;
 }
 
 void CBusDriver::Update(float DeltaTime)
 {
-	CNpc::Update(DeltaTime);
+    CNpc::Update(DeltaTime);
 }
 
 void CBusDriver::PostUpdate(float DeltaTime)
 {
-	CNpc::PostUpdate(DeltaTime);
+    CNpc::PostUpdate(DeltaTime);
 }
 
 CBusDriver* CBusDriver::Clone() const
 {
-	return new CBusDriver(*this);
+    return new CBusDriver(*this);
 }
 
 void CBusDriver::Save(FILE* File)
 {
-	CNpc::Save(File);
+    CNpc::Save(File);
 }
 
 void CBusDriver::Load(FILE* File)
 {
-	CNpc::Load(File);
+    CNpc::Load(File);
 }
 
 void CBusDriver::StartDialog()
@@ -109,14 +111,18 @@ void CBusDriver::StartDialog()
     m_DialogCount++;
 }
 
+void CBusDriver::MoveToBusStop()
+{
+}
+
 void CBusDriver::ChangeAnim_Stop()
 {
-	m_Animation->ChangeAnimation("Bus_Driver_Stop");
+    m_Animation->ChangeAnimation("Bus_Driver_Stop");
 }
 
 void CBusDriver::ChangeAnim_Drive()
 {
-	m_Animation->ChangeAnimation("Bus_Driver_Drive");
+    m_Animation->ChangeAnimation("Bus_Driver_Drive");
 }
 
 void CBusDriver::DebugKeyF1()
