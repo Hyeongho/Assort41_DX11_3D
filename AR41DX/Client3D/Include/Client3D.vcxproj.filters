@@ -261,6 +261,12 @@
     <ClCompile Include="GameObject\BossMonster\BossMonster.cpp">
       <Filter>03. GameObject\02. Monster\03. Boss</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Cannon.cpp">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Pufferfish.cpp">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -454,6 +460,12 @@
     </ClInclude>
     <ClInclude Include="GameObject\BossMonster\BossMonster.h">
       <Filter>03. GameObject\02. Monster\03. Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Cannon.h">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Pufferfish.h">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
