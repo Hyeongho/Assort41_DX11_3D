@@ -21,8 +21,11 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
-protected:
+public:
 	virtual void StartDialog();
+
+public:
+	void MoveToBusStop();
 
 private:
 	void ChangeAnim_Stop();

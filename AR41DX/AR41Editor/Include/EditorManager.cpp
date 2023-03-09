@@ -24,6 +24,7 @@
 #include "CollisionManager.h"
 #include "Setting/EngineShareSetting.h"
 #include "Scene/EditorDefaultScene.h"
+#include "Scene/TestScene.h"
 
 CEditorManager::CEditorManager()
 {
@@ -64,14 +65,17 @@ bool CEditorManager::Init(HINSTANCE hInst)
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMeshWindow>("MeshWindow");
 
     // SceneInfo 생성
-    CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
+    CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
 
     //김범중 시작하자마자 현재씬의 컴포넌트들 출력
     CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
+
     if (objectWindow)
     {
         objectWindow->AddItemList(CSceneManager::GetInst()->GetScene());
     }
+
     return true;
 }
 

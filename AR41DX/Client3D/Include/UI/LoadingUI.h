@@ -14,7 +14,6 @@ protected:
 	virtual ~CLoadingUI();
 
 protected:
-	CSharedPtr<class CUIImage>	m_LoadingBG;
 	CSharedPtr<class CUIImage>	m_LoadingCircle;
 	CSharedPtr<class CUIText>	m_LoadingText;
 public:

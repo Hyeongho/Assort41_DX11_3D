@@ -2,12 +2,13 @@
 #include "../GameObject/Player.h"
 #include "../GameObject/Weapon.h"
 //#include "../GameObject/KingJellyfish.h"
-//#include "../GameObject/Jellyfish.h"
+#include "../GameObject/Jellyfish.h"
 #include "../GameObject/Npc/MrKrabs.h"
 #include "../GameObject/Npc/Patric.h"
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/BusDriver.h"
 #include "../GameObject/Bullet.h"
+#include "../GameObject/TeeterRock.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 #include "../UI/TitleSceneUI.h"
@@ -47,7 +48,8 @@ void CDefaultSetting::CreateCDO()
 
     //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
 
-    //CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
+    CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
+    CScene::CreateObjectCDO<CTeeterRock>("TeeterRock");
 
     CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
     CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
@@ -58,25 +60,43 @@ void CDefaultSetting::CreateCDO()
 
 void CDefaultSetting::LoadResource()
 {
+    // Sound
+    LoadSound();
+    LoadPlayerSound();
+
+    // Player
     LoadSpongebob();
     LoadPatrick();
     LoadSandy();
 
-    LoadBuildings();
-    LoadJellyfishFieldsObj();
+    // Monster
     LoadRoboSponge();
     LoadKingJellyfish();
     LoadJellyfish();
     LoadTikis();
-
+    LoadEnemies();
     LoadMrKrabs();
     LoadSquidward();
     LoadPatric_Npc();
     LoadTaxi();
 
-    LoadSound();
-    LoadPlayerSound();
 
+    // NPC
+    LoadMrKrabs();
+    LoadSquidward();
+    LoadPatric_Npc();
+    LoadBus();
+    LoadInfoSign();
+    LoadTaxi();
+
+    // Object
+    LoadCommonObj();
+    LoadBuildings();
+    LoadJellyfishFieldsObj();
+    LoadCBObjects();
+    LoadCBLabObjects();
+
+    // Particle
     LoadParticle();
 }
 
@@ -166,6 +186,60 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("MonsterAttack", "PlayerAttack", ECollision_Interaction::Ignore);
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Wall", "Wall", ECollision_Interaction::Ignore);
+}
+
+void CDefaultSetting::LoadPlayerSound()
+{
+    // Sandy
+    CResourceManager::GetInst()->LoadSound("Effect", "Sandy_Chop", false, "Sandy/SFX_SC_Chop.ogg", SOUND_PATH); // 주먹질
+    CResourceManager::GetInst()->LoadSound("Effect", "Sandy_Kick", false, "Sandy/SFX_SC_Kick.ogg", SOUND_PATH); // 발차기
+    CResourceManager::GetInst()->LoadSound("Effect", "Sandy_Jump", false, "Sandy/SFX_SC_Jump.ogg", SOUND_PATH); // 점프
+    CResourceManager::GetInst()->LoadSound("Effect", "Sandy_DoubleJump", false, "Sandy/SFX_SC_DoubleJump.ogg", SOUND_PATH); // 이단 점프
+    CResourceManager::GetInst()->LoadSound("Effect", "Sandy_LassoAttack", false, "Sandy/SFX_SC_LassoAttack_Throw.ogg", SOUND_PATH); // 올가미 공격
+    CResourceManager::GetInst()->LoadSound("Effect", "Sandy_LassoAttack_End", false, "Sandy/SFX_SC_LassoAttack_End.ogg", SOUND_PATH); // 올가미 공격 끝
+    CResourceManager::GetInst()->LoadSound("Effect", "Sandy_Walk", false, "Sandy/SFX_SC_Step_001.ogg", SOUND_PATH); // 걷기
+    CResourceManager::GetInst()->LoadSound("Effect", "Sandy_Damage", false, "Sandy/SC_Ouch1.ogg", SOUND_PATH); // 다쳤을 때
+
+
+
+    // Spongebob
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_BubbleSpin", false, "Spongebob/SB_bubble_spin_rework_v2.ogg", SOUND_PATH); // 해파리채 공격
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_BubbleBesh", false, "Spongebob/SFX_SB_BubbleBash_V2.ogg", SOUND_PATH); // 해파리채 공격 강타
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_Jump", false, "Spongebob/SB_jump_sngl.ogg", SOUND_PATH); // 점프
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_DoubleJump", false, "Spongebob/SB_jump_dub.ogg", SOUND_PATH); // 이단 점프
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_BubbleExplode", false, "Spongebob/SFX_SB_CruiseBubble_Explode.ogg", SOUND_PATH); // 미사일 명중
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_BubbleLaunch", false, "Spongebob/SFX_SB_CruiseBubble_Launch.ogg", SOUND_PATH); // 미사일 발사
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_BubbleLoop", false, "Spongebob/SFX_SB_CruiseBubble_Loop.ogg", SOUND_PATH); // 미사일 이동
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_BubbleCharge", false, "Spongebob/SFX_SB_CruiseMissile_Charge.ogg", SOUND_PATH); // 미사일 충전
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_WalkLeft", false, "Spongebob/SFX_SB_Run_L.ogg", SOUND_PATH); // 걷기 왼발
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_WalkRight", false, "Spongebob/SFX_SB_Run_R.ogg", SOUND_PATH); // 걷기 오른발
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_Damage", false, "Spongebob/SB_ouch1.ogg", SOUND_PATH); // 다쳤을 때
+    CResourceManager::GetInst()->LoadSound("Effect", "Spongebob_Death", false, "Spongebob/SFX_SB_Death.ogg", SOUND_PATH); // 죽음
+
+
+
+}
+
+void CDefaultSetting::LoadSound()
+{
+    // 로딩 UI
+    CResourceManager::GetInst()->LoadSound("Effect", "LoadingUI_First", false, "UI/SFX_SB_Spongball_Bubble_010.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "LoadingUI_Second", false, "UI/SFX_SB_Spongball_Bubble_008.ogg", SOUND_PATH); // first와 같이 재생
+    CResourceManager::GetInst()->LoadSound("Effect", "LoadingUI", false, "UI/SFX_Bubbles_Add_001.ogg");
+
+    // Bikini Bottom
+    CResourceManager::GetInst()->LoadSound("BGM", "BikiniBottom", false, "Map/MUS_BikiniBottomTheme.ogg", SOUND_PATH);
+
+    // Jellyfish Field
+    CResourceManager::GetInst()->LoadSound("BGM", "JellyfishField", false, "Map/MUS_JellyfishFieldsTheme.ogg", SOUND_PATH);
+
+    // BossStage BGM
+    CResourceManager::GetInst()->LoadSound("BGM", "BossStage", false, "Map/MUS_BossFightTheme.ogg", SOUND_PATH);
+
+    //Tile BGM
+    CResourceManager::GetInst()->LoadSound("UI", "UI_Backward", false, "Sfx/SFX_UI_Backward_001.ogg");
+    CResourceManager::GetInst()->LoadSound("BGM", "Title_Bgm", false, "Music/MUS_WavesSeagullsBg.ogg");
+
 }
 
 void CDefaultSetting::LoadSpongebob()
@@ -357,15 +431,24 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     미사일,
     다리
     */
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DoubleTree_Red", TEXT("Objects/JellyfishFields/DoubleTree_Red.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DoubleTree_Yellow", TEXT("Objects/JellyfishFields/DoubleTree_Yellow.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DoubleTree_Purple", TEXT("Objects/JellyfishFields/DoubleTree_Purple.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SmallTree_Red", TEXT("Objects/JellyfishFields/SmallTree_Red.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SmallTree_Purple", TEXT("Objects/JellyfishFields/SmallTree_Purple.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Seaflower", TEXT("Objects/JellyfishFields/Seaflower.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BouncingTree", TEXT("Objects/JellyfishFields/BouncingTree.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Clam", TEXT("Objects/JellyfishFields/Clam.fbx"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge.fbx"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/DoubleTree_Red.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/DoubleTree_Yellow.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/DoubleTree_Purple.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/SmallTree_Red.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/SmallTree_Purple.fbx"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/Seaflower.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/BouncingTree.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/Clam.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/Missile.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/Bridge.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/Bridge.fbx"), MESH_PATH);
+    
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldObj", TEXT("Objects/JellyfishFields/Bridge.fbx"), MESH_PATH);
+    
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SM_JF_Teeter_Rock_01", TEXT("Objects/JellyfishFields/SM_JF_Teeter_Rock_01.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SM_JF_Teeter_Rock_02", TEXT("Objects/JellyfishFields/SM_JF_Teeter_Rock_02.fbx"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadEnemies()
@@ -504,6 +587,10 @@ void CDefaultSetting::LoadTikis()
     CResourceManager::GetInst()->LoadAnimationSequence("Tiki_Thunder_Die", TEXT("Tikis/Tiki_Thunder_Die.sqc"), MESH_PATH);
 }
 
+void CDefaultSetting::LoadEnemies()
+{
+}
+
 void CDefaultSetting::LoadMrKrabs()
 {
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "MrKrabs", TEXT("MrKrabs/MrKrabs.msh"), MESH_PATH);
@@ -563,6 +650,20 @@ void CDefaultSetting::LoadPatric_Npc()
     CResourceManager::GetInst()->LoadAnimationSequence("Patric_Npc_Thinking_Start", TEXT("Patric_Npc/Patric_Npc_Thinking_Start.sqc"), MESH_PATH);
 }
 
+void CDefaultSetting::LoadBus()
+{
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Bus_Driver", TEXT("Bus/Bus_Driver.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "Bus_Driver_Skeleton", TEXT("Bus/Bus_Driver.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("Bus_Driver", "Bus_Driver_Skeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Bus_Driver_Drive", TEXT("Bus/Bus_Driver_Drive.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Bus_Driver_Stop", TEXT("Bus/Bus_Driver_Stop.sqc"), MESH_PATH);
+}
+
+void CDefaultSetting::LoadInfoSign()
+{
+}
+
 void CDefaultSetting::LoadTaxi()
 {
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Taxi_Driver", TEXT("Taxi/Taxi.msh"), MESH_PATH);
@@ -574,4 +675,101 @@ void CDefaultSetting::LoadTaxi()
 
     CResourceManager::GetInst()->LoadAnimationSequence("Bus_Driver_Drive", TEXT("Taxi/Bus_Driver_Drive.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Bus_Driver_Stop", TEXT("Taxi/Bus_Driver_Stop.sqc"), MESH_PATH);
+}
+
+void CDefaultSetting::LoadCommonObj()
+{
+    // InteractButton
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Button", TEXT("Objects/Common/Button.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "ButtonPlate", TEXT("Objects/Common/ButtonPlate.msh"), MESH_PATH);
+
+    // Trampoline
+}
+
+void CDefaultSetting::LoadBuildings()
+{
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomRoad", TEXT("Buildings/BikiniBottom/BikiniBottomRoad.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PineAppleHouse", TEXT("Buildings/BikiniBottom/PineAppleHouse.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PatrickHouse", TEXT("Buildings/BikiniBottom/PatrickHouse.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SquidHouse", TEXT("Buildings/BikiniBottom/SquidHouse.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "ChumBucket", TEXT("Buildings/BikiniBottom/ChumBucket.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Buliding_02", TEXT("Buildings/BikiniBottom/Buliding_02.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Buliding_05", TEXT("Buildings/BikiniBottom/Buliding_05.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "krustykrab", TEXT("Buildings/BikiniBottom/krustykrab.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "krustykrab_Enter", TEXT("Buildings/BikiniBottom/krustykrab_Enter.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "krustykrab_Shell", TEXT("Buildings/BikiniBottom/krustykrab_Shell.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "TaxiStop", TEXT("Buildings/BikiniBottom/TaxiStop.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RedTree", TEXT("Buildings/BikiniBottom/RedTree.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PurpleTree", TEXT("Buildings/BikiniBottom/PurpleTree.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Rock", TEXT("Buildings/BikiniBottom/Rock.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Rock2", TEXT("Buildings/BikiniBottom/Rock2.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Missile", TEXT("Buildings/BikiniBottom/Missile.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "InfoSign", TEXT("Buildings/BikiniBottom/InfoSign.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DoubleTree", TEXT("Buildings/BikiniBottom/DoubleTree.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "CoconutTree", TEXT("Buildings/BikiniBottom/CoconutTree.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SM_BB_FloatSign_01", TEXT("Buildings/BikiniBottom/SM_BB_FloatSign_01.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "fountain", TEXT("Buildings/BikiniBottom/fountain.msh"));
+}
+
+void CDefaultSetting::LoadJellyfishFieldsObj()
+{
+    // 해파리 동산 맵 메쉬
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishfieldsSign", TEXT("Buildings/JellyfishField/JellyfishfieldsSign.fbx"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Water", TEXT("Buildings/JellyfishField/water.msh"));
+    /*
+    더블나무 : 빨강, 노랑, 보라
+    작은 나무 : 빨강, 보라
+    핑크 산호초(Seaflower)
+    젤리나무(BouncingTree),
+    조개(Clam)
+    미사일,
+    다리
+    */
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DoubleTree_Red", TEXT("Objects/JellyfishFields/DoubleTree_Red.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DoubleTree_Yellow", TEXT("Objects/JellyfishFields/DoubleTree_Yellow.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DoubleTree_Purple", TEXT("Objects/JellyfishFields/DoubleTree_Purple.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SmallTree_Red", TEXT("Objects/JellyfishFields/SmallTree_Red.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SmallTree_Purple", TEXT("Objects/JellyfishFields/SmallTree_Purple.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Seaflower", TEXT("Objects/JellyfishFields/Seaflower.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BouncingTree", TEXT("Objects/JellyfishFields/BouncingTree.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Clam", TEXT("Objects/JellyfishFields/Clam.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge.fbx"), MESH_PATH);
+}
+
+void CDefaultSetting::LoadCBObjects()
+{
+}
+
+void CDefaultSetting::LoadCBLabObjects()
+{
+}
+
+void CDefaultSetting::LoadParticle()
+{
+    CParticle* Particle = nullptr;
+
+    // 맵 바닥에서 올라오는 거품 파티클
+    CResourceManager::GetInst()->CreateParticle("GroundBubble");
+
+    Particle = CResourceManager::GetInst()->FindParticle("GroundBubble");
+
+    Particle->SetMaterial("Bubble");
+
+    Particle->SetParticleSpawnTime(0.8f);
+    Particle->SetParticleStartMin(Vector3(-10.f, -10.f, -10.f));
+    Particle->SetParticleStartMax(Vector3(10.f, 10.f, 10.f));
+    Particle->SetParticleSpawnCountMax(1000);
+    Particle->SetParticleScaleMin(Vector3(5.f, 5.f, 5.f));
+    Particle->SetParticleScaleMax(Vector3(60.f, 60.f, 60.f));
+    Particle->SetParticleLifeTimeMin(8.f);
+    Particle->SetParticleLifeTimeMax(12.f);
+    Particle->SetParticleColorMin(Vector4(0.5f, 0.f, 1.f, 0.5f));
+    Particle->SetParticleColorMax(Vector4(0.7f, 0.f, 1.f, 0.7f));
+    Particle->SetParticleSpeedMin(40.f);
+    Particle->SetParticleSpeedMax(60.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(0.f, 1.f, 0.f));
+    Particle->SetParticleMoveDirEnable(true);
+    Particle->SetParticleMoveAngle(Vector3(0.f, 0.f, 5.f));
 }

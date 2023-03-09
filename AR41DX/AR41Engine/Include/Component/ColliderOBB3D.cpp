@@ -12,6 +12,7 @@
 #include "ColliderSphere2D.h"
 #include "ColliderPixel.h"
 #include "ColliderCube.h"
+#include "ColliderSphere3D.h"
 #include "../Resource/Mesh/StaticMesh.h"
 
 CColliderOBB3D::CColliderOBB3D()
@@ -51,6 +52,8 @@ void CColliderOBB3D::Start()
 		m_DebugMesh = (CStaticMesh*)CResourceManager::GetInst()->FindMesh("CubeLinePos");
 		m_DebugMaterial = CResourceManager::GetInst()->FindMaterial("DebugDecal");
 	}
+
+	m_DebugMaterial->SetEmissiveColor(1.0f, 1.0f, 1.0f, 0.f);
 #endif // _DEBUG
 }
 

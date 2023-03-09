@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dialogs>
+	<Dialog Name = "First_Contact">
+		<Context>
+			<Talker>버스 운전사</Talker>
+			<Text>해파리동산행 버스입니다. 타실거에요?</Text>
+			<Anim></Anim>
+		</Context>
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>버스에 탈까? (타기 : 좌클릭, 타지 않기 : 우클릭)</Text>
+			<Anim></Anim>
+		</Context>
+	</Dialog>
+	<Dialog Name = "Ride_Bus">
+		<Context>
+			<Talker>버스 운전사</Talker>
+			<Text>자리에 앉으세요. 출발합니다.</Text>
+			<Anim></Anim>
+		</Context>
+	</Dialog>
+	<Dialog Name = "Contact">
+		<Context>
+			<Talker>버스 운전사</Talker>
+			<Text>곧 출발합니다. 타실거에요?</Text>
+			<Anim></Anim>
+		</Context>
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>버스에 탈까? (타기 : 좌클릭, 타지 않기 : 우클릭)</Text>
+			<Anim></Anim>
+		</Context>
+	</Dialog>
+</Dialogs>

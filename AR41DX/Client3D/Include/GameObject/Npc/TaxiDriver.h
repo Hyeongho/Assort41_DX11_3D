@@ -1,9 +1,9 @@
 #pragma once
 
-#include "GameObject\GameObject.h"
+#include "Npc.h"
 
 class CTaxiDriver
-	: public CGameObject
+	: public CNpc
 {
 	friend class CScene;
 
@@ -11,9 +11,6 @@ protected:
 	CTaxiDriver();
 	CTaxiDriver(const CTaxiDriver& Obj);
 	virtual ~CTaxiDriver();
-
-protected:
-	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
 
 public:
 	virtual void Start();
@@ -26,4 +23,3 @@ public:
 
 private:
 };
-

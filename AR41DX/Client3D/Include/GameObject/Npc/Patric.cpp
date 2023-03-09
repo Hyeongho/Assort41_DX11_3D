@@ -15,18 +15,20 @@ CPatric::CPatric()
     m_NpcType = ENpcList::MrKrabs;
     m_NpcMapPos = EMapList::Bikini_Bottom;
     m_EnableDialog = false;
+    m_NpcMeshType = MeshType::Animation;
 }
 
 CPatric::CPatric(const CPatric& Obj)
 	: CNpc(Obj)
 {
-    m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+    m_AnimMesh = (CAnimationMeshComponent*)FindComponent("Mesh");
     m_Animation = (CAnimation*)FindComponent("PatricNpcAnimation");
 
     m_DialogCount = Obj.m_DialogCount;
     m_NpcType = Obj.m_NpcType;
     m_NpcMapPos = Obj.m_NpcMapPos;
     m_EnableDialog = Obj.m_EnableDialog;
+    m_NpcMeshType = Obj.m_NpcMeshType;
 }
 
 CPatric::~CPatric()
@@ -36,20 +38,23 @@ CPatric::~CPatric()
 void CPatric::Start()
 {
     CNpc::Init();
+
+    CInput::GetInst()->AddBindFunction<CPatric>("F", Input_Type::Up, this, &CPatric::StartDialog, m_Scene);
 }
 
 bool CPatric::Init()
 {
     CNpc::Init();
 
-    m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 
-    SetRootComponent(m_Mesh);
+    SetRootComponent(m_AnimMesh);
 
-    //m_Mesh->SetMesh("Patric_Npc");
-    m_Mesh->SetMesh("Patrick");
+    //m_AnimMesh->SetMesh("Patric_Npc");
+    m_AnimMesh->SetMesh("Patrick");
 
-    m_Animation = m_Mesh->SetAnimation<CAnimation>("PatricNpcAnimation");
+
+    m_Animation = m_AnimMesh->SetAnimation<CAnimation>("PatricNpcAnimation");
 
     m_Animation->AddAnimation("Patric_Npc_Confused", "Patric_Npc_Confused", 1.f, 1.f, false);
     m_Animation->AddAnimation("Patric_Npc_Default", "Patric_Npc_Default", 1.f, 1.f, true);
@@ -93,6 +98,14 @@ void CPatric::Load(FILE* File)
     CNpc::Load(File);
 }
 
+void CPatric::ChangeAnimByName(const std::string& Name)
+{
+    if (!m_Animation->FindAnimation(Name))
+        return;
+
+    m_Animation->ChangeAnimation(Name);
+}
+
 void CPatric::StartDialog()
 {
     if (!m_EnableDialog)
@@ -108,7 +121,7 @@ void CPatric::StartDialog()
     if (m_DialogCount == 0)
         DialogUI->SetCurDialog("First_Contact");
     else {
-        // ÃßÈÄ ÇÃ·¹ÀÌ¾î·ÎºÎÅÍ ÇÃ¶ó¿ö Ä«¿îÆ®¸¦ ¹Þ¾Æ Ã¼Å©. 
+        // ì¶”í›„ í”Œë ˆì´ì–´ë¡œë¶€í„° í”Œë¼ì›Œ ì¹´ìš´íŠ¸ë¥¼ ë°›ì•„ ì²´í¬. 
         int FlowerCount = 500;
         // CPlayer* Player = m_Scene->FindObject<CPlayer>("Player");
         // int FlowerCount = Player->GetFlowerCount();

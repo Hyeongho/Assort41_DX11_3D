@@ -29,9 +29,10 @@ protected:
 protected:
 	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapDialogUI;
 
-private :
+private:
 	std::unordered_map<std::string, DialogInfo> m_mapDialogInfo;
-	DialogInfo m_curDialog;
+	DialogInfo		m_curDialog;
+	ENpcList		m_curNpc;
 
 public:
 	virtual void Start();
@@ -43,17 +44,17 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
-private :
+private:
 	void CreaeteAllUI();
 	void CreateDialogUI();
 
 	void ActiveDialogUI();
 	void InActiveDialogUI();
 
-public :
+public:
 	void OpenDialog();
 
-public :
+public:
 	void SetDialogInfo(EMapList Map, ENpcList Npc);
 	void SetCurDialog(std::string DialName);
 
@@ -61,6 +62,6 @@ private:
 	void KeyLeftButton();	// 마우스 왼버튼 클릭
 	void KeyRightButton();	// 마우스 우버튼 클릭
 
-	
+
 };
 

@@ -23,6 +23,8 @@
 #include "Animation/Animation.h"
 #include "../UI/PauseUI.h"
 
+//test11
+
 CPlayer::CPlayer()
 	: m_Speed(500.f)
 	, m_CameraSpeed(150.f)
