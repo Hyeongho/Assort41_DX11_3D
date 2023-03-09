@@ -9,7 +9,7 @@
 
 CInteractUI::CInteractUI()
 {
-	m_WindowTypeName = "PauseUI";
+	m_WindowTypeName = "InteractUI";
 }
 
 CInteractUI::CInteractUI(const CInteractUI& Window)
