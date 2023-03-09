@@ -2,6 +2,7 @@
 
 #include "GameObject\GameObject.h"
 
+
 class CNpc
 	: public CGameObject
 {
@@ -13,15 +14,17 @@ protected:
 	virtual ~CNpc();
 
 protected:
-	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
+	CSharedPtr<class CAnimationMeshComponent>	m_AnimMesh;
 	CSharedPtr<class CAnimation>				m_Animation;
-	CSharedPtr<class CDialogUI>					m_DialogUI;
+
+	CSharedPtr<class CStaticMeshComponent>		m_StaticMesh;
 	
 protected :
 	int			m_DialogCount;
 	ENpcList	m_NpcType;
 	EMapList	m_NpcMapPos;
 	bool		m_EnableDialog;
+	MeshType	m_NpcMeshType;
 
 public:
 	void SetMapPos(EMapList Map) { m_NpcMapPos = Map; }
@@ -35,7 +38,8 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
-protected:
+public :
+	virtual void ChangeAnimByName(const std::string& Name);
 	virtual void StartDialog();
 };
 

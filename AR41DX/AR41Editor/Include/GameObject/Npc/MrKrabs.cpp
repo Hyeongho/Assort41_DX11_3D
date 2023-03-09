@@ -15,17 +15,19 @@ CMrKrabs::CMrKrabs()
     m_NpcType = ENpcList::MrKrabs;
     m_NpcMapPos = EMapList::Bikini_Bottom;
     m_EnableDialog = false;
+    m_NpcMeshType = MeshType::Animation;
 }
 
 CMrKrabs::CMrKrabs(const CMrKrabs& Obj) : CNpc(Obj)
 {
-    m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+    m_AnimMesh = (CAnimationMeshComponent*)FindComponent("Mesh");
     m_Animation = (CAnimation*)FindComponent("MrKrabsAnimation");
 
     m_DialogCount = Obj.m_DialogCount;
     m_NpcType = Obj.m_NpcType;
     m_NpcMapPos = Obj.m_NpcMapPos;
     m_EnableDialog = Obj.m_EnableDialog;
+    m_NpcMeshType = Obj.m_NpcMeshType;
 }
 
 CMrKrabs::~CMrKrabs()
@@ -52,13 +54,13 @@ bool CMrKrabs::Init()
 {
     CNpc::Init();
 
-    m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 
-    SetRootComponent(m_Mesh);
+    SetRootComponent(m_AnimMesh);
 
-    m_Mesh->SetMesh("MrKrabs");
+    m_AnimMesh->SetMesh("MrKrabs");
 
-    m_Animation = m_Mesh->SetAnimation<CAnimation>("MrKrabsAnimation");
+    m_Animation = m_AnimMesh->SetAnimation<CAnimation>("MrKrabsAnimation");
 
     m_Animation->AddAnimation("MrKrabs_Angry_Loop", "MrKrabs_Angry_Loop", 1.f, 1.f, true);
     m_Animation->AddAnimation("MrKrabs_Angry_Start", "MrKrabs_Angry_Start", 1.f, 1.f, true);
@@ -102,6 +104,14 @@ void CMrKrabs::Save(FILE* File)
 void CMrKrabs::Load(FILE* File)
 {
     CNpc::Load(File);
+}
+
+void CMrKrabs::ChangeAnimByName(const std::string& Name)
+{
+    if (!m_Animation->FindAnimation(Name))
+        return;
+
+    m_Animation->ChangeAnimation(Name);
 }
 
 void CMrKrabs::ChangeAnim_Angry_Loop()

@@ -158,13 +158,9 @@ bool CPlayer::Init()
 	m_Mesh->AddChild(m_HeadCube);
 	m_Arm->AddChild(m_Camera);
 
-	m_Cube->SetBoxHalfSize(100.f, 100.f, 100.f);
-
 	m_Cube->SetRelativePositionY(70.f);
 	m_Cube->SetCollisionProfile("Player");
-
 	m_Cube->SetBoxHalfSize(50.f, 60.f, 20.f);
-
 
 	m_Cube->SetInheritRotX(true);
 	m_Cube->SetInheritRotY(true);
@@ -258,11 +254,12 @@ int CPlayer::InflictDamage(int damage)
 
 void CPlayer::Reset()
 {
-	m_PlayerUI->SetHp(m_LoadData.CurHP);
-	m_PlayerUI->SetMaxHp(m_LoadData.MaxHP);
-	m_PlayerUI->SetGlitter(m_LoadData.Glittering);
-	m_PlayerUI->SetFritter(m_LoadData.Fritter);
-	m_PlayerUI->SetSocks(m_LoadData.Socks);
+	m_PlayerData.CurHP = 3;
+	m_PlayerUI->SetHp(m_PlayerData.CurHP);
+	m_PlayerUI->SetMaxHp(m_PlayerData.MaxHP);
+	m_PlayerUI->SetGlitter(m_PlayerData.Glittering);
+	m_PlayerUI->SetFritter(m_PlayerData.Fritter);
+	m_PlayerUI->SetSocks(m_PlayerData.Socks);
 	IngameUI();
 	//위치 초기위치 혹은 체크포인트 위치로
 	ResetIdle();
@@ -415,15 +412,6 @@ void CPlayer::LoadCheck()
 
 	Reset();
 	LoadCharacter();
-}
-
-void CPlayer::CollisionCube(const CollisionResult& result)
-{
-	std::string name = result.Dest->GetCollisionProfile()->Name;
-	if (name == "Wall")
-	{
-		InflictDamage(1);
-	}
 }
 
 void CPlayer::MoveFront()
@@ -725,18 +713,6 @@ void CPlayer::Patrick_Throw()
 {
 }
 
-void CPlayer::Sandy_Karate_Chop()
-{
-}
-
-void CPlayer::Sandy_Karate_Kick()
-{
-}
-
-void CPlayer::Sandy_Lasso_Start()
-{
-}
-
 void CPlayer::Interaction()
 {
 }
@@ -862,12 +838,22 @@ void CPlayer::ChangeSandy()
 
 void CPlayer::CollisionTest(const CollisionResult& result)
 {
-	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Monster)
+	std::string name = result.Dest->GetCollisionProfile()->Name;
+	if (name == "Monster"|| name == "MonsterAttack")
 	{
-		TCHAR	Text[256] = {};
+		InflictDamage(1);
+	}
+}
 
-		wsprintf(Text, TEXT("Collision\n"));
-
-		OutputDebugString(Text);
+void CPlayer::CollisionCube(const CollisionResult& result)
+{
+	std::string name = result.Dest->GetCollisionProfile()->Name;
+	if (name == "Wall")
+	{
+		//InflictDamage(1);
+	}
+	else if(name == "Monster")
+	{
+		result.Dest->GetOwner()->InflictDamage(1);
 	}
 }

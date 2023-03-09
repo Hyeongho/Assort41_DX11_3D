@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dialogs>
+	<Dialog Name = "First_Contact">
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>반창고 멋지다. 징징아.</Text>
+			<Anim></Anim>
+		</Context>
+		<Context>
+			<Talker>징징이</Talker>
+			<Text>이런.</Text>
+			<Anim></Anim>
+		</Context>
+	</Dialog>
+	<Dialog Name = "Second_Contact">
+		<Context>
+			<Talker>스폰지밥</Talker>
+			<Text>아파 보이는데, 내가 좀 도와줄까 징징아?</Text>
+			<Anim>그냥 이거 받고 저리 가.</Anim>
+		</Context>
+		<Context>
+			<Talker>징징이</Talker>
+			<Text></Text>
+			<Anim></Anim>
+		</Context>
+	</Dialog>
+	<Dialog Name = "Contact">
+		<Context>
+			<Talker>징징이</Talker>
+			<Text>내가 이래서 집 밖에 안나가는거야.</Text>
+			<Anim></Anim>
+		</Context>
+	</Dialog>
+</Dialogs>

@@ -15,6 +15,8 @@
 #include "Component/ParticleComponent.h"
 #include "Component/ColliderCube.h"
 
+#include "../GameObject/Tikis/Tiki_Wood.h"
+
 CEditorDefaultScene::CEditorDefaultScene()
 {
 	m_ClassTypeName = "EditorDefaultScene";
@@ -41,6 +43,10 @@ bool CEditorDefaultScene::Init()
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
+
+
+	CTiki_Wood* Tiki = m_Owner->CreateObject<CTiki_Wood>("TikiWoods");
+	Tiki->SetWorldPosition(16700.f, 0.f, 12500.f);
 
 	CMrKrabs* MrKrabs = m_Owner->CreateObject<CMrKrabs>("MrKrabs");
 	MrKrabs->SetWorldPosition(11000.f, 0.f, 13000.f);

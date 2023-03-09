@@ -12,8 +12,13 @@
 #include "RapidXml/CXmlParser.h"
 #include "InteractUI.h"
 
+#include "../GameObject/Player.h"
+#include "../GameObject/Npc/Squidward.h"
+#include "../GameObject/Npc/MrKrabs.h"
+#include "../GameObject/Npc/Patric.h"
 
-CDialogUI::CDialogUI()
+CDialogUI::CDialogUI() :
+	m_curNpc(ENpcList::End)
 {
 	m_WindowTypeName = "DialogUI";
 }
@@ -21,11 +26,15 @@ CDialogUI::CDialogUI()
 CDialogUI::CDialogUI(const CDialogUI& Window) :
 	CUIWindow(Window)
 {
+	m_curNpc = Window.m_curNpc;
 }
 
 CDialogUI::~CDialogUI()
 {
-	m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI")->ActiveInteractUI();
+	CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
+
+	if (InteractUI)
+		InteractUI->ActiveInteractUI();
 }
 
 void CDialogUI::Start()
@@ -92,7 +101,7 @@ void CDialogUI::CreateDialogUI()
 
 	CUIImage* Image = CreateWidget<CUIImage>("DialogUI_Background");
 	Image->SetTexture("DialogBackground", TEXT("UI/Dialog/Dialog_Box_Stretched_02.tga"));
-	
+
 	float DialogXSize = RS.Width * 0.8f;
 	float DialogYSize = DialogXSize * 0.2f;
 	Image->SetSize(DialogXSize, DialogYSize);
@@ -111,7 +120,7 @@ void CDialogUI::CreateDialogUI()
 	Text->SetShadowEnable(false);
 	Text->SetText("");
 	Text->SetFontSize(30.f);
-	Text->SetSize(DialogXSize * 0.2f , DialogYSize);
+	Text->SetSize(DialogXSize * 0.2f, DialogYSize);
 	Text->SetPos(DialogXPos + DialogXSize * 0.05f, 10.f);
 
 	m_mapDialogUI.insert(std::make_pair("DialogUI_TextTalker", Text));
@@ -169,6 +178,8 @@ void CDialogUI::SetDialogInfo(EMapList Map, ENpcList Npc)
 	}
 
 	FileName += "_";
+
+	m_curNpc = Npc;
 
 	switch (Npc)
 	{
@@ -238,6 +249,44 @@ void CDialogUI::KeyLeftButton()
 
 	Text = (CUIText*)m_mapDialogUI.find("DialogUI_TextBox")->second.Get();
 	Text->SetText(strText.c_str());
+
+
+	// Anim play
+	std::wstring wstrAnimName = m_curDialog.vecAnim[m_curDialog.TextIdx];
+	std::string strAnimName;
+	strAnimName.assign(wstrAnimName.begin(), wstrAnimName.end());
+
+	if (wcscmp(strTalker.c_str(), L"½ºÆùÁö¹ä") == 0) {
+
+	}
+	else {
+		CNpc* NpcObjec = nullptr;
+
+		switch (m_curNpc)
+		{
+		case ENpcList::MrKrabs:
+			NpcObjec = (CNpc*)m_Scene->FindObject("MrKrabs");
+			break;
+		case ENpcList::Squidward:
+			NpcObjec = (CNpc*)m_Scene->FindObject("Squidward");
+			break;
+		case ENpcList::Patric:
+			NpcObjec = (CNpc*)m_Scene->FindObject("Patric");
+			break;
+		case ENpcList::BusDriver:
+			NpcObjec = (CNpc*)m_Scene->FindObject("BusDriver");
+			break;
+		case ENpcList::End:
+			break;
+		default:
+			break;
+		}
+
+		if (NpcObjec)
+			return;
+
+		NpcObjec->ChangeAnimByName(strAnimName);
+	}
 }
 
 void CDialogUI::KeyRightButton()

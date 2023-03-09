@@ -12,10 +12,6 @@ protected:
 	CSquidward(const CSquidward& Obj);
 	virtual ~CSquidward();
 
-protected:
-	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
-	CSharedPtr<class CAnimation>				m_Animation;
-
 public:
 	virtual void Start();
 	virtual bool Init();
@@ -25,7 +21,8 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
-protected:
+public:
+	virtual void ChangeAnimByName(const std::string& Name);
 	virtual void StartDialog();
 
 private:
@@ -42,5 +39,8 @@ private:
 	void ChangeAnim_Talk();
 	void ChangeAnim_Talk_Idle();
 	void ChangeAnim_Idle();
+
+private :
+	void CreateSpatula();
 };
 

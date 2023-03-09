@@ -1,6 +1,6 @@
 #include "InteractButton.h"
 #include "Scene/Scene.h"
-#include "Component/AnimationMeshComponent.h"
+#include "Component/StaticMeshComponent.h"
 
 CInteractButton::CInteractButton()
 {
@@ -9,8 +9,8 @@ CInteractButton::CInteractButton()
 CInteractButton::CInteractButton(const CInteractButton& Obj) :
     CGameObject(Obj)
 {
-    m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
-    m_Animation = (CAnimation*)FindComponent("InteractButtonAnimation");
+    m_MeshButton = (CStaticMeshComponent*)FindComponent("Mesh");
+    m_MeshButtonPlate = (CStaticMeshComponent*)FindComponent("Mesh");
     m_Cube = (CColliderCube*)FindComponent("Cube");
 }
 
@@ -27,14 +27,14 @@ bool CInteractButton::Init()
 {
     CGameObject::Init();
 
-    m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+    m_MeshButton = CreateComponent<CStaticMeshComponent>("Mesh");
+    m_MeshButtonPlate = CreateComponent<CStaticMeshComponent>("Mesh");
     m_Cube = CreateComponent<CColliderCube>("Cube");
 
-    SetRootComponent(m_Mesh);
+    SetRootComponent(m_MeshButtonPlate);
 
-    //m_Mesh->SetMesh("InteractButton");
-
-    m_Animation = m_Mesh->SetAnimation<CAnimation>("InteractButtonAnimation");
+    m_MeshButton->SetMesh("Button");
+    m_MeshButtonPlate->SetMesh("ButtonPlate");
 
     return true;
 }

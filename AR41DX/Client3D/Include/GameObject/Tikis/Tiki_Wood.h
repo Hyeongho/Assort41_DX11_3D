@@ -33,8 +33,9 @@ private :
 
 private :
 	void Tiki_Die(); // ÆÄ±«Ã³¸®
+	void CreateFlowers();
 
-private :
-	void CollisionTest(const CollisionResult& result);
+private : // Collision
+	void AttackedCollision(const CollisionResult& result);
 };
 

@@ -33,4 +33,8 @@ private:
 
 private:
 	void Tiki_Die(); // ÆÄ±«Ã³¸®
+	void CreateFlowers();
+
+private: // Collision
+	void AttackedCollision(const CollisionResult& result);
 };
