@@ -26,6 +26,10 @@ CWeapon::~CWeapon()
 void CWeapon::Start()
 {
 	CGameObject::Start();
+	if (!m_Mesh->GetSkeleton())
+	{
+		return;
+	}
 	m_Anim = m_Mesh->SetAnimation<CAnimation>("WeaponAnimation");
 	m_Anim->AddAnimation("Lasso_Idle", "Lasso_Idle", 1.f, 1.f, true);
 	m_Anim->AddAnimation("Lasso_Start", "Lasso_Start", 1.f, 1.f, false);
@@ -33,7 +37,6 @@ void CWeapon::Start()
 	m_Anim->AddAnimation("Lasso_End", "Lasso_End", 1.f, 1.f, false);
 	m_Anim->SetCurrentEndFunction<CWeapon>("Lasso_End", this, &CWeapon::ResetIdle);
 	m_Anim->AddAnimation("Lasso_Copter", "Lasso_Copter", 1.f, 1.f, true);
-	m_Anim->Start();
 }
 
 bool CWeapon::Init()
