@@ -177,6 +177,7 @@
     <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackWords.cpp" />
     <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeBT.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
+    <ClCompile Include="GameObject\Cannon.cpp" />
     <ClCompile Include="GameObject\Chase.cpp" />
     <ClCompile Include="GameObject\Dead.cpp" />
     <ClCompile Include="GameObject\Duplicatotron.cpp" />
@@ -198,6 +199,7 @@
     <ClCompile Include="GameObject\Object\InteractButton.cpp" />
     <ClCompile Include="GameObject\Object\Trampoline.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
+    <ClCompile Include="GameObject\Pufferfish.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Stone.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Thunder.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Wood.cpp" />
@@ -239,6 +241,7 @@
     <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackWords.h" />
     <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeBT.h" />
     <ClInclude Include="GameObject\Bullet.h" />
+    <ClInclude Include="GameObject\Cannon.h" />
     <ClInclude Include="GameObject\Chase.h" />
     <ClInclude Include="GameObject\Dead.h" />
     <ClInclude Include="GameObject\Duplicatotron.h" />
@@ -260,6 +263,7 @@
     <ClInclude Include="GameObject\Object\InteractButton.h" />
     <ClInclude Include="GameObject\Object\Trampoline.h" />
     <ClInclude Include="GameObject\Player.h" />
+    <ClInclude Include="GameObject\Pufferfish.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Stone.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Wood.h" />
