@@ -35,6 +35,7 @@ CDialogUI::~CDialogUI()
 
 	if (InteractUI)
 		InteractUI->ActiveInteractUI();
+
 }
 
 void CDialogUI::Start()
