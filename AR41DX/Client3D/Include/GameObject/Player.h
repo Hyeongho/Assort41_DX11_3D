@@ -1,6 +1,6 @@
 #pragma once
-
 #include "GameObject/GameObject.h"
+#include "../UI/PlayerUI.h"
 
 struct PlayerData
 {
@@ -49,8 +49,7 @@ enum class EMain_Character
 	Max,
 };
 
-class CPlayer :
-	public CGameObject
+class CPlayer : public CGameObject
 {
 	friend class CScene;
 
@@ -62,18 +61,15 @@ protected:
 protected:
 	//컴포넌트
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
-	CSharedPtr<class CAnimationMeshComponent>	m_WeaponMesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
 	CSharedPtr<class CNavigationAgent3D> m_NavAgent;
 	CSharedPtr<class CRigidBody> m_Rigid;
-
 	CSharedPtr<class CColliderOBB3D> m_Cube;
-
 	CSharedPtr<class CColliderCube> m_HeadCube;	//spongebob head
 	CSharedPtr<class CColliderCube> m_TailCube;	//spongebob bash
-
 	//
+	CSharedPtr<class CWeapon>	m_Weapon;
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
 	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
 	CSharedPtr<class CPlayerUI>	m_PlayerUI;
@@ -83,18 +79,17 @@ protected:
 	PlayerData m_PlayerData;
 	PlayerData m_LoadData;
 	EMain_Character m_MainCharacter;
+	CollisionResult m_WallCollision;	//벽이랑 부딪히고 있는경우
 	Vector3		m_RespawnPos;
 	float m_Speed;
 	float m_CameraSpeed;
 	int m_KeyCount;
 	int m_JumpCount;
-	float m_HoverTime; // 내려찍기 등을 위한 공중부양 시간
 	bool m_IsLoading;	//로드 체크용 변수-김범중
 	bool m_IsDoubleJump;	//더블점프 -김범중
 	// ========== Patrick 용 ==========
 	bool m_IsHolding; // 물건픽업/쓰로우 액션용
 	float m_BellyAttackTime;
-	bool m_SlamDown;
 
 public:
 	virtual void Destroy();
@@ -113,6 +108,8 @@ public:
 private:
 	void LoadCheck();
 	void CollisionCube(const CollisionResult& result);
+	void CollisionTest(const CollisionResult& result);	// 충돌체 테스트 용
+	void CollisionTestOut(const CollisionResult& result);
 	void LoadSpongebobAnim(); // 스폰지밥 리소스
 	void LoadPatrickAnim(); // 뚱이 리소스
 	void LoadSandyAnim(); // 다람이 리소스
@@ -126,26 +123,31 @@ public:
 	void SetMaxHP(int HP)
 	{
 		m_PlayerData.MaxHP = HP;
+		m_PlayerUI->SetMaxHp(HP);
 	}
 
 	void SetCurHP(int HP)
 	{
 		m_PlayerData.CurHP = HP;
+		m_PlayerUI->SetHp(HP);
 	}
 
 	void SetSocks(int Socks)
 	{
 		m_PlayerData.Socks = Socks;
+		m_PlayerUI->SetSocks(Socks);
 	}
 
 	void SetFritter(int Fritter)
 	{
 		m_PlayerData.Fritter = Fritter;
+		m_PlayerUI->SetFritter(Fritter);
 	}
 
 	void SetGlittering(int Glittering)
 	{
 		m_PlayerData.Glittering = Glittering;
+		m_PlayerUI->SetGlitter(Glittering);
 	}
 
 	void SetRespawnPos(const Vector3& vec)
@@ -171,31 +173,27 @@ public:
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
-	void Stop();
 	void Jump();
 	void JumpCheck();
-	void AttackKey();
 	void CameraRotationKey();
 	void KeyDown();
 	void KeyUp();
-	void Interaction();
 	void Menu();
 	void IngameUI();
-	void RClick();
 	void LClick(); // Attack
+	void RClickDown();
+	void RClickPush();
+	void RClickUp();
 	void StartBash();	//엉찍 시작 함수
 	void ResetIdle();	//아이들상태로 되돌리는 함수
 
 	// Spongebob
 	void Headbutt();
 	void Missile();
-	void Bowl();
-	void BowlThrow();
 
 	// Patrick
 	void Patrick_BellyAttack();
 	void Patrick_BellyAttackMove();
-	void Patrick_SlamDown(); // 내려찍기
 	void Patrick_PickUp();
 	void Patrick_Throw();
 
@@ -205,8 +203,5 @@ public:
 	void ChangeSpongebob();
 	void ChangePatrick();
 	void ChangeSandy();
-  
-  // 충돌체 테스트 용
-	void CollisionTest(const CollisionResult& result);
 };
 

@@ -24,7 +24,7 @@ void CXmlParser::init(const std::string& _strFile)
 
 	std::basic_ifstream<char> xmlFile(strFilePath);
 	xmlFile.seekg(0, std::ios::end);
-	unsigned int size = xmlFile.tellg();
+	unsigned int size = (unsigned int)xmlFile.tellg();
 	xmlFile.seekg(0);
 
 	std::vector<char> xmlData(size + 1);

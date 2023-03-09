@@ -76,16 +76,15 @@ void CRigidBody::Update(float deltaTime)
 void CRigidBody::PostUpdate(float deltaTime)
 {
 	CSceneComponent::PostUpdate(deltaTime);
-	if(m_Ground)
-	{
-		return;
-	}
 	//중력 옵션
 	if (m_Gravity)
 	{
 		m_AccelA = Vector3(0.f, -500.f, 0.f);
 	}
-	//
+	if (m_Ground)
+	{
+		m_AccelA = Vector3(0.f, 0.f, 0.f);
+	}
 	float force = m_Force.Length();	//힘의크기
 	if (0.f != force)
 	{

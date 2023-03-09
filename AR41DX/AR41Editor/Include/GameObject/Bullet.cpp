@@ -44,7 +44,6 @@ bool CBullet::Init()
 
 	m_Mesh->SetMesh("SpongebobMissile");
 	m_Mesh->SetPivot(0.5f, 0.5f);
-	m_Mesh->SetRelativeScale(50.f, 50.f);
 
 	m_Body->SetCollisionProfile("PlayerAttack");
 	m_Body->SetCollisionCallback<CBullet>(ECollision_Result::Collision, this, &CBullet::CollisionBullet);
