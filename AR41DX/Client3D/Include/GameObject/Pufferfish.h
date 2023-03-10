@@ -14,6 +14,7 @@ protected:
 
 private:
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
+	CSharedPtr<class CAnimation> m_Animation;
 
 public:
 	virtual void Start();
