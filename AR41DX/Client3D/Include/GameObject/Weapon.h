@@ -14,10 +14,13 @@ protected:
 
 private:
 	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
-	CSharedPtr<class CColliderOBB3D> m_Body;
 	CSharedPtr<class CAnimation> m_Anim;
-	void CollisionWeapon(const CollisionResult& result);
+	float m_Angle;
 public:
+	void SetAngle(float f)
+	{
+		m_Angle = f;
+	}
 	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
@@ -26,7 +29,7 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 	bool SetMesh(const std::string& Name);
-	void Lasso();
+	void Lasso(const std::string& Name);
 	void StartLassoAtk();
 	void ResetIdle();
 };

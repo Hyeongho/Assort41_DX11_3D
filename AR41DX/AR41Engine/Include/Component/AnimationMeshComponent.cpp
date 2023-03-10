@@ -55,6 +55,11 @@ bool CAnimationMeshComponent::SetMesh(const std::string& Name)
 
 	CAnimationMesh* Mesh = (CAnimationMesh*)m_Mesh.Get();
 
+	if(!Mesh->GetSkeleton())
+	{
+		return false;
+	}
+
 	m_Skeleton = Mesh->GetSkeleton()->Clone();
 
 	if (m_Animation)

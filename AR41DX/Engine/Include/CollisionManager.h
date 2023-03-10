@@ -58,15 +58,27 @@ public:
 public:
 	bool CollisionCubeToCube(Vector3& HitPoint, class CColliderCube* Src, class CColliderCube* Dest);
 	bool CollisionCubeToOBB3D(Vector3& HitPoint, class CColliderCube* Src, class CColliderOBB3D* Dest);
+	bool CollisionCubeToSphere3D(Vector3& HitPoint, class CColliderCube* Src, class CColliderSphere3D* Dest);
 
 	bool CollisionOBB3DToOBB3D(Vector3& HitPoint, class CColliderOBB3D* Src, class CColliderOBB3D* Dest);
 	bool CollisionOBB3DToCube(Vector3& HitPoint, class CColliderOBB3D* Src, class CColliderCube* Dest);
+	bool CollisionOBB3DToSphere3D(Vector3& HitPoint, class CColliderOBB3D* Src, class CColliderSphere3D* Dest);
+
+	bool CollisionSphere3DToCube(Vector3& HitPoint, class CColliderSphere3D* Src, class CColliderCube* Dest);
+	bool CollisionSphere3DToOBB3D(Vector3& HitPoint, class CColliderSphere3D* Src, class CColliderOBB3D* Dest);
+	bool CollisionSphere3DToSphere3D(Vector3& HitPoint, class CColliderSphere3D* Src, class CColliderSphere3D* Dest);
 
 	bool CollisionCubeToCube(Vector3& HitPoint, const CubeInfo& Src, const CubeInfo& Dest);
 	bool CollisionCubeToOBB3D(Vector3& HitPoint, const CubeInfo& Src, const OBB3DInfo& Dest);
+	bool CollisionCubeToSphere3D(Vector3& HitPoint, const CubeInfo& Src, const Sphere3DInfo& Dest);
 
 	bool CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo& Src, const OBB3DInfo& Dest);
 	bool CollisionOBB3DToCube(Vector3& HitPoint, const OBB3DInfo& Src, const CubeInfo& Dest);
+	bool CollisionOBB3DToSphere3D(Vector3& HitPoint, const OBB3DInfo& Src, const Sphere3DInfo& Dest);
+
+	bool CollisionSphere3DToCube(Vector3& HitPoint, const Sphere3DInfo& Src, const CubeInfo& Dest);
+	bool CollisionSphere3DToOBB3D(Vector3& HitPoint, const Sphere3DInfo& Src, const OBB3DInfo& Dest);
+	bool CollisionSphere3DToSphere3D(Vector3& HitPoint, const Sphere3DInfo& Src, const Sphere3DInfo& Dest);
 
 	bool CollisionRayToSphere(PickingResult& result, const Ray& ray, const Vector3& Center, float Radius);
 
@@ -78,9 +90,11 @@ private:
 	Box2DInfo OverlapBox2D(const Box2DInfo& Src, const OBB2DInfo& Dest);
 	void ComputeHitPoint(Vector2& HitPoint, const Box2DInfo& Src, const Box2DInfo& Dest);
 
+	CubeInfo ConvertCubeInfo(const Sphere3DInfo& Info);
 	CubeInfo ConvertCubeInfo(const OBB3DInfo& Info);
 	CubeInfo OverlapCube(const CubeInfo& Src, const CubeInfo& Dest);
 	CubeInfo OverlapCube(const CubeInfo& Src, const OBB3DInfo& Dest);
+	CubeInfo OverlapCube(const CubeInfo& Src, const Sphere3DInfo& Dest);
 	void ComputeHitPoint(Vector3& HitPoint, const CubeInfo& Src, const CubeInfo& Dest);
 
 	DECLARE_SINGLE(CCollisionManager)

@@ -414,6 +414,15 @@
     <ClCompile Include="GameObject\Object\CollectibleItems.cpp">
       <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\TestScene.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\BikiniCitySceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -703,6 +712,15 @@
     </ClInclude>
     <ClInclude Include="GameObject\Object\CollectibleItems.h">
       <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\TestScene.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\BikiniCitySceneInfo.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyfishFieldSceneInfo.h">
+      <Filter>02. Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

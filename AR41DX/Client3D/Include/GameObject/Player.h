@@ -88,9 +88,9 @@ protected:
 	bool m_IsLoading;	//로드 체크용 변수-김범중
 	bool m_IsDoubleJump;	//더블점프 -김범중
 	// ========== Patrick 용 ==========
-	bool m_IsHolding; // 물건픽업/쓰로우 액션용
 	float m_BellyAttackTime;
-
+	//sandy
+	float m_SpaceTime;
 public:
 	virtual void Destroy();
 	virtual void Start();
@@ -173,7 +173,9 @@ public:
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
-	void Jump();
+	void JumpDown();
+	void JumpPush(); 	// Sandy
+	void JumpUp(); 		// Sandy
 	void JumpCheck();
 	void CameraRotationKey();
 	void KeyDown();
@@ -184,20 +186,17 @@ public:
 	void RClickDown();
 	void RClickPush();
 	void RClickUp();
-	void StartBash();	//엉찍 시작 함수
-	void ResetIdle();	//아이들상태로 되돌리는 함수
+	void StartBash();
+	void ResetIdle();
 
 	// Spongebob
 	void Headbutt();
 	void Missile();
 
 	// Patrick
-	void Patrick_BellyAttack();
 	void Patrick_BellyAttackMove();
 	void Patrick_PickUp();
 	void Patrick_Throw();
-
-	// Sandy
 
 	// Change Charater
 	void ChangeSpongebob();
