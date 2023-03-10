@@ -36,7 +36,6 @@ public:
 
 protected:
 	std::string	m_ClassName;
-	std::string	m_NullName;
 	class CAnimationMeshComponent* m_Owner;
 	std::unordered_map<std::string, CAnimationData*>  m_mapAnimation;
 	CAnimationData* m_CurAnimation;
@@ -176,7 +175,7 @@ public:
 	const std::string& GetCurrentAnimationName()	const
 	{
 		if (!m_CurAnimation)
-			return m_NullName;
+			return "";
 
 		return m_CurAnimation->GetName();
 	}

@@ -1,27 +1,26 @@
 #pragma once
-
 #include "GameObject\GameObject.h"
 
-class CCBLabBaseMesh :
-	public CGameObject
+class CTrampoline
+	: public CGameObject
 {
 	friend class CScene;
 
 protected:
-	CCBLabBaseMesh();
-	CCBLabBaseMesh(const CCBLabBaseMesh& Obj);
-	virtual ~CCBLabBaseMesh();
+	CTrampoline();
+	CTrampoline(const CTrampoline& Obj);
+	virtual ~CTrampoline();
 
-private:
-	CSharedPtr<class CStaticMeshComponent> m_Mesh;
-	CSharedPtr<class CRigidBody> m_Rigid;
+protected:
+	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
+	CSharedPtr<class CColliderCube>			m_Cube;
 
 public:
 	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
 	virtual void PostUpdate(float DeltaTime);
-	virtual CCBLabBaseMesh* Clone() const;
+	virtual CTrampoline* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 };

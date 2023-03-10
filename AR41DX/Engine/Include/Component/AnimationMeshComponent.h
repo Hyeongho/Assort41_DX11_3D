@@ -85,7 +85,7 @@ public:
         if (m_Mesh)
             m_Animation->SetInstancingBoneBuffer(((CAnimationMesh*)m_Mesh.Get())->GetBoneBuffer());
 
-        return m_Animation;
+        return Anim;
     }
 };
 

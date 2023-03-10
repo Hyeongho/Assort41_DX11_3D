@@ -36,19 +36,19 @@ void CDefaultSetting::Init()
 
 void CDefaultSetting::CreateCDO()
 {
-    CScene::CreateObjectCDO<CPlayer>("Player");
-    CScene::CreateObjectCDO<CWeapon>("Weapon");
-    CScene::CreateObjectCDO<CBullet>("Bullet");
+    //CScene::CreateObjectCDO<CPlayer>("Player");
+    //CScene::CreateObjectCDO<CWeapon>("Weapon");
+    //CScene::CreateObjectCDO<CBullet>("Bullet");
     CScene::CreateObjectCDO<CMrKrabs>("MrKrabs");
-    CScene::CreateObjectCDO<CSquidward>("Squidward");
+    //CScene::CreateObjectCDO<CSquidward>("Squidward");
 
     //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
 
     //CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
 
-    CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
-    CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
-    CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
+    //CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
+    //CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
+    //CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
 }
 
 void CDefaultSetting::LoadResource()
@@ -211,7 +211,6 @@ void CDefaultSetting::LoadPlayer()
 {
 // Spongebob
     CResourceManager* resourceManager = CResourceManager::GetInst();
-    
     resourceManager->LoadMesh(nullptr, MeshType::Animation, "SpongebobWand", TEXT("Spongebob\\wand_bubble_wand.msh"));
     resourceManager->LoadSkeleton(nullptr, "SpongebobWandSkeleton", TEXT("Spongebob\\wand_bubble_wand.bne"), MESH_PATH);
     resourceManager->SetMeshSkeleton("SpongebobWand", "SpongebobWandSkeleton");

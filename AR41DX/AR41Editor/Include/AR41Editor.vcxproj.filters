@@ -240,9 +240,6 @@
     <ClCompile Include="Window\UITextWindow.cpp">
       <Filter>07. Window\04. UI</Filter>
     </ClCompile>
-    <ClCompile Include="Window\TerrainWindow.cpp">
-      <Filter>07. Window</Filter>
-    </ClCompile>
     <ClCompile Include="Window\StatusWindow.cpp">
       <Filter>07. Window</Filter>
     </ClCompile>
@@ -366,23 +363,8 @@
     <ClCompile Include="UI\TitleSceneUI.cpp">
       <Filter>05. UI\01. Menu</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object\InteractButton.cpp">
-      <Filter>03. GameObject\04. Object\01. Common</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Object\Trampoline.cpp">
-      <Filter>03. GameObject\04. Object\01. Common</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Object\BusStop.cpp">
       <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Map\CBLab\CBL_Platform.cpp">
-      <Filter>03. GameObject\04. Object\04. ChumBucketLab\02. CBL</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Npc\InfoSign.cpp">
-      <Filter>03. GameObject\05. Npc\01. AnimNpc</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\ChumBucketLabSceneInfo.cpp">
-      <Filter>02. Scene\04. ChumBucketLab</Filter>
     </ClCompile>
     <ClCompile Include="Scene\EditorDefaultScene.cpp">
       <Filter>02. Scene\05. Test</Filter>
@@ -390,38 +372,47 @@
     <ClCompile Include="Scene\LoadingSceneInfo.cpp">
       <Filter>02. Scene\01. Menu, Title</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\RoboSpongeSceneInfo.cpp">
-      <Filter>02. Scene\04. ChumBucketLab</Filter>
+    <ClCompile Include="Scene\TitleSceneInfo.cpp">
+      <Filter>02. Scene\01. Menu, Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\TestScene.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\TerrainWindow.cpp">
+      <Filter>07. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\BikiniCitySceneInfo.cpp">
+      <Filter>02. Scene\02. BikiniBottom</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp">
+      <Filter>02. Scene\03. JellyFishField</Filter>
     </ClCompile>
     <ClCompile Include="Scene\TestScene.cpp">
       <Filter>02. Scene\05. Test</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\TitleSceneInfo.cpp">
-      <Filter>02. Scene\01. Menu, Title</Filter>
+    <ClCompile Include="GameObject\Object\CBL\CBL_Platform.cpp">
+      <Filter>03. GameObject\04. Object\04. ChumBucketLab\02. CBL</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object\GoldenSpatula.cpp">
+    <ClCompile Include="GameObject\Object\Common\Collectible\ShinyFlower.cpp">
       <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object\ShinyFlower.cpp">
+    <ClCompile Include="GameObject\Object\Common\Collectible\Sock.cpp">
       <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object\Sock.cpp">
+    <ClCompile Include="GameObject\Object\Common\Collectible\UnderWear.cpp">
       <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object\UnderWear.cpp">
+    <ClCompile Include="GameObject\Object\Common\Collectible\CollectibleItems.cpp">
       <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object\CollectibleItems.cpp">
+    <ClCompile Include="GameObject\Object\Common\Collectible\GoldenSpatula.cpp">
       <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\TestScene.cpp">
-      <Filter>02. Scene</Filter>
+    <ClCompile Include="GameObject\Object\Common\Trampoline.cpp">
+      <Filter>03. GameObject\04. Object\01. Common</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\BikiniCitySceneInfo.cpp">
-      <Filter>02. Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp">
-      <Filter>02. Scene</Filter>
+    <ClCompile Include="GameObject\Object\Common\InteractButton.cpp">
+      <Filter>03. GameObject\04. Object\01. Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -526,9 +517,6 @@
     </ClInclude>
     <ClInclude Include="Window\UITextWindow.h">
       <Filter>07. Window\04. UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\TerrainWindow.h">
-      <Filter>07. Window</Filter>
     </ClInclude>
     <ClInclude Include="Window\StatusWindow.h">
       <Filter>07. Window</Filter>
@@ -665,23 +653,8 @@
     <ClInclude Include="UI\TitleSceneUI.h">
       <Filter>05. UI\01. Menu</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\InteractButton.h">
-      <Filter>03. GameObject\04. Object\01. Common</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Object\Trampoline.h">
-      <Filter>03. GameObject\04. Object\01. Common</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Object\BusStop.h">
       <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Map\CBLab\CBL_Platform.h">
-      <Filter>03. GameObject\04. Object\04. ChumBucketLab\02. CBL</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Npc\InfoSign.h">
-      <Filter>03. GameObject\05. Npc\01. AnimNpc</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\ChumBucketLabSceneInfo.h">
-      <Filter>02. Scene\04. ChumBucketLab</Filter>
     </ClInclude>
     <ClInclude Include="Scene\EditorDefaultScene.h">
       <Filter>02. Scene\05. Test</Filter>
@@ -689,38 +662,47 @@
     <ClInclude Include="Scene\LoadingSceneInfo.h">
       <Filter>02. Scene\01. Menu, Title</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\RoboSpongeSceneInfo.h">
-      <Filter>02. Scene\04. ChumBucketLab</Filter>
+    <ClInclude Include="Scene\TitleSceneInfo.h">
+      <Filter>02. Scene\01. Menu, Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\TestScene.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\TerrainWindow.h">
+      <Filter>07. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\BikiniCitySceneInfo.h">
+      <Filter>02. Scene\02. BikiniBottom</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyfishFieldSceneInfo.h">
+      <Filter>02. Scene\03. JellyFishField</Filter>
     </ClInclude>
     <ClInclude Include="Scene\TestScene.h">
       <Filter>02. Scene\05. Test</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\TitleSceneInfo.h">
-      <Filter>02. Scene\01. Menu, Title</Filter>
+    <ClInclude Include="GameObject\Object\CBL\CBL_Platform.h">
+      <Filter>03. GameObject\04. Object\04. ChumBucketLab\02. CBL</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\GoldenSpatula.h">
+    <ClInclude Include="GameObject\Object\Common\Collectible\GoldenSpatula.h">
       <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\ShinyFlower.h">
+    <ClInclude Include="GameObject\Object\Common\Collectible\ShinyFlower.h">
       <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\Sock.h">
+    <ClInclude Include="GameObject\Object\Common\Collectible\Sock.h">
       <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\UnderWear.h">
+    <ClInclude Include="GameObject\Object\Common\Collectible\UnderWear.h">
       <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\CollectibleItems.h">
+    <ClInclude Include="GameObject\Object\Common\Collectible\CollectibleItems.h">
       <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\TestScene.h">
-      <Filter>02. Scene</Filter>
+    <ClInclude Include="GameObject\Object\Common\Trampoline.h">
+      <Filter>03. GameObject\04. Object\01. Common</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\BikiniCitySceneInfo.h">
-      <Filter>02. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\JellyfishFieldSceneInfo.h">
-      <Filter>02. Scene</Filter>
+    <ClInclude Include="GameObject\Object\Common\InteractButton.h">
+      <Filter>03. GameObject\04. Object\01. Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
