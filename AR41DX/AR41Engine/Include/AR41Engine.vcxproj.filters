@@ -328,6 +328,12 @@
     <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\13. Shadow">
       <UniqueIdentifier>{e4223d97-5149-4c88-bc03-80ca76c74471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Resource\02. Shader\02. ShaderClass\18. FXAA">
+      <UniqueIdentifier>{cc5d0fef-3223-4ab6-8025-03d8861e1a0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\14. FXAA">
+      <UniqueIdentifier>{3708340d-9cf6-4703-9b1a-d7d48476ab81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -936,6 +942,12 @@
     <ClInclude Include="Resource\ResourceManager.h">
       <Filter>02. Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\Shader\FXAAShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\18. FXAA</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\FXAAConstantBuffer.h">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\14. FXAA</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1487,6 +1499,12 @@
     <ClCompile Include="Resource\ResourceManager.cpp">
       <Filter>02. Resource</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\Shader\FXAAShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\18. FXAA</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\FXAAConstantBuffer.cpp">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\14. FXAA</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\Shader\Share.fx">
@@ -1537,7 +1555,10 @@
     <FxCompile Include="..\Bin\Shader\ShadowMap.fx">
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\Shader\FXAA.fx">
+    <FxCompile Include="..\Bin\Shader\PSFXAA.fx">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\VSFXAA.fx">
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
   </ItemGroup>

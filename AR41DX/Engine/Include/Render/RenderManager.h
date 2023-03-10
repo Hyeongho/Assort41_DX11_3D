@@ -31,10 +31,12 @@ private:
 
 	std::vector<CSharedPtr<CRenderTarget>>	m_vecLightBuffer;
 
-	CSharedPtr<CRenderTarget> m_ScreenBuffer;
+	CSharedPtr<CRenderTarget>	m_ScreenBuffer;
+	CSharedPtr<CRenderTarget>	m_FXAABuffer;
 
 	CSharedPtr<CGraphicShader> m_ScreenShader;
 	CSharedPtr<CGraphicShader> m_DeferredRenderShader;
+	CSharedPtr<CGraphicShader>	m_FXAAShader;
 
 	CSharedPtr<CRenderTarget> m_ShadowMapTarget;
 
@@ -79,6 +81,7 @@ private:
 	void RenderDecal(float DeltaTime);
 	void RenderLight(float DeltaTime);
 	void RenderScreen(float DeltaTime);
+	void RenderFXAA(float DeltaTime);
 	void RenderDeferred(float DeltaTime);
 	void RenderParticle(float DeltaTime);
 
