@@ -11,6 +11,7 @@
 #include "../GameObject/BikiniBottomBuildings.h"
 #include "../GameObject/JellyfishField.h"
 #include "../GameObject/TeeterRock.h"
+#include "../GameObject/Cannon.h"
 #include "Component/TerrainComponent.h"
 #include "Component/BillboardComponent.h"
 #include "Component/ParticleComponent.h"
@@ -42,6 +43,9 @@ bool CTestSceneInfo::Init()
 
 	CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
 	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);
+
+	CCannon* Cannon = m_Owner->CreateObject<CCannon>("Cannon");
+	Cannon->SetWorldPosition(16500.f, 0.f, 12200.f);
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
