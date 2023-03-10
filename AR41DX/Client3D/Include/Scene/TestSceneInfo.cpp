@@ -12,6 +12,7 @@
 #include "../GameObject/JellyfishField.h"
 #include "../GameObject/TeeterRock.h"
 #include "../GameObject/Cannon.h"
+#include "../GameObject/Pufferfish.h"
 #include "Component/TerrainComponent.h"
 #include "Component/BillboardComponent.h"
 #include "Component/ParticleComponent.h"
@@ -41,8 +42,8 @@ bool CTestSceneInfo::Init()
 	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
 
-	CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
-	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);
+	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
+	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
 
 	CCannon* Cannon = m_Owner->CreateObject<CCannon>("Cannon");
 	Cannon->SetWorldPosition(16500.f, 0.f, 12200.f);

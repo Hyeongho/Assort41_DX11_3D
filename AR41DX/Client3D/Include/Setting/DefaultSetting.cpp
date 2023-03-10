@@ -564,7 +564,8 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     젤리나무(BouncingTree),
     조개(Clam)
     미사일,
-    다리
+    다리, 
+    시소
     */
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DoubleTree_Red", TEXT("Objects/JellyfishFields/DoubleTree_Red.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DoubleTree_Yellow", TEXT("Objects/JellyfishFields/DoubleTree_Yellow.fbx"), MESH_PATH);
@@ -575,6 +576,23 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BouncingTree", TEXT("Objects/JellyfishFields/BouncingTree.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Clam", TEXT("Objects/JellyfishFields/Clam.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge.fbx"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SM_JF_Teeter_Rock_01", TEXT("Objects/JellyfishFields/SM_JF_Teeter_Rock_01.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SM_JF_Teeter_Rock_02", TEXT("Objects/JellyfishFields/SM_JF_Teeter_Rock_02.msh"), MESH_PATH);
+
+    // 대포
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Cannon", TEXT("Objects/JellyfishFields/Cannon.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "CannonSkeleton", TEXT("Objects/JellyfishFields/Cannon.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("Cannon", "CannonSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Cannon", TEXT("Objects/JellyfishFields/Cannon.sqc"), MESH_PATH);
+
+    // 복어
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Pufferfish", TEXT("Objects/JellyfishFields/Pufferfish.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "PufferfishSkeleton", TEXT("Objects/JellyfishFields/Pufferfish.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("Pufferfish", "PufferfishSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Pufferfish", TEXT("Objects/JellyfishFields/Pufferfish.sqc"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadCBObjects()
