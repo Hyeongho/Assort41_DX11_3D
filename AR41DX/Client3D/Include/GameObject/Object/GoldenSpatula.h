@@ -20,5 +20,8 @@ public:
 	virtual CGoldenSpatula* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+private: // Collision
+	virtual void PlayerCollisionItem(const CollisionResult& result);
 };
 

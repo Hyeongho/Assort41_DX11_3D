@@ -27,6 +27,22 @@ bool CSock::Init()
 {
 	CCollectibleItems::Init();
 
+	m_Mesh = CreateComponent<CStaticMeshComponent>("Mesh");
+	m_Collider = CreateComponent<CColliderOBB3D>("OBB3D");
+
+	SetRootComponent(m_Mesh);
+
+	m_Mesh->AddChild(m_Collider);
+	m_Mesh->SetMesh("Sock");
+
+	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
+	m_Collider->SetCollisionProfile("Collectible");
+	m_Collider->SetCollisionCallback<CSock>(ECollision_Result::Collision, this, &CSock::PlayerCollisionItem);
+
+	m_Collider->SetInheritRotX(true);
+	m_Collider->SetInheritRotY(true);
+	m_Collider->SetInheritRotZ(true);
+
 	return true;
 }
 
@@ -53,5 +69,10 @@ void CSock::Save(FILE* File)
 void CSock::Load(FILE* File)
 {
 	CCollectibleItems::Load(File);
+}
+
+void CSock::PlayerCollisionItem(const CollisionResult& result)
+{
+	CCollectibleItems::PlayerCollisionItem(result);
 }
 

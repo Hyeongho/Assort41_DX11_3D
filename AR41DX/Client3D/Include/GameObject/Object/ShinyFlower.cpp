@@ -27,6 +27,22 @@ bool CShinyFlower::Init()
 {
 	CCollectibleItems::Init();
 
+	m_Mesh = CreateComponent<CStaticMeshComponent>("Mesh");
+	m_Collider = CreateComponent<CColliderOBB3D>("OBB3D");
+
+	SetRootComponent(m_Mesh);
+
+	m_Mesh->AddChild(m_Collider);
+	m_Mesh->SetMesh("ShinyFlower");
+
+	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
+	m_Collider->SetCollisionProfile("Collectible");
+	m_Collider->SetCollisionCallback<CShinyFlower>(ECollision_Result::Collision, this, &CShinyFlower::PlayerCollisionItem);
+
+	m_Collider->SetInheritRotX(true);
+	m_Collider->SetInheritRotY(true);
+	m_Collider->SetInheritRotZ(true);
+
 	return true;
 }
 
@@ -53,4 +69,9 @@ void CShinyFlower::Save(FILE* File)
 void CShinyFlower::Load(FILE* File)
 {
 	CCollectibleItems::Load(File);
+}
+
+void CShinyFlower::PlayerCollisionItem(const CollisionResult& result)
+{
+	CCollectibleItems::PlayerCollisionItem(result);
 }

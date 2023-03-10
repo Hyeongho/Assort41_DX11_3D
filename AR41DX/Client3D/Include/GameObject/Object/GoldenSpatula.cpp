@@ -37,6 +37,7 @@ bool CGoldenSpatula::Init()
 
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
+	m_Collider->SetCollisionCallback<CGoldenSpatula>(ECollision_Result::Collision, this, &CGoldenSpatula::PlayerCollisionItem);
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
@@ -69,4 +70,9 @@ void CGoldenSpatula::Save(FILE* File)
 void CGoldenSpatula::Load(FILE* File)
 {
 	CCollectibleItems::Load(File);
+}
+
+void CGoldenSpatula::PlayerCollisionItem(const CollisionResult& result)
+{
+	CCollectibleItems::PlayerCollisionItem(result);
 }

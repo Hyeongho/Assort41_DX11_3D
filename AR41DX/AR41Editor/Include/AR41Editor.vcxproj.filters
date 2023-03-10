@@ -34,9 +34,6 @@
     <Filter Include="03. GameObject\02. Monster\02. Jellyfish">
       <UniqueIdentifier>{a8140203-fe90-48df-a5b0-62a050610f02}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\02. Monster\04. Tikis">
-      <UniqueIdentifier>{020a7ceb-72b1-42b1-ba59-454eacb9d264}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\05. Npc">
       <UniqueIdentifier>{0c06df95-d494-4ef4-bf6f-05d0aede3f24}</UniqueIdentifier>
     </Filter>
@@ -138,6 +135,9 @@
     </Filter>
     <Filter Include="03. GameObject\04. Object\01. Common\01. Collectible">
       <UniqueIdentifier>{36b63008-7972-4542-9b1b-43799539ffe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\03. Tikis">
+      <UniqueIdentifier>{020a7ceb-72b1-42b1-ba59-454eacb9d264}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -286,13 +286,13 @@
       <Filter>03. GameObject\02. Monster</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Tikis\Tiki_Stone.cpp">
-      <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
+      <Filter>03. GameObject\02. Monster\03. Tikis</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Tikis\Tiki_Thunder.cpp">
-      <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
+      <Filter>03. GameObject\02. Monster\03. Tikis</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Tikis\Tiki_Wood.cpp">
-      <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
+      <Filter>03. GameObject\02. Monster\03. Tikis</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Hammer.cpp">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
@@ -564,13 +564,13 @@
       <Filter>03. GameObject\02. Monster</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Tikis\Tiki_Stone.h">
-      <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
+      <Filter>03. GameObject\02. Monster\03. Tikis</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h">
-      <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
+      <Filter>03. GameObject\02. Monster\03. Tikis</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Tikis\Tiki_Wood.h">
-      <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
+      <Filter>03. GameObject\02. Monster\03. Tikis</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Hammer.h">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>

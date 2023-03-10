@@ -33,6 +33,8 @@ bool CCollectibleItems::Init()
 void CCollectibleItems::Update(float DeltaTime)
 {
     CGameObject::Update(DeltaTime);
+
+    AddWorldRotationY(DeltaTime * 100.f);
 }
 
 void CCollectibleItems::PostUpdate(float DeltaTime)
@@ -53,4 +55,8 @@ void CCollectibleItems::Save(FILE* File)
 void CCollectibleItems::Load(FILE* File)
 {
     CGameObject::Load(File);
+}
+
+void CCollectibleItems::PlayerCollisionItem(const CollisionResult& result)
+{
 }

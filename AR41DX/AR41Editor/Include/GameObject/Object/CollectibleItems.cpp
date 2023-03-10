@@ -56,3 +56,7 @@ void CCollectibleItems::Load(FILE* File)
 {
     CGameObject::Load(File);
 }
+
+void CCollectibleItems::PlayerCollisionItem(const CollisionResult& result)
+{
+}

@@ -24,5 +24,8 @@ public:
 	virtual CCollectibleItems* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+protected: // Collision
+	virtual void PlayerCollisionItem(const CollisionResult& result);
 };
 
