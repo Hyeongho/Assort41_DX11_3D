@@ -1,20 +1,24 @@
 #include "Trampoline.h"
+
 #include "Component/ColliderCube.h"
 #include "Component/StaticMeshComponent.h"
 
 CTrampoline::CTrampoline()
 {
+	SetTypeID<CTrampoline>();
+
+	m_ObjectTypeName = "Trampoline";
 }
 
 CTrampoline::CTrampoline(const CTrampoline& Obj)
 	: CGameObject(Obj)
 {
+	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
+	m_Cube = (CColliderCube*)FindComponent("Cube");
 }
 
 CTrampoline::~CTrampoline()
 {
-	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
-	m_Cube = (CColliderCube*)FindComponent("Cube");
 }
 
 void CTrampoline::Start()
