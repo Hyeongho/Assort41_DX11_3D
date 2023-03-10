@@ -139,8 +139,14 @@ private: // SaveSelect Menu UI Func
 
 private: // Sound Option Menu UI Func
 	void SoundOptionUISFX();
+	void SoundOptionUISFXMinus();
+	void SoundOptionUISFXPlus();
 	void SoundOptionUIMusic();
+	void SoundOptionUIMusicMinus();
+	void SoundOptionUIMusicPlus();
 	void SoundOptionUITalk();
+	void SoundOptionUITalkMinus();
+	void SoundOptionUITalkPlus();
 	void SoundOptionUIReset();
 
 private: // Camera Option Menu UI Func

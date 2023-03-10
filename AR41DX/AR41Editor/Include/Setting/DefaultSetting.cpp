@@ -152,12 +152,14 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateChannel("Monster", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("MonsterAttack", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Wall", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->CreateChannel("Platform", ECollision_Interaction::Collision);
 
     CCollisionManager::GetInst()->CreateProfile("Player", "Player", true);
     CCollisionManager::GetInst()->CreateProfile("PlayerAttack", "PlayerAttack", true);
     CCollisionManager::GetInst()->CreateProfile("Monster", "Monster", true);
     CCollisionManager::GetInst()->CreateProfile("MonsterAttack", "MonsterAttack", true);
     CCollisionManager::GetInst()->CreateProfile("Wall", "Wall", true);
+    CCollisionManager::GetInst()->CreateProfile("Platform", "Platform", true);
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "PlayerAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "Player", ECollision_Interaction::Ignore);
@@ -174,6 +176,11 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("MonsterAttack", "PlayerAttack", ECollision_Interaction::Ignore);
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Wall", "Wall", ECollision_Interaction::Ignore);
+
+    CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "Platform", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "PlayerAttack", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "Monster", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "Wall", ECollision_Interaction::Ignore);
 }
 
 void CDefaultSetting::LoadPlayerSound()
@@ -561,6 +568,8 @@ void CDefaultSetting::LoadCBObjects()
 
 void CDefaultSetting::LoadCBLabObjects()
 {
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "CBL_Platform", TEXT("Map/CBLab/CBLab_Platform.msh"));
+
 }
 
 void CDefaultSetting::LoadParticle()

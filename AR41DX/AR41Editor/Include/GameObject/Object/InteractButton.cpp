@@ -1,5 +1,7 @@
 #include "InteractButton.h"
+
 #include "Scene/Scene.h"
+#include "Component/ColliderCube.h"
 #include "Component/StaticMeshComponent.h"
 
 CInteractButton::CInteractButton()

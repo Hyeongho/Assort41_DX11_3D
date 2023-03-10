@@ -58,11 +58,11 @@ void CPauseUI::Start()
 		CInput::GetInst()->AddBindFunction<CPauseUI>("D", Input_Type::Up, this, &CPauseUI::KeyRight, m_Scene);
 
 		CInput::GetInst()->AddBindFunction<CPauseUI>("Space", Input_Type::Up, this, &CPauseUI::KeySpace, m_Scene);
-		CInput::GetInst()->AddBindFunction<CPauseUI>("Esc", Input_Type::Up, this, &CPauseUI::KeyEsc, m_Scene);
+		//CInput::GetInst()->AddBindFunction<CPauseUI>("Esc", Input_Type::Up, this, &CPauseUI::KeyEsc, m_Scene);
 		CInput::GetInst()->AddBindFunction<CPauseUI>("E", Input_Type::Up, this, &CPauseUI::KeyE, m_Scene);
 
-		CInput::GetInst()->AddBindFunction<CPauseUI>("LButton", Input_Type::Up, this, &CPauseUI::KeyLeftButton, m_Scene);
-		CInput::GetInst()->AddBindFunction<CPauseUI>("RButton", Input_Type::Up, this, &CPauseUI::KeyRightButton, m_Scene);
+		CInput::GetInst()->AddBindFunction<CPauseUI>("LClick", Input_Type::Up, this, &CPauseUI::KeyLeftButton, m_Scene);
+		CInput::GetInst()->AddBindFunction<CPauseUI>("RClick", Input_Type::Up, this, &CPauseUI::KeyRightButton, m_Scene);
 	}
 
 	CreaeteAllUI();
@@ -488,6 +488,9 @@ void CPauseUI::CreateOptionSoundUI()
 
 	ButtonPosX = RS.Width / 3.f - ButtonSizeX / 2.f;
 
+
+	// SFX 볼륨 조절
+
 	CUITextButton* TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonSfx");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
@@ -499,9 +502,53 @@ void CPauseUI::CreateOptionSoundUI()
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUISFX);
 
 	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonSfx", TextButton));
+
+
+	Text = CreateWidget<CUIText>("SoundOptionUI_TextSfxSensitive");
+
+	Text->SetSize(ButtonSizeX * 2.f, ButtonSizeY);
+	Text->SetAlignH(Text_Align_H::Center);
+	Text->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	Text->SetFontSize(30.f);
+	Text->SetText(TEXT("30"));
+	Text->SetColor(Vector4::Black);
+
+	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_TextSfxSensitive", Text));
+
+
+	TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonSfxSensitiveMinus");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonSfxSensitiveMinusHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonSfxSensitiveMinusClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUISFX);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::SoundOptionUISFXMinus);
+
+	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonSfxSensitiveMinus", TextButton));
+
+
+	TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonSfxSensitivePlus");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX * 2.f, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonSfxSensitivePlusHovered", false, "Sfx/SFX_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonSfxSensitivePlusClick", false, "Sfx/SFX_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUISFX);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::SoundOptionUISFXPlus);
+
+	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonSfxSensitivePlus", TextButton));
+
 	
 	ButtonPosY -= ButtonYInterval;
 
+
+
+	// Music 볼륨 조절
 
 	TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonMusic");
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
@@ -514,7 +561,47 @@ void CPauseUI::CreateOptionSoundUI()
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUIMusic);
 	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonMusic", TextButton));
 
+
+	Text = CreateWidget<CUIText>("SoundOptionUI_TextMusicSensitive");
+	Text->SetSize(ButtonSizeX * 2.f, ButtonSizeY);
+	Text->SetAlignH(Text_Align_H::Center);
+	Text->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	Text->SetFontSize(30.f);
+	Text->SetText(TEXT("30"));
+	Text->SetColor(Vector4::Black);
+	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_TextMusicSensitive", Text));
+
+
+	TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonMusicSensitiveMinus");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonMusicSensitiveMinusHovered", false, "Music/Music_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonMusicSensitiveMinusClick", false, "Music/Music_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUIMusic);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::SoundOptionUIMusicMinus);
+	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonMusicSensitiveMinus", TextButton));
+
+
+	TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonMusicSensitivePlus");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX * 2.f, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonMusicSensitivePlusHovered", false, "Music/Music_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonMusicSensitivePlusClick", false, "Music/Music_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUIMusic);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::SoundOptionUIMusicPlus);
+	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonMusicSensitivePlus", TextButton));
+
+
 	ButtonPosY -= ButtonYInterval;
+
+
+	// Talk 볼륨 조절
 
 
 	TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonTalk");
@@ -526,8 +613,43 @@ void CPauseUI::CreateOptionSoundUI()
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonTalkHovered", false, "Sfx/SFX_UI_Scroll_003.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonTalkClick", false, "Sfx/SFX_UI_Forward.ogg");
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUITalk);
-
 	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonTalk", TextButton));
+
+
+	Text = CreateWidget<CUIText>("SoundOptionUI_TextTalkSensitive");
+	Text->SetSize(ButtonSizeX * 2.f, ButtonSizeY);
+	Text->SetAlignH(Text_Align_H::Center);
+	Text->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	Text->SetFontSize(30.f);
+	Text->SetText(TEXT("30"));
+	Text->SetColor(Vector4::Black);
+	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_TextTalkSensitive", Text));
+
+
+	TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonTalkSensitiveMinus");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("-"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonTalkSensitiveMinusHovered", false, "Talk/Talk_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonTalkSensitiveMinusClick", false, "Talk/Talk_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUITalk);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::SoundOptionUITalkMinus);
+	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonTalkSensitiveMinus", TextButton));
+
+
+	TextButton = CreateWidget<CUITextButton>("SoundOptionUI_ButtonTalkSensitivePlus");
+	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
+	TextButton->SetPos(ButtonPosX + ButtonSizeX * 2.f, ButtonPosY);
+	TextButton->SetText(EButtonState::Normal, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Hovered, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetText(EButtonState::Click, TEXT("+"), FontSize, Vector4::Black);
+	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SoundOptionUI_ButtonTalkSensitivePlusHovered", false, "Talk/Talk_UI_Scroll_001.ogg");
+	TextButton->SetSound(EButtonEventState::Click, "UI", "SoundOptionUI_ButtonTalkSensitivePlusClick", false, "Talk/Talk_UI_Forward.ogg");
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Hovered, this, &CPauseUI::SoundOptionUITalk);
+	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::SoundOptionUITalkPlus);
+	m_mapSoundOptionUI.insert(std::make_pair("SoundOptionUI_ButtonTalkSensitivePlus", TextButton));
 
 	ButtonPosY -= ButtonYInterval;
 
@@ -628,10 +750,6 @@ void CPauseUI::CreateOptionCameraUI()
 	TextButton->SetCallback<CPauseUI>(EButtonEventState::Click, this, &CPauseUI::CameraOptionUISensitiveMinus);
 
 	m_mapCameraOptionUI.insert(std::make_pair("CameraOptionUI_ButtonSensitiveMinus", TextButton));
-
-
-	//Image = CreateWidget<CUIImage>("CameraOptionUI_ImageSensitiveSlideBar");
-	//Image = CreateWidget<CUIImage>("CameraOptionUI_ImageSensitiveSlideBar");
 
 
 	TextButton = CreateWidget<CUITextButton>("CameraOptionUI_ButtonSensitivePlus");
@@ -1287,6 +1405,38 @@ void CPauseUI::SoundOptionUISFX()
 	iterSplotch->second->SetPos(vecPos);
 }
 
+void CPauseUI::SoundOptionUISFXMinus()
+{
+	CUIText* Text = (CUIText*)m_mapSoundOptionUI.find("SoundOptionUI_TextSfxSensitive")->second.Get();
+
+	if (wcscmp(L"0", Text->GetText()) == 0)
+		return;
+
+	// 수치 조절 후 해당 값을 Text에 SetText
+
+	return;
+
+
+
+	Text->SetText("");
+}
+
+void CPauseUI::SoundOptionUISFXPlus()
+{
+	CUIText* Text = (CUIText*)m_mapSoundOptionUI.find("SoundOptionUI_TextSfxSensitive")->second.Get();
+
+	if (wcscmp(L"100", Text->GetText()) == 0)
+		return;
+
+	// 수치 조절 후 해당 값을 Text에 SetText
+
+	return;
+
+
+
+	Text->SetText("");
+}
+
 void CPauseUI::SoundOptionUIMusic()
 {
 	m_SoundSelected = EUISoundList::Music;
@@ -1296,6 +1446,38 @@ void CPauseUI::SoundOptionUIMusic()
 	iterSplotch->second->SetPos(vecPos);
 }
 
+void CPauseUI::SoundOptionUIMusicMinus()
+{
+	CUIText* Text = (CUIText*)m_mapSoundOptionUI.find("SoundOptionUI_TextMusicSensitive")->second.Get();
+
+	if (wcscmp(L"0", Text->GetText()) == 0)
+		return;
+
+	// 수치 조절 후 해당 값을 Text에 SetText
+
+	return;
+
+
+
+	Text->SetText("");
+}
+
+void CPauseUI::SoundOptionUIMusicPlus()
+{
+	CUIText* Text = (CUIText*)m_mapSoundOptionUI.find("SoundOptionUI_TextMusicSensitive")->second.Get();
+
+	if (wcscmp(L"100", Text->GetText()) == 0)
+		return;
+
+	// 수치 조절 후 해당 값을 Text에 SetText
+
+	return;
+
+
+
+	Text->SetText("");
+}
+
 void CPauseUI::SoundOptionUITalk()
 {
 	m_SoundSelected = EUISoundList::Talk;
@@ -1303,6 +1485,38 @@ void CPauseUI::SoundOptionUITalk()
 	auto iterSplotch = m_mapSoundOptionUI.find("SoundOptionUI_SelectedSplotch");
 	Vector2 vecPos = m_mapSoundOptionUI.find("SoundOptionUI_ButtonTalk")->second->GetPos();
 	iterSplotch->second->SetPos(vecPos);
+}
+
+void CPauseUI::SoundOptionUITalkMinus()
+{
+	CUIText* Text = (CUIText*)m_mapSoundOptionUI.find("SoundOptionUI_TextTalkSensitive")->second.Get();
+
+	if (wcscmp(L"0", Text->GetText()) == 0)
+		return;
+
+	// 수치 조절 후 해당 값을 Text에 SetText
+
+	return;
+
+
+
+	Text->SetText("");
+}
+
+void CPauseUI::SoundOptionUITalkPlus()
+{
+	CUIText* Text = (CUIText*)m_mapSoundOptionUI.find("SoundOptionUI_TextTalkSensitive")->second.Get();
+
+	if (wcscmp(L"100", Text->GetText()) == 0)
+		return;
+
+	// 수치 조절 후 해당 값을 Text에 SetText
+
+	return;
+
+
+
+	Text->SetText("");
 }
 
 void CPauseUI::SoundOptionUIReset()
