@@ -23,6 +23,9 @@ private:
 
     // Player
     void LoadPlayer();
+    void LoadSpongebob();
+    void LoadPatrick();
+    void LoadSandy();
 
     // Monster
     void LoadRoboSponge();

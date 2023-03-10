@@ -252,9 +252,6 @@
     <ClCompile Include="Window\ColliderObb3dWindow.cpp">
       <Filter>07. Window\05. Component</Filter>
     </ClCompile>
-    <ClCompile Include="Window\TerrainWindow.cpp">
-      <Filter>03. Window\05. Component</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Player.cpp">
       <Filter>03. GameObject\01. Player</Filter>
     </ClCompile>
@@ -414,6 +411,9 @@
     <ClCompile Include="GameObject\Object\Common\InteractButton.cpp">
       <Filter>03. GameObject\04. Object\01. Common</Filter>
     </ClCompile>
+    <ClCompile Include="Window\TerrainWindow.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -529,9 +529,6 @@
     </ClInclude>
     <ClInclude Include="Window\ColliderObb3dWindow.h">
       <Filter>07. Window\05. Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Window\TerrainWindow.h">
-      <Filter>03. Window\05. Component</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Player.h">
       <Filter>03. GameObject\01. Player</Filter>
@@ -703,6 +700,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Object\Common\InteractButton.h">
       <Filter>03. GameObject\04. Object\01. Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\TerrainWindow.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
