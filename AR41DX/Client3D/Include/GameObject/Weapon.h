@@ -13,8 +13,10 @@ protected:
 	virtual ~CWeapon();
 
 private:
-	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
-
+	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
+	CSharedPtr<class CColliderOBB3D> m_Body;
+	CSharedPtr<class CAnimation> m_Anim;
+	void CollisionWeapon(const CollisionResult& result);
 public:
 	virtual void Start();
 	virtual bool Init();
@@ -23,5 +25,9 @@ public:
 	virtual CWeapon* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+	bool SetMesh(const std::string& Name);
+	void Lasso();
+	void StartLassoAtk();
+	void ResetIdle();
 };
 

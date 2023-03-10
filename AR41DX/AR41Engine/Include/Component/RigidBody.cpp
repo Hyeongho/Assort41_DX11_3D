@@ -2,7 +2,7 @@
 #include "../GameObject/GameObject.h"
 
 CRigidBody::CRigidBody()
-	: m_Mass(1.f)
+	: m_Mass(100.f)
 	, m_FricCoeff(100.f)
 	, m_MaxVelocity(Vector3(1500.f, 1500.f, 1500.f))
 	, m_MinVelocity(Vector3(-1500.f, -800.f, 1500.f))
@@ -38,7 +38,7 @@ void CRigidBody::Move()
 		{
 			GetOwner()->SetWorldRotationZ(0.f);
 		}
-		Vector2 vPos = m_Velocity * g_DeltaTime;
+		Vector3 vPos = m_Velocity * g_DeltaTime;
 		GetOwner()->AddWorldPosition(vPos);
 	}
 }
@@ -76,16 +76,15 @@ void CRigidBody::Update(float deltaTime)
 void CRigidBody::PostUpdate(float deltaTime)
 {
 	CSceneComponent::PostUpdate(deltaTime);
-	if(m_Ground)
-	{
-		return;
-	}
 	//중력 옵션
 	if (m_Gravity)
 	{
-		m_AccelA = Vector3(0.f, -300.f, 0.f);
+		m_AccelA = Vector3(0.f, -500.f, 0.f);
 	}
-	//
+	if (m_Ground)
+	{
+		m_AccelA = Vector3(0.f, 0.f, 0.f);
+	}
 	float force = m_Force.Length();	//힘의크기
 	if (0.f != force)
 	{
