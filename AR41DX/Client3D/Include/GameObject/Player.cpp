@@ -23,6 +23,8 @@
 #include "Animation/Animation.h"
 #include "../UI/PauseUI.h"
 
+//test11
+
 CPlayer::CPlayer()
 	: m_Speed(500.f)
 	, m_CameraSpeed(150.f)
@@ -84,7 +86,6 @@ void CPlayer::Start()
 	{
 		return;
 	}
-
 	m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
@@ -119,15 +120,14 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("F3", Input_Type::Down, this, &CPlayer::ChangeSandy, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F6", Input_Type::Down, this, &CPlayer::Reset, m_Scene);
 
-	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
-	m_PauseUI = m_Scene->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
-	m_PauseUI->SetEnable(false);
-
 	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionTest);
 	m_Cube->SetCollisionCallback<CPlayer>(ECollision_Result::Release, this, &CPlayer::CollisionTestOut);
 	m_HeadCube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
 	m_TailCube->SetCollisionCallback<CPlayer>(ECollision_Result::Collision, this, &CPlayer::CollisionCube);
 
+	m_PlayerUI = m_Scene->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	m_PauseUI = m_Scene->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
+	m_PauseUI->SetEnable(false);
 	if (m_IsLoading)
 	{
 		CGameObject* delObj = m_Scene->FindObject("Temp");
@@ -179,6 +179,10 @@ bool CPlayer::Init()
 	m_TailCube->SetCollisionProfile("PlayerAttack");
 	m_TailCube->SetRelativePositionY(25.f);
 	m_TailCube->SetCubeSize(500.f, 50.f, 500.f);
+
+	LoadSpongebobAnim();
+	LoadPatrickAnim();
+	LoadSandyAnim();
 	return true;
 }
 
@@ -327,6 +331,7 @@ bool CPlayer::LoadCharacter()
 void CPlayer::LoadSpongebobAnim()
 {
 	m_ReserveMesh[(int)EMain_Character::Spongebob] = CResourceManager::GetInst()->FindMesh("Spongebob");
+	m_Mesh->SetMesh(m_ReserveMesh[(int)EMain_Character::Spongebob]);
 	m_Anim[(int)EMain_Character::Spongebob] = m_Mesh->SetAnimation<CAnimation>("SponegebobAnimation");
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerIdle", "Spongebob_Idle", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerWalk", "Spongebob_Walk", 1.f, 1.f, true);
@@ -405,9 +410,6 @@ void CPlayer::LoadSandyAnim()
 
 void CPlayer::LoadCheck()
 {
-	LoadSpongebobAnim();
-	LoadPatrickAnim();
-	LoadSandyAnim();
 	ChangeSpongebob();
 	LoadCharacter();
 	Reset();
@@ -732,10 +734,6 @@ void CPlayer::Missile()
 {
 }
 
-void CPlayer::Patrick_BellyAttack()
-{
-}
-
 void CPlayer::Patrick_BellyAttackMove()
 {
 	// 여기서 m_RigidBody Force 해줘야한다. 
@@ -922,7 +920,7 @@ void CPlayer::ChangeSpongebob()
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
-	m_Anim[(int)m_MainCharacter]->Start();
+	//m_Anim[(int)m_MainCharacter]->Start();
 
 	if (m_Weapon)
 	{
@@ -951,7 +949,7 @@ void CPlayer::ChangePatrick()
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
-	m_Anim[(int)m_MainCharacter]->Start();
+	//m_Anim[(int)m_MainCharacter]->Start();
 
 	if (m_Weapon)
 	{
@@ -979,8 +977,7 @@ void CPlayer::ChangeSandy()
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
-
-	m_Anim[(int)m_MainCharacter]->Start();
+	//m_Anim[(int)m_MainCharacter]->Start();
 	if (m_Weapon)
 	{
 		m_Weapon->Destroy();

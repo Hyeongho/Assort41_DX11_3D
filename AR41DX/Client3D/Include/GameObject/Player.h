@@ -194,7 +194,6 @@ public:
 	void Missile();
 
 	// Patrick
-	void Patrick_BellyAttack();
 	void Patrick_BellyAttackMove();
 	void Patrick_PickUp();
 	void Patrick_Throw();
