@@ -1,7 +1,8 @@
 #include "BusStop.h"
 
-#include "Scene/Scene.h"
+#include "Component/ColliderCube.h"
 #include "Component/StaticMeshComponent.h"
+#include "Scene/Scene.h"
 #include "../../UI/InteractUI.h"
 #include "../../UI/DialogUI.h"
 #include "../Npc/BusDriver.h"
@@ -15,6 +16,7 @@ CBusStop::CBusStop(const CBusStop& Obj) :
     CGameObject(Obj)
 {
     m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
+    m_Cube = (CColliderCube*)FindComponent("Cube");
 
     m_BusExist = Obj.m_BusExist;
 }

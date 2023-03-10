@@ -66,8 +66,8 @@ bool CEditorManager::Init(HINSTANCE hInst)
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMeshWindow>("MeshWindow");
 
     // SceneInfo »ý¼º
-    //CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
-    CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
+    CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
 
     CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
     if (objectWindow)

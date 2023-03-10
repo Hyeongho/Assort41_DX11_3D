@@ -45,6 +45,7 @@ bool CWeapon::Init()
 	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 	m_Mesh->SetMesh("SpongebobWand");
 	m_Mesh->SetWorldScale(0.5f, 0.5f, 0.5f);
+  
 	return true;
 }
 

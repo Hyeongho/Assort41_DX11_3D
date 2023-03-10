@@ -36,19 +36,19 @@ void CDefaultSetting::Init()
 
 void CDefaultSetting::CreateCDO()
 {
-    CScene::CreateObjectCDO<CPlayer>("Player");
-    CScene::CreateObjectCDO<CWeapon>("Weapon");
-    CScene::CreateObjectCDO<CBullet>("Bullet");
+    //CScene::CreateObjectCDO<CPlayer>("Player");
+    //CScene::CreateObjectCDO<CWeapon>("Weapon");
+    //CScene::CreateObjectCDO<CBullet>("Bullet");
     CScene::CreateObjectCDO<CMrKrabs>("MrKrabs");
-    CScene::CreateObjectCDO<CSquidward>("Squidward");
+    //CScene::CreateObjectCDO<CSquidward>("Squidward");
 
     //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
 
     //CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
 
-    CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
-    CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
-    CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
+    //CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
+    //CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
+    //CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
 }
 
 void CDefaultSetting::LoadResource()
@@ -76,6 +76,7 @@ void CDefaultSetting::LoadResource()
 
     // Object
     LoadCommonObj();
+    LoadCollectibleItems();
     LoadBuildings();
     LoadJellyfishFieldsObj();
     LoadCBObjects();
@@ -149,12 +150,16 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateChannel("Monster", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("MonsterAttack", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Wall", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->CreateChannel("Platform", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->CreateChannel("Collectible", ECollision_Interaction::Collision);
 
     CCollisionManager::GetInst()->CreateProfile("Player", "Player", true);
     CCollisionManager::GetInst()->CreateProfile("PlayerAttack", "PlayerAttack", true);
     CCollisionManager::GetInst()->CreateProfile("Monster", "Monster", true);
     CCollisionManager::GetInst()->CreateProfile("MonsterAttack", "MonsterAttack", true);
     CCollisionManager::GetInst()->CreateProfile("Wall", "Wall", true);
+    CCollisionManager::GetInst()->CreateProfile("Platform", "Platform", true);
+    CCollisionManager::GetInst()->CreateProfile("Collectible", "Collectible", true);
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "PlayerAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "Player", ECollision_Interaction::Ignore);
@@ -171,6 +176,13 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("MonsterAttack", "PlayerAttack", ECollision_Interaction::Ignore);
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Wall", "Wall", ECollision_Interaction::Ignore);
+
+    CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "Platform", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "PlayerAttack", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "Monster", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "Wall", ECollision_Interaction::Ignore);
+
+    CCollisionManager::GetInst()->SetCollisionInteraction("Collectible", "Collectible", ECollision_Interaction::Ignore);
 }
 
 void CDefaultSetting::LoadSound()
@@ -501,10 +513,18 @@ void CDefaultSetting::LoadTaxi()
 void CDefaultSetting::LoadCommonObj()
 {
     // InteractButton
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Button", TEXT("Objects/Common/Button.msh"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "ButtonPlate", TEXT("Objects/Common/ButtonPlate.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Button", TEXT("Object/Common/Button.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "ButtonPlate", TEXT("Object/Common/ButtonPlate.msh"), MESH_PATH);
 
     // Trampoline
+}
+
+void CDefaultSetting::LoadCollectibleItems()
+{
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GoldenSpatula", TEXT("Object/Common/GoldenSpatula.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Sock", TEXT("Object/Common/Sock.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "UnderWear", TEXT("Object/Common/UnderWear.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "ShinyFlower", TEXT("Object/Common/ShinyFlower.msh"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadBuildings()
@@ -563,6 +583,8 @@ void CDefaultSetting::LoadCBObjects()
 
 void CDefaultSetting::LoadCBLabObjects()
 {
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "CBL_Platform", TEXT("Map/CBLab/CBLab_Platform.msh"));
+
 }
 
 void CDefaultSetting::LoadParticle()

@@ -278,7 +278,6 @@ void CDialogUI::KeyLeftButton()
 			NpcObjec = (CNpc*)m_Scene->FindObject("BusDriver");
 			break;
 		case ENpcList::End:
-			break;
 		default:
 			break;
 		}

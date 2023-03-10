@@ -24,6 +24,10 @@ CAnimation::CAnimation() :
 {
 	m_ClassName = "Animation";
 	SetTypeID<CAnimation>();
+
+	m_AnimationUpdateCBuffer = new CAnimationUpdateConstantBuffer;
+	m_OutputBuffer = new CStructuredBuffer;
+	m_BoneBuffer = new CStructuredBuffer;
 }
 
 CAnimation::CAnimation(const CAnimation& Anim) :
@@ -109,16 +113,13 @@ void CAnimation::Start()
 {
 	m_AnimationUpdateShader = (CComputeShader*)CResourceManager::GetInst()->FindShader("AnimationUpdateShader");
 
-	m_AnimationUpdateCBuffer = new CAnimationUpdateConstantBuffer;
 	m_AnimationUpdateCBuffer->Init();
 	m_AnimationUpdateCBuffer->SetBoneCount((int)m_Skeleton->GetBoneCount());
 
 	m_vecBoneInfo.resize(m_Skeleton->GetBoneCount());
 
-	m_OutputBuffer = new CStructuredBuffer;
 	m_OutputBuffer->Init("OutputBone", sizeof(Matrix), (unsigned int)m_Skeleton->GetBoneCount(), 0);
 
-	m_BoneBuffer = new CStructuredBuffer;
 	m_BoneBuffer->Init("OutputBone", sizeof(OutputBoneInfo), (unsigned int)m_Skeleton->GetBoneCount(), 1,
 		D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS, D3D11_CPU_ACCESS_READ);
 }
@@ -304,7 +305,7 @@ bool CAnimation::AddAnimation(const std::string& Name,
 
 	CAnimationSequence* Sequence = nullptr;
 
-	if (GetScene())
+	if (m_Owner->GetScene())
 	{
 		Sequence = m_Owner->GetScene()->GetResource()->FindAnimationSequence(SequenceName);
 	}

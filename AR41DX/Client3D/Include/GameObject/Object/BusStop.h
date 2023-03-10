@@ -14,6 +14,7 @@ protected:
 
 protected:
 	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
+	CSharedPtr<class CColliderCube>			m_Cube;
 
 private:
 	bool	m_BusExist;

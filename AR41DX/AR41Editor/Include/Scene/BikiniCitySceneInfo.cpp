@@ -8,7 +8,7 @@
 #include "../GameObject/Npc/Patric.h"
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/BusDriver.h"
-#include "../GameObject/Object/InteractButton.h"
+#include "../GameObject/Object/Common/InteractButton.h"
 #include "../GameObject/Object/BusStop.h"
 #include "../GameObject/Tikis/Tiki_Stone.h"
 #include "../GameObject/Tikis/Tiki_Thunder.h"
@@ -41,7 +41,7 @@ bool CBikiniCitySceneInfo::Init()
 
 	//비키니시티 맵
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetRespawnPos(16500.f, 0.f, 12200.f);
+	//Player->SetRespawnPos(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
 
 	//텍스쳐 출력문제
