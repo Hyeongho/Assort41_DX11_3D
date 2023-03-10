@@ -48,17 +48,6 @@ void CMrKrabs::Start()
 #endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F", Input_Type::Up, this, &CMrKrabs::StartDialog, m_Scene);
-}
-
-bool CMrKrabs::Init()
-{
-    CNpc::Init();
-
-    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
-
-    SetRootComponent(m_AnimMesh);
-
-    m_AnimMesh->SetMesh("MrKrabs");
 
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("MrKrabsAnimation");
 
@@ -76,7 +65,17 @@ bool CMrKrabs::Init()
     m_Animation->SetCurrentEndFunction("MrKrabs_Greedy_Start", this, &CMrKrabs::ChangeAnim_Greedy_Loop);
 
     m_Animation->SetCurrentAnimation("MrKrabs_Idle");
+}
 
+bool CMrKrabs::Init()
+{
+    CNpc::Init();
+
+    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+
+    SetRootComponent(m_AnimMesh);
+
+    m_AnimMesh->SetMesh("MrKrabs");
 
     return true;
 }

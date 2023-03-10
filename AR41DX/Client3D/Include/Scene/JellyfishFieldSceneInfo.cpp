@@ -12,7 +12,7 @@
 #include "../GameObject/Npc/Patric.h"
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/TaxiDriver.h"
-#include "../GameObject/JellyfishField.h"
+//#include "../GameObject/JellyfishField.h"
 #include "Component/LightComponent.h"
 #include "Component/TerrainComponent.h"
 #include "Component/StaticMeshComponent.h"
@@ -38,19 +38,19 @@ bool CJellyfishFieldSceneInfo::Init()
 	GlobalLightComponent->SetRelativeRotation(0, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
-	//��Ű�Ͻ�Ƽ ��
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
+	Player->SetRespawnPos(16500.f, 0.f, 12200.f);
+	SetPlayerObject(Player);
+	
+	//CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
+	//CTerrainComponent* TerrainComponent= TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
+	//TerrainComponent->CreateTerrain(360, 672, 40.f, 40.f, TEXT("LandScape/ZellyFishField.png"));
 
-	CJellyfishField* JellyfishField = m_Owner->CreateObject<CJellyfishField>("JellyfishField");
-
-	//m_PlayerUI = m_Owner->GetViewport()->CreateUIWindow<CPlayerUI>("PlayerUI");
+	//CJellyfishField* JellyfishField = m_Owner->CreateObject<CJellyfishField>("JellyfishField");
 
 	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
 	CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
 	CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
-
-	SetPlayerObject(Player);
 
 	CMrKrabs* MrKrabs = m_Owner->CreateObject<CMrKrabs>("MrKrabs");
 	MrKrabs->SetWorldPosition(16500.f, 0.f, 12200.f);

@@ -53,6 +53,7 @@ bool CPatric::Init()
     //m_AnimMesh->SetMesh("Patric_Npc");
     m_AnimMesh->SetMesh("Patrick");
 
+
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("PatricNpcAnimation");
 
     m_Animation->AddAnimation("Patric_Npc_Confused", "Patric_Npc_Confused", 1.f, 1.f, false);
@@ -120,7 +121,7 @@ void CPatric::StartDialog()
     if (m_DialogCount == 0)
         DialogUI->SetCurDialog("First_Contact");
     else {
-        // ÃßÈÄ ÇÃ·¹ÀÌ¾î·ÎºÎÅÍ ÇÃ¶ó¿ö Ä«¿îÆ®¸¦ ¹Þ¾Æ Ã¼Å©. 
+        // ì¶”í›„ í”Œë ˆì´ì–´ë¡œë¶€í„° í”Œë¼ì›Œ ì¹´ìš´íŠ¸ë¥¼ ë°›ì•„ ì²´í¬. 
         int FlowerCount = 500;
         // CPlayer* Player = m_Scene->FindObject<CPlayer>("Player");
         // int FlowerCount = Player->GetFlowerCount();

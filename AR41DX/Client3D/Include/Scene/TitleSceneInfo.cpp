@@ -31,6 +31,5 @@ bool CTitleSceneInfo::Init()
 	// Background Charactor
 
 
-
     return true;
 }

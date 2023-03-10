@@ -12,6 +12,7 @@
 #include "ColliderOBB3D.h"
 #include "ColliderSphere2D.h"
 #include "ColliderPixel.h"
+#include "ColliderSphere3D.h"
 #include "../Resource/Mesh/StaticMesh.h"
 
 CColliderCube::CColliderCube()
