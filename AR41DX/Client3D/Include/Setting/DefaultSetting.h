@@ -19,35 +19,35 @@ private:
     void SetCollision();
 
     // Sound
-    void LoadPlayerSound();
     void LoadSound();
 
     // Player
-    void LoadSpongebob();
-    void LoadPatrick();
-    void LoadSandy();
+    void LoadPlayer();
 
     // Monster
     void LoadRoboSponge();
     void LoadKingJellyfish();
     void LoadJellyfish();
     void LoadTikis();
-    void LoadRobots();
+    void LoadEnemies();
 
     // NPC
     void LoadMrKrabs();
     void LoadSquidward();
     void LoadPatric_Npc();
+    void LoadBus();
+    void LoadInfoSign();
     void LoadTaxi();
 
+    // Object
+    void LoadCommonObj();
     void LoadBuildings();
     void LoadJellyfishFieldsObj();
-
     void LoadCBObjects();
     void LoadCBLabObjects();
 
-    void LoadEnemies();
-    void LoadParticle();
 
+    // Particle
+    void LoadParticle();
 };
 

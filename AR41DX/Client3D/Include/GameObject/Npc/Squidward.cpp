@@ -15,18 +15,20 @@ CSquidward::CSquidward()
     m_NpcType = ENpcList::Squidward;
     m_NpcMapPos = EMapList::Bikini_Bottom;
     m_EnableDialog = false;
+    m_NpcMeshType = MeshType::Animation;
 }
 
 CSquidward::CSquidward(const CSquidward& Obj) 
     : CNpc(Obj)
 {
-    m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+    m_AnimMesh = (CAnimationMeshComponent*)FindComponent("Mesh");
     m_Animation = (CAnimation*)FindComponent("PatricNpcAnimation");
 
     m_DialogCount = Obj.m_DialogCount;
     m_NpcType = Obj.m_NpcType;
     m_NpcMapPos = Obj.m_NpcMapPos;
     m_EnableDialog = Obj.m_EnableDialog;
+    m_NpcMeshType = Obj.m_NpcMeshType;
 }
 
 CSquidward::~CSquidward()
@@ -35,7 +37,7 @@ CSquidward::~CSquidward()
 
 void CSquidward::Start()
 {
-    CGameObject::Start();
+    CNpc::Start();
 
 #ifdef DEBUG
     CInput::GetInst()->AddBindFunction<CSquidward>("F1", Input_Type::Up, this, &CSquidward::ChangeAnim_Angry_Start, m_Scene);
@@ -47,19 +49,10 @@ void CSquidward::Start()
     CInput::GetInst()->AddBindFunction<CSquidward>("F7", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk_Idle, m_Scene);
     CInput::GetInst()->AddBindFunction<CSquidward>("F8", Input_Type::Up, this, &CSquidward::ChangeAnim_Idle, m_Scene);
 #endif // DEBUG
-}
 
-bool CSquidward::Init()
-{
-    CNpc::Init();
+    CInput::GetInst()->AddBindFunction<CSquidward>("F", Input_Type::Up, this, &CSquidward::StartDialog, m_Scene);
 
-    m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
-
-    SetRootComponent(m_Mesh);
-
-    m_Mesh->SetMesh("Squidward");
-
-    m_Animation = m_Mesh->SetAnimation<CAnimation>("SquidwardAnimation");
+    m_Animation = m_AnimMesh->SetAnimation<CAnimation>("SquidwardAnimation");
 
     m_Animation->AddAnimation("Squidward_Angry_Loop", "Squidward_Angry_Loop", 1.f, 1.f, true);
     m_Animation->AddAnimation("Squidward_Angry_Start", "Squidward_Angry_Start", 1.f, 1.f, true);
@@ -82,6 +75,17 @@ bool CSquidward::Init()
     m_Animation->SetCurrentEndFunction("Squidward_Sarcastic_Start", this, &CSquidward::ChangeAnim_Sarcastic_Loop);
 
     m_Animation->SetCurrentAnimation("Squidward_Idle");
+}
+
+bool CSquidward::Init()
+{
+    CNpc::Init();
+
+    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+
+    SetRootComponent(m_AnimMesh);
+
+    m_AnimMesh->SetMesh("Squidward");
 
     return true;
 }
@@ -111,6 +115,14 @@ void CSquidward::Load(FILE* File)
     CNpc::Load(File);
 }
 
+void CSquidward::ChangeAnimByName(const std::string& Name)
+{
+    if (!m_Animation->FindAnimation(Name))
+        return;
+
+    m_Animation->ChangeAnimation(Name);
+}
+
 void CSquidward::StartDialog()
 {
     if (!m_EnableDialog)
@@ -123,10 +135,29 @@ void CSquidward::StartDialog()
 
     DialogUI->SetDialogInfo(m_NpcMapPos, m_NpcType);
 
-    if (m_DialogCount == 0)
-        DialogUI->SetCurDialog("First_Contact");
-    else
-        DialogUI->SetCurDialog("Second_Contact");
+
+    if (m_NpcMapPos == EMapList::Bikini_Bottom) {
+        if (m_DialogCount == 0)
+            DialogUI->SetCurDialog("First_Contact");
+        else if (m_DialogCount == 5) {
+            DialogUI->SetCurDialog("EasterEgg");
+            CreateSpatula();
+        }
+        else
+            DialogUI->SetCurDialog("Contact");
+
+    }
+    else if (m_NpcMapPos == EMapList::Jelly_Fish_Field) {
+        if (m_DialogCount == 0)
+            DialogUI->SetCurDialog("First_Contact");
+        else if (m_DialogCount == 1) {
+            DialogUI->SetCurDialog("Second_Contact");
+            CreateSpatula();
+        }
+        else
+            DialogUI->SetCurDialog("Contact");
+
+    }
 
     DialogUI->OpenDialog();
 
@@ -196,4 +227,8 @@ void CSquidward::ChangeAnim_Talk_Idle()
 void CSquidward::ChangeAnim_Idle()
 {
     m_Animation->ChangeAnimation("Squidward_Idle");
+}
+
+void CSquidward::CreateSpatula()
+{
 }

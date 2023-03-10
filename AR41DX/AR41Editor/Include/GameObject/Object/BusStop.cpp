@@ -4,6 +4,7 @@
 #include "Component/StaticMeshComponent.h"
 #include "../../UI/InteractUI.h"
 #include "../../UI/DialogUI.h"
+#include "../Npc/BusDriver.h"
 
 CBusStop::CBusStop() :
     m_BusExist(false)
@@ -35,7 +36,7 @@ bool CBusStop::Init()
 
     SetRootComponent(m_Mesh);
 
-    m_Mesh->SetMesh("Taxi_Stop");
+    //m_Mesh->SetMesh("Bus_Stop");
 
     return true;
 }
@@ -44,27 +45,11 @@ void CBusStop::Update(float DeltaTime)
 {
     CGameObject::Update(DeltaTime);
 
-    //float DetectDistance = 500.f;
-
-    //Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
-
-    //float Dist = m_Mesh->GetWorldPos().Distance(PlayerPos);
-
-    //if (DetectDistance >= Dist) {
-    //    CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
-
-    //    if (!InteractUI)
-    //        return;
-
-    //    // 플레이어가 가까이(충돌 혹은 특정 범위 내에 있을 때) F를 누르면 대화가 발생하게끔.
-    //    if (DetectDistance / 2.f >= Dist) {
-    //        InteractUI->SetTarget(EInteractTarget::Bus_Stop);
-    //        InteractUI->ActiveInteractUI();
-    //    }
-    //    else {
-    //        InteractUI->InActiveInteractUI();
-    //    }
-    //}
+    // BusExist Check
+    if (m_Scene->FindObject("BusDriver"))
+        m_BusExist = true;
+    else
+        m_BusExist = false;
 }
 
 void CBusStop::PostUpdate(float DeltaTime)
@@ -85,4 +70,14 @@ void CBusStop::Save(FILE* File)
 void CBusStop::Load(FILE* File)
 {
     CGameObject::Load(File);
+}
+
+void CBusStop::CallBus()
+{
+    if (m_BusExist)
+        return;
+
+    CBusDriver* BusDriver = m_Scene->CreateObject<CBusDriver>("BusDriver");
+
+    BusDriver->MoveToBusStop();
 }

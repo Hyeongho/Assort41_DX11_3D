@@ -175,7 +175,10 @@ void CGameObject::Start()
 	m_Start = true;
 
 	if (m_RootComponent)
+	{
+		m_PrevPos = GetWorldPos();
 		m_RootComponent->Start();
+	}
 
 	size_t	Size = m_vecObjectComponent.size();
 
@@ -224,8 +227,11 @@ void CGameObject::PostUpdate(float DeltaTime)
 	}
 
 	if (m_RootComponent)
+	{
+		m_Move = GetWorldPos() - m_PrevPos;
+		m_PrevPos = GetWorldPos();
 		m_RootComponent->PostUpdate(DeltaTime);
-
+	}
 	auto	iter = m_SceneComponentList.begin();
 	auto	iterEnd = m_SceneComponentList.end();
 

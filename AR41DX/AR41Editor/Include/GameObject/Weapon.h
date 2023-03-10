@@ -13,9 +13,14 @@ protected:
 	virtual ~CWeapon();
 
 private:
-	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
-
+	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
+	CSharedPtr<class CAnimation> m_Anim;
+	float m_Angle;
 public:
+	void SetAngle(float f)
+	{
+		m_Angle = f;
+	}
 	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
@@ -23,5 +28,9 @@ public:
 	virtual CWeapon* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+	bool SetMesh(const std::string& Name);
+	void Lasso(const std::string& Name);
+	void StartLassoAtk();
+	void ResetIdle();
 };
 

@@ -2,6 +2,7 @@
 
 #include "Scene/Scene.h"
 #include "Component/AnimationMeshComponent.h"
+#include "Component/StaticMeshComponent.h"
 #include "../../UI/InteractUI.h"
 #include "../../UI/DialogUI.h"
 
@@ -38,7 +39,14 @@ void CNpc::Update(float DeltaTime)
 
     Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
 
-    float Dist = m_Mesh->GetWorldPos().Distance(PlayerPos);
+    float Dist = 0.f;
+
+    if (m_NpcMeshType == MeshType::Animation)
+        Dist = m_AnimMesh->GetWorldPos().Distance(PlayerPos);
+    else if (m_NpcMeshType == MeshType::Static)
+        Dist = m_StaticMesh->GetWorldPos().Distance(PlayerPos);
+    else
+        return;
 
     if (DetectDistance >= Dist) {
         CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
@@ -77,6 +85,10 @@ void CNpc::Save(FILE* File)
 void CNpc::Load(FILE* File)
 {
 	CGameObject::Load(File);
+}
+
+void CNpc::ChangeAnimByName(const std::string& Name)
+{
 }
 
 void CNpc::StartDialog()

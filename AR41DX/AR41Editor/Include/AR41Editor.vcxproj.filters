@@ -330,6 +330,15 @@
     <ClCompile Include="GameObject\Npc\BusDriver.cpp">
       <Filter>04. GameObject\05. Npc</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\TestScene.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\BikiniCitySceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -589,6 +598,15 @@
     </ClInclude>
     <ClInclude Include="GameObject\Npc\BusDriver.h">
       <Filter>04. GameObject\05. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\TestScene.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\BikiniCitySceneInfo.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyfishFieldSceneInfo.h">
+      <Filter>02. Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
