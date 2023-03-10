@@ -49,6 +49,8 @@ void CDefaultSetting::CreateCDO()
     //CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
     //CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
     //CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
+
+
 }
 
 void CDefaultSetting::LoadResource()
