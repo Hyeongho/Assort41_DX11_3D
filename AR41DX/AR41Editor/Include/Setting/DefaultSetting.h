@@ -44,6 +44,7 @@ private:
 
     // Object
     void LoadCommonObj();
+    void LoadCollectibleItems();
     void LoadBuildings();
     void LoadJellyfishFieldsObj();
     void LoadCBObjects();

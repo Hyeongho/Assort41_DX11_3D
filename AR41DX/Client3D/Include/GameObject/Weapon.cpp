@@ -56,6 +56,7 @@ bool CWeapon::Init()
 	m_Body->SetInheritRotX(true);
 	m_Body->SetInheritRotY(true);
 	m_Body->SetInheritRotZ(true);
+
 	return true;
 }
 
@@ -103,7 +104,7 @@ void CWeapon::StartLassoAtk()
 void CWeapon::ResetIdle()
 {
 	m_Anim->ChangeAnimation("Lasso_Idle");
-	SetWorldScale(0.2f, 0.2f, 0.2f);
+	SetWorldScale(0.5f, 0.2f, 0.2f);
 }
 
 void CWeapon::CollisionWeapon(const CollisionResult& result)

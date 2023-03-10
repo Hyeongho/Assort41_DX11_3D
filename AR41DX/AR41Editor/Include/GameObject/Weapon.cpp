@@ -56,6 +56,7 @@ bool CWeapon::Init()
 	m_Body->SetInheritRotX(true);
 	m_Body->SetInheritRotY(true);
 	m_Body->SetInheritRotZ(true);
+
 	return true;
 }
 
