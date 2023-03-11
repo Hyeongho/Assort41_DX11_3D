@@ -305,6 +305,15 @@ void CDefaultSetting::LoadPlayer()
     resourceManager->LoadAnimationSequence("Patrick_PickUpWalk", TEXT("Patrick/Patrick_PickUpWalk.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Patrick_Throw", TEXT("Patrick/Patrick_Throw.sqc"), MESH_PATH);
 
+    resourceManager->LoadSound("Effect", "Patrick_Attack", false, "Patrick/SFX_PS_BellyAttack.ogg");
+    resourceManager->LoadSound("Effect", "Patrick_Jump", false, "Patrick/SFX_PS_Jump.ogg");
+    resourceManager->LoadSound("Effect", "Patrick_Step", true, "Patrick/Pat_step1.ogg");
+    resourceManager->LoadSound("Effect", "Patrick_Slam", false, "Patrick/SFX_PS_BodySlam.ogg");
+    resourceManager->LoadSound("Effect", "Patrick_Lift", false, "Patrick/SFX_PS_Lift.ogg");
+    resourceManager->LoadSound("Effect", "Patrick_Throw", false, "Patrick/SFX_PS_Throw.ogg");
+    resourceManager->LoadSound("Effect", "Patrick_Damage", false, "Patrick/Pat_Ouch1.ogg");
+    resourceManager->LoadSound("Effect", "Patrick_Death", false, "Patrick/Pat_Ouch2.ogg");
+
 // Sandy
     resourceManager->LoadMesh(nullptr, MeshType::Animation, "Lasso", TEXT("Sandy\\Lasso\\Lasso.msh"));
     resourceManager->LoadSkeleton(nullptr, "LassoSkeleton", TEXT("Sandy\\Lasso\\Lasso.bne"), MESH_PATH);
@@ -340,10 +349,10 @@ void CDefaultSetting::LoadPlayer()
    // resourceManager->LoadSound("Effect", "Sandy_DoubleJump", false, "Sandy/SFX_SC_DoubleJump.ogg", SOUND_PATH); // 이단 점프
     resourceManager->LoadSound("Effect", "Sandy_LassoAttack", false, "Sandy/SFX_SC_LassoAttack_Throw.ogg", SOUND_PATH); // 올가미 공격
     resourceManager->LoadSound("Effect", "Sandy_LassoAttack_End", false, "Sandy/SFX_SC_LassoAttack_End.ogg", SOUND_PATH); // 올가미 공격 끝
-    //resourceManager->LoadSound("Effect", "Sandy_Hovering", true, "Sandy/SFX_SC_LassoAttack_End.ogg"); 
+    resourceManager->LoadSound("Effect", "Sandy_Hovering", true, "Sandy/SFX_SC_Lasso_Copter.ogg"); 
     resourceManager->LoadSound("Effect", "Sandy_Walk", true, "Sandy/SFX_SC_Step_001.ogg", SOUND_PATH); // 걷기
     resourceManager->LoadSound("Effect", "Sandy_Damage", false, "Sandy/SC_Ouch1.ogg", SOUND_PATH); // 다쳤을 때
-    //resourceManager->LoadSound("Effect", "Sandy_Death", false, "Spongebob/SFX_SB_Death.ogg", SOUND_PATH); // 죽음
+    resourceManager->LoadSound("Effect", "Sandy_Death", false, "Sandy/SC_Ouch2.ogg");
 }
 
 void CDefaultSetting::LoadRoboSponge()

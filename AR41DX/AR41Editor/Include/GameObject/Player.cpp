@@ -236,7 +236,7 @@ int CPlayer::InflictDamage(int damage)
 			m_Scene->GetResource()->SoundPlay("Spongebob_Death");
 			break;
 		case EMain_Character::Patrick:
-			CResourceManager::GetInst()->SoundStop("Patrick_Step");
+			m_Scene->GetResource()->SoundStop("Patrick_Step");
 			m_Scene->GetResource()->SoundPlay("Patrick_Death");
 			break;
 		case EMain_Character::Sandy:
@@ -255,7 +255,7 @@ int CPlayer::InflictDamage(int damage)
 			m_Scene->GetResource()->SoundPlay("Spongebob_Damage");
 			break;
 		case EMain_Character::Patrick:
-			CResourceManager::GetInst()->SoundStop("Patrick_Step");
+			m_Scene->GetResource()->SoundStop("Patrick_Step");
 			m_Scene->GetResource()->SoundPlay("Patrick_Damage");
 			break;
 		case EMain_Character::Sandy:
@@ -377,7 +377,7 @@ void CPlayer::LoadPatrickAnim()
 	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerAttack", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerJumpUp", "Patrick_JumpUp", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerJumpDw", "Patrick_JumpDw", 1.f, 1.f, false);
-	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerBashStart", "Patrick_SlamStart", 1.f, 2.f, false);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerBashStart", "Patrick_SlamStart", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerBashStart", this, &CPlayer::StartBash);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerBashDw", "Patrick_SlamLoop", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerBash", "Patrick_SlamEnd", 1.f, 1.f, false);
@@ -553,6 +553,7 @@ void CPlayer::JumpPush()
 		m_SpaceTime -= g_DeltaTime;
 		if (m_SpaceTime <= 0.f)
 		{
+			m_Scene->GetResource()->SoundPlay("Sandy_Hovering");
 			m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerSwingLoop");
 			m_Weapon->Lasso("Lasso_Copter");
 			m_Mesh->GetSkeleton()->GetSocket("Weapon")->SetOffset(-5.f, 180.f, 0.f);
@@ -570,6 +571,7 @@ void CPlayer::JumpUp()
 	{
 		return;
 	}
+	m_Scene->GetResource()->SoundStop("Sandy_Hovering");
 	m_SpaceTime = 1.f;
 	m_Rigid->SetGravityForce(-500.f);
 	m_Weapon->ResetIdle();
@@ -586,11 +588,11 @@ void CPlayer::JumpUp()
 
 void CPlayer::JumpCheck()
 {
+	CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
+	float Y = Nav->GetHeight(GetWorldPos());
 	//땅에 붙어있을때만 높이 갱신
 	if (m_Rigid->GetGround()&& !m_OnCollision)
 	{
-		CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
-		float Y = Nav->GetHeight(GetWorldPos());
 		if (Y != FLT_MAX)
 		{
 			SetWorldPositionY(Y);
@@ -602,12 +604,10 @@ void CPlayer::JumpCheck()
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpDw");
 	}
-	//아래로 내려오고 있을때 현재 높이와 지형의 차이가 50미만이면 아이들로 전환
+	//아래로 내려오고 있을때 현재 높이와 지형의 차이가 30미만이면 아이들로 전환
 	if (m_Rigid->GetVelocity().y < 0.f)
 	{
-		CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
-		float Y = Nav->GetHeight(GetWorldPos());
-		if (Y != FLT_MAX && GetWorldPos().y - Y < 40.f)
+		if (Y != FLT_MAX && GetWorldPos().y - Y < 30.f)
 		{
 			SetWorldPositionY(Y);
 			m_Rigid->SetGround(true);
@@ -619,7 +619,7 @@ void CPlayer::JumpCheck()
 					m_Scene->GetResource()->SoundPlay("Spongebob_BubbleBash");
 					break;
 				case EMain_Character::Patrick:
-					m_Scene->GetResource()->SoundPlay("Patrick_BubbleBash");
+					m_Scene->GetResource()->SoundPlay("Patrick_Slam");
 					break;
 				case EMain_Character::Sandy:
 					m_Scene->GetResource()->SoundPlay("Sandy_BubbleBash");
@@ -775,7 +775,7 @@ void CPlayer::LClick()
 			return;
 		}
 		m_Scene->GetResource()->SoundPlay("Patrick_Attack");
-		float angle = -GetWorldRot().y;
+		float angle = GetWorldRot().y-180.f;
 		m_Rigid->SetGround(false);
 		m_Rigid->AddForce(sinf(DegreeToRadian(angle)) * 150.f, 200.f, cosf(DegreeToRadian(angle)) * 150.f);
 		m_Rigid->SetVelocity(sinf(DegreeToRadian(angle)) * 150.f, 200.f, cosf(DegreeToRadian(angle)) * 150.f);
@@ -816,13 +816,12 @@ void CPlayer::RClickDown()
 			case EMain_Character::Patrick:
 				if (m_Weapon->GetRootComponent()->GetEnable())		
 				{
-					//던짐	sound
+					m_Scene->GetResource()->SoundPlay("Patrick_Throw");
 					m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerThrow");
 				}
 				else if(m_CanPickUp)  
 				{
-					//집는 소리
-					m_Scene->GetResource()->SoundPlay("Patrick_Throw");
+					m_Scene->GetResource()->SoundPlay("Patrick_Lift");
 					m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerPickUp");
 					m_Weapon->GetRootComponent()->SetEnable(true);
 				}
@@ -1045,6 +1044,18 @@ void CPlayer::CollisionTestOut(const CollisionResult& result)
 	m_WallCollision.HitPoint = Vector3(0.f,0.f,0.f);
 	m_Rigid->SetGround(false);
 	m_OnCollision = false;
+	switch (m_MainCharacter)
+	{
+	case EMain_Character::Spongebob:
+		m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
+		break;
+	case EMain_Character::Patrick:
+		m_Scene->GetResource()->SoundStop("Patrick_Step");
+		break;
+	case EMain_Character::Sandy:
+		m_Scene->GetResource()->SoundStop("Sandy_Walk");
+		break;
+	}
 }
 
 void CPlayer::CollisionCube(const CollisionResult& result)
