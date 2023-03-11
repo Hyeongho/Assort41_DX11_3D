@@ -281,7 +281,7 @@ void CDefaultSetting::LoadPlayer()
     resourceManager->LoadMesh(nullptr, MeshType::Animation, "Patrick", TEXT("Patrick/Patrick11.msh"), MESH_PATH);
     resourceManager->LoadSkeleton(nullptr, "PatrickSkeleton", TEXT("Patrick/Patrick11.bne"), MESH_PATH);
     resourceManager->SetMeshSkeleton("Patrick", "PatrickSkeleton");
-    resourceManager->AddSocket("PatrickSkeleton", "jt_hand_R", "Weapon", Vector3(), Vector3(-45.f, 0.f, 0.f));
+    resourceManager->AddSocket("PatrickSkeleton", "jt_hand_R", "Weapon",Vector3(-10.f, 45.f, -50.f));
 
     resourceManager->LoadAnimationSequence("Patrick_Idle", TEXT("Patrick/Patrick_Idle.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Patrick_Walk", TEXT("Patrick/Patrick_Walk.sqc"), MESH_PATH);

@@ -9,10 +9,15 @@ struct PlayerData
 	int Socks; // 양말
 	int Fritter; // 뒤집개
 	int Glittering; // 반짝이
+	Vector3		RespawnPos; //kbj checkpoint
 
-	PlayerData() : MaxHP(5), CurHP(3), Socks(0), Fritter(0), Glittering(0)
+	PlayerData() 
+		: MaxHP(5)
+		, CurHP(3)
+		, Socks(0)
+		, Fritter(0)
+		, Glittering(0)
 	{
-
 	}
 	PlayerData& operator = (const PlayerData& v)
 	{
@@ -21,11 +26,13 @@ struct PlayerData
 		Socks = v.Socks;
 		Fritter = v.Fritter;
 		Glittering = v.Glittering;
+		RespawnPos = v.RespawnPos;
 		return *this;
 	}
 	bool operator == (const PlayerData& v)	const
 	{
-		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering)
+		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering
+			|| RespawnPos!= v.RespawnPos)
 		{
 			return false;
 		}
@@ -33,7 +40,8 @@ struct PlayerData
 	}
 	bool operator != (const PlayerData& v)	const
 	{
-		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering)
+		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering
+			|| RespawnPos != v.RespawnPos)
 		{
 			return true;
 		}
@@ -80,16 +88,17 @@ protected:
 	PlayerData m_LoadData;
 	EMain_Character m_MainCharacter;
 	CollisionResult m_WallCollision;	//벽이랑 부딪히고 있는경우
-	Vector3		m_RespawnPos;
 	float m_Speed;
 	float m_CameraSpeed;
 	int m_KeyCount;
 	int m_JumpCount;
-	bool m_IsLoading;	//로드 체크용 변수-김범중
-	bool m_IsDoubleJump;	//더블점프 -김범중
-	// ========== Patrick 용 ==========
+	bool m_IsLoading;	//load check kbj
+	bool m_IsDoubleJump;	
+	bool m_OnCollision;
+	// ========== Patrick ==========
 	float m_BellyAttackTime;
-	//sandy
+	bool  m_CanPickUp;
+	// ========== sandy ==========
 	float m_SpaceTime;
 	float m_LassoDistance;
 public:
@@ -153,13 +162,13 @@ public:
 
 	void SetRespawnPos(const Vector3& vec)
 	{
-		m_RespawnPos = vec;
+		m_PlayerData.RespawnPos = vec;
 	}
 	void SetRespawnPos(float x, float y, float z)
 	{
-		m_RespawnPos.x = x;
-		m_RespawnPos.y = y;
-		m_RespawnPos.z = z;
+		m_PlayerData.RespawnPos.x = x;
+		m_PlayerData.RespawnPos.y = y;
+		m_PlayerData.RespawnPos.z = z;
 	}
 
 public:
@@ -181,7 +190,6 @@ public:
 	void CameraRotationKey();
 	void KeyDown();
 	void KeyUp();
-	void Menu();
 	void IngameUI();
 	void LClick(); // Attack
 	void RClickDown();
@@ -195,12 +203,8 @@ public:
 	void Missile();
 
 	// Patrick
-	void Patrick_BellyAttackMove();
 	void Patrick_PickUp();
 	void Patrick_Throw();
-
-	// Sandy
-	void LassoEnd();
 
 	// Change Charater
 	void ChangeSpongebob();

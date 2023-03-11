@@ -12,6 +12,7 @@
 #include "UI/UITextButton.h"
 
 #include "../Scene/LoadingSceneInfo.h"
+#include <Component/CameraComponent.h>
 
 CPauseUI::CPauseUI() :
 	m_NowUIMode(EUIPauseMode::Close),
@@ -1165,10 +1166,13 @@ void CPauseUI::KeySpace()
 
 void CPauseUI::KeyEsc()
 {
-	if (m_NowUIMode == EUIPauseMode::Close) {
+	if (m_NowUIMode == EUIPauseMode::Close) 
+	{
 		OpenUI();
+		CEngine::GetInst()->SetTimeScale(0.f);
 	}
-	else {
+	else 
+	{
 		KeyRightButton();
 	}
 }
@@ -1412,7 +1416,7 @@ void CPauseUI::SoundOptionUISFXMinus()
 {
 	CUIText* Text = (CUIText*)m_mapSoundOptionUI.find("SoundOptionUI_TextSfxSensitive")->second.Get();
 
-	float volume = _wtof(Text->GetText());
+	float volume = (float)_wtof(Text->GetText());
 
 	if (volume == 0.f)
 	{
@@ -1428,7 +1432,7 @@ void CPauseUI::SoundOptionUISFXPlus()
 {
 	CUIText* Text = (CUIText*)m_mapSoundOptionUI.find("SoundOptionUI_TextSfxSensitive")->second.Get();
 
-	float volume = _wtof(Text->GetText());
+	float volume = (float)_wtof(Text->GetText());
 
 	if (volume == 0.f)
 	{
@@ -1544,30 +1548,34 @@ void CPauseUI::CameraOptionUISensitiveMinus()
 {
 	CUIText* Text = (CUIText*)m_mapCameraOptionUI.find("CameraOptionUI_TextSensitive")->second.Get();
 
-	if (wcscmp(L"0", Text->GetText()) == 0)
+	float volume = (float)_wtof(Text->GetText());
+
+	if (volume == 10.f)
+	{
 		return;
-
+	}
 	// 수치 조절 후 해당 값을 Text에 SetText
+	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
+	Camera->SetCameraSpeed(volume-10.f);
 
-	return;
-
-	Text->SetText("");
+	Text->SetFloatText(volume - 10.f);
 }
 
 void CPauseUI::CameraOptionUISensitivePlus()
 {
 	CUIText* Text = (CUIText*)m_mapCameraOptionUI.find("CameraOptionUI_TextSensitive")->second.Get();
 
-	if (wcscmp(L"100", Text->GetText()) == 0)
+	float volume = (float)_wtof(Text->GetText());
+
+	if (volume == 100.f)
+	{
 		return;
-
+	}
 	// 수치 조절 후 해당 값을 Text에 SetText
+	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
+	Camera->SetCameraSpeed(volume + 10.f);
 
-	return;
-
-
-
-	Text->SetText("");
+	Text->SetFloatText(volume + 10.f);
 }
 
 void CPauseUI::CameraOptionUIXReverse()
@@ -1584,6 +1592,8 @@ void CPauseUI::CameraOptionUIXReverse_Normal()
 	auto iterSplotch = m_mapCameraOptionUI.find("CameraOptionUI_XReverseSelectedSplotch");
 	Vector2 vecPos = m_mapCameraOptionUI.find("CameraOptionUI_ButtonXReverseNormal")->second->GetPos();
 	iterSplotch->second->SetPos(vecPos);
+	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
+	Camera->SetCameraHorizon(true);
 }
 
 void CPauseUI::CameraOptionUIXReverse_Reverse()
@@ -1591,6 +1601,8 @@ void CPauseUI::CameraOptionUIXReverse_Reverse()
 	auto iterSplotch = m_mapCameraOptionUI.find("CameraOptionUI_XReverseSelectedSplotch");
 	Vector2 vecPos = m_mapCameraOptionUI.find("CameraOptionUI_ButtonXReverseReverse")->second->GetPos();
 	iterSplotch->second->SetPos(vecPos);
+	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
+	Camera->SetCameraHorizon(false);
 }
 
 void CPauseUI::CameraOptionUIYReverse()
@@ -1607,7 +1619,8 @@ void CPauseUI::CameraOptionUIYReverse_Normal()
 	auto iterSplotch = m_mapCameraOptionUI.find("CameraOptionUI_YReverseSelectedSplotch");
 	Vector2 vecPos = m_mapCameraOptionUI.find("CameraOptionUI_ButtonYReverseNormal")->second->GetPos();
 	iterSplotch->second->SetPos(vecPos);
-
+	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
+	Camera->SetCameraVertical(true);
 
 }
 
@@ -1616,4 +1629,6 @@ void CPauseUI::CameraOptionUIYReverse_Reverse()
 	auto iterSplotch = m_mapCameraOptionUI.find("CameraOptionUI_YReverseSelectedSplotch");
 	Vector2 vecPos = m_mapCameraOptionUI.find("CameraOptionUI_ButtonYReverseReverse")->second->GetPos();
 	iterSplotch->second->SetPos(vecPos);
+	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
+	Camera->SetCameraVertical(false);
 }
