@@ -270,6 +270,9 @@ void CRenderManager::Render3D(float DeltaTime)
 	// GBuffer와 Light를 합한 최종 화면을 만든다.
 	RenderScreen(DeltaTime);
 
+	// FXAA를 그려낸다.
+	RenderFXAA(DeltaTime);
+
 	// 완성된 타겟을 백버퍼에 출력한다.
 	RenderDeferred(DeltaTime);
 
@@ -807,6 +810,34 @@ void CRenderManager::RenderScreen(float DeltaTime)
 	m_ScreenBuffer->ResetTarget();
 }
 
+// m_FXAABuffer를 채워준다.
+void CRenderManager::RenderFXAA(float DeltaTime)
+{
+	// GBuffer 필요없고, 조명은 이미 FXAA에 구현되어있어서 안 넣어도 된다. 
+	m_FXAABuffer->ClearTarget();
+
+	m_FXAABuffer->SetTarget();
+
+	m_ScreenBuffer->SetTargetShader(10); // 1.얘를 FXAA 로 넘겨줘야한다. ->m_ScreenBuffer? m_ScreenBuffer->SetTargetShader(10);
+	m_FXAAShader->SetShader();
+
+	m_DepthDisable->SetState();
+
+	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+
+	UINT	Offset = 0;
+
+	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+	Context->Draw(4, 0);
+
+	m_DepthDisable->ResetState();
+	m_ScreenBuffer->ResetTargetShader(10);
+
+	m_FXAABuffer->ResetTarget();
+}
+
 void CRenderManager::RenderDeferred(float DeltaTime)
 {
 	m_DeferredRenderShader->SetShader();
@@ -827,7 +858,7 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 
 	m_DepthDisable->ResetState();
 
-	m_ScreenBuffer->ResetTargetShader(21);
+	m_FXAABuffer->ResetTargetShader(21);
 
 	// 디버그 모드일 경우 데칼 디버깅용 육면체를 출력한다.
 #ifdef _DEBUG
@@ -1208,6 +1239,17 @@ void CRenderManager::CreateRenderTarget()
 
 	m_ScreenShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ScreenShader");
 	m_DeferredRenderShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("DeferredRenderShader");
+
+	// FXAA 용
+	m_FXAAShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("FXAAShader");
+
+	CResourceManager::GetInst()->CreateTarget("RenderFXAA", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	m_FXAABuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderFXAA");
+
+	m_FXAABuffer->SetPos(Vector3(800.f, 0.f, 0.f));
+	m_FXAABuffer->SetScale(Vector3(400.f, 400.f, 1.f));
+	m_FXAABuffer->SetDebugRender(true);
 }
 
 bool CRenderManager::SortAlphaObject(CSceneComponent* Src, CSceneComponent* Dest)

@@ -29,6 +29,7 @@
 #include "ShadowMapStaticShader.h"
 #include "ShadowMapInstancingShader.h"
 #include "ShadowMapStaticInstancingShader.h"
+#include "FXAAShader.h"
 
 CShaderManager::CShaderManager()
 {
@@ -121,6 +122,8 @@ bool CShaderManager::Init()
 
 	CreateShader<CShadowMapStaticInstancingShader>("ShadowMapStaticInstancingShader", true);
 
+	CreateShader<CFXAAShader>("FXAAShader", true);
+
 	CreateConstantBuffer("Transform", sizeof(TransformCBuffer), 0);
 	CreateConstantBuffer("Material", sizeof(MaterialCBuffer), 1);
 	CreateConstantBuffer("Animation2D", sizeof(Animation2DCBuffer), 2);
@@ -137,6 +140,8 @@ bool CShaderManager::Init()
 	CreateConstantBuffer("ParticleCBuffer", sizeof(ParticleCBuffer), 8, (int)EShaderBufferType::Compute);
 
 	CreateConstantBuffer("Shadow", sizeof(ShadowCBuffer), 13, (int)EShaderBufferType::Graphic);
+
+	CreateConstantBuffer("FXAA", sizeof(FXAACBuffer), 10, (int)EShaderBufferType::Pixel);
 
 	m_ColliderCBuffer = new CColliderConstantBuffer;
 
