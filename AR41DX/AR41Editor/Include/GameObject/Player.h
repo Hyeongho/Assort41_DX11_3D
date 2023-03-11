@@ -153,7 +153,7 @@ public:
 	}
 
 public:
-	//공통
+	//공통k
 	void MoveFront();
 	void MoveBack();
 	void MoveLeft();

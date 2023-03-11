@@ -617,6 +617,18 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SM_JF_Teeter_Rock_01", TEXT("Objects/JellyfishFields/SM_JF_Teeter_Rock_01.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SM_JF_Teeter_Rock_02", TEXT("Objects/JellyfishFields/SM_JF_Teeter_Rock_02.msh"), MESH_PATH);
 
+    // JumpTreeTop == Animation
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "JumpTreeTop", TEXT("Objects/JellyfishFields/JumpTreeTopMesh.fbx"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "JumpTreeTopSkeleton", TEXT("Objects/JellyfishFields/JumpTreeTopMesh.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("JumpTreeTop", "JumpTreeTopSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("JumpTreeTop_Bounce", TEXT("Objects/JellyfishFields/JumpTreeTop_Bounce.fbx"), MESH_PATH);
+
+    // JumpTreeBottom == Static
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JumpTreeBottom", TEXT("Objects/JellyfishFields/JumpTreeBottomMesh.fbx"), MESH_PATH);
+
+
     // 대포
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Cannon", TEXT("Objects/JellyfishFields/Cannon.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "CannonSkeleton", TEXT("Objects/JellyfishFields/Cannon.bne"), MESH_PATH);

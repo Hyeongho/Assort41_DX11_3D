@@ -10,6 +10,7 @@
 #include "../GameObject/Duplicatotron.h"
 #include "../GameObject/BikiniBottomBuildings.h"
 #include "../GameObject/JellyfishField.h"
+#include "../GameObject/Object/JumpTree.h"
 #include "../GameObject/TeeterRock.h"
 #include "../GameObject/Cannon.h"
 #include "../GameObject/Pufferfish.h"
@@ -41,6 +42,14 @@ bool CTestSceneInfo::Init()
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
+
+
+	// 보원테스트 구간
+	CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
+	JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
+
+	//
+
 
 	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
 	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
