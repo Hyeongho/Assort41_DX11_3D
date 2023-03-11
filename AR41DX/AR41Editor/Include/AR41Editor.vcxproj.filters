@@ -375,9 +375,6 @@
     <ClCompile Include="Scene\TestScene.cpp">
       <Filter>02. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Window\TerrainWindow.cpp">
-      <Filter>07. Window</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\BikiniCitySceneInfo.cpp">
       <Filter>02. Scene\02. BikiniBottom</Filter>
     </ClCompile>
@@ -413,6 +410,12 @@
     </ClCompile>
     <ClCompile Include="Window\TerrainWindow.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\TerrainWindow.cpp">
+      <Filter>07. Window\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\PatrickObject.cpp">
+      <Filter>03. GameObject\01. Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -665,9 +668,6 @@
     <ClInclude Include="Scene\TestScene.h">
       <Filter>02. Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Window\TerrainWindow.h">
-      <Filter>07. Window</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\BikiniCitySceneInfo.h">
       <Filter>02. Scene\02. BikiniBottom</Filter>
     </ClInclude>
@@ -703,6 +703,12 @@
     </ClInclude>
     <ClInclude Include="Window\TerrainWindow.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\TerrainWindow.h">
+      <Filter>07. Window\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\PatrickObject.h">
+      <Filter>03. GameObject\01. Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

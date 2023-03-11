@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Weapon.h"
 #include "Bullet.h"
+#include "PatrickObject.h"
 #include "Input.h"
 #include "Engine.h"
 #include "Device.h"
@@ -391,7 +392,7 @@ void CPlayer::LoadPatrickAnim()
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerPickUp", "Patrick_PickUp", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerPickUp", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerThrow", "Patrick_Throw", 1.f, 1.f, false);
-	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerThrow", this, &CPlayer::ResetIdle);
+	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerThrow", this, &CPlayer::Patrick_Throw);
 }
 
 void CPlayer::LoadSandyAnim()
@@ -723,6 +724,7 @@ void CPlayer::Headbutt()
 	{
 		return;
 	}
+	m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
 	m_Scene->GetResource()->SoundPlay("Spongebob_DoubleJump");
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
 	m_Rigid->SetGround(false);
@@ -738,12 +740,15 @@ void CPlayer::Missile()
 	}
 }
 
-void CPlayer::Patrick_PickUp()
-{
-}
-
 void CPlayer::Patrick_Throw()
 {
+	CPatrickObject* PatrickObject = m_Scene->CreateObject<CPatrickObject>("PatrickObject");
+	float angle = GetWorldRot().y;
+	PatrickObject->SetWorldPosition(GetWorldPos());
+	PatrickObject->AddWorldPositionY(100.f);
+	PatrickObject->SetAngle(angle - 180.f);
+	m_Weapon->GetRootComponent()->SetEnable(false);
+	ResetIdle();
 }
 
 void CPlayer::IngameUI()
@@ -806,7 +811,7 @@ void CPlayer::RClickDown()
 			switch (m_MainCharacter)
 			{
 			case EMain_Character::Spongebob:
-				m_Scene->GetResource()->SoundPlay("Spongebob_Bowl_Charge");
+				m_Scene->GetResource()->SoundPlay("Spongebob_BubbleBowl_Charge");
 				break;
 			case EMain_Character::Patrick:
 				if (m_Weapon->GetRootComponent()->GetEnable())		
@@ -817,6 +822,7 @@ void CPlayer::RClickDown()
 				else if(m_CanPickUp)  
 				{
 					//집는 소리
+					m_Scene->GetResource()->SoundPlay("Patrick_Throw");
 					m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerPickUp");
 					m_Weapon->GetRootComponent()->SetEnable(true);
 				}
@@ -877,21 +883,15 @@ void CPlayer::RClickUp()
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
-		//불릿 바라보는 방향으로 발사
+		m_Scene->GetResource()->SoundStop("Spongebob_BubbleBowl_Charge");
 		if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerBowl")
 		{
-			m_Scene->GetResource()->SoundPlay("Spongebob_Bowl_Throw");
+			m_Scene->GetResource()->SoundPlay("Spongebob_BubbleBowl_Throw");
 			m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBowlThrow");
 			CBullet* bullet = m_Scene->CreateObject<CBullet>("SpongeBobBowl");
 			float angle = GetWorldRot().y;
-			bullet->AddWorldRotationY(GetWorldRot().y - 90.f);
 			bullet->SetWorldPosition(GetWorldPos());
-			//int intAngle = (int)GetWorldRot().y % 360;
-			AddWorldPositionX(sinf(angle) * 100.f);
-			AddWorldPositionY(50.f);
-			AddWorldPositionZ(cosf(angle) * 100.f);
-			bullet->SetDir(GetWorldPos());
-			bullet->SetLifeTime(3.f);
+			bullet->SetAngle(angle);
 		}
 		break;
 	case EMain_Character::Patrick:
@@ -978,7 +978,7 @@ void CPlayer::ChangePatrick()
 		AddChildToSocket("Weapon", m_Weapon);
 		m_Weapon->SetMesh("Ice");
 		m_Weapon->SetWorldScale(0.5f, 0.5f, 0.5f);
-		//m_Weapon->GetRootComponent()->SetEnable(false);
+		m_Weapon->GetRootComponent()->SetEnable(false);
 	}
 	else
 	{
@@ -1043,6 +1043,8 @@ void CPlayer::CollisionTestOut(const CollisionResult& result)
 	m_WallCollision.Dest = nullptr;
 	m_WallCollision.Src = nullptr;
 	m_WallCollision.HitPoint = Vector3(0.f,0.f,0.f);
+	m_Rigid->SetGround(false);
+	m_OnCollision = false;
 }
 
 void CPlayer::CollisionCube(const CollisionResult& result)

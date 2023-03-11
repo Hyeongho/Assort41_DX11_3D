@@ -203,7 +203,6 @@ public:
 	void Missile();
 
 	// Patrick
-	void Patrick_PickUp();
 	void Patrick_Throw();
 
 	// Change Charater

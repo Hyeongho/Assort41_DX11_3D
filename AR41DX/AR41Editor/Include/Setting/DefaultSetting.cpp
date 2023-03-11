@@ -1,6 +1,8 @@
 ﻿#include "DefaultSetting.h"
 #include "../GameObject/Player.h"
 #include "../GameObject/Weapon.h"
+#include "../GameObject/Bullet.h"
+#include "../GameObject/PatrickObject.h"
 //#include "../GameObject/KingJellyfish.h"
 //#include "../GameObject/Jellyfish.h"
 #include "../GameObject/Npc/MrKrabs.h"
@@ -8,7 +10,6 @@
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/TaxiDriver.h"
 #include "../GameObject/Npc/BusDriver.h"
-#include "../GameObject/Bullet.h"
 #include "../GameObject/Tikis/Tiki_Stone.h"
 #include "../GameObject/Tikis/Tiki_Thunder.h"
 #include "../GameObject/Tikis/Tiki_Wood.h"
@@ -44,6 +45,7 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateObjectCDO<CPlayer>("Player");
     CScene::CreateObjectCDO<CWeapon>("Weapon");
     CScene::CreateObjectCDO<CBullet>("Bullet");
+    CScene::CreateObjectCDO<CPatrickObject>("PatrickObject");
     CScene::CreateObjectCDO<CMrKrabs>("MrKrabs");
     CScene::CreateObjectCDO<CSquidward>("Squidward");
     CScene::CreateObjectCDO<CBusDriver>("BusDriver");
@@ -263,13 +265,15 @@ void CDefaultSetting::LoadPlayer()
     resourceManager->LoadSound("Effect", "Spongebob_BubbleSpin", false, "Spongebob/SB_bubble_spin_rework_v2.ogg", SOUND_PATH); // 해파리채 공격
     resourceManager->LoadSound("Effect", "Spongebob_BubbleBash", false, "Spongebob/SFX_SB_BubbleBash_V2.ogg", SOUND_PATH); // 해파리채 공격 강타
     resourceManager->LoadSound("Effect", "Spongebob_Jump", false, "Spongebob/SB_jump_sngl.ogg", SOUND_PATH); // 점프
-   // resourceManager->LoadSound("Effect", "Spongebob_DoubleJump", false, "Spongebob/SB_jump_dub.ogg", SOUND_PATH); // 이단 점프
+    resourceManager->LoadSound("Effect", "Spongebob_DoubleJump", false, "Spongebob/SB_jump_dub.ogg", SOUND_PATH); // 이단 점프
     resourceManager->LoadSound("Effect", "Spongebob_BubbleExplode", false, "Spongebob/SFX_SB_CruiseBubble_Explode.ogg", SOUND_PATH); // 미사일 명중
     resourceManager->LoadSound("Effect", "Spongebob_BubbleLaunch", false, "Spongebob/SFX_SB_CruiseBubble_Launch.ogg", SOUND_PATH); // 미사일 발사
     resourceManager->LoadSound("Effect", "Spongebob_BubbleLoop", false, "Spongebob/SFX_SB_CruiseBubble_Loop.ogg", SOUND_PATH); // 미사일 이동
     resourceManager->LoadSound("Effect", "Spongebob_BubbleCharge", false, "Spongebob/SFX_SB_CruiseMissile_Charge.ogg", SOUND_PATH); // 미사일 충전
     resourceManager->LoadSound("Effect", "Spongebob_WalkLeft", true, "Spongebob/SFX_SB_Run_L.ogg", SOUND_PATH); // 걷기 왼발
   //  resourceManager->LoadSound("Effect", "Spongebob_WalkRight", true, "Spongebob/SFX_SB_Run_R.ogg", SOUND_PATH); // 걷기 오른발
+    resourceManager->LoadSound("Effect", "Spongebob_BubbleBowl_Charge", true, "Spongebob/SFX_SB_BubbleBowl_Charge.ogg");
+    resourceManager->LoadSound("Effect", "Spongebob_BubbleBowl_Throw", false, "Spongebob/SFX_SB_BubbleBowl_Throw.ogg");
     resourceManager->LoadSound("Effect", "Spongebob_Damage", false, "Spongebob/SB_ouch1.ogg", SOUND_PATH); // 다쳤을 때
     resourceManager->LoadSound("Effect", "Spongebob_Death", false, "Spongebob/SFX_SB_Death.ogg", SOUND_PATH); // 죽음
 
@@ -336,8 +340,10 @@ void CDefaultSetting::LoadPlayer()
    // resourceManager->LoadSound("Effect", "Sandy_DoubleJump", false, "Sandy/SFX_SC_DoubleJump.ogg", SOUND_PATH); // 이단 점프
     resourceManager->LoadSound("Effect", "Sandy_LassoAttack", false, "Sandy/SFX_SC_LassoAttack_Throw.ogg", SOUND_PATH); // 올가미 공격
     resourceManager->LoadSound("Effect", "Sandy_LassoAttack_End", false, "Sandy/SFX_SC_LassoAttack_End.ogg", SOUND_PATH); // 올가미 공격 끝
+    //resourceManager->LoadSound("Effect", "Sandy_Hovering", true, "Sandy/SFX_SC_LassoAttack_End.ogg"); 
     resourceManager->LoadSound("Effect", "Sandy_Walk", true, "Sandy/SFX_SC_Step_001.ogg", SOUND_PATH); // 걷기
     resourceManager->LoadSound("Effect", "Sandy_Damage", false, "Sandy/SC_Ouch1.ogg", SOUND_PATH); // 다쳤을 때
+    //resourceManager->LoadSound("Effect", "Sandy_Death", false, "Spongebob/SFX_SB_Death.ogg", SOUND_PATH); // 죽음
 }
 
 void CDefaultSetting::LoadRoboSponge()

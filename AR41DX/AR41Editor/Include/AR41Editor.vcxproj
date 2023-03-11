@@ -218,6 +218,7 @@
     <ClCompile Include="GameObject\Object\Common\Collectible\UnderWear.cpp" />
     <ClCompile Include="GameObject\Object\Common\InteractButton.cpp" />
     <ClCompile Include="GameObject\Object\Common\Trampoline.cpp" />
+    <ClCompile Include="GameObject\PatrickObject.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Stone.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Thunder.cpp" />
@@ -310,6 +311,7 @@
     <ClInclude Include="GameObject\Object\Common\Collectible\UnderWear.h" />
     <ClInclude Include="GameObject\Object\Common\InteractButton.h" />
     <ClInclude Include="GameObject\Object\Common\Trampoline.h" />
+    <ClInclude Include="GameObject\PatrickObject.h" />
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Stone.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h" />
