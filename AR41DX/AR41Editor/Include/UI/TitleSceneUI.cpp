@@ -37,15 +37,15 @@ CTitleSceneUI::CTitleSceneUI(const CTitleSceneUI& Window) :
 
 CTitleSceneUI::~CTitleSceneUI()
 {
-	if(m_Scene)
-		m_Scene->GetResource()->SoundStop("Title_Bgm");
+	//if(m_Scene)
+	//	m_Scene->GetResource()->SoundStop("Title_Bgm");
 }
 
 void CTitleSceneUI::Start()
 {
 	CUIWindow::Start();
 
-	m_Scene->GetResource()->SoundPlay("Title_Bgm");
+//	m_Scene->GetResource()->SoundPlay("Title_Bgm");
 
 	// KeySetting
 	{

@@ -25,6 +25,7 @@
 #include "Setting/EngineShareSetting.h"
 #include "Scene/EditorDefaultScene.h"
 #include "Scene/BikiniCitySceneInfo.h"
+#include "Scene/TitleSceneInfo.h"
 #include "Scene/TestScene.h"
 
 CEditorManager::CEditorManager()
@@ -46,9 +47,12 @@ bool CEditorManager::Init(HINSTANCE hInst)
         return false;
     }
 
-    CSceneInfo* Info = new CEditorDefaultScene;
+    //CSceneInfo* Info = new CEditorDefaultScene;
+    CSceneInfo* Info = new CBikiniCitySceneInfo;
 
     CScene::AddSceneInfoCDO("EditorDefaultScene", Info);
+    //CScene::AddSceneInfoCDO("TitleSceneInfo", Info);
+    //CScene::AddSceneInfoCDO("BikiniCitySceneInfo", Info);
 
     CEngineShareSetting::Setting();
 
@@ -66,8 +70,9 @@ bool CEditorManager::Init(HINSTANCE hInst)
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMeshWindow>("MeshWindow");
 
     // SceneInfo »ý¼º
-    CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
-    //CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
+   // CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
+    CSceneManager::GetInst()->CreateSceneInfo<CBikiniCitySceneInfo>();
 
     CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
     if (objectWindow)

@@ -26,17 +26,6 @@ CWeapon::~CWeapon()
 void CWeapon::Start()
 {
 	CGameObject::Start();
-	if (!m_Mesh->GetSkeleton())
-	{
-		return;
-	}
-	m_Anim = m_Mesh->SetAnimation<CAnimation>("WeaponAnimation");
-	m_Anim->AddAnimation("Lasso_Idle", "Lasso_Idle", 1.f, 1.f, true);
-	m_Anim->AddAnimation("Lasso_Start", "Lasso_Start", 1.f, 1.f, false);
-	m_Anim->SetCurrentEndFunction<CWeapon>("Lasso_Start", this, &CWeapon::StartLassoAtk);
-	m_Anim->AddAnimation("Lasso_End", "Lasso_End", 1.f, 1.f, false);
-	m_Anim->SetCurrentEndFunction<CWeapon>("Lasso_End", this, &CWeapon::ResetIdle);
-	m_Anim->AddAnimation("Lasso_Copter", "Lasso_Copter", 1.f, 1.f, true);
 }
 
 bool CWeapon::Init()
@@ -45,7 +34,6 @@ bool CWeapon::Init()
 	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 	m_Mesh->SetMesh("SpongebobWand");
 	m_Mesh->SetWorldScale(0.5f, 0.5f, 0.5f);
-  
 	return true;
 }
 
@@ -76,7 +64,19 @@ void CWeapon::Load(FILE* File)
 
 bool CWeapon::SetMesh(const std::string& Name)
 {
-	return 	m_Mesh->SetMesh(Name);
+	bool isMesh = m_Mesh->SetMesh(Name);
+	if(isMesh&&Name=="Lasso")
+	{
+		m_Anim = m_Mesh->SetAnimation<CAnimation>("WeaponAnimation");
+		m_Anim->AddAnimation("Lasso_Idle", "Lasso_Idle", 1.f, 1.f, true);
+		m_Anim->AddAnimation("Lasso_Start", "Lasso_Start", 1.f, 1.f, false);
+		m_Anim->SetCurrentEndFunction<CWeapon>("Lasso_Start", this, &CWeapon::StartLassoAtk);
+		m_Anim->AddAnimation("Lasso_End", "Lasso_End", 1.f, 4.f, false);
+		m_Anim->SetCurrentEndFunction<CWeapon>("Lasso_End", this, &CWeapon::ResetIdle);
+		m_Anim->AddAnimation("Lasso_Copter", "Lasso_Copter", 1.f, 1.f, true);
+		m_Anim->Start();
+	}
+	return isMesh;
 }
 
 void CWeapon::Lasso(const std::string& Name)

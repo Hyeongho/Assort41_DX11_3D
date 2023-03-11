@@ -45,12 +45,6 @@ void CBusDriver::Start()
 #endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CBusDriver>("F", Input_Type::Up, this, &CBusDriver::StartDialog, m_Scene);
-    m_Animation = m_AnimMesh->SetAnimation<CAnimation>("BusDriverAnimation");
-
-    m_Animation->AddAnimation("Bus_Driver_Drive", "Bus_Driver_Drive", 1.f, 1.f, true);
-    m_Animation->AddAnimation("Bus_Driver_Stop", "Bus_Driver_Stop", 1.f, 1.f, false);
-
-    m_Animation->SetCurrentAnimation("Bus_Driver_Stop");
 }
 
 bool CBusDriver::Init()
@@ -63,7 +57,12 @@ bool CBusDriver::Init()
 
     m_AnimMesh->SetMesh("Bus_Driver");
 
+    m_Animation = m_AnimMesh->SetAnimation<CAnimation>("BusDriverAnimation");
 
+    m_Animation->AddAnimation("Bus_Driver_Drive", "Bus_Driver_Drive", 1.f, 1.f, true);
+    m_Animation->AddAnimation("Bus_Driver_Stop", "Bus_Driver_Stop", 1.f, 1.f, false);
+
+    m_Animation->SetCurrentAnimation("Bus_Driver_Stop");
 
     return true;
 }

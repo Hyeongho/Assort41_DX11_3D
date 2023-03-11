@@ -51,6 +51,17 @@ void CSquidward::Start()
 #endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CSquidward>("F", Input_Type::Up, this, &CSquidward::StartDialog, m_Scene);
+}
+
+bool CSquidward::Init()
+{
+    CNpc::Init();
+
+    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+
+    SetRootComponent(m_AnimMesh);
+
+    m_AnimMesh->SetMesh("Squidward");
 
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("SquidwardAnimation");
 
@@ -75,18 +86,6 @@ void CSquidward::Start()
     m_Animation->SetCurrentEndFunction("Squidward_Sarcastic_Start", this, &CSquidward::ChangeAnim_Sarcastic_Loop);
 
     m_Animation->SetCurrentAnimation("Squidward_Idle");
-}
-
-bool CSquidward::Init()
-{
-    CNpc::Init();
-
-    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
-
-    SetRootComponent(m_AnimMesh);
-
-    m_AnimMesh->SetMesh("Squidward");
-
     return true;
 }
 

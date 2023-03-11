@@ -6,7 +6,13 @@
 #include "../Scene/LightManager.h"
 #include "LightComponent.h"
 
-CCameraComponent::CCameraComponent() : m_CameraViewDistance(50000.f), m_CameraType(ECameraType::Camera3D)
+CCameraComponent::CCameraComponent() 
+	: m_CameraViewDistance(50000.f)
+	, m_CameraType(ECameraType::Camera3D)
+	, m_CameraSpeed(50.f)
+	, m_CameraHorizon(true)
+	, m_CameraVertical(true)
+
 {
 	SetTypeID<CCameraComponent>();
 
