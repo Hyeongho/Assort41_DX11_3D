@@ -9,7 +9,6 @@
 #include "Device.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
-#include "JumpTree.h"
 
 
 CJumpTree::CJumpTree()
@@ -54,6 +53,8 @@ bool CJumpTree::Init()
     m_BottomMesh->SetMesh("JumpTreeBottom");
 
     m_TopMesh->SetMesh("JumpTreeTop");
+
+    SetRootComponent(m_BottomMesh);
 
     m_BottomMesh->AddChild(m_TopMesh);
     m_BottomMesh->AddChild(m_BottomCube);

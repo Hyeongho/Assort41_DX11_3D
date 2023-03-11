@@ -2,35 +2,34 @@
 
 #include "GameObject\GameObject.h"
 
-class CJumpTree :
+class CCheckPoint :
 	public CGameObject
 {
 	friend class CScene;
 
 protected:
-	CJumpTree();
-	CJumpTree(const CJumpTree& Obj);
-	virtual ~CJumpTree();
+	CCheckPoint();
+	CCheckPoint(const CCheckPoint& Obj);
+	virtual ~CCheckPoint();
 
 private:
-	CSharedPtr<class CAnimationMeshComponent>	m_TopMesh;
+	CSharedPtr<class CAnimationMeshComponent>	m_FlagMesh;
 	CSharedPtr<class CStaticMeshComponent>		m_BottomMesh;
 	CSharedPtr<class CAnimation>				m_Animation;
-	CSharedPtr<class CColliderCube>				m_TopCube;
-	CSharedPtr<class CColliderCube>				m_BottomCube;
-
+	CSharedPtr<class CColliderCube>				m_CheckPointCube;
+	CSharedPtr<class CColliderCube>				m_DetectRange;
 
 public:
 	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
 	virtual void PostUpdate(float DeltaTime);
-	virtual CJumpTree* Clone() const;
+	virtual CCheckPoint* Clone() const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
 private:
-	void Collision_Bounce(const CollisionResult& result);
-	void Release_Idle(const CollisionResult& result);
+	void Collision_CheckPoint_Active(const CollisionResult& result);
+	void Release_CheckPoint_Inactive(const CollisionResult& result);
 };
 

@@ -11,6 +11,7 @@
 #include "../GameObject/BikiniBottomBuildings.h"
 #include "../GameObject/JellyfishField.h"
 #include "../GameObject/Object/JumpTree.h"
+#include "../GameObject/Object/TeleportBox.h"
 #include "../GameObject/TeeterRock.h"
 #include "../GameObject/Cannon.h"
 #include "../GameObject/Pufferfish.h"
@@ -47,7 +48,9 @@ bool CTestSceneInfo::Init()
 	// 보원테스트 구간
 	CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
 	JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
-
+	
+	CTeleportBox* TeleportBox = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
+	TeleportBox->SetWorldPosition(18000.f, 0.f, 13500.f);
 	//
 
 
