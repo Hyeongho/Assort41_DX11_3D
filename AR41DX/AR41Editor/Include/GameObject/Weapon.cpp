@@ -71,7 +71,7 @@ bool CWeapon::SetMesh(const std::string& Name)
 		m_Anim->AddAnimation("Lasso_Idle", "Lasso_Idle", 1.f, 1.f, true);
 		m_Anim->AddAnimation("Lasso_Start", "Lasso_Start", 1.f, 1.f, false);
 		m_Anim->SetCurrentEndFunction<CWeapon>("Lasso_Start", this, &CWeapon::StartLassoAtk);
-		m_Anim->AddAnimation("Lasso_End", "Lasso_End", 1.f, 4.f, false);
+		m_Anim->AddAnimation("Lasso_End", "Lasso_End", 1.f, 10.f, false);
 		m_Anim->SetCurrentEndFunction<CWeapon>("Lasso_End", this, &CWeapon::ResetIdle);
 		m_Anim->AddAnimation("Lasso_Copter", "Lasso_Copter", 1.f, 1.f, true);
 		m_Anim->Start();
@@ -93,6 +93,7 @@ void CWeapon::StartLassoAtk()
 
 void CWeapon::ResetIdle()
 {
+	m_Mesh->SetWorldScale(0.5f, 0.5f, 0.5f);
 	m_Mesh->SetWorldRotation(0.f,0.f,0.f);
 	m_Mesh->SetEnable(false);
 	m_Anim->ChangeAnimation("Lasso_Idle");

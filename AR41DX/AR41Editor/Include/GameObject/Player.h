@@ -57,6 +57,14 @@ enum class EMain_Character
 	Max,
 };
 
+enum class EKeyDir
+{
+	Up= 0x1,  // hex for 0000 0001 
+	Down = 0x2,  // hex for 0000 0010
+	Left = 0x4,  // hex for 0000 0100
+	Right = 0x8,  // hex for 0000 1000
+};
+
 class CPlayer : public CGameObject
 {
 	friend class CScene;
@@ -67,16 +75,15 @@ protected:
 	virtual ~CPlayer();
 
 protected:
-	//컴포넌트
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
-	CSharedPtr<class CNavigationAgent3D> m_NavAgent;
 	CSharedPtr<class CRigidBody> m_Rigid;
 	CSharedPtr<class CColliderOBB3D> m_Cube;
 	CSharedPtr<class CColliderCube> m_HeadCube;	//spongebob head
 	CSharedPtr<class CColliderCube> m_TailCube;	//spongebob bash
-	//
+	CSharedPtr<class CColliderOBB3D> m_FrontCube;	//atk
+
 	CSharedPtr<class CWeapon>	m_Weapon;
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
 	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
@@ -171,6 +178,11 @@ public:
 		m_PlayerData.RespawnPos.z = z;
 	}
 
+	void SetCanPickUp(bool b)
+	{
+		m_CanPickUp = b;
+	}
+
 public:
 	PlayerData GetPlayerData() const
 	{
@@ -179,23 +191,27 @@ public:
 
 public:
 	//공통
+	void KeyDown();
 	void MoveFront();
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
+	void KeyUpUp();
+	void KeyDownUp();
+	void KeyLeftUp();
+	void KeyRightUp();
 	void JumpDown();
 	void JumpPush(); 	// Sandy
 	void JumpUp(); 		// Sandy
 	void JumpCheck();
 	void CameraRotationKey();
-	void KeyDown();
-	void KeyUp();
 	void IngameUI();
 	void LClick(); // Attack
 	void RClickDown();
 	void RClickPush();
 	void RClickUp();
 	void StartBash();
+	void BashCheck();
 	void ResetIdle();
 
 	// Spongebob

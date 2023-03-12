@@ -39,10 +39,10 @@ void CBusDriver::Start()
 {
     CNpc::Start();
 
-#ifdef DEBUG
-    CInput::GetInst()->AddBindFunction<CBusDriver>("F1", Input_Type::Up, this, &CBusDriver::DebugKeyF1, m_Scene);
-    CInput::GetInst()->AddBindFunction<CBusDriver>("F2", Input_Type::Up, this, &CBusDriver::DebugKeyF2, m_Scene);
-#endif // DEBUG
+//#ifdef DEBUG
+//    CInput::GetInst()->AddBindFunction<CBusDriver>("F1", Input_Type::Up, this, &CBusDriver::DebugKeyF1, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CBusDriver>("F2", Input_Type::Up, this, &CBusDriver::DebugKeyF2, m_Scene);
+//#endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CBusDriver>("F", Input_Type::Up, this, &CBusDriver::StartDialog, m_Scene);
 }

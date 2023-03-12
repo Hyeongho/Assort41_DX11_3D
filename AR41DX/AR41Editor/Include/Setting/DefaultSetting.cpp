@@ -17,6 +17,8 @@
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 #include "../UI/TitleSceneUI.h"
+#include "../UI/InteractUI.h"
+#include "../UI/DialogUI.h"
 #include "Scene/Scene.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -48,9 +50,10 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateObjectCDO<CPatrickObject>("PatrickObject");
     CScene::CreateObjectCDO<CMrKrabs>("MrKrabs");
     CScene::CreateObjectCDO<CSquidward>("Squidward");
+    CScene::CreateObjectCDO<CPatric>("Patric");
     CScene::CreateObjectCDO<CBusDriver>("BusDriver");
     CScene::CreateObjectCDO<CTiki_Stone>("Tiki_Stone");
-    CScene::CreateObjectCDO<CTiki_Stone>("Tiki_Stone");
+    CScene::CreateObjectCDO<CTiki_Thunder>("Tiki_Thunder");
     CScene::CreateObjectCDO<CTiki_Wood>("Tiki_Wood");
    // CScene::CreateObjectCDO<CInteractButton>("InteractButton");
 
@@ -61,6 +64,8 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
     CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
     CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
+    CScene::CreateUIWindowCDO<CInteractUI>("InteractUI");
+    CScene::CreateUIWindowCDO<CDialogUI>("DialogUI");
 }
 
 void CDefaultSetting::LoadResource()
@@ -117,15 +122,15 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("F1", VK_F1);
     CInput::GetInst()->AddBindKey("F2", VK_F2);
     CInput::GetInst()->AddBindKey("F3", VK_F3);
-    CInput::GetInst()->AddBindKey("F4", VK_F4);     //에디터 위치변경함수
-    CInput::GetInst()->AddBindKey("F5", VK_F5);     //에디터 일시정지함수
+    CInput::GetInst()->AddBindKey("F4", VK_F4);     //editor component move
+    CInput::GetInst()->AddBindKey("F5", VK_F5);     //editor pause
     CInput::GetInst()->AddBindKey("F6", VK_F6);
     CInput::GetInst()->AddBindKey("F7", VK_F7);
     CInput::GetInst()->AddBindKey("F8", VK_F8);
     CInput::GetInst()->AddBindKey("F9", VK_F9);
     CInput::GetInst()->AddBindKey("F10", VK_F10);
-    CInput::GetInst()->AddBindKey("F11", VK_F11);
-    CInput::GetInst()->AddBindKey("F12", VK_F12);
+    CInput::GetInst()->AddBindKey("F11", VK_F11);   //mouse cursor on/off
+    CInput::GetInst()->AddBindKey("F12", VK_F12);   //Do not use
 
     // Arrow
     //겹치는 키

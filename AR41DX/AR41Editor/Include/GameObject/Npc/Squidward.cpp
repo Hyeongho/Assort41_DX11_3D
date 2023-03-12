@@ -39,16 +39,16 @@ void CSquidward::Start()
 {
     CNpc::Start();
 
-#ifdef DEBUG
-    CInput::GetInst()->AddBindFunction<CSquidward>("F1", Input_Type::Up, this, &CSquidward::ChangeAnim_Angry_Start, m_Scene);
-    CInput::GetInst()->AddBindFunction<CSquidward>("F2", Input_Type::Up, this, &CSquidward::ChangeAnim_Annoyed_Start, m_Scene);
-    CInput::GetInst()->AddBindFunction<CSquidward>("F3", Input_Type::Up, this, &CSquidward::ChangeAnim_Happy_Start, m_Scene);
-    CInput::GetInst()->AddBindFunction<CSquidward>("F4", Input_Type::Up, this, &CSquidward::ChangeAnim_Hurt_Start, m_Scene);
-    CInput::GetInst()->AddBindFunction<CSquidward>("F5", Input_Type::Up, this, &CSquidward::ChangeAnim_Sarcastic_Start, m_Scene);
-    CInput::GetInst()->AddBindFunction<CSquidward>("F6", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk, m_Scene);
-    CInput::GetInst()->AddBindFunction<CSquidward>("F7", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk_Idle, m_Scene);
-    CInput::GetInst()->AddBindFunction<CSquidward>("F8", Input_Type::Up, this, &CSquidward::ChangeAnim_Idle, m_Scene);
-#endif // DEBUG
+//#ifdef DEBUG
+//    CInput::GetInst()->AddBindFunction<CSquidward>("F1", Input_Type::Up, this, &CSquidward::ChangeAnim_Angry_Start, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CSquidward>("F2", Input_Type::Up, this, &CSquidward::ChangeAnim_Annoyed_Start, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CSquidward>("F3", Input_Type::Up, this, &CSquidward::ChangeAnim_Happy_Start, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CSquidward>("F4", Input_Type::Up, this, &CSquidward::ChangeAnim_Hurt_Start, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CSquidward>("F5", Input_Type::Up, this, &CSquidward::ChangeAnim_Sarcastic_Start, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CSquidward>("F6", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CSquidward>("F7", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk_Idle, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CSquidward>("F8", Input_Type::Up, this, &CSquidward::ChangeAnim_Idle, m_Scene);
+//#endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CSquidward>("F", Input_Type::Up, this, &CSquidward::StartDialog, m_Scene);
 }

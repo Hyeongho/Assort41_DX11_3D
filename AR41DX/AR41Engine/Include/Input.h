@@ -175,7 +175,7 @@ public:
 	bool AddBindKey(const std::string& Name, unsigned char Key);
 	void ClearCallback();
 	void ClearCallback(class CScene* Scene);
-
+	void SetMouseVisible();	//kbj
 private:
 	unsigned char ConvertKey(unsigned char Key);
 

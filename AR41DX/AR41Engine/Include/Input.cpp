@@ -11,7 +11,7 @@
 
 DEFINITION_SINGLE(CInput)
 
-CInput::CInput() : m_MouseLDown(false), m_MouseLPush(false), m_MouseLUp(false), m_InputSystem(InputSystem_Type::DInput), m_Input(nullptr),m_Keyboard(nullptr), m_Mouse(nullptr), m_KeyArray{}, m_MouseState{}, m_CollisionWidget(false), m_Wheel(0)
+CInput::CInput() : m_MouseLDown(false), m_MouseLPush(false), m_MouseLUp(false), m_InputSystem(InputSystem_Type::DInput), m_Input(nullptr),m_Keyboard(nullptr), m_Mouse(nullptr), m_KeyArray{}, m_MouseState{}, m_CollisionWidget(false), m_Wheel(0), m_ShowCursor(false)
 {
 }
 
@@ -136,8 +136,10 @@ bool CInput::Init(HINSTANCE hInst, HWND hWnd)
 	m_Alt = false;
 	m_Shift = false;
 
-	m_ShowCursor = true;
-
+	//ShowCursor(FALSE);
+	AddBindKey("F11", VK_F11);
+	AddBindFunction<CInput>("F11", Input_Type::Down, this, &CInput::SetMouseVisible,
+		CSceneManager::GetInst()->GetScene());
 	return true;
 }
 
@@ -636,6 +638,20 @@ void CInput::ClearCallback(CScene* Scene)
 				iter1++;
 			}
 		}
+	}
+}
+
+void CInput::SetMouseVisible()
+{
+	if (m_ShowCursor)
+	{
+		m_ShowCursor = false;
+		ShowCursor(FALSE);
+	}
+	else
+	{
+		m_ShowCursor = true;
+		ShowCursor(TRUE);
 	}
 }
 

@@ -152,6 +152,7 @@ bool CColliderSphere3D::Collision(CCollider* Dest)
 	}
 
 	m_HitPoint = Vector3(HitPoint.x, HitPoint.y, 0.f);
-
+	m_Result.HitPoint = m_HitPoint;
+	Dest->SetCollisionResultHitPoint(m_HitPoint);
 	return Result;
 }

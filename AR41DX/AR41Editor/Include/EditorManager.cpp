@@ -48,10 +48,11 @@ bool CEditorManager::Init(HINSTANCE hInst)
     }
 
     //CSceneInfo* Info = new CEditorDefaultScene;
-    CSceneInfo* Info = new CBikiniCitySceneInfo;
+    CSceneInfo* Info = new CTitleSceneInfo;
+    //CSceneInfo* Info = new CBikiniCitySceneInfo;
 
-    CScene::AddSceneInfoCDO("EditorDefaultScene", Info);
-    //CScene::AddSceneInfoCDO("TitleSceneInfo", Info);
+    //CScene::AddSceneInfoCDO("EditorDefaultScene", Info);
+    CScene::AddSceneInfoCDO("TitleSceneInfo", Info);
     //CScene::AddSceneInfoCDO("BikiniCitySceneInfo", Info);
 
     CEngineShareSetting::Setting();
@@ -64,7 +65,7 @@ bool CEditorManager::Init(HINSTANCE hInst)
     CEditorGUIManager::GetInst()->CreateEditorWindow<CTransformWindow>("TransformWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CSceneWindow>("SceneWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CStatusWindow>("StatusWindow");
-    CEditorGUIManager::GetInst()->CreateEditorWindow<CFBXWindow>("FBXWindow");
+    //CEditorGUIManager::GetInst()->CreateEditorWindow<CFBXWindow>("FBXWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CPathWindow>("PathWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMaterialWindow>("MaterialWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMeshWindow>("MeshWindow");
@@ -72,7 +73,8 @@ bool CEditorManager::Init(HINSTANCE hInst)
     // SceneInfo »ý¼º
     //CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
    // CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
-    CSceneManager::GetInst()->CreateSceneInfo<CBikiniCitySceneInfo>();
+    CSceneManager::GetInst()->CreateSceneInfo<CTitleSceneInfo>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CBikiniCitySceneInfo>();
 
     CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
     if (objectWindow)
