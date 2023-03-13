@@ -20,6 +20,7 @@
 #include "Resource/Animation/SkeletonSocket.h"
 #include "Animation/Animation.h"
 #include "../UI/PauseUI.h"
+#include "../UI/InteractUI.h"
 
 CPlayer::CPlayer()
 	: m_Speed(500.f)
@@ -850,7 +851,8 @@ void CPlayer::IngameUI()
 
 void CPlayer::LClick()
 {
-	if (CEngine::GetInst()->GetTimeScale() == 0.f)
+	if (m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI")->GetIsActive()||
+		CEngine::GetInst()->GetTimeScale() == 0.f)
 	{
 		return;
 	}
