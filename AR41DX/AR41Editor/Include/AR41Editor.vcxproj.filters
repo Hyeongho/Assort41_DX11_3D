@@ -141,9 +141,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="EditorManager.cpp">
       <Filter>01. Manager</Filter>
     </ClCompile>
@@ -416,6 +413,12 @@
     </ClCompile>
     <ClCompile Include="GameObject\PatrickObject.cpp">
       <Filter>03. GameObject\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\KingJellyfishSceneInfo.cpp">
+      <Filter>02. Scene\03. JellyFishField</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -709,6 +712,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\PatrickObject.h">
       <Filter>03. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\KingJellyfishSceneInfo.h">
+      <Filter>02. Scene\03. JellyFishField</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
