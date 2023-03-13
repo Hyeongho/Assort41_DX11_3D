@@ -23,6 +23,7 @@ CFodder::CFodder(const CFodder& Obj)
 {
 	m_DetectArea = (CColliderCube*)FindComponent("DetectArea");
 	m_AttackArea = (CColliderCube*)FindComponent("AttackArea");
+	m_BodyCube = (CColliderCube*)FindComponent("BodyCube");
 }
 
 CFodder::~CFodder()
@@ -38,7 +39,6 @@ void CFodder::Start()
 	//CInput::GetInst()->AddBindFunction<CFodder>("W", Input_Type::Down, this, &CFodder::Attack, m_Scene);
 	//CInput::GetInst()->AddBindFunction<CFodder>("E", Input_Type::Down, this, &CFodder::Dead, m_Scene);
 
-
 	// 탐지범위에 플레이어가 들어올 시 Notice 애니메이션 후 Walk 로 변경.
 	m_Animation->SetCurrentEndFunction("Fodder_Notice", this, &CFodder::WalkAnim);
 	//m_Animation->SetCurrentEndFunction("Fodder_Dead", this, &CFodder::WalkAnim);
@@ -47,8 +47,7 @@ void CFodder::Start()
 	m_DetectArea->SetCollisionCallback<CFodder>(ECollision_Result::Release, this, &CFodder::Release_ChaseOff);
 	m_AttackArea->SetCollisionCallback<CFodder>(ECollision_Result::Collision, this, &CFodder::Collision_AttackOn);
 	m_AttackArea->SetCollisionCallback<CFodder>(ECollision_Result::Release, this, &CFodder::Release_AttackOff);
-
-
+	m_BodyCube->SetCollisionCallback<CFodder>(ECollision_Result::Collision, this, &CFodder::Collision_Body);
 }
 
 bool CFodder::Init()
@@ -62,19 +61,27 @@ bool CFodder::Init()
 
 	m_DetectArea = CreateComponent<CColliderCube>("DetectArea");
 	m_AttackArea = CreateComponent<CColliderCube>("AttackArea");
+	m_BodyCube = CreateComponent<CColliderCube>("BodyCube");
 
 	SetRootComponent(m_Mesh);
 
 	m_Mesh->SetMesh("Fodder");
-	m_Mesh->SetWorldPosition(100.f, 50.f, 0.f);
+	m_Mesh->SetWorldPosition(100.f, 50.f, 150.f);
 	m_Mesh->AddChild(m_DetectArea);
 	m_Mesh->AddChild(m_AttackArea);
+	m_Mesh->AddChild(m_BodyCube);
 
 	m_DetectArea->SetCollisionProfile("Monster");
-	m_DetectArea->SetCubeSize(500.f, 0.f, 500.f);
+	m_DetectArea->SetCubeSize(800.f, 70.f, 800.f);
+	m_DetectArea->SetRelativePosition(0.f, 70.f);
 
 	m_AttackArea->SetCollisionProfile("MonsterAttack");
-	m_AttackArea->SetCubeSize(50.f, 70.f, 50.f);
+	m_AttackArea->SetCubeSize(380.f, 70.f, 380.f);
+	m_AttackArea->SetRelativePosition(0.f, 70.f);
+
+	m_BodyCube->SetCollisionProfile("Monster");
+	m_BodyCube->SetCubeSize(60.f, 200.f, 50.f);
+	m_BodyCube->SetRelativePosition(0.f, 100.f, -10.f);
 
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("FodderAnimation");
 
@@ -193,4 +200,9 @@ void CFodder::Collision_AttackOn(const CollisionResult& result)
 void CFodder::Release_AttackOff(const CollisionResult& result)
 {
 	m_AttackOn = false;
+}
+
+void CFodder::Collision_Body(const CollisionResult& result)
+{
+	// 데미지 받는 것.
 }

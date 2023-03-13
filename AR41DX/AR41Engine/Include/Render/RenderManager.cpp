@@ -1244,7 +1244,7 @@ void CRenderManager::CreateRenderTarget()
 	m_FXAABuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderFXAA");
 
 	m_FXAABuffer->SetPos(Vector3(900.f, 0.f, 0.f));
-	m_FXAABuffer->SetScale(Vector3(600.f, 600.f, 1.f));
+	m_FXAABuffer->SetScale(Vector3(200.f, 200.f, 1.f));
 	m_FXAABuffer->SetDebugRender(true);
 }
 

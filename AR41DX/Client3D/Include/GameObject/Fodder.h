@@ -15,6 +15,7 @@ protected:
 private:
 	CSharedPtr<class CColliderCube>		m_DetectArea;
 	CSharedPtr<class CColliderCube>		m_AttackArea;
+	CSharedPtr<class CColliderCube>		m_BodyCube;
 
 private:
 	bool	m_DetectOn;
@@ -62,4 +63,5 @@ private:
 	void Release_ChaseOff(const CollisionResult& result);
 	void Collision_AttackOn(const CollisionResult& result);
 	void Release_AttackOff(const CollisionResult& result);
+	void Collision_Body(const CollisionResult& result);
 };
