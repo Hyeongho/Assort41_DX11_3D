@@ -97,6 +97,9 @@ void CColliderCube::PostUpdate(float DeltaTime)
 	m_Info.Front = Min.z;
 	m_Info.Back = Max.z;
 
+	/*m_Info.Front = Max.z;
+	m_Info.Back = Min.z;*/
+
 	Min.x -= GetWorldPos().x;
 	Min.y -= GetWorldPos().y;
 	Min.z -= GetWorldPos().z;
@@ -178,7 +181,7 @@ bool CColliderCube::Collision(CCollider* Dest)
 		Result = CCollisionManager::GetInst()->CollisionCubeToOBB3D(HitPoint, this, (CColliderOBB3D*)Dest);
 		break;
 	case ECollider3D_Type::Sphere:
-		//Result = CCollisionManager::GetInst()->CollisionBox2DToSphere2D(HitPoint, this, (CColliderSphere2D*)Dest);
+		Result = CCollisionManager::GetInst()->CollisionCubeToSphere3D(HitPoint, this, (CColliderSphere3D*)Dest);
 		break;
 
 	}

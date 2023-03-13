@@ -1192,6 +1192,7 @@ bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo
 	CenterProjDist = abs(CenterLine.Dot(Axis));
 
 	SrcDist = Src.Length[AXIS_Y];
+
 	DestDist = abs(Axis.Dot(Dest.Axis[AXIS_X]) * Dest.Length[AXIS_X]) +
 			   abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y])+
 			   abs(Axis.Dot(Dest.Axis[AXIS_Z]) * Dest.Length[AXIS_Z]);
@@ -1202,11 +1203,15 @@ bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo
   }
 
 	Axis = Src.Axis[AXIS_Z];
+
 	CenterProjDist = abs(CenterLine.Dot(Axis));
+
 	SrcDist = Src.Length[AXIS_Z];
+
 	DestDist = abs(Axis.Dot(Dest.Axis[AXIS_X]) * Dest.Length[AXIS_X]) + 
 			   abs(Axis.Dot(Dest.Axis[AXIS_Y]) * Dest.Length[AXIS_Y])+
 			   abs(Axis.Dot(Dest.Axis[AXIS_Z]) * Dest.Length[AXIS_Z]);
+
 	if (CenterProjDist > SrcDist + DestDist)
 		return false;
 
@@ -1240,10 +1245,13 @@ bool CCollisionManager::CollisionOBB3DToOBB3D(Vector3& HitPoint, const OBB3DInfo
 	}
 
 	Axis = Dest.Axis[AXIS_Z];
+
 	CenterProjDist = abs(CenterLine.Dot(Axis));
+
 	SrcDist = abs(Axis.Dot(Src.Axis[AXIS_X]) * Src.Length[AXIS_X]) + 
 			  abs(Axis.Dot(Src.Axis[AXIS_Y]) * Src.Length[AXIS_Y])+
 			  abs(Axis.Dot(Src.Axis[AXIS_Z]) * Src.Length[AXIS_Z]);
+
 	DestDist = Dest.Length[AXIS_Z];
 
 	if (CenterProjDist > SrcDist + DestDist)
@@ -1445,6 +1453,7 @@ bool CCollisionManager::CollisionSphere3DToOBB3D(Vector3& HitPoint, const Sphere
 		return false;
 
 	CubeInfo SrcInfo, DestInfo;
+
 	SrcInfo = ConvertCubeInfo(Src);
 	DestInfo = ConvertCubeInfo(Dest);
 
