@@ -12,7 +12,7 @@
 #include "RapidXml/CXmlParser.h"
 #include "InteractUI.h"
 
-#include "../GameObject/Player.h"
+//#include "../GameObject/Player.h"
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/MrKrabs.h"
 #include "../GameObject/Npc/Patric.h"
@@ -31,8 +31,11 @@ CDialogUI::CDialogUI(const CDialogUI& Window) :
 
 CDialogUI::~CDialogUI()
 {
-	CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
-
+	CInteractUI* InteractUI = nullptr;
+	if (m_Scene) 
+	{
+		InteractUI= m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
+	}
 	if (InteractUI)
 		InteractUI->ActiveInteractUI();
 }
@@ -76,6 +79,7 @@ CDialogUI* CDialogUI::Clone()
 
 void CDialogUI::Save(FILE* File)
 {
+	m_vecWidget.clear();
 	CUIWindow::Save(File);
 }
 

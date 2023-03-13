@@ -11,6 +11,7 @@ CNpc::CNpc()
 }
 
 CNpc::CNpc(const CNpc& Obj)
+    : CGameObject(Obj)
 {
 }
 
@@ -34,11 +35,9 @@ void CNpc::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
 
-    return;
-
     float DetectDistance = 500.f;
 
-    Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
+    Vector3 PlayerPos = m_Scene->GetPlayerObject()->GetWorldPos();
 
     float Dist = 0.f;
 

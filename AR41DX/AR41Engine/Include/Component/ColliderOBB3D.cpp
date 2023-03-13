@@ -206,19 +206,20 @@ bool CColliderOBB3D::Collision(CCollider* Dest)
 	switch (((CCollider3D*)Dest)->GetCollider3DType())
 	{
 	case ECollider3D_Type::Box:
-		Result = CCollisionManager::GetInst()->CollisionCubeToOBB3D(HitPoint, (CColliderCube*)Dest, this);
+		Result = CCollisionManager::GetInst()->CollisionOBB3DToCube(HitPoint, this, (CColliderCube*)Dest);
 		break;
 	case ECollider3D_Type::OBB:
 		Result = CCollisionManager::GetInst()->CollisionOBB3DToOBB3D(HitPoint, this, (CColliderOBB3D*)Dest);
 		break;
 	case ECollider3D_Type::Sphere:
-		//Result = CCollisionManager::GetInst()->CollisionBox2DToSphere2D(HitPoint, this, (CColliderSphere2D*)Dest);
+		Result = CCollisionManager::GetInst()->CollisionOBB3DToSphere3D(HitPoint, this, (CColliderSphere3D*)Dest);
 		break;
 
 	}
 
 	m_HitPoint = Vector3(HitPoint.x, HitPoint.y, HitPoint.z);
-
+	m_Result.HitPoint = m_HitPoint;
+	Dest->SetCollisionResultHitPoint(m_HitPoint);
 	return Result;
 }
 

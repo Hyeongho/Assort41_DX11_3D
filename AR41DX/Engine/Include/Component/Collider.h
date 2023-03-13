@@ -71,6 +71,12 @@ public:
     // 반환은 겹치는 충돌섹션이 2개 미만이면 -1, 2개 이상이면 겹치는 영역중 가장 작은 인덱스를 반환한다.
     int CheckOverlapSection(CCollider* Dest);
     void SetCollisionProfile(const std::string& Name);
+//kbj
+    void SetCollisionResultHitPoint(const Vector3& hitPoint)
+    {
+        m_Result.HitPoint = hitPoint;
+    }
+//
 
     void SetCollisionResultDest(CCollider* Dest)
     {

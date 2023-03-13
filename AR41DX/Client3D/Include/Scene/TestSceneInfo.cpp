@@ -73,7 +73,7 @@ bool CTestSceneInfo::Init()
 	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
 	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
 
-	CCannon* Cannon = m_Owner->CreateObject<CCannon>("Cannon");
+	CPufferfish* Cannon = m_Owner->CreateObject<CPufferfish>("Cannon");
 	Cannon->SetWorldPosition(16500.f, 0.f, 12200.f);
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");

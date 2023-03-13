@@ -74,7 +74,7 @@ bool CObjectWindow::Init()
 
 	CScene* scene = CSceneManager::GetInst()->GetScene();
 
-	//CInput::GetInst()->SetMouseVisible();
+	CInput::GetInst()->SetMouseVisible();
 	AddInput(scene);
 	return true;
 }

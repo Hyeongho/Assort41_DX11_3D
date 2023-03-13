@@ -6,7 +6,13 @@
 #include "../Scene/LightManager.h"
 #include "LightComponent.h"
 
-CCameraComponent::CCameraComponent() : m_CameraViewDistance(50000.f), m_CameraType(ECameraType::Camera3D)
+CCameraComponent::CCameraComponent() 
+	: m_CameraViewDistance(50000.f)
+	, m_CameraType(ECameraType::Camera3D)
+	, m_CameraSpeed(50.f)
+	, m_CameraHorizon(true)
+	, m_CameraVertical(true)
+
 {
 	SetTypeID<CCameraComponent>();
 
@@ -23,7 +29,11 @@ CCameraComponent::CCameraComponent() : m_CameraViewDistance(50000.f), m_CameraTy
 	m_FrustumPos[7] = Vector3(1.f, -1.f, 1.f);
 }
 
-CCameraComponent::CCameraComponent(const CCameraComponent& component) : CSceneComponent(component)
+CCameraComponent::CCameraComponent(const CCameraComponent& component) 
+	: CSceneComponent(component)
+	, m_CameraSpeed(component.m_CameraSpeed)
+	, m_CameraHorizon(component.m_CameraHorizon)
+	, m_CameraVertical(component.m_CameraVertical)
 {
 	m_CameraViewDistance = component.m_CameraViewDistance;
 	m_matView = component.m_matView;
