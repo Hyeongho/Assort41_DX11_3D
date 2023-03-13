@@ -10,6 +10,10 @@
 #include "../GameObject/Duplicatotron.h"
 #include "../GameObject/BikiniBottomBuildings.h"
 #include "../GameObject/JellyfishField.h"
+#include "../GameObject/Object/JumpTree.h"
+#include "../GameObject/Object/TeleportBox.h"
+#include "../GameObject/Object/CheckPoint.h"
+#include "../GameObject/Object/Gate.h"
 #include "../GameObject/TeeterRock.h"
 #include "../GameObject/Cannon.h"
 #include "../GameObject/Pufferfish.h"
@@ -42,11 +46,34 @@ bool CTestSceneInfo::Init()
 	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
 
+
+	// 보원테스트 구간
+	//CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
+	//JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
+	
+	//CTeleportBox* TeleportBox1 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
+	//TeleportBox1->SetBoxIndex(1);
+
+	//CTeleportBox* TeleportBox2 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
+	//TeleportBox2->SetBoxIndex(2);
+	//Vector3 TeleportBox2Pos = TeleportBox2->GetWorldPos();
+
+	//CCheckPoint* CheckPoint = m_Owner->CreateObject<CCheckPoint>("CheckPoint");
+	//CheckPoint->SetWorldPosition(17500.f, 0.f, 13700.f);
+
+	//CGate* Gate = m_Owner->CreateObject<CGate>("Gate");
+	//Gate->SetWorldPosition(16800.f, 0.f, 13000.f);
+
+	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
+	Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
+	//
+
+
 	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
 	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
 
-	CPufferfish* Cannon = m_Owner->CreateObject<CPufferfish>("Cannon");
-	Cannon->SetWorldPosition(16500.f, 0.f, 12200.f);
+	//CPufferfish* Cannon = m_Owner->CreateObject<CPufferfish>("Cannon");
+	//Cannon->SetWorldPosition(16500.f, 0.f, 12200.f);
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
