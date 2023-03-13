@@ -37,6 +37,10 @@ protected:
 	Vector3		m_FrustumPos[8];
 	Vector4		m_FrustumPlane[Frustum_Max];
 
+	//kbj ui
+	float		m_CameraSpeed;
+	bool		m_CameraHorizon;
+	bool		m_CameraVertical;
 public:
 	const Matrix& GetShadowViewMatrix()	const
 	{
@@ -58,18 +62,28 @@ public:
 		return m_matProj;
 	}
 
-	//김범중 에디터에서 컴포넌트값 가져오는 용도
+	//kbj editor
 	ECameraType GetCameraType()	const
 	{
 		return m_CameraType;
 	}
-
 	float GetCameraViewDistance()	const
 	{
 		return m_CameraViewDistance;
 	}
-
-
+	float GetCameraSpeed()	const
+	{
+		return m_CameraSpeed;
+	}
+	bool GetCameraHorizon()	const
+	{
+		return m_CameraHorizon;
+	}
+	bool GetCameraVertical()	const
+	{
+		return m_CameraVertical;
+	}
+	//
 public:
 	void SetCameraType(ECameraType Type)
 	{
@@ -84,7 +98,20 @@ public:
 
 		ComputeProjectionMatrix();
 	}
-
+	//kbj editor
+	void SetCameraSpeed(float f)
+	{
+		m_CameraSpeed = f;
+	}
+	void SetCameraHorizon(bool b)
+	{
+		m_CameraHorizon = b;
+	}
+	void SetCameraVertical(bool b)
+	{
+		m_CameraVertical = b;
+	}
+	//
 	void ComputeProjectionMatrix();
 
 public:

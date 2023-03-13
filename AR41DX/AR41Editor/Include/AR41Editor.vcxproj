@@ -218,6 +218,7 @@
     <ClCompile Include="GameObject\Object\Common\Collectible\UnderWear.cpp" />
     <ClCompile Include="GameObject\Object\Common\InteractButton.cpp" />
     <ClCompile Include="GameObject\Object\Common\Trampoline.cpp" />
+    <ClCompile Include="GameObject\PatrickObject.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Stone.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Thunder.cpp" />
@@ -227,6 +228,7 @@
     <ClCompile Include="Scene\BikiniCitySceneInfo.cpp" />
     <ClCompile Include="Scene\EditorDefaultScene.cpp" />
     <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp" />
+    <ClCompile Include="Scene\KingJellyfishSceneInfo.cpp" />
     <ClCompile Include="Scene\LoadingSceneInfo.cpp" />
     <ClCompile Include="Scene\TestScene.cpp" />
     <ClCompile Include="Scene\TitleSceneInfo.cpp" />
@@ -310,6 +312,7 @@
     <ClInclude Include="GameObject\Object\Common\Collectible\UnderWear.h" />
     <ClInclude Include="GameObject\Object\Common\InteractButton.h" />
     <ClInclude Include="GameObject\Object\Common\Trampoline.h" />
+    <ClInclude Include="GameObject\PatrickObject.h" />
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Stone.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h" />
@@ -319,6 +322,7 @@
     <ClInclude Include="Scene\BikiniCitySceneInfo.h" />
     <ClInclude Include="Scene\EditorDefaultScene.h" />
     <ClInclude Include="Scene\JellyfishFieldSceneInfo.h" />
+    <ClInclude Include="Scene\KingJellyfishSceneInfo.h" />
     <ClInclude Include="Scene\LoadingSceneInfo.h" />
     <ClInclude Include="Scene\TestScene.h" />
     <ClInclude Include="Scene\TitleSceneInfo.h" />

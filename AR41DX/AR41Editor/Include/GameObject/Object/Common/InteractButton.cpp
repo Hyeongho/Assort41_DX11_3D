@@ -6,6 +6,8 @@
 
 CInteractButton::CInteractButton()
 {
+    SetTypeID<CInteractButton>();
+    m_ObjectTypeName = "InteractButton";
 }
 
 CInteractButton::CInteractButton(const CInteractButton& Obj) :

@@ -24,7 +24,7 @@ CLoadingSceneInfo::CLoadingSceneInfo()
 	: m_LoadingThread(nullptr)
 	, m_LoadingQueue(nullptr)
 	, m_LoadingUI(nullptr)
-	, m_StartTime(1.f)
+	, m_StartTime(3.f)
 {
 	m_ClassTypeName = "LoadingSceneInfo";
 }
@@ -45,7 +45,7 @@ bool CLoadingSceneInfo::Init()
 	m_Particle = m_Owner->CreateObject<CGameObject>("Particle");
 	m_Particle->CreateComponent<CParticleComponent>("Particle");
 	m_Particle->SetEnable(false);
-	m_Particle->SetLifeTime(m_StartTime+0.5f);
+	m_Particle->SetLifeTime(m_StartTime+3.f);
     return true;
 }
 

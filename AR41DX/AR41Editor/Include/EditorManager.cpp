@@ -25,7 +25,10 @@
 #include "Setting/EngineShareSetting.h"
 #include "Scene/EditorDefaultScene.h"
 #include "Scene/BikiniCitySceneInfo.h"
+#include "Scene/TitleSceneInfo.h"
 #include "Scene/TestScene.h"
+#include "Scene/JellyfishFieldSceneInfo.h"
+#include "Scene/KingJellyfishSceneInfo.h"
 
 CEditorManager::CEditorManager()
 {
@@ -46,9 +49,17 @@ bool CEditorManager::Init(HINSTANCE hInst)
         return false;
     }
 
-    CSceneInfo* Info = new CEditorDefaultScene;
+    //CSceneInfo* Info = new CEditorDefaultScene;
+    CSceneInfo* Info = new CTitleSceneInfo;
+    //CSceneInfo* Info = new CBikiniCitySceneInfo;
+    //CSceneInfo* Info = new CJellyfishFieldSceneInfo;
+    //CSceneInfo* Info = new CKingJellyfishSceneInfo;
 
-    CScene::AddSceneInfoCDO("EditorDefaultScene", Info);
+    //CScene::AddSceneInfoCDO("EditorDefaultScene", Info);
+    CScene::AddSceneInfoCDO("TitleSceneInfo", Info);
+    //CScene::AddSceneInfoCDO("BikiniCitySceneInfo", Info);
+    //CScene::AddSceneInfoCDO("JellyfishFieldSceneInfo", Info);
+    //CScene::AddSceneInfoCDO("KingJellyfishSceneInfo", Info);
 
     CEngineShareSetting::Setting();
 
@@ -60,14 +71,18 @@ bool CEditorManager::Init(HINSTANCE hInst)
     CEditorGUIManager::GetInst()->CreateEditorWindow<CTransformWindow>("TransformWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CSceneWindow>("SceneWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CStatusWindow>("StatusWindow");
-    CEditorGUIManager::GetInst()->CreateEditorWindow<CFBXWindow>("FBXWindow");
+    //CEditorGUIManager::GetInst()->CreateEditorWindow<CFBXWindow>("FBXWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CPathWindow>("PathWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMaterialWindow>("MaterialWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMeshWindow>("MeshWindow");
 
     // SceneInfo »ý¼º
-    CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
-    //CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
+   // CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
+    CSceneManager::GetInst()->CreateSceneInfo<CTitleSceneInfo>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CBikiniCitySceneInfo>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishFieldSceneInfo>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CKingJellyfishSceneInfo>();
 
     CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");
     if (objectWindow)

@@ -1216,7 +1216,9 @@ bool CRenderManager::SortAlphaObject(CSceneComponent* Src, CSceneComponent* Dest
 	Vector3	SrcPos = Src->GetWorldPos();
 	Vector3	DestPos = Dest->GetWorldPos();
 
-	Matrix ViewMatrix = Src->GetScene()->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
+	//kbj - for saveload
+	Matrix ViewMatrix=CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
+	//Matrix ViewMatrix = Src->GetScene()->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
 
 	SrcPos = SrcPos.TransformCoord(ViewMatrix);
 	DestPos = DestPos.TransformCoord(ViewMatrix);

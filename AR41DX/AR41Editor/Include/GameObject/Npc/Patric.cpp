@@ -50,8 +50,7 @@ bool CPatric::Init()
 
     SetRootComponent(m_AnimMesh);
 
-    //m_AnimMesh->SetMesh("Patric_Npc");
-    m_AnimMesh->SetMesh("Patrick");
+    m_AnimMesh->SetMesh("Patric_Npc");
 
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("PatricNpcAnimation");
 

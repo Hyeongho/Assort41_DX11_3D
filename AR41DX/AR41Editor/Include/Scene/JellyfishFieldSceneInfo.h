@@ -9,9 +9,6 @@ public:
     CJellyfishFieldSceneInfo();
     ~CJellyfishFieldSceneInfo();
 
-private:
-    class CPlayerUI* m_PlayerUI;
-
 public:
     virtual bool Init();
 };
