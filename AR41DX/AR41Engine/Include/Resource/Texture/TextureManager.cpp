@@ -51,11 +51,18 @@ bool CTextureManager::Init()
 	if (FAILED(CreateSampler("Anisotropic", D3D11_FILTER_ANISOTROPIC,
 		D3D11_TEXTURE_ADDRESS_WRAP, D3D11_TEXTURE_ADDRESS_WRAP,
 		D3D11_TEXTURE_ADDRESS_WRAP, BorderColor)))
-		return false;
+
+	// FXAA ¿ë
+	if (FAILED(CreateSampler("Clamp", D3D11_FILTER_ANISOTROPIC,
+		D3D11_TEXTURE_ADDRESS_CLAMP, D3D11_TEXTURE_ADDRESS_CLAMP,
+		D3D11_TEXTURE_ADDRESS_CLAMP, BorderColor)))
+
+	return false;
 
 	SetSampler("Point", 0);
 	SetSampler("Linear", 1);
 	SetSampler("Anisotropic", 2);
+	SetSampler("Clamp", 3); // FXAA ¿ë
 
 	m_DebugShader = CResourceManager::GetInst()->FindShader("DebugShader");
 

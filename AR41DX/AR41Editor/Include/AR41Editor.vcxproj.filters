@@ -419,6 +419,13 @@
     </ClCompile>
     <ClCompile Include="Scene\KingJellyfishSceneInfo.cpp">
       <Filter>02. Scene\03. JellyFishField</Filter>
+
+    <ClCompile Include="GameObject\Object\JumpTree.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\TeleportBox.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -707,6 +714,7 @@
     <ClInclude Include="Window\TerrainWindow.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+
     <ClInclude Include="Window\TerrainWindow.h">
       <Filter>07. Window\05. Component</Filter>
     </ClInclude>
@@ -715,6 +723,13 @@
     </ClInclude>
     <ClInclude Include="Scene\KingJellyfishSceneInfo.h">
       <Filter>02. Scene\03. JellyFishField</Filter>
+
+    <ClInclude Include="GameObject\Object\JumpTree.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\TeleportBox.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
