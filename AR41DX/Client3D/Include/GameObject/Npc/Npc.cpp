@@ -34,6 +34,7 @@ void CNpc::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
 
+    return;
 
     float DetectDistance = 500.f;
 

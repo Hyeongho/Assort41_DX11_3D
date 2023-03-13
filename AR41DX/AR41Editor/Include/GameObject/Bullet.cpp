@@ -1,10 +1,10 @@
-
 #include "Bullet.h"
 #include "Component/AnimationMeshComponent.h"
 #include "Component/ColliderCube.h"
 
 CBullet::CBullet()
-	: m_Speed(50.f)
+	: m_Speed(700.f)
+	, m_Angle(0.f)
 {
 	SetTypeID<CBullet>();
 
@@ -14,6 +14,7 @@ CBullet::CBullet()
 CBullet::CBullet(const CBullet& Obj)
 	: CGameObject(Obj)
 	, m_Speed(Obj.m_Speed)
+	, m_Angle(0.f)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Body = (CColliderCube*)FindComponent("Body");
@@ -26,17 +27,13 @@ CBullet::~CBullet()
 void CBullet::Start()
 {
 	CGameObject::Start();
-
-	m_Anim = m_Mesh->SetAnimation<CAnimation>("SpongebobMissileAnimation");
-	m_Anim->AddAnimation("MissileStart", "SpongebobMissile_Start", 1.f, 1.f, false);
-	m_Anim->SetCurrentEndFunction<CBullet>("MissileStart", this, &CBullet::ResetIdle);
-	m_Anim->AddAnimation("MissileIdle", "SpongebobMissile_Idle", 1.f, 1.f, true);
-	m_Anim->Start();
 }
 
 bool CBullet::Init()
 {
 	CGameObject::Init();
+	SetLifeTime(3.f);
+
 	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 	m_Body = CreateComponent<CColliderCube>("Body");
 
@@ -47,6 +44,11 @@ bool CBullet::Init()
 
 	m_Body->SetCollisionProfile("PlayerAttack");
 	m_Body->SetCollisionCallback<CBullet>(ECollision_Result::Collision, this, &CBullet::CollisionBullet);
+
+	m_Anim = m_Mesh->SetAnimation<CAnimation>("SpongebobMissileAnimation");
+	m_Anim->AddAnimation("MissileStart", "SpongebobMissile_Start", 1.f, 1.f, false);
+	m_Anim->SetCurrentEndFunction<CBullet>("MissileStart", this, &CBullet::ResetIdle);
+	m_Anim->AddAnimation("MissileIdle", "SpongebobMissile_Idle", 1.f, 1.f, true);
 	return true;
 }
 
@@ -55,8 +57,9 @@ void CBullet::Update(float DeltaTime)
 	CGameObject::Update(DeltaTime);
 
 	if (m_Anim->GetCurrentAnimationName() == "MissileIdle")
-	{
-		AddWorldPosition(m_Dir * m_Speed * DeltaTime);
+	{		
+		AddWorldPositionX(sinf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime);
+		AddWorldPositionZ(cosf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime);
 	}
 }
 
@@ -70,10 +73,23 @@ CBullet* CBullet::Clone() const
 	return new CBullet(*this);
 }
 
-void CBullet::SetDir(const Vector3& vec)
+void CBullet::Save(FILE* File)
 {
-	m_Dir= GetWorldPos()- vec ;
-	m_Dir.y = 0;
+	CGameObject::Save(File);
+}
+
+void CBullet::Load(FILE* File)
+{
+	CGameObject::Load(File);
+}
+
+void CBullet::SetAngle(float f)
+{
+	SetWorldRotationY(f -90.f);
+	AddWorldPositionX(sinf(DegreeToRadian(f-135.f)) * 100.f);
+	AddWorldPositionZ(cosf(DegreeToRadian(f-135.f)) * 100.f);
+	m_Angle = f-180.f;
+	AddWorldPositionY(50.f);
 }
 
 void CBullet::CollisionBullet(const CollisionResult& result)

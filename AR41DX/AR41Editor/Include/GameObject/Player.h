@@ -9,10 +9,15 @@ struct PlayerData
 	int Socks; // 양말
 	int Fritter; // 뒤집개
 	int Glittering; // 반짝이
+	Vector3		RespawnPos; //kbj checkpoint
 
-	PlayerData() : MaxHP(5), CurHP(3), Socks(0), Fritter(0), Glittering(0)
+	PlayerData() 
+		: MaxHP(5)
+		, CurHP(3)
+		, Socks(0)
+		, Fritter(0)
+		, Glittering(0)
 	{
-
 	}
 	PlayerData& operator = (const PlayerData& v)
 	{
@@ -21,11 +26,13 @@ struct PlayerData
 		Socks = v.Socks;
 		Fritter = v.Fritter;
 		Glittering = v.Glittering;
+		RespawnPos = v.RespawnPos;
 		return *this;
 	}
 	bool operator == (const PlayerData& v)	const
 	{
-		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering)
+		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering
+			|| RespawnPos!= v.RespawnPos)
 		{
 			return false;
 		}
@@ -33,7 +40,8 @@ struct PlayerData
 	}
 	bool operator != (const PlayerData& v)	const
 	{
-		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering)
+		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering
+			|| RespawnPos != v.RespawnPos)
 		{
 			return true;
 		}
@@ -49,6 +57,14 @@ enum class EMain_Character
 	Max,
 };
 
+enum class EKeyDir
+{
+	Up= 0x1,  // hex for 0000 0001 
+	Down = 0x2,  // hex for 0000 0010
+	Left = 0x4,  // hex for 0000 0100
+	Right = 0x8,  // hex for 0000 1000
+};
+
 class CPlayer : public CGameObject
 {
 	friend class CScene;
@@ -59,16 +75,15 @@ protected:
 	virtual ~CPlayer();
 
 protected:
-	//컴포넌트
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CCameraComponent> m_Camera;
 	CSharedPtr<class CTargetArm> m_Arm;
-	CSharedPtr<class CNavigationAgent3D> m_NavAgent;
 	CSharedPtr<class CRigidBody> m_Rigid;
 	CSharedPtr<class CColliderOBB3D> m_Cube;
 	CSharedPtr<class CColliderCube> m_HeadCube;	//spongebob head
 	CSharedPtr<class CColliderCube> m_TailCube;	//spongebob bash
-	//
+	CSharedPtr<class CColliderOBB3D> m_FrontCube;	//atk
+
 	CSharedPtr<class CWeapon>	m_Weapon;
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
 	CSharedPtr<class CAnimation> m_Anim[(int)EMain_Character::Max];
@@ -80,17 +95,19 @@ protected:
 	PlayerData m_LoadData;
 	EMain_Character m_MainCharacter;
 	CollisionResult m_WallCollision;	//벽이랑 부딪히고 있는경우
-	Vector3		m_RespawnPos;
 	float m_Speed;
 	float m_CameraSpeed;
 	int m_KeyCount;
 	int m_JumpCount;
-	bool m_IsLoading;	//로드 체크용 변수-김범중
-	bool m_IsDoubleJump;	//더블점프 -김범중
-	// ========== Patrick 용 ==========
+	bool m_IsLoading;	//load check kbj
+	bool m_IsDoubleJump;	
+	bool m_OnCollision;
+	// ========== Patrick ==========
 	float m_BellyAttackTime;
-	//sandy
+	bool  m_CanPickUp;
+	// ========== sandy ==========
 	float m_SpaceTime;
+	float m_LassoDistance;
 public:
 	virtual void Destroy();
 	virtual void Start();
@@ -152,13 +169,18 @@ public:
 
 	void SetRespawnPos(const Vector3& vec)
 	{
-		m_RespawnPos = vec;
+		m_PlayerData.RespawnPos = vec;
 	}
 	void SetRespawnPos(float x, float y, float z)
 	{
-		m_RespawnPos.x = x;
-		m_RespawnPos.y = y;
-		m_RespawnPos.z = z;
+		m_PlayerData.RespawnPos.x = x;
+		m_PlayerData.RespawnPos.y = y;
+		m_PlayerData.RespawnPos.z = z;
+	}
+
+	void SetCanPickUp(bool b)
+	{
+		m_CanPickUp = b;
 	}
 
 public:
@@ -169,24 +191,27 @@ public:
 
 public:
 	//공통
+	void KeyDown();
 	void MoveFront();
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
+	void KeyUpUp();
+	void KeyDownUp();
+	void KeyLeftUp();
+	void KeyRightUp();
 	void JumpDown();
 	void JumpPush(); 	// Sandy
 	void JumpUp(); 		// Sandy
 	void JumpCheck();
 	void CameraRotationKey();
-	void KeyDown();
-	void KeyUp();
-	void Menu();
 	void IngameUI();
 	void LClick(); // Attack
 	void RClickDown();
 	void RClickPush();
 	void RClickUp();
 	void StartBash();
+	void BashCheck();
 	void ResetIdle();
 
 	// Spongebob
@@ -194,8 +219,6 @@ public:
 	void Missile();
 
 	// Patrick
-	void Patrick_BellyAttackMove();
-	void Patrick_PickUp();
 	void Patrick_Throw();
 
 	// Change Charater

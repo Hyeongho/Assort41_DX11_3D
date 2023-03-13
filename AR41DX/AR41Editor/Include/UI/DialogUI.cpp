@@ -31,8 +31,11 @@ CDialogUI::CDialogUI(const CDialogUI& Window) :
 
 CDialogUI::~CDialogUI()
 {
-	CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
-
+	CInteractUI* InteractUI = nullptr;
+	if (m_Scene) 
+	{
+		InteractUI= m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
+	}
 	if (InteractUI)
 		InteractUI->ActiveInteractUI();
 }
@@ -76,6 +79,7 @@ CDialogUI* CDialogUI::Clone()
 
 void CDialogUI::Save(FILE* File)
 {
+	m_vecWidget.clear();
 	CUIWindow::Save(File);
 }
 
@@ -277,7 +281,6 @@ void CDialogUI::KeyLeftButton()
 			NpcObjec = (CNpc*)m_Scene->FindObject("BusDriver");
 			break;
 		case ENpcList::End:
-			break;
 		default:
 			break;
 		}

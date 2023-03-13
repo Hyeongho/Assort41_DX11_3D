@@ -39,15 +39,26 @@ void CMrKrabs::Start()
 {
     CNpc::Start();
 
-#ifdef DEBUG
-    CInput::GetInst()->AddBindFunction<CMrKrabs>("F1", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Angry_Start, m_Scene);
-    CInput::GetInst()->AddBindFunction<CMrKrabs>("F2", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Deceptive_Start, m_Scene);
-    CInput::GetInst()->AddBindFunction<CMrKrabs>("F3", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Greedy_Start, m_Scene);
-    CInput::GetInst()->AddBindFunction<CMrKrabs>("F4", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Laughing, m_Scene);
-    CInput::GetInst()->AddBindFunction<CMrKrabs>("F5", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Idle, m_Scene);
-#endif // DEBUG
+//#ifdef _DEBUG
+//    CInput::GetInst()->AddBindFunction<CMrKrabs>("F1", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Angry_Start, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CMrKrabs>("F2", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Deceptive_Start, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CMrKrabs>("F3", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Greedy_Start, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CMrKrabs>("F4", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Laughing, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CMrKrabs>("F5", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Idle, m_Scene);
+//#endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F", Input_Type::Up, this, &CMrKrabs::StartDialog, m_Scene);
+}
+
+bool CMrKrabs::Init()
+{
+    CNpc::Init();
+
+    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+
+    SetRootComponent(m_AnimMesh);
+
+    m_AnimMesh->SetMesh("MrKrabs");
 
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("MrKrabsAnimation");
 
@@ -65,17 +76,6 @@ void CMrKrabs::Start()
     m_Animation->SetCurrentEndFunction("MrKrabs_Greedy_Start", this, &CMrKrabs::ChangeAnim_Greedy_Loop);
 
     m_Animation->SetCurrentAnimation("MrKrabs_Idle");
-}
-
-bool CMrKrabs::Init()
-{
-    CNpc::Init();
-
-    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
-
-    SetRootComponent(m_AnimMesh);
-
-    m_AnimMesh->SetMesh("MrKrabs");
 
     return true;
 }

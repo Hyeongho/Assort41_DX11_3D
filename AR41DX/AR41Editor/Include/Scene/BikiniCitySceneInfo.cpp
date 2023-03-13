@@ -8,7 +8,7 @@
 #include "../GameObject/Npc/Patric.h"
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/BusDriver.h"
-#include "../GameObject/Object/InteractButton.h"
+#include "../GameObject/Object/Common/InteractButton.h"
 #include "../GameObject/Object/BusStop.h"
 #include "../GameObject/Tikis/Tiki_Stone.h"
 #include "../GameObject/Tikis/Tiki_Thunder.h"
@@ -44,28 +44,27 @@ bool CBikiniCitySceneInfo::Init()
 	Player->SetRespawnPos(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
 
-	//텍스쳐 출력문제
-	//CTiki_Stone* Tiki_Stone = m_Owner->CreateObject<CTiki_Stone>("Tiki_Stone");
-	//Tiki_Stone->SetWorldPosition(16500.f, 0.f, 12200.f);
+	CTiki_Stone* Tiki_Stone = m_Owner->CreateObject<CTiki_Stone>("Tiki_Stone");
+	Tiki_Stone->SetWorldPosition(9500.f, 0.f, 15000.f);
 
-	//CTiki_Thunder* Tiki_Thunder = m_Owner->CreateObject<CTiki_Thunder>("Tiki_Thunder");
-	//Tiki_Thunder->SetWorldPosition(16500.f, 0.f, 12200.f);
+	CTiki_Thunder* Tiki_Thunder = m_Owner->CreateObject<CTiki_Thunder>("Tiki_Thunder");
+	Tiki_Thunder->SetWorldPosition(10000.f, 0.f, 14600.f);
 
-	//CTiki_Wood* Tiki_Wood = m_Owner->CreateObject<CTiki_Wood>("Tiki_Wood");
-	//Tiki_Wood->SetWorldPosition(16500.f, 0.f, 12200.f);
+	CTiki_Wood* Tiki_Wood = m_Owner->CreateObject<CTiki_Wood>("Tiki_Wood");
+	Tiki_Wood->SetWorldPosition(9300.f, 0.f, 14500.f);
 	//애니메이션 문제
 	//CInteractButton* InteractButton = m_Owner->CreateObject<CInteractButton>("InteractButton");
 	//InteractButton->SetWorldPosition(16500.f, 0.f, 12200.f);
 
-	//CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
-	//Patric->SetWorldPosition(16500.f, 0.f, 12200.f);
+	CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
+	Patric->SetWorldPosition(15000.f, 0.f, 14000.f);
 
 	CMrKrabs* MrKrabs = m_Owner->CreateObject<CMrKrabs>("MrKrabs");
 	MrKrabs->SetWorldPosition(11000.f, 0.f, 13000.f);
 	MrKrabs->SetWorldRotationY(180.f);
 
 	CSquidward* Squidward = m_Owner->CreateObject<CSquidward>("Squidward");
-	Squidward->SetWorldPosition(15100.f, 0.f, 14000.f);
+	Squidward->SetWorldPosition(15600, 0.f, 13400.f);
 
 	CBusDriver* BusDriver = m_Owner->CreateObject<CBusDriver>("BusDriver");
 	BusDriver->SetWorldPosition(9400.f, 0.f, 12700.f);

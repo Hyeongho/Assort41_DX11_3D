@@ -16,7 +16,7 @@ private:
 	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
 	CSharedPtr<class CAnimation>				m_Animation;
 	CSharedPtr<class CRigidBody>				m_Rigid;
-	CSharedPtr<class CColliderCube>				m_Cube;
+	CSharedPtr<class CColliderOBB3D>			m_Collider;
 
 public:
 	virtual void Start();

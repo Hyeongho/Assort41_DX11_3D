@@ -57,6 +57,7 @@ CInteractUI* CInteractUI::Clone()
 
 void CInteractUI::Save(FILE* File)
 {
+	m_vecWidget.clear();
 	CUIWindow::Save(File);
 }
 

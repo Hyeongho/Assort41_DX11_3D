@@ -22,6 +22,7 @@
 
 CJellyfishFieldSceneInfo::CJellyfishFieldSceneInfo()
 {
+	m_ClassTypeName = "JellyfishFieldSceneInfo";
 }
 
 CJellyfishFieldSceneInfo::~CJellyfishFieldSceneInfo()
@@ -39,7 +40,7 @@ bool CJellyfishFieldSceneInfo::Init()
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetRespawnPos(16500.f, 0.f, 12200.f);
+	//Player->SetRespawnPos(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
 	
 	//CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");

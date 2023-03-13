@@ -118,7 +118,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>call $(SolutionDir)EditorCopy.bat</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -139,7 +140,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>call $(SolutionDir)EditorCopy.bat</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -156,7 +158,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>call $(SolutionDir)EditorCopy.bat</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -177,7 +180,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>call $(SolutionDir)EditorCopy.bat</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -206,8 +210,15 @@
     <ClCompile Include="GameObject\Npc\Squidward.cpp" />
     <ClCompile Include="GameObject\Npc\TaxiDriver.cpp" />
     <ClCompile Include="GameObject\Object\BusStop.cpp" />
-    <ClCompile Include="GameObject\Object\InteractButton.cpp" />
-    <ClCompile Include="GameObject\Object\Trampoline.cpp" />
+    <ClCompile Include="GameObject\Object\CBL\CBL_Platform.cpp" />
+    <ClCompile Include="GameObject\Object\Common\Collectible\CollectibleItems.cpp" />
+    <ClCompile Include="GameObject\Object\Common\Collectible\GoldenSpatula.cpp" />
+    <ClCompile Include="GameObject\Object\Common\Collectible\ShinyFlower.cpp" />
+    <ClCompile Include="GameObject\Object\Common\Collectible\Sock.cpp" />
+    <ClCompile Include="GameObject\Object\Common\Collectible\UnderWear.cpp" />
+    <ClCompile Include="GameObject\Object\Common\InteractButton.cpp" />
+    <ClCompile Include="GameObject\Object\Common\Trampoline.cpp" />
+    <ClCompile Include="GameObject\PatrickObject.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Stone.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Thunder.cpp" />
@@ -217,6 +228,7 @@
     <ClCompile Include="Scene\BikiniCitySceneInfo.cpp" />
     <ClCompile Include="Scene\EditorDefaultScene.cpp" />
     <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp" />
+    <ClCompile Include="Scene\KingJellyfishSceneInfo.cpp" />
     <ClCompile Include="Scene\LoadingSceneInfo.cpp" />
     <ClCompile Include="Scene\TestScene.cpp" />
     <ClCompile Include="Scene\TitleSceneInfo.cpp" />
@@ -292,8 +304,15 @@
     <ClInclude Include="GameObject\Npc\Patric.h" />
     <ClInclude Include="GameObject\Npc\Squidward.h" />
     <ClInclude Include="GameObject\Npc\TaxiDriver.h" />
-    <ClInclude Include="GameObject\Object\InteractButton.h" />
-    <ClInclude Include="GameObject\Object\Trampoline.h" />
+    <ClInclude Include="GameObject\Object\CBL\CBL_Platform.h" />
+    <ClInclude Include="GameObject\Object\Common\Collectible\CollectibleItems.h" />
+    <ClInclude Include="GameObject\Object\Common\Collectible\GoldenSpatula.h" />
+    <ClInclude Include="GameObject\Object\Common\Collectible\ShinyFlower.h" />
+    <ClInclude Include="GameObject\Object\Common\Collectible\Sock.h" />
+    <ClInclude Include="GameObject\Object\Common\Collectible\UnderWear.h" />
+    <ClInclude Include="GameObject\Object\Common\InteractButton.h" />
+    <ClInclude Include="GameObject\Object\Common\Trampoline.h" />
+    <ClInclude Include="GameObject\PatrickObject.h" />
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Stone.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h" />
@@ -303,6 +322,7 @@
     <ClInclude Include="Scene\BikiniCitySceneInfo.h" />
     <ClInclude Include="Scene\EditorDefaultScene.h" />
     <ClInclude Include="Scene\JellyfishFieldSceneInfo.h" />
+    <ClInclude Include="Scene\KingJellyfishSceneInfo.h" />
     <ClInclude Include="Scene\LoadingSceneInfo.h" />
     <ClInclude Include="Scene\TestScene.h" />
     <ClInclude Include="Scene\TitleSceneInfo.h" />

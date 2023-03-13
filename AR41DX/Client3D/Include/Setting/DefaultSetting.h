@@ -23,6 +23,9 @@ private:
 
     // Player
     void LoadPlayer();
+    void LoadSpongebob();
+    void LoadPatrick();
+    void LoadSandy();
 
     // Monster
     void LoadRoboSponge();
@@ -41,6 +44,7 @@ private:
 
     // Object
     void LoadCommonObj();
+    void LoadCollectibleItems();
     void LoadBuildings();
     void LoadJellyfishFieldsObj();
     void LoadCBObjects();
