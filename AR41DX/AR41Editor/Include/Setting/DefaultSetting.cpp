@@ -616,6 +616,15 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Missile", TEXT("Objects/JellyfishFields/Missile.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Gate", TEXT("Objects/JellyfishFields/Gate.fbx"), MESH_PATH);
 
+    // CheckPoint
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "CheckPointMesh", TEXT("Objects/JellyfishFields/CheckPointMesh.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "CheckPointMeshSkeleton", TEXT("Objects/JellyfishFields/CheckPointMesh.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("CheckPointMesh", "CheckPointMeshSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("CheckPointIdle", TEXT("Objects/JellyfishFields/CheckPointIdle.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("CheckPointPopUp", TEXT("Objects/JellyfishFields/CheckPointPopUp.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("CheckPointInactive", TEXT("Objects/JellyfishFields/CheckPointInactive.fbx"), MESH_PATH);
+
     // JumpTreeTop == Animation
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "JumpTreeTop", TEXT("Objects/JellyfishFields/JumpTreeTopMesh.fbx"), MESH_PATH);
 

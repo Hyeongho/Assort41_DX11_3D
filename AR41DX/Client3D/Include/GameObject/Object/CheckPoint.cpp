@@ -46,9 +46,12 @@ bool CCheckPoint::Init()
     m_CheckPointCube = CreateComponent<CColliderCube>("CheckPointCube");
     m_DetectRange = CreateComponent<CColliderCube>("DetectRange");
 
-    m_FlagMesh->SetMesh("JumpTreeBottom"); // 수정
 
-    m_BottomMesh->SetMesh("JumpTreeTop"); // 수정
+    m_FlagMesh->SetMesh("CheckPointMesh"); 
+
+    //m_BottomMesh->SetMesh("JumpTreeTop"); // 수정
+
+    SetRootComponent(m_BottomMesh);
 
     m_FlagMesh->AddChild(m_CheckPointCube);
     m_FlagMesh->AddChild(m_DetectRange);
@@ -57,13 +60,15 @@ bool CCheckPoint::Init()
     m_BottomMesh->AddChild(m_DetectRange);
 
     m_CheckPointCube->SetCollisionProfile("Wall");
-    m_CheckPointCube->SetCubeSize(00.f, 700.f, 200.f);
+    m_CheckPointCube->SetCubeSize(300.f, 700.f, 200.f);
 
     m_DetectRange->SetCollisionProfile("Wall");
     m_DetectRange->SetCubeSize(500.f, 700.f, 500.f);
 
-    m_Animation = m_FlagMesh->SetAnimation<CAnimation>("JumpTreeTop"); // 수정
-    m_Animation->AddAnimation("JumpTreeTop_Bounce", "JumpTreeTop_Bounce", 1.f, 1.f, false); // 수정
+    m_Animation = m_FlagMesh->SetAnimation<CAnimation>("CheckPoint"); 
+    m_Animation->AddAnimation("CheckPointInactive", "CheckPointInactive", 1.f, 1.f, false); 
+    m_Animation->AddAnimation("CheckPointIdle", "CheckPointIdle", 1.f, 1.f, false); 
+    m_Animation->AddAnimation("CheckPointPopUp", "CheckPointPopUp", 1.f, 1.f, false); 
 
     return true;
 }

@@ -4,13 +4,15 @@
 #include "Component/AnimationMeshComponent.h"
 #include "Component/ColliderCube.h"
 #include "Scene/Scene.h"
+#include "Scene/SceneManager.h"
 #include "Device.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "TeleportBox.h"
 
 
-CTeleportBox::CTeleportBox()
+CTeleportBox::CTeleportBox()    :
+    m_BoxIndex(1)
 {
     SetTypeID<CTeleportBox>();
 
@@ -37,6 +39,17 @@ void CTeleportBox::Start()
     CGameObject::Start();
 
     m_DetectRange->SetCollisionCallback<CTeleportBox>(ECollision_Result::Collision, this, &CTeleportBox::Collision_OpenBox);
+
+    m_Box1BottomCube->SetCollisionCallback<CTeleportBox>(ECollision_Result::Collision, this, &CTeleportBox::Collision_Teleport);
+    m_Box2BottomCube->SetCollisionCallback<CTeleportBox>(ECollision_Result::Collision, this, &CTeleportBox::Collision_Teleport);
+
+
+    // 아래 위치 변경시, 충돌 함수 내에서의 텔레포트 위치 변경도 해야 한다. 
+    if (m_BoxIndex == 1)
+        m_Mesh->SetWorldPosition(18000.f, 0.f, 13500.f);
+
+    if (m_BoxIndex == 2)
+        m_Mesh->SetWorldPosition(16500.f, 0.f, 13500.f);
 }
 
 bool CTeleportBox::Init()
@@ -47,8 +60,9 @@ bool CTeleportBox::Init()
     m_BoxWallCube1 = CreateComponent<CColliderCube>("BoxWallCube1");
     m_BoxWallCube2 = CreateComponent<CColliderCube>("BoxWallCube2");
     m_BoxWallCube3 = CreateComponent<CColliderCube>("BoxWallCube3");
-    m_BoxWallCube4 = CreateComponent<CColliderCube>("BoxWallCube4");
-    m_BoxBottomCube = CreateComponent<CColliderCube>("BoxBottomCube");*/
+    m_BoxWallCube4 = CreateComponent<CColliderCube>("BoxWallCube4");*/
+    m_Box1BottomCube = CreateComponent<CColliderCube>("Box1BottomCube");
+    m_Box2BottomCube = CreateComponent<CColliderCube>("Box2BottomCube");
     m_DetectRange = CreateComponent<CColliderCube>("DetectRange");
 
     m_Mesh->SetMesh("TeleportBox");
@@ -56,9 +70,14 @@ bool CTeleportBox::Init()
     //m_Mesh->AddChild(m_BoxWallCube1);
     //m_Mesh->AddChild(m_BoxWallCube2);
     //m_Mesh->AddChild(m_BoxWallCube3);
-    //m_Mesh->AddChild(m_BoxWallCube3);
-    //m_Mesh->AddChild(m_BoxBottomCube);
-    m_Mesh->AddChild(m_DetectRange);
+    //m_Mesh->AddChild(m_BoxWallCube4);
+    if(m_BoxIndex == 1)
+        m_Mesh->AddChild(m_Box1BottomCube);
+
+    if(m_BoxIndex == 2)
+        m_Mesh->AddChild(m_Box2BottomCube);
+    
+    m_Mesh->AddChild(m_DetectRange);                
 
     SetRootComponent(m_Mesh);
 
@@ -86,19 +105,30 @@ bool CTeleportBox::Init()
     //m_BoxWallCube4->AddRelativeRotationX(90.f);
     //m_BoxWallCube4->SetRelativePosition(0.f, 0.f, -30.f);
 
-    //// Bottom
-    //m_BoxBottomCube->SetCollisionProfile("Wall");
-    //m_BoxBottomCube->SetCubeSize(30.f, 30.f, 10.f);
+    // Bottom
+    m_Box1BottomCube->SetCollisionProfile("Wall");
+    m_Box1BottomCube->SetCubeSize(200.f, 30.f, 200.f);
+
+    m_Box2BottomCube->SetCollisionProfile("Wall");
+    m_Box2BottomCube->SetCubeSize(200.f, 30.f, 200.f);
 
     // DetectRange
     m_DetectRange->SetCollisionProfile("Wall");
     m_DetectRange->SetCubeSize(700.f, 10.f, 700.f);
+    m_DetectRange->AddOffsetY(50.f);
 
     m_Animation = m_Mesh->SetAnimation<CAnimation>("TeleportBoxMesh");
 
     m_Animation->AddAnimation("TeleportBox_Closed", "TeleportBox_Closed", 1.f, 1.f, false);
     m_Animation->AddAnimation("TeleportBox_Opening", "TeleportBox_Opening", 1.f, 1.f, false);
     m_Animation->AddAnimation("TeleportBox_OpeningLoop", "TeleportBox_OpeningLoop", 1.f, 1.f, false);
+
+    //// TeleportBox->SetWorldPosition(18000.f, 0.f, 13500.f);
+    //if (m_BoxIndex == 1)
+    //    m_Mesh->SetWorldPosition(18000.f, 0.f, 13500.f);
+
+    //else
+    //    m_Mesh->SetWorldPosition(16500.f, 0.f, 13500.f);
 
     return true;
 }
@@ -134,4 +164,21 @@ void CTeleportBox::Collision_OpenBox(const CollisionResult& result)
     {
         m_Animation->ChangeAnimation("TeleportBox_Opening");
     }
+}
+
+void CTeleportBox::Collision_Teleport(const CollisionResult& result)
+{
+    if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
+    {
+        CPlayer* Player = (CPlayer*)CSceneManager::GetInst()->GetScene()->GetPlayerObject();
+
+        if (GetBoxIndex() == 1)
+        {
+            // 300.f는 박스 옆으로 이동시키기위한 임의의 숫자. 
+            Player->SetWorldPosition(16500.f + 300.f, 0.f, 13500.f);
+        }
+
+        if(GetBoxIndex() == 2)
+            Player->SetWorldPosition(18000.f + 300.f, 0.f, 13500.f);
+    }        
 }

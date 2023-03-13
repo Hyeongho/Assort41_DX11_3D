@@ -35,8 +35,8 @@ void CJumpTree::Start()
 {
     CGameObject::Start();
 
-    m_TopCube->SetCollisionCallback<CJumpTree>(ECollision_Result::Collision, this, &CJumpTree::Collision_Bounce);
-    m_TopCube->SetCollisionCallback<CJumpTree>(ECollision_Result::Collision, this, &CJumpTree::Release_Idle);
+    m_TopCube->SetCollisionCallback<CJumpTree>(ECollision_Result::Collision, this, &CJumpTree::Collision_Idle);
+    m_TopCube->SetCollisionCallback<CJumpTree>(ECollision_Result::Release, this, &CJumpTree::Release_Bounce);
 
 }
 
@@ -59,7 +59,7 @@ bool CJumpTree::Init()
     m_BottomMesh->AddChild(m_TopMesh);
     m_BottomMesh->AddChild(m_BottomCube);
 
-    m_TopMesh->SetRelativePositionY(1300.f);
+    m_TopMesh->SetRelativePositionY(900.f);
 
     //m_BottomCube->SetRelativePositionY(70.f);
     m_BottomCube->SetCollisionProfile("Wall");
@@ -72,6 +72,7 @@ bool CJumpTree::Init()
     m_TopCube->SetCubeSize(500.f, 200.f, 500.f);
 
     m_Animation = m_TopMesh->SetAnimation<CAnimation>("JumpTreeTop");
+    m_Animation->AddAnimation("JumpTreeTop_Idle", "JumpTreeTop_Bounce", 0.f, 0.f, false);
     m_Animation->AddAnimation("JumpTreeTop_Bounce", "JumpTreeTop_Bounce", 1.f, 1.f, false);
 
 
@@ -103,11 +104,11 @@ void CJumpTree::Load(FILE* File)
     CGameObject::Load(File);
 }
 
-void CJumpTree::Collision_Bounce(const CollisionResult& result)
+void CJumpTree::Collision_Idle(const CollisionResult& result)
 {
     if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
     {
-        m_Animation->ChangeAnimation("JumpTreeTop_Bounce");
+        m_Animation->ChangeAnimation("JumpTreeTop_Idle");
 
         //CPlayer* Player = (CPlayer*)CSceneManager::GetInst()->GetScene()->FindObject("Player");
 
@@ -122,7 +123,7 @@ void CJumpTree::Collision_Bounce(const CollisionResult& result)
     //m_Rigid->SetVelocityY(500.f);
 }
 
-void CJumpTree::Release_Idle(const CollisionResult& result)
+void CJumpTree::Release_Bounce(const CollisionResult& result)
 {
     if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
     {

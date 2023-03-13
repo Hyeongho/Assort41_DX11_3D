@@ -224,10 +224,6 @@ void CRenderManager::Render(float DeltaTime)
 		Render3D(DeltaTime);
 	}
 
-	
-
-
-
 	// 2D, 3D 물체를 모두 출력했다면 UI를 출력해준다.
 	// 깊이버퍼를 안쓰고 알파블렌드를 적용한다.
 	m_AlphaBlend->SetState();
@@ -270,7 +266,7 @@ void CRenderManager::Render3D(float DeltaTime)
 	// GBuffer와 Light를 합한 최종 화면을 만든다.
 	RenderScreen(DeltaTime);
 
-	// FXAA를 그려낸다.
+	// FXAA를 그려낸다. 
 	RenderFXAA(DeltaTime);
 
 	// 완성된 타겟을 백버퍼에 출력한다.
@@ -818,7 +814,7 @@ void CRenderManager::RenderFXAA(float DeltaTime)
 
 	m_FXAABuffer->SetTarget();
 
-	m_ScreenBuffer->SetTargetShader(10); // 1.얘를 FXAA 로 넘겨줘야한다. ->m_ScreenBuffer? m_ScreenBuffer->SetTargetShader(10);
+	m_ScreenBuffer->SetTargetShader(10); // 1.얘를 FXAA 로 넘겨줘야한다.
 	m_FXAAShader->SetShader();
 
 	m_DepthDisable->SetState();
@@ -1248,7 +1244,7 @@ void CRenderManager::CreateRenderTarget()
 	m_FXAABuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderFXAA");
 
 	m_FXAABuffer->SetPos(Vector3(900.f, 0.f, 0.f));
-	m_FXAABuffer->SetScale(Vector3(200.f, 200.f, 1.f));
+	m_FXAABuffer->SetScale(Vector3(600.f, 600.f, 1.f));
 	m_FXAABuffer->SetDebugRender(true);
 }
 

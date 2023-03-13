@@ -1,7 +1,6 @@
 #include "Share.fx"
 
 Texture2D tex : register(t10);
-//Texture2DMS<float4> g_TargetTex : register(t10); <-2D멀티샘플링텍스처
 SamplerState clamp : register(s3);
 
 cbuffer FXAACBuffer : register(b13)
