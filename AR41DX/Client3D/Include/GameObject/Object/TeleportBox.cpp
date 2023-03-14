@@ -2,7 +2,7 @@
 #include "../Player.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/AnimationMeshComponent.h"
-#include "Component/ColliderCube.h"
+#include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
 #include "Scene/SceneManager.h"
 #include "Device.h"
@@ -22,12 +22,12 @@ CTeleportBox::CTeleportBox()    :
 CTeleportBox::CTeleportBox(const CTeleportBox& Obj)
 {
     m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");/*
-    m_BoxWallCube1 = (CColliderCube*)FindComponent("BoxWallCube1");
-    m_BoxWallCube2 = (CColliderCube*)FindComponent("BoxWallCube2");
-    m_BoxWallCube3 = (CColliderCube*)FindComponent("BoxWallCube3");
-    m_BoxWallCube4 = (CColliderCube*)FindComponent("BoxWallCube4");
-    m_BoxBottomCube = (CColliderCube*)FindComponent("BoxBottomCube");*/
-    m_DetectRange = (CColliderCube*)FindComponent("DetectRange");
+    m_BoxWallCube1 = (CColliderOBB3D*)FindComponent("BoxWallCube1");
+    m_BoxWallCube2 = (CColliderOBB3D*)FindComponent("BoxWallCube2");
+    m_BoxWallCube3 = (CColliderOBB3D*)FindComponent("BoxWallCube3");
+    m_BoxWallCube4 = (CColliderOBB3D*)FindComponent("BoxWallCube4");
+    m_BoxBottomCube = (CColliderOBB3D*)FindComponent("BoxBottomCube");*/
+    m_DetectRange = (CColliderOBB3D*)FindComponent("DetectRange");
 }
 
 CTeleportBox::~CTeleportBox()
@@ -57,13 +57,13 @@ bool CTeleportBox::Init()
     CGameObject::Init();
 
     m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");/*
-    m_BoxWallCube1 = CreateComponent<CColliderCube>("BoxWallCube1");
-    m_BoxWallCube2 = CreateComponent<CColliderCube>("BoxWallCube2");
-    m_BoxWallCube3 = CreateComponent<CColliderCube>("BoxWallCube3");
-    m_BoxWallCube4 = CreateComponent<CColliderCube>("BoxWallCube4");*/
-    m_Box1BottomCube = CreateComponent<CColliderCube>("Box1BottomCube");
-    m_Box2BottomCube = CreateComponent<CColliderCube>("Box2BottomCube");
-    m_DetectRange = CreateComponent<CColliderCube>("DetectRange");
+    m_BoxWallCube1 = CreateComponent<CColliderOBB3D>("BoxWallCube1");
+    m_BoxWallCube2 = CreateComponent<CColliderOBB3D>("BoxWallCube2");
+    m_BoxWallCube3 = CreateComponent<CColliderOBB3D>("BoxWallCube3");
+    m_BoxWallCube4 = CreateComponent<CColliderOBB3D>("BoxWallCube4");*/
+    m_Box1BottomCube = CreateComponent<CColliderOBB3D>("Box1BottomCube");
+    m_Box2BottomCube = CreateComponent<CColliderOBB3D>("Box2BottomCube");
+    m_DetectRange = CreateComponent<CColliderOBB3D>("DetectRange");
 
     m_Mesh->SetMesh("TeleportBox");
 
@@ -107,14 +107,14 @@ bool CTeleportBox::Init()
 
     // Bottom
     m_Box1BottomCube->SetCollisionProfile("Wall");
-    m_Box1BottomCube->SetCubeSize(200.f, 30.f, 200.f);
+    m_Box1BottomCube->SetBoxHalfSize(100.f, 30.f, 100.f);
 
     m_Box2BottomCube->SetCollisionProfile("Wall");
-    m_Box2BottomCube->SetCubeSize(200.f, 30.f, 200.f);
+    m_Box2BottomCube->SetBoxHalfSize(100.f, 30.f, 100.f);
 
     // DetectRange
     m_DetectRange->SetCollisionProfile("Wall");
-    m_DetectRange->SetCubeSize(700.f, 10.f, 700.f);
+    m_DetectRange->SetBoxHalfSize(700.f, 10.f, 700.f);
     m_DetectRange->AddOffsetY(50.f);
 
     m_Animation = m_Mesh->SetAnimation<CAnimation>("TeleportBoxMesh");

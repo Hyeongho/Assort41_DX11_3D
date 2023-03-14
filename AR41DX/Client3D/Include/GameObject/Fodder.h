@@ -13,9 +13,12 @@ protected:
 	virtual ~CFodder();
 
 private:
-	CSharedPtr<class CColliderCube>		m_DetectArea;
-	CSharedPtr<class CColliderCube>		m_AttackArea;
-	CSharedPtr<class CColliderCube>		m_BodyCube;
+	CSharedPtr<class CColliderOBB3D>		m_DetectArea;
+	CSharedPtr<class CColliderOBB3D>		m_AttackArea;
+	CSharedPtr<class CColliderOBB3D>		m_BodyCube;
+	CSharedPtr<class CColliderOBB3D>		m_WeaponCube;
+
+	CSharedPtr<class CFodderBT>			m_FodderBT;
 
 private:
 	bool	m_DetectOn;
@@ -58,10 +61,15 @@ private:
 	void Dead();
 	void Debris(); // ¿‹«ÿ∑Œ ∫Ø∞Ê.
 
+	void Test();
+
 private:
-	void Collision_ChaseOn(const CollisionResult& result);
-	void Release_ChaseOff(const CollisionResult& result);
+	void Collision_Detect_ChaseOn(const CollisionResult& result);
+	void Release_Detect_ChaseOff(const CollisionResult& result);
 	void Collision_AttackOn(const CollisionResult& result);
 	void Release_AttackOff(const CollisionResult& result);
 	void Collision_Body(const CollisionResult& result);
+
+	void Collision_WeaponAttack(const CollisionResult& result);
+
 };

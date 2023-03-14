@@ -16,8 +16,8 @@ private:
 	CSharedPtr<class CAnimationMeshComponent>	m_TopMesh;
 	CSharedPtr<class CStaticMeshComponent>		m_BottomMesh;
 	CSharedPtr<class CAnimation>				m_Animation;
-	CSharedPtr<class CColliderCube>				m_TopCube;
-	CSharedPtr<class CColliderCube>				m_BottomCube;
+	CSharedPtr<class CColliderOBB3D>				m_TopCube;
+	CSharedPtr<class CColliderOBB3D>				m_BottomCube;
 
 
 public:

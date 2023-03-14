@@ -2,7 +2,7 @@
 #include "../Player.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/AnimationMeshComponent.h"
-#include "Component/ColliderCube.h"
+#include "Component/ColliderOBB3D.h"
 #include "Component/RigidBody.h"
 #include "Scene/Scene.h"
 #include "Scene/SceneManager.h"
@@ -22,8 +22,8 @@ CJumpTree::CJumpTree(const CJumpTree& Obj)
 {
     m_TopMesh = (CAnimationMeshComponent*)FindComponent("TopMesh");
     m_BottomMesh = (CStaticMeshComponent*)FindComponent("BottomMesh");
-    m_TopCube = (CColliderCube*)FindComponent("TopCube");    
-    m_BottomCube = (CColliderCube*)FindComponent("BottomCube");
+    m_TopCube = (CColliderOBB3D*)FindComponent("TopCube");
+    m_BottomCube = (CColliderOBB3D*)FindComponent("BottomCube");
 }
 
 CJumpTree::~CJumpTree()
@@ -45,8 +45,8 @@ bool CJumpTree::Init()
 
     m_TopMesh = CreateComponent<CAnimationMeshComponent>("TopMesh");
     m_BottomMesh = CreateComponent<CStaticMeshComponent>("BottomMesh");
-    m_TopCube = CreateComponent<CColliderCube>("TopCube");
-    m_BottomCube = CreateComponent<CColliderCube>("BottomCube");
+    m_TopCube = CreateComponent<CColliderOBB3D>("TopCube");
+    m_BottomCube = CreateComponent<CColliderOBB3D>("BottomCube");
 
     //m_TopMesh->SetMesh("JumpTreeTop");
     m_BottomMesh->SetMesh("JumpTreeBottom");
@@ -62,13 +62,13 @@ bool CJumpTree::Init()
 
     //m_BottomCube->SetRelativePositionY(70.f);
     m_BottomCube->SetCollisionProfile("Wall");
-    m_BottomCube->SetCubeSize(100.f, 1300.f, 100.f);
+    m_BottomCube->SetBoxHalfSize(100.f, 900.f, 100.f);
 
     m_TopMesh->AddChild(m_TopCube);
 
     //m_TopCube->SetRelativePositionY(70.f);
     m_TopCube->SetCollisionProfile("Wall");
-    m_TopCube->SetCubeSize(500.f, 200.f, 500.f);
+    m_TopCube->SetBoxHalfSize(200, 100.f, 200.f);
     m_TopCube->SetRelativePositionY(100.f);
 
     m_Animation = m_TopMesh->SetAnimation<CAnimation>("JumpTreeTop");

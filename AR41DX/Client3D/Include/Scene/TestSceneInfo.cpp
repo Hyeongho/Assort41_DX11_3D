@@ -48,15 +48,15 @@ bool CTestSceneInfo::Init()
 
 
 	// 보원테스트 구간
-	//CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
-	//JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
+	CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
+	JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
 	
-	//CTeleportBox* TeleportBox1 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
-	//TeleportBox1->SetBoxIndex(1);
+	CTeleportBox* TeleportBox1 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
+	TeleportBox1->SetBoxIndex(1);
 
-	//CTeleportBox* TeleportBox2 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
-	//TeleportBox2->SetBoxIndex(2);
-	//Vector3 TeleportBox2Pos = TeleportBox2->GetWorldPos();
+	CTeleportBox* TeleportBox2 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
+	TeleportBox2->SetBoxIndex(2);
+	Vector3 TeleportBox2Pos = TeleportBox2->GetWorldPos();
 
 	//CCheckPoint* CheckPoint = m_Owner->CreateObject<CCheckPoint>("CheckPoint");
 	//CheckPoint->SetWorldPosition(17500.f, 0.f, 13700.f);

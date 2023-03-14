@@ -15,13 +15,13 @@ protected:
 private:
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CAnimation>	m_Animation;
-	CSharedPtr<class CColliderCube>	m_BoxWallCube1;
-	CSharedPtr<class CColliderCube>	m_BoxWallCube2;
-	CSharedPtr<class CColliderCube>	m_BoxWallCube3;
-	CSharedPtr<class CColliderCube>	m_BoxWallCube4;
-	CSharedPtr<class CColliderCube>	m_Box1BottomCube;
-	CSharedPtr<class CColliderCube>	m_Box2BottomCube;
-	CSharedPtr<class CColliderCube>	m_DetectRange;
+	CSharedPtr<class CColliderOBB3D>	m_BoxWallCube1;
+	CSharedPtr<class CColliderOBB3D>	m_BoxWallCube2;
+	CSharedPtr<class CColliderOBB3D>	m_BoxWallCube3;
+	CSharedPtr<class CColliderOBB3D>	m_BoxWallCube4;
+	CSharedPtr<class CColliderOBB3D>	m_Box1BottomCube;
+	CSharedPtr<class CColliderOBB3D>	m_Box2BottomCube;
+	CSharedPtr<class CColliderOBB3D>	m_DetectRange;
 
 private:
 	int		m_BoxIndex;

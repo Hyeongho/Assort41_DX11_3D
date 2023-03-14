@@ -2,13 +2,18 @@
 #include "Component/StaticMeshComponent.h"
 #include "Component/AnimationMeshComponent.h"
 #include "Component/ColliderCube.h"
+#include "Component/ColliderOBB3D.h"
 #include "Input.h"
 #include "Scene/Scene.h"
+#include "Scene/SceneManager.h"
 #include "Scene/CameraManager.h"
 #include "Device.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "Engine.h"
+#include "FodderBT.h"
+#include "Player.h"
+
 
 CFodder::CFodder()	:
 	m_DetectOn(false),
@@ -21,9 +26,10 @@ CFodder::CFodder()	:
 
 CFodder::CFodder(const CFodder& Obj)
 {
-	m_DetectArea = (CColliderCube*)FindComponent("DetectArea");
-	m_AttackArea = (CColliderCube*)FindComponent("AttackArea");
-	m_BodyCube = (CColliderCube*)FindComponent("BodyCube");
+	m_DetectArea = (CColliderOBB3D*)FindComponent("DetectArea");
+	m_AttackArea = (CColliderOBB3D*)FindComponent("AttackArea");
+	m_BodyCube = (CColliderOBB3D*)FindComponent("BodyCube");
+	m_WeaponCube = (CColliderOBB3D*)FindComponent("WeaponCube");
 }
 
 CFodder::~CFodder()
@@ -41,13 +47,16 @@ void CFodder::Start()
 
 	// 탐지범위에 플레이어가 들어올 시 Notice 애니메이션 후 Walk 로 변경.
 	m_Animation->SetCurrentEndFunction("Fodder_Notice", this, &CFodder::WalkAnim);
-	//m_Animation->SetCurrentEndFunction("Fodder_Dead", this, &CFodder::WalkAnim);
+	m_Animation->SetCurrentEndFunction("Fodder_Dead", this, &CFodder::Debris);
 
-	m_DetectArea->SetCollisionCallback<CFodder>(ECollision_Result::Collision, this, &CFodder::Collision_ChaseOn);
-	m_DetectArea->SetCollisionCallback<CFodder>(ECollision_Result::Release, this, &CFodder::Release_ChaseOff);
+	m_DetectArea->SetCollisionCallback<CFodder>(ECollision_Result::Collision, this, &CFodder::Collision_Detect_ChaseOn);
+	m_DetectArea->SetCollisionCallback<CFodder>(ECollision_Result::Release, this, &CFodder::Release_Detect_ChaseOff);
 	m_AttackArea->SetCollisionCallback<CFodder>(ECollision_Result::Collision, this, &CFodder::Collision_AttackOn);
 	m_AttackArea->SetCollisionCallback<CFodder>(ECollision_Result::Release, this, &CFodder::Release_AttackOff);
 	m_BodyCube->SetCollisionCallback<CFodder>(ECollision_Result::Collision, this, &CFodder::Collision_Body);
+	m_WeaponCube->SetCollisionCallback<CFodder>(ECollision_Result::Collision, this, &CFodder::Collision_WeaponAttack);
+
+	m_FodderBT->Start();
 }
 
 bool CFodder::Init()
@@ -59,9 +68,10 @@ bool CFodder::Init()
 
 	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 
-	m_DetectArea = CreateComponent<CColliderCube>("DetectArea");
-	m_AttackArea = CreateComponent<CColliderCube>("AttackArea");
-	m_BodyCube = CreateComponent<CColliderCube>("BodyCube");
+	m_DetectArea = CreateComponent<CColliderOBB3D>("DetectArea");
+	m_AttackArea = CreateComponent<CColliderOBB3D>("AttackArea");
+	m_BodyCube = CreateComponent<CColliderOBB3D>("BodyCube");
+	m_WeaponCube = CreateComponent<CColliderOBB3D>("WeaponCube");
 
 	SetRootComponent(m_Mesh);
 
@@ -71,24 +81,34 @@ bool CFodder::Init()
 	m_Mesh->AddChild(m_AttackArea);
 	m_Mesh->AddChild(m_BodyCube);
 
-	m_DetectArea->SetCollisionProfile("Monster");
-	m_DetectArea->SetCubeSize(800.f, 70.f, 800.f);
+	m_DetectArea->SetCollisionProfile("Wall");
+
+	m_DetectArea->SetBoxHalfSize(800.f, 800.f, 800.f);
 	m_DetectArea->SetRelativePosition(0.f, 70.f);
 
-	m_AttackArea->SetCollisionProfile("MonsterAttack");
-	m_AttackArea->SetCubeSize(380.f, 70.f, 380.f);
+	m_AttackArea->SetCollisionProfile("Wall");
+
+	m_AttackArea->SetBoxHalfSize(300.f, 50.f, 300.f);
 	m_AttackArea->SetRelativePosition(0.f, 70.f);
 
-	m_BodyCube->SetCollisionProfile("Monster");
-	m_BodyCube->SetCubeSize(60.f, 200.f, 50.f);
-	m_BodyCube->SetRelativePosition(0.f, 100.f, -10.f);
+	m_BodyCube->SetCollisionProfile("Wall");
+
+	m_BodyCube->SetRelativePosition(0.f, 100.f, 10.f);
+	m_BodyCube->SetBoxHalfSize(30.f, 100.f, 25.f);
+
+	m_WeaponCube->SetCollisionProfile("Wall");
+
+	m_WeaponCube->SetRelativePosition(0.f, 100.f, 10.f);
+	m_WeaponCube->SetBoxHalfSize(30.f, 100.f, 25.f);
 
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("FodderAnimation");
 
 	m_Animation->AddAnimation("Fodder_Walk", "Fodder_Walk", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Fodder_Attack", "Fodder_Attack", 1.f, 1.f, false);
+	m_Animation->AddAnimation("Fodder_Attack", "Fodder_Attack", 1.f, 1.5f, false);
 	m_Animation->AddAnimation("Fodder_Notice", "Fodder_Notice", 1.f, 1.f, false);
 	m_Animation->AddAnimation("Fodder_Dead", "Fodder_Dead", 1.f, 1.f, false);
+
+	m_FodderBT = new CFodderBT;
 
 	return true;
 }
@@ -101,11 +121,10 @@ void CFodder::Update(float DeltaTime)
 	{
 		m_Animation->ChangeAnimation("Fodder_Notice");
 
-		if (m_AttackOn) // 공격 범위 내에 있으면
-		{
-			m_Animation->ChangeAnimation("Fodder_Notice");
-		}
+		Test();
 	}
+
+	m_FodderBT->Run(this);
 }
 
 void CFodder::PostUpdate(float DeltaTime)
@@ -136,6 +155,10 @@ void CFodder::WalkAnim()
 void CFodder::ChaseAnim()
 {
 	m_Animation->ChangeAnimation("Fodder_Notice");
+
+	
+
+	//return true;
 
 	//Vector3 FodderPos = m_Mesh->GetWorldPos();
 	//Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
@@ -175,34 +198,95 @@ void CFodder::Dead()
 }
 
 void CFodder::Debris()
-{/* 일단보류
+{
+	m_Mesh->Destroy();
+	/* 일단보류
 	m_Mesh->SetAnimation("DebrisAnimation");
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh("Debris");
 	m_Anim[(int)m_MainCharacter]->Start();*/
 }
 
-void CFodder::Collision_ChaseOn(const CollisionResult& result)
+void CFodder::Test()
 {
-	m_DetectOn = true;
+	Vector3 FodderPos = CSceneManager::GetInst()->GetScene()->FindObject("Fodder")->GetWorldPos();
+	Vector3 PlayerPos = CSceneManager::GetInst()->GetScene()->FindObject("Player")->GetWorldPos();
+
+	Vector3 Dir = PlayerPos - FodderPos;
+
+	Dir.y = 0.f; // Y축으로 이동 불가. 
+
+	Dir.Normalize();
+
+	float FodderSpeed = GetMoveSpeed();
+	// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 2배 빠르게.
+	AddWorldPosition(Dir * 2 * FodderSpeed * g_DeltaTime);
+
+	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+
+	if (!Player)
+		return;
+
+	float Degree = atan2(GetWorldPos().z - PlayerPos.z, GetWorldPos().x - PlayerPos.x);
+	Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
+
+	SetWorldRotationY(Degree);
+
+	if (m_AttackOn) // 공격 범위 내에 있으면
+	{
+		m_Animation->ChangeAnimation("Fodder_Attack");
+
+		if(m_Animation->GetCurrentAnimationName() == "Fodder_Attack")
+			FodderSpeed = 0.f;
+	}
 }
 
-void CFodder::Release_ChaseOff(const CollisionResult& result)
+void CFodder::Collision_Detect_ChaseOn(const CollisionResult& result)
 {
-	m_DetectOn = false;
+	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
+	{
+		m_DetectOn = true;
+	}
+}
+
+void CFodder::Release_Detect_ChaseOff(const CollisionResult& result)
+{
+	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
+	{
+		m_DetectOn = false;
+	}
 }
 
 void CFodder::Collision_AttackOn(const CollisionResult& result)
 {
-	m_AttackOn = true;
+	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
+	{
+		m_AttackOn = true;
+	}
 }
 
 void CFodder::Release_AttackOff(const CollisionResult& result)
 {
-	m_AttackOn = false;
+	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
+	{
+		m_AttackOn = false;
+	}
 }
 
 void CFodder::Collision_Body(const CollisionResult& result)
 {
 	// 데미지 받는 것.
+}
+
+void CFodder::Collision_WeaponAttack(const CollisionResult& result)
+{
+	//if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player && 
+		//m_Animation->GetCurrentAnimationName() == "Fodder_Attack")
+	//{
+		//std::string name = result.Dest->GetCollisionProfile()->Name;
+		//if (name == "Player")
+		//{
+			//result.Dest->GetOwner()->InflictDamage(1);
+		//}
+	//}
 }
