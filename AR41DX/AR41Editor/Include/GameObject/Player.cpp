@@ -230,12 +230,14 @@ CPlayer* CPlayer::Clone() const
 void CPlayer::Save(FILE* File)
 {
 	CGameObject::Save(File);
+	fwrite(&m_RespawnPos, sizeof(Vector3), 1, File);
 	SaveCharacter();
 }
 
 void CPlayer::Load(FILE* File)
 {
 	CGameObject::Load(File);
+	fread(&m_RespawnPos, sizeof(Vector3), 1, File);
 	m_IsLoading = true;
 	LoadCheck();
 }
@@ -299,7 +301,7 @@ void CPlayer::Reset()
 	m_PlayerUI->SetGlitter(m_PlayerData.Glittering);
 	m_PlayerUI->SetFritter(m_PlayerData.Fritter);
 	m_PlayerUI->SetSocks(m_PlayerData.Socks);
-	SetWorldPosition(m_PlayerData.RespawnPos);
+	SetWorldPosition(m_RespawnPos);
 	ResetIdle();
 }
 
@@ -323,7 +325,6 @@ bool CPlayer::SaveCharacter()
 	fwrite(&m_PlayerData.Socks, 4, 1, file);
 	fwrite(&m_PlayerData.Fritter, 4, 1, file);
 	fwrite(&m_PlayerData.Glittering, 4, 1, file);
-	fwrite(&m_PlayerData.RespawnPos, sizeof(Vector3), 1, file);
 	fclose(file);
 	return true;
 }
@@ -348,7 +349,6 @@ bool CPlayer::LoadCharacter()
 	fread(&m_PlayerData.Socks, 4, 1, file);
 	fread(&m_PlayerData.Fritter, 4, 1, file);
 	fread(&m_PlayerData.Glittering, 4, 1, file);
-	fread(&m_PlayerData.RespawnPos, sizeof(Vector3), 1, file);
 	fclose(file);
 	m_LoadData = m_PlayerData;
 	return true;
@@ -911,7 +911,7 @@ void CPlayer::RClickDown()
 				m_Scene->GetResource()->SoundPlay("Spongebob_BubbleBowl_Charge");
 				break;
 			case EMain_Character::Patrick:
-				if (m_Weapon->GetRootComponent()->GetEnable())		
+				if (m_Weapon->GetRootComponent()->GetEnable()&& !m_CanPickUp)
 				{
 					m_Scene->GetResource()->SoundPlay("Patrick_Throw");
 					m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerThrow");

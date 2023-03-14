@@ -4,7 +4,10 @@
 #include "../GameObject/Bullet.h"
 #include "../GameObject/PatrickObject.h"
 //#include "../GameObject/KingJellyfish.h"
-//#include "../GameObject/Jellyfish.h"
+#include "../GameObject/Jellyfish.h"
+#include "../GameObject/Fodder.h"
+#include "../GameObject/Hammer.h"
+#include "../GameObject/Duplicatotron.h"
 #include "../GameObject/Npc/MrKrabs.h"
 #include "../GameObject/Npc/Patric.h"
 #include "../GameObject/Npc/Squidward.h"
@@ -13,6 +16,7 @@
 #include "../GameObject/Tikis/Tiki_Stone.h"
 #include "../GameObject/Tikis/Tiki_Thunder.h"
 #include "../GameObject/Tikis/Tiki_Wood.h"
+#include "../GameObject/Object/IceCube.h"
 #include "../GameObject/Object/Common/InteractButton.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
@@ -59,7 +63,11 @@ void CDefaultSetting::CreateCDO()
 
     //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
 
-    //CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
+    CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
+    CScene::CreateObjectCDO<CFodder>("Fodder");
+    //CScene::CreateObjectCDO<CHammer>("Hammer");
+    //CScene::CreateObjectCDO<CDuplicatotron>("Duplicatotron");
+    CScene::CreateObjectCDO<CIceCube>("IceCube");
 
     CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
     CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");

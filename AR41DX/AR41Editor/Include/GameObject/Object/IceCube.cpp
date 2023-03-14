@@ -29,7 +29,6 @@ void CIceCube::Start()
 bool CIceCube::Init()
 {
 	CGameObject::Init();
-	SetLifeTime(3.f);
 
 	m_Mesh = CreateComponent<CStaticMeshComponent>("Mesh");
 	m_Body = CreateComponent<CColliderOBB3D>("Body");
@@ -37,12 +36,11 @@ bool CIceCube::Init()
 	m_Mesh->AddChild(m_Body);
 
 	m_Mesh->SetMesh("Ice");
-	m_Mesh->SetWorldScale(0.5f, 0.5f, 0.5f);
 	m_Mesh->SetPivot(0.5f, 0.5f, 0.5f);
 
 	//m_Body->SetCollisionProfile("Collectible");
-	m_Body->SetRelativePositionY(25.f);
-	m_Body->SetBoxHalfSize(50.f, 50.f, 50.f);
+	m_Body->SetRelativePositionY(50.f);
+	m_Body->SetBoxHalfSize(100.f, 50.f, 100.f);
 	m_Body->SetCollisionCallback<CIceCube>(ECollision_Result::Collision, this, &CIceCube::CollisionIn);
 	m_Body->SetCollisionCallback<CIceCube>(ECollision_Result::Release, this, &CIceCube::CollisionOut);
 	return true;

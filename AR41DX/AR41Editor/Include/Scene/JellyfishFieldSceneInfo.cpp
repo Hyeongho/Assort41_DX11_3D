@@ -28,39 +28,42 @@ CJellyfishFieldSceneInfo::~CJellyfishFieldSceneInfo()
 
 bool CJellyfishFieldSceneInfo::Init()
 {
-	CSceneInfo::Init();
+	//CSceneInfo::Init();
 
-	CGameObject* GlobalLightObj = m_Owner->CreateObject<CGameObject>("GlobalLight");
-	CLightComponent* GlobalLightComponent = GlobalLightObj->CreateComponent<CLightComponent>("GlobalLight");
-	GlobalLightComponent->SetLightType(ELightType::Direction);
-	GlobalLightComponent->SetRelativeRotation(0, 90.f, 0.f);
-	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
+	//CGameObject* GlobalLightObj = m_Owner->CreateObject<CGameObject>("GlobalLight");
+	//CLightComponent* GlobalLightComponent = GlobalLightObj->CreateComponent<CLightComponent>("GlobalLight");
+	//GlobalLightComponent->SetLightType(ELightType::Direction);
+	//GlobalLightComponent->SetRelativeRotation(0, 90.f, 0.f);
+	//m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
-	m_Owner->GetViewport()->CreateUIWindow<CDialogUI>("DialogUI");
-	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
+	//m_Owner->GetViewport()->CreateUIWindow<CDialogUI>("DialogUI");
+	//m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
 
-	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetRespawnPos(9200.f, 300.f, 500.f);
-	SetPlayerObject(Player);
+	//CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
+	//Player->SetRespawnPos(14000.f, 1500.f, 1600.f);
+	//SetPlayerObject(Player);
 
-	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
-	//CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
-	//CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
+	//CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
+	//CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
+	//TerrainComponent->SetHeight(50.f);
+	//TerrainComponent->CreateTerrain(360, 672, 60.f, 60.f, TEXT("LandScape/ZellyFishField.png"));
 
-	CJellyfish* Jellyfish = m_Owner->CreateObject<CJellyfish>("Jellyfish");
-	Jellyfish->SetWorldPosition(12600.f, 300.f, 3400.f);
+	//CGameObject* Water = m_Owner->CreateObject<CGameObject>("Water");
+	//CStaticMeshComponent* WaterMesh = Water->CreateComponent<CStaticMeshComponent>("WaterMesh");
+	//WaterMesh->SetMesh("Water");
+	//WaterMesh->SetWorldScale(3.f, 1.f, 3.f);
+	//WaterMesh->SetWorldPosition(14000.f, 1350.f, 81000.f);
 
-	CIceCube* IceCube = m_Owner->CreateObject<CIceCube>("IceCube");
-	IceCube->SetWorldPosition(12600.f, 300.f, 3400.f);
+	//CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
+	//Fodder->SetWorldPosition(14700.f, 1450.f, 4200.f);
 
-	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
-	CTerrainComponent* TerrainComponent= TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
-	TerrainComponent->CreateTerrain(360, 672, 50.f, 50.f, TEXT("LandScape/ZellyFishField.png"));
+	////CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
+	////CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
 
-	CGameObject* Water = m_Owner->CreateObject<CGameObject>("Water");
-	CStaticMeshComponent* WaterMesh = Water->CreateComponent<CStaticMeshComponent>("WaterMesh");
-	WaterMesh->SetMesh("Water");
-	WaterMesh->SetWorldScale(2.5f, 1.f, 2.5f);
-	WaterMesh->SetWorldPosition(11700.f, 700.f, 70000.f);
+	//CJellyfish* Jellyfish = m_Owner->CreateObject<CJellyfish>("Jellyfish");
+	//Jellyfish->SetWorldPosition(13700.f, 1500.f, 4300.f);
+
+	//CIceCube* IceCube = m_Owner->CreateObject<CIceCube>("IceCube");
+	//IceCube->SetWorldPosition(13800.f, 1400.f, 6300.f);
 	return true;
 }
