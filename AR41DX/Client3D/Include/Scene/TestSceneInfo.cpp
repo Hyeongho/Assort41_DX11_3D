@@ -46,8 +46,13 @@ bool CTestSceneInfo::Init()
 	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
 
+	CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
+	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);
 
-	// º¸¿øÅ×½ºÆ® ±¸°£
+	/*CPufferfish* Cannon = m_Owner->CreateObject<CPufferfish>("Cannon");
+	Cannon->SetWorldPosition(16500.f, 0.f, 12200.f);*/
+
+	// ë³´ì›í…ŒìŠ¤íŠ¸ êµ¬ê°„
 	CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
 	JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
 	
@@ -66,7 +71,6 @@ bool CTestSceneInfo::Init()
 
 	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
 	Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
-	//
 
 
 	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
@@ -79,7 +83,7 @@ bool CTestSceneInfo::Init()
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
 	TerrainComponent->CreateTerrain(680, 631, 40.f, 40.f, TEXT("LandScape/BikiniCity_Height.png"));
 
-	//¾Ö´Ï¸ÞÀÌ¼Ç ¹®Á¦
+	//ì• ë‹ˆë©”ì´ì…˜ ë¬¸ì œ
 	//CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
 	//Patric->SetWorldPosition(16500.f, 0.f, 12200.f);
 
