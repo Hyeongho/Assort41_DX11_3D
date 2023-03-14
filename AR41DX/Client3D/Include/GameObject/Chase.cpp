@@ -48,6 +48,8 @@ bool CChase::Run(CGameObject* Object)
 			float FodderSpeed = m_Fodder->GetMoveSpeed();
 			// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 2배 빠르게.
 			m_Fodder->AddWorldPosition(Dir * 2 * FodderSpeed * g_DeltaTime);
+
+			return true;
 		}
 		
 	}

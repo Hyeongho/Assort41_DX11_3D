@@ -49,8 +49,15 @@ bool CWalk::Run(CGameObject* Object)
 		//	Dir.Normalize();
 
 		//	// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 1.5배 빠르게.
-			float FodderSpeed = m_Fodder->GetMoveSpeed();
-			m_Fodder->AddWorldPosition(FodderSpeed * 1.5f * g_DeltaTime, 0.f, FodderSpeed * 1.5f * g_DeltaTime);
+			
+		
+			//float FodderSpeed = m_Fodder->GetMoveSpeed();
+			//m_Fodder->AddWorldPosition(FodderSpeed * 1.5f * g_DeltaTime, 0.f, FodderSpeed * 1.5f * g_DeltaTime);
+			//(17000.f, 0.f, 14000.f);
+			//if(m_Fodder->GetWorldPos() == (Vector3(17500.f, 0.f, 14500.f)))
+				//m_Fodder->AddWorldPosition(-FodderSpeed * 1.5f * g_DeltaTime, 0.f, -FodderSpeed * 1.5f * g_DeltaTime);
+			// 
+			// 
 		//}
 
 	}
