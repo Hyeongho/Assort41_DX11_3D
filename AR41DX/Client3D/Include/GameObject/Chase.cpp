@@ -32,19 +32,26 @@ bool CChase::Run(CGameObject* Object)
 			return false;
 		}
 
-		//m_Fodder->Attack();
+		if(m_Fodder->GetDetectOn() == true)
+		{
+			//m_Fodder->Attack();
 
-		Vector3 FodderPos = CSceneManager::GetInst()->GetScene()->FindObject("Fodder")->GetWorldPos();
-		Vector3 PlayerPos = CSceneManager::GetInst()->GetScene()->FindObject("Player")->GetWorldPos();
+			Vector3 FodderPos = CSceneManager::GetInst()->GetScene()->FindObject("Fodder")->GetWorldPos();
+			Vector3 PlayerPos = CSceneManager::GetInst()->GetScene()->FindObject("Player")->GetWorldPos();
 
-		Vector3 Dir = FodderPos - PlayerPos;
+			Vector3 Dir = PlayerPos - FodderPos;
 
-		Dir.y = 0.f; // Y축으로 이동 불가. 
+			Dir.y = 0.f; // Y축으로 이동 불가. 
 
-		Dir.Normalize();
+			Dir.Normalize();
 
-		// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 2배 빠르게.
-		m_Fodder->AddWorldPosition(Dir * 2 * 100.f * g_DeltaTime);
+			float FodderSpeed = m_Fodder->GetMoveSpeed();
+			// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 2배 빠르게.
+			m_Fodder->AddWorldPosition(Dir * 2 * FodderSpeed * g_DeltaTime);
+
+			return true;
+		}
+		
 	}
 
 	if (Object->GetObjectTypeName() == "Hammer")

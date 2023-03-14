@@ -21,8 +21,8 @@ CPatric::CPatric()
 CPatric::CPatric(const CPatric& Obj)
 	: CNpc(Obj)
 {
-    m_AnimMesh = (CAnimationMeshComponent*)FindComponent("Mesh");
-    m_Animation = (CAnimation*)FindComponent("PatricNpcAnimation");
+    m_AnimMesh = Obj.m_AnimMesh;
+    m_Animation =Obj.m_Animation;
 
     m_DialogCount = Obj.m_DialogCount;
     m_NpcType = Obj.m_NpcType;
