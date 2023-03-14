@@ -214,8 +214,10 @@ public:
 	// Spongebob
 	void Headbutt();
 	void Missile();
+	void MissileLaunch();
 
 	// Patrick
+	void Patrick_PickUp();
 	void Patrick_Throw();
 
 	// Change Charater

@@ -24,6 +24,8 @@ CIceCube::~CIceCube()
 void CIceCube::Start()
 {
 	CGameObject::Start();
+	m_Body->SetCollisionCallback<CIceCube>(ECollision_Result::Collision, this, &CIceCube::CollisionIn);
+	m_Body->SetCollisionCallback<CIceCube>(ECollision_Result::Release, this, &CIceCube::CollisionOut);
 }
 
 bool CIceCube::Init()
@@ -41,8 +43,6 @@ bool CIceCube::Init()
 	//m_Body->SetCollisionProfile("Collectible");
 	m_Body->SetRelativePositionY(50.f);
 	m_Body->SetBoxHalfSize(100.f, 50.f, 100.f);
-	m_Body->SetCollisionCallback<CIceCube>(ECollision_Result::Collision, this, &CIceCube::CollisionIn);
-	m_Body->SetCollisionCallback<CIceCube>(ECollision_Result::Release, this, &CIceCube::CollisionOut);
 	return true;
 }
 

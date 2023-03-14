@@ -221,6 +221,7 @@
     <ClCompile Include="GameObject\Object\IceCube.cpp" />
     <ClCompile Include="GameObject\PatrickObject.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
+    <ClCompile Include="GameObject\SpongebobMissile.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Stone.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Thunder.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Wood.cpp" />
@@ -316,6 +317,7 @@
     <ClInclude Include="GameObject\Object\IceCube.h" />
     <ClInclude Include="GameObject\PatrickObject.h" />
     <ClInclude Include="GameObject\Player.h" />
+    <ClInclude Include="GameObject\SpongebobMissile.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Stone.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Wood.h" />

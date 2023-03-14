@@ -423,6 +423,9 @@
     <ClCompile Include="GameObject\Object\IceCube.cpp">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\SpongebobMissile.cpp">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -721,6 +724,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Object\IceCube.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\SpongebobMissile.h">
+      <Filter>03. GameObject\01. Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@
 #include "Weapon.h"
 #include "Bullet.h"
 #include "PatrickObject.h"
+#include "SpongebobMissile.h"
 #include "Input.h"
 #include "Engine.h"
 #include "Device.h"
@@ -379,8 +380,7 @@ void CPlayer::LoadSpongebobAnim()
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBowlThrow", "Spongebob_BowlThrow", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBowlThrow", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerMissileStart", "Spongebob_MissileStart", 1.f, 1.f, false);
-	//m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerMissileStart", this, &CPlayer::);
-	//애니메이션 지속시간 변수 만들어서 지속끝나면 end함수 호출
+	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerMissileStart", this, &CPlayer::MissileLaunch);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerMissileLoop", "Spongebob_MissileLoop", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerMissileEnd", "Spongebob_MissileEnd", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerMissileEnd", this, &CPlayer::ResetIdle);
@@ -409,9 +409,11 @@ void CPlayer::LoadPatrickAnim()
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerPickUpIdle", "Patrick_PickUpIdle", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerPickUpWalk", "Patrick_PickUpWalk", 1.f, 1.f, true);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerPickUp", "Patrick_PickUp", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Patrick]->AddCurrentNotify<CPlayer>("PlayerPickUp", "PlayerPickUp", 0.6f, this, &CPlayer::Patrick_PickUp);
 	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerPickUp", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerThrow", "Patrick_Throw", 1.f, 1.f, false);
-	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerThrow", this, &CPlayer::Patrick_Throw);
+	m_Anim[(int)EMain_Character::Patrick]->AddCurrentNotify<CPlayer>("PlayerThrow", "PlayerThrow",0.6f,this, &CPlayer::Patrick_Throw);
+	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerThrow", this, &CPlayer::ResetIdle);
 }
 
 void CPlayer::LoadSandyAnim()
@@ -830,7 +832,27 @@ void CPlayer::Missile()
 {
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
+		m_Scene->GetResource()->SoundPlay("Spongebob_BubbleCharge");
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerMissileStart");
 	}
+}
+
+void CPlayer::MissileLaunch()
+{
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerMissileStart")
+	{
+		m_Scene->GetResource()->SoundPlay("Spongebob_BubbleLaunch");
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerMissileLoop");
+		CSpongebobMissile* missile= m_Scene->CreateObject<CSpongebobMissile>("SpongebobMissile");
+		float angle = GetWorldRot().y;
+		missile->SetWorldPosition(GetWorldPos());
+		missile->SetAngle(angle);
+	}
+}
+
+void CPlayer::Patrick_PickUp()
+{
+	m_Weapon->GetRootComponent()->SetEnable(true);
 }
 
 void CPlayer::Patrick_Throw()
@@ -841,7 +863,6 @@ void CPlayer::Patrick_Throw()
 	PatrickObject->AddWorldPositionY(100.f);
 	PatrickObject->SetAngle(angle - 180.f);
 	m_Weapon->GetRootComponent()->SetEnable(false);
-	ResetIdle();
 }
 
 void CPlayer::IngameUI()
@@ -920,7 +941,6 @@ void CPlayer::RClickDown()
 				{
 					m_Scene->GetResource()->SoundPlay("Patrick_Lift");
 					m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerPickUp");
-					m_Weapon->GetRootComponent()->SetEnable(true);
 				}
 				break;
 			case EMain_Character::Sandy:
