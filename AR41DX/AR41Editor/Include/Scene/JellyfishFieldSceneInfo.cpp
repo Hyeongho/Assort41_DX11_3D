@@ -3,13 +3,12 @@
 #include "../GameObject/Player.h"
 #include "../GameObject/Monster.h"
 #include "../GameObject/Weapon.h"
-//#include "../GameObject/KingJellyfish.h"
 #include "../GameObject/Jellyfish.h"
 #include "../GameObject/Fodder.h"
 #include "../GameObject/Hammer.h"
 #include "../GameObject/Duplicatotron.h"
+#include "../GameObject/Object/IceCube.h"
 #include "../GameObject/Npc/Squidward.h"
-//#include "../GameObject/JellyfishField.h"
 #include "Component/LightComponent.h"
 #include "Component/TerrainComponent.h"
 #include "Component/StaticMeshComponent.h"
@@ -44,16 +43,19 @@ bool CJellyfishFieldSceneInfo::Init()
 	Player->SetRespawnPos(9200.f, 300.f, 500.f);
 	SetPlayerObject(Player);
 
-	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
-	CTerrainComponent* TerrainComponent= TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
-	TerrainComponent->CreateTerrain(360, 672, 50.f, 50.f, TEXT("LandScape/ZellyFishField.png"));
-
 	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
 	//CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
 	//CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
 
 	CJellyfish* Jellyfish = m_Owner->CreateObject<CJellyfish>("Jellyfish");
-	Jellyfish->SetWorldPosition(12600.f,300.f,3400.f);
+	Jellyfish->SetWorldPosition(12600.f, 300.f, 3400.f);
+
+	CIceCube* IceCube = m_Owner->CreateObject<CIceCube>("IceCube");
+	IceCube->SetWorldPosition(12600.f, 300.f, 3400.f);
+
+	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
+	CTerrainComponent* TerrainComponent= TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
+	TerrainComponent->CreateTerrain(360, 672, 50.f, 50.f, TEXT("LandScape/ZellyFishField.png"));
 
 	CGameObject* Water = m_Owner->CreateObject<CGameObject>("Water");
 	CStaticMeshComponent* WaterMesh = Water->CreateComponent<CStaticMeshComponent>("WaterMesh");
