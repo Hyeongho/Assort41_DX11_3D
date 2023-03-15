@@ -1480,7 +1480,18 @@ void CTransform::Update(float DeltaTime)
 {
 	if (m_Is2D)
 	{
-		float	y = m_WorldPos.y - m_Pivot.y * m_WorldScale.y;
+		float y = m_WorldPos.y - m_Pivot.y * m_WorldScale.y;
+
+		if (m_MinY > y)
+			m_MinY = y;
+
+		if (m_MaxY < y)
+			m_MaxY = y;
+	}
+
+	else
+	{
+		float y = m_WorldPos.y - m_Pivot.y * m_WorldScale.y;
 
 		if (m_MinY > y)
 			m_MinY = y;
