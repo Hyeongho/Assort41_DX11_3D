@@ -42,11 +42,13 @@ bool CCollisionManager::Init()
 	CreateChannel("Mouse", ECollision_Interaction::Collision);
 	CreateChannel("Player", ECollision_Interaction::Collision);
 	CreateChannel("Monster", ECollision_Interaction::Collision);
+	CreateChannel("Detect", ECollision_Interaction::Collision);
 
 	CreateProfile("Default", "Default", true);
 	CreateProfile("Mouse", "Mouse", true);
 	CreateProfile("Player", "Player", true);
 	CreateProfile("Monster", "Monster", true);
+	CreateProfile("DetectArea", "DetectArea", true);
 
 	return true;
 }
