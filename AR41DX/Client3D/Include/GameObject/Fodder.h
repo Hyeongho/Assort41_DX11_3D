@@ -13,16 +13,22 @@ protected:
 	virtual ~CFodder();
 
 private:
-	CSharedPtr<class CColliderOBB3D>		m_DetectArea;
-	CSharedPtr<class CColliderOBB3D>		m_AttackArea;
-	CSharedPtr<class CColliderOBB3D>		m_BodyCube;
-	CSharedPtr<class CColliderOBB3D>		m_WeaponCube;
+	CSharedPtr<class CColliderOBB3D>	m_DetectArea;
+	CSharedPtr<class CColliderOBB3D>	m_AttackArea;
+	CSharedPtr<class CColliderOBB3D>	m_BodyCube;
+	CSharedPtr<class CColliderOBB3D>	m_WeaponCube;
 
 	CSharedPtr<class CFodderBT>			m_FodderBT;
+
+	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh1;
+	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh2;
+	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh3;
+	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh4;
 
 private:
 	bool	m_DetectOn;
 	bool	m_AttackOn;
+	bool	m_WeaponAttack; // 무기공격여부.
 
 public:
 	void SetDetectOn(bool DetectOn)
@@ -55,9 +61,10 @@ public:
 	virtual void Load(FILE* File);
 
 private:
-	void WalkAnim();
-	void ChaseAnim();
-	void AttackAnim();
+	void Walk();
+	void Detect_Chase();
+	void Attack();
+	void WeaponAttackOn();
 	void Dead();
 	void Debris(); // 잔해로 변경.
 
@@ -71,5 +78,6 @@ private:
 	void Collision_Body(const CollisionResult& result);
 
 	void Collision_WeaponAttack(const CollisionResult& result);
+	void Release_WeaponAttackOff(const CollisionResult& result);
 
 };

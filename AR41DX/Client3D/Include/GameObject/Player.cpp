@@ -841,7 +841,7 @@ void CPlayer::ChangeSandy()
 void CPlayer::CollisionTest(const CollisionResult& result)
 {
 	std::string name = result.Dest->GetCollisionProfile()->Name;
-	if (name == "Monster" || name == "MonsterAttack")
+	if (name == "Monster")
 	{
 		InflictDamage(1);
 	}
