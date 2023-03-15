@@ -637,3 +637,8 @@ struct ShadowCBuffer
 	float   Bias;
 	float   Empty;
 };
+
+struct FXAACBuffer
+{
+	Vector4 rcpFrame;
+};

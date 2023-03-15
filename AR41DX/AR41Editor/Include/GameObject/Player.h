@@ -205,7 +205,7 @@ public:
 	void JumpUp(); 		// Sandy
 	void JumpCheck();
 	void CameraRotationKey();
-	void IngameUI();
+	void IngameUI();	//tab
 	void LClick(); // Attack
 	void RClickDown();
 	void RClickPush();

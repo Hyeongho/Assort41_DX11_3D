@@ -12,7 +12,7 @@
 #include "RapidXml/CXmlParser.h"
 #include "InteractUI.h"
 
-#include "../GameObject/Player.h"
+//#include "../GameObject/Player.h"
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/MrKrabs.h"
 #include "../GameObject/Npc/Patric.h"
