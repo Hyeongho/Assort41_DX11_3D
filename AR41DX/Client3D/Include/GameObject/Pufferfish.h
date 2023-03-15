@@ -15,7 +15,10 @@ protected:
 private:
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CColliderSphere3D> m_Sphere;
+	CSharedPtr<class CRigidBody> m_Rigid;
 	CSharedPtr<class CAnimation> m_Animation;
+
+private:
 
 public:
 	virtual void Start();

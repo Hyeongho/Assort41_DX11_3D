@@ -20,7 +20,7 @@
 #include "../UI/PlayerUI.h"
 #include "Component/LightComponent.h"
 
-CTestSceneInfo::CTestSceneInfo()
+CTestSceneInfo::CTestSceneInfo() : m_Time(0.f)
 {
 }
 
@@ -42,11 +42,8 @@ bool CTestSceneInfo::Init()
 	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
 
-	CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
-	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);
-
-	/*CPufferfish* Cannon = m_Owner->CreateObject<CPufferfish>("Cannon");
-	Cannon->SetWorldPosition(16500.f, 0.f, 12200.f);*/
+	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
+	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
@@ -57,4 +54,19 @@ bool CTestSceneInfo::Init()
 	//Patric->SetWorldPosition(16500.f, 0.f, 12200.f);
 
 	return true;
+}
+
+void CTestSceneInfo::Update(float DeltaTime)
+{
+	CSceneInfo::Update(DeltaTime);
+
+	m_Time += DeltaTime;
+
+	if (m_Time >= 10.0f)
+	{
+		m_Time = 0.f;
+
+		CPufferfish* Cannon = m_Owner->CreateObject<CPufferfish>("Cannon");
+		Cannon->SetWorldPosition(16500.f, 500.f, 12200.f);
+	}
 }
