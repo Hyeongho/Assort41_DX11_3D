@@ -52,12 +52,6 @@
     <Filter Include="02. Resource\02. Shader\02. ShaderClass\01. Sprite">
       <UniqueIdentifier>{7ecf037e-f195-48b1-a71b-a63e7c23d413}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Scene">
-      <UniqueIdentifier>{edfe5c45-f59e-4105-95c8-471462d3b881}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Scene\01. SceneInfo">
-      <UniqueIdentifier>{248e8e30-fb77-4d96-b9a9-9082e91415c2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. GameObject">
       <UniqueIdentifier>{0eaafc0a-1348-40e6-88b5-ecdd15feba4a}</UniqueIdentifier>
     </Filter>
@@ -73,9 +67,6 @@
     <Filter Include="05. Component\01. SceneComponent\01. Primitive">
       <UniqueIdentifier>{dbf625e5-d9d7-43b4-a0bf-a3f2eedb0ce7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Scene\02. Resource">
-      <UniqueIdentifier>{617b6f6a-c5ec-41ed-b537-f44fd1459c19}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06. Render">
       <UniqueIdentifier>{9847b47e-0737-4b29-979d-caab880cbe4a}</UniqueIdentifier>
     </Filter>
@@ -90,9 +81,6 @@
     </Filter>
     <Filter Include="05. Component\01. SceneComponent\02. Camera">
       <UniqueIdentifier>{c618be8d-5f89-40c4-a46a-3178113624da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Scene\03. Camera">
-      <UniqueIdentifier>{6da82b8f-7c1c-4b58-90f5-1fbc7ff44c47}</UniqueIdentifier>
     </Filter>
     <Filter Include="05. Component\01. SceneComponent\03. Arm">
       <UniqueIdentifier>{3d6492d2-73d9-4bc5-95bd-73d33a13b435}</UniqueIdentifier>
@@ -154,9 +142,6 @@
     <Filter Include="05. Component\01. SceneComponent\04. Collider\02 3D">
       <UniqueIdentifier>{756032c4-aefd-4f4d-acec-13fcbeda8311}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Scene\04. Collision">
-      <UniqueIdentifier>{c6542749-c553-4ebc-93a8-f68a2d4cb7da}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Resource\02. Shader\02. ShaderClass\02. Collider">
       <UniqueIdentifier>{751b21b1-d6b1-4f24-a8c1-d5dbd0feb4c0}</UniqueIdentifier>
     </Filter>
@@ -171,9 +156,6 @@
     </Filter>
     <Filter Include="09. UI\02. Widget">
       <UniqueIdentifier>{d7e8bf6b-5da9-45a5-9469-6b57789d64ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Scene\05. Viewport">
-      <UniqueIdentifier>{9d7ac62c-3089-4de3-829b-402c1e8ddd9d}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. Resource\02. Shader\02. ShaderClass\03. UI">
       <UniqueIdentifier>{a0d98b73-f005-418c-9aab-5eed0d451172}</UniqueIdentifier>
@@ -220,9 +202,6 @@
     <Filter Include="01. Manager\10. Thread\02. Navigation">
       <UniqueIdentifier>{e7574821-5e85-4a69-baed-b7dc39de0c8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Scene\06. Navigation">
-      <UniqueIdentifier>{5bf64ff1-0228-446d-b593-a158b48d77af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Resource\02. Shader\02. ShaderClass\05. Particle">
       <UniqueIdentifier>{43877fce-1c6e-4115-8edd-09f5deeb925a}</UniqueIdentifier>
     </Filter>
@@ -240,9 +219,6 @@
     </Filter>
     <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\08. Light">
       <UniqueIdentifier>{8e3aaa4a-9619-41e2-a081-069f7c2dbc08}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Scene\07. Light">
-      <UniqueIdentifier>{c90587f3-8ce4-42dc-ac41-755dadb5de50}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. Resource\02. Shader\02. ShaderClass\08. Light">
       <UniqueIdentifier>{1b0c341c-cef4-4805-bd4a-8756606123e4}</UniqueIdentifier>
@@ -276,12 +252,6 @@
     </Filter>
     <Filter Include="05. Component\01. SceneComponent\06. RigidBody">
       <UniqueIdentifier>{f8dc12a7-1654-406c-a73a-3b0dd21cbf39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Scene\06. Navigation\01. 2D">
-      <UniqueIdentifier>{90f7bea2-b458-4475-9291-e0b3cf677ccb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Scene\06. Navigation\02. 3D">
-      <UniqueIdentifier>{bdff6c93-4586-46fb-a34f-a5a38dcbd6e5}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Manager\10. Thread\02. Navigation\01. 2D">
       <UniqueIdentifier>{120cb8e4-f5d7-417f-a616-c72cf32e931a}</UniqueIdentifier>
@@ -327,6 +297,42 @@
     </Filter>
     <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\13. Shadow">
       <UniqueIdentifier>{e4223d97-5149-4c88-bc03-80ca76c74471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\03. Scene">
+      <UniqueIdentifier>{edfe5c45-f59e-4105-95c8-471462d3b881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\03. Scene\01. SceneInfo">
+      <UniqueIdentifier>{248e8e30-fb77-4d96-b9a9-9082e91415c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\03. Scene\02. Resource">
+      <UniqueIdentifier>{617b6f6a-c5ec-41ed-b537-f44fd1459c19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\03. Scene\03. Camera">
+      <UniqueIdentifier>{6da82b8f-7c1c-4b58-90f5-1fbc7ff44c47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\03. Scene\04. Collision">
+      <UniqueIdentifier>{c6542749-c553-4ebc-93a8-f68a2d4cb7da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\03. Scene\05. Viewport">
+      <UniqueIdentifier>{9d7ac62c-3089-4de3-829b-402c1e8ddd9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\03. Scene\06. Navigation">
+      <UniqueIdentifier>{5bf64ff1-0228-446d-b593-a158b48d77af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\03. Scene\06. Navigation\01. 2D">
+      <UniqueIdentifier>{90f7bea2-b458-4475-9291-e0b3cf677ccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\03. Scene\06. Navigation\02. 3D">
+      <UniqueIdentifier>{bdff6c93-4586-46fb-a34f-a5a38dcbd6e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\03. Scene\07. Light">
+      <UniqueIdentifier>{c90587f3-8ce4-42dc-ac41-755dadb5de50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\02. Shader\02. ShaderClass\18. FXAA">
+      <UniqueIdentifier>{dce61dfe-ee09-4f1b-a67d-cd6c651c43b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\14. FXAA">
+      <UniqueIdentifier>{ed88b4c6-db51-443a-85c4-d9c1764c3939}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -388,10 +394,10 @@
       <Filter>02. Resource\02. Shader</Filter>
     </ClInclude>
     <ClInclude Include="Scene\SceneManager.h">
-      <Filter>03. Scene</Filter>
+      <Filter>02. Resource\03. Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\SceneInfo.h">
-      <Filter>03. Scene\01. SceneInfo</Filter>
+      <Filter>02. Resource\03. Scene\01. SceneInfo</Filter>
     </ClInclude>
     <ClInclude Include="Component\Component.h">
       <Filter>05. Component</Filter>
@@ -406,7 +412,7 @@
       <Filter>05. Component\01. SceneComponent\01. Primitive</Filter>
     </ClInclude>
     <ClInclude Include="Scene\SceneResource.h">
-      <Filter>03. Scene\02. Resource</Filter>
+      <Filter>02. Resource\03. Scene\02. Resource</Filter>
     </ClInclude>
     <ClInclude Include="Resource\Shader\ConstantBuffer.h">
       <Filter>02. Resource\02. Shader\03. ConstantBuffer</Filter>
@@ -421,7 +427,7 @@
       <Filter>01. Manager\07. Input</Filter>
     </ClInclude>
     <ClInclude Include="Scene\CameraManager.h">
-      <Filter>03. Scene\03. Camera</Filter>
+      <Filter>02. Resource\03. Scene\03. Camera</Filter>
     </ClInclude>
     <ClInclude Include="Component\TargetArm.h">
       <Filter>05. Component\01. SceneComponent\03. Arm</Filter>
@@ -559,13 +565,13 @@
       <Filter>05. Component\01. SceneComponent\04. Collider\01. 2D</Filter>
     </ClInclude>
     <ClInclude Include="Scene\SceneCollision.h">
-      <Filter>03. Scene\04. Collision</Filter>
+      <Filter>02. Resource\03. Scene\04. Collision</Filter>
     </ClInclude>
     <ClInclude Include="Scene\CollisionSection3D.h">
-      <Filter>03. Scene\04. Collision</Filter>
+      <Filter>02. Resource\03. Scene\04. Collision</Filter>
     </ClInclude>
     <ClInclude Include="Scene\CollisionSection2D.h">
-      <Filter>03. Scene\04. Collision</Filter>
+      <Filter>02. Resource\03. Scene\04. Collision</Filter>
     </ClInclude>
     <ClInclude Include="Resource\Shader\ColliderShader.h">
       <Filter>02. Resource\02. Shader\02. ShaderClass\02. Collider</Filter>
@@ -580,7 +586,7 @@
       <Filter>09. UI\01. Window</Filter>
     </ClInclude>
     <ClInclude Include="Scene\SceneViewport.h">
-      <Filter>03. Scene\05. Viewport</Filter>
+      <Filter>02. Resource\03. Scene\05. Viewport</Filter>
     </ClInclude>
     <ClInclude Include="UI\UIWidget.h">
       <Filter>09. UI\02. Widget</Filter>
@@ -706,7 +712,7 @@
       <Filter>01. Manager\10. Thread\02. Navigation</Filter>
     </ClInclude>
     <ClInclude Include="Scene\NavigationManager.h">
-      <Filter>03. Scene\06. Navigation</Filter>
+      <Filter>02. Resource\03. Scene\06. Navigation</Filter>
     </ClInclude>
     <ClInclude Include="Resource\Mesh\StaticMesh.h">
       <Filter>02. Resource\01. Mesh</Filter>
@@ -739,7 +745,7 @@
       <Filter>02. Resource\02. Shader\03. ConstantBuffer\08. Light</Filter>
     </ClInclude>
     <ClInclude Include="Scene\LightManager.h">
-      <Filter>03. Scene\07. Light</Filter>
+      <Filter>02. Resource\03. Scene\07. Light</Filter>
     </ClInclude>
     <ClInclude Include="Resource\Shader\LightAccShader.h">
       <Filter>02. Resource\02. Shader\02. ShaderClass\08. Light</Filter>
@@ -808,10 +814,10 @@
       <Filter>05. Component\01. SceneComponent\06. RigidBody</Filter>
     </ClInclude>
     <ClInclude Include="Scene\NavigationManager2D.h">
-      <Filter>03. Scene\06. Navigation\01. 2D</Filter>
+      <Filter>02. Resource\03. Scene\06. Navigation\01. 2D</Filter>
     </ClInclude>
     <ClInclude Include="Scene\NavigationManager3D.h">
-      <Filter>03. Scene\06. Navigation\02. 3D</Filter>
+      <Filter>02. Resource\03. Scene\06. Navigation\02. 3D</Filter>
     </ClInclude>
     <ClInclude Include="Thread\Navigation3DThread.h">
       <Filter>01. Manager\10. Thread\02. Navigation\02. 3D</Filter>
@@ -826,7 +832,7 @@
       <Filter>01. Manager\10. Thread\02. Navigation\01. 2D</Filter>
     </ClInclude>
     <ClInclude Include="Scene\NavigationMesh.h">
-      <Filter>03. Scene\06. Navigation\02. 3D</Filter>
+      <Filter>02. Resource\03. Scene\06. Navigation\02. 3D</Filter>
     </ClInclude>
     <ClInclude Include="Component\NavigationAgent3D.h">
       <Filter>05. Component\02. ObjectComponent\01. NavAgent</Filter>
@@ -892,7 +898,7 @@
       <Filter>02. Resource\04. Material</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Scene.h">
-      <Filter>03. Scene</Filter>
+      <Filter>02. Resource\03. Scene</Filter>
     </ClInclude>
     <ClInclude Include="Component\Transform.h">
       <Filter>05. Component\01. SceneComponent</Filter>
@@ -935,6 +941,12 @@
     </ClInclude>
     <ClInclude Include="Resource\ResourceManager.h">
       <Filter>02. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\FXAAShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\18. FXAA</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\FXAAConstantBuffer.h">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\14. FXAA</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -987,10 +999,10 @@
       <Filter>02. Resource\02. Shader</Filter>
     </ClCompile>
     <ClCompile Include="Scene\SceneManager.cpp">
-      <Filter>03. Scene</Filter>
+      <Filter>02. Resource\03. Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\SceneInfo.cpp">
-      <Filter>03. Scene\01. SceneInfo</Filter>
+      <Filter>02. Resource\03. Scene\01. SceneInfo</Filter>
     </ClCompile>
     <ClCompile Include="Component\Component.cpp">
       <Filter>05. Component</Filter>
@@ -1005,7 +1017,7 @@
       <Filter>05. Component\01. SceneComponent\01. Primitive</Filter>
     </ClCompile>
     <ClCompile Include="Scene\SceneResource.cpp">
-      <Filter>03. Scene\02. Resource</Filter>
+      <Filter>02. Resource\03. Scene\02. Resource</Filter>
     </ClCompile>
     <ClCompile Include="Render\RenderManager.cpp">
       <Filter>06. Render</Filter>
@@ -1026,7 +1038,7 @@
       <Filter>05. Component\01. SceneComponent\02. Camera</Filter>
     </ClCompile>
     <ClCompile Include="Scene\CameraManager.cpp">
-      <Filter>03. Scene\03. Camera</Filter>
+      <Filter>02. Resource\03. Scene\03. Camera</Filter>
     </ClCompile>
     <ClCompile Include="Component\TargetArm.cpp">
       <Filter>05. Component\01. SceneComponent\03. Arm</Filter>
@@ -1143,13 +1155,13 @@
       <Filter>05. Component\01. SceneComponent\04. Collider\01. 2D</Filter>
     </ClCompile>
     <ClCompile Include="Scene\SceneCollision.cpp">
-      <Filter>03. Scene\04. Collision</Filter>
+      <Filter>02. Resource\03. Scene\04. Collision</Filter>
     </ClCompile>
     <ClCompile Include="Scene\CollisionSection2D.cpp">
-      <Filter>03. Scene\04. Collision</Filter>
+      <Filter>02. Resource\03. Scene\04. Collision</Filter>
     </ClCompile>
     <ClCompile Include="Scene\CollisionSection3D.cpp">
-      <Filter>03. Scene\04. Collision</Filter>
+      <Filter>02. Resource\03. Scene\04. Collision</Filter>
     </ClCompile>
     <ClCompile Include="Resource\Shader\ColliderShader.cpp">
       <Filter>02. Resource\02. Shader\02. ShaderClass\02. Collider</Filter>
@@ -1164,7 +1176,7 @@
       <Filter>09. UI\01. Window</Filter>
     </ClCompile>
     <ClCompile Include="Scene\SceneViewport.cpp">
-      <Filter>03. Scene\05. Viewport</Filter>
+      <Filter>02. Resource\03. Scene\05. Viewport</Filter>
     </ClCompile>
     <ClCompile Include="UI\UIWidget.cpp">
       <Filter>09. UI\02. Widget</Filter>
@@ -1263,7 +1275,7 @@
       <Filter>01. Manager\10. Thread\02. Navigation</Filter>
     </ClCompile>
     <ClCompile Include="Scene\NavigationManager.cpp">
-      <Filter>03. Scene\06. Navigation</Filter>
+      <Filter>02. Resource\03. Scene\06. Navigation</Filter>
     </ClCompile>
     <ClCompile Include="Resource\Mesh\AnimationMesh.cpp">
       <Filter>02. Resource\01. Mesh</Filter>
@@ -1293,7 +1305,7 @@
       <Filter>02. Resource\02. Shader\03. ConstantBuffer\08. Light</Filter>
     </ClCompile>
     <ClCompile Include="Scene\LightManager.cpp">
-      <Filter>03. Scene\07. Light</Filter>
+      <Filter>02. Resource\03. Scene\07. Light</Filter>
     </ClCompile>
     <ClCompile Include="Resource\Shader\LightAccShader.cpp">
       <Filter>02. Resource\02. Shader\02. ShaderClass\08. Light</Filter>
@@ -1362,10 +1374,10 @@
       <Filter>05. Component\01. SceneComponent\06. RigidBody</Filter>
     </ClCompile>
     <ClCompile Include="Scene\NavigationManager2D.cpp">
-      <Filter>03. Scene\06. Navigation\01. 2D</Filter>
+      <Filter>02. Resource\03. Scene\06. Navigation\01. 2D</Filter>
     </ClCompile>
     <ClCompile Include="Scene\NavigationManager3D.cpp">
-      <Filter>03. Scene\06. Navigation\02. 3D</Filter>
+      <Filter>02. Resource\03. Scene\06. Navigation\02. 3D</Filter>
     </ClCompile>
     <ClCompile Include="Thread\Navigation3DThread.cpp">
       <Filter>01. Manager\10. Thread\02. Navigation\02. 3D</Filter>
@@ -1380,7 +1392,7 @@
       <Filter>01. Manager\10. Thread\02. Navigation\01. 2D</Filter>
     </ClCompile>
     <ClCompile Include="Scene\NavigationMesh.cpp">
-      <Filter>03. Scene\06. Navigation\02. 3D</Filter>
+      <Filter>02. Resource\03. Scene\06. Navigation\02. 3D</Filter>
     </ClCompile>
     <ClCompile Include="Component\NavigationAgent3D.cpp">
       <Filter>05. Component\02. ObjectComponent\01. NavAgent</Filter>
@@ -1449,7 +1461,7 @@
       <Filter>02. Resource\04. Material</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
-      <Filter>03. Scene</Filter>
+      <Filter>02. Resource\03. Scene</Filter>
     </ClCompile>
     <ClCompile Include="Component\Transform.cpp">
       <Filter>05. Component\01. SceneComponent</Filter>
@@ -1486,6 +1498,12 @@
     </ClCompile>
     <ClCompile Include="Resource\ResourceManager.cpp">
       <Filter>02. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\FXAAShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\18. FXAA</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\FXAAConstantBuffer.cpp">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\14. FXAA</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1538,6 +1556,12 @@
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\Shader\FXAA.fx">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\PSFXAA.fx">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\VSFXAA.fx">
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
   </ItemGroup>

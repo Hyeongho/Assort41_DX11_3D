@@ -267,6 +267,18 @@
     <ClCompile Include="GameObject\Pufferfish.cpp">
       <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Object\JumpTree.cpp">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\CheckPoint.cpp">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\TeleportBox.cpp">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\Gate.cpp">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -465,6 +477,18 @@
       <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Pufferfish.h">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\JumpTree.h">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\CheckPoint.h">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\TeleportBox.h">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\Gate.h">
       <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
     </ClInclude>
   </ItemGroup>

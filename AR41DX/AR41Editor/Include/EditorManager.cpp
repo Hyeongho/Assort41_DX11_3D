@@ -76,7 +76,7 @@ bool CEditorManager::Init(HINSTANCE hInst)
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMaterialWindow>("MaterialWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMeshWindow>("MeshWindow");
 
-    // SceneInfo »ý¼º
+    // SceneInfo Â»Ã½Â¼Âº
     //CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
    // CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
     //CSceneManager::GetInst()->CreateSceneInfo<CTitleSceneInfo>();

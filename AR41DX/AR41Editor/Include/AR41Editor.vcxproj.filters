@@ -426,6 +426,18 @@
     <ClCompile Include="GameObject\SpongebobMissile.cpp">
       <Filter>03. GameObject\01. Player</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Object\JumpTree.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\TeleportBox.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\CheckPoint.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\Gate.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -727,6 +739,18 @@
     </ClInclude>
     <ClInclude Include="GameObject\SpongebobMissile.h">
       <Filter>03. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\JumpTree.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\TeleportBox.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\CheckPoint.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\Gate.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
