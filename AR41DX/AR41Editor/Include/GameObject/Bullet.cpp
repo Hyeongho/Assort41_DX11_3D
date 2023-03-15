@@ -3,7 +3,7 @@
 #include "Component/ColliderCube.h"
 
 CBullet::CBullet()
-	: m_Speed(700.f)
+	: m_Speed(1000.f)
 	, m_Angle(0.f)
 {
 	SetTypeID<CBullet>();

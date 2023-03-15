@@ -35,6 +35,7 @@ public:
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
     virtual void Render();
+    virtual void RenderDebug();
     virtual CColliderSphere3D* Clone()    const;
     virtual void Save(FILE* File);
     virtual void Load(FILE* File);

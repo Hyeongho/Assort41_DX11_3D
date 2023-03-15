@@ -34,6 +34,11 @@ void CRenderInstancing::Render()
 	auto	iter = m_RenderList.begin();
 	auto	iterEnd = m_RenderList.end();
 
+	if (m_RenderList.empty())
+	{
+		return;
+	}
+
 	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
 
 	Matrix	matView, matProj;
