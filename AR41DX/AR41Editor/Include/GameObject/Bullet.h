@@ -29,6 +29,6 @@ public:
 	void SetAngle(float f);
 private:
 	void CollisionBullet(const CollisionResult& result);
-	void ResetIdle();	//아이들상태로 되돌리는 함수
+	void ResetIdle();
 };
 

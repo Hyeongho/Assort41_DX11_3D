@@ -420,6 +420,12 @@
     <ClCompile Include="Scene\KingJellyfishSceneInfo.cpp">
       <Filter>02. Scene\03. JellyFishField</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Object\IceCube.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\SpongebobMissile.cpp">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClCompile>
     <ClCompile Include="GameObject\Object\JumpTree.cpp">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClCompile>
@@ -727,6 +733,12 @@
     </ClInclude>
     <ClInclude Include="Scene\KingJellyfishSceneInfo.h">
       <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\IceCube.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\SpongebobMissile.h">
+      <Filter>03. GameObject\01. Player</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Object\JumpTree.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
