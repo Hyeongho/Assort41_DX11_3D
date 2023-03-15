@@ -69,8 +69,11 @@ bool CTestSceneInfo::Init()
 	//CGate* Gate = m_Owner->CreateObject<CGate>("Gate");
 	//Gate->SetWorldPosition(16800.f, 0.f, 13000.f);
 
-	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
-	Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
+	//CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
+	//Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
+
+	CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
+	Hammer->SetWorldPosition(17000.f, 0.f, 14000.f);
 
 
 	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");

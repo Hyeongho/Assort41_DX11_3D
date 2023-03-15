@@ -12,10 +12,27 @@ protected:
 	CDuplicatotron(const CDuplicatotron& Obj);
 	virtual ~CDuplicatotron();
 
+
+private:
+	CSharedPtr<class CColliderOBB3D>	m_DetectArea;
+	CSharedPtr<class CColliderOBB3D>	m_BodyCube;
+
 private:
 	CSharedPtr<class CHammer>	m_Hammer;
-	bool		m_SpawnOn;
-	float		m_DelayTime;
+	bool	m_DetectOn;
+	bool	m_SpawnOn;
+	float	m_DelayTime;
+
+public:
+	void SetDetectOn(bool DetectOn)
+	{
+		m_DetectOn = DetectOn;
+	}
+
+	bool GetDetectOn()
+	{
+		return m_DetectOn;
+	}
 
 public:
 	virtual void Start();
@@ -26,6 +43,8 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
+public:
+	void Detect();
 	void SpawnAnimation();
 	void SpawnHammers();
 };

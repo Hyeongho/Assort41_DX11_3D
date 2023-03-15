@@ -10,8 +10,44 @@ class CHammer :
 	CHammer(const CHammer& Obj);
 	virtual ~CHammer();
 
-private:;
-	   bool		m_Stunned; // 뚱이 공격시 스턴
+private:
+	CSharedPtr<class CColliderOBB3D>	m_DetectArea;
+	CSharedPtr<class CColliderOBB3D>	m_AttackArea;
+	CSharedPtr<class CColliderOBB3D>	m_BodyCube;
+	CSharedPtr<class CColliderOBB3D>	m_WeaponCube;
+
+	CSharedPtr<class CFodderBT>			m_FodderBT;
+
+	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh1;
+	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh2;
+	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh3;
+	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh4;
+
+private:
+	bool	m_DetectOn;
+	bool	m_AttackOn;
+	bool	m_WeaponAttack; // 무기공격여부.
+
+public:
+	void SetDetectOn(bool DetectOn)
+	{
+		m_DetectOn = DetectOn;
+	}
+
+	bool GetDetectOn()
+	{
+		return m_DetectOn;
+	}
+
+	void SetAttackOn(bool AttackOn)
+	{
+		m_AttackOn = AttackOn;
+	}
+
+	bool GetAttackOn()
+	{
+		return m_AttackOn;
+	}
 
 public:
 	virtual void Start();
@@ -24,10 +60,21 @@ public:
 
 private:
 	void Walk();
-	void Chase();
+	void Detect_Chase();
 	void Attack();
-	void Lassoed(); // 플레이어가 다람이일 때 올가미공격
-	void Stunned(); // 플레이어가 뚱이일 때 스턴
+	//void Lassoed(); // 플레이어가 다람이일 때 올가미공격
+	//void Stunned(); // 플레이어가 뚱이일 때 스턴
+	void WeaponAttackOn();
 	void Dead();
 	void Debris();
+
+private:
+	void Collision_Detect_ChaseOn(const CollisionResult& result);
+	void Release_Detect_ChaseOff(const CollisionResult& result);
+	void Collision_AttackOn(const CollisionResult& result);
+	void Release_AttackOff(const CollisionResult& result);
+	void Collision_Body(const CollisionResult& result);
+
+	void Collision_WeaponAttack(const CollisionResult& result);
+	void Release_WeaponAttackOff(const CollisionResult& result);
 };

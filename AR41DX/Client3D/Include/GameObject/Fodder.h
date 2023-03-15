@@ -68,8 +68,6 @@ private:
 	void Dead();
 	void Debris(); // ¿‹«ÿ∑Œ ∫Ø∞Ê.
 
-	void Test();
-
 private:
 	void Collision_Detect_ChaseOn(const CollisionResult& result);
 	void Release_Detect_ChaseOff(const CollisionResult& result);

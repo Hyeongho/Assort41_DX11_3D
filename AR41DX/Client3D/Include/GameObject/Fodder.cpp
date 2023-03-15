@@ -43,8 +43,6 @@ void CFodder::Start()
 	CMonster::Start();
 
 	// 테스트용 키세팅
-	//CInput::GetInst()->AddBindFunction<CFodder>("Q", Input_Type::Down, this, &CFodder::Chase, m_Scene);
-	//CInput::GetInst()->AddBindFunction<CFodder>("W", Input_Type::Down, this, &CFodder::Attack, m_Scene);
 	CInput::GetInst()->AddBindFunction<CFodder>("F", Input_Type::Down, this, &CFodder::Dead, m_Scene);
 
 	// 탐지범위에 플레이어가 들어올 시 Notice 애니메이션 후 Walk 로 변경.
@@ -60,7 +58,7 @@ void CFodder::Start()
 	m_WeaponCube->SetCollisionCallback<CFodder>(ECollision_Result::Collision, this, &CFodder::Collision_WeaponAttack);
 	m_WeaponCube->SetCollisionCallback<CFodder>(ECollision_Result::Release, this, &CFodder::Release_WeaponAttackOff);
 
-	//m_FodderBT->Start();
+	// m_FodderBT->Start();
 }
 
 bool CFodder::Init()
@@ -77,6 +75,7 @@ bool CFodder::Init()
 	m_DebrisMesh3 = CreateComponent <CStaticMeshComponent>("DebrisMesh3");
 	m_DebrisMesh4 = CreateComponent <CStaticMeshComponent>("DebrisMesh4");
 
+
 	m_DetectArea = CreateComponent<CColliderOBB3D>("DetectArea");
 	m_AttackArea = CreateComponent<CColliderOBB3D>("AttackArea");
 	m_BodyCube = CreateComponent<CColliderOBB3D>("BodyCube");
@@ -91,7 +90,6 @@ bool CFodder::Init()
 	m_Mesh->AddChild(m_BodyCube);
 	m_Mesh->AddChild(m_WeaponCube);
 
-
 	m_DebrisMesh1->SetMesh("FodderDebris1");
 	m_DebrisMesh2->SetMesh("FodderDebris2");
 	m_DebrisMesh3->SetMesh("FodderDebris3");
@@ -99,25 +97,22 @@ bool CFodder::Init()
 
 
 	m_DetectArea->SetCollisionProfile("DetectArea");
-
 	m_DetectArea->SetBoxHalfSize(800.f, 400.f, 800.f);
 	m_DetectArea->SetRelativePosition(0.f, 400.f);
 
 	m_AttackArea->SetCollisionProfile("DetectArea");
-
 	m_AttackArea->SetBoxHalfSize(300.f, 50.f, 300.f);
 	m_AttackArea->SetRelativePosition(0.f, 70.f);
 
 	m_BodyCube->SetCollisionProfile("Monster");
-
 	m_BodyCube->SetRelativePosition(0.f, 100.f, 10.f);
 	m_BodyCube->SetBoxHalfSize(30.f, 100.f, 25.f);
 
 	m_WeaponCube->SetCollisionProfile("MonsterAttack");
-
 	m_WeaponCube->SetRelativePosition(0.f, 100.f, 10.f);
 	m_WeaponCube->SetBoxHalfSize(50.f, 80.f, 50.f);
 	m_WeaponCube->SetRelativePosition(0.f, 80.f, -100.f);
+
 
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("FodderAnimation");
 
@@ -126,7 +121,7 @@ bool CFodder::Init()
 	m_Animation->AddAnimation("Fodder_Notice", "Fodder_Notice", 1.f, 1.f, false);
 	m_Animation->AddAnimation("Fodder_Dead", "Fodder_Dead", 1.f, 1.f, false);
 
-	m_FodderBT = new CFodderBT;
+	// m_FodderBT = new CFodderBT;
 
 	return true;
 }
@@ -138,27 +133,25 @@ void CFodder::Update(float DeltaTime)
 	// 탐지범위내에 있으면 
 	if (m_DetectOn) 
 	{
-		//m_Animation->ChangeAnimation("Fodder_Notice");
+		// m_Animation->ChangeAnimation("Fodder_Notice");
 
-		Test();
-	}
-	
-	if (m_AttackOn)
-	{
-		m_Animation->ChangeAnimation("Fodder_Attack");
+		Detect_Chase();
 
-		if (m_Animation->GetCurrentAnimationName() == "Fodder_Attack")
+		// 공격범위내에 있으면
+		if (m_AttackOn)
 		{
-			float FodderSpeed = GetMoveSpeed();
-			FodderSpeed = 0.f;
+			m_Animation->ChangeAnimation("Fodder_Attack");
+
+			if (m_Animation->GetCurrentAnimationName() == "Fodder_Attack")
+			{
+				float FodderSpeed = GetMoveSpeed();
+
+				FodderSpeed = 0.f;
+			}
 		}
-			
 	}
 
-
-
-	//m_FodderBT->Run(this);
-
+	// m_FodderBT->Run(this);
 }
 
 void CFodder::PostUpdate(float DeltaTime)
@@ -188,40 +181,35 @@ void CFodder::Walk()
 
 void CFodder::Detect_Chase()
 {
-	//m_Animation->ChangeAnimation("Fodder_Notice");
-
+	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
 	
+	if (!Player)
+		return;
 
-	//return true;
+	Vector3 FodderPos = CSceneManager::GetInst()->GetScene()->FindObject("Fodder")->GetWorldPos();
+	Vector3 PlayerPos = CSceneManager::GetInst()->GetScene()->GetPlayerObject()->GetWorldPos();
 
-	//Vector3 FodderPos = m_Mesh->GetWorldPos();
-	//Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
+	Vector3 Dir = PlayerPos - FodderPos;
 
-	//Vector3 Dir = FodderPos - PlayerPos;
+	Dir.y = 0.f; // Y축으로 이동 불가. 
 
-	//Dir.y = 0.f; // Y축으로 이동 불가. 
+	Dir.Normalize();
 
-	//Dir.Normalize();
+	float FodderSpeed = GetMoveSpeed();
 
-	//// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 1.5배 빠르게.
-	//m_Mesh->AddWorldPosition(Dir * m_MoveSpeed * 1.5 * g_DeltaTime);
+	// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 2배 빠르게.
+	AddWorldPosition(Dir * 2 * FodderSpeed * g_DeltaTime);
+
+	// 플레이어 바라보게끔.
+	float Degree = atan2(GetWorldPos().z - PlayerPos.z, GetWorldPos().x - PlayerPos.x);
+	Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
+
+	SetWorldRotationY(Degree);
 }
 
 void CFodder::Attack()
 {
 	m_Animation->ChangeAnimation("Fodder_Attack");
-
-	//Vector3 FodderPos = m_Mesh->GetWorldPos();
-	//Vector3 PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
-
-	//Vector3 Dir = FodderPos - PlayerPos;
-
-	//Dir.y = 0.f; // Y축으로 이동 불가. 
-
-	//Dir.Normalize();
-
-	//// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 2배 빠르게.
-	//m_Mesh->AddWorldPosition(Dir * 2 * m_MoveSpeed * g_DeltaTime);
 }
 
 void CFodder::WeaponAttackOn()
@@ -240,12 +228,8 @@ void CFodder::Debris()
 {
 	m_Mesh->Destroy();
 	m_Mesh->ClearMaterial();
-	/* 일단보류
-	m_Mesh->SetAnimation("DebrisAnimation");
-	m_Mesh->ClearMaterial();
-	m_Mesh->SetMesh("Debris");
-	m_Anim[(int)m_MainCharacter]->Start();*/
 
+	// 수정필요
 	m_DebrisMesh1->SetMesh("FodderDebris1");
 	m_DebrisMesh2->SetMesh("FodderDebris2");
 	m_DebrisMesh3->SetMesh("FodderDebris3");
@@ -255,33 +239,6 @@ void CFodder::Debris()
 	m_DebrisMesh2->Start();
 	m_DebrisMesh3->Start();
 	m_DebrisMesh4->Start();
-
-}
-
-void CFodder::Test()
-{
-	Vector3 FodderPos = CSceneManager::GetInst()->GetScene()->FindObject("Fodder")->GetWorldPos();
-	Vector3 PlayerPos = CSceneManager::GetInst()->GetScene()->GetPlayerObject()->GetWorldPos();
-
-	Vector3 Dir = PlayerPos - FodderPos;
-
-	Dir.y = 0.f; // Y축으로 이동 불가. 
-
-	Dir.Normalize();
-
-	float FodderSpeed = GetMoveSpeed();
-	// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 2배 빠르게.
-	AddWorldPosition(Dir * 2 * FodderSpeed * g_DeltaTime);
-
-	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
-
-	if (!Player)
-		return;
-
-	float Degree = atan2(GetWorldPos().z - PlayerPos.z, GetWorldPos().x - PlayerPos.x);
-	Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
-
-	SetWorldRotationY(Degree);
 
 }
 
@@ -295,9 +252,12 @@ void CFodder::Collision_Detect_ChaseOn(const CollisionResult& result)
 
 void CFodder::Release_Detect_ChaseOff(const CollisionResult& result)
 {
-	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
+	if (result.Dest != nullptr)
 	{
-		m_DetectOn = false;
+		if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
+		{
+			m_DetectOn = false;
+		}
 	}
 }
 
