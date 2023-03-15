@@ -96,6 +96,7 @@ protected:
 	float m_CameraSpeed;
 	int m_KeyCount;
 	int m_JumpCount;
+	bool m_IsStop;
 	bool m_IsLoading;	//load check kbj
 	bool m_IsDoubleJump;	
 	bool m_OnCollision;

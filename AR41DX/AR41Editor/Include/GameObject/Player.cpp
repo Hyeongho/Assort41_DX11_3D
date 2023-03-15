@@ -35,6 +35,7 @@ CPlayer::CPlayer()
 	, m_IsDoubleJump(false)
 	, m_OnCollision(false)
 	, m_CanPickUp(false)
+	, m_IsStop(false)
 {
 	SetTypeID<CPlayer>();
 	m_ObjectTypeName = "Player";
@@ -51,6 +52,7 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	, m_IsDoubleJump(false)
 	, m_OnCollision(false)
 	, m_CanPickUp(false)
+	, m_IsStop(false)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
@@ -296,6 +298,14 @@ int CPlayer::InflictDamage(int damage)
 
 void CPlayer::Reset()
 {
+	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerMissileLoop")
+	{
+		m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
+		m_Scene->GetResource()->SoundStop("Spongebob_BubbleLoop");
+		m_Scene->GetResource()->SoundPlay("Spongebob_BubbleExplode");
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerMissileEnd");
+		return;
+	}
 	m_PlayerData.CurHP = m_PlayerData.MaxHP;
 	m_PlayerUI->SetHp(m_PlayerData.CurHP);
 	m_PlayerUI->SetMaxHp(m_PlayerData.MaxHP);
@@ -448,6 +458,7 @@ void CPlayer::LoadCheck()
 
 void CPlayer::KeyDown()
 {
+	//				m_IsStop = true; 일때 예외처리
 	if (!m_Cube->GetEnable() || !m_Rigid->GetGround())
 	{
 		return;
@@ -819,6 +830,7 @@ void CPlayer::Headbutt()
 	{
 		return;
 	}
+	m_IsStop = true;
 	m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
 	m_Scene->GetResource()->SoundPlay("Spongebob_DoubleJump");
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
@@ -841,7 +853,9 @@ void CPlayer::MissileLaunch()
 {
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerMissileStart")
 	{
+		m_IsStop = true;
 		m_Scene->GetResource()->SoundPlay("Spongebob_BubbleLaunch");
+		m_Scene->GetResource()->SoundPlay("Spongebob_BubbleLoop");
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerMissileLoop");
 		CSpongebobMissile* missile= m_Scene->CreateObject<CSpongebobMissile>("SpongebobMissile");
 		float angle = GetWorldRot().y;
@@ -934,16 +948,19 @@ void CPlayer::RClickDown()
 			case EMain_Character::Patrick:
 				if (m_Weapon->GetRootComponent()->GetEnable()&& !m_CanPickUp)
 				{
+					m_IsStop = true;
 					m_Scene->GetResource()->SoundPlay("Patrick_Throw");
 					m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerThrow");
 				}
 				else if(m_CanPickUp)  
 				{
+					m_IsStop = true;
 					m_Scene->GetResource()->SoundPlay("Patrick_Lift");
 					m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerPickUp");
 				}
 				break;
 			case EMain_Character::Sandy:
+				m_IsStop = true;
 				m_Scene->GetResource()->SoundPlay("Sandy_LassoAttack");
 				m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerLassoStart");
 				m_LassoDistance = 0.f;
@@ -1004,6 +1021,7 @@ void CPlayer::RClickUp()
 		m_Scene->GetResource()->SoundStop("Spongebob_BubbleBowl_Charge");
 		if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerBowl")
 		{
+			m_IsStop = true;
 			m_Scene->GetResource()->SoundPlay("Spongebob_BubbleBowl_Throw");
 			m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBowlThrow");
 			CBullet* bullet = m_Scene->CreateObject<CBullet>("SpongeBobBowl");
@@ -1044,6 +1062,7 @@ void CPlayer::BashCheck()
 		}
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBash");
 		m_TailCube->SetEnable(true);
+		m_IsStop = true;
 	}
 	else
 	{
@@ -1072,6 +1091,7 @@ void CPlayer::ResetIdle()
 	m_Cube->SetEnable(true);
 	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
 	m_IsDoubleJump = false;
+	m_IsStop = false;
 }
 
 void CPlayer::ChangeSpongebob()

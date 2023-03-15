@@ -30,6 +30,12 @@ CSpongebobMissile::~CSpongebobMissile()
 {
 }
 
+void CSpongebobMissile::Destroy()
+{
+	CGameObject::Destroy();
+	m_Scene->GetPlayerObject()->Reset();
+}
+
 void CSpongebobMissile::Start()
 {
 	CGameObject::Start();
@@ -56,8 +62,6 @@ bool CSpongebobMissile::Init()
 	m_Body->SetCollisionProfile("PlayerAttack");
 	m_Body->SetCollisionCallback<CSpongebobMissile>(ECollision_Result::Collision, this, &CSpongebobMissile::CollisionOn);
 
-	//m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
-
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
 
@@ -71,17 +75,6 @@ bool CSpongebobMissile::Init()
 void CSpongebobMissile::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
-
-	if (m_Anim->GetCurrentAnimationName() == "MissileIdle")
-	{
-		AddWorldPositionX(sinf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime);
-		AddWorldPositionZ(cosf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime);
-	}
-}
-
-void CSpongebobMissile::PostUpdate(float DeltaTime)
-{
-	CGameObject::PostUpdate(DeltaTime);
 	Vector2 mouseMove = CInput::GetInst()->GetMouseMove() * m_Camera->GetCameraSpeed() * g_DeltaTime;
 	mouseMove.x = m_Camera->GetCameraHorizon() ? mouseMove.x : -mouseMove.x;
 	mouseMove.y = m_Camera->GetCameraVertical() ? mouseMove.y : -mouseMove.y;
@@ -94,6 +87,19 @@ void CSpongebobMissile::PostUpdate(float DeltaTime)
 	else if (m_Arm->GetRelativeRot().x < -45.f)
 	{
 		m_Arm->SetRelativeRotationX(-45.f);
+	}
+	m_Angle = m_Arm->GetRelativeRot().y;
+}
+
+void CSpongebobMissile::PostUpdate(float DeltaTime)
+{
+	CGameObject::PostUpdate(DeltaTime);
+	if (m_Anim->GetCurrentAnimationName() == "MissileIdle")
+	{
+		AddWorldPosition(sinf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime,
+			tanf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime*0.3f,
+			cosf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime);
+		SetRelativeRotationY(m_Angle - 270.f);
 	}
 }
 
@@ -133,5 +139,4 @@ void CSpongebobMissile::CollisionOn(const CollisionResult& result)
 		result.Dest->GetOwner()->InflictDamage(1);
 	}
 	Destroy();
-	//animation
 }

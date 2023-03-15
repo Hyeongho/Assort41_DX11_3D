@@ -18,6 +18,7 @@ protected:
 	CSpongebobMissile(const CSpongebobMissile& obj);
 	virtual ~CSpongebobMissile();
 public:
+	virtual void Destroy();
 	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
