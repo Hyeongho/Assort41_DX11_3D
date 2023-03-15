@@ -17,7 +17,10 @@ CFodder::CFodder()
 }
 
 CFodder::CFodder(const CFodder& Obj)
+	: CMonster(Obj)
 {
+	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+	m_Animation = Obj.m_Animation;
 }
 
 CFodder::~CFodder()
@@ -32,11 +35,6 @@ void CFodder::Start()
 	CInput::GetInst()->AddBindFunction<CFodder>("Q", Input_Type::Down, this, &CFodder::Chase, m_Scene);
 	CInput::GetInst()->AddBindFunction<CFodder>("W", Input_Type::Down, this, &CFodder::Attack, m_Scene);
 	CInput::GetInst()->AddBindFunction<CFodder>("E", Input_Type::Down, this, &CFodder::Dead, m_Scene);
-
-
-	// 탐지범위에 플레이어가 들어올 시 Notice 애니메이션 후 Walk 로 변경.
-	m_Animation->SetCurrentEndFunction("Fodder_Notice", this, &CFodder::Walk);
-	m_Animation->SetCurrentEndFunction("Fodder_Dead", this, &CFodder::Walk);
 }
 
 bool CFodder::Init()
@@ -59,6 +57,9 @@ bool CFodder::Init()
 	m_Animation->AddAnimation("Fodder_Notice", "Fodder_Notice", 1.f, 1.f, false);
 	m_Animation->AddAnimation("Fodder_Dead", "Fodder_Dead", 1.f, 1.f, false);
 
+	// 탐지범위에 플레이어가 들어올 시 Notice 애니메이션 후 Walk 로 변경.
+	m_Animation->SetCurrentEndFunction("Fodder_Notice", this, &CFodder::Walk);
+	m_Animation->SetCurrentEndFunction("Fodder_Dead", this, &CFodder::Walk);
 	return true;
 }
 
