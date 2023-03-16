@@ -38,7 +38,7 @@ bool CCannon::Init()
 	m_Mesh->SetMesh("Cannon");
 
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("Cannon");
-	m_Animation->AddAnimation("Cannon", "Cannon", 1.f, 1.f, true);
+	m_Animation->AddAnimation("Cannon", "Cannon_Shoot", 1.f, 1.f, true);
 
 	return true;
 }
@@ -63,5 +63,9 @@ void CCannon::Save(FILE* File)
 }
 
 void CCannon::Load(FILE* File)
+{
+}
+
+void CCannon::Fire()
 {
 }
