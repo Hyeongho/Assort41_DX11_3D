@@ -250,6 +250,7 @@ int CPlayer::InflictDamage(int damage)
 	int hp = --m_PlayerData.CurHP > 0? m_PlayerData.CurHP :0;
 	m_PlayerUI->SetHp(hp);
 	IngameUI();
+	m_IsStop = true;
 	m_Cube->SetEnable(false);
 	if (hp == 0)	//사망
 	{
@@ -458,8 +459,7 @@ void CPlayer::LoadCheck()
 
 void CPlayer::KeyDown()
 {
-	//				m_IsStop = true; 일때 예외처리
-	if (!m_Cube->GetEnable() || !m_Rigid->GetGround())
+	if (m_IsStop || !m_Rigid->GetGround())
 	{
 		return;
 	}
@@ -485,7 +485,7 @@ void CPlayer::KeyDown()
 
 void CPlayer::MoveFront()
 {
-	if(!m_Cube->GetEnable())
+	if(m_IsStop)
 	{
 		return;
 	}
@@ -510,7 +510,7 @@ void CPlayer::MoveFront()
 
 void CPlayer::MoveBack()
 {
-	if (!m_Cube->GetEnable())
+	if (m_IsStop)
 	{
 		return;
 	}
@@ -535,7 +535,7 @@ void CPlayer::MoveBack()
 
 void CPlayer::MoveLeft()
 {
-	if (!m_Cube->GetEnable())
+	if (m_IsStop)
 	{
 		return;
 	}
@@ -560,7 +560,7 @@ void CPlayer::MoveLeft()
 
 void CPlayer::MoveRight()
 {
-	if (!m_Cube->GetEnable())
+	if (m_IsStop)
 	{
 		return;
 	}
@@ -585,7 +585,7 @@ void CPlayer::MoveRight()
 
 void CPlayer::KeyUpUp()
 {
-	if (!m_Cube->GetEnable())
+	if (m_IsStop)
 	{
 		return;
 	}
@@ -610,7 +610,7 @@ void CPlayer::KeyUpUp()
 
 void CPlayer::KeyDownUp()
 {
-	if (!m_Cube->GetEnable())
+	if (m_IsStop)
 	{
 		return;
 	}
@@ -635,7 +635,7 @@ void CPlayer::KeyDownUp()
 
 void CPlayer::KeyLeftUp()
 {
-	if (!m_Cube->GetEnable())
+	if (m_IsStop)
 	{
 		return;
 	}
@@ -660,7 +660,7 @@ void CPlayer::KeyLeftUp()
 
 void CPlayer::KeyRightUp()
 {
-	if (!m_Cube->GetEnable())
+	if (m_IsStop)
 	{
 		return;
 	}
