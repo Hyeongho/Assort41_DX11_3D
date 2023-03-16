@@ -1,4 +1,4 @@
-#include "BusDriver.h"
+﻿#include "BusDriver.h"
 
 #include "Input.h"
 #include "Component/AnimationMeshComponent.h"
@@ -17,6 +17,9 @@ CBusDriver::CBusDriver()
     m_NpcMapPos = EMapList::Bikini_Bottom;
     m_EnableDialog = false;
     m_NpcMeshType = MeshType::Animation;
+
+    m_BusStart = false;
+    m_BusState = EBusState::End;
 }
 
 CBusDriver::CBusDriver(const CBusDriver& Obj)
@@ -30,6 +33,9 @@ CBusDriver::CBusDriver(const CBusDriver& Obj)
     m_NpcMapPos = Obj.m_NpcMapPos;
     m_EnableDialog = Obj.m_EnableDialog;
     m_NpcMeshType = Obj.m_NpcMeshType;
+
+    m_BusStart = Obj.m_BusStart;
+    m_BusState = Obj.m_BusState;
 }
 
 CBusDriver::~CBusDriver()
@@ -43,6 +49,7 @@ void CBusDriver::Start()
 #ifdef _DEBUG
     CInput::GetInst()->AddBindFunction<CBusDriver>("F1", Input_Type::Up, this, &CBusDriver::DebugKeyF1, m_Scene);
     CInput::GetInst()->AddBindFunction<CBusDriver>("F2", Input_Type::Up, this, &CBusDriver::DebugKeyF2, m_Scene);
+    CInput::GetInst()->AddBindFunction<CBusDriver>("F3", Input_Type::Up, this, &CBusDriver::DebugKeyF3, m_Scene);
 #endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CBusDriver>("F", Input_Type::Up, this, &CBusDriver::StartDialog, m_Scene);
@@ -69,8 +76,7 @@ bool CBusDriver::Init()
     m_Animation->AddAnimation("Bus_Driver_Drive", "Bus_Driver_Drive", 1.f, 1.f, true);
     m_Animation->AddAnimation("Bus_Driver_Stop", "Bus_Driver_Stop", 1.f, 1.f, false);
 
-    m_Animation->SetCurrentAnimation("Bus_Driver_Stop");
-
+    m_Animation->SetCurrentAnimation("Bus_Driver_Drive");
 
     return true;
 }
@@ -78,6 +84,42 @@ bool CBusDriver::Init()
 void CBusDriver::Update(float DeltaTime)
 {
     CNpc::Update(DeltaTime);
+
+    if (m_BusStart) {
+        if (m_BusState == EBusState::Stop) {
+            // Update 중지 처리
+            m_BusStart = false;
+
+            // 애니메이션 변경
+            ChangeAnim_Stop();
+
+            return;
+        }
+
+        // 현재는 X이동만 가능하게끔 작업.
+        AddWorldPositionX(-1500.f * g_DeltaTime);
+
+        Vector3 DestCenter = m_Scene->FindObject("BusStop")->GetCenter();
+
+        if (m_BusState == EBusState::MoveToBusStop) {
+            // 생성 직후의 Pos에 따른 문제의 예외처리
+            if (m_Center == Vector3(0.f, 0.f, 0.f))
+                return;
+
+            // 현재는 X이동만 가능하게끔 작업.
+            if (m_Center.x <= DestCenter.x)
+                m_BusState = EBusState::Stop;
+        }
+
+        if (m_BusState == EBusState::MoveFromBusStop) {
+            if (m_Center.Distance(DestCenter) >= 2000.f) {
+                // 삭제처리
+                Destroy();
+            }
+        }
+
+
+    }
 }
 
 void CBusDriver::PostUpdate(float DeltaTime)
@@ -118,17 +160,59 @@ void CBusDriver::StartDialog()
     m_DialogCount++;
 }
 
-void CBusDriver::MoveToBusStop()
+void CBusDriver::MoveToBusStop(const Vector3& BusStopPos, const Vector3& BusStartPos)
 {
+    // Update 처리
+    m_BusStart = true;
+
+    // BusState 변경
+    m_BusState = EBusState::MoveToBusStop;
+
+    // 애니메이션 변경
+    ChangeAnim_Drive();
+
+    // 시작점 배치
+    SetWorldPosition(BusStartPos);
+
+    // BusStop을 바라보도록 설정
+    float Degree = atan2(BusStartPos.z - BusStopPos.z, BusStartPos.x - BusStopPos.x);
+    Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
+    Degree -= 90.f;
+
+    SetWorldRotationY(Degree);
+}
+
+void CBusDriver::MoveFromBusStop()
+{
+    // Update 처리
+    m_BusStart = true;
+
+    // BusState 변경
+    m_BusState = EBusState::MoveFromBusStop;
+
+    // 애니메이션 변경
+    ChangeAnim_Drive();
 }
 
 void CBusDriver::ChangeAnim_Stop()
 {
+    if (m_Animation)
+        return;
+
+    if (!m_Animation->FindAnimation("Bus_Driver_Stop"))
+        return;
+
     m_Animation->ChangeAnimation("Bus_Driver_Stop");
 }
 
 void CBusDriver::ChangeAnim_Drive()
 {
+    if (m_Animation)
+        return;
+
+    if (!m_Animation->FindAnimation("Bus_Driver_Drive"))
+        return;
+
     m_Animation->ChangeAnimation("Bus_Driver_Drive");
 }
 
@@ -140,4 +224,9 @@ void CBusDriver::DebugKeyF1()
 void CBusDriver::DebugKeyF2()
 {
     ChangeAnim_Drive();
+}
+
+void CBusDriver::DebugKeyF3()
+{
+    MoveFromBusStop();
 }

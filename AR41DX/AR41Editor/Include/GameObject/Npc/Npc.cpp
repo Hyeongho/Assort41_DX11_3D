@@ -106,23 +106,32 @@ void CNpc::StartDialog()
 
 void CNpc::Collision_Player(const CollisionResult& result)
 {
-    CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
+    const std::string& DestName = result.Dest->GetCollisionProfile()->Name;
 
-    if (!InteractUI)
-        return;
+    if (strcmp("Player", DestName.c_str()) == 0) {
+        CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
 
-    InteractUI->SetTarget(EInteractTarget::Npc);
-    InteractUI->ActiveInteractUI();
-    m_EnableDialog = true;
+        if (!InteractUI)
+            return;
+
+        InteractUI->SetTarget(EInteractTarget::Npc);
+        InteractUI->ActiveInteractUI();
+        m_EnableDialog = true;
+    }
+
 }
 
 void CNpc::Release_Player(const CollisionResult& result)
 {
-    CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
+    const std::string& DestName = result.Dest->GetCollisionProfile()->Name;
 
-    if (!InteractUI)
-        return;
+    if (strcmp("Player", DestName.c_str()) == 0) {
+        CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
 
-    InteractUI->InActiveInteractUI();
-    m_EnableDialog = false;
+        if (!InteractUI)
+            return;
+
+        InteractUI->InActiveInteractUI();
+        m_EnableDialog = false;
+    }
 }

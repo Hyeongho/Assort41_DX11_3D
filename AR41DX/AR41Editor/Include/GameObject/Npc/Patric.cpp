@@ -5,6 +5,7 @@
 #include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
 #include "../../UI/DialogUI.h"
+#include "../Object/Common/Collectible/Sock.h"
 
 CPatric::CPatric()
 {
@@ -47,6 +48,7 @@ void CPatric::Start()
     CInput::GetInst()->AddBindFunction<CPatric>("F4", Input_Type::Up, this, &CPatric::ChangeAnim_Scowl_Start, m_Scene);
     CInput::GetInst()->AddBindFunction<CPatric>("F5", Input_Type::Up, this, &CPatric::ChangeAnim_Talk, m_Scene);
     CInput::GetInst()->AddBindFunction<CPatric>("F6", Input_Type::Up, this, &CPatric::ChangeAnim_Thinking_Start, m_Scene);
+    CInput::GetInst()->AddBindFunction<CPatric>("F7", Input_Type::Up, this, &CPatric::CreateSock, m_Scene);
 #endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CPatric>("F", Input_Type::Up, this, &CPatric::StartDialog, m_Scene);
@@ -189,4 +191,12 @@ void CPatric::ChangeAnim_Thinking_Start()
 void CPatric::ChangeAnim_Thinking_Loop()
 {
     m_Animation->ChangeAnimation("Patric_Npc_Thinking_Loop");
+}
+
+void CPatric::CreateSock()
+{
+    CSock* Sock = m_Scene->CreateObject<CSock>("Sock_Patrick");
+
+    Sock->SetWorldPosition(GetWorldPos());
+    Sock->SetWorldPositionZ(GetWorldPos().z - m_AnimMesh->GetMeshSize().z);
 }

@@ -24,9 +24,12 @@ protected:
 	CInteractUI();
 	CInteractUI(const CInteractUI& Window);
 	virtual ~CInteractUI();
-	bool m_IsActive;
+
 protected:
 	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapInteractUI;
+
+private:
+	bool m_IsActive;
 
 public:
 	virtual void Start();
@@ -52,7 +55,7 @@ public :
 	//{
 	//	m_IsActive = b;
 	//}
-	//
+
 	void ActiveInteractUI();
 	void InActiveInteractUI();
 
