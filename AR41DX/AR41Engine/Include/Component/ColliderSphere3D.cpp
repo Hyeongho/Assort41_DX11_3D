@@ -11,6 +11,7 @@
 #include "../CollisionManager.h"
 #include "ColliderCube.h"
 #include "ColliderOBB3D.h"
+#include "../Resource/Mesh/StaticMesh.h"
 
 CColliderSphere3D::CColliderSphere3D()
 {
@@ -46,7 +47,10 @@ bool CColliderSphere3D::Init()
 	//if (CEngine::GetEditorMode())
 	{
 		m_Mesh = CResourceManager::GetInst()->FindMesh("SpherePos");
+		m_DebugMaterial = CResourceManager::GetInst()->FindMaterial("DebugDecal");
 	}
+
+	//m_Mesh->GetMaterial(0)->SetEmissiveColor(1.0f, 1.0f, 1.0f, 0.f);
 
 	return true;
 }
@@ -88,12 +92,12 @@ void CColliderSphere3D::Render()
 	Matrix	matProj = m_Scene->GetCameraManager()->GetCurrentCamera()->GetProjMatrix();
 
 	Vector3	Scale = GetWorldScale();
-	/*Scale.x = m_Info.Radius;
+	Scale.x = m_Info.Radius;
 	Scale.y = m_Info.Radius;
-	Scale.z = m_Info.Radius;*/
-	Scale.x = m_Transform->GetRadius();
+	Scale.z = m_Info.Radius;
+	/*Scale.x = m_Transform->GetRadius();
 	Scale.y = m_Transform->GetRadius();
-	Scale.z = m_Transform->GetRadius();
+	Scale.z = m_Transform->GetRadius();*/
 
 	matScale.Scaling(Scale);
 	matTranslate.Translation(GetWorldPos());
@@ -112,6 +116,11 @@ void CColliderSphere3D::Render()
 	m_Mesh->Render();
 
 	m_WireFrame->ResetState();
+}
+
+void CColliderSphere3D::RenderDebug()
+{
+	CCollider3D::RenderDebug();
 }
 
 CColliderSphere3D* CColliderSphere3D::Clone() const
@@ -152,6 +161,7 @@ bool CColliderSphere3D::Collision(CCollider* Dest)
 	}
 
 	m_HitPoint = Vector3(HitPoint.x, HitPoint.y, 0.f);
-
+	m_Result.HitPoint = m_HitPoint;
+	Dest->SetCollisionResultHitPoint(m_HitPoint);
 	return Result;
 }

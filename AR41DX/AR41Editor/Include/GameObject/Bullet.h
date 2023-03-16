@@ -16,17 +16,19 @@ private:
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CColliderCube> m_Body;
 	CSharedPtr<class CAnimation> m_Anim;
-	Vector3 m_Dir;
 	float m_Speed;
+	float m_Angle;
 public:
 	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
 	virtual void PostUpdate(float DeltaTime);
 	virtual CBullet* Clone()    const;
-	void SetDir(const Vector3& vec);
+	virtual void Save(FILE* File);
+	virtual void Load(FILE* File);
+	void SetAngle(float f);
 private:
 	void CollisionBullet(const CollisionResult& result);
-	void ResetIdle();	//아이들상태로 되돌리는 함수
+	void ResetIdle();
 };
 

@@ -196,7 +196,11 @@
     <ClCompile Include="GameObject\Npc\BusDriver.cpp" />
     <ClCompile Include="GameObject\Npc\TaxiDriver.cpp" />
     <ClCompile Include="GameObject\Object\BusStop.cpp" />
+    <ClCompile Include="GameObject\Object\CheckPoint.cpp" />
+    <ClCompile Include="GameObject\Object\Gate.cpp" />
     <ClCompile Include="GameObject\Object\InteractButton.cpp" />
+    <ClCompile Include="GameObject\Object\JumpTree.cpp" />
+    <ClCompile Include="GameObject\Object\TeleportBox.cpp" />
     <ClCompile Include="GameObject\Object\Trampoline.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
     <ClCompile Include="GameObject\Pufferfish.cpp" />
@@ -260,7 +264,11 @@
     <ClInclude Include="GameObject\Npc\BusDriver.h" />
     <ClInclude Include="GameObject\Npc\TaxiDriver.h" />
     <ClInclude Include="GameObject\Object\BusStop.h" />
+    <ClInclude Include="GameObject\Object\CheckPoint.h" />
+    <ClInclude Include="GameObject\Object\Gate.h" />
     <ClInclude Include="GameObject\Object\InteractButton.h" />
+    <ClInclude Include="GameObject\Object\JumpTree.h" />
+    <ClInclude Include="GameObject\Object\TeleportBox.h" />
     <ClInclude Include="GameObject\Object\Trampoline.h" />
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\Pufferfish.h" />

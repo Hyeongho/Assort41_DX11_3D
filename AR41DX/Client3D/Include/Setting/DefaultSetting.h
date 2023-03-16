@@ -18,11 +18,13 @@ private:
     void SetInput();
     void SetCollision();
 
+    // Player
+    void LoadSpongebob();
+    void LoadPatrick();
+    void LoadSandy();
+
     // Sound
     void LoadSound();
-
-    // Player
-    void LoadPlayer();
 
     // Monster
     void LoadRoboSponge();

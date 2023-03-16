@@ -22,7 +22,9 @@ private:
     void LoadSound();
 
     // Player
-    void LoadPlayer();
+    void LoadSpongebob();
+    void LoadPatrick();
+    void LoadSandy();
 
     // Monster
     void LoadRoboSponge();

@@ -224,10 +224,6 @@ void CRenderManager::Render(float DeltaTime)
 		Render3D(DeltaTime);
 	}
 
-	
-
-
-
 	// 2D, 3D 물체를 모두 출력했다면 UI를 출력해준다.
 	// 깊이버퍼를 안쓰고 알파블렌드를 적용한다.
 	m_AlphaBlend->SetState();
@@ -269,6 +265,9 @@ void CRenderManager::Render3D(float DeltaTime)
 
 	// GBuffer와 Light를 합한 최종 화면을 만든다.
 	RenderScreen(DeltaTime);
+
+	// FXAA를 그려낸다. 
+	RenderFXAA(DeltaTime);
 
 	// 완성된 타겟을 백버퍼에 출력한다.
 	RenderDeferred(DeltaTime);
@@ -466,100 +465,99 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 	// GBuffer에 그릴 내용을 출력한다.
 	RenderLayer* GBufferLayer = FindLayer("Default");
 
-	//
-	//std::list<CSceneComponent*>	RenderList;
-	//
-	//auto	iter = GBufferLayer->RenderList.begin();
-	//auto	iterEnd = GBufferLayer->RenderList.end();
+	std::list<CSceneComponent*>	RenderList;
+	
+	auto	iter = GBufferLayer->RenderList.begin();
+	auto	iterEnd = GBufferLayer->RenderList.end();
 
-	//for (; iter != iterEnd;)
-	//{
-	//	if (!(*iter)->GetActive())
-	//	{
-	//		iter = GBufferLayer->RenderList.erase(iter);
-	//		iterEnd = GBufferLayer->RenderList.end();
-	//		continue;
-	//	}
+	for (; iter != iterEnd;)
+	{
+		if (!(*iter)->GetActive())
+		{
+			iter = GBufferLayer->RenderList.erase(iter);
+			iterEnd = GBufferLayer->RenderList.end();
+			continue;
+		}
 
-	//	else if (!(*iter)->GetEnable())
-	//	{
-	//		++iter;
-	//		continue;
-	//	}
+		else if (!(*iter)->GetEnable())
+		{
+			++iter;
+			continue;
+		}
 
-	//	else if ((*iter)->GetFrustumCull())
-	//	{
-	//		++iter;
-	//		continue;
-	//	}
+		else if ((*iter)->GetFrustumCull())
+		{
+			++iter;
+			continue;
+		}
 
-	//	// 인스턴싱이 되는 물체들을 판단한다.
-	//	if ((*iter)->GetSceneComponentType() ==
-	//		SceneComponentType::Primitive)
-	//	{
-	//		CMesh* Mesh = ((CPrimitiveComponent*)iter->Get())->GetMesh();
+		// 인스턴싱이 되는 물체들을 판단한다.
+		if ((*iter)->GetSceneComponentType() ==
+			SceneComponentType::Primitive)
+		{
+			CMesh* Mesh = ((CPrimitiveComponent*)iter->Get())->GetMesh();
 
-	//		if (Mesh->GetRenderCount() >= 5)
-	//		{
-	//			CRenderInstancing* Instancing = nullptr;
+			if (Mesh->GetRenderCount() >= 5)
+			{
+				CRenderInstancing* Instancing = nullptr;
 
-	//			Instancing = FindInstancing(Mesh);
+				Instancing = FindInstancing(Mesh);
 
-	//			// Pool에서 얻어온다.
-	//			if (!Instancing)
-	//			{
-	//				if (m_EmptyPoolList.empty())
-	//				{
-	//					std::vector<CRenderInstancing*>	NewPool =
-	//						m_vecInstancingPool;
+				// Pool에서 얻어온다.
+				if (!Instancing)
+				{
+					if (m_EmptyPoolList.empty())
+					{
+						std::vector<CRenderInstancing*>	NewPool =
+							m_vecInstancingPool;
 
-	//					m_vecInstancingPool.clear();
+						m_vecInstancingPool.clear();
 
-	//					m_vecInstancingPool.resize(NewPool.size() * 2);
+						m_vecInstancingPool.resize(NewPool.size() * 2);
 
-	//					for (size_t i = 0; i < NewPool.size(); ++i)
-	//					{
-	//						m_vecInstancingPool[i] = NewPool[i];
-	//					}
+						for (size_t i = 0; i < NewPool.size(); ++i)
+						{
+							m_vecInstancingPool[i] = NewPool[i];
+						}
 
-	//					for (size_t i = NewPool.size(); i < NewPool.size() * 2; ++i)
-	//					{
-	//						m_vecInstancingPool[i] = new CRenderInstancing;
-	//						m_vecInstancingPool[i]->m_PoolIndex = (int)i;
+						for (size_t i = NewPool.size(); i < NewPool.size() * 2; ++i)
+						{
+							m_vecInstancingPool[i] = new CRenderInstancing;
+							m_vecInstancingPool[i]->m_PoolIndex = (int)i;
 
-	//						m_EmptyPoolList.push_back((int)i);
-	//					}
-	//				}
+							m_EmptyPoolList.push_back((int)i);
+						}
+					}
 
-	//				int Index = m_EmptyPoolList.front();
+					int Index = m_EmptyPoolList.front();
 
-	//				m_EmptyPoolList.pop_front();
+					m_EmptyPoolList.pop_front();
 
-	//				m_mapInstancing.insert(std::make_pair(Mesh, m_vecInstancingPool[Index]));
+					m_mapInstancing.insert(std::make_pair(Mesh, m_vecInstancingPool[Index]));
 
-	//				m_vecInstancingPool[Index]->m_Key = Mesh;
+					m_vecInstancingPool[Index]->m_Key = Mesh;
 
-	//				Instancing = m_vecInstancingPool[Index];
-	//			}
+					Instancing = m_vecInstancingPool[Index];
+				}
 
-	//			Instancing->m_LayerName = "Default";
-	//			Instancing->AddRenderList((CPrimitiveComponent*)iter->Get());
-	//		}
+				Instancing->m_LayerName = "Default";
+				Instancing->AddRenderList((CPrimitiveComponent*)iter->Get());
+			}
 
-	//		else
-	//		{
-	//			RenderList.push_back(*iter);
-	//		}
-	//	}
+			else
+			{
+				RenderList.push_back(*iter);
+			}
+		}
 
-	//	else
-	//	{
-	//		RenderList.push_back(*iter);
-	//	}
+		else
+		{
+			RenderList.push_back(*iter);
+		}
 
-	//	//(*iter)->Render();
-	//	++iter;
-	//}
+		//(*iter)->Render();
+		++iter;
+	}
 
 	// 인스턴싱이 아닌 물체를 그려낸다.
 	auto iter1 = m_NormalRenderList.begin();
@@ -807,6 +805,34 @@ void CRenderManager::RenderScreen(float DeltaTime)
 	m_ScreenBuffer->ResetTarget();
 }
 
+// m_FXAABuffer를 채워준다.
+void CRenderManager::RenderFXAA(float DeltaTime)
+{
+	// GBuffer 필요없고, 조명은 이미 FXAA에 구현되어있어서 안 넣어도 된다. 
+	m_FXAABuffer->ClearTarget();
+
+	m_FXAABuffer->SetTarget();
+
+	m_ScreenBuffer->SetTargetShader(10); // 1.얘를 FXAA 로 넘겨줘야한다.
+	m_FXAAShader->SetShader();
+
+	m_DepthDisable->SetState();
+
+	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+
+	UINT	Offset = 0;
+
+	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+	Context->Draw(4, 0);
+
+	m_DepthDisable->ResetState();
+	m_ScreenBuffer->ResetTargetShader(10);
+
+	m_FXAABuffer->ResetTarget();
+}
+
 void CRenderManager::RenderDeferred(float DeltaTime)
 {
 	m_DeferredRenderShader->SetShader();
@@ -827,7 +853,7 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 
 	m_DepthDisable->ResetState();
 
-	m_ScreenBuffer->ResetTargetShader(21);
+	m_FXAABuffer->ResetTargetShader(21);
 
 	// 디버그 모드일 경우 데칼 디버깅용 육면체를 출력한다.
 #ifdef _DEBUG
@@ -1208,6 +1234,17 @@ void CRenderManager::CreateRenderTarget()
 
 	m_ScreenShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ScreenShader");
 	m_DeferredRenderShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("DeferredRenderShader");
+
+	// FXAA 용
+	m_FXAAShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("FXAAShader");
+
+	CResourceManager::GetInst()->CreateTarget("RenderFXAA", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	m_FXAABuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderFXAA");
+
+	m_FXAABuffer->SetPos(Vector3(900.f, 0.f, 0.f));
+	m_FXAABuffer->SetScale(Vector3(200.f, 200.f, 1.f));
+	m_FXAABuffer->SetDebugRender(true);
 }
 
 bool CRenderManager::SortAlphaObject(CSceneComponent* Src, CSceneComponent* Dest)
@@ -1216,7 +1253,9 @@ bool CRenderManager::SortAlphaObject(CSceneComponent* Src, CSceneComponent* Dest
 	Vector3	SrcPos = Src->GetWorldPos();
 	Vector3	DestPos = Dest->GetWorldPos();
 
-	Matrix ViewMatrix = Src->GetScene()->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
+	//kbj - for saveload
+	Matrix ViewMatrix=CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
+	//Matrix ViewMatrix = Src->GetScene()->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
 
 	SrcPos = SrcPos.TransformCoord(ViewMatrix);
 	DestPos = DestPos.TransformCoord(ViewMatrix);

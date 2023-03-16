@@ -24,5 +24,8 @@ public:
 	virtual CCannon* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+private:
+	void Fire();
 };
 
