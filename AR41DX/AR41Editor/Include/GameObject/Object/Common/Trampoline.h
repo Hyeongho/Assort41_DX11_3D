@@ -13,7 +13,7 @@ protected:
 
 protected:
 	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
-	CSharedPtr<class CColliderCube>			m_Cube;
+	CSharedPtr<class CColliderOBB3D>		m_Collider;
 
 public:
 	virtual void Start();
@@ -23,5 +23,9 @@ public:
 	virtual CTrampoline* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+private : // Collider
+	void Collision_Bounce(const CollisionResult& result);
+	void Release_Bounce(const CollisionResult& result);
 };
 

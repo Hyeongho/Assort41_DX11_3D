@@ -372,9 +372,6 @@
     <ClCompile Include="Scene\TestScene.cpp">
       <Filter>02. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Window\TerrainWindow.cpp">
-      <Filter>07. Window</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\BikiniCitySceneInfo.cpp">
       <Filter>02. Scene\02. BikiniBottom</Filter>
     </ClCompile>
@@ -413,6 +410,12 @@
     </ClCompile>
     <ClCompile Include="GameObject\Player.cpp">
       <Filter>03. GameObject\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\Common\Collectible\Collectible_Bubble.cpp">
+      <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\TerrainWindow.cpp">
+      <Filter>07. Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -662,9 +665,6 @@
     <ClInclude Include="Scene\TestScene.h">
       <Filter>02. Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Window\TerrainWindow.h">
-      <Filter>07. Window</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\BikiniCitySceneInfo.h">
       <Filter>02. Scene\02. BikiniBottom</Filter>
     </ClInclude>
@@ -703,6 +703,12 @@
     </ClInclude>
     <ClInclude Include="GameObject\Player.h">
       <Filter>03. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\Common\Collectible\Collectible_Bubble.h">
+      <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\TerrainWindow.h">
+      <Filter>07. Window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

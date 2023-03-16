@@ -2,6 +2,7 @@
 
 #include "Input.h"
 #include "Component/AnimationMeshComponent.h"
+#include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
 #include "../../UI/DialogUI.h"
 
@@ -39,30 +40,36 @@ void CBusDriver::Start()
 {
     CNpc::Start();
 
-#ifdef DEBUG
+#ifdef _DEBUG
     CInput::GetInst()->AddBindFunction<CBusDriver>("F1", Input_Type::Up, this, &CBusDriver::DebugKeyF1, m_Scene);
     CInput::GetInst()->AddBindFunction<CBusDriver>("F2", Input_Type::Up, this, &CBusDriver::DebugKeyF2, m_Scene);
 #endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CBusDriver>("F", Input_Type::Up, this, &CBusDriver::StartDialog, m_Scene);
-    m_Animation = m_AnimMesh->SetAnimation<CAnimation>("BusDriverAnimation");
-
-    m_Animation->AddAnimation("Bus_Driver_Drive", "Bus_Driver_Drive", 1.f, 1.f, true);
-    m_Animation->AddAnimation("Bus_Driver_Stop", "Bus_Driver_Stop", 1.f, 1.f, false);
-
-    m_Animation->SetCurrentAnimation("Bus_Driver_Stop");
 }
 
 bool CBusDriver::Init()
 {
     CNpc::Init();
 
-    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
-
-    SetRootComponent(m_AnimMesh);
-
     m_AnimMesh->SetMesh("Bus_Driver");
 
+    Vector3 colSize(1.f, 1.f, 1.f);
+
+    if (m_AnimMesh->GetMeshSize().x >= m_AnimMesh->GetMeshSize().z)
+        colSize *= m_AnimMesh->GetMeshSize().x;
+    else
+        colSize *= m_AnimMesh->GetMeshSize().z;
+
+    m_Collider->SetBoxHalfSize(colSize / 2.f);
+    m_Collider->SetRelativePositionY(colSize.y / 2.f);
+
+    m_Animation = m_AnimMesh->SetAnimation<CAnimation>("BusDriverAnimation");
+
+    m_Animation->AddAnimation("Bus_Driver_Drive", "Bus_Driver_Drive", 1.f, 1.f, true);
+    m_Animation->AddAnimation("Bus_Driver_Stop", "Bus_Driver_Stop", 1.f, 1.f, false);
+
+    m_Animation->SetCurrentAnimation("Bus_Driver_Stop");
 
 
     return true;

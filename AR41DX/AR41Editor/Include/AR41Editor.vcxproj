@@ -156,7 +156,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>call $(SolutionDir)EditorCopy.bat</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -208,6 +209,7 @@
     <ClCompile Include="GameObject\Object\BusStop.cpp" />
     <ClCompile Include="GameObject\Object\CBL\CBL_Platform.cpp" />
     <ClCompile Include="GameObject\Object\Common\Collectible\CollectibleItems.cpp" />
+    <ClCompile Include="GameObject\Object\Common\Collectible\Collectible_Bubble.cpp" />
     <ClCompile Include="GameObject\Object\Common\Collectible\GoldenSpatula.cpp" />
     <ClCompile Include="GameObject\Object\Common\Collectible\ShinyFlower.cpp" />
     <ClCompile Include="GameObject\Object\Common\Collectible\Sock.cpp" />
@@ -300,6 +302,7 @@
     <ClInclude Include="GameObject\Npc\TaxiDriver.h" />
     <ClInclude Include="GameObject\Object\CBL\CBL_Platform.h" />
     <ClInclude Include="GameObject\Object\Common\Collectible\CollectibleItems.h" />
+    <ClInclude Include="GameObject\Object\Common\Collectible\Collectible_Bubble.h" />
     <ClInclude Include="GameObject\Object\Common\Collectible\GoldenSpatula.h" />
     <ClInclude Include="GameObject\Object\Common\Collectible\ShinyFlower.h" />
     <ClInclude Include="GameObject\Object\Common\Collectible\Sock.h" />

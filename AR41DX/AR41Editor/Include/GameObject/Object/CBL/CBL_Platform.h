@@ -24,7 +24,7 @@ protected:
 private :
 	bool		m_Roll;
 	ERollDir	m_RollDir;
-	int			m_RollCount;
+	float		m_RollCount;
 
 public:
 	virtual void Start();
@@ -38,6 +38,8 @@ public:
 private: // Collision
 	void RoboSpongeAttackedCollision(const CollisionResult& result);
 
+public :
+	void SetLookBoss(const Vector3& BossPos);
 
 private :
 	void DebugF1();
