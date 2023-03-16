@@ -3,16 +3,31 @@
 #include "Scene/Scene.h"
 #include "Component/AnimationMeshComponent.h"
 #include "Component/StaticMeshComponent.h"
+#include "Component/ColliderOBB3D.h"
 #include "../../UI/InteractUI.h"
 #include "../../UI/DialogUI.h"
 
 CNpc::CNpc()
 {
+    SetTypeID<CNpc>();
+
+    m_ObjectTypeName = "Npc";
+
+    m_DialogCount = 0;
+    m_NpcType = ENpcList::End;
+    m_NpcMapPos = EMapList::End;
+    m_EnableDialog = false;
+    m_NpcMeshType = MeshType::Animation;
 }
 
 CNpc::CNpc(const CNpc& Obj)
     : CGameObject(Obj)
 {
+    m_DialogCount = Obj.m_DialogCount;
+    m_NpcType = Obj.m_NpcType;
+    m_NpcMapPos = Obj.m_NpcMapPos;
+    m_EnableDialog = Obj.m_EnableDialog;
+    m_NpcMeshType = Obj.m_NpcMeshType;
 }
 
 CNpc::~CNpc()
@@ -28,43 +43,37 @@ bool CNpc::Init()
 {
 	CGameObject::Init();
 
+    m_Collider = CreateComponent<CColliderOBB3D>("OBB3D");
+
+    if (m_NpcMeshType == MeshType::Animation) {
+        m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+
+        SetRootComponent(m_AnimMesh);
+
+        m_AnimMesh->AddChild(m_Collider);
+    }
+    else if (m_NpcMeshType == MeshType::Static) {
+        m_StaticMesh = CreateComponent<CStaticMeshComponent>("Mesh");
+
+        SetRootComponent(m_StaticMesh);
+
+        m_StaticMesh->AddChild(m_Collider);
+    }
+
+
+    m_Collider->SetCollisionProfile("Npc");
+    m_Collider->SetCollisionCallback<CNpc>(ECollision_Result::Collision, this, &CNpc::Collision_Player);
+    m_Collider->SetCollisionCallback<CNpc>(ECollision_Result::Release, this, &CNpc::Release_Player);
+    m_Collider->SetInheritRotX(true);
+    m_Collider->SetInheritRotY(true);
+    m_Collider->SetInheritRotZ(true);
+
 	return true;
 }
 
 void CNpc::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
-
-    float DetectDistance = 500.f;
-
-    Vector3 PlayerPos = m_Scene->GetPlayerObject()->GetWorldPos();
-
-    float Dist = 0.f;
-
-    if (m_NpcMeshType == MeshType::Animation)
-        Dist = m_AnimMesh->GetWorldPos().Distance(PlayerPos);
-    else if (m_NpcMeshType == MeshType::Static)
-        Dist = m_StaticMesh->GetWorldPos().Distance(PlayerPos);
-    else
-        return;
-
-    if (DetectDistance >= Dist) {
-        CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
-
-        if (!InteractUI)
-            return;
-
-        // 플레이어가 가까이(충돌 혹은 특정 범위 내에 있을 때) F를 누르면 대화가 발생하게끔.
-        if (DetectDistance / 2.f >= Dist) {
-            InteractUI->SetTarget(EInteractTarget::Npc);
-            InteractUI->ActiveInteractUI();
-            m_EnableDialog = true;
-        }
-        else {
-            InteractUI->InActiveInteractUI();
-            m_EnableDialog = false;
-        }
-    }
 }
 
 void CNpc::PostUpdate(float DeltaTime)
@@ -93,4 +102,27 @@ void CNpc::ChangeAnimByName(const std::string& Name)
 
 void CNpc::StartDialog()
 {
+}
+
+void CNpc::Collision_Player(const CollisionResult& result)
+{
+    CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
+
+    if (!InteractUI)
+        return;
+
+    InteractUI->SetTarget(EInteractTarget::Npc);
+    InteractUI->ActiveInteractUI();
+    m_EnableDialog = true;
+}
+
+void CNpc::Release_Player(const CollisionResult& result)
+{
+    CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
+
+    if (!InteractUI)
+        return;
+
+    InteractUI->InActiveInteractUI();
+    m_EnableDialog = false;
 }

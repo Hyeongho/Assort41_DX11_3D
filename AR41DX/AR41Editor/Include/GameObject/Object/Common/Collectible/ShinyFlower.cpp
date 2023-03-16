@@ -3,8 +3,15 @@
 #include "Component/ColliderOBB3D.h"
 #include "Component/StaticMeshComponent.h"
 
-CShinyFlower::CShinyFlower()
+CShinyFlower::CShinyFlower() :
+	m_FixedFlower(false),
+	m_IsMoved(false)
 {
+	SetTypeID<CShinyFlower>();
+
+	m_ObjectTypeName = "ShinyFlower";
+
+	m_ColItemType = EColItemType::ShinyFlower;
 }
 
 CShinyFlower::CShinyFlower(const CShinyFlower& Obj) :
@@ -12,6 +19,15 @@ CShinyFlower::CShinyFlower(const CShinyFlower& Obj) :
 {
 	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
 	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
+
+	m_FixedFlower = Obj.m_FixedFlower;
+
+	if (!m_FixedFlower) {
+		m_ColliderPlCheckRange = (CColliderOBB3D*)FindComponent("OBB3D");
+		m_IsMoved = false;
+	}
+
+	m_ColItemType = Obj.m_ColItemType;
 }
 
 CShinyFlower::~CShinyFlower()
@@ -36,8 +52,9 @@ bool CShinyFlower::Init()
 	m_Mesh->SetMesh("ShinyFlower");
 
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
+	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
-	m_Collider->SetCollisionCallback<CShinyFlower>(ECollision_Result::Collision, this, &CShinyFlower::PlayerCollisionItem);
+	m_Collider->SetCollisionCallback<CShinyFlower>(ECollision_Result::Collision, this, &CShinyFlower::Collision_Player);
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
@@ -49,6 +66,11 @@ bool CShinyFlower::Init()
 void CShinyFlower::Update(float DeltaTime)
 {
 	CCollectibleItems::Update(DeltaTime);
+
+
+
+
+
 }
 
 void CShinyFlower::PostUpdate(float DeltaTime)
@@ -71,7 +93,11 @@ void CShinyFlower::Load(FILE* File)
 	CCollectibleItems::Load(File);
 }
 
-void CShinyFlower::PlayerCollisionItem(const CollisionResult& result)
+void CShinyFlower::Collision_Player(const CollisionResult& result)
 {
-	CCollectibleItems::PlayerCollisionItem(result);
+	CCollectibleItems::Collision_Player(result);
+}
+
+void CShinyFlower::Collision_Range(const CollisionResult& result)
+{
 }

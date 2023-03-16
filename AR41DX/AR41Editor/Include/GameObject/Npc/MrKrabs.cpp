@@ -2,6 +2,7 @@
 
 #include "Input.h"
 #include "Component/AnimationMeshComponent.h"
+#include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
 #include "../../UI/DialogUI.h"
 
@@ -32,7 +33,6 @@ CMrKrabs::CMrKrabs(const CMrKrabs& Obj) : CNpc(Obj)
 
 CMrKrabs::~CMrKrabs()
 {
-
 }
 
 void CMrKrabs::Start()
@@ -54,11 +54,17 @@ bool CMrKrabs::Init()
 {
     CNpc::Init();
 
-    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
-
-    SetRootComponent(m_AnimMesh);
-
     m_AnimMesh->SetMesh("MrKrabs");
+
+    Vector3 colSize(1.f, 1.f, 1.f);
+
+    if (m_AnimMesh->GetMeshSize().x >= m_AnimMesh->GetMeshSize().z)
+        colSize *= m_AnimMesh->GetMeshSize().x;
+    else
+        colSize *= m_AnimMesh->GetMeshSize().z;
+
+    m_Collider->SetBoxHalfSize(colSize / 2.f);
+    m_Collider->SetRelativePositionY(colSize.y / 2.f);
 
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("MrKrabsAnimation");
 
