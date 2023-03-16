@@ -78,4 +78,10 @@ private:
 	void Collision_WeaponAttack(const CollisionResult& result);
 	void Release_WeaponAttackOff(const CollisionResult& result);
 
+
+private: 
+	void MoveFront();
+	void MoveBack();
+
+
 };

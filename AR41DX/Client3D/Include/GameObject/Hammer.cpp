@@ -49,9 +49,12 @@ void CHammer::Start()
 
 	m_DetectArea->SetCollisionCallback<CHammer>(ECollision_Result::Collision, this, &CHammer::Collision_Detect_ChaseOn);
 	m_DetectArea->SetCollisionCallback<CHammer>(ECollision_Result::Release, this, &CHammer::Release_Detect_ChaseOff);
+
 	m_AttackArea->SetCollisionCallback<CHammer>(ECollision_Result::Collision, this, &CHammer::Collision_AttackOn);
 	m_AttackArea->SetCollisionCallback<CHammer>(ECollision_Result::Release, this, &CHammer::Release_AttackOff);
+
 	m_BodyCube->SetCollisionCallback<CHammer>(ECollision_Result::Collision, this, &CHammer::Collision_Body);
+
 	m_WeaponCube->SetCollisionCallback<CHammer>(ECollision_Result::Collision, this, &CHammer::Collision_WeaponAttack);
 	m_WeaponCube->SetCollisionCallback<CHammer>(ECollision_Result::Release, this, &CHammer::Release_WeaponAttackOff);
 
@@ -77,7 +80,7 @@ bool CHammer::Init()
 	m_WeaponCube = CreateComponent<CColliderOBB3D>("WeaponCube");
 
 	SetRootComponent(m_Mesh);
-
+	
 	m_Mesh->SetMesh("Hammer");
 	m_Mesh->SetWorldPosition(130.f, 50.f, 150.f);
 	m_Mesh->AddChild(m_DetectArea);
@@ -99,13 +102,15 @@ bool CHammer::Init()
 	m_AttackArea->SetRelativePosition(0.f, 70.f);
 
 	m_BodyCube->SetCollisionProfile("Monster");
-	m_BodyCube->SetRelativePosition(0.f, 100.f, 0.f);
-	m_BodyCube->SetBoxHalfSize(30.f, 100.f, 25.f);
+	m_BodyCube->SetRelativePosition(-30.f, 130.f, -70.f);
+	m_BodyCube->SetBoxHalfSize(135.f, 130.f, 50.f);
 
 	m_WeaponCube->SetCollisionProfile("MonsterAttack");
-	m_WeaponCube->SetRelativePosition(-50.f, 100.f, 10.f);
-	m_WeaponCube->SetBoxHalfSize(50.f, 80.f, 50.f);
-	m_WeaponCube->SetRelativePosition(0.f, 80.f, -100.f);
+	m_WeaponCube->SetRelativePosition(-80.f, 300.f, 10.f);
+	m_WeaponCube->SetBoxHalfSize(100.f, 130.f, 100.f);
+	m_WeaponCube->SetInheritRotX(true);
+	m_WeaponCube->SetInheritRotY(true);
+	m_WeaponCube->SetInheritRotZ(true);
 
 
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("HammerAnimation");
@@ -147,6 +152,9 @@ void CHammer::Update(float DeltaTime)
 	}
 
 
+	//AddWorldPositionX(300.f * DeltaTime);
+	 
+	 
 	//if (m_Stunned)
 	//{
 	//	SetMoveSpeed(0.f);

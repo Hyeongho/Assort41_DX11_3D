@@ -43,7 +43,8 @@ void CFodder::Start()
 	CMonster::Start();
 
 	// 테스트용 키세팅
-	CInput::GetInst()->AddBindFunction<CFodder>("F", Input_Type::Down, this, &CFodder::Dead, m_Scene);
+	CInput::GetInst()->AddBindFunction<CFodder>("F", Input_Type::Down, this, &CFodder::MoveFront, m_Scene);
+	CInput::GetInst()->AddBindFunction<CFodder>("F10", Input_Type::Down, this, &CFodder::MoveBack, m_Scene);
 
 	// 탐지범위에 플레이어가 들어올 시 Notice 애니메이션 후 Walk 로 변경.
 	//m_Animation->SetCurrentEndFunction("Fodder_Notice", this, &CFodder::Walk);
@@ -105,13 +106,18 @@ bool CFodder::Init()
 	m_AttackArea->SetRelativePosition(0.f, 70.f);
 
 	m_BodyCube->SetCollisionProfile("Monster");
-	m_BodyCube->SetRelativePosition(0.f, 100.f, 10.f);
-	m_BodyCube->SetBoxHalfSize(30.f, 100.f, 25.f);
+	m_BodyCube->SetRelativePosition(0.f, 100.f, 0.f);
+
+	
+
+	m_BodyCube->SetBoxHalfSize(30.f, 100.f, 40.f);
 
 	m_WeaponCube->SetCollisionProfile("MonsterAttack");
-	m_WeaponCube->SetRelativePosition(0.f, 100.f, 10.f);
+	m_WeaponCube->SetRelativePosition(50.f, 80.f, -100.f);
 	m_WeaponCube->SetBoxHalfSize(50.f, 80.f, 50.f);
-	m_WeaponCube->SetRelativePosition(0.f, 80.f, -100.f);
+	m_WeaponCube->SetInheritRotX(true);
+	m_WeaponCube->SetInheritRotY(true);
+	m_WeaponCube->SetInheritRotZ(true);
 
 
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("FodderAnimation");
@@ -150,6 +156,8 @@ void CFodder::Update(float DeltaTime)
 			}
 		}
 	}
+
+	//AddWorldPositionX(300.f * DeltaTime);
 
 	// m_FodderBT->Run(this);
 }
@@ -308,4 +316,14 @@ void CFodder::Collision_WeaponAttack(const CollisionResult& result)
 void CFodder::Release_WeaponAttackOff(const CollisionResult& result)
 {
 	m_WeaponAttack = false;
+}
+
+void CFodder::MoveFront()
+{
+	m_WeaponCube->AddWorldPositionY(10.f);
+}
+
+void CFodder::MoveBack()
+{
+	m_WeaponCube->AddWorldPositionY(-10.f);
 }
