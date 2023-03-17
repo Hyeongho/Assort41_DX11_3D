@@ -99,10 +99,10 @@ void CPlayer::Start()
 	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("A", Input_Type::Push, this, &CPlayer::MoveLeft, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("D", Input_Type::Push, this, &CPlayer::MoveRight, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Up, this, &CPlayer::KeyUpUp, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Up, this, &CPlayer::KeyDownUp, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("A", Input_Type::Up, this, &CPlayer::KeyLeftUp, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("D", Input_Type::Up, this, &CPlayer::KeyRightUp, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Up, this, &CPlayer::KeyUp, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Up, this, &CPlayer::KeyUp, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("A", Input_Type::Up, this, &CPlayer::KeyUp, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("D", Input_Type::Up, this, &CPlayer::KeyUp, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Down, this, &CPlayer::KeyDown, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Down, this, &CPlayer::KeyDown, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("A", Input_Type::Down, this, &CPlayer::KeyDown, m_Scene);
@@ -481,6 +481,7 @@ void CPlayer::KeyDown()
 			break;
 		}
 	}
+	++m_KeyCount;
 }
 
 void CPlayer::MoveFront()
@@ -489,11 +490,21 @@ void CPlayer::MoveFront()
 	{
 		return;
 	}
-	if(m_WallCollision.Dest&& (m_KeyCount & (int)EKeyDir::Up))
+	float angle = m_Camera->GetWorldRot().y;
+	if (m_WallCollision.Dest)
 	{
-		return;
+		int differ = (int)abs(GetWorldRot().y-angle)%360;
+		if(differ>100&&differ<200)
+		{
+			return;
+		}
+		else if (differ <= 100||(differ >=200 && differ < 250))
+		{
+			float distance = m_Cube->GetInfo().Length[0] * 0.8f;
+			//float distance = GetWorldPos().Distance(m_WallCollision.HitPoint);
+			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
+		}
 	}
-	m_KeyCount |= (int)EKeyDir::Up;
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
@@ -502,7 +513,6 @@ void CPlayer::MoveFront()
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerPickUpWalk");
 	}
-	float angle = m_Camera->GetWorldRot().y;
 	SetWorldRotationY(angle+180.f);
 	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
 	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
@@ -514,11 +524,21 @@ void CPlayer::MoveBack()
 	{
 		return;
 	}
-	if (m_WallCollision.Dest && (m_KeyCount & (int)EKeyDir::Down))
+	float angle = m_Camera->GetWorldRot().y - 180.f;
+	if (m_WallCollision.Dest)
 	{
-		return;
+		int differ = (int)abs(GetWorldRot().y - angle) % 360;
+		if (differ > 100 && differ < 200)
+		{
+			return;
+		}
+		else if (differ <= 100 || (differ >= 200 && differ < 250))
+		{
+			float distance = m_Cube->GetInfo().Length[0] * 0.8f;
+			//float distance = GetWorldPos().Distance(m_WallCollision.HitPoint);
+			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
+		}
 	}
-	m_KeyCount |= (int)EKeyDir::Down;
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
@@ -527,7 +547,6 @@ void CPlayer::MoveBack()
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerPickUpWalk");
 	}
-	float angle = m_Camera->GetWorldRot().y-180.f;
 	SetWorldRotationY(angle+180.f);
 	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
 	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
@@ -539,11 +558,21 @@ void CPlayer::MoveLeft()
 	{
 		return;
 	}
-	if (m_WallCollision.Dest && (m_KeyCount & (int)EKeyDir::Left))
+	float angle = m_Camera->GetWorldRot().y - 90.f;
+	if (m_WallCollision.Dest)
 	{
-		return;
+		int differ = (int)abs(GetWorldRot().y - angle) % 360;
+		if (differ > 100 && differ < 200)
+		{
+			return;
+		}
+		else if (differ <= 100 || (differ >= 200 && differ < 250))
+		{
+			float distance = m_Cube->GetInfo().Length[0] * 0.8f;
+			//float distance = GetWorldPos().Distance(m_WallCollision.HitPoint);
+			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
+		}
 	}
-	m_KeyCount |= (int)EKeyDir::Left;
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
@@ -552,7 +581,6 @@ void CPlayer::MoveLeft()
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerPickUpWalk");
 	}
-	float angle = m_Camera->GetWorldRot().y -90.f;
 	SetWorldRotationY(angle + 180.f);
 	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
 	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
@@ -564,11 +592,21 @@ void CPlayer::MoveRight()
 	{
 		return;
 	}
-	if (m_WallCollision.Dest && (m_KeyCount & (int)EKeyDir::Right))
+	float angle = m_Camera->GetWorldRot().y + 90.f;
+	if (m_WallCollision.Dest)
 	{
-		return;
+		int differ = (int)abs(GetWorldRot().y - angle) % 360;
+		if (differ > 100 && differ < 200)
+		{
+			return;
+		}
+		else if (differ <= 100 || (differ >= 200 && differ < 250))
+		{
+			float distance = m_Cube->GetInfo().Length[0] * 0.8f;
+			//float distance = GetWorldPos().Distance(m_WallCollision.HitPoint);
+			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
+		}
 	}
-	m_KeyCount |= (int)EKeyDir::Right;
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
@@ -577,95 +615,18 @@ void CPlayer::MoveRight()
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerPickUpWalk");
 	}
-	float angle = m_Camera->GetWorldRot().y +90.f;
 	SetWorldRotationY(angle+180.f);
 	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
 	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
 }
 
-void CPlayer::KeyUpUp()
+void CPlayer::KeyUp()
 {
 	if (m_IsStop)
 	{
 		return;
 	}
-	m_KeyCount &= ~(int)EKeyDir::Up;
-	if (m_KeyCount == 0)
-	{
-		switch (m_MainCharacter)
-		{
-		case EMain_Character::Spongebob:
-			m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
-			break;
-		case EMain_Character::Patrick:
-			m_Scene->GetResource()->SoundStop("Patrick_Step");
-			break;
-		case EMain_Character::Sandy:
-			m_Scene->GetResource()->SoundStop("Sandy_Walk");
-			break;
-		}
-		ResetIdle();
-	}
-}
-
-void CPlayer::KeyDownUp()
-{
-	if (m_IsStop)
-	{
-		return;
-	}
-	m_KeyCount &= ~(int)EKeyDir::Down;
-	if (m_KeyCount == 0)
-	{
-		switch (m_MainCharacter)
-		{
-		case EMain_Character::Spongebob:
-			m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
-			break;
-		case EMain_Character::Patrick:
-			m_Scene->GetResource()->SoundStop("Patrick_Step");
-			break;
-		case EMain_Character::Sandy:
-			m_Scene->GetResource()->SoundStop("Sandy_Walk");
-			break;
-		}
-		ResetIdle();
-	}
-}
-
-void CPlayer::KeyLeftUp()
-{
-	if (m_IsStop)
-	{
-		return;
-	}
-	m_KeyCount &= ~(int)EKeyDir::Left;
-	if (m_KeyCount == 0)
-	{
-		switch (m_MainCharacter)
-		{
-		case EMain_Character::Spongebob:
-			m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
-			break;
-		case EMain_Character::Patrick:
-			m_Scene->GetResource()->SoundStop("Patrick_Step");
-			break;
-		case EMain_Character::Sandy:
-			m_Scene->GetResource()->SoundStop("Sandy_Walk");
-			break;
-		}
-		ResetIdle();
-	}
-}
-
-void CPlayer::KeyRightUp()
-{
-	if (m_IsStop)
-	{
-		return;
-	}
-	m_KeyCount &= ~(int)EKeyDir::Right;
-	if (m_KeyCount == 0)
+	if (--m_KeyCount == 0)
 	{
 		switch (m_MainCharacter)
 		{
