@@ -21,8 +21,16 @@ private:
 	CTransform* m_Parent;
 	std::vector<CTransform*>    m_vecChild;
 	class CTransformConstantBuffer* m_CBuffer;
-	static float	m_MinY;
-	static float	m_MaxY;
+
+	static float m_MinY;
+	static float m_MaxY;
+
+	static float m_MinX;
+	static float m_MaxX;
+
+	static float m_MinZ;
+	static float m_MaxZ;
+
 	float	m_2DZ;
 	class CSkeletonSocket* m_Socket;
 
