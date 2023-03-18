@@ -5,6 +5,11 @@
 
 CGoldenSpatula::CGoldenSpatula()
 {
+	SetTypeID<CGoldenSpatula>();
+
+	m_ObjectTypeName = "GoldenSpatula";
+
+	m_ColItemType = EColItemType::GoldenSpatula;
 }
 
 CGoldenSpatula::CGoldenSpatula(const CGoldenSpatula& Obj) :
@@ -12,6 +17,8 @@ CGoldenSpatula::CGoldenSpatula(const CGoldenSpatula& Obj) :
 {
 	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
 	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
+
+	m_ColItemType = Obj.m_ColItemType;
 }
 
 CGoldenSpatula::~CGoldenSpatula()
@@ -36,13 +43,13 @@ bool CGoldenSpatula::Init()
 	m_Mesh->SetMesh("GoldenSpatula");
 
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
+	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
-	m_Collider->SetCollisionCallback<CGoldenSpatula>(ECollision_Result::Collision, this, &CGoldenSpatula::PlayerCollisionItem);
+	m_Collider->SetCollisionCallback<CGoldenSpatula>(ECollision_Result::Collision, this, &CGoldenSpatula::Collision_Player);
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
-
 
 	return true;
 }
@@ -72,7 +79,7 @@ void CGoldenSpatula::Load(FILE* File)
 	CCollectibleItems::Load(File);
 }
 
-void CGoldenSpatula::PlayerCollisionItem(const CollisionResult& result)
+void CGoldenSpatula::Collision_Player(const CollisionResult& result)
 {
-	CCollectibleItems::PlayerCollisionItem(result);
+	CCollectibleItems::Collision_Player(result);
 }

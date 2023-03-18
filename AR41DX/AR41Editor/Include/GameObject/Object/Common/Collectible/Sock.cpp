@@ -5,6 +5,11 @@
 
 CSock::CSock()
 {
+	SetTypeID<CSock>();
+
+	m_ObjectTypeName = "Sock";
+
+	m_ColItemType = EColItemType::Sock;
 }
 
 CSock::CSock(const CSock& Obj) :
@@ -12,6 +17,8 @@ CSock::CSock(const CSock& Obj) :
 {
 	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
 	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
+
+	m_ColItemType = Obj.m_ColItemType;
 }
 
 CSock::~CSock()
@@ -36,8 +43,9 @@ bool CSock::Init()
 	m_Mesh->SetMesh("Sock");
 
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
+	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
-	m_Collider->SetCollisionCallback<CSock>(ECollision_Result::Collision, this, &CSock::PlayerCollisionItem);
+	m_Collider->SetCollisionCallback<CSock>(ECollision_Result::Collision, this, &CSock::Collision_Player);
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
@@ -71,8 +79,8 @@ void CSock::Load(FILE* File)
 	CCollectibleItems::Load(File);
 }
 
-void CSock::PlayerCollisionItem(const CollisionResult& result)
+void CSock::Collision_Player(const CollisionResult& result)
 {
-	CCollectibleItems::PlayerCollisionItem(result);
+	CCollectibleItems::Collision_Player(result);
 }
 

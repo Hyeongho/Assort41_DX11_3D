@@ -2,6 +2,12 @@
 
 #include "GameObject\GameObject.h"
 
+enum class ButtonDir {
+	Virtical,
+	Horizon,
+	End
+};
+
 class CInteractButton
 	: public CGameObject
 {
@@ -15,7 +21,13 @@ protected:
 protected:
 	CSharedPtr<class CStaticMeshComponent>		m_MeshButton;
 	CSharedPtr<class CStaticMeshComponent>		m_MeshButtonPlate;
-	CSharedPtr<class CColliderCube>				m_Cube;
+	CSharedPtr<class CColliderOBB3D>			m_Collider;
+
+private:
+	ButtonDir	m_ButtonDir;
+	bool		m_IsPushed;
+
+	void		(*m_Func)();
 
 public:
 	virtual void Start();
@@ -25,5 +37,13 @@ public:
 	virtual CInteractButton* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
-};
 
+protected: // Collision
+	void Collision_Attacked(const CollisionResult& result);
+
+public :
+	template <typename T>
+	void SetInteractFunc(void(T::* Func)()) {
+		m_Func = Func;
+	}
+};

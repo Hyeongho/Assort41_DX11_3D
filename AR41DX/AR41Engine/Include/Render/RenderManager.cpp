@@ -465,100 +465,99 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 	// GBuffer에 그릴 내용을 출력한다.
 	RenderLayer* GBufferLayer = FindLayer("Default");
 
-	//
-	//std::list<CSceneComponent*>	RenderList;
-	//
-	//auto	iter = GBufferLayer->RenderList.begin();
-	//auto	iterEnd = GBufferLayer->RenderList.end();
+	std::list<CSceneComponent*>	RenderList;
+	
+	auto	iter = GBufferLayer->RenderList.begin();
+	auto	iterEnd = GBufferLayer->RenderList.end();
 
-	//for (; iter != iterEnd;)
-	//{
-	//	if (!(*iter)->GetActive())
-	//	{
-	//		iter = GBufferLayer->RenderList.erase(iter);
-	//		iterEnd = GBufferLayer->RenderList.end();
-	//		continue;
-	//	}
+	for (; iter != iterEnd;)
+	{
+		if (!(*iter)->GetActive())
+		{
+			iter = GBufferLayer->RenderList.erase(iter);
+			iterEnd = GBufferLayer->RenderList.end();
+			continue;
+		}
 
-	//	else if (!(*iter)->GetEnable())
-	//	{
-	//		++iter;
-	//		continue;
-	//	}
+		else if (!(*iter)->GetEnable())
+		{
+			++iter;
+			continue;
+		}
 
-	//	else if ((*iter)->GetFrustumCull())
-	//	{
-	//		++iter;
-	//		continue;
-	//	}
+		else if ((*iter)->GetFrustumCull())
+		{
+			++iter;
+			continue;
+		}
 
-	//	// 인스턴싱이 되는 물체들을 판단한다.
-	//	if ((*iter)->GetSceneComponentType() ==
-	//		SceneComponentType::Primitive)
-	//	{
-	//		CMesh* Mesh = ((CPrimitiveComponent*)iter->Get())->GetMesh();
+		// 인스턴싱이 되는 물체들을 판단한다.
+		if ((*iter)->GetSceneComponentType() ==
+			SceneComponentType::Primitive)
+		{
+			CMesh* Mesh = ((CPrimitiveComponent*)iter->Get())->GetMesh();
 
-	//		if (Mesh->GetRenderCount() >= 5)
-	//		{
-	//			CRenderInstancing* Instancing = nullptr;
+			if (Mesh->GetRenderCount() >= 5)
+			{
+				CRenderInstancing* Instancing = nullptr;
 
-	//			Instancing = FindInstancing(Mesh);
+				Instancing = FindInstancing(Mesh);
 
-	//			// Pool에서 얻어온다.
-	//			if (!Instancing)
-	//			{
-	//				if (m_EmptyPoolList.empty())
-	//				{
-	//					std::vector<CRenderInstancing*>	NewPool =
-	//						m_vecInstancingPool;
+				// Pool에서 얻어온다.
+				if (!Instancing)
+				{
+					if (m_EmptyPoolList.empty())
+					{
+						std::vector<CRenderInstancing*>	NewPool =
+							m_vecInstancingPool;
 
-	//					m_vecInstancingPool.clear();
+						m_vecInstancingPool.clear();
 
-	//					m_vecInstancingPool.resize(NewPool.size() * 2);
+						m_vecInstancingPool.resize(NewPool.size() * 2);
 
-	//					for (size_t i = 0; i < NewPool.size(); ++i)
-	//					{
-	//						m_vecInstancingPool[i] = NewPool[i];
-	//					}
+						for (size_t i = 0; i < NewPool.size(); ++i)
+						{
+							m_vecInstancingPool[i] = NewPool[i];
+						}
 
-	//					for (size_t i = NewPool.size(); i < NewPool.size() * 2; ++i)
-	//					{
-	//						m_vecInstancingPool[i] = new CRenderInstancing;
-	//						m_vecInstancingPool[i]->m_PoolIndex = (int)i;
+						for (size_t i = NewPool.size(); i < NewPool.size() * 2; ++i)
+						{
+							m_vecInstancingPool[i] = new CRenderInstancing;
+							m_vecInstancingPool[i]->m_PoolIndex = (int)i;
 
-	//						m_EmptyPoolList.push_back((int)i);
-	//					}
-	//				}
+							m_EmptyPoolList.push_back((int)i);
+						}
+					}
 
-	//				int Index = m_EmptyPoolList.front();
+					int Index = m_EmptyPoolList.front();
 
-	//				m_EmptyPoolList.pop_front();
+					m_EmptyPoolList.pop_front();
 
-	//				m_mapInstancing.insert(std::make_pair(Mesh, m_vecInstancingPool[Index]));
+					m_mapInstancing.insert(std::make_pair(Mesh, m_vecInstancingPool[Index]));
 
-	//				m_vecInstancingPool[Index]->m_Key = Mesh;
+					m_vecInstancingPool[Index]->m_Key = Mesh;
 
-	//				Instancing = m_vecInstancingPool[Index];
-	//			}
+					Instancing = m_vecInstancingPool[Index];
+				}
 
-	//			Instancing->m_LayerName = "Default";
-	//			Instancing->AddRenderList((CPrimitiveComponent*)iter->Get());
-	//		}
+				Instancing->m_LayerName = "Default";
+				Instancing->AddRenderList((CPrimitiveComponent*)iter->Get());
+			}
 
-	//		else
-	//		{
-	//			RenderList.push_back(*iter);
-	//		}
-	//	}
+			else
+			{
+				RenderList.push_back(*iter);
+			}
+		}
 
-	//	else
-	//	{
-	//		RenderList.push_back(*iter);
-	//	}
+		else
+		{
+			RenderList.push_back(*iter);
+		}
 
-	//	//(*iter)->Render();
-	//	++iter;
-	//}
+		//(*iter)->Render();
+		++iter;
+	}
 
 	// 인스턴싱이 아닌 물체를 그려낸다.
 	auto iter1 = m_NormalRenderList.begin();

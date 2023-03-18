@@ -4,6 +4,7 @@
 #include "Component/StaticMeshComponent.h"
 #include "Input.h"
 #include "Scene/Scene.h"
+#include "../../Player.h"
 
 CCBL_Platform::CCBL_Platform() :
 	m_Roll(false),
@@ -57,6 +58,8 @@ bool CCBL_Platform::Init()
 	m_Collider->SetCollisionCallback<CCBL_Platform>(ECollision_Result::Collision, this, &CCBL_Platform::RoboSpongeAttackedCollision);
 
 	m_Collider->SetInheritRotX(true);
+	m_Collider->SetInheritRotY(true);
+	m_Collider->SetInheritRotZ(true);
 	
 	return true;
 }
@@ -66,23 +69,23 @@ void CCBL_Platform::Update(float DeltaTime)
 	CGameObject::Update(DeltaTime);
 
 	if (m_Roll) {
-		// X Rot를 보스가 있을 중심점을 향하도록 설정
-		if (m_RollDir == ERollDir::Left) {
-			AddWorldRotationX(g_DeltaTime * -300.f);
-		}
-		else {
-			AddWorldRotationX(g_DeltaTime * 300.f);
+		if (m_RollCount >= 1080.f) {
+			m_Roll = false;
+			m_RollCount = 0.f;
+			SetWorldRotationZ(0.f);
 		}
 
-		//if (m_RollCount == 3) {
-		//	m_Roll = false;
-		//	m_RollCount = 0;
-		//}
-		//else {
-		//	if ((int)GetWorldRot().x == 0) {
-		//		m_RollCount++;
-		//	}
-		//}
+		float RotSpeed = 0.f;
+
+		if (m_RollDir == ERollDir::Left) {
+			RotSpeed = g_DeltaTime * -1000.f;
+		}
+		else {
+			RotSpeed = g_DeltaTime * 1000.f;
+		}
+
+		AddWorldRotationZ(RotSpeed);
+		m_RollCount += abs(RotSpeed);
 
 	}
 }
@@ -109,6 +112,15 @@ void CCBL_Platform::Load(FILE* File)
 
 void CCBL_Platform::RoboSpongeAttackedCollision(const CollisionResult& result)
 {
+}
+
+void CCBL_Platform::SetLookBoss(const Vector3& BossPos)
+{
+	// Z축이 보스와 직교하도록 설정.
+	float Degree = atan2(GetWorldPos().z - BossPos.z, GetWorldPos().x - BossPos.x);
+	Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
+
+	SetWorldRotationY(Degree);
 }
 
 void CCBL_Platform::DebugF1()
