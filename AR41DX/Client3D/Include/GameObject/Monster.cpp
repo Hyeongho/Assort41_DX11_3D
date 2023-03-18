@@ -14,9 +14,7 @@
 #include "Animation/Animation.h"
 
 CMonster::CMonster() :
-	m_DetectRange(false)
-	, m_AttackRange(false)
-	, m_MoveSpeed(100.f)
+	 m_MoveSpeed(100.f)
 	, m_DeltaTime(0.f)
 	, m_MonsterHP(1)
 {
@@ -39,7 +37,6 @@ CMonster::~CMonster()
 void CMonster::Start()
 {
 	CGameObject::Start();
-
 }
 
 bool CMonster::Init()
