@@ -10,6 +10,9 @@
 CBusStop::CBusStop() :
     m_BusExist(false)
 {
+    SetTypeID<CBusStop>();
+
+    m_ObjectTypeName = "BusStop";
 }
 
 CBusStop::CBusStop(const CBusStop& Obj) :

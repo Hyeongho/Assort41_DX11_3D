@@ -44,13 +44,21 @@ bool CPufferfish::Init()
 
 	m_Mesh->SetMesh("Pufferfish");
 
+	/*auto iter = m_Mesh->GetMaterials()->begin();
+	auto iterEnd = m_Mesh->GetMaterials()->end();
+
+	for (; iter != iterEnd; iter++)
+	{
+		(*iter)->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
+	}*/
+
 	m_Mesh->AddChild(m_Sphere);
 	m_Mesh->AddChild(m_Rigid);
 
 	m_Sphere->SetRadius(m_Mesh->GetMeshSize().x / 2.f);
 
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("Pufferfish");
-	m_Animation->AddAnimation("Pufferfish", "Pufferfish", 1.f, 1.f, true);
+	m_Animation->AddAnimation("Pufferfish", "Pufferfish_Contact", 1.f, 1.f, true);
 
 	SetPivot(0.5f, 1.f, 0.5f);
 

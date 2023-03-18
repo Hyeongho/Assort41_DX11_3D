@@ -49,7 +49,6 @@ private:
     void LoadCBObjects();
     void LoadCBLabObjects();
 
-
     // Particle
     void LoadParticle();
 };
