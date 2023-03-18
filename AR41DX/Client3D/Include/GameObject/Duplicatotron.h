@@ -21,6 +21,7 @@ private:
 	CSharedPtr<class CHammer>	m_Hammer;
 	bool	m_DetectOn;
 	bool	m_SpawnOn;
+	int		m_CountHammer;
 	float	m_DelayTime;
 
 public:
@@ -44,7 +45,8 @@ public:
 	virtual void Load(FILE* File);
 
 public:
-	void Detect();
+	void Collision_Detect(const CollisionResult& result);
+	void Release_DetectOff(const CollisionResult& result);
 	void SpawnAnimation();
 	void SpawnHammers();
 };

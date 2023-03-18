@@ -6,6 +6,7 @@ class CHammer :
 {
 	friend class CScene;
 
+protected:
 	CHammer();
 	CHammer(const CHammer& Obj);
 	virtual ~CHammer();

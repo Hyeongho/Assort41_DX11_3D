@@ -8,6 +8,7 @@
 #include "../GameObject/Fodder.h"
 #include "../GameObject/Hammer.h"
 #include "../GameObject/Duplicatotron.h"
+#include "../GameObject/Dupli_Can.h"
 #include "../GameObject/BikiniBottomBuildings.h"
 #include "../GameObject/JellyfishField.h"
 #include "../GameObject/Object/JumpTree.h"
@@ -50,8 +51,8 @@ bool CTestSceneInfo::Init()
 	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
 
 	// 보원테스트 구간
-	CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
-	JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
+	//CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
+	//JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
 	
 	//CTeleportBox* TeleportBox1 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
 	//TeleportBox1->SetBoxIndex(1);
@@ -64,13 +65,20 @@ bool CTestSceneInfo::Init()
 	//CheckPoint->SetWorldPosition(17500.f, 0.f, 13700.f);
 
 	//CGate* Gate = m_Owner->CreateObject<CGate>("Gate");
-	//Gate->SetWorldPosition(16800.f, 0.f, 13000.f);
+	//Gate->SetWorldPosition(17000.f, 50.f, 12500.f);
 
-	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
-	Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
+	//CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
+	//Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
 
 	//CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
-	//Hammer->SetWorldPosition(17000.f, 0.f, 14000.f);
+	//Hammer->SetWorldPosition(17000.f, 0.f, 14000.f);'
+
+	CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
+	Duplicatotron->SetWorldPosition(17000.f, 0.f, 14000.f);
+
+	//CDupli_Can* Dupli_Can = m_Owner->CreateObject<CDupli_Can>("DuplcatotronCan");
+	//Dupli_Can->SetWorldPosition(16500.f, 0.f, 12300.f);
+
 
 
 	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
