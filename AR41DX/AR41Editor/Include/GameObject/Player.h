@@ -71,6 +71,7 @@ protected:
 	CSharedPtr<class CColliderCube> m_HeadCube;	//spongebob head
 	CSharedPtr<class CColliderCube> m_TailCube;	//spongebob bash
 	CSharedPtr<class CColliderOBB3D> m_FrontCube;	//atk
+	CSharedPtr<class CParticleComponent> m_Particle;
 
 	CSharedPtr<class CWeapon>	m_Weapon;
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];

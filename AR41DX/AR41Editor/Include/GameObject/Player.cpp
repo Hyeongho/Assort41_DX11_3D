@@ -14,6 +14,7 @@
 #include "Component/RigidBody.h"
 #include "Component/ColliderCube.h"
 #include "Component/ColliderOBB3D.h"
+#include "Component/ParticleComponent.h"
 #include "Scene/Scene.h"
 #include "Scene/CameraManager.h"
 #include "Scene/NavigationManager3D.h"
@@ -62,6 +63,7 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	m_HeadCube = (CColliderCube*)FindComponent("HeadCube");
 	m_TailCube = (CColliderCube*)FindComponent("TailCube");
 	m_FrontCube = (CColliderOBB3D*)FindComponent("FrontCube");
+	m_Particle = (CParticleComponent*)FindComponent("Particle");
 }
 
 CPlayer::~CPlayer()
@@ -157,10 +159,10 @@ bool CPlayer::Init()
 	m_Arm = CreateComponent<CTargetArm>("Arm");
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
 	m_Cube = CreateComponent<CColliderOBB3D>("Cube");
-
 	m_HeadCube = CreateComponent<CColliderCube>("HeadCube");
 	m_TailCube = CreateComponent<CColliderCube>("TailCube");
 	m_FrontCube = CreateComponent<CColliderOBB3D>("FrontCube");
+	m_Particle = CreateComponent<CParticleComponent>("Particle");
 
 	SetRootComponent(m_Mesh);
 
@@ -170,6 +172,7 @@ bool CPlayer::Init()
 	m_Mesh->AddChild(m_HeadCube);
 	m_Mesh->AddChild(m_TailCube);
 	m_Mesh->AddChild(m_FrontCube);
+	m_Mesh->AddChild(m_Particle);
 	m_Arm->AddChild(m_Camera);
 
 	m_Camera->SetInheritRotX(true);
@@ -197,6 +200,8 @@ bool CPlayer::Init()
 	m_FrontCube->SetRelativePosition(0.f, 70.f, -80.f);
 	m_FrontCube->SetBoxHalfSize(60.f, 40.f, 60.f);
 	m_FrontCube->SetInheritRotY(true);
+
+	m_Particle->SetInheritRotY(true);
 	return true;
 }
 
@@ -860,6 +865,8 @@ void CPlayer::LClick()
 	case EMain_Character::Spongebob:
 		m_Scene->GetResource()->SoundPlay("Spongebob_BubbleSpin");
 		m_Weapon->GetRootComponent()->SetEnable(true);
+		m_Particle->SetRelativePosition(-50.f, 50.f, -80.f);
+		m_Particle->SetParticle("SpongebobAtk");
 		break;
 	case EMain_Character::Patrick:
 	{
@@ -868,6 +875,7 @@ void CPlayer::LClick()
 			return;
 		}
 		m_Scene->GetResource()->SoundPlay("Patrick_Attack");
+		//m_Particle->SetParticle("SpongebobAtk");
 		float angle = GetWorldRot().y-180.f;
 		m_Rigid->SetGround(false);
 		m_Rigid->AddForce(sinf(DegreeToRadian(angle)) * 150.f, 200.f, cosf(DegreeToRadian(angle)) * 150.f);
@@ -875,6 +883,7 @@ void CPlayer::LClick()
 		break;
 	}
 	case EMain_Character::Sandy:
+		//m_Particle->SetParticle("SpongebobAtk");
 		if (m_Rigid->GetGround())
 		{
 			m_Scene->GetResource()->SoundPlay("Sandy_Chop");
@@ -1021,6 +1030,7 @@ void CPlayer::BashCheck()
 			m_Scene->GetResource()->SoundPlay("Sandy_BubbleBash");
 			break;
 		}
+		m_Particle->SetParticle("BashBubble");
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBash");
 		m_TailCube->SetEnable(true);
 		m_IsStop = true;
@@ -1050,6 +1060,8 @@ void CPlayer::ResetIdle()
 	m_TailCube->SetEnable(false);
 	m_FrontCube->SetEnable(false);
 	m_Cube->SetEnable(true);
+	m_Particle->SetRelativePosition(0.f, 0.f, 0.f);
+	m_Particle->DeleteCurrentParticle();
 	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
 	m_IsDoubleJump = false;
 	m_IsStop = false;
