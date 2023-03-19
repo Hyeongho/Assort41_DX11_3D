@@ -62,15 +62,15 @@ bool CSquidward::Init()
 
     m_AnimMesh->SetMesh("Squidward");
 
-    Vector3 colSize(1.f, 1.f, 1.f);
+    Vector3 ColSize = m_AnimMesh->GetMeshSize();
 
     if (m_AnimMesh->GetMeshSize().x >= m_AnimMesh->GetMeshSize().z)
-        colSize *= m_AnimMesh->GetMeshSize().x;
+        ColSize.z = m_AnimMesh->GetMeshSize().x;
     else
-        colSize *= m_AnimMesh->GetMeshSize().z;
+        ColSize.x = m_AnimMesh->GetMeshSize().z;
 
-    m_Collider->SetBoxHalfSize(colSize / 2.f);
-    m_Collider->SetRelativePositionY(colSize.y / 2.f);
+    m_Collider->SetBoxHalfSize(ColSize / 2.f);
+    m_Collider->SetRelativePositionY(ColSize.y / 2.f);
 
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("SquidwardAnimation");
 

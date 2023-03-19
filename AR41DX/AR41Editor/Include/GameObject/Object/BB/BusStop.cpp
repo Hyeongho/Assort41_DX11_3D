@@ -11,12 +11,16 @@ CBusStop::CBusStop()
     SetTypeID<CBusStop>();
 
     m_ObjectTypeName = "BusStop";
+
+    m_PurposeScene = EMapList::End;
 }
 
 CBusStop::CBusStop(const CBusStop& Obj) :
     CGameObject(Obj)
 {
     m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
+
+    m_PurposeScene = Obj.m_PurposeScene;
 }
 
 CBusStop::~CBusStop()
@@ -72,11 +76,12 @@ void CBusStop::CallBus()
 {
     CBusDriver* BusDriver = (CBusDriver*)m_Scene->FindObject("BusDriver");
 
-    if (!BusDriver)
+    if (!BusDriver) 
         BusDriver = m_Scene->CreateObject<CBusDriver>("BusDriver");
 
     Vector3 BusPos = GetWorldPos();
     BusPos.x += 3000.f;
 
     BusDriver->MoveToBusStop(GetWorldPos(), BusPos);
+    BusDriver->SetPurposeScene(m_PurposeScene);
 }

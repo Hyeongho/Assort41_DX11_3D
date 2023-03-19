@@ -15,6 +15,9 @@ protected:
 protected:
 	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
 
+private:
+	EMapList	m_PurposeScene;
+
 public:
 	virtual void Start();
 	virtual bool Init();
@@ -26,5 +29,11 @@ public:
 
 public :
 	void CallBus();
+
+public:
+	void SetPurposeScene(const EMapList& Map)
+	{
+		m_PurposeScene = Map;
+	}
 };
 

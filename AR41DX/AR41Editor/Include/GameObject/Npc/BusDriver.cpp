@@ -4,7 +4,12 @@
 #include "Component/AnimationMeshComponent.h"
 #include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
+#include "Scene/SceneManager.h"
+#include "../../Scene/JellyfishFieldSceneInfo.h"
+#include "../../Scene/BikiniCitySceneInfo.h"
+#include "../../Scene/LoadingSceneInfo.h"
 #include "../../UI/DialogUI.h"
+#include "../Object/BB/BusStop.h"
 
 CBusDriver::CBusDriver()
 {
@@ -20,6 +25,7 @@ CBusDriver::CBusDriver()
 
     m_BusStart = false;
     m_BusState = EBusState::End;
+    m_PurposeScene = EMapList::End;
 }
 
 CBusDriver::CBusDriver(const CBusDriver& Obj)
@@ -36,6 +42,7 @@ CBusDriver::CBusDriver(const CBusDriver& Obj)
 
     m_BusStart = Obj.m_BusStart;
     m_BusState = Obj.m_BusState;
+    m_PurposeScene = Obj.m_PurposeScene;
 }
 
 CBusDriver::~CBusDriver()
@@ -61,15 +68,15 @@ bool CBusDriver::Init()
 
     m_AnimMesh->SetMesh("Bus_Driver");
 
-    Vector3 colSize(1.f, 1.f, 1.f);
+    Vector3 ColSize = m_AnimMesh->GetMeshSize();
 
     if (m_AnimMesh->GetMeshSize().x >= m_AnimMesh->GetMeshSize().z)
-        colSize *= m_AnimMesh->GetMeshSize().x;
+        ColSize.z = m_AnimMesh->GetMeshSize().x;
     else
-        colSize *= m_AnimMesh->GetMeshSize().z;
+        ColSize.x = m_AnimMesh->GetMeshSize().z;
 
-    m_Collider->SetBoxHalfSize(colSize / 2.f);
-    m_Collider->SetRelativePositionY(colSize.y / 2.f);
+    m_Collider->SetBoxHalfSize(ColSize / 2.f);
+    m_Collider->SetRelativePositionY(ColSize.y / 2.f);
 
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("BusDriverAnimation");
 
@@ -113,12 +120,9 @@ void CBusDriver::Update(float DeltaTime)
 
         if (m_BusState == EBusState::MoveFromBusStop) {
             if (m_Center.Distance(DestCenter) >= 2000.f) {
-                // 삭제처리
-                Destroy();
+                ChangeScene();
             }
         }
-
-
     }
 }
 
@@ -192,6 +196,9 @@ void CBusDriver::MoveFromBusStop()
 
     // 애니메이션 변경
     ChangeAnim_Drive();
+
+    // 버스 이동 컷씬 실행
+    BusMoveCutScene();
 }
 
 void CBusDriver::ChangeAnim_Stop()
@@ -214,6 +221,35 @@ void CBusDriver::ChangeAnim_Drive()
         return;
 
     m_Animation->ChangeAnimation("Bus_Driver_Drive");
+}
+
+void CBusDriver::BusMoveCutScene()
+{
+    // 카메라를 버스 정류소로 이동시킨다.
+    // 버스가 멀어지는걸 관찰시키고, 버스가 특정 거리만큼 이동되면 장면을 전환.
+    
+    // 버스 정류소(BusStop)의 타겟암으로 카메라를 이동.
+    
+    // 플레이어의 움직임을 제한.
+
+}
+
+void CBusDriver::ChangeScene()
+{
+    if (m_PurposeScene == EMapList::End)
+        return;
+
+    return;
+
+    // 맵 변경
+    CSceneManager::GetInst()->CreateNextScene();
+    CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity.scn");
+
+    // 설정된 목적지별로 다른 씬 로딩
+    if (m_PurposeScene == EMapList::Jelly_Fish_Field)
+        CSceneManager::GetInst()->CreateSceneInfo<CJellyfishFieldSceneInfo>(false);
+    else if (m_PurposeScene == EMapList::Bikini_Bottom)
+        CSceneManager::GetInst()->CreateSceneInfo<CBikiniCitySceneInfo>(false);
 }
 
 void CBusDriver::DebugKeyF1()

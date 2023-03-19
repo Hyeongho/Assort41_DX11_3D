@@ -80,6 +80,7 @@ void CDefaultSetting::LoadResource()
 {
     // Sound
     LoadSound();
+    LoadSfx();
 
     // Player
     LoadSpongebob();
@@ -98,8 +99,7 @@ void CDefaultSetting::LoadResource()
     LoadSquidward();
     LoadPatric_Npc();
     LoadBus();
-    LoadInfoSign();
-    LoadTaxi();
+    LoadStaticNpcs();
 
     // Object
     LoadCommonObj();
@@ -237,8 +237,6 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "MonsterAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "Collectible", ECollision_Interaction::Ignore);
-
-    CCollisionManager::GetInst()->SetCollisionInteraction("BusStop", "BusStop", ECollision_Interaction::Ignore);
 }
 
 void CDefaultSetting::LoadSound()
@@ -263,8 +261,56 @@ void CDefaultSetting::LoadSound()
     CResourceManager::GetInst()->LoadSound("BGM", "BossStage", false, "Map/MUS_BossFightTheme.ogg", SOUND_PATH);
 
     //Tile BGM
-    CResourceManager::GetInst()->LoadSound("UI", "UI_Backward", false, "Sfx/SFX_UI_Backward_001.ogg");
+    CResourceManager::GetInst()->LoadSound("UI", "UI_Backward", false, "Sfx/UI/SFX_UI_Backward_001.ogg");
     CResourceManager::GetInst()->LoadSound("BGM", "Title_Bgm", false, "Music/MUS_WavesSeagullsBg.ogg");
+
+}
+
+void CDefaultSetting::LoadSfx()
+{
+    // Traffic
+    CResourceManager::GetInst()->LoadSound("Effect", "BusStop", false, "Sfx/Traffic/Bus_pullin.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "BusGo", false, "Sfx/Traffic/Bus_pullout.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "BussCall", false, "Sfx/Traffic/sfx_call_taxi.ogg");
+
+    // Tikis
+    // Tiki Wood
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiWoodHit1", false, "Sfx/Enemies/Tikis/TikiWood/SFX_Tiki_Wd_Dest_BassAdd_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiWoodHit2", false, "Sfx/Enemies/Tikis/TikiWood/SFX_Tiki_Wd_Dest_BassAdd_002.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiWoodHit3", false, "Sfx/Enemies/Tikis/TikiWood/SFX_Tiki_Wd_Dest_BassAdd_003.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiWoodDie1", false, "Sfx/Enemies/Tikis/TikiWood/SFX_Tiki_Wd_Dest_CrunchAdd_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiWoodDie2", false, "Sfx/Enemies/Tikis/TikiWood/SFX_Tiki_Wd_Dest_CrunchAdd_002.ogg");
+
+    // Tiki Stone
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiStoneHit1", false, "Sfx/Enemies/Tikis/TikiStone/SFX_Tiki_Stone_Impact_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiStoneHit2", false, "Sfx/Enemies/Tikis/TikiStone/SFX_Tiki_Stone_Impact_002.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiStoneHit3", false, "Sfx/Enemies/Tikis/TikiStone/SFX_Tiki_Stone_Impact_003.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiStoneHit4", false, "Sfx/Enemies/Tikis/TikiStone/SFX_Tiki_Stone_Impact_004.ogg");
+
+    // Tiki Thunder
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiThunderHit1", false, "Sfx/Enemies/Tikis/SFX_Tiki_Thunder_Activate_V2_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiThunderHit2", false, "Sfx/Enemies/Tikis/SFX_Tiki_Thunder_Activate_V2_002.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiThunderHit3", false, "Sfx/Enemies/Tikis/SFX_Tiki_Thunder_Activate_V2_003.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiThunderDie1", false, "Sfx/Enemies/Tikis/SFX_Tiki_Thunder_Destroy_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiThunderDie2", false, "Sfx/Enemies/Tikis/SFX_Tiki_Thunder_Destroy_002.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "TikiThunderDie3", false, "Sfx/Enemies/Tikis/SFX_Tiki_Thunder_Destroy_003.ogg");
+
+    // Item
+    // Button
+    CResourceManager::GetInst()->LoadSound("Effect", "ButtonPress", false, "Sfx/Item/Button_press.ogg");
+
+    // Collectible
+    CResourceManager::GetInst()->LoadSound("Effect", "GetCollectible", false, "Sfx/Item/SFX_Collect.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "GetShiny", false, "Sfx/Item/Shiny/SFX_collect_shiny.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "CreateShiny1", false, "Sfx/Item/Shiny/SFX_ShinyThing_add_chime_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "CreateShiny2", false, "Sfx/Item/Shiny/SFX_ShinyThing_add_chime_002.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "CreateShiny3", false, "Sfx/Item/Shiny/SFX_ShinyThing_add_chime_003.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "CreateShiny4", false, "Sfx/Item/Shiny/SFX_ShinyThing_add_ding_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "CreateShiny5", false, "Sfx/Item/Shiny/SFX_ShinyThing_add_sparkle_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "CreateShiny6", false, "Sfx/Item/Shiny/SFX_ShinyThing_add_sparkle_002.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "CreateShiny7", false, "Sfx/Item/Shiny/SFX_ShinyThing_add_sparkle_003.ogg");
+
+
 
 }
 
@@ -421,7 +467,10 @@ void CDefaultSetting::LoadRoboSponge()
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Vertic_R_Hold", TEXT("Robo_Sponge/Robo_Sponge_Vertic_R_Hold.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Victory", TEXT("Robo_Sponge/Robo_Sponge_Victory.sqc"), MESH_PATH);
 
-    //Robo_Sponge_Attack_Vertic_L_Loop
+    // RoboSponge Word Attack
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "KAH", TEXT("Robo_Sponge/AttackWords/KAH.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RAH", TEXT("Robo_Sponge/AttackWords/RAH.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "TAE", TEXT("Robo_Sponge/AttackWords/TAE.msh"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadKingJellyfish()
@@ -618,14 +667,14 @@ void CDefaultSetting::LoadBus()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bus_Stop", TEXT("Bus/BusStop.msh"), MESH_PATH);
 }
 
-void CDefaultSetting::LoadInfoSign()
+void CDefaultSetting::LoadStaticNpcs()
 {
-}
-
-void CDefaultSetting::LoadTaxi()
-{
+    // Taxi
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Taxi_Driver", TEXT("Taxi/Taxi.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Taxi_Stop", TEXT("Taxi/TaxiStop.msh"), MESH_PATH);
+
+    // InfoSign
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "InfoSign", TEXT("Static_Npcs/InfoSign.msh"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadCommonObj()
@@ -644,7 +693,12 @@ void CDefaultSetting::LoadCollectibleItems()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GoldenSpatula", TEXT("Object/Common/GoldenSpatula.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Sock", TEXT("Object/Common/Sock.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "UnderWear", TEXT("Object/Common/UnderWear.msh"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "ShinyFlower", TEXT("Object/Common/ShinyFlower.msh"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RedFlower", TEXT("Object/Common/RedFlower.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "YellowFlower", TEXT("Object/Common/YellowFlower.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GreenFlower", TEXT("Object/Common/GreenFlower.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BlueFlower", TEXT("Object/Common/BlueFlower.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PurpleFlower", TEXT("Object/Common/PurpleFlower.msh"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadBuildings()
@@ -726,7 +780,12 @@ void CDefaultSetting::LoadCBObjects()
 
 void CDefaultSetting::LoadCBLabObjects()
 {
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "CBL_Platform", TEXT("Map/CBLab/CBLab_Platform.msh"));
+    // Platform
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "CBL_Platform", TEXT("Map/CBLab/CBLab_Platform.msh"), MESH_PATH);
+
+    // Floor = Ground
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "CBL_InnerFloor", TEXT("Map/CBLab/CBLab_Ground1.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "CBL_OuterFloor", TEXT("Map/CBLab/CBLab_Ground2.msh"), MESH_PATH);
 
 }
 

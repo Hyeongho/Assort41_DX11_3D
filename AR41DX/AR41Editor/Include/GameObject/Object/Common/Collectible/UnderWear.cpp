@@ -2,6 +2,8 @@
 
 #include "Component/ColliderOBB3D.h"
 #include "Component/StaticMeshComponent.h"
+#include "Scene/Scene.h"
+#include "../../../Player.h"
 
 CUnderWear::CUnderWear()
 {
@@ -82,4 +84,14 @@ void CUnderWear::Load(FILE* File)
 void CUnderWear::Collision_Player(const CollisionResult& result)
 {
 	CCollectibleItems::Collision_Player(result);
+
+	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+
+	if (Player) {
+		// 플레이어 속옷(HP) 추가
+		// Player->AddUnderWear();
+	}
+
+	// 오브젝트 삭제처리
+	Destroy();
 }

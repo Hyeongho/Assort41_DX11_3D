@@ -78,5 +78,11 @@ void CCollectibleItems::Load(FILE* File)
 
 void CCollectibleItems::Collision_Player(const CollisionResult& result)
 {
+    if (m_ColItemType != EColItemType::ShinyFlower) {
+        // 사운드 처리
+        CSound* Sound = m_Scene->GetResource()->FindSound("GetCollectible");
 
+        if (Sound)
+            Sound->Play();
+    }
 }
