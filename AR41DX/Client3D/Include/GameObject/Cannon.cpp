@@ -9,13 +9,18 @@
 #include "Animation/Animation.h"
 #include "Component/ColliderCube.h"
 #include "Component/ColliderOBB3D.h"
+#include "Pufferfish.h"
 
-CCannon::CCannon()
+CCannon::CCannon() : m_Time(0.f)
 {
+	SetTypeID<CCannon>();
+
+	m_ObjectTypeName = "Cannon";
 }
 
-CCannon::CCannon(const CCannon& Obj)
+CCannon::CCannon(const CCannon& Obj) : CGameObject(Obj)
 {
+	m_Mesh = dynamic_cast<CAnimationMeshComponent*>(FindComponent("Mesh"));
 }
 
 CCannon::~CCannon()
@@ -40,12 +45,24 @@ bool CCannon::Init()
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("Cannon");
 	m_Animation->AddAnimation("Cannon", "Cannon_Shoot", 1.f, 1.f, true);
 
+	m_Animation->AddCurrentNotify<CCannon>("Cannon", "CannonFire", 0.1f, this, &CCannon::Fire);
+	m_Animation->SetCurrentEndFunction<CCannon>("Cannon", this, &CCannon::Reload);
+
 	return true;
 }
 
 void CCannon::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
+
+	m_Time += DeltaTime;
+
+	if (m_Time >= 5.f)
+	{
+		m_Time = 0.f;
+
+		m_Animation->Play();
+	}
 }
 
 void CCannon::PostUpdate(float DeltaTime)
@@ -60,12 +77,24 @@ CCannon* CCannon::Clone() const
 
 void CCannon::Save(FILE* File)
 {
+	CGameObject::Save(File);
 }
 
 void CCannon::Load(FILE* File)
 {
+	CGameObject::Load(File);
 }
 
 void CCannon::Fire()
 {
+	CPufferfish* Pufferfish = m_Scene->CreateObject<CPufferfish>("Cannon");
+	Pufferfish->SetWorldPosition(GetWorldPos());
+
+	Pufferfish->AddWorldRotation(GetWorldRot() * -1.f);
+}
+
+void CCannon::Reload()
+{
+	m_Animation->Stop();
+	//m_Animation->SetPlayTime("Cannon", 0.f);
 }
