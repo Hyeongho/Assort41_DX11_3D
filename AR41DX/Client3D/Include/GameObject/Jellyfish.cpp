@@ -72,6 +72,8 @@ void CJellyfish::Update(float DeltaTime)
     // 해파리 몬스터는 Idle 모션이 따로 없기 때문에 Attack 모션을 사용
     m_Animation->ChangeAnimation("Jellyfish_Attack");
 
+    CGameObject* Player = m_Scene->FindObject("Player");
+
    // AddWorldPositionX(100.f * DeltaTime);
 }
 

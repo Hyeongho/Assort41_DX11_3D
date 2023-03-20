@@ -35,7 +35,7 @@ private:
 	CSharedPtr<class CColliderOBB3D>	m_DetectCollision;
 	CSharedPtr<class CColliderOBB3D>	m_PoolCollision;
 	CSharedPtr<class CElectricRing>		m_ElectricRing;
-	CSharedPtr<class CJellyfish>		m_Jellyfish;
+	class CJellyfish*					m_Jellyfish[6];
 	CSharedPtr<class CPlayer>			m_Player;
 
 	EKingJellyfish	m_Motion;
