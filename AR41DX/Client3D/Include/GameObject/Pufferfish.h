@@ -13,12 +13,14 @@ protected:
 	virtual ~CPufferfish();
 
 private:
+	CSharedPtr<class CSceneComponent> m_Root;
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CColliderSphere3D> m_Sphere;
 	CSharedPtr<class CRigidBody> m_Rigid;
 	CSharedPtr<class CAnimation> m_Animation;
 
 private:
+	float m_LifeTime;
 
 public:
 	virtual void Start();

@@ -12,10 +12,16 @@
 
 CTeeterRock::CTeeterRock() : m_LeftCollison(false), m_RightCollison(false)
 {
+	SetTypeID<CTeeterRock>();
+
+	m_ObjectTypeName = "TeeterRock";
 }
 
-CTeeterRock::CTeeterRock(const CTeeterRock& Obj)
+CTeeterRock::CTeeterRock(const CTeeterRock& Obj) : CGameObject(Obj)
 {
+	m_Mesh = dynamic_cast<CStaticMeshComponent*>(FindComponent("Mesh"));
+	m_LeftCube = dynamic_cast<CColliderOBB3D*>(FindComponent("LeftCube"));
+	m_RightCube = dynamic_cast<CColliderOBB3D*>(FindComponent("RightCube"));
 }
 
 CTeeterRock::~CTeeterRock()
@@ -25,6 +31,12 @@ CTeeterRock::~CTeeterRock()
 void CTeeterRock::Start()
 {
 	CGameObject::Start();
+
+	m_LeftCube->SetCollisionCallback<CTeeterRock>(ECollision_Result::Collision, this, &CTeeterRock::LeftCollisonPlayer);
+	m_LeftCube->SetCollisionCallback<CTeeterRock>(ECollision_Result::Release, this, &CTeeterRock::LeftReleasePlayer);
+
+	m_RightCube->SetCollisionCallback<CTeeterRock>(ECollision_Result::Collision, this, &CTeeterRock::RightCollisonPlayer);
+	m_RightCube->SetCollisionCallback<CTeeterRock>(ECollision_Result::Release, this, &CTeeterRock::RightReleasePlayer);
 }
 
 bool CTeeterRock::Init()
@@ -32,8 +44,8 @@ bool CTeeterRock::Init()
 	CGameObject::Init();
 
 	m_Mesh = CreateComponent<CStaticMeshComponent>("Mesh");
-	m_LeftCube = CreateComponent<CColliderOBB3D>("Cube");
-	m_RightCube = CreateComponent<CColliderOBB3D>("m_RightCube");
+	m_LeftCube = CreateComponent<CColliderOBB3D>("LeftCube");
+	m_RightCube = CreateComponent<CColliderOBB3D>("RightCube");
 
 	SetRootComponent(m_Mesh);
 
@@ -55,12 +67,6 @@ bool CTeeterRock::Init()
 	m_RightCube->SetInheritRotX(true);
 	m_RightCube->SetInheritRotY(true);
 	m_RightCube->SetInheritRotZ(true);
-
-	m_LeftCube->SetCollisionCallback<CTeeterRock>(ECollision_Result::Collision, this, &CTeeterRock::LeftCollisonPlayer);
-	m_LeftCube->SetCollisionCallback<CTeeterRock>(ECollision_Result::Release, this, &CTeeterRock::LeftReleasePlayer);
-
-	m_RightCube->SetCollisionCallback<CTeeterRock>(ECollision_Result::Collision, this, &CTeeterRock::RightCollisonPlayer);
-	m_RightCube->SetCollisionCallback<CTeeterRock>(ECollision_Result::Release, this, &CTeeterRock::RightReleasePlayer);
 
 	AddWorldRotationY(90.f);
 
@@ -99,10 +105,12 @@ CTeeterRock* CTeeterRock::Clone() const
 
 void CTeeterRock::Save(FILE* File)
 {
+	CGameObject::Save(File);
 }
 
 void CTeeterRock::Load(FILE* File)
 {
+	CGameObject::Load(File);
 }
 
 void CTeeterRock::LeftCollisonPlayer(const CollisionResult& result)

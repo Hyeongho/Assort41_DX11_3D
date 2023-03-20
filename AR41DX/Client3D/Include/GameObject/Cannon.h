@@ -16,6 +16,9 @@ private:
 	CSharedPtr<class CAnimationMeshComponent> m_Mesh;
 	CSharedPtr<class CAnimation> m_Animation;
 
+private:
+	float m_Time;
+
 public:
 	virtual void Start();
 	virtual bool Init();
@@ -27,5 +30,6 @@ public:
 
 private:
 	void Fire();
+	void Reload();
 };
 
