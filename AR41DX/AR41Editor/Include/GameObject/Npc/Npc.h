@@ -18,6 +18,8 @@ protected:
 	CSharedPtr<class CAnimation>				m_Animation;
 
 	CSharedPtr<class CStaticMeshComponent>		m_StaticMesh;
+
+	CSharedPtr<class CColliderOBB3D>			m_Collider;
 	
 protected :
 	int			m_DialogCount;
@@ -27,6 +29,7 @@ protected :
 	MeshType	m_NpcMeshType;
 
 public:
+	void SetNpc(ENpcList Npc) { m_NpcType = Npc; }
 	void SetMapPos(EMapList Map) { m_NpcMapPos = Map; }
 
 public:
@@ -41,5 +44,9 @@ public:
 public :
 	virtual void ChangeAnimByName(const std::string& Name);
 	virtual void StartDialog();
+
+private: // Collision
+	void Collision_Player(const CollisionResult& result);
+	void Release_Player(const CollisionResult& result);
 };
 

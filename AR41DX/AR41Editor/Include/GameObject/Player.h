@@ -215,5 +215,8 @@ public:
 	void ChangeSpongebob();
 	void ChangePatrick();
 	void ChangeSandy();
+
+
+	void DebugF1();
 };
 

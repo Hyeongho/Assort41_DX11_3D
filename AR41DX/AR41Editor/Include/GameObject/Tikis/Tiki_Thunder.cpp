@@ -1,4 +1,4 @@
-#include "Tiki_Thunder.h"
+﻿#include "Tiki_Thunder.h"
 
 #include "Component/AnimationMeshComponent.h"
 #include "Component/ColliderOBB3D.h"
@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "Scene/Scene.h"
 #include "../Player.h"
+#include "../Object/Common/Collectible/ShinyFlower.h"
 
 CTiki_Thunder::CTiki_Thunder()
 {
@@ -48,7 +49,10 @@ bool CTiki_Thunder::Init()
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Monster");
+	m_Collider->SetCollisionCallback<CTiki_Thunder>(ECollision_Result::Collision, this, &CTiki_Thunder::Collision_PlayerAttack);
+	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
+	m_Collider->SetInheritRotZ(true);
 
 
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("TikiThunderAnimation");
@@ -65,7 +69,7 @@ void CTiki_Thunder::Update(float DeltaTime)
 	CGameObject::Update(DeltaTime);
 
 
-	// �׻� �÷��̾ �ٶ󺸰� �Ѵ�.
+	// 항상 플레이어를 바라보게 한다.
 	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
 
 	if (!Player)
@@ -111,27 +115,55 @@ void CTiki_Thunder::ChangeAnim_Die()
 
 void CTiki_Thunder::Tiki_Die()
 {
-	// ���� ��ƼŬ
+	// 폭발 파티클
 
-	
-	// ����ó��
-	m_Scene->GetPlayerObject();
-
-
-	// ��Į ó��
-
-
+	// 꽃 생성
 	CreateFlowers();
 
-	// ���� ����.
+	// 플레이어가 가까이 있다면 피해 처리
+	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+	// Player->SetDamage();
+
+
+	// 사운드 처리
+	int RandNum = rand() % 2 + 1;
+	std::string TikiSound = "TikiThunderDie" + std::to_string(RandNum);
+	CSound* Sound = m_Scene->GetResource()->FindSound(TikiSound);
+
+	if (Sound)
+		Sound->Play();
+
+	// 오브젝트 삭제 처리
 	Destroy();
 }
 
 void CTiki_Thunder::CreateFlowers()
 {
+	// 5 ~ 12개의 플라워 생성
+	int FlowerCount = rand() % 8 + 5;
+
+	for (int i = 0; i < FlowerCount; i++) {
+		CShinyFlower* Flower = m_Scene->CreateObject<CShinyFlower>("ShinyFlower_TikiThunder");
+
+		// X, Y, Z -50 ~ 50 범위 내의 위치에서 꽃이 생겨날 수 있게 설정.
+		int RandX = (float)(rand() % 100 - 50) + GetWorldPos().x;
+		int RandY = (float)(rand() % 100 - 50) + GetWorldPos().y;
+		int RandZ = (float)(rand() % 100 - 50) + GetWorldPos().z;
+
+		Flower->SetWorldPosition(RandX, RandY, RandZ);
+	}
 }
 
-void CTiki_Thunder::AttackedCollision(const CollisionResult& result)
+void CTiki_Thunder::Collision_PlayerAttack(const CollisionResult& result)
 {
+	// 사운드 처리
+	int RandNum = rand() % 3 + 1;
+	std::string TikiSound = "TikiThunderHit" + std::to_string(RandNum);
+	CSound* Sound = m_Scene->GetResource()->FindSound(TikiSound);
+
+	if (Sound)
+		Sound->Play();
+
+	// 사망 애니메이션 변경, 애니메이션 종료 시 사망 처리
 	ChangeAnim_Die();
 }

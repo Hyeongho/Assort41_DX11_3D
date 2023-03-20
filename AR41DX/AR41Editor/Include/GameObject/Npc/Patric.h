@@ -34,5 +34,8 @@ private:
 	void ChangeAnim_Talk();
 	void ChangeAnim_Thinking_Start();
 	void ChangeAnim_Thinking_Loop();
+
+private:
+	void CreateSock();
 };
 

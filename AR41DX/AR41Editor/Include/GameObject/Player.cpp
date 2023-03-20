@@ -97,6 +97,8 @@ void CPlayer::Start()
 	}
 	m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
 
+	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Push, this, &CPlayer::DebugF1, m_Scene);
+
 	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("A", Input_Type::Push, this, &CPlayer::MoveLeft, m_Scene);
@@ -1153,6 +1155,11 @@ void CPlayer::ChangeSandy()
 		m_Weapon = m_Scene->CreateObject<CWeapon>("Temp");
 		AddChildToSocket("Weapon", m_Weapon);
 	}
+}
+
+void CPlayer::DebugF1()
+{
+	SetWorldPosition(16500.f, 0.f, 12200.f);
 }
 
 void CPlayer::CollisionTest(const CollisionResult& result)

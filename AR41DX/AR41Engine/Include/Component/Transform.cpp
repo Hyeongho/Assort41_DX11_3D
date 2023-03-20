@@ -10,6 +10,12 @@
 float CTransform::m_MinY = FLT_MAX;
 float CTransform::m_MaxY = -FLT_MAX;
 
+float CTransform::m_MinX = FLT_MAX;
+float CTransform::m_MaxX = -FLT_MAX;
+
+float CTransform::m_MinZ = FLT_MAX;
+float CTransform::m_MaxZ = -FLT_MAX;
+
 CTransform::CTransform()	:
 	m_Is2D(false),
 	m_InheritScale(false),
@@ -62,6 +68,18 @@ void CTransform::Clear()
 {
 	if (m_Is2D)
 	{
+		m_MinY = FLT_MAX;
+		m_MaxY = -FLT_MAX;
+	}
+
+	else
+	{
+		m_MinY = FLT_MAX;
+		m_MaxY = -FLT_MAX;
+
+		m_MinY = FLT_MAX;
+		m_MaxY = -FLT_MAX;
+
 		m_MinY = FLT_MAX;
 		m_MaxY = -FLT_MAX;
 	}
@@ -1498,6 +1516,22 @@ void CTransform::Update(float DeltaTime)
 
 		if (m_MaxY < y)
 			m_MaxY = y;
+
+		float x = m_WorldPos.x - m_Pivot.x * m_WorldScale.x;
+
+		if (m_MinX > x)
+			m_MinX = x;
+
+		if (m_MaxX < x)
+			m_MaxX = x;
+
+		float z = m_WorldPos.z - m_Pivot.z * m_WorldScale.z;
+
+		if (m_MinZ > z)
+			m_MinZ = z;
+
+		if (m_MaxZ < z)
+			m_MaxZ = z;
 	}
 }
 

@@ -20,6 +20,7 @@ private:
 
     // Sound
     void LoadSound();
+    void LoadSfx();
 
     // Player
     void LoadSpongebob();
@@ -38,8 +39,7 @@ private:
     void LoadSquidward();
     void LoadPatric_Npc();
     void LoadBus();
-    void LoadInfoSign();
-    void LoadTaxi();
+    void LoadStaticNpcs();
 
     // Object
     void LoadCommonObj();
@@ -48,7 +48,6 @@ private:
     void LoadJellyfishFieldsObj();
     void LoadCBObjects();
     void LoadCBLabObjects();
-
 
     // Particle
     void LoadParticle();

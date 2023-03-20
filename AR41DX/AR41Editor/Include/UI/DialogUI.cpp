@@ -1,4 +1,4 @@
-#include "DialogUI.h"
+ï»¿#include "DialogUI.h"
 
 #include "Device.h"
 #include "Input.h"
@@ -234,7 +234,7 @@ void CDialogUI::KeyLeftButton()
 	m_curDialog.TextIdx++;
 
 	if (m_curDialog.TextIdx >= m_curDialog.TextMaxIdx) {
-		// ´ÙÀÌ¾ó·Î±× UI Ã¢ Á¾·á
+		// ë‹¤ì´ì–¼ë¡œê·¸ UI ì°½ ì¢…ë£Œ
 		InActiveDialogUI();
 
 		return;
@@ -260,7 +260,7 @@ void CDialogUI::KeyLeftButton()
 	std::string strAnimName;
 	strAnimName.assign(wstrAnimName.begin(), wstrAnimName.end());
 
-	if (wcscmp(strTalker.c_str(), L"½ºÆùÁö¹ä") == 0) {
+	if (wcscmp(strTalker.c_str(), L"ìŠ¤í°ì§€ë°¥") == 0) {
 
 	}
 	else {

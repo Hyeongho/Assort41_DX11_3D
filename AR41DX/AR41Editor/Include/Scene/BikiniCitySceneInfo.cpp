@@ -9,7 +9,7 @@
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/BusDriver.h"
 #include "../GameObject/Object/Common/InteractButton.h"
-#include "../GameObject/Object/BusStop.h"
+#include "../GameObject/Object/BB/BusStop.h"
 #include "../GameObject/Tikis/Tiki_Stone.h"
 #include "../GameObject/Tikis/Tiki_Thunder.h"
 #include "../GameObject/Tikis/Tiki_Wood.h"

@@ -126,6 +126,23 @@ bool CCollisionManager::SetCollisionInteraction(const std::string& Name,
 	return true;
 }
 
+bool CCollisionManager::SetCollisionInteractionAllChannel(const std::string& Name, ECollision_Interaction Interaction)
+{
+	CollisionProfile* Profile = FindProfile(Name);
+
+	if (!Profile)
+		return false;
+
+	size_t Count = m_vecChannel.size();
+
+	for (size_t i = 0; i < Count; ++i)
+	{
+		Profile->vecCollisionInteraction[i] = Interaction;
+	}
+
+	return true;
+}
+
 bool CCollisionManager::CheckCollisionInteraction(const std::string& name, const std::string& channelName,
 	ECollision_Interaction interaction)
 {

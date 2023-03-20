@@ -8,6 +8,9 @@
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/TaxiDriver.h"
 #include "../GameObject/Bullet.h"
+#include "../GameObject/Cannon.h"
+#include "../GameObject/Pufferfish.h"
+#include "../GameObject/TeeterRock.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 #include "../UI/TitleSceneUI.h"
@@ -49,6 +52,10 @@ void CDefaultSetting::CreateCDO()
     //CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
     //CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
     //CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
+
+    CScene::CreateObjectCDO<CCannon>("Cannon");
+    CScene::CreateObjectCDO<CPufferfish>("Pufferfish");
+    CScene::CreateObjectCDO<CTeeterRock>("TeeterRock");
 }
 
 void CDefaultSetting::LoadResource()
@@ -693,14 +700,14 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "CannonSkeleton", TEXT("Objects/JellyfishFields/Cannon.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("Cannon", "CannonSkeleton");
 
-    CResourceManager::GetInst()->LoadAnimationSequence("Cannon", TEXT("Objects/JellyfishFields/Cannon.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Cannon_Shoot", TEXT("Objects/JellyfishFields/Cannon.sqc"), MESH_PATH);
 
     // 복어
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Pufferfish", TEXT("Objects/JellyfishFields/Pufferfish.msh"), MESH_PATH);
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "PufferfishSkeleton", TEXT("Objects/JellyfishFields/Pufferfish.bne"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Pufferfish", TEXT("Objects/JellyfishFields/Puffer.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "PufferfishSkeleton", TEXT("Objects/JellyfishFields/Puffer.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("Pufferfish", "PufferfishSkeleton");
 
-    CResourceManager::GetInst()->LoadAnimationSequence("Pufferfish", TEXT("Objects/JellyfishFields/Pufferfish.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Pufferfish_Contact", TEXT("Objects/JellyfishFields/Puffer.sqc"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadCBObjects()

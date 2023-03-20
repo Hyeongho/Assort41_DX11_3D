@@ -73,8 +73,10 @@ bool CTestSceneInfo::Init()
 	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
 	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
 
-	//CPufferfish* Cannon = m_Owner->CreateObject<CPufferfish>("Cannon");
-	//Cannon->SetWorldPosition(16500.f, 0.f, 12200.f);
+	CCannon* Cannon = m_Owner->CreateObject<CCannon>("Cannon");
+	Cannon->SetWorldPosition(16500.f, 0.f, 12200.f);
+
+	Cannon->AddWorldRotationY(45.f);
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
@@ -91,13 +93,13 @@ void CTestSceneInfo::Update(float DeltaTime)
 {
 	CSceneInfo::Update(DeltaTime);
 
-	m_Time += DeltaTime;
+	/*m_Time += DeltaTime;
 
 	if (m_Time >= 10.0f)
 	{
 		m_Time = 0.f;
 
-		CPufferfish* Cannon = m_Owner->CreateObject<CPufferfish>("Cannon");
-		Cannon->SetWorldPosition(16500.f, 500.f, 12200.f);
-	}
+		CPufferfish* Pufferfish = m_Owner->CreateObject<CPufferfish>("Cannon");
+		Pufferfish->SetWorldPosition(16500.f, 500.f, 12200.f);
+	}*/
 }

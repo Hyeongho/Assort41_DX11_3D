@@ -30,6 +30,7 @@ void CRoboSponge::Start()
 {
 	CBossMonster::Start();
 
+#ifdef _DEBUG
 	CInput::GetInst()->AddBindFunction<CRoboSponge>("F1", Input_Type::Up, this, &CRoboSponge::ChangeAnim_AttackHorizL, m_Scene);
 	CInput::GetInst()->AddBindFunction<CRoboSponge>("F2", Input_Type::Up, this, &CRoboSponge::ChangeAnim_AttackHorizR, m_Scene);
 	CInput::GetInst()->AddBindFunction<CRoboSponge>("F3", Input_Type::Up, this, &CRoboSponge::ChangeAnim_AttackVerticLStart, m_Scene);
@@ -39,6 +40,7 @@ void CRoboSponge::Start()
 	CInput::GetInst()->AddBindFunction<CRoboSponge>("F7", Input_Type::Up, this, &CRoboSponge::ChangeAnim_Hit2, m_Scene);
 	CInput::GetInst()->AddBindFunction<CRoboSponge>("F8", Input_Type::Up, this, &CRoboSponge::ChangeAnim_Idle, m_Scene);
 	CInput::GetInst()->AddBindFunction<CRoboSponge>("F9", Input_Type::Up, this, &CRoboSponge::ChangeAnim_Victory, m_Scene);
+#endif // _DEBUG
 }
 
 bool CRoboSponge::Init()
