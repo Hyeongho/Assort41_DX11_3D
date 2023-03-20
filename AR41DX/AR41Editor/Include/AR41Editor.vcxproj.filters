@@ -432,6 +432,15 @@
     <ClCompile Include="GameObject\Object\Gate.cpp">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Pufferfish.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Cannon.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\TeeterRock.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -738,6 +747,15 @@
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Object\Gate.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Pufferfish.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Cannon.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\TeeterRock.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
   </ItemGroup>
