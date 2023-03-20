@@ -51,6 +51,13 @@ CKingJellyfish::~CKingJellyfish()
 void CKingJellyfish::Start()
 {
     CGameObject::Start();
+
+    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Attack", this, &CKingJellyfish::OnGround);
+    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Damage", this, &CKingJellyfish::Angry);
+    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish", this, &CKingJellyfish::SpawnJellyfish1);
+    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish1", this, &CKingJellyfish::SpawnJellyfish2);
+    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish2", this, &CKingJellyfish::SpawnJellyfish3);
+    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish3", this, &CKingJellyfish::SpawnJellyfish4);
 }
 
 bool CKingJellyfish::Init()
@@ -110,26 +117,13 @@ bool CKingJellyfish::Init()
     m_Animation->AddAnimation("KingJellyfish_Idle", "KingJellyfish_Idle", 1.f, 0.5f, true);
     m_Animation->AddAnimation("KingJellyfish_Angry", "KingJellyfish_Angry", 1.f, 0.5f, true);
     m_Animation->AddAnimation("KingJellyfish_Attack", "KingJellyfish_Attack", 1.f, 0.5f, false);
-    m_Animation->AddAnimation("KingJellyfish_Damage", "KingJellyfish_Damage", 1.f, 0.5f, true);
+    m_Animation->AddAnimation("KingJellyfish_Damage", "KingJellyfish_Damage", 1.f, 0.5f, false);
     m_Animation->AddAnimation("KingJellyfish_OnGround", "KingJellyfish_OnGround", 1.f, 0.5, true);
     m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, false);
     m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish1", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, false);
     m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish2", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, false);
     m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish3", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, false);
     m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish4", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, false);
-    m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish5", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, false);
-
-
-
-    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Attack", this, &CKingJellyfish::OnGround);
-    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Damage", this, &CKingJellyfish::Angry);
-    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish", this, &CKingJellyfish::SpawnJellyfish);
-    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish1", this, &CKingJellyfish::Angry);
-    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish2", this, &CKingJellyfish::Angry);
-    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish3", this, &CKingJellyfish::Angry);
-    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish4", this, &CKingJellyfish::Angry);
-    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish5", this, &CKingJellyfish::Angry);
-
 
     //CSkeleton* Skeleton = m_Mesh->GetSkeleton();
 
@@ -656,14 +650,6 @@ void CKingJellyfish::SpawnJellyfish3()
 }
 
 void CKingJellyfish::SpawnJellyfish4()
-{
-    CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-    Jellyfish->AddWorldPosition(Vector3(0.f, 0.f, 1.f) * 100.f * g_DeltaTime);
-
-    m_Animation->ChangeAnimation("KingJellyfish_SpawnJellyfish5");
-}
-
-void CKingJellyfish::SpawnJellyfish5()
 {
     m_Idle = true;
 }
