@@ -14,10 +14,10 @@ protected:
 
 private:
 	CSharedPtr<class CAnimationMeshComponent>	m_FlagMesh;
-	CSharedPtr<class CStaticMeshComponent>		m_BottomMesh;
+	//CSharedPtr<class CStaticMeshComponent>		m_BottomMesh;
 	CSharedPtr<class CAnimation>				m_Animation;
-	CSharedPtr<class CColliderCube>				m_CheckPointCube;
-	CSharedPtr<class CColliderCube>				m_DetectRange;
+	CSharedPtr<class CColliderOBB3D>				m_CheckPointCube;
+	CSharedPtr<class CColliderOBB3D>				m_DetectRange;
 
 public:
 	virtual void Start();

@@ -279,6 +279,15 @@
     <ClCompile Include="GameObject\Object\Gate.cpp">
       <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Dupli_Can.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\03. Duplicatotron</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\FodderDebris.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\01. Fodder</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\HammerDebris.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\02. Hammer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -490,6 +499,15 @@
     </ClInclude>
     <ClInclude Include="GameObject\Object\Gate.h">
       <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Dupli_Can.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\03. Duplicatotron</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\FodderDebris.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\01. Fodder</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\HammerDebris.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\02. Hammer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

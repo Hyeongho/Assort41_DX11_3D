@@ -109,8 +109,8 @@ void CDuplicatotron::PostUpdate(float DeltaTime)
 		m_CountHammer = 0;
 
 		m_DelayTime += DeltaTime;
-		//
-		if (m_DelayTime >= 1.3f && m_CountHammer < 1)
+		
+		if (m_DelayTime >= 2.3f && m_CountHammer < 1)
 		{
 			++m_CountHammer;
 
@@ -119,7 +119,7 @@ void CDuplicatotron::PostUpdate(float DeltaTime)
 			m_DelayTime = 0.f;
 		}
 
-		if (m_DelayTime >= 1.4f && m_CountHammer < 3)
+		if (m_DelayTime >= 3.0f && m_CountHammer < 3)
 		{
 			++m_CountHammer;
 
@@ -130,6 +130,7 @@ void CDuplicatotron::PostUpdate(float DeltaTime)
 		if (m_CountHammer > 2)
 		{
 			m_CountHammer = 0;
+			m_DelayTime = 0.f;
 
 			m_SpawnOn = false;
 		}
@@ -186,7 +187,8 @@ void CDuplicatotron::SpawnHammers()
 
 	Vector3 Pos = GetWorldPos();
 
-	CDupli_Can* DupliCan = m_Scene->CreateObject<CDupli_Can>("DupliCan");
+	CDupli_Can* DupliCan = m_Scene->CreateObject<CDupli_Can>("Dupli_Can");
 	DupliCan->SetWorldPosition(Pos.x + 10.f, Pos.y + 10.f, Pos.z + 10.f);
+
 	//m_Hammer = m_Scene->CreateObject<CHammer>("Hammer");
 }

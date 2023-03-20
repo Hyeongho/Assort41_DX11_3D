@@ -438,6 +438,9 @@
     <ClCompile Include="GameObject\Object\Gate.cpp">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Dupli_Can.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -751,6 +754,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Object\Gate.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Dupli_Can.h">
+      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

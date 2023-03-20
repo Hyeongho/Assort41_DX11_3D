@@ -11,6 +11,7 @@
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "Engine.h"
+#include "HammerDebris.h"
 
 CHammer::CHammer() :
 	//m_Stunned(false)
@@ -39,12 +40,15 @@ void CHammer::Start()
 {
 	CMonster::Start();
 
+	// 테스트용 키세팅
+	CInput::GetInst()->AddBindFunction<CHammer>("F", Input_Type::Down, this, &CHammer::Dead, m_Scene);
+
 	// 올가미 공격 당할시, Hammer_LassoedStart -> Hammer_Lassoed 로 변경
 	//m_Animation->SetCurrentEndFunction("Hammer_LassoedStart", this, &CHammer::Lassoed);
 
 	// 탐지범위에 플레이어가 들어올 시 Notice 애니메이션 후 Walk 로 변경.
 	//m_Animation->SetCurrentEndFunction("Hammer_Notice", this, &CHammer::Walk);
-	m_Animation->SetCurrentEndFunction("Hammer_Dead", this, &CHammer::Walk);
+	m_Animation->SetCurrentEndFunction("Hammer_Dead", this, &CHammer::Debris);
 	m_Animation->SetCurrentEndFunction("Hammer_Attack", this, &CHammer::WeaponAttackOn);
 
 	m_DetectArea->SetCollisionCallback<CHammer>(ECollision_Result::Collision, this, &CHammer::Collision_Detect_ChaseOn);
@@ -253,24 +257,17 @@ void CHammer::Dead()
 	m_Animation->ChangeAnimation("Hammer_Dead");
 
 	SetMoveSpeed(0.f);
-
 }
 
 void CHammer::Debris()
 {
+	Vector3 HammerPos = GetWorldPos();
+
 	m_Mesh->Destroy();
 	m_Mesh->ClearMaterial();
 
-	// 수정필요
-	/*m_DebrisMesh1->SetMesh("FodderDebris1");
-	m_DebrisMesh2->SetMesh("FodderDebris2");
-	m_DebrisMesh3->SetMesh("FodderDebris3");
-	m_DebrisMesh4->SetMesh("FodderDebris4");
-
-	m_DebrisMesh1->Start();
-	m_DebrisMesh2->Start();
-	m_DebrisMesh3->Start();
-	m_DebrisMesh4->Start();*/
+	CHammerDebris* Debris = m_Scene->CreateObject<CHammerDebris>("HammerDebris");
+	Debris->SetWorldPosition(HammerPos);
 }
 
 void CHammer::Collision_Detect_ChaseOn(const CollisionResult& result)

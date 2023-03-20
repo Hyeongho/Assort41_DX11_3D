@@ -14,6 +14,7 @@
 #include "Engine.h"
 #include "FodderBT.h"
 #include "Player.h"
+#include "FodderDebris.h"
 
 
 CFodder::CFodder()	:
@@ -43,8 +44,7 @@ void CFodder::Start()
 	CMonster::Start();
 
 	// 테스트용 키세팅
-	CInput::GetInst()->AddBindFunction<CFodder>("F", Input_Type::Down, this, &CFodder::MoveFront, m_Scene);
-	CInput::GetInst()->AddBindFunction<CFodder>("F10", Input_Type::Down, this, &CFodder::MoveBack, m_Scene);
+	CInput::GetInst()->AddBindFunction<CFodder>("F", Input_Type::Down, this, &CFodder::Dead, m_Scene);
 
 	// 탐지범위에 플레이어가 들어올 시 Notice 애니메이션 후 Walk 로 변경.
 	//m_Animation->SetCurrentEndFunction("Fodder_Notice", this, &CFodder::Walk);
@@ -71,11 +71,6 @@ bool CFodder::Init()
 
 	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 
-	m_DebrisMesh1 = CreateComponent <CStaticMeshComponent>("DebrisMesh1");
-	m_DebrisMesh2 = CreateComponent <CStaticMeshComponent>("DebrisMesh2");
-	m_DebrisMesh3 = CreateComponent <CStaticMeshComponent>("DebrisMesh3");
-	m_DebrisMesh4 = CreateComponent <CStaticMeshComponent>("DebrisMesh4");
-
 
 	m_DetectArea = CreateComponent<CColliderOBB3D>("DetectArea");
 	m_AttackArea = CreateComponent<CColliderOBB3D>("AttackArea");
@@ -91,11 +86,6 @@ bool CFodder::Init()
 	m_Mesh->AddChild(m_BodyCube);
 	m_Mesh->AddChild(m_WeaponCube);
 
-	m_DebrisMesh1->SetMesh("FodderDebris1");
-	m_DebrisMesh2->SetMesh("FodderDebris2");
-	m_DebrisMesh3->SetMesh("FodderDebris3");
-	m_DebrisMesh4->SetMesh("FodderDebris4");
-
 
 	m_DetectArea->SetCollisionProfile("DetectArea");
 	m_DetectArea->SetBoxHalfSize(800.f, 400.f, 800.f);
@@ -108,8 +98,6 @@ bool CFodder::Init()
 	m_BodyCube->SetCollisionProfile("Monster");
 	m_BodyCube->SetRelativePosition(0.f, 100.f, 0.f);
 
-	
-
 	m_BodyCube->SetBoxHalfSize(30.f, 100.f, 40.f);
 
 	m_WeaponCube->SetCollisionProfile("MonsterAttack");
@@ -118,7 +106,6 @@ bool CFodder::Init()
 	m_WeaponCube->SetInheritRotX(true);
 	m_WeaponCube->SetInheritRotY(true);
 	m_WeaponCube->SetInheritRotZ(true);
-
 
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("FodderAnimation");
 
@@ -234,19 +221,13 @@ void CFodder::Dead()
 
 void CFodder::Debris()
 {
+	Vector3 FodderPos = GetWorldPos();
+
 	m_Mesh->Destroy();
 	m_Mesh->ClearMaterial();
 
-	// 수정필요
-	m_DebrisMesh1->SetMesh("FodderDebris1");
-	m_DebrisMesh2->SetMesh("FodderDebris2");
-	m_DebrisMesh3->SetMesh("FodderDebris3");
-	m_DebrisMesh4->SetMesh("FodderDebris4");
-
-	m_DebrisMesh1->Start();
-	m_DebrisMesh2->Start();
-	m_DebrisMesh3->Start();
-	m_DebrisMesh4->Start();
+	CFodderDebris* Debris = m_Scene->CreateObject<CFodderDebris>("FodderDebris");
+	Debris->SetWorldPosition(FodderPos);
 
 }
 
@@ -287,9 +268,7 @@ void CFodder::Release_AttackOff(const CollisionResult& result)
 			m_AttackOn = false;
 			m_Animation->ChangeAnimation("Fodder_Walk");
 		}
-	}
-
-	
+	}	
 }
 
 void CFodder::Collision_Body(const CollisionResult& result)

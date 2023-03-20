@@ -7,6 +7,7 @@
 #include "../GameObject/Jellyfish.h"
 #include "../GameObject/Fodder.h"
 #include "../GameObject/Hammer.h"
+#include "../GameObject/HammerDebris.h"
 #include "../GameObject/Duplicatotron.h"
 #include "../GameObject/Dupli_Can.h"
 #include "../GameObject/BikiniBottomBuildings.h"
@@ -51,8 +52,8 @@ bool CTestSceneInfo::Init()
 	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
 
 	// 보원테스트 구간
-	//CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
-	//JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
+	CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
+	JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
 	
 	//CTeleportBox* TeleportBox1 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
 	//TeleportBox1->SetBoxIndex(1);
@@ -61,8 +62,8 @@ bool CTestSceneInfo::Init()
 	//TeleportBox2->SetBoxIndex(2);
 	//Vector3 TeleportBox2Pos = TeleportBox2->GetWorldPos();
 
-	//CCheckPoint* CheckPoint = m_Owner->CreateObject<CCheckPoint>("CheckPoint");
-	//CheckPoint->SetWorldPosition(17500.f, 0.f, 13700.f);
+	CCheckPoint* CheckPoint = m_Owner->CreateObject<CCheckPoint>("CheckPoint");
+	CheckPoint->SetWorldPosition(17500.f, 0.f, 13700.f);
 
 	//CGate* Gate = m_Owner->CreateObject<CGate>("Gate");
 	//Gate->SetWorldPosition(17000.f, 50.f, 12500.f);
@@ -71,13 +72,13 @@ bool CTestSceneInfo::Init()
 	//Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
 
 	//CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
-	//Hammer->SetWorldPosition(17000.f, 0.f, 14000.f);'
+	//Hammer->SetWorldPosition(17000.f, 0.f, 14000.f);
 
-	CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
-	Duplicatotron->SetWorldPosition(17000.f, 0.f, 14000.f);
+	//CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
+	//Duplicatotron->SetWorldPosition(17000.f, 0.f, 14000.f);
 
-	//CDupli_Can* Dupli_Can = m_Owner->CreateObject<CDupli_Can>("DuplcatotronCan");
-	//Dupli_Can->SetWorldPosition(16500.f, 0.f, 12300.f);
+	CDupli_Can* Dupli_Can = m_Owner->CreateObject<CDupli_Can>("Dupli_Can");
+	Dupli_Can->SetWorldPosition(17000.f, 70.f, 12500.f);
 
 
 

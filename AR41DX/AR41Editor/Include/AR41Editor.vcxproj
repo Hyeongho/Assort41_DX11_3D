@@ -198,6 +198,7 @@
     <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeBT.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Duplicatotron.cpp" />
+    <ClCompile Include="GameObject\Dupli_Can.cpp" />
     <ClCompile Include="GameObject\Fodder.cpp" />
     <ClCompile Include="GameObject\Hammer.cpp" />
     <ClCompile Include="GameObject\Jellyfish.cpp" />
@@ -298,6 +299,7 @@
     <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeBT.h" />
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Duplicatotron.h" />
+    <ClInclude Include="GameObject\Dupli_Can.h" />
     <ClInclude Include="GameObject\Fodder.h" />
     <ClInclude Include="GameObject\Hammer.h" />
     <ClInclude Include="GameObject\Jellyfish.h" />

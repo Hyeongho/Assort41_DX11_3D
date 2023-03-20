@@ -7,6 +7,9 @@
 
 CDupli_Can::CDupli_Can()
 {
+	SetTypeID<CDupli_Can>();
+
+	m_ObjectTypeName = "Dupli_Can";
 }
 
 CDupli_Can::CDupli_Can(const CDupli_Can& Obj)
@@ -42,6 +45,8 @@ bool CDupli_Can::Init()
 
     m_Mesh->AddChild(m_Cube);
     m_Mesh->AddChild(m_Rigid);
+
+	m_Mesh->SetWorldPositionY(200.f);
 
     m_Cube->SetBoxHalfSize(50.f, 70.f, 50.f);
     m_Cube->SetRelativePosition(0.f, 70.f,0.f);
@@ -85,29 +90,29 @@ void CDupli_Can::Update(float DeltaTime)
 void CDupli_Can::PostUpdate(float DeltaTime)
 {
 	CMonster::PostUpdate(DeltaTime);
-
-	//AddWorldPositionX(10.f * DeltaTime);
 }
 
 CDupli_Can* CDupli_Can::Clone() const
 {
-    return new CDupli_Can;
+    return new CDupli_Can(*this);
 }
 
 void CDupli_Can::Save(FILE* File)
 {
+	CMonster::Save(File);
 }
 
 void CDupli_Can::Load(FILE* File)
 {
+	CMonster::Load(File);
 }
 
 void CDupli_Can::Collision_Ground(const CollisionResult& result)
 {
-	/*if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Ground)
+	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Ground)
 	{
 		m_Mesh->SetMesh("Hammer");
 
 		return;
-	}*/
+	}
 }

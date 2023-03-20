@@ -56,23 +56,21 @@ bool CGate::Init()
     m_BottomMesh->AddChild(m_DetectRange);
     m_BottomMesh->AddChild(m_Cube);
 
-    m_BottomMesh->SetWorldScale(10.f, 10.f, 10.f);
-
-    m_ArmMesh->SetRelativePositionY(100.f);
+    m_ArmMesh->SetRelativePositionY(0.f);
+    //m_ArmMesh->SetPivot(70.f,-50.f,0.f);
 
     m_Cube->AddChild(m_DetectRange);
-
 
     //m_BottomMesh->SetWorldPosition(130.f, 50.f, 150.f);
     //m_ArmMesh->SetRelativePosition(0.f, 50.f, 0.f);
 
     m_Cube->SetCollisionProfile("Wall");
-    m_Cube->SetBoxHalfSize(200.f, 60.f, 10.f);
-    m_Cube->SetWorldPosition(-80.f,0.f,-10.f);
+    m_Cube->SetBoxHalfSize(230.f, 80.f, 30.f);
+    m_Cube->SetRelativePosition(-170.f, 80.f, 0.f);
 
     m_DetectRange->SetCollisionProfile("Wall");
-    m_DetectRange->SetBoxHalfSize(150.f, 10.f, 30.f);
-    m_DetectRange->SetRelativePosition(0.f, 0.f, 150.f);
+    m_DetectRange->SetBoxHalfSize(250.f, 0.f, 50.f);
+    m_DetectRange->SetRelativePosition(-50.f, -30.f, 150.f);
 
     return true;
 }
@@ -82,10 +80,10 @@ void CGate::Update(float DeltaTime)
     CGameObject::Update(DeltaTime);
 
     if (m_OpenSesameOn)
-        m_Cube->AddWorldRotationZ(-2.f);
+        m_ArmMesh->AddWorldRotationZ(-1.f);
 
 
-    if (m_Cube->GetWorldRot().z == -90.f && m_OpenSesameOn)
+    if (m_ArmMesh->GetWorldRot().z == -30.f && m_OpenSesameOn)
     {
         m_OpenSesameOn = false;
 
@@ -100,7 +98,7 @@ void CGate::PostUpdate(float DeltaTime)
 
 CGate* CGate::Clone() const
 {
-    return nullptr;
+    return new CGate(*this);
 }
 
 void CGate::Save(FILE* File)
