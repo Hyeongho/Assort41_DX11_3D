@@ -53,14 +53,6 @@ enum class EMain_Character
 	Max,
 };
 
-enum class EKeyDir
-{
-	Up= 0x1,  // hex for 0000 0001 
-	Down = 0x2,  // hex for 0000 0010
-	Left = 0x4,  // hex for 0000 0100
-	Right = 0x8,  // hex for 0000 1000
-};
-
 class CPlayer : public CGameObject
 {
 	friend class CScene;
@@ -79,6 +71,7 @@ protected:
 	CSharedPtr<class CColliderCube> m_HeadCube;	//spongebob head
 	CSharedPtr<class CColliderCube> m_TailCube;	//spongebob bash
 	CSharedPtr<class CColliderOBB3D> m_FrontCube;	//atk
+	CSharedPtr<class CParticleComponent> m_Particle;
 
 	CSharedPtr<class CWeapon>	m_Weapon;
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
@@ -194,10 +187,7 @@ public:
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
-	void KeyUpUp();
-	void KeyDownUp();
-	void KeyLeftUp();
-	void KeyRightUp();
+	void KeyUp();
 	void JumpDown();
 	void JumpPush(); 	// Sandy
 	void JumpUp(); 		// Sandy
