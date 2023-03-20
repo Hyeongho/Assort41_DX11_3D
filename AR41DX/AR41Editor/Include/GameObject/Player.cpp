@@ -875,7 +875,7 @@ void CPlayer::LClick()
 			return;
 		}
 		m_Scene->GetResource()->SoundPlay("Patrick_Attack");
-		//m_Particle->SetParticle("SpongebobAtk");
+		m_Particle->SetParticle("PatrickAtk");
 		float angle = GetWorldRot().y-180.f;
 		m_Rigid->SetGround(false);
 		m_Rigid->AddForce(sinf(DegreeToRadian(angle)) * 150.f, 200.f, cosf(DegreeToRadian(angle)) * 150.f);
