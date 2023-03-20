@@ -27,8 +27,7 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
-public:
-	void Attack();
-	void Death();
+private:
+	void Collision(const CollisionResult& result);
 };
 

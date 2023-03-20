@@ -1,6 +1,9 @@
 #include "ElectricRing.h"
 #include "Component/StaticMeshComponent.h"
+#include "Component/ColliderOBB3D.h"
+#include "Jellyfish.h"
 #include "Scene/Scene.h"
+#include "Player.h"
 
 CElectricRing::CElectricRing()
 {
@@ -12,6 +15,7 @@ CElectricRing::CElectricRing()
 CElectricRing::CElectricRing(const CElectricRing& Obj)
 {
     m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
+    m_Collider = (CColliderOBB3D*)FindComponent("Collider");
 }
 
 CElectricRing::~CElectricRing()
@@ -28,12 +32,27 @@ bool CElectricRing::Init()
     CGameObject::Init();
 
     m_Mesh = CreateComponent<CStaticMeshComponent>("Mesh");
+    m_Collider = CreateComponent<CColliderOBB3D>("Collider");
+
     m_Mesh->SetMesh("KingJellyfish_Electric");
+
+    auto iter = m_Mesh->GetMaterials()->begin();
+    auto iterEnd = m_Mesh->GetMaterials()->end();
+
+    for (; iter != iterEnd; iter++)
+    {
+        (*iter)->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
+    }
 
     SetRootComponent(m_Mesh);
 
-    m_Mesh->SetWorldScale(80.f, 80.f, 80.f);
+    m_Mesh->AddChild(m_Collider);
+    m_Mesh->SetWorldScale(1.f, 20.f, 1.f);
 
+    Vector3 Size = m_Mesh->GetWorldScale();
+
+    m_Collider->SetBoxHalfSize(Size);
+    m_Collider->SetCollisionProfile("MonsterAttack");
 
     return true;
 }
@@ -44,18 +63,34 @@ void CElectricRing::Update(float DeltaTime)
 
     Vector3 Pos = m_Scene->FindObject("KingJellyfish")->GetWorldPos();
 
+    // 항상 플레이어를 바라보게 한다.
+    CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+
+    if (!Player)
+        return;
+
+    Vector3 PlayerPos = Player->GetWorldPos();
+
+    float Degree = atan2(GetWorldPos().z - PlayerPos.z, GetWorldPos().x - PlayerPos.x);
+    Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
+
+    m_Collider->SetWorldRotationY(Degree);
+
     m_Mesh->SetWorldPosition(Pos);
 
-    m_Mesh->AddWorldScaleX(20.f);
+    m_Mesh->AddWorldScale(0.2f, 0.f, 0.2f);
+
+    // Vector3 Size = m_Mesh->GetWorldScale() / 2;
+   // m_Collider->AddWorldScale(Size);
 }
 
 void CElectricRing::PostUpdate(float DeltaTime)
 {
     CGameObject::PostUpdate(DeltaTime);
 
-    Vector3 RingSize = m_Mesh->GetWorldScale();
+    Vector3 RingSize = m_Mesh->GetMeshSize();
 
-    if ( RingSize.x > 800.f)
+    if (RingSize.x > 500.f)
     {
         Destroy();
     }

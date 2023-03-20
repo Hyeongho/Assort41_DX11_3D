@@ -45,10 +45,10 @@ bool CElectricRing::Init()
     }
 
     SetRootComponent(m_Mesh);
-    
+
     m_Mesh->AddChild(m_Collider);
     m_Mesh->SetWorldScale(1.f, 20.f, 1.f);
-    
+
     Vector3 Size = m_Mesh->GetWorldScale();
 
     m_Collider->SetBoxHalfSize(Size);
@@ -78,7 +78,7 @@ void CElectricRing::Update(float DeltaTime)
 
     m_Mesh->SetWorldPosition(Pos);
 
-    m_Mesh->AddWorldScale(0.01f, 0.f, 0.01f);
+    m_Mesh->AddWorldScale(0.2f, 0.f, 0.2f);
 
     // Vector3 Size = m_Mesh->GetWorldScale() / 2;
    // m_Collider->AddWorldScale(Size);
@@ -90,7 +90,7 @@ void CElectricRing::PostUpdate(float DeltaTime)
 
     Vector3 RingSize = m_Mesh->GetMeshSize();
 
-    if (RingSize.x > 1000.f)
+    if (RingSize.x > 500.f)
     {
         Destroy();
     }

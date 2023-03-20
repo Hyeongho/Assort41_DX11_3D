@@ -8,6 +8,7 @@
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "Component/ColliderCube.h"
+#include "KingJellyfish.h"
 
 CJellyfish::CJellyfish()
 {
@@ -19,6 +20,7 @@ CJellyfish::CJellyfish()
 CJellyfish::CJellyfish(const CJellyfish& Obj)
 {
     m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+    m_Cube = (CColliderCube*)FindComponent("Cube");
 }
 
 CJellyfish::~CJellyfish()
@@ -52,6 +54,15 @@ bool CJellyfish::Init()
     m_Animation->AddAnimation("Jellyfish_Attack", "Jellyfish_Attack", 1.f, 1.f, true);
     m_Animation->AddAnimation("Jellyfish_Death", "Jellyfish_Death", 1.f, 1.f, true);
 
+    m_Cube->SetCollisionCallback<CJellyfish>(ECollision_Result::Collision, this, &CJellyfish::Collision);
+
+    CGameObject* KingJellyfish = m_Scene->FindObject("KingJellyfish");
+
+    if (KingJellyfish)
+    {
+        m_Mesh->SetWorldPosition(KingJellyfish->GetWorldPos());
+    }
+
     return true;
 }
 
@@ -61,6 +72,29 @@ void CJellyfish::Update(float DeltaTime)
 
     // 해파리 몬스터는 Idle 모션이 따로 없기 때문에 Attack 모션을 사용
     m_Animation->ChangeAnimation("Jellyfish_Attack");
+
+    CGameObject* Player = m_Scene->FindObject("Player");
+
+    Vector3 PlayerPos = Player->GetWorldPos();
+    Vector3 MonsterPos = m_Mesh->GetWorldPos();
+
+    if (!Player)
+    {
+        return;
+    }
+
+    Vector3 Dir = PlayerPos - MonsterPos;
+
+    Dir.y = 0.f;
+
+    Dir.Normalize();
+
+    float Degree = atan2(GetWorldPos().z - PlayerPos.z, GetWorldPos().x - PlayerPos.x);
+    Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
+
+    SetWorldRotationY(Degree);
+
+    AddWorldPosition(Dir * g_DeltaTime * 100.f);
 }
 
 void CJellyfish::PostUpdate(float DeltaTime)
@@ -83,13 +117,19 @@ void CJellyfish::Load(FILE* File)
     CGameObject::Load(File);
 }
 
-void CJellyfish::Attack()
-{ 
-    // 플레이어와 충돌했을 때 재생
-    // CResourceManager::GetInst()->SoundPlay("Jellyfish_Attack");
+void CJellyfish::Collision(const CollisionResult& result)
+{
+    if (result.Dest->GetCollisionProfile()->Name == "Player")
+    {
+        CResourceManager::GetInst()->SoundPlay("Jellyfish_Attack");
+    }
+
+    if (result.Dest->GetCollisionProfile()->Name == "PlayerAttack")
+    {
+        m_Animation->ChangeAnimation("Jellyfish_Death");
+
+        Destroy();
+    }
+
 }
 
-void CJellyfish::Death()
-{
-    m_Animation->ChangeAnimation("Jellyfish_Death");
-}

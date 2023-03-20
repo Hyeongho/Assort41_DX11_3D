@@ -1,16 +1,6 @@
 #pragma once
 #include "GameObject\GameObject.h"
 
-enum class EKingJellyfish
-{
-	Idle,
-	Damage,
-	Angry,
-	OnGround,
-	SpawnJellyfish,
-	Attack
-};
-
 class CKingJellyfish :
 	public CGameObject
 {
@@ -37,8 +27,6 @@ private:
 	CSharedPtr<class CElectricRing>		m_ElectricRing;
 	class CJellyfish*					m_Jellyfish[6];
 	CSharedPtr<class CPlayer>			m_Player;
-
-	EKingJellyfish	m_Motion;
 
 public:
 	bool			m_Attack;
@@ -96,7 +84,6 @@ public:
 	void SpawnJellyfish2(); // 공격 패턴2, 해파리 몬스터를 생성
 	void SpawnJellyfish3(); // 공격 패턴2, 해파리 몬스터를 생성
 	void SpawnJellyfish4(); // 공격 패턴2, 해파리 몬스터를 생성
-	void SpawnJellyfish5(); // 공격 패턴2, 해파리 몬스터를 생성
 	void ReSpawn(); // 목욕탕으로 이동
 };
 

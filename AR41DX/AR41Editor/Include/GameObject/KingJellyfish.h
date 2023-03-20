@@ -1,16 +1,6 @@
 #pragma once
 #include "GameObject\GameObject.h"
 
-enum class EKingJellyfish
-{
-	Idle,
-	Damage,
-	Angry,
-	OnGround,
-	SpawnJellyfish,
-	Attack
-};
-
 class CKingJellyfish :
 	public CGameObject
 {
@@ -31,12 +21,12 @@ private:
 	CSharedPtr<class CAnimationMeshComponent>	m_EffectMesh;
 	CSharedPtr<class CAnimation>		m_Animation;
 	CSharedPtr<class CAnimation>		m_EffectMeshAnimation;
-	CSharedPtr<class CColliderOBB3D>	m_Cube;
+	CSharedPtr<class CColliderOBB3D>	m_AttackCollision;
+	CSharedPtr<class CColliderOBB3D>	m_DetectCollision;
+	CSharedPtr<class CColliderOBB3D>	m_PoolCollision;
 	CSharedPtr<class CElectricRing>		m_ElectricRing;
-	CSharedPtr<class CJellyfish>		m_Jellyfish;
-
-
-	EKingJellyfish	m_Motion;
+	class CJellyfish* m_Jellyfish[6];
+	CSharedPtr<class CPlayer>			m_Player;
 
 public:
 	bool			m_Attack;
@@ -49,6 +39,7 @@ public:
 	bool			m_Electric;
 	bool			m_Damage;
 	bool			m_Pool;
+	bool			m_ReSpawn;
 
 public:
 	float	m_AttackTime; // 공격 모션 중 쿨타임
@@ -78,9 +69,9 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
-	void Collision(const CollisionResult& result);
+	void AttackCollision(const CollisionResult& result);
 	void DetectCollision(const CollisionResult& result);
-
+	void PoolCollision(const CollisionResult& result);
 
 public:
 	void Idle();
@@ -89,5 +80,10 @@ public:
 	void OnGround();
 	void Attack(); // 공격 패턴1, 땅으로 착지하며 원 모양의 충격파를 날림
 	void SpawnJellyfish(); // 공격 패턴2, 해파리 몬스터를 생성
+	void SpawnJellyfish1(); // 공격 패턴2, 해파리 몬스터를 생성
+	void SpawnJellyfish2(); // 공격 패턴2, 해파리 몬스터를 생성
+	void SpawnJellyfish3(); // 공격 패턴2, 해파리 몬스터를 생성
+	void SpawnJellyfish4(); // 공격 패턴2, 해파리 몬스터를 생성
+	void ReSpawn(); // 목욕탕으로 이동
 };
 
