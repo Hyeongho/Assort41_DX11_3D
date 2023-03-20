@@ -22,6 +22,6 @@ public:
 	virtual void Load(FILE* File);
 
 private: // Collision
-	virtual void PlayerCollisionItem(const CollisionResult& result);
+	virtual void Collision_Player(const CollisionResult& result); // 아이템에 닿았을 때 습득 처리
 };
 

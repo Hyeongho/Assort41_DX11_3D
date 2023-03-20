@@ -36,5 +36,5 @@ private:
 	void CreateFlowers();
 
 private: // Collision
-	void AttackedCollision(const CollisionResult& result);
+	void Collision_PlayerAttack(const CollisionResult& result);
 };
