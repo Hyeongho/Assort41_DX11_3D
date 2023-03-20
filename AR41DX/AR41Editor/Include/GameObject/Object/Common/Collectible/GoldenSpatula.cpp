@@ -2,6 +2,8 @@
 
 #include "Component/ColliderOBB3D.h"
 #include "Component/StaticMeshComponent.h"
+#include "Scene/Scene.h"
+#include "../../../Player.h"
 
 CGoldenSpatula::CGoldenSpatula()
 {
@@ -42,10 +44,12 @@ bool CGoldenSpatula::Init()
 	m_Mesh->AddChild(m_Collider);
 	m_Mesh->SetMesh("GoldenSpatula");
 
+
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
 	m_Collider->SetCollisionCallback<CGoldenSpatula>(ECollision_Result::Collision, this, &CGoldenSpatula::Collision_Player);
+
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
@@ -82,4 +86,16 @@ void CGoldenSpatula::Load(FILE* File)
 void CGoldenSpatula::Collision_Player(const CollisionResult& result)
 {
 	CCollectibleItems::Collision_Player(result);
+
+	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+
+	if (Player) {
+		// 플레이어 황금 뒤집개 추가
+		// Player->AddGoldenSpatula();
+	}
+
+	// 컷씬 실행
+
+	// 오브젝트 삭제처리
+	Destroy();
 }

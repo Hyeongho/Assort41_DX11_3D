@@ -5,6 +5,7 @@
 #include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
 #include "../../UI/DialogUI.h"
+#include "../Object/Common/Collectible/GoldenSpatula.h"
 
 CSquidward::CSquidward()
 {
@@ -49,6 +50,7 @@ void CSquidward::Start()
     CInput::GetInst()->AddBindFunction<CSquidward>("F6", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk, m_Scene);
     CInput::GetInst()->AddBindFunction<CSquidward>("F7", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk_Idle, m_Scene);
     CInput::GetInst()->AddBindFunction<CSquidward>("F8", Input_Type::Up, this, &CSquidward::ChangeAnim_Idle, m_Scene);
+    CInput::GetInst()->AddBindFunction<CSquidward>("F9", Input_Type::Up, this, &CSquidward::CreateSpatula, m_Scene);
 #endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CSquidward>("F", Input_Type::Up, this, &CSquidward::StartDialog, m_Scene);
@@ -60,15 +62,15 @@ bool CSquidward::Init()
 
     m_AnimMesh->SetMesh("Squidward");
 
-    Vector3 colSize(1.f, 1.f, 1.f);
+    Vector3 ColSize = m_AnimMesh->GetMeshSize();
 
     if (m_AnimMesh->GetMeshSize().x >= m_AnimMesh->GetMeshSize().z)
-        colSize *= m_AnimMesh->GetMeshSize().x;
+        ColSize.z = m_AnimMesh->GetMeshSize().x;
     else
-        colSize *= m_AnimMesh->GetMeshSize().z;
+        ColSize.x = m_AnimMesh->GetMeshSize().z;
 
-    m_Collider->SetBoxHalfSize(colSize / 2.f);
-    m_Collider->SetRelativePositionY(colSize.y / 2.f);
+    m_Collider->SetBoxHalfSize(ColSize / 2.f);
+    m_Collider->SetRelativePositionY(ColSize.y / 2.f);
 
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("SquidwardAnimation");
 
@@ -238,4 +240,8 @@ void CSquidward::ChangeAnim_Idle()
 
 void CSquidward::CreateSpatula()
 {
+    CGoldenSpatula* GoldenSpatula = m_Scene->CreateObject<CGoldenSpatula>("GoldenSpatula_Squidward");
+
+    GoldenSpatula->SetWorldPosition(GetWorldPos());
+    GoldenSpatula->SetWorldPositionZ(GetWorldPos().z - m_AnimMesh->GetMeshSize().z);
 }

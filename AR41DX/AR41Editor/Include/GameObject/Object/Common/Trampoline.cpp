@@ -48,7 +48,7 @@ bool CTrampoline::Init()
 	m_Collider->SetCollisionCallback<CTrampoline>(ECollision_Result::Collision, this, &CTrampoline::Collision_Bounce);
 	m_Collider->SetCollisionCallback<CTrampoline>(ECollision_Result::Release, this, &CTrampoline::Release_Bounce);
 
-	m_Collider->SetInheritRotX(true) ;
+	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
 

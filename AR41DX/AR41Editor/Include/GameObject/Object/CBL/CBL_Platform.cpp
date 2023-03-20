@@ -2,6 +2,7 @@
 
 #include "Component/ColliderOBB3D.h"
 #include "Component/StaticMeshComponent.h"
+#include "Device.h"
 #include "Input.h"
 #include "Scene/Scene.h"
 #include "../../Player.h"
@@ -60,6 +61,14 @@ bool CCBL_Platform::Init()
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
+
+
+	Vector2 Ratio = CDevice::GetInst()->GetHdRsRatio();
+	Ratio.x = 1.f / Ratio.x;
+	Ratio.y = 1.f / Ratio.y;
+
+	SetRelativeScale(Ratio);
+	m_Collider->SetRelativeScale(Ratio);
 	
 	return true;
 }
@@ -72,7 +81,6 @@ void CCBL_Platform::Update(float DeltaTime)
 		if (m_RollCount >= 1080.f) {
 			m_Roll = false;
 			m_RollCount = 0.f;
-			SetWorldRotationZ(0.f);
 		}
 
 		float RotSpeed = 0.f;
@@ -87,6 +95,10 @@ void CCBL_Platform::Update(float DeltaTime)
 		AddWorldRotationZ(RotSpeed);
 		m_RollCount += abs(RotSpeed);
 
+	}
+	else {
+		SetWorldRotationZ(0.f);
+		SetWorldRotationX(0.f);
 	}
 }
 

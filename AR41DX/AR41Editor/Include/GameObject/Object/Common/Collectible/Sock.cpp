@@ -2,6 +2,8 @@
 
 #include "Component/ColliderOBB3D.h"
 #include "Component/StaticMeshComponent.h"
+#include "Scene/Scene.h"
+#include "../../../Player.h"
 
 CSock::CSock()
 {
@@ -82,5 +84,15 @@ void CSock::Load(FILE* File)
 void CSock::Collision_Player(const CollisionResult& result)
 {
 	CCollectibleItems::Collision_Player(result);
+
+	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+
+	if (Player) {
+		// 플레이어 양말 추가
+		// Player->AddSock();
+	}
+
+	// 오브젝트 삭제처리
+	Destroy();
 }
 

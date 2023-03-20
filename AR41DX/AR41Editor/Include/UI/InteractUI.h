@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 
 #include "UI/UIWindow.h"
 
 enum class EInteractTarget {
 	Npc,			// NPC
-	Sponge_House,	// ½ºÆùÁö¹ä Áı
-	Squid_House,	// Â¡Â¡ÀÌ Áı
-	Patric_House,	// ¶×ÀÌ Áı
-	Door,			// ±âÅ¸ ¹®
-	Gate,			// Â÷´Ü±â
-	Teleport_Box,	// ¼ø°£ÀÌµ¿ ¹Ú½º
-	Bus_Stop,		// ¹ö½º Á¤·ù¼Ò
+	Sponge_House,	// ìŠ¤í°ì§€ë°¥ ì§‘
+	Squid_House,	// ì§•ì§•ì´ ì§‘
+	Patric_House,	// ëš±ì´ ì§‘
+	Door,			// ê¸°íƒ€ ë¬¸
+	Gate,			// ì°¨ë‹¨ê¸°
+	Teleport_Box,	// ìˆœê°„ì´ë™ ë°•ìŠ¤
+	Bus_Stop,		// ë²„ìŠ¤ ì •ë¥˜ì†Œ
 	End
 };
 
@@ -24,9 +24,12 @@ protected:
 	CInteractUI();
 	CInteractUI(const CInteractUI& Window);
 	virtual ~CInteractUI();
-	bool m_IsActive;
+
 protected:
 	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapInteractUI;
+
+private:
+	bool m_IsActive;
 
 public:
 	virtual void Start();
@@ -52,7 +55,7 @@ public :
 	//{
 	//	m_IsActive = b;
 	//}
-	//
+
 	void ActiveInteractUI();
 	void InActiveInteractUI();
 

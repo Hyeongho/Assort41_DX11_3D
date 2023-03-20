@@ -5,6 +5,7 @@
 #include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
 #include "../../UI/DialogUI.h"
+#include "../Object/Common/Collectible/Sock.h"
 
 CPatric::CPatric()
 {
@@ -47,6 +48,7 @@ void CPatric::Start()
     CInput::GetInst()->AddBindFunction<CPatric>("F4", Input_Type::Up, this, &CPatric::ChangeAnim_Scowl_Start, m_Scene);
     CInput::GetInst()->AddBindFunction<CPatric>("F5", Input_Type::Up, this, &CPatric::ChangeAnim_Talk, m_Scene);
     CInput::GetInst()->AddBindFunction<CPatric>("F6", Input_Type::Up, this, &CPatric::ChangeAnim_Thinking_Start, m_Scene);
+    CInput::GetInst()->AddBindFunction<CPatric>("F7", Input_Type::Up, this, &CPatric::CreateSock, m_Scene);
 #endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CPatric>("F", Input_Type::Up, this, &CPatric::StartDialog, m_Scene);
@@ -58,15 +60,15 @@ bool CPatric::Init()
 
     m_AnimMesh->SetMesh("Patric_Npc");
 
-    Vector3 colSize(1.f, 1.f, 1.f);
+    Vector3 ColSize = m_AnimMesh->GetMeshSize();
 
     if (m_AnimMesh->GetMeshSize().x >= m_AnimMesh->GetMeshSize().z)
-        colSize *= m_AnimMesh->GetMeshSize().x;
+        ColSize.z = m_AnimMesh->GetMeshSize().x;
     else
-        colSize *= m_AnimMesh->GetMeshSize().z;
+        ColSize.x = m_AnimMesh->GetMeshSize().z;
 
-    m_Collider->SetBoxHalfSize(colSize / 2.f);
-    m_Collider->SetRelativePositionY(colSize.y / 2.f);
+    m_Collider->SetBoxHalfSize(ColSize / 2.f);
+    m_Collider->SetRelativePositionY(ColSize.y / 2.f);
 
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("PatricNpcAnimation");
 
@@ -189,4 +191,12 @@ void CPatric::ChangeAnim_Thinking_Start()
 void CPatric::ChangeAnim_Thinking_Loop()
 {
     m_Animation->ChangeAnimation("Patric_Npc_Thinking_Loop");
+}
+
+void CPatric::CreateSock()
+{
+    CSock* Sock = m_Scene->CreateObject<CSock>("Sock_Patrick");
+
+    Sock->SetWorldPosition(GetWorldPos());
+    Sock->SetWorldPositionZ(GetWorldPos().z - m_AnimMesh->GetMeshSize().z);
 }
