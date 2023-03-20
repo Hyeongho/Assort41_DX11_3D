@@ -270,9 +270,6 @@
     <ClCompile Include="GameObject\Fodder.cpp">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Jellyfish.cpp">
-      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Monster.cpp">
       <Filter>03. GameObject\02. Monster</Filter>
     </ClCompile>
@@ -432,6 +429,15 @@
     <ClCompile Include="GameObject\Object\Gate.cpp">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Object\Pool.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\ElectricRing.cpp">
+      <Filter>03. GameObject\03. BossMonster\01. KingJellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Jellyfish.cpp">
+      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -568,9 +574,6 @@
     </ClInclude>
     <ClInclude Include="GameObject\Fodder.h">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Jellyfish.h">
-      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Monster.h">
       <Filter>03. GameObject\02. Monster</Filter>
@@ -739,6 +742,15 @@
     </ClInclude>
     <ClInclude Include="GameObject\Object\Gate.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\Pool.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\ElectricRing.h">
+      <Filter>03. GameObject\03. BossMonster\01. KingJellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Jellyfish.h">
+      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

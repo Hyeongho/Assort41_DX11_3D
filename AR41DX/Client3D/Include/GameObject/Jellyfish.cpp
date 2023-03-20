@@ -8,6 +8,7 @@
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "Component/ColliderCube.h"
+#include "KingJellyfish.h"
 
 CJellyfish::CJellyfish()
 {
@@ -19,6 +20,7 @@ CJellyfish::CJellyfish()
 CJellyfish::CJellyfish(const CJellyfish& Obj)
 {
     m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+    m_Cube = (CColliderCube*)FindComponent("Cube");
 }
 
 CJellyfish::~CJellyfish()
@@ -52,7 +54,15 @@ bool CJellyfish::Init()
     m_Animation->AddAnimation("Jellyfish_Attack", "Jellyfish_Attack", 1.f, 1.f, true);
     m_Animation->AddAnimation("Jellyfish_Death", "Jellyfish_Death", 1.f, 1.f, true);
 
-    return true;
+
+    CGameObject* KingJellyfish = m_Scene->FindObject("KingJellyfish");
+
+    if (KingJellyfish)
+    {
+        m_Mesh->SetWorldPosition(KingJellyfish->GetWorldPos());
+    }
+
+    return true; 
 }
 
 void CJellyfish::Update(float DeltaTime)
@@ -61,6 +71,8 @@ void CJellyfish::Update(float DeltaTime)
 
     // 해파리 몬스터는 Idle 모션이 따로 없기 때문에 Attack 모션을 사용
     m_Animation->ChangeAnimation("Jellyfish_Attack");
+
+   // AddWorldPositionX(100.f * DeltaTime);
 }
 
 void CJellyfish::PostUpdate(float DeltaTime)
