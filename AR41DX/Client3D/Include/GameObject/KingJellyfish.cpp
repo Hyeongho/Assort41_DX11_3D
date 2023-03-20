@@ -84,6 +84,7 @@ bool CKingJellyfish::Init()
 
     m_AttackCollision->SetCollisionProfile("Monster");
     m_DetectCollision->SetCollisionProfile("Monster");
+    m_PoolCollision->SetCollisionProfile("Monster");
 
     m_AttackCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::AttackCollision);
     m_DetectCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::DetectCollision);
@@ -555,6 +556,8 @@ void CKingJellyfish::DetectCollision(const CollisionResult& result)
 {
     if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
     {
+        m_Idle = false;
+
         Attack();
     }
 }
