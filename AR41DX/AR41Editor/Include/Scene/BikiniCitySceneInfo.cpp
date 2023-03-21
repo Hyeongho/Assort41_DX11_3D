@@ -53,9 +53,6 @@ bool CBikiniCitySceneInfo::Init()
 
 	CTiki_Wood* Tiki_Wood = m_Owner->CreateObject<CTiki_Wood>("Tiki_Wood");
 	Tiki_Wood->SetWorldPosition(9300.f, 0.f, 14500.f);
-	//애니메이션 문제
-	//CInteractButton* InteractButton = m_Owner->CreateObject<CInteractButton>("InteractButton");
-	//InteractButton->SetWorldPosition(16500.f, 0.f, 12200.f);
 
 	CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
 	Patric->SetWorldPosition(15000.f, 0.f, 14000.f);
@@ -67,8 +64,13 @@ bool CBikiniCitySceneInfo::Init()
 	CSquidward* Squidward = m_Owner->CreateObject<CSquidward>("Squidward");
 	Squidward->SetWorldPosition(15600, 0.f, 13400.f);
 
-	CBusDriver* BusDriver = m_Owner->CreateObject<CBusDriver>("BusDriver");
-	BusDriver->SetWorldPosition(9400.f, 0.f, 12700.f);
+	CBusStop* BusStop = m_Owner->CreateObject<CBusStop>("BusStop");
+	BusStop->SetWorldPosition(9200.f, 0.f, 13400.f);
+
+	CInteractButton* InteractButton = m_Owner->CreateObject<CInteractButton>("InteractButton");
+	InteractButton->SetWorldPosition(9510.f, 0.f, 13450.f);
+	InteractButton->SetWorldRotationY(20.f);
+	InteractButton->SetInteractObject(EInteractObjectList::BusStop, "BusStop");
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
@@ -209,11 +211,11 @@ bool CBikiniCitySceneInfo::Init()
 	fountainCube->SetBoxHalfSize(500.f, 200.f, 500.f);
 	fountainCube->SetCollisionProfile("Wall");
 
-	CGameObject* TaxiStop = m_Owner->CreateObject<CGameObject>("TaxiStop");
-	CStaticMeshComponent* TaxiStopMesh = TaxiStop->CreateComponent<CStaticMeshComponent>("TaxiStopMesh");
-	TaxiStopMesh->SetMesh("TaxiStop");
-	TaxiStopMesh->SetWorldPosition(9500.f, 0.f, 13300.f);
-	TaxiStopMesh->SetWorldRotationY(20.f);
+	//CGameObject* TaxiStop = m_Owner->CreateObject<CGameObject>("TaxiStop");
+	//CStaticMeshComponent* TaxiStopMesh = TaxiStop->CreateComponent<CStaticMeshComponent>("TaxiStopMesh");
+	//TaxiStopMesh->SetMesh("TaxiStop");
+	//TaxiStopMesh->SetWorldPosition(9500.f, 0.f, 13300.f);
+	//TaxiStopMesh->SetWorldRotationY(20.f);
 
 	CGameObject* Missile = m_Owner->CreateObject<CGameObject>("Missile");
 	CStaticMeshComponent* MissileMesh = Missile->CreateComponent<CStaticMeshComponent>("MissileMesh");

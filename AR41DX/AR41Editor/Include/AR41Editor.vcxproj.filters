@@ -357,9 +357,6 @@
     <ClCompile Include="UI\TitleSceneUI.cpp">
       <Filter>05. UI\01. Menu</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object\BusStop.cpp">
-      <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\EditorDefaultScene.cpp">
       <Filter>02. Scene\05. Test</Filter>
     </ClCompile>
@@ -426,12 +423,6 @@
     <ClCompile Include="GameObject\TeeterRock.cpp">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object\IceCube.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\SpongebobMissile.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Object\Gate.cpp">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClCompile>
@@ -449,6 +440,15 @@
     </ClCompile>
     <ClCompile Include="Scene\KingJellyfishSceneInfo.cpp">
       <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\SpongebobMissile.cpp">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\IceCube.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\BB\BusStop.cpp">
+      <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -683,9 +683,6 @@
     <ClInclude Include="UI\TitleSceneUI.h">
       <Filter>05. UI\01. Menu</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\BusStop.h">
-      <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\EditorDefaultScene.h">
       <Filter>02. Scene\05. Test</Filter>
     </ClInclude>
@@ -752,12 +749,6 @@
     <ClInclude Include="GameObject\TeeterRock.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\IceCube.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\SpongebobMissile.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Object\Gate.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
@@ -775,6 +766,15 @@
     </ClInclude>
     <ClInclude Include="Scene\KingJellyfishSceneInfo.h">
       <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\SpongebobMissile.h">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\IceCube.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\BB\BusStop.h">
+      <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
