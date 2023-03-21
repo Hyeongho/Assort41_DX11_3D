@@ -28,8 +28,19 @@ private:
 	bool	m_DetectOn;
 	bool	m_AttackOn;
 	bool	m_WeaponAttack; // 무기공격여부.
+	bool	m_DebrisOn;
 
 public:
+	void SetDebrisOn(bool DebrisOn)
+	{
+		m_DebrisOn = DebrisOn;
+	}
+
+	bool GetDebrisOn()
+	{
+	  return m_DebrisOn;
+	}
+
 	void SetDetectOn(bool DetectOn)
 	{
 		m_DetectOn = DetectOn;

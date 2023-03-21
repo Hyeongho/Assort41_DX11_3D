@@ -17,7 +17,8 @@ CHammer::CHammer() :
 	//m_Stunned(false)
 	m_DetectOn(false),
 	m_AttackOn(false),
-	m_WeaponAttack(false)
+	m_WeaponAttack(false),
+	m_DebrisOn(false)
 {
 	SetTypeID<CHammer>();
 
@@ -175,11 +176,19 @@ void CHammer::Update(float DeltaTime)
 	//		m_Stunned = false;
 	//	}
 	//}
+	
+
+
+
+	
 }
 
 void CHammer::PostUpdate(float DeltaTime)
 {
 	CMonster::PostUpdate(DeltaTime);
+
+
+	
 }
 
 CHammer* CHammer::Clone() const
@@ -254,6 +263,8 @@ void CHammer::WeaponAttackOn()
 
 void CHammer::Dead()
 {
+	m_Mesh->AddWorldPositionZ(150.f);
+
 	m_Animation->ChangeAnimation("Hammer_Dead");
 
 	SetMoveSpeed(0.f);
@@ -267,7 +278,7 @@ void CHammer::Debris()
 	m_Mesh->ClearMaterial();
 
 	CHammerDebris* Debris = m_Scene->CreateObject<CHammerDebris>("HammerDebris");
-	Debris->SetWorldPosition(HammerPos);
+	Debris->SetWorldPosition(HammerPos.x, HammerPos.y + 100.f, HammerPos.z);
 }
 
 void CHammer::Collision_Detect_ChaseOn(const CollisionResult& result)

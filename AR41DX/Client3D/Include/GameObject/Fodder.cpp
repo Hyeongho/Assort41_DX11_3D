@@ -214,6 +214,8 @@ void CFodder::WeaponAttackOn()
 
 void CFodder::Dead()
 {
+	m_Mesh->AddWorldPositionZ(150.f);
+
 	m_Animation->ChangeAnimation("Fodder_Dead");
 
 	SetMoveSpeed(0.f);
