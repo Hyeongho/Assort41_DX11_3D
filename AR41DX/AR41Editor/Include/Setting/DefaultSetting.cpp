@@ -3,7 +3,7 @@
 #include "../GameObject/Weapon.h"
 #include "../GameObject/Bullet.h"
 #include "../GameObject/PatrickObject.h"
-//#include "../GameObject/KingJellyfish.h"
+#include "../GameObject/KingJellyfish.h"
 #include "../GameObject/Jellyfish.h"
 #include "../GameObject/Fodder.h"
 #include "../GameObject/Hammer.h"
@@ -179,6 +179,9 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateChannel("Wall", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Platform", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Collectible", ECollision_Interaction::Collision);
+
+    CCollisionManager::GetInst()->CreateChannel("Pool", ECollision_Interaction::Collision);
+
     CCollisionManager::GetInst()->CreateChannel("Npc", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Trampoline", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Button", ECollision_Interaction::Collision);
@@ -192,6 +195,9 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateProfile("Wall", "Wall", true);
     CCollisionManager::GetInst()->CreateProfile("Platform", "Platform", true);
     CCollisionManager::GetInst()->CreateProfile("Collectible", "Collectible", true);
+    
+    CCollisionManager::GetInst()->CreateProfile("Pool", "Pool", true);
+
     CCollisionManager::GetInst()->CreateProfile("Npc", "Npc", true);
     CCollisionManager::GetInst()->CreateProfile("Trampoline", "Trampoline", true);
     CCollisionManager::GetInst()->CreateProfile("Button", "Button", true);
@@ -247,6 +253,15 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "Wall", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "Collectible", ECollision_Interaction::Ignore);
+
+    CCollisionManager::GetInst()->SetCollisionInteraction("Collectible", "Collectible", ECollision_Interaction::Ignore);
+
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Player", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "PlayerAttack", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "MonsterAttack", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Wall", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Platform", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Collectible", ECollision_Interaction::Ignore);
 
 }
 
@@ -511,6 +526,7 @@ void CDefaultSetting::LoadKingJellyfish()
     // CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Shield_Down", false, "KingJellyfish/SFX_Boss_JFK_Shield_Down.ogg", SOUND_PATH);
     // CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Shield_Up", false, "KingJellyfish/SFX_Boss_JFK_Shield_Up.ogg", SOUND_PATH);
 
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "KingJellyfish_Electric", TEXT("KingJellyfish/KingJellyfish_Electric.msh"), MESH_PATH);
 
 }
 

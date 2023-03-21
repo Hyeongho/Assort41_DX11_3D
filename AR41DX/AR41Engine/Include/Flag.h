@@ -106,6 +106,8 @@ enum class ECollision_Channel
 	Monster,
 	MonsterAttack,
 	Ground,
+	Pool,
+	DetectArea,
 	Wall,
 	Collectible,
 	Platform,
