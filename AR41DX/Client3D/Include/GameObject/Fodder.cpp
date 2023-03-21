@@ -219,6 +219,7 @@ void CFodder::Dead()
 	m_Animation->ChangeAnimation("Fodder_Dead");
 
 	SetMoveSpeed(0.f);
+	//SetVelocity(100.f);
 }
 
 void CFodder::Debris()
