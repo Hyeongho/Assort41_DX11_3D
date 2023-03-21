@@ -9,7 +9,6 @@ struct PlayerData
 	int Socks; // 양말
 	int Fritter; // 뒤집개
 	int Glittering; // 반짝이
-	Vector3		RespawnPos; //kbj checkpoint
 
 	PlayerData() 
 		: MaxHP(5)
@@ -26,13 +25,11 @@ struct PlayerData
 		Socks = v.Socks;
 		Fritter = v.Fritter;
 		Glittering = v.Glittering;
-		RespawnPos = v.RespawnPos;
 		return *this;
 	}
 	bool operator == (const PlayerData& v)	const
 	{
-		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering
-			|| RespawnPos!= v.RespawnPos)
+		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering)
 		{
 			return false;
 		}
@@ -40,8 +37,7 @@ struct PlayerData
 	}
 	bool operator != (const PlayerData& v)	const
 	{
-		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering
-			|| RespawnPos != v.RespawnPos)
+		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering)
 		{
 			return true;
 		}
@@ -55,14 +51,6 @@ enum class EMain_Character
 	Patrick,
 	Sandy,
 	Max,
-};
-
-enum class EKeyDir
-{
-	Up= 0x1,  // hex for 0000 0001 
-	Down = 0x2,  // hex for 0000 0010
-	Left = 0x4,  // hex for 0000 0100
-	Right = 0x8,  // hex for 0000 1000
 };
 
 class CPlayer : public CGameObject
@@ -83,6 +71,7 @@ protected:
 	CSharedPtr<class CColliderCube> m_HeadCube;	//spongebob head
 	CSharedPtr<class CColliderCube> m_TailCube;	//spongebob bash
 	CSharedPtr<class CColliderOBB3D> m_FrontCube;	//atk
+	CSharedPtr<class CParticleComponent> m_Particle;
 
 	CSharedPtr<class CWeapon>	m_Weapon;
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
@@ -95,10 +84,12 @@ protected:
 	PlayerData m_LoadData;
 	EMain_Character m_MainCharacter;
 	CollisionResult m_WallCollision;	//벽이랑 부딪히고 있는경우
+	Vector3		m_RespawnPos; //kbj checkpoint
 	float m_Speed;
 	float m_CameraSpeed;
 	int m_KeyCount;
 	int m_JumpCount;
+	bool m_IsStop;
 	bool m_IsLoading;	//load check kbj
 	bool m_IsDoubleJump;	
 	bool m_OnCollision;
@@ -169,13 +160,13 @@ public:
 
 	void SetRespawnPos(const Vector3& vec)
 	{
-		m_PlayerData.RespawnPos = vec;
+		m_RespawnPos = vec;
 	}
 	void SetRespawnPos(float x, float y, float z)
 	{
-		m_PlayerData.RespawnPos.x = x;
-		m_PlayerData.RespawnPos.y = y;
-		m_PlayerData.RespawnPos.z = z;
+		m_RespawnPos.x = x;
+		m_RespawnPos.y = y;
+		m_RespawnPos.z = z;
 	}
 
 	void SetCanPickUp(bool b)
@@ -196,10 +187,7 @@ public:
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
-	void KeyUpUp();
-	void KeyDownUp();
-	void KeyLeftUp();
-	void KeyRightUp();
+	void KeyUp();
 	void JumpDown();
 	void JumpPush(); 	// Sandy
 	void JumpUp(); 		// Sandy
@@ -217,13 +205,18 @@ public:
 	// Spongebob
 	void Headbutt();
 	void Missile();
+	void MissileLaunch();
 
 	// Patrick
+	void Patrick_PickUp();
 	void Patrick_Throw();
 
 	// Change Charater
 	void ChangeSpongebob();
 	void ChangePatrick();
 	void ChangeSandy();
+
+
+	void DebugF1();
 };
 

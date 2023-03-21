@@ -82,6 +82,7 @@ void CPatrickObject::Load(FILE* File)
 void CPatrickObject::SetAngle(float f)
 {
 	SetWorldRotationY(f);
+	AddWorldPosition(sinf(DegreeToRadian(f)) * 100.f, 0.f, cosf(DegreeToRadian(f)) * 100.f);
 	m_Rigid->AddForce(sinf(DegreeToRadian(f)) * 400.f, 400.f, cosf(DegreeToRadian(f)) * 400.f);
 	m_Rigid->SetVelocity(sinf(DegreeToRadian(f)) * 400.f, 400.f, cosf(DegreeToRadian(f)) * 400.f);
 }

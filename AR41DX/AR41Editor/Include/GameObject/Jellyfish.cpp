@@ -18,6 +18,8 @@ CJellyfish::CJellyfish()
 }
 
 CJellyfish::CJellyfish(const CJellyfish& Obj)
+    : CGameObject(Obj)
+    , m_Animation(Obj.m_Animation)
 {
     m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
     m_Cube = (CColliderCube*)FindComponent("Cube");

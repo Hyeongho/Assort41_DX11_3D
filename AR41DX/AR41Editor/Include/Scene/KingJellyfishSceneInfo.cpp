@@ -5,6 +5,8 @@
 #include "Component/TerrainComponent.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/LightComponent.h"
+#include "../UI/DialogUI.h"
+#include "../UI/InteractUI.h"
 
 CKingJellyfishSceneInfo::CKingJellyfishSceneInfo()
 {
@@ -25,6 +27,9 @@ bool CKingJellyfishSceneInfo::Init()
 	GlobalLightComponent->SetRelativeRotation(0, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
+	m_Owner->GetViewport()->CreateUIWindow<CDialogUI>("DialogUI");
+	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
+
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 	Player->SetRespawnPos(10000.f, 0.f, 10000.f);
 	SetPlayerObject(Player);
@@ -34,7 +39,7 @@ bool CKingJellyfishSceneInfo::Init()
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
-	TerrainComponent->CreateTerrain(756, 623, 40.f, 40.f, TEXT("LandScape/ZellyFishField4.png"));
+	TerrainComponent->CreateTerrain(807, 604, 40.f, 40.f, TEXT("LandScape/ZellyFishField4.png"));
 
 	//CGameObject* Water = m_Owner->CreateObject<CGameObject>("Water");
 	//CStaticMeshComponent* WaterMesh = Water->CreateComponent<CStaticMeshComponent>("WaterMesh");

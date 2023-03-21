@@ -17,7 +17,7 @@ bool CTitleSceneInfo::Init()
 	CSceneInfo::Init();
 
 	// Sound Load
-	m_Owner->GetResource()->LoadSound("UI", "UI_Backward", false, "Sfx/SFX_UI_Backward_001.ogg");
+	m_Owner->GetResource()->LoadSound("UI", "UI_Backward", false, "Sfx/UI/SFX_UI_Backward_001.ogg");
 	m_Owner->GetResource()->LoadSound("BGM", "Title_Bgm", false, "Music/MUS_WavesSeagullsBg.ogg");
 	
 	CSound* Sound = m_Owner->GetResource()->FindSound("Title_Bgm");

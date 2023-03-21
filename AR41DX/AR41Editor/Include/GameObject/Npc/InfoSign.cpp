@@ -1,9 +1,12 @@
 #include "InfoSign.h"
 
 #include "Input.h"
-#include "Component/AnimationMeshComponent.h"
+#include "Component/StaticMeshComponent.h"
+#include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
 #include "../../UI/DialogUI.h"
+#include "../Object/Common/Collectible/GoldenSpatula.h"
+
 
 CInfoSign::CInfoSign()
 {
@@ -12,23 +15,30 @@ CInfoSign::CInfoSign()
 	m_ObjectTypeName = "InfoSign";
 
 	m_DialogCount = 0;
-	m_NpcType = ENpcList::MrKrabs;
+	m_NpcType = ENpcList::InfoSign;
 	m_NpcMapPos = EMapList::Bikini_Bottom;
 	m_EnableDialog = false;
-	m_NpcMeshType = MeshType::Animation;
+	m_NpcMeshType = MeshType::Static;
+
+	m_RotLeft = false;
+	m_RotRight = true;
+	m_InfoSignName = "";
 }
 
 CInfoSign::CInfoSign(const CInfoSign& Obj)
 	: CNpc(Obj)
 {
-	m_AnimMesh = (CAnimationMeshComponent*)FindComponent("Mesh");
-	m_Animation = (CAnimation*)FindComponent("InfoSignAnimation");
+	m_StaticMesh = (CStaticMeshComponent*)FindComponent("Mesh");
 
 	m_DialogCount = Obj.m_DialogCount;
 	m_NpcType = Obj.m_NpcType;
 	m_NpcMapPos = Obj.m_NpcMapPos;
 	m_EnableDialog = Obj.m_EnableDialog;
 	m_NpcMeshType = Obj.m_NpcMeshType;
+
+	m_RotLeft = Obj.m_RotLeft;
+	m_RotRight = Obj.m_RotRight;
+	m_InfoSignName = Obj.m_InfoSignName;
 }
 
 CInfoSign::~CInfoSign()
@@ -46,12 +56,42 @@ bool CInfoSign::Init()
 {
 	CNpc::Init();
 
+	m_StaticMesh->SetMesh("InfoSign");
+
+	Vector3 ColSize = m_StaticMesh->GetMeshSize();
+
+	if (m_StaticMesh->GetMeshSize().x >= m_StaticMesh->GetMeshSize().z)
+		ColSize.z = m_StaticMesh->GetMeshSize().x;
+	else
+		ColSize.x = m_StaticMesh->GetMeshSize().z;
+
+	m_Collider->SetBoxHalfSize(ColSize / 2.f);
+	m_Collider->SetRelativePositionY(ColSize.y / 2.f);
+
 	return true;
 }
 
 void CInfoSign::Update(float DeltaTime)
 {
 	CNpc::Update(DeltaTime);
+
+	int ZRot = (int)GetWorldRot().z;
+	ZRot %= 360;
+
+	if (ZRot == -22 && m_RotRight) {
+		m_RotLeft = true;
+		m_RotRight = false;
+	}
+
+	if (ZRot == -338 && m_RotLeft) {
+		m_RotLeft = false;
+		m_RotRight = true;
+	}
+
+	if (m_RotLeft)
+		AddWorldRotationZ(g_DeltaTime * 70.f);
+	if (m_RotRight)
+		AddWorldRotationZ(g_DeltaTime * -70.f);
 }
 
 void CInfoSign::PostUpdate(float DeltaTime)
@@ -84,4 +124,12 @@ void CInfoSign::DebugKeyF1()
 
 void CInfoSign::DebugKeyF2()
 {
+}
+
+void CInfoSign::CreateSpatula()
+{
+	CGoldenSpatula* GoldenSpatula = m_Scene->CreateObject<CGoldenSpatula>("GoldenSpatula_MrKrabs");
+
+	GoldenSpatula->SetWorldPosition(GetWorldPos());
+	GoldenSpatula->SetWorldPositionZ(GetWorldPos().z - m_StaticMesh->GetMeshSize().z);
 }

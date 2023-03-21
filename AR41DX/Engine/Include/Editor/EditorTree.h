@@ -179,6 +179,10 @@ public:
 		CEditorTreeItem<T>* parent = find->m_Parent;
 		if (!parent)
 		{
+			if(m_Root->m_vecChild.empty())
+			{
+				return;
+			}
 			CEditorTreeItem<T>* root = m_Root->m_vecChild[0];
 			size_t	size = m_Root->m_vecChild.size();
 			for (size_t i = 1; i < size; ++i)

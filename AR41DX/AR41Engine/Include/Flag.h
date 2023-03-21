@@ -102,12 +102,16 @@ enum class ECollision_Channel
 	Default,
 	Mouse,
 	Player,
+	PlayerAttack,
 	Monster,
+	MonsterAttack,
 	Ground,
 	Pool,
 	DetectArea,
-	Custom5,
-	Custom6,
+	Wall,
+	Collectible,
+	Platform,
+	Pufferfish,
 	Custom7,
 	Custom8,
 	Custom9,
@@ -225,7 +229,7 @@ enum class ENavNodeType
 };
 
 
-enum class EMapList // 김기백, 맵 전체 리스트
+enum class EMapList // 맵 전체 리스트
 {
 	Patric,				// 뚱이
 	DutchMan_Grave,		// 바다도깨비의 묘지
@@ -245,12 +249,13 @@ enum class EMapList // 김기백, 맵 전체 리스트
 	End
 };
 
-enum class ENpcList // 김기백, Npc 전체 리스트
+enum class ENpcList // Npc 전체 리스트
 {
 	MrKrabs,
 	Squidward,
 	Patric,
 	BusDriver,
+	InfoSign,
 	End
 };
 
