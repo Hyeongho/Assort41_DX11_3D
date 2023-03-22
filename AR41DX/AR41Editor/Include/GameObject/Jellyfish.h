@@ -17,6 +17,7 @@ private:
 	CSharedPtr<class CAnimation>		m_Animation;
 
 	CSharedPtr<class CColliderCube> m_Cube;
+	Vector3	m_MonsterPos;
 
 public:
 	virtual void Start();
@@ -29,5 +30,6 @@ public:
 
 private:
 	void Collision(const CollisionResult& result);
+	void Dead();
 };
 

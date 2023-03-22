@@ -9,8 +9,10 @@
 #include "Animation/Animation.h"
 #include "Component/ColliderCube.h"
 #include "KingJellyfish.h"
+#include "JellyfishElectric.h"
 
-CJellyfish::CJellyfish()
+CJellyfish::CJellyfish() :
+    m_MonsterPos(0.f, 0.f, 0.f)
 {
     SetTypeID<CJellyfish>();
 
@@ -30,6 +32,10 @@ CJellyfish::~CJellyfish()
 void CJellyfish::Start()
 {
     CGameObject::Start();
+
+    m_Cube->SetCollisionCallback<CJellyfish>(ECollision_Result::Collision, this, &CJellyfish::Collision);
+
+    m_Animation->SetCurrentEndFunction<CJellyfish>("Jellyfish_Death", this, &CJellyfish::Dead);
 }
 
 bool CJellyfish::Init()
@@ -52,9 +58,7 @@ bool CJellyfish::Init()
     m_Animation = m_Mesh->SetAnimation<CAnimation>("JellyfishAnimation");
 
     m_Animation->AddAnimation("Jellyfish_Attack", "Jellyfish_Attack", 1.f, 1.f, true);
-    m_Animation->AddAnimation("Jellyfish_Death", "Jellyfish_Death", 1.f, 1.f, true);
-
-    m_Cube->SetCollisionCallback<CJellyfish>(ECollision_Result::Collision, this, &CJellyfish::Collision);
+    m_Animation->AddAnimation("Jellyfish_Death", "Jellyfish_Death", 1.f, 1.f, false);
 
     CGameObject* KingJellyfish = m_Scene->FindObject("KingJellyfish");
 
@@ -76,14 +80,14 @@ void CJellyfish::Update(float DeltaTime)
     CGameObject* Player = m_Scene->FindObject("Player");
 
     Vector3 PlayerPos = Player->GetWorldPos();
-    Vector3 MonsterPos = m_Mesh->GetWorldPos();
+    m_MonsterPos = m_Mesh->GetWorldPos();
 
     if (!Player)
     {
         return;
     }
 
-    Vector3 Dir = PlayerPos - MonsterPos;
+    Vector3 Dir = PlayerPos - m_MonsterPos;
 
     Dir.y = 0.f;
 
@@ -93,6 +97,7 @@ void CJellyfish::Update(float DeltaTime)
     Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
 
     SetWorldRotationY(Degree);
+    SetWorldRotationX(-35.f);
 
     AddWorldPosition(Dir * g_DeltaTime * 100.f);
 }
@@ -121,6 +126,10 @@ void CJellyfish::Collision(const CollisionResult& result)
 {
     if (result.Dest->GetCollisionProfile()->Name == "Player")
     {
+        CJellyfishElectric* JellyfishElectric = m_Scene->CreateObject<CJellyfishElectric>("JellyfishElectric");
+
+        JellyfishElectric->SetWorldPosition(m_MonsterPos);
+
         CResourceManager::GetInst()->SoundPlay("Jellyfish_Attack");
     }
 
@@ -128,8 +137,11 @@ void CJellyfish::Collision(const CollisionResult& result)
     {
         m_Animation->ChangeAnimation("Jellyfish_Death");
 
-        Destroy();
     }
+}
 
+void CJellyfish::Dead()
+{
+    Destroy();
 }
 
