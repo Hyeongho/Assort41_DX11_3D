@@ -8,6 +8,7 @@
 #include "../GameObject/Npc/Patric.h"
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/BusDriver.h"
+#include "../GameObject/Npc/InfoSign.h"
 #include "../GameObject/Object/Common/InteractButton.h"
 #include "../GameObject/Object/BB/BusStop.h"
 #include "../GameObject/Tikis/Tiki_Stone.h"
@@ -69,8 +70,8 @@ bool CBikiniCitySceneInfo::Init()
 
 	CInteractButton* InteractButton = m_Owner->CreateObject<CInteractButton>("InteractButton");
 	InteractButton->SetWorldPosition(9510.f, 0.f, 13450.f);
-	InteractButton->SetWorldRotationY(20.f);
 	InteractButton->SetInteractObject(EInteractObjectList::BusStop, "BusStop");
+	InteractButton->SetDir(EButtonDir::Horizon);
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
@@ -88,8 +89,8 @@ bool CBikiniCitySceneInfo::Init()
 	PatrickHouseMesh->SetWorldPosition(14300.f, 500.f, 14500.f);
 	CColliderOBB3D* PatrickHouseCube = PatrickHouse->CreateComponent<CColliderOBB3D>("PatrickHouseCube");
 	PatrickHouseMesh->AddChild(PatrickHouseCube);
-	PatrickHouseCube->SetBoxHalfSize(800.f, 400.f, 800.f);
-	PatrickHouseCube->SetRelativePositionY(-300.f);
+	PatrickHouseCube->SetBoxHalfSize(PatrickHouseMesh->GetMeshSize() * 0.5f);
+	PatrickHouseCube->SetRelativePositionY(PatrickHouseMesh->GetMeshSize().y * -0.25f);
 	PatrickHouseCube->SetCollisionProfile("Wall");
 
 	CGameObject* SquidHouse = m_Owner->CreateObject<CGameObject>("SquidHouse");
@@ -98,10 +99,8 @@ bool CBikiniCitySceneInfo::Init()
 	SquidHouseMesh->SetWorldPosition(15900.f, 4.f, 14550.f);
 	CColliderOBB3D* SquidHouseCube = SquidHouse->CreateComponent<CColliderOBB3D>("SquidHouseCube");
 	SquidHouseMesh->AddChild(SquidHouseCube);
-	//SquidHouseCube->SetRelativePositionY(700.f);
-	//SquidHouseCube->SetBoxHalfSize(800.f, 1400.f, 800.f);
-	//SquidHouseCube->SetBoxHalfSize(SquidHouseMesh->GetMeshSize());
-	SquidHouseCube->SetBoxHalfSize(SquidHouseMesh->GetMeshSize()*0.5f);
+	SquidHouseCube->SetBoxHalfSize(SquidHouseMesh->GetMeshSize() * 0.5f);
+	SquidHouseCube->SetRelativePositionY(SquidHouseMesh->GetMeshSize().y * 0.5f);
 	SquidHouseCube->SetCollisionProfile("Wall");
 
 	CGameObject* PineAppleHouse = m_Owner->CreateObject<CGameObject>("PineAppleHouse");
@@ -110,8 +109,8 @@ bool CBikiniCitySceneInfo::Init()
 	PineAppleHouseMesh->SetWorldPosition(17000.f, 0.f, 13500.f);
 	CColliderOBB3D* PineAppleHouseCube = PineAppleHouse->CreateComponent<CColliderOBB3D>("PineAppleHouseCube");
 	PineAppleHouseMesh->AddChild(PineAppleHouseCube);
-	PineAppleHouseCube->SetRelativePositionY(400.f);
-	PineAppleHouseCube->SetBoxHalfSize(800.f, 800.f, 800.f);
+	PineAppleHouseCube->SetBoxHalfSize(PineAppleHouseMesh->GetMeshSize() * 0.5f);
+	PineAppleHouseCube->SetRelativePositionY(PineAppleHouseMesh->GetMeshSize().y * 0.5f);
 	PineAppleHouseCube->SetCollisionProfile("Wall");
 
 	CGameObject* ChumBucket = m_Owner->CreateObject<CGameObject>("ChumBucket");
@@ -121,8 +120,8 @@ bool CBikiniCitySceneInfo::Init()
 	ChumBucketMesh->SetWorldRotationY(180.f);
 	CColliderOBB3D* ChumBucketCube = ChumBucket->CreateComponent<CColliderOBB3D>("ChumBucketCube");
 	ChumBucketMesh->AddChild(ChumBucketCube);
-	ChumBucketCube->SetRelativePositionY(100.f);
-	ChumBucketCube->SetBoxHalfSize(2000.f, 2000.f, 1800.f);
+	ChumBucketCube->SetBoxHalfSize(ChumBucketMesh->GetMeshSize() * 0.5f);
+	ChumBucketCube->SetRelativePositionY(ChumBucketMesh->GetMeshSize().y * 0.5f);
 	ChumBucketCube->SetCollisionProfile("Wall");
 
 	CGameObject* Buliding_02 = m_Owner->CreateObject<CGameObject>("Buliding_02");
@@ -154,8 +153,9 @@ bool CBikiniCitySceneInfo::Init()
 	krustykrabMesh->SetWorldScale(0.5f, 0.5f, 0.5f);
 	CColliderOBB3D* krustykrabCube = krustykrab->CreateComponent<CColliderOBB3D>("krustykrabCube");
 	krustykrabMesh->AddChild(krustykrabCube);
-	krustykrabCube->SetRelativePositionY(300.f);
-	krustykrabCube->SetBoxHalfSize(1100.f, 600.f, 700.f);
+	Vector3 size = krustykrabMesh->GetMeshSize() * krustykrabMesh ->GetWorldScale()* 0.5f;
+	krustykrabCube->SetBoxHalfSize(size);
+	krustykrabCube->SetRelativePositionY(size.y);
 	krustykrabCube->SetCollisionProfile("Wall");
 
 	CGameObject* krustykrab_Enter = m_Owner->CreateObject<CGameObject>("krustykrab_Enter");
@@ -165,8 +165,8 @@ bool CBikiniCitySceneInfo::Init()
 	krustykrab_EnterMesh->SetWorldRotationY(180.f);
 	CColliderOBB3D* krustykrab_EnterCube = krustykrab_Enter->CreateComponent<CColliderOBB3D>("krustykrab_EnterCube");
 	krustykrab_EnterMesh->AddChild(krustykrab_EnterCube);
-	krustykrab_EnterCube->SetRelativePositionY(100.f);
-	krustykrab_EnterCube->SetBoxHalfSize(100.f, 200.f, 100.f);
+	krustykrab_EnterCube->SetBoxHalfSize(krustykrab_EnterMesh->GetMeshSize() * 0.5f);
+	krustykrab_EnterCube->SetRelativePositionY(krustykrab_EnterMesh->GetMeshSize().y * 0.5f);
 	krustykrab_EnterCube->SetCollisionProfile("Wall");
 
 	CGameObject* krustykrab_Shell = m_Owner->CreateObject<CGameObject>("krustykrab_Shell");
@@ -174,11 +174,6 @@ bool CBikiniCitySceneInfo::Init()
 	krustykrab_ShellMesh->SetMesh("krustykrab_Shell");
 	krustykrab_ShellMesh->SetWorldPosition(12300.f, 0.f, 13000.f);
 	krustykrab_ShellMesh->SetWorldRotationY(180.f);
-	CColliderOBB3D* krustykrab_ShellCube = krustykrab_Shell->CreateComponent<CColliderOBB3D>("krustykrab_ShellCube");
-	krustykrab_ShellMesh->AddChild(krustykrab_ShellCube);
-	krustykrab_ShellCube->SetRelativePositionY(750.f);
-	krustykrab_ShellCube->SetBoxHalfSize(100.f, 1500.f, 100.f);
-	krustykrab_ShellCube->SetCollisionProfile("Wall");
 
 	CGameObject* RedTree = m_Owner->CreateObject<CGameObject>("RedTree");
 	CStaticMeshComponent* RedTreeMesh = RedTree->CreateComponent<CStaticMeshComponent>("RedTreeMesh");
@@ -197,8 +192,8 @@ bool CBikiniCitySceneInfo::Init()
 	SM_BB_FloatSign_01Mesh->SetWorldRotationY(135.f);
 	CColliderOBB3D* SM_BB_FloatSign_01Cube = SM_BB_FloatSign_01->CreateComponent<CColliderOBB3D>("SM_BB_FloatSign_01Cube");
 	SM_BB_FloatSign_01Mesh->AddChild(SM_BB_FloatSign_01Cube);
-	SM_BB_FloatSign_01Cube->SetRelativePositionY(200.f);
-	SM_BB_FloatSign_01Cube->SetBoxHalfSize(50.f, 400.f, 50.f);
+	SM_BB_FloatSign_01Cube->SetBoxHalfSize(SM_BB_FloatSign_01Mesh->GetMeshSize() * 0.5f);
+	SM_BB_FloatSign_01Cube->SetRelativePositionY(SM_BB_FloatSign_01Mesh->GetMeshSize().y * 0.5f);
 	SM_BB_FloatSign_01Cube->SetCollisionProfile("Wall");
 
 	CGameObject* fountain = m_Owner->CreateObject<CGameObject>("fountain");
@@ -207,15 +202,9 @@ bool CBikiniCitySceneInfo::Init()
 	fountainMesh->SetWorldPosition(12150.f, 0.f, 14800.f);
 	CColliderOBB3D* fountainCube = fountain->CreateComponent<CColliderOBB3D>("fountainCube");
 	fountainMesh->AddChild(fountainCube);
-	fountainCube->SetRelativePositionY(100.f);
-	fountainCube->SetBoxHalfSize(500.f, 200.f, 500.f);
+	fountainCube->SetBoxHalfSize(fountainMesh->GetMeshSize() * 0.5f);
+	fountainCube->SetRelativePositionY(fountainMesh->GetMeshSize().y * -0.17f);
 	fountainCube->SetCollisionProfile("Wall");
-
-	//CGameObject* TaxiStop = m_Owner->CreateObject<CGameObject>("TaxiStop");
-	//CStaticMeshComponent* TaxiStopMesh = TaxiStop->CreateComponent<CStaticMeshComponent>("TaxiStopMesh");
-	//TaxiStopMesh->SetMesh("TaxiStop");
-	//TaxiStopMesh->SetWorldPosition(9500.f, 0.f, 13300.f);
-	//TaxiStopMesh->SetWorldRotationY(20.f);
 
 	CGameObject* Missile = m_Owner->CreateObject<CGameObject>("Missile");
 	CStaticMeshComponent* MissileMesh = Missile->CreateComponent<CStaticMeshComponent>("MissileMesh");
@@ -224,19 +213,14 @@ bool CBikiniCitySceneInfo::Init()
 	MissileMesh->SetWorldScale(3.f, 3.f, 3.f);
 	CColliderOBB3D* MissileCube = Missile->CreateComponent<CColliderOBB3D>("MissileCube");
 	MissileMesh->AddChild(MissileCube);
-	MissileCube->SetRelativePositionY(150.f);
-	MissileCube->SetBoxHalfSize(200.f, 300.f, 200.f);
+	size = MissileMesh->GetMeshSize() * MissileMesh->GetWorldScale() * 0.5f;
+	MissileCube->SetBoxHalfSize(size);
+	MissileCube->SetRelativePositionY(size.y);
 	MissileCube->SetCollisionProfile("Wall");
 
-	CGameObject* InfoSign = m_Owner->CreateObject<CGameObject>("InfoSign");
-	CStaticMeshComponent* InfoSignMesh = InfoSign->CreateComponent<CStaticMeshComponent>("InfoSignMesh");
-	InfoSignMesh->SetMesh("InfoSign");
-	InfoSignMesh->SetWorldPosition(8200.f, 0.f, 14200.f);
-	InfoSignMesh->SetWorldRotationY(270.f);
-	CColliderOBB3D* InfoSignCube = InfoSign->CreateComponent<CColliderOBB3D>("InfoSignCube");
-	InfoSignMesh->AddChild(InfoSignCube);
-	InfoSignCube->SetRelativePositionY(90.f);
-	InfoSignCube->SetBoxHalfSize(50.f, 180.f, 100.f);
+	CInfoSign* InfoSign=m_Owner->CreateObject<CInfoSign>("InfoSign");
+	InfoSign->SetWorldPosition(8200.f, 0.f, 14200.f);
+	InfoSign->SetWorldRotationY(270.f);
 
 	CGameObject* Rock = m_Owner->CreateObject<CGameObject>("Rock");
 	CStaticMeshComponent* RockMesh = Rock->CreateComponent<CStaticMeshComponent>("RockMesh");
@@ -245,8 +229,9 @@ bool CBikiniCitySceneInfo::Init()
 	RockMesh->SetWorldScale(10.f, 10.f, 10.f);
 	CColliderOBB3D* RockCube = Rock->CreateComponent<CColliderOBB3D>("RockCube");
 	RockMesh->AddChild(RockCube);
-	RockCube->SetRelativePositionY(100.f);
-	RockCube->SetBoxHalfSize(700.f, 200.f, 500.f);
+	size = RockMesh->GetMeshSize() * RockMesh->GetWorldScale() * 0.5f;
+	RockCube->SetBoxHalfSize(size);
+	RockCube->SetRelativePositionY(size.y);
 	RockCube->SetCollisionProfile("Wall");
 
 	CGameObject* Rock2 = m_Owner->CreateObject<CGameObject>("Rock2");
@@ -257,48 +242,29 @@ bool CBikiniCitySceneInfo::Init()
 	Rock2Mesh->SetWorldScale(10.f, 10.f, 10.f);
 	CColliderOBB3D* Rock2Cube = Rock2->CreateComponent<CColliderOBB3D>("Rock2Cube");
 	Rock2Mesh->AddChild(Rock2Cube);
-	Rock2Cube->SetRelativePositionY(200.f);
-	Rock2Cube->SetBoxHalfSize(400.f, 400.f, 300.f);
+	size = Rock2Mesh->GetMeshSize() * Rock2Mesh->GetWorldScale() * 0.5f;
+	Rock2Cube->SetBoxHalfSize(size);
+	Rock2Cube->SetRelativePositionY(size.y);
 	Rock2Cube->SetCollisionProfile("Wall");
 
 	CGameObject* DoubleTree = m_Owner->CreateObject<CGameObject>("DoubleTree");
 	CStaticMeshComponent* DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh");
 	DoubleTreeMesh->SetMesh("DoubleTree");
 	DoubleTreeMesh->SetWorldPosition(11300.f, 0.f, 16000.f);
-	CColliderOBB3D* DoubleTreeCube = DoubleTree->CreateComponent<CColliderOBB3D>("DoubleTreeCube");
-	DoubleTreeMesh->AddChild(DoubleTreeCube);
-	DoubleTreeCube->SetRelativePositionY(200.f);
-	DoubleTreeCube->SetBoxHalfSize(150.f, 400.f, 150.f);
-	DoubleTreeCube->SetCollisionProfile("Wall");
 	DoubleTree = m_Owner->CreateObject<CGameObject>("DoubleTree1");
 	DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh1");
 	DoubleTreeMesh->SetMesh("DoubleTree");
 	DoubleTreeMesh->SetWorldPosition(12100.f, 0.f, 16000.f);
 	DoubleTreeMesh->SetWorldRotationY(90.f);
-	DoubleTreeCube = DoubleTree->CreateComponent<CColliderOBB3D>("DoubleTreeCube1");
-	DoubleTreeMesh->AddChild(DoubleTreeCube);
-	DoubleTreeCube->SetRelativePositionY(200.f);
-	DoubleTreeCube->SetBoxHalfSize(150.f, 400.f, 150.f);
-	DoubleTreeCube->SetCollisionProfile("Wall");
 
 	CGameObject* CoconutTree = m_Owner->CreateObject<CGameObject>("CoconutTree");
 	CStaticMeshComponent* CoconutTreeMesh = CoconutTree->CreateComponent<CStaticMeshComponent>("CoconutTreeMesh");
 	CoconutTreeMesh->SetMesh("CoconutTree");
 	CoconutTreeMesh->SetWorldPosition(11800.f, 0.f, 16000.f);
-	CColliderOBB3D* CoconutTreeCube = CoconutTree->CreateComponent<CColliderOBB3D>("CoconutTreeCube");
-	CoconutTreeMesh->AddChild(CoconutTreeCube);
-	CoconutTreeCube->SetRelativePositionY(300.f);
-	CoconutTreeCube->SetBoxHalfSize(160.f, 600.f, 200.f);
-	CoconutTreeCube->SetCollisionProfile("Wall");
 	CoconutTree = m_Owner->CreateObject<CGameObject>("CoconutTree1");
 	CoconutTreeMesh = CoconutTree->CreateComponent<CStaticMeshComponent>("CoconutTreeMesh1");
 	CoconutTreeMesh->SetMesh("CoconutTree");
 	CoconutTreeMesh->SetWorldPosition(12300.f, 0.f, 16000.f);
-	CoconutTreeCube = CoconutTree->CreateComponent<CColliderOBB3D>("CoconutTreeCube");
-	CoconutTreeMesh->AddChild(CoconutTreeCube);
-	CoconutTreeCube->SetRelativePositionY(300.f);
-	CoconutTreeCube->SetBoxHalfSize(160.f, 600.f, 200.f);
-	CoconutTreeCube->SetCollisionProfile("Wall");
 
 	for (int i = 0; i < 10; ++i)
 	{

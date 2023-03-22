@@ -8,14 +8,12 @@
 #include "Input.h"
 
 CInteractUI::CInteractUI()
-	: m_IsActive(false)
 {
 	m_WindowTypeName = "InteractUI";
 }
 
 CInteractUI::CInteractUI(const CInteractUI& Window)
 	: CUIWindow(Window)
-	, m_IsActive(false)
 {
 }
 
@@ -117,14 +115,12 @@ void CInteractUI::ActiveInteractUI()
 {
 	for (auto iter : m_mapInteractUI)
 		iter.second->SetEnable(true);
-	m_IsActive = true;
 }
 
 void CInteractUI::InActiveInteractUI()
 {
 	for (auto iter : m_mapInteractUI)
 		iter.second->SetEnable(false);
-	m_IsActive = false;
 }
 
 void CInteractUI::SetTarget(EInteractTarget Target)

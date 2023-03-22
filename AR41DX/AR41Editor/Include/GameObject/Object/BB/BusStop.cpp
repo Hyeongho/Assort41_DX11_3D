@@ -80,8 +80,18 @@ void CBusStop::CallBus()
         BusDriver = m_Scene->CreateObject<CBusDriver>("BusDriver");
 
     Vector3 BusPos = GetWorldPos();
-    BusPos.x += 3000.f;
+    //BusPos.x -= 3000.f;
+    BusPos.z -= 3000.f;
 
     BusDriver->MoveToBusStop(GetWorldPos(), BusPos);
+
+    if(m_Scene->GetName()=="JellyFish")
+    {
+        m_PurposeScene = EMapList::Bikini_Bottom;
+    }
+    else
+    {
+        m_PurposeScene = EMapList::Jelly_Fish_Field;
+    }
     BusDriver->SetPurposeScene(m_PurposeScene);
 }

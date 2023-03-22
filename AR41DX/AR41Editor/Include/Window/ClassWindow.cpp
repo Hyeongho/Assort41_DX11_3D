@@ -308,7 +308,8 @@ void CClassWindow::LoadGameObjectName()
 	// Editor의 GameObject폴더에 있는 파일을 읽어온다.
 	strcat_s(Directory, "Include/GameObject/");
 
-	for (const auto& file : std::filesystem::directory_iterator(Directory))
+	for (const auto& file : std::filesystem::recursive_directory_iterator(Directory))
+	//for (const auto& file : std::filesystem::directory_iterator(Directory))
 	{
 		char	Name[64] = {};
 		char	FullPath[MAX_PATH] = {};
@@ -318,7 +319,7 @@ void CClassWindow::LoadGameObjectName()
 
 		_splitpath_s(FullPath, nullptr, 0, nullptr, 0, Name, 64, Ext, _MAX_EXT);
 
-		if (strcmp(Ext, ".cpp") == 0)
+		if (strcmp(Ext, ".cpp") == 0|| Ext[0] == '\0')
 			continue;
 
 		m_ObjectList->AddItem(Name);

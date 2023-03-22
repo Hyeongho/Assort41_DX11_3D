@@ -13,6 +13,7 @@
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/TaxiDriver.h"
 #include "../GameObject/Npc/BusDriver.h"
+#include "../GameObject/Npc/InfoSign.h"
 #include "../GameObject/Tikis/Tiki_Stone.h"
 #include "../GameObject/Tikis/Tiki_Thunder.h"
 #include "../GameObject/Tikis/Tiki_Wood.h"
@@ -59,6 +60,7 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateObjectCDO<CPatric>("Patric");
     //CScene::CreateObjectCDO<CBusDriver>("BusDriver");
     CScene::CreateObjectCDO<CBusStop>("BusStop");
+    CScene::CreateObjectCDO<CInfoSign>("InfoSign");
     CScene::CreateObjectCDO<CTiki_Stone>("Tiki_Stone");
     CScene::CreateObjectCDO<CTiki_Thunder>("Tiki_Thunder");
     CScene::CreateObjectCDO<CTiki_Wood>("Tiki_Wood");
