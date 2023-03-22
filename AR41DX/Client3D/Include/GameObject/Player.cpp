@@ -23,8 +23,6 @@
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 
-//test11
-
 CPlayer::CPlayer()
 	: m_Speed(500.f)
 	, m_CameraSpeed(150.f)
@@ -841,7 +839,7 @@ void CPlayer::ChangeSandy()
 void CPlayer::CollisionTest(const CollisionResult& result)
 {
 	std::string name = result.Dest->GetCollisionProfile()->Name;
-	if (name == "Monster" || name == "MonsterAttack")
+	if (name == "Monster")
 	{
 		InflictDamage(1);
 	}

@@ -2,6 +2,9 @@
 
 CBossMonster::CBossMonster()
 {
+    SetTypeID<CBossMonster>();
+
+    m_ObjectTypeName = "BossMonster";
 }
 
 CBossMonster::CBossMonster(const CBossMonster& Obj)
@@ -49,4 +52,16 @@ void CBossMonster::Save(FILE* File)
 void CBossMonster::Load(FILE* File)
 {
     CGameObject::Load(File);
+}
+
+void CBossMonster::SetBossData_MaxHp(int MaxHp)
+{
+}
+
+void CBossMonster::SetBossData(const BossData& BossData)
+{
+}
+
+void CBossMonster::CreateBossUI()
+{
 }

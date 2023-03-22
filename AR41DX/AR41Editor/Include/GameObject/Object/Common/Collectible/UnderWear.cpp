@@ -2,9 +2,16 @@
 
 #include "Component/ColliderOBB3D.h"
 #include "Component/StaticMeshComponent.h"
+#include "Scene/Scene.h"
+#include "../../../Player.h"
 
 CUnderWear::CUnderWear()
 {
+	SetTypeID<CUnderWear>();
+
+	m_ObjectTypeName = "UnderWear";
+
+	m_ColItemType = EColItemType::UnderWear;
 }
 
 CUnderWear::CUnderWear(const CUnderWear& Obj) :
@@ -12,6 +19,8 @@ CUnderWear::CUnderWear(const CUnderWear& Obj) :
 {
 	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
 	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
+
+	m_ColItemType = Obj.m_ColItemType;
 }
 
 CUnderWear::~CUnderWear()
@@ -36,8 +45,9 @@ bool CUnderWear::Init()
 	m_Mesh->SetMesh("UnderWear");
 
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
+	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
-	m_Collider->SetCollisionCallback<CUnderWear>(ECollision_Result::Collision, this, &CUnderWear::PlayerCollisionItem);
+	m_Collider->SetCollisionCallback<CUnderWear>(ECollision_Result::Collision, this, &CUnderWear::Collision_Player);
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
@@ -71,7 +81,17 @@ void CUnderWear::Load(FILE* File)
 	CCollectibleItems::Load(File);
 }
 
-void CUnderWear::PlayerCollisionItem(const CollisionResult& result)
+void CUnderWear::Collision_Player(const CollisionResult& result)
 {
-	CCollectibleItems::PlayerCollisionItem(result);
+	CCollectibleItems::Collision_Player(result);
+
+	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+
+	if (Player) {
+		// 플레이어 속옷(HP) 추가
+		// Player->AddUnderWear();
+	}
+
+	// 오브젝트 삭제처리
+	Destroy();
 }

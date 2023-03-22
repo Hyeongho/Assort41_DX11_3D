@@ -155,6 +155,10 @@ bool CMaterialManager::Init()
 	Material = CreateMaterial<CMaterial>("Bubble");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Bubble", TEXT("Particle/Bubbles50px.png"));
 	Material->SetShader("SpriteShader");
+
+	Material = CreateMaterial<CMaterial>("ShockWave");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.tga"));
+	Material->SetShader("SpriteShader");
 	return true;
 }
 

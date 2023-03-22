@@ -54,6 +54,15 @@ CParticleComponent::~CParticleComponent()
 	SAFE_DELETE(m_CBuffer);
 }
 
+void CParticleComponent::DeleteCurrentParticle()
+{
+	if (m_CBuffer)
+	{
+		m_CBuffer->SetParticleLifeTimeMin(0.f);
+		m_CBuffer->SetParticleLifeTimeMax(0.f);
+	}
+}
+
 void CParticleComponent::SetSpawnTime(float Time)
 {
 	m_SpawnTimeMax = Time;

@@ -36,6 +36,7 @@ bool CUnderWear::Init()
 	m_Mesh->SetMesh("UnderWear");
 
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
+	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
 	m_Collider->SetCollisionCallback<CUnderWear>(ECollision_Result::Collision, this, &CUnderWear::PlayerCollisionItem);
 

@@ -39,8 +39,9 @@ public:
     {
         return m_SpawnCountMax;
     }
-    void SetSpawnTime(float Time);
+    void DeleteCurrentParticle();
     //
+    void SetSpawnTime(float Time);
     void SetSpawnCountMax(int Count);
     void SetParticle(const std::string& Name);
     void SetParticle(class CParticle* Particle);

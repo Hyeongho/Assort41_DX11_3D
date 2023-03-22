@@ -34,5 +34,8 @@ private:
 	void ChangeAnim_Greedy_Start();
 	void ChangeAnim_Laughing();
 	void ChangeAnim_Idle();
+
+private:
+	void CreateSpatula();
 };
 

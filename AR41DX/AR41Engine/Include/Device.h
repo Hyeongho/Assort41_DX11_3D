@@ -47,6 +47,11 @@ public:
 		return m_RS;
 	}
 
+	Vector2 GetHdRsRatio() const
+	{
+		return Vector2(1920.f / m_RS.Width, 1080.f / m_RS.Height);
+	}
+
 	ID3D11Device* GetDevice()	const
 	{
 		return m_Device;

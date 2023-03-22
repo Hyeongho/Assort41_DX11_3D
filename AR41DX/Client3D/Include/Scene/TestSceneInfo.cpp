@@ -26,7 +26,7 @@
 #include "Component/LightComponent.h"
 #include "../GameObject/Object/Pool.h"
 
-CTestSceneInfo::CTestSceneInfo()
+CTestSceneInfo::CTestSceneInfo() : m_Time(0.f)
 {
 }
 
@@ -58,6 +58,13 @@ bool CTestSceneInfo::Init()
 	//CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
 	//JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
 	//
+	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
+	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
+
+	// 보원테스트 구간
+	CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
+	JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
+	
 	//CTeleportBox* TeleportBox1 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
 	//TeleportBox1->SetBoxIndex(1);
 
@@ -78,8 +85,10 @@ bool CTestSceneInfo::Init()
 	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
 	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
 
-	//CPufferfish* Cannon = m_Owner->CreateObject<CPufferfish>("Cannon");
-	//Cannon->SetWorldPosition(16500.f, 0.f, 12200.f);
+	CCannon* Cannon = m_Owner->CreateObject<CCannon>("Cannon");
+	Cannon->SetWorldPosition(16500.f, 0.f, 12200.f);
+
+	Cannon->AddWorldRotationY(45.f);
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
@@ -109,4 +118,19 @@ bool CTestSceneInfo::Init()
 	//ElectricRing->SetWorldPosition(16500.f, 500.f, 12200.f);
 
 	return true;
+}
+
+void CTestSceneInfo::Update(float DeltaTime)
+{
+	CSceneInfo::Update(DeltaTime);
+
+	/*m_Time += DeltaTime;
+
+	if (m_Time >= 10.0f)
+	{
+		m_Time = 0.f;
+
+		CPufferfish* Pufferfish = m_Owner->CreateObject<CPufferfish>("Cannon");
+		Pufferfish->SetWorldPosition(16500.f, 500.f, 12200.f);
+	}*/
 }

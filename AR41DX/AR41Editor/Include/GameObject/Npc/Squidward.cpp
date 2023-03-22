@@ -2,8 +2,10 @@
 
 #include "Input.h"
 #include "Component/AnimationMeshComponent.h"
+#include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
 #include "../../UI/DialogUI.h"
+#include "../Object/Common/Collectible/GoldenSpatula.h"
 
 CSquidward::CSquidward()
 {
@@ -39,16 +41,17 @@ void CSquidward::Start()
 {
     CNpc::Start();
 
-//#ifdef DEBUG
-//    CInput::GetInst()->AddBindFunction<CSquidward>("F1", Input_Type::Up, this, &CSquidward::ChangeAnim_Angry_Start, m_Scene);
-//    CInput::GetInst()->AddBindFunction<CSquidward>("F2", Input_Type::Up, this, &CSquidward::ChangeAnim_Annoyed_Start, m_Scene);
-//    CInput::GetInst()->AddBindFunction<CSquidward>("F3", Input_Type::Up, this, &CSquidward::ChangeAnim_Happy_Start, m_Scene);
-//    CInput::GetInst()->AddBindFunction<CSquidward>("F4", Input_Type::Up, this, &CSquidward::ChangeAnim_Hurt_Start, m_Scene);
-//    CInput::GetInst()->AddBindFunction<CSquidward>("F5", Input_Type::Up, this, &CSquidward::ChangeAnim_Sarcastic_Start, m_Scene);
-//    CInput::GetInst()->AddBindFunction<CSquidward>("F6", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk, m_Scene);
-//    CInput::GetInst()->AddBindFunction<CSquidward>("F7", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk_Idle, m_Scene);
-//    CInput::GetInst()->AddBindFunction<CSquidward>("F8", Input_Type::Up, this, &CSquidward::ChangeAnim_Idle, m_Scene);
-//#endif // DEBUG
+#ifdef _DEBUG
+    CInput::GetInst()->AddBindFunction<CSquidward>("F1", Input_Type::Up, this, &CSquidward::ChangeAnim_Angry_Start, m_Scene);
+    CInput::GetInst()->AddBindFunction<CSquidward>("F2", Input_Type::Up, this, &CSquidward::ChangeAnim_Annoyed_Start, m_Scene);
+    CInput::GetInst()->AddBindFunction<CSquidward>("F3", Input_Type::Up, this, &CSquidward::ChangeAnim_Happy_Start, m_Scene);
+    CInput::GetInst()->AddBindFunction<CSquidward>("F4", Input_Type::Up, this, &CSquidward::ChangeAnim_Hurt_Start, m_Scene);
+    CInput::GetInst()->AddBindFunction<CSquidward>("F5", Input_Type::Up, this, &CSquidward::ChangeAnim_Sarcastic_Start, m_Scene);
+    CInput::GetInst()->AddBindFunction<CSquidward>("F6", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk, m_Scene);
+    CInput::GetInst()->AddBindFunction<CSquidward>("F7", Input_Type::Up, this, &CSquidward::ChangeAnim_Talk_Idle, m_Scene);
+    CInput::GetInst()->AddBindFunction<CSquidward>("F8", Input_Type::Up, this, &CSquidward::ChangeAnim_Idle, m_Scene);
+    CInput::GetInst()->AddBindFunction<CSquidward>("F9", Input_Type::Up, this, &CSquidward::CreateSpatula, m_Scene);
+#endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CSquidward>("F", Input_Type::Up, this, &CSquidward::StartDialog, m_Scene);
 }
@@ -57,11 +60,17 @@ bool CSquidward::Init()
 {
     CNpc::Init();
 
-    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
-
-    SetRootComponent(m_AnimMesh);
-
     m_AnimMesh->SetMesh("Squidward");
+
+    Vector3 ColSize = m_AnimMesh->GetMeshSize();
+
+    if (m_AnimMesh->GetMeshSize().x >= m_AnimMesh->GetMeshSize().z)
+        ColSize.z = m_AnimMesh->GetMeshSize().x;
+    else
+        ColSize.x = m_AnimMesh->GetMeshSize().z;
+
+    m_Collider->SetBoxHalfSize(ColSize / 2.f);
+    m_Collider->SetRelativePositionY(ColSize.y / 2.f);
 
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("SquidwardAnimation");
 
@@ -86,6 +95,7 @@ bool CSquidward::Init()
     m_Animation->SetCurrentEndFunction("Squidward_Sarcastic_Start", this, &CSquidward::ChangeAnim_Sarcastic_Loop);
 
     m_Animation->SetCurrentAnimation("Squidward_Idle");
+
     return true;
 }
 
@@ -230,4 +240,8 @@ void CSquidward::ChangeAnim_Idle()
 
 void CSquidward::CreateSpatula()
 {
+    CGoldenSpatula* GoldenSpatula = m_Scene->CreateObject<CGoldenSpatula>("GoldenSpatula_Squidward");
+
+    GoldenSpatula->SetWorldPosition(GetWorldPos());
+    GoldenSpatula->SetWorldPositionZ(GetWorldPos().z - m_AnimMesh->GetMeshSize().z);
 }
