@@ -849,6 +849,8 @@ void CDefaultSetting::LoadCBLabObjects()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "CBL_InnerFloor", TEXT("Map/CBLab/CBLab_Ground1.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "CBL_OuterFloor", TEXT("Map/CBLab/CBLab_Ground2.msh"), MESH_PATH);
 
+    // BaseMesh
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "CBL_BaseMesh", TEXT("Map/CBLab/CBLab_BaseMesh.msh"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadParticle()

@@ -11,16 +11,12 @@ CGoldenSpatula::CGoldenSpatula()
 
 	m_ObjectTypeName = "GoldenSpatula";
 
-	m_ColItemType = EColItemType::GoldenSpatula;
+	m_ColItemType = EItemList::GoldenSpatula;
 }
 
 CGoldenSpatula::CGoldenSpatula(const CGoldenSpatula& Obj) :
 	CCollectibleItems(Obj)
 {
-	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
-	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
-
-	m_ColItemType = Obj.m_ColItemType;
 }
 
 CGoldenSpatula::~CGoldenSpatula()
@@ -81,21 +77,4 @@ void CGoldenSpatula::Save(FILE* File)
 void CGoldenSpatula::Load(FILE* File)
 {
 	CCollectibleItems::Load(File);
-}
-
-void CGoldenSpatula::Collision_Player(const CollisionResult& result)
-{
-	CCollectibleItems::Collision_Player(result);
-
-	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
-
-	if (Player) {
-		// 플레이어 황금 뒤집개 추가
-		// Player->AddGoldenSpatula();
-	}
-
-	// 컷씬 실행
-
-	// 오브젝트 삭제처리
-	Destroy();
 }

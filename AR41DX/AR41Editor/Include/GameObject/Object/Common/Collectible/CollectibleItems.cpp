@@ -1,8 +1,9 @@
-#include "CollectibleItems.h"
+﻿#include "CollectibleItems.h"
 
-#include "Scene/Scene.h"
 #include "Component/ColliderOBB3D.h"
 #include "Component/StaticMeshComponent.h"
+#include "../../../Player.h"
+#include "Scene/Scene.h"
 
 CCollectibleItems::CCollectibleItems()
 {
@@ -10,7 +11,7 @@ CCollectibleItems::CCollectibleItems()
 
     m_ObjectTypeName = "CollectibleItems";
 
-    m_ColItemType = EColItemType::End;
+    m_ColItemType = EItemList::End;
 }
 
 CCollectibleItems::CCollectibleItems(const CCollectibleItems& Obj) :
@@ -34,17 +35,6 @@ void CCollectibleItems::Start()
 bool CCollectibleItems::Init()
 {
     CGameObject::Init();
-
-    //m_Bubble = CreateComponent<CStaticMeshComponent>("Mesh");
-    //m_Bubble->SetMesh("Collectible_Bubble");
-    //m_Bubble->SetWorldScale(20.f, 20.f, 20.f);
-    //m_Bubble->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
-
-    //CMaterial* Material = m_Bubble->GetMaterial(0);
-    //Material->SetTexture(0, 0, 2, "test", TEXT("T_Oil_Slick.tga"), TEXTURE_PATH);
-    //Material->SetOpacity(0.35f);
-    //Material->SetRenderState("AlphaBlend");
-    //m_Bubble->SetMaterial(0, Material);
 
     return true;
 }
@@ -78,11 +68,38 @@ void CCollectibleItems::Load(FILE* File)
 
 void CCollectibleItems::Collision_Player(const CollisionResult& result)
 {
-    if (m_ColItemType != EColItemType::ShinyFlower) {
-        // ���� ó��
+    if (m_ColItemType != EItemList::ShinyFlower) {
+        CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+
+        if (Player) {
+            switch (m_ColItemType)
+            {
+            case EItemList::GoldenSpatula:
+                // 플레이어 황금 뒤집개 추가
+                Player->AddSpatula();
+
+                // 컷씬 실행
+                // Player->PlayCutScene(CutSceneName);
+                break;
+            case EItemList::Sock:
+                // 플레이어 양말 추가
+                Player->AddSock();
+                break;
+            case EItemList::UnderWear:
+                // 플레이어 HP 추가
+                if (Player->AddHp() == 0)
+                    return;
+                break;
+            }
+        }
+
+        // 사운드 처리
         CSound* Sound = m_Scene->GetResource()->FindSound("GetCollectible");
 
         if (Sound)
             Sound->Play();
+
+        // 삭제 처리
+        Destroy();
     }
 }

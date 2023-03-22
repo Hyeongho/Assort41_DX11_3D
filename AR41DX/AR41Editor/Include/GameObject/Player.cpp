@@ -317,8 +317,8 @@ void CPlayer::Reset()
 	m_PlayerData.CurHP = m_PlayerData.MaxHP;
 	m_PlayerUI->SetHp(m_PlayerData.CurHP);
 	m_PlayerUI->SetMaxHp(m_PlayerData.MaxHP);
-	m_PlayerUI->SetGlitter(m_PlayerData.Glittering);
-	m_PlayerUI->SetFritter(m_PlayerData.Fritter);
+	m_PlayerUI->SetGlitter(m_PlayerData.ShinyFlower);
+	m_PlayerUI->SetFritter(m_PlayerData.Spatula);
 	m_PlayerUI->SetSocks(m_PlayerData.Socks);
 	SetWorldPosition(m_RespawnPos);
 	ResetIdle();
@@ -342,8 +342,8 @@ bool CPlayer::SaveCharacter()
 	fwrite(&m_PlayerData.MaxHP, 4, 1, file);
 	fwrite(&m_PlayerData.CurHP, 4, 1, file);
 	fwrite(&m_PlayerData.Socks, 4, 1, file);
-	fwrite(&m_PlayerData.Fritter, 4, 1, file);
-	fwrite(&m_PlayerData.Glittering, 4, 1, file);
+	fwrite(&m_PlayerData.Spatula, 4, 1, file);
+	fwrite(&m_PlayerData.ShinyFlower, 4, 1, file);
 	fclose(file);
 	return true;
 }
@@ -366,8 +366,8 @@ bool CPlayer::LoadCharacter()
 	fread(&m_PlayerData.MaxHP, 4, 1, file);
 	fread(&m_PlayerData.CurHP, 4, 1, file);
 	fread(&m_PlayerData.Socks, 4, 1, file);
-	fread(&m_PlayerData.Fritter, 4, 1, file);
-	fread(&m_PlayerData.Glittering, 4, 1, file);
+	fread(&m_PlayerData.Spatula, 4, 1, file);
+	fread(&m_PlayerData.ShinyFlower, 4, 1, file);
 	fclose(file);
 	m_LoadData = m_PlayerData;
 	return true;
@@ -454,6 +454,124 @@ void CPlayer::LoadSandyAnim()
 	m_Anim[(int)EMain_Character::Sandy]->SetCurrentEndFunction<CPlayer>("PlayerHit", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Sandy]->AddAnimation("PlayerDeath", "Sandy_Death", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Sandy]->SetCurrentEndFunction<CPlayer>("PlayerDeath", this, &CPlayer::Reset);
+}
+
+int CPlayer::AddHp()
+{
+	int Hp = 0;
+
+	if (m_PlayerData.MaxHP > m_PlayerData.CurHP) {
+		SetCurHP(m_PlayerData.CurHP + 1);
+		Hp = m_PlayerData.CurHP;
+	}
+
+	IngameUI();
+
+	return Hp;
+}
+
+int CPlayer::AddSock()
+{
+	SetSocks(m_PlayerData.Socks + 1);
+
+	IngameUI();
+
+	return m_PlayerData.Socks;
+}
+
+int CPlayer::AddSpatula()
+{
+	SetSpatula(m_PlayerData.Spatula + 1);
+
+	IngameUI();
+
+	return m_PlayerData.Spatula;
+}
+
+int CPlayer::AddShinyFlower(int Count)
+{
+	SetShinyFlower(m_PlayerData.ShinyFlower + Count);
+
+	IngameUI();
+
+	return m_PlayerData.ShinyFlower;
+}
+
+int CPlayer::AddItem(const EItemList& Item, int Count)
+{
+	int ItemCount = 0;
+
+	switch (Item)
+	{
+	case EItemList::GoldenSpatula:
+		SetSpatula(m_PlayerData.Spatula + Count);
+		ItemCount = m_PlayerData.Spatula;
+		break;
+	case EItemList::ShinyFlower:
+		SetShinyFlower(m_PlayerData.ShinyFlower + Count);
+		ItemCount = m_PlayerData.ShinyFlower;
+		break;
+	case EItemList::Sock:
+		SetSocks(m_PlayerData.Socks + Count);
+		ItemCount = m_PlayerData.Socks;
+		break;
+	case EItemList::UnderWear:
+		SetCurHP(m_PlayerData.CurHP + Count);
+		ItemCount = m_PlayerData.CurHP;
+		break;
+	}
+
+	IngameUI();
+
+	return ItemCount;
+}
+
+bool CPlayer::SubSock(int Count)
+{
+	int Sock = m_PlayerData.Socks;
+
+	if (Count > Sock)
+		return false;
+
+	Sock -= Count;
+
+	SetSocks(Sock);
+
+	IngameUI();
+
+	return true;
+}
+
+bool CPlayer::SubSpatula(int Count)
+{
+	int Spatula = m_PlayerData.Spatula;
+
+	if (Count > Spatula)
+		return false;
+
+	Spatula -= Count;
+
+	SetSpatula(Spatula);
+
+	IngameUI();
+
+	return true;
+}
+
+bool CPlayer::SubShinyFlower(int Count)
+{
+	int ShinyFlower = m_PlayerData.ShinyFlower;
+
+	if (Count > ShinyFlower)
+		return false;
+
+	ShinyFlower -= Count;
+
+	SetShinyFlower(ShinyFlower);
+
+	IngameUI();
+
+	return true;
 }
 
 void CPlayer::LoadCheck()
