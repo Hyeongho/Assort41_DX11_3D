@@ -1,14 +1,6 @@
-#pragma once
+ï»¿#pragma once
 
 #include "GameObject\GameObject.h"
-
-enum class EColItemType {
-	GoldenSpatula,
-	ShinyFlower,
-	Sock,
-	UnderWear,
-	End
-};
 
 class CCollectibleItems
 	: public CGameObject
@@ -26,7 +18,7 @@ protected:
 	CSharedPtr<class CColliderOBB3D>			m_Collider;
 
 protected :
-	EColItemType	m_ColItemType;
+	EItemList	m_ColItemType;
 
 
 public:
@@ -39,6 +31,6 @@ public:
 	virtual void Load(FILE* File);
 
 protected: // Collision
-	virtual void Collision_Player(const CollisionResult& result); // ¾ÆÀÌÅÛ¿¡ ´ê¾ÒÀ» ¶§ ½Àµæ Ã³¸®
+	virtual void Collision_Player(const CollisionResult& result); // ì•„ì´í…œì— ë‹¿ì•˜ì„ ë•Œ ìŠµë“ ì²˜ë¦¬
 };
 

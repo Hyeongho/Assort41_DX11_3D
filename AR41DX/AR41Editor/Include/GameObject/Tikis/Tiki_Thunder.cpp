@@ -6,7 +6,6 @@
 #include "Input.h"
 #include "Scene/Scene.h"
 #include "../Player.h"
-#include "../Object/Common/Collectible/ShinyFlower.h"
 
 CTiki_Thunder::CTiki_Thunder()
 {
@@ -16,12 +15,9 @@ CTiki_Thunder::CTiki_Thunder()
 }
 
 CTiki_Thunder::CTiki_Thunder(const CTiki_Thunder& Obj)
-	: CGameObject(Obj)
+	: CTikiBase(Obj)
 {
-	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Animation = (CAnimation*)FindComponent("TikiThunderAnimation");
-	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
-	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 }
 
 CTiki_Thunder::~CTiki_Thunder()
@@ -30,22 +26,22 @@ CTiki_Thunder::~CTiki_Thunder()
 
 void CTiki_Thunder::Start()
 {
-	CGameObject::Start();
+	CTikiBase::Start();
+
+	if (!m_Animation)
+		CreateAnim();
 }
 
 bool CTiki_Thunder::Init()
 {
-	CGameObject::Init();
+	CTikiBase::Init();
 
-	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
-	m_Rigid = CreateComponent<CRigidBody>("Rigid");
-	m_Collider = CreateComponent<CColliderOBB3D>("OBB3D");
-
-	SetRootComponent(m_Mesh);
+	// 메쉬 세팅
 	m_Mesh->SetMesh("Tiki_Thunder");
 	m_Mesh->AddChild(m_Collider);
+	m_Mesh->AddChild(m_Rigid);
 
-
+	// 충돌체 세팅
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Monster");
@@ -54,38 +50,20 @@ bool CTiki_Thunder::Init()
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
 
-
-	m_Animation = m_Mesh->SetAnimation<CAnimation>("TikiThunderAnimation");
-	m_Animation->AddAnimation("Tiki_Thunder_Idle", "Tiki_Thunder_Idle", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Tiki_Thunder_Die", "Tiki_Thunder_Die", 1.f, 1.f, false);
-	m_Animation->SetCurrentEndFunction<CTiki_Thunder>("Tiki_Thunder_Die", this, &CTiki_Thunder::Tiki_Die);
-	m_Animation->SetCurrentAnimation("Tiki_Thunder_Idle");
+	// 애니메이션 세팅
+	CreateAnim();
 
 	return true;
 }
 
 void CTiki_Thunder::Update(float DeltaTime)
 {
-	CGameObject::Update(DeltaTime);
-
-
-	// 항상 플레이어를 바라보게 한다.
-	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
-
-	if (!Player)
-		return;
-
-	Vector3 PlayerPos = Player->GetWorldPos();
-
-	float Degree = atan2(GetWorldPos().z - PlayerPos.z, GetWorldPos().x - PlayerPos.x);
-	Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
-
-	SetWorldRotationY(Degree);
+	CTikiBase::Update(DeltaTime);
 }
 
 void CTiki_Thunder::PostUpdate(float DeltaTime)
 {
-	CGameObject::PostUpdate(DeltaTime);
+	CTikiBase::PostUpdate(DeltaTime);
 }
 
 CTiki_Thunder* CTiki_Thunder::Clone() const
@@ -95,34 +73,27 @@ CTiki_Thunder* CTiki_Thunder::Clone() const
 
 void CTiki_Thunder::Save(FILE* File)
 {
-	CGameObject::Save(File);
+	CTikiBase::Save(File);
 }
 
 void CTiki_Thunder::Load(FILE* File)
 {
-	CGameObject::Load(File);
-}
-
-void CTiki_Thunder::ChangeAnim_Idle()
-{
-	m_Animation->ChangeAnimation("Tiki_Thunder_Idle");
-}
-
-void CTiki_Thunder::ChangeAnim_Die()
-{
-	m_Animation->ChangeAnimation("Tiki_Thunder_Die");
+	CTikiBase::Load(File);
 }
 
 void CTiki_Thunder::Tiki_Die()
 {
 	// 폭발 파티클
 
-	// 꽃 생성
-	CreateFlowers();
 
 	// 플레이어가 가까이 있다면 피해 처리
 	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
-	// Player->SetDamage();
+
+	// 폭발 범위. 이 범위 내에 플레이어가 있다면 피해 처리.
+	float BombRange = 500.f;
+
+	if (BombRange >= Player->GetWorldPos().Distance(GetWorldPos()))
+		Player->InflictDamage();
 
 
 	// 사운드 처리
@@ -133,25 +104,28 @@ void CTiki_Thunder::Tiki_Die()
 	if (Sound)
 		Sound->Play();
 
-	// 오브젝트 삭제 처리
-	Destroy();
+
+	CTikiBase::Tiki_Die();
 }
 
-void CTiki_Thunder::CreateFlowers()
+
+void CTiki_Thunder::CreateAnim()
 {
-	// 5 ~ 12개의 플라워 생성
-	int FlowerCount = rand() % 8 + 5;
+	m_Animation = m_Mesh->SetAnimation<CAnimation>("TikiThunderAnimation");
+	m_Animation->AddAnimation("Tiki_Thunder_Idle", "Tiki_Thunder_Idle", 1.f, 1.f, true);
+	m_Animation->AddAnimation("Tiki_Thunder_Die", "Tiki_Thunder_Die", 1.f, 1.f, false);
+	m_Animation->SetCurrentEndFunction<CTiki_Thunder>("Tiki_Thunder_Die", this, &CTiki_Thunder::Tiki_Die);
+	m_Animation->SetCurrentAnimation("Tiki_Thunder_Idle");
+}
 
-	for (int i = 0; i < FlowerCount; i++) {
-		CShinyFlower* Flower = m_Scene->CreateObject<CShinyFlower>("ShinyFlower_TikiThunder");
+void CTiki_Thunder::ChangeAnim_Idle()
+{
+	m_Animation->ChangeAnimation("Tiki_Thunder_Idle");
+}
 
-		// X, Y, Z -50 ~ 50 범위 내의 위치에서 꽃이 생겨날 수 있게 설정.
-		int RandX = (float)(rand() % 100 - 50) + GetWorldPos().x;
-		int RandY = (float)(rand() % 100 - 50) + GetWorldPos().y;
-		int RandZ = (float)(rand() % 100 - 50) + GetWorldPos().z;
-
-		Flower->SetWorldPosition(RandX, RandY, RandZ);
-	}
+void CTiki_Thunder::ChangeAnim_Die()
+{
+	m_Animation->ChangeAnimation("Tiki_Thunder_Die");
 }
 
 void CTiki_Thunder::Collision_PlayerAttack(const CollisionResult& result)
