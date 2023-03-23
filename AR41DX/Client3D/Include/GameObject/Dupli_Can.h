@@ -15,6 +15,10 @@ protected:
 private:
 	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
 	CSharedPtr<class CColliderOBB3D>	m_Cube;
+	CSharedPtr<class CRigidBody>		m_Rigid;
+
+private:
+	float m_FallTime;
 
 public:
 	virtual void Start();
@@ -25,6 +29,8 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
+private:
 	void Collision_Ground(const CollisionResult& result);
+	void SpawnHammer();
 };
 

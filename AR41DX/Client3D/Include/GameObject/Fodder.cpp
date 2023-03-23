@@ -224,14 +224,16 @@ void CFodder::Dead()
 
 void CFodder::Debris()
 {
-	Vector3 FodderPos = GetWorldPos();
+	if (!m_Scene->FindObject("FodderDebris"))
+	{
+		Vector3 FodderPos = GetWorldPos();
 
-	m_Mesh->Destroy();
-	m_Mesh->ClearMaterial();
+		m_Mesh->Destroy();
+		m_Mesh->ClearMaterial();
 
-	CFodderDebris* Debris = m_Scene->CreateObject<CFodderDebris>("FodderDebris");
-	Debris->SetWorldPosition(FodderPos);
-
+		CFodderDebris* Debris = m_Scene->CreateObject<CFodderDebris>("FodderDebris");
+		Debris->SetWorldPosition(FodderPos.x, FodderPos.y + 100.f, FodderPos.z);
+	}
 }
 
 void CFodder::Collision_Detect_ChaseOn(const CollisionResult& result)

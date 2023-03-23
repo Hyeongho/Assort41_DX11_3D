@@ -14,7 +14,7 @@
 #include "Engine.h"
 
 CDuplicatotron::CDuplicatotron() :
-	m_SpawnOn(false)
+	  m_SpawnOn(false)
 	, m_CountHammer(0)
 	, m_DelayTime(0.f)
 {
@@ -25,6 +25,10 @@ CDuplicatotron::CDuplicatotron() :
 
 CDuplicatotron::CDuplicatotron(const CDuplicatotron& Obj)
 {
+	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+	m_DetectArea = (CColliderOBB3D*)FindComponent("DetectArea");
+	m_BodyCube = (CColliderOBB3D*)FindComponent("Body");
+	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 }
 
 CDuplicatotron::~CDuplicatotron()
@@ -37,9 +41,10 @@ void CDuplicatotron::Start()
 
 	m_DetectArea->SetCollisionCallback<CDuplicatotron>(ECollision_Result::Collision, this, &CDuplicatotron::Collision_Detect);
 	m_DetectArea->SetCollisionCallback<CDuplicatotron>(ECollision_Result::Release, this, &CDuplicatotron::Release_DetectOff);
+	m_BodyCube->SetCollisionCallback<CDuplicatotron>(ECollision_Result::Collision, this, &CDuplicatotron::Collision_Dead);
 
-	
-	m_Animation->SetCurrentEndFunction("Duplicatotron_SpawnEnemies", this, &CDuplicatotron::SpawnHammers);
+	//m_Animation->SetCurrentEndFunction("Duplicatotron_SpawnEnemies", this, &CDuplicatotron::SpawnHammers);
+	m_Animation->SetCurrentEndFunction("Duplicatotron_Destroyed", this, &CDuplicatotron::Destroyed);
 }
 
 bool CDuplicatotron::Init()
@@ -52,9 +57,12 @@ bool CDuplicatotron::Init()
 	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 
 	m_DetectArea = CreateComponent<CColliderOBB3D>("DetectArea");
-	m_BodyCube = CreateComponent<CColliderOBB3D>("AttackArea");
+	m_BodyCube = CreateComponent<CColliderOBB3D>("Body");
+	m_Rigid = CreateComponent<CRigidBody>("Rigid");
 
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("HammerAnimation");
+
+	m_Mesh->SetMesh("Duplicatotron");
 
 	SetRootComponent(m_Mesh);
 
@@ -62,9 +70,9 @@ bool CDuplicatotron::Init()
 	//m_Mesh->AddChild(m_DetectArea);
 	//m_Mesh->AddChild(m_BodyCube);
 
-	m_Mesh->SetMesh("Duplicatotron");
 	m_Mesh->AddChild(m_DetectArea);
 	m_Mesh->AddChild(m_BodyCube);
+	//m_Mesh->AddChild(m_Rigid);
 	m_Mesh->SetWorldPosition(500.f, 0.f, 100.f);
 
 	auto iter = m_Mesh->GetMaterials()->begin();
@@ -96,8 +104,6 @@ bool CDuplicatotron::Init()
 void CDuplicatotron::Update(float DeltaTime)
 {
 	CMonster::Update(DeltaTime);
-
-	
 }
 
 void CDuplicatotron::PostUpdate(float DeltaTime)
@@ -106,34 +112,38 @@ void CDuplicatotron::PostUpdate(float DeltaTime)
 
 	if (m_SpawnOn)
 	{
-		m_CountHammer = 0;
+		//m_CountHammer = 0;
 
 		m_DelayTime += DeltaTime;
 		
-		if (m_DelayTime >= 2.3f && m_CountHammer < 1)
+		if (m_DelayTime >= 5.f && m_CountHammer < 1)
 		{
 			++m_CountHammer;
 
 			SpawnHammers();
 
-			m_DelayTime = 0.f;
+			//m_DelayTime = 0.f;
 		}
 
-		if (m_DelayTime >= 3.0f && m_CountHammer < 3)
+		if (m_DelayTime >= 10.f && m_CountHammer < 2)
 		{
 			++m_CountHammer;
 
 			SpawnHammers();
-
-		}
-
-		if (m_CountHammer > 2)
-		{
-			m_CountHammer = 0;
-			m_DelayTime = 0.f;
 
 			m_SpawnOn = false;
+
 		}
+
+		//if (m_CountHammer > 3)
+		//{
+		//	m_SpawnOn = false;
+
+		//	//m_CountHammer = 0;
+
+		//	m_DelayTime = 0.f;
+
+		//}
 	}
 }
 
@@ -176,6 +186,22 @@ void CDuplicatotron::Release_DetectOff(const CollisionResult& result)
 	}
 }
 
+void CDuplicatotron::Collision_Dead(const CollisionResult& result)
+{
+	std::string Name = result.Dest->GetCollisionProfile()->Name;
+
+	if (Name == "PlayerAttack")
+	{
+		m_Animation->ChangeAnimation("Duplicatotron_Destroyed");
+	}
+}
+
+
+void CDuplicatotron::Destroyed()
+{
+	m_Mesh->Destroy();
+}
+
 void CDuplicatotron::SpawnAnimation()
 {
 	m_Animation->ChangeAnimation("Duplicatotron_SpawnEnemies");
@@ -183,12 +209,11 @@ void CDuplicatotron::SpawnAnimation()
 
 void CDuplicatotron::SpawnHammers()
 {
-	m_SpawnOn = true;
+	//m_SpawnOn = true;
 
 	Vector3 Pos = GetWorldPos();
 
 	CDupli_Can* DupliCan = m_Scene->CreateObject<CDupli_Can>("Dupli_Can");
-	DupliCan->SetWorldPosition(Pos.x + 10.f, Pos.y + 10.f, Pos.z + 10.f);
-
-	//m_Hammer = m_Scene->CreateObject<CHammer>("Hammer");
+	DupliCan->SetWorldPosition(Pos.x + 500.f, Pos.y + 10.f, Pos.z + 100.f);
 }
+

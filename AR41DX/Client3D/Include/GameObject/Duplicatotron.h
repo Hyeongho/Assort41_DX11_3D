@@ -16,9 +16,12 @@ protected:
 private:
 	CSharedPtr<class CColliderOBB3D>	m_DetectArea;
 	CSharedPtr<class CColliderOBB3D>	m_BodyCube;
+	CSharedPtr<class CRigidBody>		m_Rigid;
+	CSharedPtr<class CHammer>			m_Hammer;
+	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
+	
 
 private:
-	CSharedPtr<class CHammer>	m_Hammer;
 	bool	m_DetectOn;
 	bool	m_SpawnOn;
 	int		m_CountHammer;
@@ -44,9 +47,11 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
-public:
+private:
 	void Collision_Detect(const CollisionResult& result);
 	void Release_DetectOff(const CollisionResult& result);
+	void Collision_Dead(const CollisionResult& result);
+	void Destroyed();
 	void SpawnAnimation();
 	void SpawnHammers();
 };

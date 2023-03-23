@@ -31,6 +31,8 @@ CHammer::CHammer(const CHammer& Obj)
 	m_AttackArea = (CColliderOBB3D*)FindComponent("AttackArea");
 	m_BodyCube = (CColliderOBB3D*)FindComponent("BodyCube");
 	m_WeaponCube = (CColliderOBB3D*)FindComponent("WeaponCube");
+
+	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 }
 
 CHammer::~CHammer()
@@ -186,9 +188,6 @@ void CHammer::Update(float DeltaTime)
 void CHammer::PostUpdate(float DeltaTime)
 {
 	CMonster::PostUpdate(DeltaTime);
-
-
-	
 }
 
 CHammer* CHammer::Clone() const

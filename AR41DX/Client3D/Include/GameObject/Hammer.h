@@ -24,6 +24,8 @@ private:
 	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh3;
 	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh4;
 
+	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
+
 private:
 	bool	m_DetectOn;
 	bool	m_AttackOn;

@@ -54,6 +54,11 @@ bool CFodderDebris::Init()
     m_FodderDebrisMesh1->AddChild(m_FodderDebrisMesh2);
     m_FodderDebrisMesh1->AddChild(m_FodderDebrisMesh3);
     m_FodderDebrisMesh1->AddChild(m_FodderDebrisMesh4);
+    m_FodderDebrisMesh1->AddChild(m_Rigid);
+
+    m_FodderDebrisMesh2->AddChild(m_Rigid);
+    m_FodderDebrisMesh3->AddChild(m_Rigid);
+    m_FodderDebrisMesh4->AddChild(m_Rigid);
 
     m_FodderDebrisMesh1->SetMesh("FodderDebris1");
     m_FodderDebrisMesh2->SetMesh("FodderDebris2");
