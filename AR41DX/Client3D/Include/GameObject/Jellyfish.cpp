@@ -129,7 +129,7 @@ void CJellyfish::Collision(const CollisionResult& result)
         CJellyfishElectric* JellyfishElectric = m_Scene->CreateObject<CJellyfishElectric>("JellyfishElectric");
 
         JellyfishElectric->SetWorldPosition(m_MonsterPos);
-
+         
         CResourceManager::GetInst()->SoundPlay("Jellyfish_Attack");
     }
 

@@ -162,6 +162,11 @@ void CKingJellyfish::Update(float DeltaTime)
 
     m_PlayerPos = m_Scene->FindObject("Player")->GetWorldPos();
 
+    if (m_CollisionCount == 3)
+    {
+        Destroy();
+    }
+
 }
 
 void CKingJellyfish::PostUpdate(float DeltaTime)
@@ -211,10 +216,12 @@ void CKingJellyfish::PostUpdate(float DeltaTime)
     {
         m_Mesh->AddWorldPosition(0.f, 0.f, 0.f);
 
-        //  CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-          //Jellyfish->AddWorldPosition(Vector3(0.3f, 0.f, 0.7f) * 100.f * g_DeltaTime);
+        //CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
+        //Jellyfish->AddWorldPosition(Vector3(0.3f, 0.f, 0.7f) * 100.f * g_DeltaTime);
 
         m_AttackTime += g_DeltaTime;
+
+        //SpawnJellyfish();
 
         if (m_AttackTime > 7.f)
         {
@@ -263,19 +270,27 @@ void CKingJellyfish::AttackCollision(const CollisionResult& result)
 {
     if (result.Dest->GetCollisionProfile()->Name == "PlayerAttack")
     {
-        m_Electric = false;
-
-        m_OnGround = false;
-
-        Damage();
-
-        m_Angry = true;
-
-        m_CollisionCount++;
-
-        if (m_CollisionCount == 3)
+        if (m_Electric)
         {
-            m_Mesh->Destroy();
+            m_Electric = false;
+
+            Damage();
+
+            m_Angry = true;
+
+            m_CollisionCount++;
+        }
+
+
+        if (m_OnGround)
+        {
+            m_OnGround = false;
+
+            Damage();
+
+            m_Angry = true;
+
+            m_CollisionCount++;
         }
     }
 }
@@ -285,9 +300,12 @@ void CKingJellyfish::DetectCollision(const CollisionResult& result)
 {
     if (result.Dest->GetCollisionProfile()->Name == "Player")
     {
-        m_Idle = false;
+        if (m_Idle)
+        {
+            m_Idle = false;
 
-        Attack();
+            Attack();
+        }
     }
 }
 
@@ -295,15 +313,27 @@ void CKingJellyfish::PoolCollision(const CollisionResult& result)
 {
     if (result.Dest->GetCollisionProfile()->Name == "Pool")
     {
-        m_Angry = false;
+        if (m_Angry)
+        {
+            m_Angry = false;
 
-        m_ReSpawn = false;
+            m_SpawnJellyfish = true;
 
-        m_SpawnJellyfish = true;
+            m_Animation->ChangeAnimation("KingJellyfish_SpawnJellyfish");
 
-        m_Animation->ChangeAnimation("KingJellyfish_SpawnJellyfish");
+            CResourceManager::GetInst()->SoundPlay("KingJellyfish_SpawnJellyfish");
+        }
 
-        CResourceManager::GetInst()->SoundPlay("KingJellyfish_SpawnJellyfish");
+        if (m_ReSpawn)
+        {
+            m_ReSpawn = false;
+
+            m_SpawnJellyfish = true;
+
+            m_Animation->ChangeAnimation("KingJellyfish_SpawnJellyfish");
+
+            CResourceManager::GetInst()->SoundPlay("KingJellyfish_SpawnJellyfish");
+        }
     }
 }
 
@@ -372,31 +402,32 @@ void CKingJellyfish::SpawnJellyfish()
         CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
         Jellyfish->AddWorldPosition(Vector3(0.3f, 0.f, 0.7f) * 100.f * g_DeltaTime);
 
+        if (m_AttackTime >= 2.f && m_AttackTime < 3.f)
+        {
+            Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
+            Jellyfish->AddWorldPosition(Vector3(0.5f, 0.f, 0.5f) * 100.f * g_DeltaTime);
+
+            if (m_AttackTime >= 3.f && m_AttackTime < 4.f)
+            {
+                Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
+                Jellyfish->AddWorldPosition(Vector3(1.f, 0.f, 0.f) * 100.f * g_DeltaTime);
+
+                if (m_AttackTime >= 4.f && m_AttackTime < 5.f)
+                {
+                    CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
+                    Jellyfish->AddWorldPosition(Vector3(0.f, 0.f, 1.f) * 100.f * g_DeltaTime);
+
+                    m_Animation->ChangeAnimation("KingJellyfish_Idle");
+
+                    AddWorldPosition(0.f, 0.f, 0.f);
+
+                }
+
+            }
+
+        }
+
     }
-
-    if (m_AttackTime >= 2.f && m_AttackTime < 3.f)
-    {
-        CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-        Jellyfish->AddWorldPosition(Vector3(0.5f, 0.f, 0.5f) * 100.f * g_DeltaTime);
-
-    }
-
-    if (m_AttackTime >= 3.f && m_AttackTime < 4.f)
-    {
-        CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-        Jellyfish->AddWorldPosition(Vector3(1.f, 0.f, 0.f) * 100.f * g_DeltaTime);
-
-    }
-
-    if (m_AttackTime >= 4.f && m_AttackTime < 5.f)
-    {
-        CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-        Jellyfish->AddWorldPosition(Vector3(0.f, 0.f, 1.f) * 100.f * g_DeltaTime);
-    }
-
-    m_Animation->ChangeAnimation("KingJellyfish_Idle");
-
-    AddWorldPosition(0.f, 0.f, 0.f);
 
 
 }

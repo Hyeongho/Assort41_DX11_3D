@@ -5,12 +5,6 @@ class CKingJellyfish :
 	public CGameObject
 {
 	friend class CScene;
-	friend class COnGround;
-	friend class CSpawnJellyfish;
-	friend class CDamage;
-	friend class CAngry;
-
-
 protected:
 	CKingJellyfish();
 	CKingJellyfish(const CKingJellyfish& Obj);
