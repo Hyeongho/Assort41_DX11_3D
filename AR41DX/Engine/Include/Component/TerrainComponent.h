@@ -18,6 +18,7 @@ private:
     int m_CountY;
     int m_HeightMapX;
     int m_HeightMapY;
+    float m_Height; //kbj 
     Vector2 m_CellSize;
     Vector2 m_Size;
     std::vector<Vertex3DStatic> m_vecVtx;
@@ -27,7 +28,7 @@ private:
     bool m_Grid;
     std::string m_FileName;
 public:
-    //김범중 에디터용
+    //kbj editor
     Vector2 GetSize()   const
     {
         return m_Size;
@@ -53,6 +54,10 @@ public:
     void SetCountY(int count)
     {
         m_CountY = count;
+    }
+    void SetHeight(float f)
+    {
+        m_Height = f;
     }
     //
     int GetFaceCount() const

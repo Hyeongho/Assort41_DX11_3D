@@ -298,9 +298,9 @@ struct CollisionChannel
 
 struct CollisionProfile
 {
-	std::string							Name;
-	CollisionChannel* Channel;
-	bool								Enable;
+	std::string				Name;
+	CollisionChannel*		Channel;
+	bool					Enable;
 	std::vector<ECollision_Interaction>	vecCollisionInteraction;
 
 	CollisionProfile() :

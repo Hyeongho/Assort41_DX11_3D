@@ -1,4 +1,4 @@
-#include "Tiki_Stone.h"
+﻿#include "Tiki_Stone.h"
 
 #include "Component/AnimationMeshComponent.h"
 #include "Component/ColliderOBB3D.h"
@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "Scene/Scene.h"
 #include "../Player.h"
+#include "../Object/Common/Collectible/ShinyFlower.h"
 
 CTiki_Stone::CTiki_Stone()
 {
@@ -44,10 +45,15 @@ bool CTiki_Stone::Init()
 	m_Mesh->SetMesh("Tiki_Stone");
 	m_Mesh->AddChild(m_Collider);
 
+
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Monster");
+	m_Collider->SetCollisionCallback<CTiki_Stone>(ECollision_Result::Collision, this, &CTiki_Stone::Collision_PlayerAttack);
+	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
+	m_Collider->SetInheritRotZ(true);
+
 
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("TikiStoneAnimation");
 	m_Animation->AddAnimation("Tiki_Stone_Idle", "Tiki_Stone_Idle", 1.f, 1.f, true);
@@ -63,7 +69,7 @@ void CTiki_Stone::Update(float DeltaTime)
 	CGameObject::Update(DeltaTime);
 
 
-	// �׻� �÷��̾ �ٶ󺸰� �Ѵ�.
+	// 항상 플레이어를 바라보게 한다.
 	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
 
 	if (!Player)
@@ -110,15 +116,34 @@ void CTiki_Stone::ChangeAnim_Die()
 void CTiki_Stone::Tiki_Die()
 {
 	CreateFlowers();
+
 	Destroy();
 }
 
 void CTiki_Stone::CreateFlowers()
 {
+	// 5 ~ 12개의 플라워 생성
+	int FlowerCount = rand() % 8 + 5;
+
+	for (int i = 0; i < FlowerCount; i++) {
+		CShinyFlower* Flower = m_Scene->CreateObject<CShinyFlower>("ShinyFlower_TikiWood");
+
+		// X, Y, Z -50 ~ 50 범위 내의 위치에서 꽃이 생겨날 수 있게 설정.
+		int RandX = (float)(rand() % 100 - 50) + GetWorldPos().x;
+		int RandY = (float)(rand() % 100 - 50) + GetWorldPos().y;
+		int RandZ = (float)(rand() % 100 - 50) + GetWorldPos().z;
+
+		Flower->SetWorldPosition(RandX, RandY, RandZ);
+	}
 }
 
-void CTiki_Stone::AttackedCollision(const CollisionResult& result)
+void CTiki_Stone::Collision_PlayerAttack(const CollisionResult& result)
 {
-	// ƨ�ܳ����� ���� ���
+	// 사운드 처리
+	int RandNum = rand() % 4 + 1;
+	std::string TikiSound = "TikiStoneHit" + std::to_string(RandNum);
+	CSound* Sound = m_Scene->GetResource()->FindSound(TikiSound);
 
+	if (Sound)
+		Sound->Play();
 }

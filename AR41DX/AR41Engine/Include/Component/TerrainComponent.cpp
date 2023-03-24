@@ -10,7 +10,9 @@
 #include "../Thread/ThreadManager.h"
 #include "../Scene/NavigationManager3D.h"
 
-CTerrainComponent::CTerrainComponent() : m_CountX(0), m_CountY(0), m_HeightMapX(0), m_HeightMapY(0), m_Grid(true)
+CTerrainComponent::CTerrainComponent() : m_CountX(0), m_CountY(0), m_HeightMapX(0), m_HeightMapY(0)
+	, m_Grid(true)
+	, m_Height(10.f)
 {
 	SetTypeID<CTerrainComponent>();
 
@@ -34,6 +36,7 @@ CTerrainComponent::CTerrainComponent(const CTerrainComponent& component) : CPrim
 	}
 
 	m_Grid = component.m_Grid;
+	m_Height = component.m_Height;
 }
 
 CTerrainComponent::~CTerrainComponent()
@@ -200,6 +203,7 @@ void CTerrainComponent::Save(FILE* File)
 	fwrite(&m_CountY, sizeof(int), 1, File);
 	fwrite(&m_CellSize, sizeof(Vector2), 1, File);
 	fwrite(&m_Grid, sizeof(bool), 1, File);
+	fwrite(&m_Height, sizeof(float), 1, File);
 	int Length = (int)m_FileName.length();
 	fwrite(&Length, 4, 1, File);
 	fwrite(m_FileName.c_str(), 1, Length, File);
@@ -212,6 +216,7 @@ void CTerrainComponent::Load(FILE* File)
 	fread(&m_CountY, sizeof(int), 1, File);
 	fread(&m_CellSize, sizeof(Vector2), 1, File);
 	fread(&m_Grid, sizeof(bool), 1, File);
+	fread(&m_Height, sizeof(float), 1, File);
 	int Length = 0;
 	char	Name[256] = {};
 	fread(&Length, 4, 1, File);
@@ -318,7 +323,7 @@ void CTerrainComponent::CreateTerrain(int CountX, int CountY, float SizeX, float
 					MaxY = Y;
 				}
 
-				vecY.push_back(Y*10.f);
+				vecY.push_back(Y* m_Height);
 			}
 		}
 	}

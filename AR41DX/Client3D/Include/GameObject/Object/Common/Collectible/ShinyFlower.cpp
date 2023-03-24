@@ -36,6 +36,7 @@ bool CShinyFlower::Init()
 	m_Mesh->SetMesh("ShinyFlower");
 
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
+	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
 	m_Collider->SetCollisionCallback<CShinyFlower>(ECollision_Result::Collision, this, &CShinyFlower::PlayerCollisionItem);
 

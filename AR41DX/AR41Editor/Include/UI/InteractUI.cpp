@@ -1,4 +1,4 @@
-#include "InteractUI.h"
+ï»¿#include "InteractUI.h"
 
 #include "UI/UIText.h"
 #include "UI/UIImage.h"
@@ -84,7 +84,7 @@ void CInteractUI::CreateInteractUI()
 
 	Resolution	RS = CDevice::GetInst()->GetResolution();
 
-	// ÇÏ´Ü °¡ÀÌµå
+	// í•˜ë‹¨ ê°€ì´ë“œ
 	float GuideSizeX = 25.f;
 	float GuideSizeY = 25.f;
 	float GuidePosY = 25.f;
@@ -107,7 +107,7 @@ void CInteractUI::CreateInteractUI()
 	Text->SetAlignH(Text_Align_H::Left);
 	Text->SetPos(RS.Width / 2.f - GuideSizeX, GuidePosY);
 	Text->SetFontSize(20.f);
-	Text->SetText(TEXT("¸¦ ÀÔ·ÂÇÏ¿© ÇÏ±â"));
+	Text->SetText(TEXT("ë¥¼ ìž…ë ¥í•˜ì—¬ í•˜ê¸°"));
 	Text->SetColor(Vector4::White);
 
 	m_mapInteractUI.insert(std::make_pair("InteractUI_TextGuide", Text));
@@ -135,23 +135,23 @@ void CInteractUI::SetTarget(EInteractTarget Target)
 	switch (Target)
 	{
 	case EInteractTarget::Npc:
-		Text->SetText(TEXT("¸¦ ´­·¯ ´ëÈ­ÇÏ±â"));
+		Text->SetText(TEXT("ë¥¼ ëˆŒëŸ¬ ëŒ€í™”í•˜ê¸°"));
 		break;
 	case EInteractTarget::Sponge_House:
-		Text->SetText(TEXT("¸¦ ´­·¯ ½ºÆùÁö¹äÀÇ Áý¿¡ ÀÔÀåÇÏ±â"));
+		Text->SetText(TEXT("ë¥¼ ëˆŒëŸ¬ ìŠ¤í°ì§€ë°¥ì˜ ì§‘ì— ìž…ìž¥í•˜ê¸°"));
 		break;
 	case EInteractTarget::Squid_House:
-		Text->SetText(TEXT("¸¦ ´­·¯ Â¡Â¡ÀÌÀÇ Áý¿¡ ÀÔÀåÇÏ±â"));
+		Text->SetText(TEXT("ë¥¼ ëˆŒëŸ¬ ì§•ì§•ì´ì˜ ì§‘ì— ìž…ìž¥í•˜ê¸°"));
 		break;
 	case EInteractTarget::Patric_House:
-		Text->SetText(TEXT("¸¦ ´­·¯ ¶×ÀÌÀÇ Áý¿¡ ÀÔÀåÇÏ±â"));
+		Text->SetText(TEXT("ë¥¼ ëˆŒëŸ¬ ëš±ì´ì˜ ì§‘ì— ìž…ìž¥í•˜ê¸°"));
 		break;
 	case EInteractTarget::Door:
 	case EInteractTarget::Gate:
-		Text->SetText(TEXT("¸¦ ´­·¯ ÀÔÀåÇÏ±â"));
+		Text->SetText(TEXT("ë¥¼ ëˆŒëŸ¬ ìž…ìž¥í•˜ê¸°"));
 		break;
 	case EInteractTarget::Teleport_Box:
-		Text->SetText(TEXT("¸¦ ´­·¯ ÅÚ·¹Æ÷Æ® ¹Ú½º »ç¿ëÇÏ±â"));
+		Text->SetText(TEXT("ë¥¼ ëˆŒëŸ¬ í…”ë ˆí¬íŠ¸ ë°•ìŠ¤ ì‚¬ìš©í•˜ê¸°"));
 		break;
 	}
 }

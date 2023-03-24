@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "UI/UIWindow.h"
 
@@ -59,8 +59,8 @@ public:
 	void SetCurDialog(std::string DialName);
 
 private:
-	void KeyLeftButton();	// ¸¶¿ì½º ¿Ş¹öÆ° Å¬¸¯
-	void KeyRightButton();	// ¸¶¿ì½º ¿ì¹öÆ° Å¬¸¯
+	void KeyLeftButton();	// ë§ˆìš°ìŠ¤ ì™¼ë²„íŠ¼ í´ë¦­
+	void KeyRightButton();	// ë§ˆìš°ìŠ¤ ìš°ë²„íŠ¼ í´ë¦­
 
 
 };

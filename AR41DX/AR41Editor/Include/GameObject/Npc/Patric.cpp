@@ -2,8 +2,10 @@
 
 #include "Input.h"
 #include "Component/AnimationMeshComponent.h"
+#include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
 #include "../../UI/DialogUI.h"
+#include "../Object/Common/Collectible/Sock.h"
 
 CPatric::CPatric()
 {
@@ -12,7 +14,7 @@ CPatric::CPatric()
 	m_ObjectTypeName = "Patric";
 
     m_DialogCount = 0;
-    m_NpcType = ENpcList::MrKrabs;
+    m_NpcType = ENpcList::Patric;
     m_NpcMapPos = EMapList::Bikini_Bottom;
     m_EnableDialog = false;
     m_NpcMeshType = MeshType::Animation;
@@ -21,8 +23,8 @@ CPatric::CPatric()
 CPatric::CPatric(const CPatric& Obj)
 	: CNpc(Obj)
 {
-    m_AnimMesh = Obj.m_AnimMesh;
-    m_Animation =Obj.m_Animation;
+    m_AnimMesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+    m_Animation = (CAnimation*)FindComponent("PatricNpcAnimation");
 
     m_DialogCount = Obj.m_DialogCount;
     m_NpcType = Obj.m_NpcType;
@@ -37,7 +39,17 @@ CPatric::~CPatric()
 
 void CPatric::Start()
 {
-    CNpc::Init();
+    CNpc::Start();
+
+#ifdef _DEBUG
+    CInput::GetInst()->AddBindFunction<CPatric>("F1", Input_Type::Up, this, &CPatric::ChangeAnim_Confused, m_Scene);
+    CInput::GetInst()->AddBindFunction<CPatric>("F2", Input_Type::Up, this, &CPatric::ChangeAnim_Default, m_Scene);
+    CInput::GetInst()->AddBindFunction<CPatric>("F3", Input_Type::Up, this, &CPatric::ChangeAnim_Excited, m_Scene);
+    CInput::GetInst()->AddBindFunction<CPatric>("F4", Input_Type::Up, this, &CPatric::ChangeAnim_Scowl_Start, m_Scene);
+    CInput::GetInst()->AddBindFunction<CPatric>("F5", Input_Type::Up, this, &CPatric::ChangeAnim_Talk, m_Scene);
+    CInput::GetInst()->AddBindFunction<CPatric>("F6", Input_Type::Up, this, &CPatric::ChangeAnim_Thinking_Start, m_Scene);
+    CInput::GetInst()->AddBindFunction<CPatric>("F7", Input_Type::Up, this, &CPatric::CreateSock, m_Scene);
+#endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CPatric>("F", Input_Type::Up, this, &CPatric::StartDialog, m_Scene);
 }
@@ -46,11 +58,17 @@ bool CPatric::Init()
 {
     CNpc::Init();
 
-    m_AnimMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
-
-    SetRootComponent(m_AnimMesh);
-
     m_AnimMesh->SetMesh("Patric_Npc");
+
+    Vector3 ColSize = m_AnimMesh->GetMeshSize();
+
+    if (m_AnimMesh->GetMeshSize().x >= m_AnimMesh->GetMeshSize().z)
+        ColSize.z = m_AnimMesh->GetMeshSize().x;
+    else
+        ColSize.x = m_AnimMesh->GetMeshSize().z;
+
+    m_Collider->SetBoxHalfSize(ColSize / 2.f);
+    m_Collider->SetRelativePositionY(ColSize.y / 2.f);
 
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("PatricNpcAnimation");
 
@@ -173,4 +191,12 @@ void CPatric::ChangeAnim_Thinking_Start()
 void CPatric::ChangeAnim_Thinking_Loop()
 {
     m_Animation->ChangeAnimation("Patric_Npc_Thinking_Loop");
+}
+
+void CPatric::CreateSock()
+{
+    CSock* Sock = m_Scene->CreateObject<CSock>("Sock_Patrick");
+
+    Sock->SetWorldPosition(GetWorldPos());
+    Sock->SetWorldPositionZ(GetWorldPos().z - m_AnimMesh->GetMeshSize().z);
 }
