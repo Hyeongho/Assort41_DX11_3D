@@ -875,7 +875,7 @@ void CPlayer::LClick()
 		m_Scene->GetResource()->SoundPlay("Spongebob_BubbleSpin");
 		m_Weapon->GetRootComponent()->SetEnable(true);
 		m_Particle->SetRelativePosition(-50.f, 50.f, -80.f);
-		m_Particle->SetParticle("SpongebobAtk");
+		m_Particle->ChangeParticle("SpongebobAtk");
 		break;
 	case EMain_Character::Patrick:
 	{
@@ -884,7 +884,7 @@ void CPlayer::LClick()
 			return;
 		}
 		m_Scene->GetResource()->SoundPlay("Patrick_Attack");
-		m_Particle->SetParticle("PatrickAtk");
+		//m_Particle->ChangeParticle("PatrickAtk");
 		float angle = GetWorldRot().y-180.f;
 		m_Rigid->SetGround(false);
 		m_Rigid->AddForce(sinf(DegreeToRadian(angle)) * 150.f, 200.f, cosf(DegreeToRadian(angle)) * 150.f);
@@ -892,7 +892,7 @@ void CPlayer::LClick()
 		break;
 	}
 	case EMain_Character::Sandy:
-		//m_Particle->SetParticle("SpongebobAtk");
+		//m_Particle->ChangeParticle("SpongebobAtk");
 		if (m_Rigid->GetGround())
 		{
 			m_Scene->GetResource()->SoundPlay("Sandy_Chop");
@@ -1049,7 +1049,7 @@ void CPlayer::BashCheck()
 			m_Scene->GetResource()->SoundPlay("Sandy_BubbleBash");
 			break;
 		}
-		m_Particle->SetParticle("BashBubble");
+		m_Particle->ChangeParticle("BashBubble");
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBash");
 		m_TailCube->SetEnable(true);
 		m_IsStop = true;

@@ -157,7 +157,7 @@ bool CMaterialManager::Init()
 	Material->SetShader("SpriteShader");
 
 	Material = CreateMaterial<CMaterial>("ShockWave");
-	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.tga"));
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.png"));
 	Material->SetShader("SpriteShader");
 	return true;
 }
