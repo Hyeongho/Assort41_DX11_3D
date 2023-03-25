@@ -30,6 +30,7 @@ CKingJellyfish::CKingJellyfish()
     , m_Damage(false)
     , m_Pool(false)
     , m_ReSpawn(false)
+    , m_Jellyfish(0)
 {
     SetTypeID<CKingJellyfish>();
 
@@ -55,10 +56,6 @@ void CKingJellyfish::Start()
 
     m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Attack", this, &CKingJellyfish::OnGround);
     m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Damage", this, &CKingJellyfish::Angry);
-    //m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish", this, &CKingJellyfish::SpawnJellyfish1);
-    //m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish1", this, &CKingJellyfish::SpawnJellyfish2);
-    //m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish2", this, &CKingJellyfish::SpawnJellyfish3);
-    //m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_SpawnJellyfish3", this, &CKingJellyfish::SpawnJellyfish4);
 }
 
 bool CKingJellyfish::Init()
@@ -66,7 +63,7 @@ bool CKingJellyfish::Init()
     CGameObject::Init();
 
     m_Mesh = CreateComponent<CAnimationMeshComponent>("KingJellyfishMesh");
-    //m_EffectMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+    m_EffectMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
     m_AttackCollision = CreateComponent<CColliderOBB3D>("AttackCollision");
     m_DetectCollision = CreateComponent<CColliderOBB3D>("DetectCollision");
     m_PoolCollision = CreateComponent<CColliderOBB3D>("PoolCollision");
@@ -74,11 +71,12 @@ bool CKingJellyfish::Init()
     SetRootComponent(m_Mesh);
 
     m_Mesh->SetMesh("KingJellyfish");
-    //m_EffectMesh->SetMesh("KingJellyfish");
+    m_EffectMesh->SetMesh("KingJellyfish");
 
     m_Mesh->AddChild(m_AttackCollision);
     m_Mesh->AddChild(m_DetectCollision);
     m_Mesh->AddChild(m_PoolCollision);
+    m_Mesh->AddChild(m_EffectMesh);
 
     m_AttackCollision->SetBoxHalfSize(200.f, 200.f, 200.f);
     m_AttackCollision->SetRelativePosition(100.f, 400.f);
@@ -98,6 +96,7 @@ bool CKingJellyfish::Init()
     m_DetectCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::DetectCollision);
     m_PoolCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::PoolCollision);
 
+    m_EffectMesh->SetMaterial(0, "Effect");
     //std::string& Name = m_Mesh->GetSkeleton()->GetBone();
 
     //m_EffectMesh->GetSkeleton()->
@@ -110,8 +109,16 @@ bool CKingJellyfish::Init()
     //m_Mesh->AddChild(m_EffectMesh);
     //m_Mesh->AddChild(m_AttackCollision);
 
+    auto iter = m_EffectMesh->GetMaterials()->begin();
+    auto iterEnd = m_EffectMesh->GetMaterials()->end();
 
-    //m_EffectMesh->SetRelativeScale(1.25f, 1.25f);
+    for (; iter != iterEnd; iter++)
+    {
+        (*iter)->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
+    }
+
+
+    m_EffectMesh->SetRelativeScale(1.25f, 1.25f);
 
     m_Animation = m_Mesh->SetAnimation<CAnimation>("KingJellyfishAnimation");
 
@@ -121,16 +128,10 @@ bool CKingJellyfish::Init()
     m_Animation->AddAnimation("KingJellyfish_Damage", "KingJellyfish_Damage", 1.f, 0.5f, false);
     m_Animation->AddAnimation("KingJellyfish_OnGround", "KingJellyfish_OnGround", 1.f, 0.5, true);
     m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, true);
-    m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish1", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, false);
-    m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish2", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, false);
-    m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish3", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, false);
-    m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish4", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, false);
 
     //CSkeleton* Skeleton = m_Mesh->GetSkeleton();
 
     //m_EffectMesh->GetAnimation()->SetSkeleton(Skeleton);
-
-   // m_BT = new CKingJellyfishBT;
 
     CResourceManager::GetInst()->SoundPlay("KingJellyfish_Idle");
     CResourceManager::GetInst()->SetVolume(2.f);
@@ -216,12 +217,35 @@ void CKingJellyfish::PostUpdate(float DeltaTime)
     {
         m_Mesh->AddWorldPosition(0.f, 0.f, 0.f);
         
-        //CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-        //Jellyfish->AddWorldPosition(Vector3(0.3f, 0.f, 0.7f) * 100.f * g_DeltaTime);
-
         m_AttackTime += g_DeltaTime;
 
-        //SpawnJellyfish();
+        if (m_AttackTime > 1.f && m_Jellyfish < 1)
+        {
+            CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
+            Jellyfish->SetCount(1);
+            ++m_Jellyfish;
+        }
+
+        if (m_AttackTime > 2.5f && m_Jellyfish >= 1 && m_Jellyfish < 2)
+        {
+            CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
+            Jellyfish->SetCount(2);
+            ++m_Jellyfish;
+        }
+
+        if (m_AttackTime > 4.f && m_Jellyfish >= 2 && m_Jellyfish < 3)
+        {
+            CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
+            Jellyfish->SetCount(3);
+            ++m_Jellyfish;
+        }
+
+        if (m_AttackTime > 5.5f && m_Jellyfish >= 3 && m_Jellyfish < 4)
+        {
+            CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
+            Jellyfish->SetCount(4);
+            ++m_Jellyfish;
+        }
 
         if (m_AttackTime > 7.f)
         {
@@ -230,6 +254,8 @@ void CKingJellyfish::PostUpdate(float DeltaTime)
             m_AttackTime = 0.f;
 
             m_SpawnJellyfish = false;
+
+            m_Jellyfish = 0;
         }
 
     }
@@ -392,75 +418,9 @@ void CKingJellyfish::OnGround()
 void CKingJellyfish::SpawnJellyfish()
 {
     CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-    Jellyfish->AddWorldPosition(Vector3(1.f, 0.f, 0.f) * 100.f * g_DeltaTime);
+    Jellyfish->AddWorldPosition(Vector3(0.f, 0.f, 1.f) * g_DeltaTime * 60.f);
 
     m_Animation->ChangeAnimation("KingJellyfish_SpawnJellyfish1");
-
-   
-    if (m_AttackTime >= 1.f && m_AttackTime < 2.f)
-    {
-        CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-        Jellyfish->AddWorldPosition(Vector3(0.3f, 0.f, 0.7f) * 100.f * g_DeltaTime);
-
-        if (m_AttackTime >= 2.f && m_AttackTime < 3.f)
-        {
-            Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-            Jellyfish->AddWorldPosition(Vector3(0.5f, 0.f, 0.5f) * 100.f * g_DeltaTime);
-
-            if (m_AttackTime >= 3.f && m_AttackTime < 4.f)
-            {
-                Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-                Jellyfish->AddWorldPosition(Vector3(1.f, 0.f, 0.f) * 100.f * g_DeltaTime);
-
-                if (m_AttackTime >= 4.f && m_AttackTime < 5.f)
-                {
-                    CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-                    Jellyfish->AddWorldPosition(Vector3(0.f, 0.f, 1.f) * 100.f * g_DeltaTime);
-
-                    m_Animation->ChangeAnimation("KingJellyfish_Idle");
-
-                    AddWorldPosition(0.f, 0.f, 0.f);
-
-                }
-
-            }
-
-        }
-
-    }
-
- 
-}
-
-void CKingJellyfish::SpawnJellyfish1()
-{
-    CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-    Jellyfish->AddWorldPosition(Vector3(0.7f, 0.f, 0.3f) * 100.f * g_DeltaTime);
-
-    m_Animation->ChangeAnimation("KingJellyfish_SpawnJellyfish2");
-}
-
-void CKingJellyfish::SpawnJellyfish2()
-{
-    CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-    Jellyfish->AddWorldPosition(Vector3(0.5f, 0.f, 0.5f) * 100.f * g_DeltaTime);
-
-    m_Animation->ChangeAnimation("KingJellyfish_SpawnJellyfish3");
-}
-
-void CKingJellyfish::SpawnJellyfish3()
-{
-    CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-    Jellyfish->AddWorldPosition(Vector3(0.3f, 0.f, 0.7f) * 100.f * g_DeltaTime);
-
-    m_Animation->ChangeAnimation("KingJellyfish_SpawnJellyfish4");
-}
-
-void CKingJellyfish::SpawnJellyfish4()
-{
-    m_SpawnJellyfish = false;
-
-    m_Idle = true;
 }
 
 void CKingJellyfish::ReSpawn()

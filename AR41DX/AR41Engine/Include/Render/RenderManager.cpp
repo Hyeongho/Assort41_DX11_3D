@@ -17,12 +17,14 @@
 #include "../Component/DecalComponent.h"
 #include "../Resource/Shader/ShadowConstantBuffer.h"
 #include "../Component/Collider3D.h"
+#include "../Resource/Shader/TranslationConstantBuffer.h"
 
 DEFINITION_SINGLE(CRenderManager)
 
 CRenderManager::CRenderManager() 
 	: m_ShadowMapRS{}
 	, m_ShaderType(EShaderType::Default)
+	, m_TextureTranslation(0.f)
 {
 	m_RenderStateManager = new CRenderStateManager;
 	m_ShadowCBuffer = new CShadowConstantBuffer;
@@ -50,6 +52,8 @@ CRenderManager::~CRenderManager()
 	}
 
 	SAFE_DELETE(m_RenderStateManager);
+	SAFE_DELETE(m_TranslationCBuffer);
+
 }
 
 void CRenderManager::SetShaderType(EShaderType Type)
@@ -61,7 +65,7 @@ void CRenderManager::SetShaderType(EShaderType Type)
 	switch (m_ShaderType)
 	{
 	case EShaderType::Default:
-		Name = "LightAccShader";
+		Name = "LightAccShader";	
 		break;
 	case EShaderType::CelShader:
 		Name = "LightCelShader";
@@ -175,6 +179,10 @@ bool CRenderManager::Init()
 	m_DepthWriteDisable = m_RenderStateManager->FindRenderState<CDepthStencilState>("DepthWriteDisable");
 	m_LightAccBlend = m_RenderStateManager->FindRenderState<CBlendState>("LightAccBlend");
 
+	m_TranslationCBuffer = new CTranslationConstantBuffer;
+
+	m_TranslationCBuffer->Init();
+
 	return true;
 }
 
@@ -253,6 +261,12 @@ void CRenderManager::Render3D(float DeltaTime)
 
 	// ShadowMap 을 그려낸다.
 	RenderShadowMap(DeltaTime);
+
+
+	m_TextureTranslation += 0.05f * DeltaTime;
+
+	m_TranslationCBuffer->SetTextureTranslation(m_TextureTranslation);
+	m_TranslationCBuffer->UpdateBuffer();
 
 	// GBuffer를 그려낸다.
 	RenderGBuffer(DeltaTime);
@@ -771,7 +785,7 @@ void CRenderManager::RenderScreen(float DeltaTime)
 
 	m_ShadowMapTarget->SetTargetShader(22);
 
-	Matrix	matView, matProj;
+	Matrix   matView, matProj;
 
 	matView = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetShadowViewMatrix();
 	matProj = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetShadowProjMatrix();
@@ -784,7 +798,7 @@ void CRenderManager::RenderScreen(float DeltaTime)
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
-	UINT	Offset = 0;
+	UINT   Offset = 0;
 
 	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
@@ -808,19 +822,20 @@ void CRenderManager::RenderScreen(float DeltaTime)
 // m_FXAABuffer를 채워준다.
 void CRenderManager::RenderFXAA(float DeltaTime)
 {
-	// GBuffer 필요없고, 조명은 이미 FXAA에 구현되어있어서 안 넣어도 된다. 
 	m_FXAABuffer->ClearTarget();
 
 	m_FXAABuffer->SetTarget();
 
-	m_ScreenBuffer->SetTargetShader(10); // 1.얘를 FXAA 로 넘겨줘야한다.
+	//m_FXAABuffer->SetTargetShader(10); // 0324
+	m_ScreenBuffer->SetTargetShader(10); //0324
+
 	m_FXAAShader->SetShader();
 
 	m_DepthDisable->SetState();
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
-	UINT	Offset = 0;
+	UINT   Offset = 0;
 
 	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
@@ -828,7 +843,10 @@ void CRenderManager::RenderFXAA(float DeltaTime)
 	Context->Draw(4, 0);
 
 	m_DepthDisable->ResetState();
-	m_ScreenBuffer->ResetTargetShader(10);
+	//m_ScreenBuffer->ResetTargetShader(10); 0324
+
+
+	m_FXAABuffer->ResetTargetShader(10); // 0324
 
 	m_FXAABuffer->ResetTarget();
 }
@@ -839,11 +857,13 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 
 	m_DepthDisable->SetState();
 
-	m_ScreenBuffer->SetTargetShader(21);
+	m_FXAABuffer->SetTargetShader(21);
+	//else
+	   //m_ScreenBuffer->SetTargetShader(10);
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
-	UINT	Offset = 0;
+	UINT   Offset = 0;
 
 	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
@@ -861,10 +881,10 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	{
 		RenderLayer* DecalLayer = FindLayer("Decal");
 
-		std::list<CSceneComponent*>	RenderList;
+		std::list<CSceneComponent*>   RenderList;
 
-		auto	iter = DecalLayer->RenderList.begin();
-		auto	iterEnd = DecalLayer->RenderList.end();
+		auto   iter = DecalLayer->RenderList.begin();
+		auto   iterEnd = DecalLayer->RenderList.end();
 
 		for (; iter != iterEnd;)
 		{
@@ -889,10 +909,10 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	{
 		RenderLayer* ColliderLayer = FindLayer("Collider");
 
-		std::list<CSceneComponent*>	RenderList;
+		std::list<CSceneComponent*>   RenderList;
 
-		auto	iter = ColliderLayer->RenderList.begin();
-		auto	iterEnd = ColliderLayer->RenderList.end();
+		auto   iter = ColliderLayer->RenderList.begin();
+		auto   iterEnd = ColliderLayer->RenderList.end();
 
 		for (; iter != iterEnd;)
 		{
@@ -1065,6 +1085,29 @@ void CRenderManager::RenderParticle(float DeltaTime)
 
 	m_vecGBuffer[2]->ResetTargetShader(14);
 }
+
+//void CRenderManager::RenderTranslation(float DeltaTime)
+//{
+//	m_DeferredRenderShader->SetShader();
+//
+//	m_DepthDisable->SetState();
+//
+//	m_ScreenBuffer->SetTargetShader(21);
+//
+//	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+//
+//	UINT	Offset = 0;
+//
+//	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+//	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+//	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+//	Context->Draw(4, 0);
+//
+//
+//	m_DepthDisable->ResetState();
+//
+//	m_TranslationCBuffer->R
+//}
 
 void CRenderManager::SetBlendFactor(const std::string& Name, float r, float g, float b, float a)
 {

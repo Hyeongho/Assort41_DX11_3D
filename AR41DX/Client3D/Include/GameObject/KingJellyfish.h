@@ -19,7 +19,6 @@ private:
 	CSharedPtr<class CColliderOBB3D>	m_DetectCollision;
 	CSharedPtr<class CColliderOBB3D>	m_PoolCollision;
 	CSharedPtr<class CElectricRing>		m_ElectricRing;
-	class CJellyfish*					m_Jellyfish[6];
 	CSharedPtr<class CPlayer>			m_Player;
 
 public:
@@ -34,6 +33,7 @@ public:
 	bool			m_Damage;
 	bool			m_Pool;
 	bool			m_ReSpawn;
+	int				m_Jellyfish;
 
 public:
 	float	m_AttackTime; // 공격 모션 중 쿨타임
@@ -74,10 +74,6 @@ public:
 	void OnGround();
 	void Attack(); // 공격 패턴1, 땅으로 착지하며 원 모양의 충격파를 날림
 	void SpawnJellyfish(); // 공격 패턴2, 해파리 몬스터를 생성
-	void SpawnJellyfish1(); // 공격 패턴2, 해파리 몬스터를 생성
-	void SpawnJellyfish2(); // 공격 패턴2, 해파리 몬스터를 생성
-	void SpawnJellyfish3(); // 공격 패턴2, 해파리 몬스터를 생성
-	void SpawnJellyfish4(); // 공격 패턴2, 해파리 몬스터를 생성
 	void ReSpawn(); // 목욕탕으로 이동
 };
 
