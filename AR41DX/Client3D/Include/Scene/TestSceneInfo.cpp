@@ -23,6 +23,7 @@
 #include "Component/BillboardComponent.h"
 #include "Component/ParticleComponent.h"
 #include "Component/StaticMeshComponent.h"
+#include "Component/ColliderOBB3D.h"
 #include "../UI/PlayerUI.h"
 #include "Component/LightComponent.h"
 
@@ -52,8 +53,8 @@ bool CTestSceneInfo::Init()
 	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
 
 	// 보원테스트 구간
-	//CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
-	//JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
+	CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
+	JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
 	
 	//CTeleportBox* TeleportBox1 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
 	//TeleportBox1->SetBoxIndex(1);
@@ -68,18 +69,17 @@ bool CTestSceneInfo::Init()
 	//CGate* Gate = m_Owner->CreateObject<CGate>("Gate");
 	//Gate->SetWorldPosition(17000.f, 50.f, 12500.f);
 
-	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
-	Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
-
+	//CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
+	//Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
+	
 	//CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
 	//Hammer->SetWorldPosition(17000.f, 0.f, 14000.f);
 
-	//CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
-	//Duplicatotron->SetWorldPosition(17000.f, 0.f, 14000.f);
+	/*CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
+	Duplicatotron->SetWorldPosition(17000.f, 0.f, 14000.f);*/
 
 	//CDupli_Can* Dupli_Can = m_Owner->CreateObject<CDupli_Can>("Dupli_Can");
-	//Dupli_Can->SetWorldPosition(17000.f, 70.f, 12500.f);
-
+	//Dupli_Can->SetWorldPosition(17000.f, 500.f, 12500.f);
 
 
 	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
@@ -91,6 +91,12 @@ bool CTestSceneInfo::Init()
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
 	TerrainComponent->CreateTerrain(680, 631, 40.f, 40.f, TEXT("LandScape/BikiniCity_Height.png"));
+
+
+	CGameObject* TestTree = m_Owner->CreateObject<CGameObject>("TestTree");
+	CStaticMeshComponent* TestTreeMesh = TestTree->CreateComponent<CStaticMeshComponent>("TreeMesh");
+	TestTreeMesh->SetMesh("JumpTreeBottom");
+	TestTree->SetWorldPosition(17000.f, 500.f, 12500.f);
 
 	//애니메이션 문제
 	//CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");

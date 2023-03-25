@@ -10,12 +10,12 @@ CFXAAShader::~CFXAAShader()
 
 bool CFXAAShader::Init()
 {
-	if (!LoadVertexShader("main", TEXT("VSFXAA.fx"), SHADER_PATH))
+	if (!LoadVertexShader("NullVS", TEXT("FXAA.hlsl"), SHADER_PATH))
 	{
 		return false;
 	}
 
-	if (!LoadPixelShader("main", TEXT("PSFXAA.fx"), SHADER_PATH))
+	if (!LoadPixelShader("FXAAPS", TEXT("FXAA.hlsl"), SHADER_PATH))
 	{
 		return false;
 	}

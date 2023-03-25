@@ -642,3 +642,8 @@ struct FXAACBuffer
 {
 	Vector4 rcpFrame;
 };
+
+struct MSCBuffer
+{
+
+};
