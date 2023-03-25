@@ -53,8 +53,8 @@ bool CTestSceneInfo::Init()
 	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
 
 	// 보원테스트 구간
-	CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
-	JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
+	//CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
+	//JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
 	
 	//CTeleportBox* TeleportBox1 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
 	//TeleportBox1->SetBoxIndex(1);
@@ -75,8 +75,8 @@ bool CTestSceneInfo::Init()
 	//CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
 	//Hammer->SetWorldPosition(17000.f, 0.f, 14000.f);
 
-	/*CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
-	Duplicatotron->SetWorldPosition(17000.f, 0.f, 14000.f);*/
+	CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
+	Duplicatotron->SetWorldPosition(17000.f, 0.f, 14000.f);
 
 	//CDupli_Can* Dupli_Can = m_Owner->CreateObject<CDupli_Can>("Dupli_Can");
 	//Dupli_Can->SetWorldPosition(17000.f, 500.f, 12500.f);
@@ -93,11 +93,6 @@ bool CTestSceneInfo::Init()
 	TerrainComponent->CreateTerrain(680, 631, 40.f, 40.f, TEXT("LandScape/BikiniCity_Height.png"));
 
 
-	CGameObject* TestTree = m_Owner->CreateObject<CGameObject>("TestTree");
-	CStaticMeshComponent* TestTreeMesh = TestTree->CreateComponent<CStaticMeshComponent>("TreeMesh");
-	TestTreeMesh->SetMesh("JumpTreeBottom");
-	TestTree->SetWorldPosition(17000.f, 500.f, 12500.f);
-
 	//애니메이션 문제
 	//CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
 	//Patric->SetWorldPosition(16500.f, 0.f, 12200.f);
@@ -109,7 +104,7 @@ void CTestSceneInfo::Update(float DeltaTime)
 {
 	CSceneInfo::Update(DeltaTime);
 
-	m_Time += DeltaTime;
+	/*m_Time += DeltaTime;
 
 	if (m_Time >= 10.0f)
 	{
@@ -117,5 +112,5 @@ void CTestSceneInfo::Update(float DeltaTime)
 
 		CPufferfish* Cannon = m_Owner->CreateObject<CPufferfish>("Cannon");
 		Cannon->SetWorldPosition(16500.f, 500.f, 12200.f);
-	}
+	}*/
 }

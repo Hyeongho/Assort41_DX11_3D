@@ -269,6 +269,9 @@ void CRenderManager::Render3D(float DeltaTime)
 	// GBuffer와 Light를 합한 최종 화면을 만든다.
 	RenderScreen(DeltaTime);
 
+	// FXAA는 Post-Processing Effect라 카툰렌더링은 FXAA 이전에 만들어준다. 
+	RenderCartoon(DeltaTime);
+
 	// FXAA를 그려낸다. 
 	RenderFXAA(DeltaTime);
 
@@ -809,6 +812,32 @@ void CRenderManager::RenderScreen(float DeltaTime)
 	m_vecLightBuffer[2]->ResetTargetShader(20);
 
 	m_ScreenBuffer->ResetTarget();
+}
+
+void CRenderManager::RenderCartoon(float DeltaTime)
+{
+	m_CartoonBuffer->ClearTarget();
+
+	m_CartoonBuffer->SetTarget();
+
+	m_FXAABuffer->SetTargetShader(9); 
+
+	m_DepthDisable->SetState();
+
+	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+
+	UINT	Offset = 0;
+
+	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+	Context->Draw(4, 0);
+
+	m_DepthDisable->ResetState();
+
+	m_FXAABuffer->ResetTargetShader(9);
+
+	m_CartoonBuffer->ResetTarget();
 }
 
 // m_FXAABuffer를 채워준다.

@@ -19,6 +19,7 @@ private:
 
 private:
 	float m_FallTime;
+	CHammer* m_Hammers[3];
 
 public:
 	virtual void Start();

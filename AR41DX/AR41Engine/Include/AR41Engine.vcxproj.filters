@@ -337,6 +337,12 @@
     <Filter Include="02. Resource\02. Shader\02. ShaderClass\19. MultiSampling">
       <UniqueIdentifier>{c68347bc-f3bc-4b96-9dcf-32f23065a979}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\15. Cartoon">
+      <UniqueIdentifier>{647a84b9-4575-4d3a-b6be-6079f0e74ac6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\02. Shader\02. ShaderClass\20. Cartoon">
+      <UniqueIdentifier>{e052a9b9-968b-49dc-a1ad-0107549879e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -954,6 +960,15 @@
     <ClInclude Include="Resource\Shader\MSShader.h">
       <Filter>02. Resource\02. Shader\02. ShaderClass\19. MultiSampling</Filter>
     </ClInclude>
+    <ClInclude Include="..\Bin\Shader\Fxaa3_11.h">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\CartoonConstantBuffer.h">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\15. Cartoon</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\CartoonShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\20. Cartoon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1514,6 +1529,12 @@
     <ClCompile Include="Resource\Shader\MSShader.cpp">
       <Filter>02. Resource\02. Shader\02. ShaderClass\19. MultiSampling</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\Shader\CartoonConstantBuffer.cpp">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\15. Cartoon</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\CartoonShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\20. Cartoon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\Shader\Share.fx">
@@ -1577,6 +1598,9 @@
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\Shader\MultiSampling.fx">
+      <Filter>02. Resource\02. Shader\01. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\CartoonRendering.fx">
       <Filter>02. Resource\02. Shader\01. HLSL</Filter>
     </FxCompile>
   </ItemGroup>

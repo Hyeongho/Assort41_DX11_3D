@@ -39,8 +39,8 @@ void CDuplicatotron::Start()
 {
 	CMonster::Start();
 
-	m_DetectArea->SetCollisionCallback<CDuplicatotron>(ECollision_Result::Collision, this, &CDuplicatotron::Collision_Detect);
-	m_DetectArea->SetCollisionCallback<CDuplicatotron>(ECollision_Result::Release, this, &CDuplicatotron::Release_DetectOff);
+	//m_DetectArea->SetCollisionCallback<CDuplicatotron>(ECollision_Result::Collision, this, &CDuplicatotron::Collision_Detect);
+	//m_DetectArea->SetCollisionCallback<CDuplicatotron>(ECollision_Result::Release, this, &CDuplicatotron::Release_DetectOff);
 	m_BodyCube->SetCollisionCallback<CDuplicatotron>(ECollision_Result::Collision, this, &CDuplicatotron::Collision_Dead);
 
 	//m_Animation->SetCurrentEndFunction("Duplicatotron_SpawnEnemies", this, &CDuplicatotron::SpawnHammers);
@@ -75,13 +75,13 @@ bool CDuplicatotron::Init()
 	//m_Mesh->AddChild(m_Rigid);
 	m_Mesh->SetWorldPosition(500.f, 0.f, 100.f);
 
-	auto iter = m_Mesh->GetMaterials()->begin();
-	auto iterEnd = m_Mesh->GetMaterials()->end();
+	//auto iter = m_Mesh->GetMaterials()->begin();
+	//auto iterEnd = m_Mesh->GetMaterials()->end();
 
-	for (; iter != iterEnd; iter++)
-	{
-		(*iter)->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
-	}
+	//for (; iter != iterEnd; iter++)
+	//{
+	//	(*iter)->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
+	//}
 
 	m_DetectArea->SetCollisionProfile("DetectArea");
 	m_DetectArea->SetBoxHalfSize(800.f, 400.f, 800.f);

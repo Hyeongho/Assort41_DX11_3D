@@ -80,7 +80,7 @@ void CDupli_Can::Update(float DeltaTime)
 		//AddWorldPositionX(100.f * DeltaTime);
 		float Y = Nav->GetHeight(GetWorldPos());
 
-		if (Y != FLT_MAX && GetWorldPos().y - Y < m_Mesh->GetMeshSize().y / 2.f)
+		if (Y != FLT_MAX && GetWorldPos().y - Y < m_Mesh->GetMeshSize().y / 2.f && m_Mesh)
 		{
 			SetWorldPositionY(Y + m_Mesh->GetMeshSize().y / 2.f);
 			m_Rigid->SetGround(true);
@@ -131,7 +131,12 @@ void CDupli_Can::SpawnHammer()
 		return;
 	}
 
+	for (int i = 0; i < 4; i++) 
+	{
+		CHammer* Hammer = m_Scene->CreateObject<CHammer>("Hammer");
+		Hammer->SetWorldPosition(GetWorldPos());
+		m_Hammers[i] = Hammer;
 
-	CHammer* Hammer = m_Scene->CreateObject<CHammer>("Hammer");
-	Hammer->SetWorldPosition(GetWorldPos());
+		Vector3 HammerPos = m_Hammers[i]->GetWorldPos();
+	}
 }

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Bin\Shader\Fxaa3_11.h" />
     <ClInclude Include="Animation\Animation.h" />
     <ClInclude Include="Animation\Animation2D.h" />
     <ClInclude Include="Animation\Animation2DData.h" />
@@ -133,6 +134,8 @@
     <ClInclude Include="Resource\Shader\AnimationUpdateConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\AnimationUpdateShader.h" />
     <ClInclude Include="Resource\Shader\BillboardShader.h" />
+    <ClInclude Include="Resource\Shader\CartoonConstantBuffer.h" />
+    <ClInclude Include="Resource\Shader\CartoonShader.h" />
     <ClInclude Include="Resource\Shader\ColliderConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\ColliderImageShader.h" />
     <ClInclude Include="Resource\Shader\ColliderShader.h" />
@@ -324,6 +327,8 @@
     <ClCompile Include="Resource\Shader\AnimationUpdateConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\AnimationUpdateShader.cpp" />
     <ClCompile Include="Resource\Shader\BillboardShader.cpp" />
+    <ClCompile Include="Resource\Shader\CartoonConstantBuffer.cpp" />
+    <ClCompile Include="Resource\Shader\CartoonShader.cpp" />
     <ClCompile Include="Resource\Shader\ColliderConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\ColliderImageShader.cpp" />
     <ClCompile Include="Resource\Shader\ColliderShader.cpp" />
@@ -445,6 +450,20 @@
       <EnableDebuggingInformation Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</EnableDebuggingInformation>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Bin\Shader\CartoonRendering.fx">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_Main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_Main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_Main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS_Main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
     </FxCompile>
     <FxCompile Include="..\Bin\Shader\Collider.fx">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ColliderVS</EntryPointName>

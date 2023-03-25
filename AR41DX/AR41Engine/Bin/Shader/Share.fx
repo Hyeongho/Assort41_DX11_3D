@@ -97,7 +97,8 @@ Texture2D g_RoughnessTexture : register(t4);
 Texture2D g_AOTexture : register(t5);
 Texture2D g_GlobalNoiseTexture : register(t6);
 Texture2D g_LUTTexture : register(t7);
-Texture2D g_InputMSTex : register(t8);
+Texture2D g_InputMSTex : register(t8); // ¸ÖÆ¼»ùÇÃ¸µ
+Texture2D<float4> DiffuseTexture : register(t9); // Ä«Å÷·»´õ¸µ¿ë
 
 cbuffer Animation2D : register(b2)
 {
