@@ -197,7 +197,9 @@
     <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackWords.cpp" />
     <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeBT.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
+    <ClCompile Include="GameObject\Cannon.cpp" />
     <ClCompile Include="GameObject\Duplicatotron.cpp" />
+    <ClCompile Include="GameObject\ElectricRing.cpp" />
     <ClCompile Include="GameObject\Fodder.cpp" />
     <ClCompile Include="GameObject\Hammer.cpp" />
     <ClCompile Include="GameObject\Jellyfish.cpp" />
@@ -222,10 +224,13 @@
     <ClCompile Include="GameObject\Object\Common\Trampoline.cpp" />
     <ClCompile Include="GameObject\Object\IceCube.cpp" />
     <ClCompile Include="GameObject\Object\Gate.cpp" />
+    <ClCompile Include="GameObject\Object\Pool.cpp" />
     <ClCompile Include="GameObject\PatrickObject.cpp" />
     <ClCompile Include="GameObject\Object\JumpTree.cpp" />
     <ClCompile Include="GameObject\Object\TeleportBox.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
+    <ClCompile Include="GameObject\Pufferfish.cpp" />
+    <ClCompile Include="GameObject\TeeterRock.cpp" />
     <ClCompile Include="GameObject\SpongebobMissile.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Stone.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Thunder.cpp" />
@@ -298,7 +303,9 @@
     <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackWords.h" />
     <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeBT.h" />
     <ClInclude Include="GameObject\Bullet.h" />
+    <ClInclude Include="GameObject\Cannon.h" />
     <ClInclude Include="GameObject\Duplicatotron.h" />
+    <ClInclude Include="GameObject\ElectricRing.h" />
     <ClInclude Include="GameObject\Fodder.h" />
     <ClInclude Include="GameObject\Hammer.h" />
     <ClInclude Include="GameObject\Jellyfish.h" />
@@ -323,10 +330,13 @@
     <ClInclude Include="GameObject\Object\Common\Trampoline.h" />
     <ClInclude Include="GameObject\Object\IceCube.h" />
     <ClInclude Include="GameObject\Object\Gate.h" />
+    <ClInclude Include="GameObject\Object\Pool.h" />
     <ClInclude Include="GameObject\PatrickObject.h" />
     <ClInclude Include="GameObject\Object\JumpTree.h" />
     <ClInclude Include="GameObject\Object\TeleportBox.h" />
     <ClInclude Include="GameObject\Player.h" />
+    <ClInclude Include="GameObject\Pufferfish.h" />
+    <ClInclude Include="GameObject\TeeterRock.h" />
     <ClInclude Include="GameObject\SpongebobMissile.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Stone.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h" />

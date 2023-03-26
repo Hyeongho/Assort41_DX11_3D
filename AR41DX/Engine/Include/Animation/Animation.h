@@ -70,44 +70,58 @@ public:
 	{
 		return m_ChangeAnimation;
 	}
+
 	const std::string& GetAnimationClassName()	const
 	{
 		return m_ClassName;
 	}
+
 	const Vector3& GetBlendScale()	const
 	{
 		return m_BlendScale;
 	}
+
 	const Vector3& GetBlendPos()	const
 	{
 		return m_BlendPos;
 	}
+
 	const Vector4& GetBlendRot()	const
 	{
 		return m_BlendRot;
 	}
+
 	bool GetAnimationPlay()	const
 	{
 		return m_Play;
 	}
+
 	float GetAnimationGlobalTime()	const
 	{
 		return m_GlobalTime;
 	}
+
 	float GetAnimationSequenceProgress()	const
 	{
 		return m_SequenceProgress;
 	}
+
 	float GetAnimationChangeTimeAcc()	const
 	{
 		return m_ChangeTimeAcc;
 	}
+
 	float GetAnimationChangeTime()	const
 	{
 		return m_ChangeTime;
 	}
 	//
 	class CScene* GetScene()	const;
+
+	void SetAnimationGlobalTime(float GlobalTime)
+	{
+		m_GlobalTime = GlobalTime;
+	}
 
 	int GetAnimationCount()	const
 	{
