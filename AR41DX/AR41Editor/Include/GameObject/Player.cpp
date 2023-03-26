@@ -1179,8 +1179,9 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 	std::string name = result.Dest->GetCollisionProfile()->Name;
 	if (name == "Wall")
 	{
-		float height = GetWorldPos().y- result.HitPoint.y;
-		if(height>=-11.f)
+		float height = GetWorldPos().y>m_PrevPos.y? GetWorldPos().y : m_PrevPos.y;
+		height-=result.HitPoint.y;
+		if(height>=-10.f)
 		{
 			m_OnCollision = true;
 			m_Rigid->SetGround(true);
