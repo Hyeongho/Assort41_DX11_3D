@@ -60,6 +60,8 @@ void CBusDriver::Start()
 #endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CBusDriver>("F", Input_Type::Up, this, &CBusDriver::StartDialog, m_Scene);
+
+    CreateAnim();
 }
 
 bool CBusDriver::Init()
@@ -78,12 +80,7 @@ bool CBusDriver::Init()
     m_Collider->SetBoxHalfSize(ColSize / 2.f);
     m_Collider->SetRelativePositionY(ColSize.y / 2.f);
 
-    m_Animation = m_AnimMesh->SetAnimation<CAnimation>("BusDriverAnimation");
-
-    m_Animation->AddAnimation("Bus_Driver_Drive", "Bus_Driver_Drive", 1.f, 1.f, true);
-    m_Animation->AddAnimation("Bus_Driver_Stop", "Bus_Driver_Stop", 1.f, 1.f, false);
-
-    m_Animation->SetCurrentAnimation("Bus_Driver_Drive");
+    CreateAnim();
 
     return true;
 }
@@ -199,6 +196,20 @@ void CBusDriver::MoveFromBusStop()
 
     // 버스 이동 컷씬 실행
     BusMoveCutScene();
+}
+
+void CBusDriver::CreateAnim()
+{
+    if (m_Animation)
+        return;
+
+
+    m_Animation = m_AnimMesh->SetAnimation<CAnimation>("BusDriverAnimation");
+
+    m_Animation->AddAnimation("Bus_Driver_Drive", "Bus_Driver_Drive", 1.f, 1.f, true);
+    m_Animation->AddAnimation("Bus_Driver_Stop", "Bus_Driver_Stop", 1.f, 1.f, false);
+
+    m_Animation->SetCurrentAnimation("Bus_Driver_Drive");
 }
 
 void CBusDriver::ChangeAnim_Stop()

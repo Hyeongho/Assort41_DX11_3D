@@ -183,7 +183,7 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateChannel("Trampoline", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Button", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("DetectArea", ECollision_Interaction::Collision);
-    CCollisionManager::GetInst()->CreateChannel("BusStop", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->CreateChannel("TikiBottom", ECollision_Interaction::Collision);
 
     CCollisionManager::GetInst()->CreateProfile("Player", "Player", true);
     CCollisionManager::GetInst()->CreateProfile("PlayerAttack", "PlayerAttack", true);
@@ -196,7 +196,7 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateProfile("Trampoline", "Trampoline", true);
     CCollisionManager::GetInst()->CreateProfile("Button", "Button", true);
     CCollisionManager::GetInst()->CreateProfile("DetectArea", "DetectArea", true);
-    CCollisionManager::GetInst()->CreateProfile("BusStop", "BusStop", true);
+    CCollisionManager::GetInst()->CreateProfile("TikiBottom", "TikiBottom", true);
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "PlayerAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "Player", ECollision_Interaction::Ignore);
@@ -216,6 +216,7 @@ void CDefaultSetting::SetCollision()
 
     CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "Player", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "TikiBottom", ECollision_Interaction::Collision);
 
     CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("Collectible", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Collectible", "Player", ECollision_Interaction::Collision);
@@ -237,6 +238,9 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "MonsterAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "Collectible", ECollision_Interaction::Ignore);
+
+    CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("TikiBottom", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("TikiBottom", "Platform", ECollision_Interaction::Collision);
 }
 
 void CDefaultSetting::LoadSound()
@@ -449,6 +453,18 @@ void CDefaultSetting::LoadRoboSponge()
 
     CResourceManager::GetInst()->SetMeshSkeleton("Robo_Sponge", "Robo_Sponge_Skeleton");
 
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker1", "HitMarker1"); // Left Waist
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker2", "HitMarker2"); // Right Waist
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker3", "HitMarker3"); // Right Cheek
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker4", "HitMarker4"); // Left Cheek
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker5", "HitMarker5"); // Nose
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker6", "HitMarker6"); // Left Forehead
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker7", "HitMarker7"); // Right Forehead
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker8", "HitMarker8"); // Left Pos
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker9", "HitMarker9"); // Right Pos
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker10", "HitMarker10"); // Right Hand
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker11", "HitMarker11"); // Left Hand
+
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L_Pose", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L_Pose.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_R", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_R.sqc"), MESH_PATH);
@@ -471,6 +487,10 @@ void CDefaultSetting::LoadRoboSponge()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "KAH", TEXT("Robo_Sponge/AttackWords/KAH.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RAH", TEXT("Robo_Sponge/AttackWords/RAH.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "TAE", TEXT("Robo_Sponge/AttackWords/TAE.msh"), MESH_PATH);
+
+    // RoboSponge Socket Mesh
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GreenKnob", TEXT("Robo_Sponge/GreenKnob.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BrokenKnob", TEXT("Robo_Sponge/BorkenKnob.msh"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadKingJellyfish()

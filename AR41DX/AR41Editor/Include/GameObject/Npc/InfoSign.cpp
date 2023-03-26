@@ -116,6 +116,10 @@ void CInfoSign::Load(FILE* File)
 
 void CInfoSign::StartDialog()
 {
+	if (!m_EnableDialog)
+		return;
+
+
 }
 
 void CInfoSign::DebugKeyF1()
@@ -124,12 +128,4 @@ void CInfoSign::DebugKeyF1()
 
 void CInfoSign::DebugKeyF2()
 {
-}
-
-void CInfoSign::CreateSpatula()
-{
-	CGoldenSpatula* GoldenSpatula = m_Scene->CreateObject<CGoldenSpatula>("GoldenSpatula_MrKrabs");
-
-	GoldenSpatula->SetWorldPosition(GetWorldPos());
-	GoldenSpatula->SetWorldPositionZ(GetWorldPos().z - m_StaticMesh->GetMeshSize().z);
 }

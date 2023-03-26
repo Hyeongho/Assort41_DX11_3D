@@ -28,8 +28,7 @@ void CTiki_Stone::Start()
 {
 	CTikiBase::Start();
 
-	if (!m_Animation)
-		CreateAnim();
+	CreateAnim();
 }
 
 bool CTiki_Stone::Init()
@@ -38,8 +37,6 @@ bool CTiki_Stone::Init()
 
 	// 메쉬 세팅
 	m_Mesh->SetMesh("Tiki_Stone");
-	m_Mesh->AddChild(m_Collider);
-	m_Mesh->AddChild(m_Rigid);
 
 	// 충돌체 세팅
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
@@ -49,6 +46,28 @@ bool CTiki_Stone::Init()
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
+
+
+	Vector3 TBColSize = m_Mesh->GetMeshSize() / 2.f;
+	TBColSize.y /= 10.f;
+
+	// 바닥 충돌체 생성
+	m_ColliderTop->SetBoxHalfSize(TBColSize);
+	m_ColliderTop->SetRelativePositionY(TBColSize.y / 2.f);
+	m_ColliderTop->SetCollisionProfile("TikiBottom");
+	m_ColliderTop->SetInheritRotX(true);
+	m_ColliderTop->SetInheritRotY(true);
+	m_ColliderTop->SetInheritRotZ(true);
+
+	// 위 충돌체 생성
+	m_ColliderBottom->SetBoxHalfSize(TBColSize);
+	m_ColliderBottom->SetRelativePositionY(m_Mesh->GetMeshSize().y - TBColSize.y / 2.f);
+	m_ColliderBottom->SetCollisionProfile("Platform");
+	m_ColliderBottom->SetCollisionCallback<CTiki_Stone>(ECollision_Result::Collision, this, &CTiki_Stone::Collision_Tikis);
+	m_ColliderBottom->SetCollisionCallback<CTiki_Stone>(ECollision_Result::Release, this, &CTiki_Stone::Release_Tikis);
+	m_ColliderBottom->SetInheritRotX(true);
+	m_ColliderBottom->SetInheritRotY(true);
+	m_ColliderBottom->SetInheritRotZ(true);
 
 	// 애니메이션 세팅
 	CreateAnim();
@@ -88,6 +107,10 @@ void CTiki_Stone::Tiki_Die()
 
 void CTiki_Stone::CreateAnim()
 {
+	if (m_Animation)
+		return;
+
+
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("TikiStoneAnimation");
 	m_Animation->AddAnimation("Tiki_Stone_Idle", "Tiki_Stone_Idle", 1.f, 1.f, true);
 	m_Animation->AddAnimation("Tiki_Stone_Die", "Tiki_Stone_Die", 1.f, 1.f, false);
@@ -107,11 +130,16 @@ void CTiki_Stone::ChangeAnim_Die()
 
 void CTiki_Stone::Collision_PlayerAttack(const CollisionResult& result)
 {
-	// 사운드 처리
-	int RandNum = rand() % 4 + 1;
-	std::string TikiSound = "TikiStoneHit" + std::to_string(RandNum);
-	CSound* Sound = m_Scene->GetResource()->FindSound(TikiSound);
+	//if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::PlayerAttack) {
+	std::string ProfileName = result.Dest->GetCollisionProfile()->Name;
 
-	if (Sound)
-		Sound->Play();
+	if (strcmp("PlayerAttack", ProfileName.c_str()) == 0) {
+		// 사운드 처리
+		int RandNum = rand() % 4 + 1;
+		std::string TikiSound = "TikiStoneHit" + std::to_string(RandNum);
+		CSound* Sound = m_Scene->GetResource()->FindSound(TikiSound);
+
+		if (Sound)
+			Sound->Play();
+	}
 }

@@ -65,6 +65,8 @@ bool CRoboSpongeSceneInfo::Init()
 		Platform->SetWorldPosition(CenterPos.x + StandardPos * sinf(Radian), 1800.f, CenterPos.y + StandardPos * cosf(Radian));
 		Platform->SetLookBoss(RoboSponge->GetWorldPos());
 
+		break;
+
 		std::string TrampolineName = "Platform" + std::to_string(i);
 		CTrampoline* Trampoline = m_Owner->CreateObject<CTrampoline>(TrampolineName);
 		Trampoline->SetWorldPosition(CenterPos.x + StandardPos * 1.2 * sinf(Radian), 610.f, CenterPos.y + StandardPos * 1.2 * cosf(Radian));
