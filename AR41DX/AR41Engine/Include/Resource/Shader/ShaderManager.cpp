@@ -30,6 +30,7 @@
 #include "ShadowMapInstancingShader.h"
 #include "ShadowMapStaticInstancingShader.h"
 #include "FXAAShader.h"
+#include "TranslationShader.h"
 #include "MSShader.h"
 #include "CartoonShader.h"
 
@@ -125,6 +126,9 @@ bool CShaderManager::Init()
 
 	CreateShader<CFXAAShader>("FXAAShader", true);
 
+	CreateShader<CTranslationShader>("TranslationShader", true);
+
+
 	//CreateShader<CMSShader>("MSShader", true);
 
 	//CreateShader<CCartoonShader>("CartoonShader", true);
@@ -147,6 +151,10 @@ bool CShaderManager::Init()
 	CreateConstantBuffer("ParticleCBuffer", sizeof(ParticleCBuffer), 8, (int)EShaderBufferType::Compute);
 
 	CreateConstantBuffer("Shadow", sizeof(ShadowCBuffer), 13, (int)EShaderBufferType::Graphic);
+
+	CreateConstantBuffer("FXAA", sizeof(FXAACBuffer), 14, (int)EShaderBufferType::Pixel); 
+
+	CreateConstantBuffer("Translation", sizeof(TranslationCBuffer), 6);
 
 	CreateConstantBuffer("FXAA", sizeof(FXAACBuffer), 14, (int)EShaderBufferType::Pixel);
 	//CreateConstantBuffer("MS", sizeof(MSCBuffer), 15, (int)EShaderBufferType::Pixel);

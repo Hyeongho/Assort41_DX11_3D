@@ -5,6 +5,7 @@
 #include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
 #include "../../UI/DialogUI.h"
+#include "../Object/Common/Collectible/GoldenSpatula.h"
 
 CMrKrabs::CMrKrabs() 
 {
@@ -39,13 +40,14 @@ void CMrKrabs::Start()
 {
     CNpc::Start();
 
-//#ifdef _DEBUG
-//    CInput::GetInst()->AddBindFunction<CMrKrabs>("F1", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Angry_Start, m_Scene);
-//    CInput::GetInst()->AddBindFunction<CMrKrabs>("F2", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Deceptive_Start, m_Scene);
-//    CInput::GetInst()->AddBindFunction<CMrKrabs>("F3", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Greedy_Start, m_Scene);
-//    CInput::GetInst()->AddBindFunction<CMrKrabs>("F4", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Laughing, m_Scene);
-//    CInput::GetInst()->AddBindFunction<CMrKrabs>("F5", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Idle, m_Scene);
-//#endif // DEBUG
+#ifdef _DEBUG
+    CInput::GetInst()->AddBindFunction<CMrKrabs>("F1", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Angry_Start, m_Scene);
+    CInput::GetInst()->AddBindFunction<CMrKrabs>("F2", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Deceptive_Start, m_Scene);
+    CInput::GetInst()->AddBindFunction<CMrKrabs>("F3", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Greedy_Start, m_Scene);
+    CInput::GetInst()->AddBindFunction<CMrKrabs>("F4", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Laughing, m_Scene);
+    CInput::GetInst()->AddBindFunction<CMrKrabs>("F5", Input_Type::Up, this, &CMrKrabs::ChangeAnim_Idle, m_Scene);
+    CInput::GetInst()->AddBindFunction<CMrKrabs>("F6", Input_Type::Up, this, &CMrKrabs::CreateSpatula, m_Scene);
+#endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CMrKrabs>("F", Input_Type::Up, this, &CMrKrabs::StartDialog, m_Scene);
 }
@@ -56,15 +58,15 @@ bool CMrKrabs::Init()
 
     m_AnimMesh->SetMesh("MrKrabs");
 
-    Vector3 colSize(1.f, 1.f, 1.f);
+    Vector3 ColSize = m_AnimMesh->GetMeshSize();
 
     if (m_AnimMesh->GetMeshSize().x >= m_AnimMesh->GetMeshSize().z)
-        colSize *= m_AnimMesh->GetMeshSize().x;
+        ColSize.z = m_AnimMesh->GetMeshSize().x;
     else
-        colSize *= m_AnimMesh->GetMeshSize().z;
+        ColSize.x = m_AnimMesh->GetMeshSize().z;
 
-    m_Collider->SetBoxHalfSize(colSize / 2.f);
-    m_Collider->SetRelativePositionY(colSize.y / 2.f);
+    m_Collider->SetBoxHalfSize(ColSize / 2.f);
+    m_Collider->SetRelativePositionY(ColSize.y / 2.f);
 
     m_Animation = m_AnimMesh->SetAnimation<CAnimation>("MrKrabsAnimation");
 
@@ -157,6 +159,14 @@ void CMrKrabs::ChangeAnim_Laughing()
 void CMrKrabs::ChangeAnim_Idle()
 {
     m_Animation->ChangeAnimation("MrKrabs_Idle");
+}
+
+void CMrKrabs::CreateSpatula()
+{
+    CGoldenSpatula* GoldenSpatula = m_Scene->CreateObject<CGoldenSpatula>("GoldenSpatula_MrKrabs");
+
+    GoldenSpatula->SetWorldPosition(GetWorldPos());
+    GoldenSpatula->SetWorldPositionZ(GetWorldPos().z - m_AnimMesh->GetMeshSize().z);
 }
 
 void CMrKrabs::StartDialog()

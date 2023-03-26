@@ -181,13 +181,11 @@
     <ClCompile Include="GameObject\Chase.cpp" />
     <ClCompile Include="GameObject\Dead.cpp" />
     <ClCompile Include="GameObject\Duplicatotron.cpp" />
-    <ClCompile Include="GameObject\Dupli_Can.cpp" />
+    <ClCompile Include="GameObject\ElectricRing.cpp" />
     <ClCompile Include="GameObject\Fodder.cpp" />
     <ClCompile Include="GameObject\FodderBT.cpp" />
-    <ClCompile Include="GameObject\FodderDebris.cpp" />
     <ClCompile Include="GameObject\Hammer.cpp" />
     <ClCompile Include="GameObject\HammerBT.cpp" />
-    <ClCompile Include="GameObject\HammerDebris.cpp" />
     <ClCompile Include="GameObject\Jellyfish.cpp" />
     <ClCompile Include="GameObject\JellyfishField.cpp" />
     <ClCompile Include="GameObject\KingJellyfish.cpp" />
@@ -203,6 +201,7 @@
     <ClCompile Include="GameObject\Object\Gate.cpp" />
     <ClCompile Include="GameObject\Object\InteractButton.cpp" />
     <ClCompile Include="GameObject\Object\JumpTree.cpp" />
+    <ClCompile Include="GameObject\Object\Pool.cpp" />
     <ClCompile Include="GameObject\Object\TeleportBox.cpp" />
     <ClCompile Include="GameObject\Object\Trampoline.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
@@ -252,13 +251,11 @@
     <ClInclude Include="GameObject\Chase.h" />
     <ClInclude Include="GameObject\Dead.h" />
     <ClInclude Include="GameObject\Duplicatotron.h" />
-    <ClInclude Include="GameObject\Dupli_Can.h" />
+    <ClInclude Include="GameObject\ElectricRing.h" />
     <ClInclude Include="GameObject\Fodder.h" />
     <ClInclude Include="GameObject\FodderBT.h" />
-    <ClInclude Include="GameObject\FodderDebris.h" />
     <ClInclude Include="GameObject\Hammer.h" />
     <ClInclude Include="GameObject\HammerBT.h" />
-    <ClInclude Include="GameObject\HammerDebris.h" />
     <ClInclude Include="GameObject\Jellyfish.h" />
     <ClInclude Include="GameObject\JellyfishField.h" />
     <ClInclude Include="GameObject\KingJellyfish.h" />
@@ -274,6 +271,7 @@
     <ClInclude Include="GameObject\Object\Gate.h" />
     <ClInclude Include="GameObject\Object\InteractButton.h" />
     <ClInclude Include="GameObject\Object\JumpTree.h" />
+    <ClInclude Include="GameObject\Object\Pool.h" />
     <ClInclude Include="GameObject\Object\TeleportBox.h" />
     <ClInclude Include="GameObject\Object\Trampoline.h" />
     <ClInclude Include="GameObject\Player.h" />

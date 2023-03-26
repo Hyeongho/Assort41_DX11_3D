@@ -2,6 +2,8 @@
 
 #include "Component/ColliderOBB3D.h"
 #include "Component/StaticMeshComponent.h"
+#include "Scene/Scene.h"
+#include "../../../Player.h"
 
 CUnderWear::CUnderWear()
 {
@@ -9,16 +11,12 @@ CUnderWear::CUnderWear()
 
 	m_ObjectTypeName = "UnderWear";
 
-	m_ColItemType = EColItemType::UnderWear;
+	m_ColItemType = EItemList::UnderWear;
 }
 
 CUnderWear::CUnderWear(const CUnderWear& Obj) :
 	CCollectibleItems(Obj)
 {
-	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
-	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
-
-	m_ColItemType = Obj.m_ColItemType;
 }
 
 CUnderWear::~CUnderWear()
@@ -77,9 +75,4 @@ void CUnderWear::Save(FILE* File)
 void CUnderWear::Load(FILE* File)
 {
 	CCollectibleItems::Load(File);
-}
-
-void CUnderWear::Collision_Player(const CollisionResult& result)
-{
-	CCollectibleItems::Collision_Player(result);
 }

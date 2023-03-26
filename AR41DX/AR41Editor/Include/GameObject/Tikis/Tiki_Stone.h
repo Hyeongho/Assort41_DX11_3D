@@ -1,9 +1,9 @@
 #pragma once
 
-#include "GameObject\GameObject.h"
+#include "TikiBase.h"
 
 class CTiki_Stone :
-	public CGameObject
+	public CTikiBase
 {
 	friend class CScene;
 
@@ -11,12 +11,6 @@ protected:
 	CTiki_Stone();
 	CTiki_Stone(const CTiki_Stone& Obj);
 	virtual ~CTiki_Stone();
-
-private:
-	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
-	CSharedPtr<class CAnimation>				m_Animation;
-	CSharedPtr<class CRigidBody>				m_Rigid;
-	CSharedPtr<class CColliderOBB3D>			m_Collider;
 
 public:
 	virtual void Start();
@@ -27,14 +21,14 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
+protected:
+	virtual void Tiki_Die();
+
 private:
+	void CreateAnim();
 	void ChangeAnim_Idle();
 	void ChangeAnim_Die();
 
-private:
-	void Tiki_Die(); // ÆÄ±«Ã³¸®
-	void CreateFlowers();
-
 private: // Collision
-	void AttackedCollision(const CollisionResult& result);
+	void Collision_PlayerAttack(const CollisionResult& result);
 };

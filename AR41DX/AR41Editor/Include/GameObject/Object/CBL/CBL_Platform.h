@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "GameObject\GameObject.h"
 
@@ -36,10 +36,10 @@ public:
 	virtual void Load(FILE* File);
 
 private: // Collision
-	void RoboSpongeAttackedCollision(const CollisionResult& result);
+	void Collision_BossAttack(const CollisionResult& result);
 
 public :
-	void SetLookBoss(const Vector3& BossPos);
+	void SetLookBoss(const Vector3& BossPos); // 보스를 바라보도록(Z축이 보스와 직교하도록) 설정
 
 private :
 	void DebugF1();

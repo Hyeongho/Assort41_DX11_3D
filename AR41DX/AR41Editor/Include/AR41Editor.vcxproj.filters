@@ -141,6 +141,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="EditorManager.cpp">
       <Filter>01. Manager</Filter>
     </ClCompile>
@@ -249,9 +252,6 @@
     <ClCompile Include="Window\ColliderObb3dWindow.cpp">
       <Filter>07. Window\05. Component</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Player.cpp">
-      <Filter>03. GameObject\01. Player</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\AI\CompositeNode.cpp">
       <Filter>06. AI</Filter>
     </ClCompile>
@@ -269,9 +269,6 @@
     </ClCompile>
     <ClCompile Include="GameObject\Fodder.cpp">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Jellyfish.cpp">
-      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Monster.cpp">
       <Filter>03. GameObject\02. Monster</Filter>
@@ -408,23 +405,32 @@
     <ClCompile Include="Window\TerrainWindow.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Window\TerrainWindow.cpp">
-      <Filter>07. Window\05. Component</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\PatrickObject.cpp">
+    <ClCompile Include="GameObject\Player.cpp">
       <Filter>03. GameObject\01. Player</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="GameObject\Object\Common\Collectible\Collectible_Bubble.cpp">
+      <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\KingJellyfishSceneInfo.cpp">
-      <Filter>02. Scene\03. JellyFishField</Filter>
+    <ClCompile Include="Window\TerrainWindow.cpp">
+      <Filter>07. Window</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object\IceCube.cpp">
+    <ClCompile Include="GameObject\Pufferfish.cpp">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Cannon.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\TeeterRock.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\IceCube.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="GameObject\SpongebobMissile.cpp">
-      <Filter>03. GameObject\01. Player</Filter>
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\Gate.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Object\JumpTree.cpp">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
@@ -435,11 +441,20 @@
     <ClCompile Include="GameObject\Object\CheckPoint.cpp">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object\Gate.cpp">
+    <ClCompile Include="GameObject\PatrickObject.cpp">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\KingJellyfishSceneInfo.cpp">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\Pool.cpp">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Dupli_Can.cpp">
-      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    <ClCompile Include="GameObject\ElectricRing.cpp">
+      <Filter>03. GameObject\03. BossMonster\01. KingJellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Jellyfish.cpp">
+      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -557,9 +572,6 @@
     <ClInclude Include="Window\ColliderObb3dWindow.h">
       <Filter>07. Window\05. Component</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Player.h">
-      <Filter>03. GameObject\01. Player</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\AI\CompositeNode.h">
       <Filter>06. AI</Filter>
     </ClInclude>
@@ -577,9 +589,6 @@
     </ClInclude>
     <ClInclude Include="GameObject\Fodder.h">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Jellyfish.h">
-      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Monster.h">
       <Filter>03. GameObject\02. Monster</Filter>
@@ -728,20 +737,32 @@
     <ClInclude Include="Window\TerrainWindow.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Window\TerrainWindow.h">
-      <Filter>07. Window\05. Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\PatrickObject.h">
+    <ClInclude Include="GameObject\Player.h">
       <Filter>03. GameObject\01. Player</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\KingJellyfishSceneInfo.h">
-      <Filter>02. Scene\03. JellyFishField</Filter>
+    <ClInclude Include="GameObject\Object\Common\Collectible\Collectible_Bubble.h">
+      <Filter>03. GameObject\04. Object\01. Common\01. Collectible</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\IceCube.h">
+    <ClInclude Include="Window\TerrainWindow.h">
+      <Filter>07. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Pufferfish.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\Cannon.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\TeeterRock.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\IceCube.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="GameObject\SpongebobMissile.h">
-      <Filter>03. GameObject\01. Player</Filter>
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\Gate.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Object\JumpTree.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
@@ -750,13 +771,22 @@
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Object\CheckPoint.h">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\PatrickObject.h">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\KingJellyfishSceneInfo.h">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\Pool.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\Gate.h">
-      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    <ClInclude Include="GameObject\ElectricRing.h">
+      <Filter>03. GameObject\03. BossMonster\01. KingJellyfish</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Dupli_Can.h">
-      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
+    <ClInclude Include="GameObject\Jellyfish.h">
+      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

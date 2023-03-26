@@ -1,10 +1,15 @@
-#pragma once
+﻿#pragma once
 
 #include "GameObject\GameObject.h"
 
-enum class ButtonDir {
+enum class EButtonDir {
 	Virtical,
 	Horizon,
+	End
+};
+
+enum class EInteractObjectList {
+	BusStop,
 	End
 };
 
@@ -24,10 +29,10 @@ protected:
 	CSharedPtr<class CColliderOBB3D>			m_Collider;
 
 private:
-	ButtonDir	m_ButtonDir;
-	bool		m_IsPushed;
-
-	void		(*m_Func)();
+	EButtonDir				m_ButtonDir;
+	EInteractObjectList		m_InterObjList;
+	std::string				m_InterObjName;
+	bool					m_IsPushed;
 
 public:
 	virtual void Start();
@@ -42,8 +47,6 @@ protected: // Collision
 	void Collision_Attacked(const CollisionResult& result);
 
 public :
-	template <typename T>
-	void SetInteractFunc(void(T::* Func)()) {
-		m_Func = Func;
-	}
+	void SetInteractObject(const EInteractObjectList& Object, const std::string& ObjName); // 인터랙트 대상 오브젝트 설정.
+	void SetDir(const EButtonDir& Dir);	// 수직/수평 설정
 };

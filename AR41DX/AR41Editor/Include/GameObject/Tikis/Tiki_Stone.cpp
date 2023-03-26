@@ -1,4 +1,4 @@
-#include "Tiki_Stone.h"
+ï»¿#include "Tiki_Stone.h"
 
 #include "Component/AnimationMeshComponent.h"
 #include "Component/ColliderOBB3D.h"
@@ -15,12 +15,9 @@ CTiki_Stone::CTiki_Stone()
 }
 
 CTiki_Stone::CTiki_Stone(const CTiki_Stone& Obj)
-	: CGameObject(Obj)
+	: CTikiBase(Obj)
 {
-	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
-	m_Animation = (CAnimation*)FindComponent("Tiki_Stone");
-	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
-	m_Rigid = (CRigidBody*)FindComponent("Rigid");
+	m_Animation = (CAnimation*)FindComponent("TikiStoneAnimation");
 }
 
 CTiki_Stone::~CTiki_Stone()
@@ -29,57 +26,44 @@ CTiki_Stone::~CTiki_Stone()
 
 void CTiki_Stone::Start()
 {
-	CGameObject::Start();
+	CTikiBase::Start();
+
+	if (!m_Animation)
+		CreateAnim();
 }
 
 bool CTiki_Stone::Init()
 {
-	CGameObject::Init();
+	CTikiBase::Init();
 
-	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
-	m_Rigid = CreateComponent<CRigidBody>("Rigid");
-	m_Collider = CreateComponent<CColliderOBB3D>("OBB3D");
-
-	SetRootComponent(m_Mesh);
+	// ë©”ì‰¬ ì„¸íŒ…
 	m_Mesh->SetMesh("Tiki_Stone");
 	m_Mesh->AddChild(m_Collider);
+	m_Mesh->AddChild(m_Rigid);
 
+	// ì¶©ëŒì²´ ì„¸íŒ…
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Monster");
+	m_Collider->SetCollisionCallback<CTiki_Stone>(ECollision_Result::Collision, this, &CTiki_Stone::Collision_PlayerAttack);
+	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
+	m_Collider->SetInheritRotZ(true);
 
-	m_Animation = m_Mesh->SetAnimation<CAnimation>("TikiStoneAnimation");
-	m_Animation->AddAnimation("Tiki_Stone_Idle", "Tiki_Stone_Idle", 1.f, 1.f, true);
-	m_Animation->AddAnimation("Tiki_Stone_Die", "Tiki_Stone_Die", 1.f, 1.f, false);
-	m_Animation->SetCurrentEndFunction<CTiki_Stone>("Tiki_Stone_Die", this, &CTiki_Stone::Tiki_Die);
-	m_Animation->SetCurrentAnimation("Tiki_Stone_Idle");
+	// ì• ë‹ˆë©”ì´ì…˜ ì„¸íŒ…
+	CreateAnim();
 
     return true;
 }
 
 void CTiki_Stone::Update(float DeltaTime)
 {
-	CGameObject::Update(DeltaTime);
-
-
-	// Ç×»ó ÇÃ·¹ÀÌ¾î¸¦ ¹Ù¶óº¸°Ô ÇÑ´Ù.
-	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
-
-	if (!Player)
-		return;
-
-	Vector3 PlayerPos = Player->GetWorldPos();
-
-	float Degree = atan2(GetWorldPos().z - PlayerPos.z, GetWorldPos().x - PlayerPos.x);
-	Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
-
-	SetWorldRotationY(Degree);
+	CTikiBase::Update(DeltaTime);
 }
 
 void CTiki_Stone::PostUpdate(float DeltaTime)
 {
-	CGameObject::PostUpdate(DeltaTime);
+	CTikiBase::PostUpdate(DeltaTime);
 }
 
 CTiki_Stone* CTiki_Stone::Clone() const
@@ -89,12 +73,26 @@ CTiki_Stone* CTiki_Stone::Clone() const
 
 void CTiki_Stone::Save(FILE* File)
 {
-	CGameObject::Save(File);
+	CTikiBase::Save(File);
 }
 
 void CTiki_Stone::Load(FILE* File)
 {
-	CGameObject::Load(File);
+	CTikiBase::Load(File);
+}
+
+void CTiki_Stone::Tiki_Die()
+{
+	CTikiBase::Tiki_Die();
+}
+
+void CTiki_Stone::CreateAnim()
+{
+	m_Animation = m_Mesh->SetAnimation<CAnimation>("TikiStoneAnimation");
+	m_Animation->AddAnimation("Tiki_Stone_Idle", "Tiki_Stone_Idle", 1.f, 1.f, true);
+	m_Animation->AddAnimation("Tiki_Stone_Die", "Tiki_Stone_Die", 1.f, 1.f, false);
+	m_Animation->SetCurrentEndFunction<CTiki_Stone>("Tiki_Stone_Die", this, &CTiki_Stone::Tiki_Die);
+	m_Animation->SetCurrentAnimation("Tiki_Stone_Idle");
 }
 
 void CTiki_Stone::ChangeAnim_Idle()
@@ -107,18 +105,13 @@ void CTiki_Stone::ChangeAnim_Die()
 	m_Animation->ChangeAnimation("Tiki_Stone_Die");
 }
 
-void CTiki_Stone::Tiki_Die()
+void CTiki_Stone::Collision_PlayerAttack(const CollisionResult& result)
 {
-	CreateFlowers();
-	Destroy();
-}
+	// ì‚¬ìš´ë“œ ì²˜ë¦¬
+	int RandNum = rand() % 4 + 1;
+	std::string TikiSound = "TikiStoneHit" + std::to_string(RandNum);
+	CSound* Sound = m_Scene->GetResource()->FindSound(TikiSound);
 
-void CTiki_Stone::CreateFlowers()
-{
-}
-
-void CTiki_Stone::AttackedCollision(const CollisionResult& result)
-{
-	// Æ¨°Ü³ª°¡´Â »ç¿îµå Àç»ý
-
+	if (Sound)
+		Sound->Play();
 }

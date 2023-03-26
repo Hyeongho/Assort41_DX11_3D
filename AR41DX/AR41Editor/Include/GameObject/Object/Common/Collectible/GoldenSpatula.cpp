@@ -2,6 +2,8 @@
 
 #include "Component/ColliderOBB3D.h"
 #include "Component/StaticMeshComponent.h"
+#include "Scene/Scene.h"
+#include "../../../Player.h"
 
 CGoldenSpatula::CGoldenSpatula()
 {
@@ -9,16 +11,12 @@ CGoldenSpatula::CGoldenSpatula()
 
 	m_ObjectTypeName = "GoldenSpatula";
 
-	m_ColItemType = EColItemType::GoldenSpatula;
+	m_ColItemType = EItemList::GoldenSpatula;
 }
 
 CGoldenSpatula::CGoldenSpatula(const CGoldenSpatula& Obj) :
 	CCollectibleItems(Obj)
 {
-	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
-	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
-
-	m_ColItemType = Obj.m_ColItemType;
 }
 
 CGoldenSpatula::~CGoldenSpatula()
@@ -42,10 +40,12 @@ bool CGoldenSpatula::Init()
 	m_Mesh->AddChild(m_Collider);
 	m_Mesh->SetMesh("GoldenSpatula");
 
+
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
 	m_Collider->SetCollisionCallback<CGoldenSpatula>(ECollision_Result::Collision, this, &CGoldenSpatula::Collision_Player);
+
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
@@ -77,9 +77,4 @@ void CGoldenSpatula::Save(FILE* File)
 void CGoldenSpatula::Load(FILE* File)
 {
 	CCollectibleItems::Load(File);
-}
-
-void CGoldenSpatula::Collision_Player(const CollisionResult& result)
-{
-	CCollectibleItems::Collision_Player(result);
 }

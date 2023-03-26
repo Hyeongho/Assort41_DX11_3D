@@ -12,6 +12,11 @@ protected:
 	CInfoSign(const CInfoSign& Obj);
 	virtual ~CInfoSign();
 
+private :
+	bool		m_RotLeft;
+	bool		m_RotRight;
+	std::string	m_InfoSignName;
+
 public:
 	virtual void Start();
 	virtual bool Init();
@@ -28,5 +33,12 @@ private:
 	void DebugKeyF1();
 	void DebugKeyF2();
 
-};
+public:
+	void SetInfoSingName(const std::string& Name) {
+		m_InfoSignName = Name;
+	}
 
+private:
+	void CreateSpatula();
+
+};

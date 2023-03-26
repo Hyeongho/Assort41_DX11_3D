@@ -2,6 +2,8 @@
 
 #include "Component/ColliderOBB3D.h"
 #include "Component/StaticMeshComponent.h"
+#include "Scene/Scene.h"
+#include "../../../Player.h"
 
 CSock::CSock()
 {
@@ -9,16 +11,12 @@ CSock::CSock()
 
 	m_ObjectTypeName = "Sock";
 
-	m_ColItemType = EColItemType::Sock;
+	m_ColItemType = EItemList::Sock;
 }
 
 CSock::CSock(const CSock& Obj) :
 	CCollectibleItems(Obj)
 {
-	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
-	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
-
-	m_ColItemType = Obj.m_ColItemType;
 }
 
 CSock::~CSock()
@@ -78,9 +76,3 @@ void CSock::Load(FILE* File)
 {
 	CCollectibleItems::Load(File);
 }
-
-void CSock::Collision_Player(const CollisionResult& result)
-{
-	CCollectibleItems::Collision_Player(result);
-}
-

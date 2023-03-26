@@ -33,8 +33,30 @@
 #include "Resource/Texture/DirectXTex.h"
 #include "fmod.hpp"
 
+#include "Recast.h"
+#include "RecastAlloc.h"
+#include "RecastAssert.h"
+#include "DetourAlloc.h"
+#include "DetourAssert.h"
+#include "DetourCommon.h"
+#include "DetourNavMesh.h"
+#include "DetourNavMeshBuilder.h"
+#include "DetourNavMeshQuery.h"
+#include "DetourStatus.h"
+#include "DetourNode.h"
+#include "DetourMath.h"
+
 #pragma comment(lib, "../Bin/fmod64_vc.lib")
 
+//#ifdef _DEBUG
+//
+//#pragma comment(lib, "../Bin/Recast-d.lib")
+//
+//#else
+//
+//#pragma comment(lib, "../Bin/Recast.lib")
+//
+//#endif // _DEBUG
 
 extern float g_DeltaTime;
 
@@ -276,9 +298,9 @@ struct CollisionChannel
 
 struct CollisionProfile
 {
-	std::string							Name;
-	CollisionChannel* Channel;
-	bool								Enable;
+	std::string				Name;
+	CollisionChannel*		Channel;
+	bool					Enable;
 	std::vector<ECollision_Interaction>	vecCollisionInteraction;
 
 	CollisionProfile() :
@@ -641,19 +663,4 @@ struct ShadowCBuffer
 struct FXAACBuffer
 {
 	Vector4 rcpFrame;
-};
-
-//struct MSCBuffer
-//{
-//
-//};
-
-struct CartoonCBuffer
-{
-	DirectX::XMFLOAT4X4 WorldViewProj;
-	DirectX::XMFLOAT4X4 World;
-	DirectX::XMFLOAT4X4 View;
-	DirectX::XMFLOAT4X4 InvView;
-	DirectX::XMFLOAT4 LightDir;
-	DirectX::XMFLOAT4 ObjectColor;
 };

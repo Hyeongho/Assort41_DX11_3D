@@ -2,6 +2,8 @@
 
 #include "Component/ColliderOBB3D.h"
 #include "Component/StaticMeshComponent.h"
+#include "../BB/BusStop.h"
+#include "Scene/Scene.h"
 
 CInteractButton::CInteractButton()
 {
@@ -9,7 +11,7 @@ CInteractButton::CInteractButton()
 
     m_ObjectTypeName = "InteractButton";
 
-    m_ButtonDir = ButtonDir::Virtical;
+    m_ButtonDir = EButtonDir::Virtical;
     m_IsPushed = false;
 }
 
@@ -48,31 +50,6 @@ bool CInteractButton::Init()
     m_MeshButton->SetMesh("Button");
     m_MeshButtonPlate->SetMesh("ButtonPlate");
 
-    m_ButtonDir = ButtonDir::Horizon;
-
-    if (m_ButtonDir == ButtonDir::Virtical) {
-        m_MeshButton->SetRelativePositionY(m_MeshButtonPlate->GetMeshSize().y);
-
-        float ColSizeX = m_MeshButtonPlate->GetMeshSize().x / 2.f;
-        float ColSizeY = m_MeshButtonPlate->GetMeshSize().y / 2.f + m_MeshButton->GetMeshSize().y / 2.f;
-        float ColSizeZ = m_MeshButtonPlate->GetMeshSize().z / 2.f;
-
-        m_Collider->SetBoxHalfSize(ColSizeX, ColSizeY, ColSizeZ);
-        m_Collider->SetRelativePositionY(ColSizeY);
-    }
-    else if (m_ButtonDir == ButtonDir::Horizon) {
-        m_MeshButton->SetRelativeRotationX(-90.f);
-        m_MeshButton->SetRelativePositionZ(-m_MeshButtonPlate->GetMeshSize().z / 2.f);
-        m_MeshButton->SetRelativePositionY(m_MeshButtonPlate->GetMeshSize().y / 2.f);
-
-        float ColSizeX = m_MeshButtonPlate->GetMeshSize().x / 2.f;
-        float ColSizeY = m_MeshButtonPlate->GetMeshSize().y / 2.f;
-        float ColSizeZ = m_MeshButtonPlate->GetMeshSize().z / 2.f + m_MeshButton->GetMeshSize().y / 2.f;
-
-        m_Collider->SetBoxHalfSize(ColSizeX, ColSizeY, ColSizeZ);
-        m_Collider->SetRelativePositionY(ColSizeY);
-        m_Collider->SetRelativePositionZ(-m_MeshButton->GetMeshSize().y / 2.f);
-    }
 
     m_Collider->SetCollisionProfile("Button");
     m_Collider->SetCollisionCallback<CInteractButton>(ECollision_Result::Collision, this, &CInteractButton::Collision_Attacked);
@@ -91,7 +68,7 @@ void CInteractButton::Update(float DeltaTime)
     if (m_IsPushed) {
         float Move = g_DeltaTime * 30.f;
 
-        if (m_ButtonDir == ButtonDir::Virtical) {
+        if (m_ButtonDir == EButtonDir::Virtical) {
             float ButtonPoint = m_MeshButton->GetWorldPos().y + m_MeshButton->GetMeshSize().y;
             float VerticPoint = m_MeshButtonPlate->GetWorldPos().y + m_MeshButtonPlate->GetMeshSize().y + m_MeshButton->GetMeshSize().y / 2.f;
 
@@ -102,7 +79,7 @@ void CInteractButton::Update(float DeltaTime)
 
             m_MeshButton->AddRelativePositionY(-Move);
         }
-        else if (m_ButtonDir == ButtonDir::Horizon) {
+        else if (m_ButtonDir == EButtonDir::Horizon) {
             float ButtonPoint = m_MeshButton->GetWorldPos().z - m_MeshButton->GetMeshSize().y;
             float HorizPoint = m_MeshButtonPlate->GetWorldPos().z - m_MeshButton->GetMeshSize().y - m_MeshButton->GetMeshSize().y;
 
@@ -141,7 +118,53 @@ void CInteractButton::Collision_Attacked(const CollisionResult& result)
 {
     m_IsPushed = true;
 
-    if(m_Func != nullptr)
-        m_Func();
+    switch (m_InterObjList)
+    {
+    case EInteractObjectList::BusStop:
+    {
+        CBusStop* BusStop = dynamic_cast<CBusStop*>(m_Scene->FindObject(m_InterObjName));
+
+        if (!BusStop)
+            return;
+
+        BusStop->CallBus();
+    }
+    break;
+    }
+}
+
+void CInteractButton::SetInteractObject(const EInteractObjectList& Object, const std::string& ObjName)
+{
+    m_InterObjList = Object;
+    m_InterObjName = ObjName;
+}
+
+void CInteractButton::SetDir(const EButtonDir& Dir)
+{
+    m_ButtonDir = Dir;
+
+    if (m_ButtonDir == EButtonDir::Virtical) {
+        m_MeshButton->SetRelativePositionY(m_MeshButtonPlate->GetMeshSize().y);
+
+        float ColSizeX = m_MeshButtonPlate->GetMeshSize().x / 2.f;
+        float ColSizeY = m_MeshButtonPlate->GetMeshSize().y / 2.f + m_MeshButton->GetMeshSize().y / 2.f;
+        float ColSizeZ = m_MeshButtonPlate->GetMeshSize().z / 2.f;
+
+        m_Collider->SetBoxHalfSize(ColSizeX, ColSizeY, ColSizeZ);
+        m_Collider->SetRelativePositionY(ColSizeY);
+    }
+    else if (m_ButtonDir == EButtonDir::Horizon) {
+        m_MeshButton->SetRelativeRotationX(-90.f);
+        m_MeshButton->SetRelativePositionZ(-m_MeshButtonPlate->GetMeshSize().z / 2.f);
+        m_MeshButton->SetRelativePositionY(m_MeshButtonPlate->GetMeshSize().y / 2.f);
+
+        float ColSizeX = m_MeshButtonPlate->GetMeshSize().x / 2.f;
+        float ColSizeY = m_MeshButtonPlate->GetMeshSize().y / 2.f;
+        float ColSizeZ = m_MeshButtonPlate->GetMeshSize().z / 2.f + m_MeshButton->GetMeshSize().y / 2.f;
+
+        m_Collider->SetBoxHalfSize(ColSizeX, ColSizeY, ColSizeZ);
+        m_Collider->SetRelativePositionY(ColSizeY);
+        m_Collider->SetRelativePositionZ(-m_MeshButton->GetMeshSize().y / 2.f);
+    }
 }
 
