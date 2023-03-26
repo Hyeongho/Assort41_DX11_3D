@@ -67,11 +67,14 @@ bool CJellyfish::Init()
     m_Animation->AddAnimation("Jellyfish_Attack", "Jellyfish_Attack", 1.f, 1.f, true);
     m_Animation->AddAnimation("Jellyfish_Death", "Jellyfish_Death", 1.f, 1.f, false);
 
-    CGameObject* KingJellyfish = m_Scene->FindObject("KingJellyfish");
-
-    if (KingJellyfish)
+    if (m_Boss)
     {
-        m_Mesh->SetWorldPosition(KingJellyfish->GetWorldPos());
+        CGameObject* KingJellyfish = m_Scene->FindObject("KingJellyfish");
+
+        if (KingJellyfish)
+        {
+            m_Mesh->SetWorldPosition(KingJellyfish->GetWorldPos());
+        }
     }
 
     return true; 

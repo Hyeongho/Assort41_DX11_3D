@@ -33,11 +33,16 @@ private:
 	bool	m_Chase;
 
 public:
-	EJellyfishDir m_Dir;
 	int	m_Count;
 	void SetCount(int Count)
 	{
 		m_Count = Count;
+	}
+
+	bool	m_Boss;
+	void SetBoss(bool Boss)
+	{
+		m_Boss = Boss;
 	}
 
 public:
