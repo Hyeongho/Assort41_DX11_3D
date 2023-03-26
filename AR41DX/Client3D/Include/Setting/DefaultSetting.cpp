@@ -8,6 +8,9 @@
 #include "../GameObject/Npc/Squidward.h"
 #include "../GameObject/Npc/TaxiDriver.h"
 #include "../GameObject/Bullet.h"
+#include "../GameObject/Cannon.h"
+#include "../GameObject/Pufferfish.h"
+#include "../GameObject/TeeterRock.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 #include "../UI/TitleSceneUI.h"
@@ -49,6 +52,10 @@ void CDefaultSetting::CreateCDO()
     //CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
     //CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
     //CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
+
+    CScene::CreateObjectCDO<CCannon>("Cannon");
+    CScene::CreateObjectCDO<CPufferfish>("Pufferfish");
+    CScene::CreateObjectCDO<CTeeterRock>("TeeterRock");
 }
 
 void CDefaultSetting::LoadResource()
@@ -86,6 +93,9 @@ void CDefaultSetting::LoadResource()
 
     // Particle
     LoadParticle();
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GateArm", TEXT("GateArm.fbx"));
+
 }
 
 void CDefaultSetting::SetInput()
@@ -154,6 +164,10 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateChannel("Wall", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Platform", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Collectible", ECollision_Interaction::Collision);
+
+    CCollisionManager::GetInst()->CreateChannel("Pool", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->CreateChannel("Detect", ECollision_Interaction::Collision);
+
     CCollisionManager::GetInst()->CreateChannel("Ground", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Pufferfish", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("DetectArea", ECollision_Interaction::Collision);
@@ -165,6 +179,10 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateProfile("Wall", "Wall", true);
     CCollisionManager::GetInst()->CreateProfile("Platform", "Platform", true);
     CCollisionManager::GetInst()->CreateProfile("Collectible", "Collectible", true);
+
+    CCollisionManager::GetInst()->CreateProfile("Pool", "Pool", true);
+    CCollisionManager::GetInst()->CreateProfile("Detect", "Detect", true);
+
     CCollisionManager::GetInst()->CreateProfile("Ground", "Ground", true);
     CCollisionManager::GetInst()->CreateProfile("Pufferfish", "Pufferfish", true);
     CCollisionManager::GetInst()->CreateProfile("DetectArea", "DetectArea", true);
@@ -192,6 +210,22 @@ void CDefaultSetting::SetCollision()
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Collectible", "Collectible", ECollision_Interaction::Ignore);
 
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Player", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "PlayerAttack", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "MonsterAttack", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Wall", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Platform", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Collectible", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Detect", ECollision_Interaction::Ignore);
+
+    CCollisionManager::GetInst()->SetCollisionInteraction("Detect", "Player", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Detect", "PlayerAttack", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Detect", "MonsterAttack", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Detect", "Wall", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Detect", "Platform", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Detect", "Collectible", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Detect", "Pool", ECollision_Interaction::Ignore);
+
     CCollisionManager::GetInst()->SetCollisionInteraction("Ground", "Ground", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Ground", "Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Ground", "PlayerAttack", ECollision_Interaction::Ignore);
@@ -211,6 +245,17 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "MonsterAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "Collectible", ECollision_Interaction::Ignore);
+    
+    CCollisionManager::GetInst()->CreateChannel("KingJellyfish", ECollision_Interaction::Collision);
+
+    CCollisionManager::GetInst()->CreateProfile("KingJellyfish", "KingJellyfish", true);
+
+    CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "PlayerAttack", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "MonsterAttack", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "Wall", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "Platform", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "Collectible", ECollision_Interaction::Ignore);
+
 }
 
 void CDefaultSetting::LoadSound()
@@ -256,6 +301,7 @@ void CDefaultSetting::LoadSpongebob()
     CResourceManager::GetInst()->LoadAnimationSequence("Spongebob_Bash", TEXT("Spongebob\\Anim_Spongebob_BubbleBash.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Spongebob_Death", TEXT("Spongebob\\Anim_Spongebob_Death_02.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Spongebob_Hit", TEXT("Spongebob\\Anim_Spongebob_Hit_01.sqc"), MESH_PATH);
+
     //전용 모션
     CResourceManager::GetInst()->LoadAnimationSequence("Spongebob_Bowl", TEXT("Spongebob\\Anim_Spongebob_Bubble_Bowl_Loop.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Spongebob_BowlThrow", TEXT("Spongebob\\Anim_Spongebob_Bubble_Bowl_Throw.sqc"), MESH_PATH);
@@ -415,6 +461,8 @@ void CDefaultSetting::LoadKingJellyfish()
     // CResourceManager::GetInst()->LoadSound("Effect", "KingJellyfish_Shield_Up", false, "KingJellyfish/SFX_Boss_JFK_Shield_Up.ogg", SOUND_PATH);
 
 
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "KingJellyfish_Electric", TEXT("KingJellyfish/KingJellyfish_Electric.msh"), MESH_PATH);
+   // CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "KingJellyfish_Electric", TEXT("KingJellyfish/ElectricRing.msh"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadJellyfish()
@@ -429,6 +477,8 @@ void CDefaultSetting::LoadJellyfish()
     CResourceManager::GetInst()->LoadAnimationSequence("Jellyfish_Death", TEXT("Jellyfish/Jellyfish_death.sqc"), MESH_PATH);
 
     CResourceManager::GetInst()->LoadSound("Effect", "Jellyfish_Attack", false, "Jellyfish/SFX_Enemy_Jellyfish_Attack_Original.ogg", SOUND_PATH);
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Jellyfish_Electric", TEXT("Jellyfish/Jellyfish_Electric.msh"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadTikis()
@@ -696,11 +746,11 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadAnimationSequence("Cannon_Shoot", TEXT("Objects/JellyfishFields/Cannon.sqc"), MESH_PATH);
 
     // 복어
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Pufferfish", TEXT("Objects/JellyfishFields/Pufferfish.msh"), MESH_PATH);
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "PufferfishSkeleton", TEXT("Objects/JellyfishFields/Pufferfish.bne"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Pufferfish", TEXT("Objects/JellyfishFields/Puffer.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "PufferfishSkeleton", TEXT("Objects/JellyfishFields/Puffer.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("Pufferfish", "PufferfishSkeleton");
 
-    CResourceManager::GetInst()->LoadAnimationSequence("Pufferfish_Contact", TEXT("Objects/JellyfishFields/Pufferfish.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Pufferfish_Contact", TEXT("Objects/JellyfishFields/Puffer.sqc"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadCBObjects()
