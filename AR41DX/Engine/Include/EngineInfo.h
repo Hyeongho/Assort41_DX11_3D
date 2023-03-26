@@ -670,7 +670,6 @@ struct TranslationCBuffer
 	float	TextureTranslation;
 	Vector3	TextureTranslationEmpty;
 };
-};
 
 //struct MSCBuffer
 //{

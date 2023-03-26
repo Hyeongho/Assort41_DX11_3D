@@ -112,7 +112,6 @@ enum class ECollision_Channel
 	Collectible,
 	Platform,
 	Pufferfish,
-	DetectArea,
 	Custom8,
 	Custom9,
 	Custom10,

@@ -45,8 +45,6 @@ private:
 
 	class CTranslationConstantBuffer* m_TranslationCBuffer;
 
-	class CTranslationConstantBuffer* m_TranslationCBuffer;
-
 
 	CSharedPtr<CRenderTarget> m_ShadowMapTarget;
 
