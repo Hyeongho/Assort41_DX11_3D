@@ -10,12 +10,12 @@ CCartoonShader::~CCartoonShader()
 
 bool CCartoonShader::Init()
 {
-	if (!LoadVertexShader("VS_Main", TEXT("CartoonRendering.fx"), SHADER_PATH))
+	if (!LoadVertexShader("main", TEXT("CartoonRendering.fx"), SHADER_PATH))
 	{
 		return false;
 	}
 
-	if (!LoadPixelShader("PS_Main", TEXT("CartoonRendering.fx"), SHADER_PATH))
+	if (!LoadPixelShader("main", TEXT("CartoonRendering.fx"), SHADER_PATH))
 	{
 		return false;
 	}

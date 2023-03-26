@@ -4,6 +4,7 @@
 #include "Component/StaticMeshComponent.h"
 #include "Component/ColliderCube.h"
 #include "Component/ColliderOBB3D.h"
+#include "Component/RigidBody.h"
 #include "Input.h"
 #include "Scene/Scene.h"
 #include "Scene/SceneManager.h"
@@ -33,6 +34,8 @@ CFodder::CFodder(const CFodder& Obj)
 	m_AttackArea = (CColliderOBB3D*)FindComponent("AttackArea");
 	m_BodyCube = (CColliderOBB3D*)FindComponent("BodyCube");
 	m_WeaponCube = (CColliderOBB3D*)FindComponent("WeaponCube");
+	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 }
 
 CFodder::~CFodder()
@@ -76,6 +79,7 @@ bool CFodder::Init()
 	m_AttackArea = CreateComponent<CColliderOBB3D>("AttackArea");
 	m_BodyCube = CreateComponent<CColliderOBB3D>("BodyCube");
 	m_WeaponCube = CreateComponent<CColliderOBB3D>("WeaponCube");
+	m_Rigid = CreateComponent<CRigidBody>("Rigid");
 
 	SetRootComponent(m_Mesh);
 
@@ -85,6 +89,7 @@ bool CFodder::Init()
 	m_Mesh->AddChild(m_AttackArea);
 	m_Mesh->AddChild(m_BodyCube);
 	m_Mesh->AddChild(m_WeaponCube);
+	m_Mesh->AddChild(m_Rigid);
 
 
 	m_DetectArea->SetCollisionProfile("DetectArea");
@@ -115,6 +120,8 @@ bool CFodder::Init()
 	m_Animation->AddAnimation("Fodder_Dead", "Fodder_Dead", 1.f, 1.f, false);
 
 	// m_FodderBT = new CFodderBT;
+
+	//m_Rigid->SetGravity(true);
 
 	return true;
 }
@@ -215,11 +222,10 @@ void CFodder::WeaponAttackOn()
 void CFodder::Dead()
 {
 	m_Mesh->AddWorldPositionZ(150.f);
-
+	m_Rigid->SetVelocity(0.f, 0.f, 200.f);
 	m_Animation->ChangeAnimation("Fodder_Dead");
 
 	SetMoveSpeed(0.f);
-	//SetVelocity(100.f);
 }
 
 void CFodder::Debris()
@@ -232,7 +238,7 @@ void CFodder::Debris()
 		m_Mesh->ClearMaterial();
 
 		CFodderDebris* Debris = m_Scene->CreateObject<CFodderDebris>("FodderDebris");
-		Debris->SetWorldPosition(FodderPos.x, FodderPos.y + 100.f, FodderPos.z);
+		Debris->SetWorldPosition(FodderPos.x, FodderPos.y + 300.f, FodderPos.z);
 	}
 }
 

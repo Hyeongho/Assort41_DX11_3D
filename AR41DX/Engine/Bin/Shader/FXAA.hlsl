@@ -18,7 +18,7 @@ SamplerState clamp : register(s3); // 임의로 추가., 0325
 //Texture2D<float4> g_DeferredTex : register(t22);
 Texture2D<float4> g_DeferredTex : register(t10); // 현재화면
 
-cbuffer FXAACBuffer : register(b14) // 14로 바꿔주었다. 
+cbuffer FXAACBuffer : register(b14) 
 {
 	float4 rcpFrame;
 };

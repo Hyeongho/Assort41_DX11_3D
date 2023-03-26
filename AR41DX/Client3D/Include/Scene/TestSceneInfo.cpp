@@ -69,14 +69,14 @@ bool CTestSceneInfo::Init()
 	//CGate* Gate = m_Owner->CreateObject<CGate>("Gate");
 	//Gate->SetWorldPosition(17000.f, 50.f, 12500.f);
 
-	//CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
-	//Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
+	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
+	Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
 	
 	//CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
 	//Hammer->SetWorldPosition(17000.f, 0.f, 14000.f);
 
-	CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
-	Duplicatotron->SetWorldPosition(17000.f, 0.f, 14000.f);
+	//CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
+	//Duplicatotron->SetWorldPosition(17000.f, 0.f, 14000.f);
 
 	//CDupli_Can* Dupli_Can = m_Owner->CreateObject<CDupli_Can>("Dupli_Can");
 	//Dupli_Can->SetWorldPosition(17000.f, 500.f, 12500.f);

@@ -2,6 +2,7 @@
 
 #include "Monster.h"
 
+
 class CFodderDebris :
     public CMonster
 {
@@ -18,6 +19,15 @@ private:
 	CSharedPtr<class CStaticMeshComponent>		m_FodderDebrisMesh3;
 	CSharedPtr<class CStaticMeshComponent>		m_FodderDebrisMesh4;
 	//CSharedPtr<class CColliderOBB3D>			m_Cube;
+
+
+	//
+	float m_Velocity[3];
+	float m_Acceleration[3];
+	float m_Mass;
+	bool  m_IsPopped;
+	CFodder* m_Fodder;
+
 
 public:
 	virtual void Start();

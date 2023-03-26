@@ -17,13 +17,15 @@ private:
 	CSharedPtr<class CColliderOBB3D>	m_AttackArea;
 	CSharedPtr<class CColliderOBB3D>	m_BodyCube;
 	CSharedPtr<class CColliderOBB3D>	m_WeaponCube;
+	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
+	CSharedPtr<class CRigidBody>		m_Rigid;
 
-	CSharedPtr<class CFodderBT>			m_FodderBT;
+	//CSharedPtr<class CFodderBT>			m_FodderBT;
 
-	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh1;
-	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh2;
-	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh3;
-	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh4;
+	//CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh1;
+	//CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh2;
+	//CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh3;
+	//CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh4;
 
 private:
 	bool	m_DetectOn;

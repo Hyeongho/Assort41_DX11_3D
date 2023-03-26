@@ -270,7 +270,7 @@ void CRenderManager::Render3D(float DeltaTime)
 	RenderScreen(DeltaTime);
 
 	// FXAA는 Post-Processing Effect라 카툰렌더링은 FXAA 이전에 만들어준다. 
-	RenderCartoon(DeltaTime);
+	//RenderCartoon(DeltaTime);
 
 	// FXAA를 그려낸다. 
 	RenderFXAA(DeltaTime);
@@ -862,6 +862,7 @@ void CRenderManager::RenderFXAA(float DeltaTime)
 	Context->Draw(4, 0);
 
 	m_DepthDisable->ResetState();
+
 	m_ScreenBuffer->ResetTargetShader(10);
 
 	m_FXAABuffer->ResetTarget();
