@@ -664,3 +664,9 @@ struct FXAACBuffer
 {
 	Vector4 rcpFrame;
 };
+
+struct TranslationCBuffer
+{
+	float	TextureTranslation;
+	Vector3	TextureTranslationEmpty;
+};

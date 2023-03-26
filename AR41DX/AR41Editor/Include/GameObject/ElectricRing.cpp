@@ -49,7 +49,7 @@ bool CElectricRing::Init()
     m_Mesh->AddChild(m_Collider);
     m_Mesh->SetWorldScale(1.f, 30.f, 1.f);
 
-    m_Collider->SetBoxHalfSize(30.f, 3.f, 30.f);
+    m_Collider->SetBoxHalfSize(15.f, 30.f, 15.f);
     m_Collider->SetCollisionProfile("MonsterAttack");
     m_Collider->SetRelativePosition(0.f, 0.f, 0.f);
 
@@ -60,29 +60,25 @@ void CElectricRing::Update(float DeltaTime)
 {
     CGameObject::Update(DeltaTime);
 
+    Vector3 Pos = m_Scene->FindObject("KingJellyfish")->GetWorldPos();
+
+    // 항상 플레이어를 바라보게 한다.
+    CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+
+    if (!Player)
+        return;
+
+    Vector3 PlayerPos = Player->GetWorldPos();
+
+    float Degree = atan2(GetWorldPos().z - PlayerPos.z, GetWorldPos().x - PlayerPos.x);
+    Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
+
+    m_Collider->SetWorldRotationY(Degree);
+
+    m_Mesh->SetWorldPosition(Pos);
 
     m_Mesh->AddWorldScale(0.1f, 0.f, 0.1f);
     m_Collider->AddWorldScale(0.1f, 0.f, 0.1f);
-    //Vector3 Pos = m_Scene->FindObject("KingJellyfish")->GetWorldPos();
-
-    //// 항상 플레이어를 바라보게 한다.
-    //CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
-
-    //if (!Player)
-    //    return;
-
-    //Vector3 PlayerPos = Player->GetWorldPos();
-
-    //float Degree = atan2(GetWorldPos().z - PlayerPos.z, GetWorldPos().x - PlayerPos.x);
-    //Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
-
-    //m_Collider->SetWorldRotationY(Degree);
-
-    //m_Mesh->SetWorldPosition(Pos);
-
-
-    // Vector3 Size = m_Mesh->GetWorldScale() / 2;
-   // m_Collider->AddWorldScale(Size);
 }
 
 void CElectricRing::PostUpdate(float DeltaTime)

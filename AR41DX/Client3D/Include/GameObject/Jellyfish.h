@@ -2,6 +2,16 @@
 
 #include "GameObject\GameObject.h"
 
+enum class EJellyfishDir
+{
+	ZP, // Z축 +방향
+	ZM, // Z축 -방향
+	XP, // X축 +방향
+	XM, // X축 -방향
+	ZPXP,
+	ZMXM
+};
+
 class CJellyfish :
 	public CGameObject
 {
@@ -17,7 +27,23 @@ private:
 	CSharedPtr<class CAnimation>		m_Animation;
 
 	CSharedPtr<class CColliderCube> m_Cube;
+	CSharedPtr<class CColliderCube> m_Detect;
+
 	Vector3	m_MonsterPos;
+	bool	m_Chase;
+
+public:
+	int	m_Count;
+	void SetCount(int Count)
+	{
+		m_Count = Count;
+	}
+
+	bool	m_Boss;
+	void SetBoss(bool Boss)
+	{
+		m_Boss = Boss;
+	}
 
 public:
 	virtual void Start();
@@ -30,6 +56,7 @@ public:
 
 private:
 	void Collision(const CollisionResult& result);
+	void DetectCollision(const CollisionResult& result);
 	void Dead();
 };
 
