@@ -678,10 +678,8 @@ struct TranslationCBuffer
 
 struct CartoonCBuffer
 {
-	DirectX::XMFLOAT4X4 WorldViewProj;
-	DirectX::XMFLOAT4X4 World;
-	DirectX::XMFLOAT4X4 View;
-	DirectX::XMFLOAT4X4 InvView;
-	DirectX::XMFLOAT4 LightDir;
-	DirectX::XMFLOAT4 ObjectColor;
+	Matrix worldViewProj;
+	float OutlineThickness;
+	Vector4 OutlineColor;
+	Vector3 Empty;
 };

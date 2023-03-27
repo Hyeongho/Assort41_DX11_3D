@@ -19,6 +19,10 @@ private:
 
 private:
 	float m_FallTime;
+	int m_CountHammer;
+	bool m_DefyingGravity;
+	bool m_SpawnOn;
+
 	CHammer* m_Hammers[3];
 
 public:
@@ -31,7 +35,17 @@ public:
 	virtual void Load(FILE* File);
 
 private:
-	void Collision_Ground(const CollisionResult& result);
 	void SpawnHammer();
+
+public:
+	void SetCountHammer(int CountHammer)
+	{
+		m_CountHammer = CountHammer;
+	}
+
+	int GetCountHammer()
+	{
+		return m_CountHammer;
+	}
 };
 

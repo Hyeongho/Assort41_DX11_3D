@@ -15,7 +15,7 @@
 
 CDuplicatotron::CDuplicatotron() :
 	  m_SpawnOn(false)
-	, m_CountHammer(0)
+	, m_CountCan(0)
 	, m_DelayTime(0.f)
 {
 	SetTypeID<CDuplicatotron>();
@@ -43,7 +43,7 @@ void CDuplicatotron::Start()
 	m_DetectArea->SetCollisionCallback<CDuplicatotron>(ECollision_Result::Release, this, &CDuplicatotron::Release_DetectOff);
 	m_BodyCube->SetCollisionCallback<CDuplicatotron>(ECollision_Result::Collision, this, &CDuplicatotron::Collision_Dead);
 
-	//m_Animation->SetCurrentEndFunction("Duplicatotron_SpawnEnemies", this, &CDuplicatotron::SpawnHammers);
+	//m_Animation->SetCurrentEndFunction("Duplicatotron_SpawnEnemies", this, &CDuplicatotron::SpawnCan);
 	m_Animation->SetCurrentEndFunction("Duplicatotron_Destroyed", this, &CDuplicatotron::Destroyed);
 }
 
@@ -110,40 +110,51 @@ void CDuplicatotron::PostUpdate(float DeltaTime)
 {
 	CMonster::PostUpdate(DeltaTime);
 
+	CHammer* Hammer = m_Scene->CreateObject<CHammer>("Hammer");
+
+	if (Hammer->GetDead() == true)
+	{
+		--m_CountCan; 
+		m_SpawnOn = true;
+	}
+
 	if (m_SpawnOn)
 	{
-		//m_CountHammer = 0;
+		//m_CountCan = 0;
 
 		m_DelayTime += DeltaTime;
 		
-		if (m_DelayTime >= 5.f && m_CountHammer < 1)
+		if (m_DelayTime >= 3.f && m_CountCan < 1)
 		{
-			++m_CountHammer;
+			++m_CountCan;
 
-			SpawnHammers();
+			SpawnCan();
 
 			//m_DelayTime = 0.f;
 		}
 
-		if (m_DelayTime >= 10.f && m_CountHammer < 2)
+		if (m_DelayTime >= 5.f && m_CountCan < 2)
 		{
-			++m_CountHammer;
+			++m_CountCan;
 
-			SpawnHammers();
+			SpawnCan();
+
+			//m_SpawnOn = false;
+
+		}
+
+		if (m_DelayTime >= 7.f && m_CountCan < 3)
+		{
+			++m_CountCan;
+
+			SpawnCan();
 
 			m_SpawnOn = false;
 
 		}
 
-		//if (m_CountHammer > 3)
-		//{
-		//	m_SpawnOn = false;
-
-		//	//m_CountHammer = 0;
-
-		//	m_DelayTime = 0.f;
-
-		//}
+		
+		
 	}
 }
 
@@ -207,13 +218,12 @@ void CDuplicatotron::SpawnAnimation()
 	m_Animation->ChangeAnimation("Duplicatotron_SpawnEnemies");
 }
 
-void CDuplicatotron::SpawnHammers()
+void CDuplicatotron::SpawnCan()
 {
 	//m_SpawnOn = true;
 
 	Vector3 Pos = GetWorldPos();
 
 	CDupli_Can* DupliCan = m_Scene->CreateObject<CDupli_Can>("Dupli_Can");
-	DupliCan->SetWorldPosition(Pos.x + 500.f, Pos.y + 10.f, Pos.z + 100.f);
 }
 

@@ -281,7 +281,7 @@ void CRenderManager::Render3D(float DeltaTime)
 	RenderScreen(DeltaTime);
 
 	// FXAA는 Post-Processing Effect라 카툰렌더링은 FXAA 이전에 만들어준다. 
-	//RenderCartoon(DeltaTime);
+	RenderCartoon(DeltaTime);
 
 	// FXAA를 그려낸다. 
 	RenderFXAA(DeltaTime);
@@ -831,7 +831,7 @@ void CRenderManager::RenderCartoon(float DeltaTime)
 
 	m_CartoonBuffer->SetTarget();
 
-	m_FXAABuffer->SetTargetShader(9); 
+	m_FXAABuffer->SetTargetShader(10); 
 
 	m_DepthDisable->SetState();
 
@@ -846,7 +846,7 @@ void CRenderManager::RenderCartoon(float DeltaTime)
 
 	m_DepthDisable->ResetState();
 
-	m_FXAABuffer->ResetTargetShader(9);
+	m_FXAABuffer->ResetTargetShader(10);
 
 	m_CartoonBuffer->ResetTarget();
 }
@@ -1344,6 +1344,15 @@ void CRenderManager::CreateRenderTarget()
 	m_FXAABuffer->SetPos(Vector3(900.f, 0.f, 0.f));
 	m_FXAABuffer->SetScale(Vector3(200.f, 200.f, 1.f));
 	m_FXAABuffer->SetDebugRender(true);
+
+	// Cartoon 용
+	CResourceManager::GetInst()->CreateTarget("RenderCartoon", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	m_CartoonBuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderCartoon");
+
+	m_CartoonBuffer->SetPos(Vector3(1200.f, 0.f, 0.f));
+	m_CartoonBuffer->SetScale(Vector3(200.f, 200.f, 1.f));
+	m_CartoonBuffer->SetDebugRender(true);
 }
 
 bool CRenderManager::SortAlphaObject(CSceneComponent* Src, CSceneComponent* Dest)

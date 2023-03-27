@@ -32,8 +32,19 @@ private:
 	bool	m_AttackOn;
 	bool	m_WeaponAttack; // 무기공격여부.
 	bool	m_DebrisOn;
+	bool	m_Dead;
 
 public:
+	void SetDead(bool Dead)
+	{
+		m_Dead = Dead;
+	}
+
+	bool GetDead()
+	{
+		return m_Dead;
+	}
+
 	void SetDebrisOn(bool DebrisOn)
 	{
 		m_DebrisOn = DebrisOn;

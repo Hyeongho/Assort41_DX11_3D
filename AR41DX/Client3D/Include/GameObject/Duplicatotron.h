@@ -24,7 +24,7 @@ private:
 private:
 	bool	m_DetectOn;
 	bool	m_SpawnOn;
-	int		m_CountHammer;
+	int		m_CountCan;
 	float	m_DelayTime;
 
 public:
@@ -53,5 +53,5 @@ private:
 	void Collision_Dead(const CollisionResult& result);
 	void Destroyed();
 	void SpawnAnimation();
-	void SpawnHammers();
+	void SpawnCan();
 };

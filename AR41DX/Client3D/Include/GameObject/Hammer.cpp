@@ -19,7 +19,8 @@ CHammer::CHammer() :
 	m_DetectOn(false),
 	m_AttackOn(false),
 	m_WeaponAttack(false),
-	m_DebrisOn(false)
+	m_DebrisOn(false),
+	m_Dead(false)
 {
 	SetTypeID<CHammer>();
 
@@ -283,6 +284,7 @@ void CHammer::Debris()
 		Vector3 HammerPos = GetWorldPos();
 
 		m_Mesh->Destroy();
+		m_Dead = true;
 		m_Mesh->ClearMaterial();
 
 		CHammerDebris* Debris = m_Scene->CreateObject<CHammerDebris>("HammerDebris");

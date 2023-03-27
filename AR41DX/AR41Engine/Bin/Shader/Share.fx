@@ -88,6 +88,7 @@ SamplerState g_PointSmp : register(s0);
 SamplerState g_LinearSmp : register(s1);
 SamplerState g_AnisotropicSmp : register(s2);
 SamplerState g_ClampSmp : register(s3);
+SamplerState g_PointClampSmp : register(s4);
 
 Texture2D g_BaseTexture : register(t0);
 Texture2D g_NormalTexture : register(t1);
