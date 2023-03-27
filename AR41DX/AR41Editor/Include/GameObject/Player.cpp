@@ -26,7 +26,7 @@
 
 CPlayer::CPlayer()
 	: m_Speed(500.f)
-	, m_CameraSpeed(150.f)
+	, m_InflictAngle(0.f)
 	, m_SpaceTime(1.f)
 	, m_LassoDistance(0.f)
 	, m_KeyCount(0)
@@ -45,7 +45,7 @@ CPlayer::CPlayer()
 CPlayer::CPlayer(const CPlayer& Obj) 
 	: CGameObject(Obj)
 	, m_Speed(Obj.m_Speed)
-	, m_CameraSpeed(Obj.m_CameraSpeed)
+	, m_InflictAngle(0.f)
 	, m_SpaceTime(1.f)
 	, m_LassoDistance(0.f)
 	, m_KeyCount(0)
@@ -294,7 +294,8 @@ int CPlayer::InflictDamage(int damage)
 			break;
 		}
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerHit");
-		float angle = GetWorldRot().y;
+		float angle = m_InflictAngle==0.f?  GetWorldRot().y: m_InflictAngle;
+		m_InflictAngle = 0.f;
 		m_Rigid->SetGround(false);
 		m_Rigid->AddForce(sinf(DegreeToRadian(angle))*400.f, 250.f, cosf(DegreeToRadian(angle))*400.f);
 		m_Rigid->SetVelocity(sinf(DegreeToRadian(angle))*400.f, 250.f, cosf(DegreeToRadian(angle))*400.f);
@@ -1028,8 +1029,8 @@ void CPlayer::RClickUp()
 void CPlayer::StartBash()
 {
 	m_Rigid->SetGravity(true);
-	m_Rigid->AddForce(0, -500.f);
-	m_Rigid->SetVelocityY(-500.f);
+	m_Rigid->AddForce(0, -2000.f);
+	m_Rigid->SetVelocityY(-2000.f);
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBashDw");
 }
 
@@ -1062,6 +1063,10 @@ void CPlayer::BashCheck()
 
 void CPlayer::ResetIdle()
 {
+	if (!m_Rigid->GetGround())
+	{
+		return;
+	}
 	if (m_MainCharacter == EMain_Character::Spongebob)
 	{
 		m_Weapon->GetRootComponent()->SetEnable(false);

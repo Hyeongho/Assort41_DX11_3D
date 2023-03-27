@@ -86,7 +86,7 @@ protected:
 	CollisionResult m_WallCollision;	//벽이랑 부딪히고 있는경우
 	Vector3		m_RespawnPos; //kbj checkpoint
 	float m_Speed;
-	float m_CameraSpeed;
+	float m_InflictAngle;
 	int m_KeyCount;
 	int m_JumpCount;
 	bool m_IsStop;
@@ -167,6 +167,11 @@ public:
 		m_RespawnPos.x = x;
 		m_RespawnPos.y = y;
 		m_RespawnPos.z = z;
+	}
+
+	void SetInflictAngle(float angle)
+	{
+		m_InflictAngle = angle;
 	}
 
 	void SetCanPickUp(bool b)
