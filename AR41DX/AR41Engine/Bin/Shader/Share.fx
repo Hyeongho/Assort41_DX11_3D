@@ -87,8 +87,8 @@ StructuredBuffer<int> g_RandomArray : register(t51);
 SamplerState g_PointSmp : register(s0);
 SamplerState g_LinearSmp : register(s1);
 SamplerState g_AnisotropicSmp : register(s2);
-SamplerState g_ClampSmp : register(s3);
-SamplerState g_PointClampSmp : register(s4);
+SamplerState g_ClampSmp : register(s3); // FXAA Àü¿ë
+SamplerState g_PointClampSmp : register(s4); // Ä«Å÷·»´õ¸µ¿ë
 
 Texture2D g_BaseTexture : register(t0);
 Texture2D g_NormalTexture : register(t1);
