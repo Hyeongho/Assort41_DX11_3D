@@ -28,6 +28,8 @@ CRenderManager::CRenderManager()
 {
 	m_RenderStateManager = new CRenderStateManager;
 	m_ShadowCBuffer = new CShadowConstantBuffer;
+	m_TranslationCBuffer = new CTranslationConstantBuffer; //
+
 }
 
 CRenderManager::~CRenderManager()
@@ -65,7 +67,7 @@ void CRenderManager::SetShaderType(EShaderType Type)
 	switch (m_ShaderType)
 	{
 	case EShaderType::Default:
-		Name = "LightAccShader";	
+		Name = "LightAccShader";
 		break;
 	case EShaderType::CelShader:
 		Name = "LightCelShader";
@@ -179,7 +181,7 @@ bool CRenderManager::Init()
 	m_DepthWriteDisable = m_RenderStateManager->FindRenderState<CDepthStencilState>("DepthWriteDisable");
 	m_LightAccBlend = m_RenderStateManager->FindRenderState<CBlendState>("LightAccBlend");
 
-	//m_TranslationCBuffer = new CTranslationConstantBuffer;
+	//m_TranslationCBuffer = new CTranslationConstantBuffer; // 
 
 	//m_TranslationCBuffer->Init();
 
@@ -263,10 +265,10 @@ void CRenderManager::Render3D(float DeltaTime)
 	RenderShadowMap(DeltaTime);
 
 
-	//m_TextureTranslation += 0.05f * DeltaTime;
+	m_TextureTranslation += 0.05f * DeltaTime;
 
-	//m_TranslationCBuffer->SetTextureTranslation(m_TextureTranslation);
-	//m_TranslationCBuffer->UpdateBuffer();
+	m_TranslationCBuffer->SetTextureTranslation(m_TextureTranslation);
+	m_TranslationCBuffer->UpdateBuffer();
 
 	// GBuffer를 그려낸다.
 	RenderGBuffer(DeltaTime);
@@ -831,7 +833,7 @@ void CRenderManager::RenderCartoon(float DeltaTime)
 
 	m_CartoonBuffer->SetTarget();
 
-	m_FXAABuffer->SetTargetShader(10); 
+	m_FXAABuffer->SetTargetShader(10);
 
 	m_DepthDisable->SetState();
 
@@ -1162,7 +1164,7 @@ void CRenderManager::RenderMultiSampling(float DeltaTime)
 //
 //	m_DepthDisable->ResetState();
 //
-//	m_TranslationCBuffer->R
+//	m_TranslationCBuffer->ResetTarget();
 //}
 
 void CRenderManager::SetBlendFactor(const std::string& Name, float r, float g, float b, float a)
@@ -1353,6 +1355,8 @@ void CRenderManager::CreateRenderTarget()
 	m_CartoonBuffer->SetPos(Vector3(1200.f, 0.f, 0.f));
 	m_CartoonBuffer->SetScale(Vector3(200.f, 200.f, 1.f));
 	m_CartoonBuffer->SetDebugRender(true);
+
+	m_TranslationCBuffer->Init();
 }
 
 bool CRenderManager::SortAlphaObject(CSceneComponent* Src, CSceneComponent* Dest)
