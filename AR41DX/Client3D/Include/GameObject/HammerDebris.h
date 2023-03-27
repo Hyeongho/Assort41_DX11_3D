@@ -17,7 +17,16 @@ private:
 	CSharedPtr<class CStaticMeshComponent>		m_HammerDebrisMesh2;
 	CSharedPtr<class CStaticMeshComponent>		m_HammerDebrisMesh3;
 	CSharedPtr<class CStaticMeshComponent>		m_HammerDebrisMesh4;
-	//CSharedPtr<class CColliderOBB3D>			m_Cube;
+
+	CSharedPtr<class CColliderOBB3D>			m_Mesh1Cube;
+	CSharedPtr<class CColliderOBB3D>			m_Mesh2Cube;
+	CSharedPtr<class CColliderOBB3D>			m_Mesh3Cube;
+	CSharedPtr<class CColliderOBB3D>			m_Mesh4Cube;
+
+
+private:
+	bool	m_DefyingGravity;
+	CHammer* m_Hammer;
 
 public:
 	virtual void Start();

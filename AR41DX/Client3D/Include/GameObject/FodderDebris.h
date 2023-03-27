@@ -18,7 +18,11 @@ private:
 	CSharedPtr<class CStaticMeshComponent>		m_FodderDebrisMesh2;
 	CSharedPtr<class CStaticMeshComponent>		m_FodderDebrisMesh3;
 	CSharedPtr<class CStaticMeshComponent>		m_FodderDebrisMesh4;
-	//CSharedPtr<class CColliderOBB3D>			m_Cube;
+	
+	CSharedPtr<class CColliderOBB3D>			m_Mesh1Cube;
+	CSharedPtr<class CColliderOBB3D>			m_Mesh2Cube;
+	CSharedPtr<class CColliderOBB3D>			m_Mesh3Cube;
+	CSharedPtr<class CColliderOBB3D>			m_Mesh4Cube;
 
 
 	//
@@ -26,6 +30,7 @@ private:
 	float m_Acceleration[3];
 	float m_Mass;
 	bool  m_IsPopped;
+	bool	m_DefyingGravity;
 	CFodder* m_Fodder;
 
 

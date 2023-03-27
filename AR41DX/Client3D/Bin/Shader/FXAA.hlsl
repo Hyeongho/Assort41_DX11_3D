@@ -23,7 +23,8 @@ cbuffer FXAACBuffer : register(b14)
 	float4 rcpFrame;
 };
 
-SamplerState FXAASampler : register(s4) {
+SamplerState FXAASampler : register(s4) 
+{
 	Filter = MIN_MAG_LINEAR_MIP_POINT;
 	AddressU = Clamp;
 	AddressV = Clamp;

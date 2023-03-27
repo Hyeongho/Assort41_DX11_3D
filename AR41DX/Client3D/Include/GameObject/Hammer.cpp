@@ -3,6 +3,7 @@
 #include "Component/StaticMeshComponent.h"
 #include "Component/AnimationMeshComponent.h"
 #include "Component/ColliderOBB3D.h"
+#include "Component/RigidBody.h"
 #include "Input.h"
 #include "Scene/Scene.h"
 #include "Scene/SceneManager.h"
@@ -33,6 +34,7 @@ CHammer::CHammer(const CHammer& Obj)
 	m_WeaponCube = (CColliderOBB3D*)FindComponent("WeaponCube");
 
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 }
 
 CHammer::~CHammer()
@@ -85,6 +87,10 @@ bool CHammer::Init()
 	m_AttackArea = CreateComponent<CColliderOBB3D>("AttackArea");
 	m_BodyCube = CreateComponent<CColliderOBB3D>("BodyCube");
 	m_WeaponCube = CreateComponent<CColliderOBB3D>("WeaponCube");
+
+
+
+	m_Rigid = CreateComponent<CRigidBody>("Rigid");
 
 	SetRootComponent(m_Mesh);
 	
@@ -263,7 +269,8 @@ void CHammer::WeaponAttackOn()
 void CHammer::Dead()
 {
 	m_Mesh->AddWorldPositionZ(150.f);
-
+	m_Rigid->SetVelocity(0.f, 250.f, 200.f);
+	m_Rigid->AddForce(0.f, 100.f, 100.f);
 	m_Animation->ChangeAnimation("Hammer_Dead");
 
 	SetMoveSpeed(0.f);
@@ -271,13 +278,16 @@ void CHammer::Dead()
 
 void CHammer::Debris()
 {
-	Vector3 HammerPos = GetWorldPos();
+	if (!m_Scene->FindObject("HammerDebris"))
+	{
+		Vector3 HammerPos = GetWorldPos();
 
-	m_Mesh->Destroy();
-	m_Mesh->ClearMaterial();
+		m_Mesh->Destroy();
+		m_Mesh->ClearMaterial();
 
-	CHammerDebris* Debris = m_Scene->CreateObject<CHammerDebris>("HammerDebris");
-	Debris->SetWorldPosition(HammerPos.x, HammerPos.y + 100.f, HammerPos.z);
+		CHammerDebris* Debris = m_Scene->CreateObject<CHammerDebris>("HammerDebris");
+		Debris->SetWorldPosition(HammerPos.x, HammerPos.y + 500.f, HammerPos.z);
+	}
 }
 
 void CHammer::Collision_Detect_ChaseOn(const CollisionResult& result)

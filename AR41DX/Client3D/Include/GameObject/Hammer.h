@@ -16,6 +16,7 @@ private:
 	CSharedPtr<class CColliderOBB3D>	m_AttackArea;
 	CSharedPtr<class CColliderOBB3D>	m_BodyCube;
 	CSharedPtr<class CColliderOBB3D>	m_WeaponCube;
+	CSharedPtr<class CRigidBody>		m_Rigid;
 
 	CSharedPtr<class CFodderBT>			m_FodderBT;
 

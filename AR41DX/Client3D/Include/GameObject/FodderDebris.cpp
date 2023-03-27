@@ -13,6 +13,7 @@
 #include "Scene/NavigationManager3D.h"
 
 CFodderDebris::CFodderDebris()  :
+    m_DefyingGravity(true),
     m_IsPopped(false),
     m_Mass(1.f)
 {
@@ -28,7 +29,10 @@ CFodderDebris::CFodderDebris(const CFodderDebris& Obj)
     m_FodderDebrisMesh3 = (CStaticMeshComponent*)FindComponent("FodderDebrisMesh3");
     m_FodderDebrisMesh4 = (CStaticMeshComponent*)FindComponent("FodderDebrisMesh4");
 
-    //m_Cube = (CColliderOBB3D*)FindComponent("Cube");
+    m_Mesh1Cube = (CColliderOBB3D*)FindComponent("Mesh1Cube");
+    m_Mesh2Cube = (CColliderOBB3D*)FindComponent("Mesh2Cube");
+    m_Mesh3Cube = (CColliderOBB3D*)FindComponent("Mesh3Cube");
+    m_Mesh4Cube = (CColliderOBB3D*)FindComponent("Mesh4Cube");
 }
 
 CFodderDebris::~CFodderDebris()
@@ -49,7 +53,10 @@ bool CFodderDebris::Init()
     m_FodderDebrisMesh3 = CreateComponent<CStaticMeshComponent>("FodderDebrisMesh3");
     m_FodderDebrisMesh4 = CreateComponent<CStaticMeshComponent>("FodderDebrisMesh4");
 
-    //m_Cube = CreateComponent<CColliderOBB3D>("Cube");
+    m_Mesh1Cube = CreateComponent<CColliderOBB3D>("Mesh1Cube");
+    m_Mesh2Cube = CreateComponent<CColliderOBB3D>("Mesh2Cube");
+    m_Mesh3Cube = CreateComponent<CColliderOBB3D>("Mesh3Cube");
+    m_Mesh4Cube = CreateComponent<CColliderOBB3D>("Mesh4Cube");
 
     m_Rigid = CreateComponent<CRigidBody>("Rigid");
 
@@ -59,10 +66,16 @@ bool CFodderDebris::Init()
     m_FodderDebrisMesh1->AddChild(m_FodderDebrisMesh3);
     m_FodderDebrisMesh1->AddChild(m_FodderDebrisMesh4);
     m_FodderDebrisMesh1->AddChild(m_Rigid);
+    m_FodderDebrisMesh1->AddChild(m_Mesh1Cube);
 
     m_FodderDebrisMesh2->AddChild(m_Rigid);
+    m_FodderDebrisMesh2->AddChild(m_Mesh2Cube);
+
     m_FodderDebrisMesh3->AddChild(m_Rigid);
+    m_FodderDebrisMesh3->AddChild(m_Mesh3Cube);
+
     m_FodderDebrisMesh4->AddChild(m_Rigid);
+    m_FodderDebrisMesh4->AddChild(m_Mesh4Cube);
 
     m_FodderDebrisMesh1->SetMesh("FodderDebris1");
     m_FodderDebrisMesh2->SetMesh("FodderDebris2");
@@ -71,10 +84,6 @@ bool CFodderDebris::Init()
 
     //m_FodderDebris1->SetWorldPosition(130.f, 50.f, 150.f);
     //m_ArmMesh->SetRelativePosition(0.f, 50.f, 0.f);
-
-    m_Rigid->SetGravity(true);
-
-
 
     //
     m_Velocity[0] = 0.f;
@@ -86,14 +95,41 @@ bool CFodderDebris::Init()
     m_Acceleration[2] = 0.f;
 
     m_Fodder = (CFodder*)m_Scene->FindObject("Fodder");
+
     m_FodderDebrisMesh1->SetWorldPositionX(m_Fodder->GetWorldPos().x * 2.f); 
     m_FodderDebrisMesh1->SetWorldPositionY(m_Fodder->GetWorldPos().y + 10.f);
     m_FodderDebrisMesh1->SetWorldPositionZ(m_Fodder->GetWorldPos().z);
 
+    m_FodderDebrisMesh2->SetRelativePosition(10.f, 10.f, 20.f); 
+    m_FodderDebrisMesh2->SetRelativeRotation(10.f, 20.f, 20.f);
+
+    m_FodderDebrisMesh3->SetRelativePosition(20.f, 10.f, 20.f); 
+    m_FodderDebrisMesh3->SetRelativeRotation(15.f, 20.f, 34.f);
+
+    m_FodderDebrisMesh4->SetRelativePosition(30.f, 10.f, 20.f); 
+    m_FodderDebrisMesh4->SetRelativeRotation(24.f, 20.f, 10.f);
+
+
+    m_Mesh1Cube->SetCollisionProfile("Monster");
+    m_Mesh1Cube->SetBoxHalfSize(30.f, 30.f, 30.f);
+    m_Mesh1Cube->SetRelativePosition(0.f, 0.f);
+
+    m_Mesh2Cube->SetCollisionProfile("Monster");
+    m_Mesh2Cube->SetBoxHalfSize(30.f, 30.f, 30.f);
+    m_Mesh2Cube->SetRelativePosition(0.f, 0.f);
+
+    m_Mesh3Cube->SetCollisionProfile("Monster");
+    m_Mesh3Cube->SetBoxHalfSize(30.f, 30.f, 30.f);
+    m_Mesh3Cube->SetRelativePosition(0.f, 0.f);
+
+    m_Mesh4Cube->SetCollisionProfile("Monster");
+    m_Mesh4Cube->SetBoxHalfSize(30.f, 30.f, 30.f);
+    m_Mesh4Cube->SetRelativePosition(0.f, 0.f);
 
     //m_Rigid->SetVelocity(0.f, 0.f, 0.f);
     //m_Rigid->SetAccel(0.f, 0.f, 0.f);
 
+    m_Rigid->SetGravity(true);
 
     return true;
 }
@@ -101,100 +137,36 @@ bool CFodderDebris::Init()
 void CFodderDebris::Update(float DeltaTime)
 {
     CGameObject::Update(DeltaTime);
-    //CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
-    //const float timeStep = 1.0f / 60.0f; // Time step for the simulation
-    //const float popDuration = 0.5f; // Duration of the popping animation
-    //const float popHeight = 5.0f; // Height that the monsters reach when popped
-    //float timeSinceLastPop = 0.0f;
-    //{
-    //    // Update the position based on the velocity and time step
-    //    if (m_IsPopped)
-    //    {
-    //        // If the monster is popped, apply a parabolic animation for the first popDuration seconds
-    //        timeSinceLastPop += timeStep;
-
-    //        if (timeSinceLastPop <= popDuration) {
-    //            float t = timeSinceLastPop / popDuration;
-    //            SetWorldPositionX(popHeight * t * (2.0f - t));
-    //        }
-    //    }
-
-    //    if (m_Rigid->GetVelocity().y < 0.f)
-    //    {
-    //        // If the monster hasn't popped yet, check if it should pop
-    //        if (GetWorldPos().y <= 0.0f)
-    //        {
-    //            // If the monster has hit the ground, set its velocity upwards to simulate popping
-    //            m_Velocity[1] = sqrtf(2.0f * popHeight * fabsf(-9.81f));
-    //            m_IsPopped = true;
-    //            timeSinceLastPop = 0.0f;
-    //        }
-    //    }
-
-    //    m_Velocity[0] += m_Acceleration[0] * timeStep;
-    //    m_Velocity[1] += m_Acceleration[1] * timeStep;
-    //    m_Velocity[2] += m_Acceleration[2] * timeStep;
-
-    //    m_FodderDebrisMesh1->AddWorldPositionX(m_Velocity[0] * timeStep);
-    //    m_FodderDebrisMesh1->AddWorldPositionY(m_Velocity[1] * timeStep);
-    //    m_FodderDebrisMesh1->AddWorldPositionZ(m_Velocity[2] * timeStep);
-    //}
 
     CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
 
-    //if (m_Rigid->GetGround()) //Ground°¡ ¾Æ¿¹ ¾È µé¾î¿Â´Ù. 
-    //{
-    //    m_Rigid->SetGround(false);
-    //    m_Rigid->AddForce(0, 500.f, 0.f);//
-    //    m_Rigid->SetVelocityY(500.f);//
-    //    m_Rigid->AddForce(0, 0.f, 0.f);
-    //    m_Rigid->SetVelocityY(0.f);
-    //}
+    float Y = Nav->GetHeight(GetWorldPos());
 
-    //m_Rigid->SetGravityForce(70.f);
-    //m_Rigid->AddForce(0, -100.f, 0.f);
-   // m_Rigid->SetVelocityY(-350.f); // ÀÌ°É À½¼ö·Î Áà¾ß ¶³¾îÁü
-
-    /*if (m_Rigid->GetVelocity().y < 0.f)
-    {*/
-        //AddWorldPositionX(100.f * DeltaTime);
-        //float Y = Nav->GetHeight(GetWorldPos());
-
-        //if (Y != FLT_MAX && GetWorldPos().y - Y < m_FodderDebrisMesh1->GetMeshSize().y / 2.f && m_FodderDebrisMesh1)
-        //{
-           /* SetWorldPositionY(Y + m_FodderDebrisMesh1->GetMeshSize().y / 2.f);
-            m_Rigid->SetGround(true);*/
-        //}
-    //}
-
-
-
-    //
-            float Y = Nav->GetHeight(GetWorldPos());
-
-            m_Rigid->SetGround(false);
-            m_Rigid->AddForce(0, 200.f);
-            m_Rigid->SetVelocityY(200.f);
+    // °øÁß¿¡ ¶¹À» ¶§
+    if (m_DefyingGravity)
+    {
+        m_Rigid->SetGround(false);
+        //m_Rigid->AddForce(0, 1.f);
+        m_Rigid->SetVelocityY(250.f);
+    }
             
-            float PosY = GetWorldPos().y;
-            if (GetWorldPos().y <= 1200.f)
-            {
-                m_Rigid->AddForce(0, 0.f);
-                m_Rigid->SetVelocityY(0.f);
+    float PosY = GetWorldPos().y;
+    
+    if (GetWorldPos().y >= 700.f)
+    {
+        m_DefyingGravity = false;
+        m_Rigid->SetVelocityY(-200.f);
+        m_Rigid->AddForce(0, 70.f);
+    }
 
-                if (Y == GetWorldPos().y)
-                    m_Rigid->SetGround(true);
-            }
-            //if (Y != FLT_MAX && GetWorldPos().y - Y < m_FodderDebrisMesh1->GetMeshSize().y / 2.f && m_FodderDebrisMesh1)
-            //{
-            //    SetWorldPositionY(Y + m_FodderDebrisMesh1->GetMeshSize().y / 2.f);
-            //    m_Rigid->SetGround(true);
-            //}
-                //if(m_Rigid->GetVelocity().y < 0.f)
-                //{
-               // SetWorldPositionY(Y);
-                //m_Rigid->SetGround(true);
-               // }
+    // ¶¥¿¡ ÂøÁö
+    if (Y != FLT_MAX && GetWorldPos().y - Y < m_FodderDebrisMesh1->GetMeshSize().y / 2.f && m_FodderDebrisMesh1)
+    {
+        SetWorldPositionY(Y + m_FodderDebrisMesh1->GetMeshSize().y / 2.f);
+        m_Rigid->SetGround(true);
+        m_Rigid->SetVelocityY(0.f);
+        m_Rigid->AddForce(0, 0.f);
+    }
 }
 
 void CFodderDebris::PostUpdate(float DeltaTime)

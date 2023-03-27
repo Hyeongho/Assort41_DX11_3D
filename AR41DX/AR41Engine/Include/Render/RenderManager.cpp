@@ -179,9 +179,9 @@ bool CRenderManager::Init()
 	m_DepthWriteDisable = m_RenderStateManager->FindRenderState<CDepthStencilState>("DepthWriteDisable");
 	m_LightAccBlend = m_RenderStateManager->FindRenderState<CBlendState>("LightAccBlend");
 
-	m_TranslationCBuffer = new CTranslationConstantBuffer;
+	//m_TranslationCBuffer = new CTranslationConstantBuffer;
 
-	m_TranslationCBuffer->Init();
+	//m_TranslationCBuffer->Init();
 
 	return true;
 }
@@ -263,10 +263,10 @@ void CRenderManager::Render3D(float DeltaTime)
 	RenderShadowMap(DeltaTime);
 
 
-	m_TextureTranslation += 0.05f * DeltaTime;
+	//m_TextureTranslation += 0.05f * DeltaTime;
 
-	m_TranslationCBuffer->SetTextureTranslation(m_TextureTranslation);
-	m_TranslationCBuffer->UpdateBuffer();
+	//m_TranslationCBuffer->SetTextureTranslation(m_TextureTranslation);
+	//m_TranslationCBuffer->UpdateBuffer();
 
 	// GBuffer를 그려낸다.
 	RenderGBuffer(DeltaTime);

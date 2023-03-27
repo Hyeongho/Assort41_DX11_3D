@@ -222,7 +222,8 @@ void CFodder::WeaponAttackOn()
 void CFodder::Dead()
 {
 	m_Mesh->AddWorldPositionZ(150.f);
-	m_Rigid->SetVelocity(0.f, 0.f, 200.f);
+	m_Rigid->SetVelocity(0.f, 250.f, 200.f);
+	m_Rigid->AddForce(0.f, 100.f, 100.f);
 	m_Animation->ChangeAnimation("Fodder_Dead");
 
 	SetMoveSpeed(0.f);
@@ -238,7 +239,7 @@ void CFodder::Debris()
 		m_Mesh->ClearMaterial();
 
 		CFodderDebris* Debris = m_Scene->CreateObject<CFodderDebris>("FodderDebris");
-		Debris->SetWorldPosition(FodderPos.x, FodderPos.y + 300.f, FodderPos.z);
+		Debris->SetWorldPosition(FodderPos.x, FodderPos.y + 500.f, FodderPos.z);
 	}
 }
 
