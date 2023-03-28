@@ -11,6 +11,7 @@ private:
 	class CEditorInput* m_CountY;
 	class CEditorInput* m_HeightMapX;	//읽기 전용
 	class CEditorInput* m_HeightMapY;	//읽기 전용
+	class CEditorInput* m_Height;
 	class CEditorInput* m_CellSizeX;
 	class CEditorInput* m_CellSizeY;
 	class CEditorInput* m_SizeX;

@@ -664,3 +664,22 @@ struct FXAACBuffer
 {
 	Vector4 rcpFrame;
 };
+
+struct TranslationCBuffer
+{
+	float	TextureTranslation;
+	Vector3	TextureTranslationEmpty;
+};
+
+//struct MSCBuffer
+//{
+//
+//};
+
+struct CartoonCBuffer
+{
+	Matrix worldViewProj;
+	float OutlineThickness;
+	Vector4 OutlineColor;
+	Vector3 Empty;
+};

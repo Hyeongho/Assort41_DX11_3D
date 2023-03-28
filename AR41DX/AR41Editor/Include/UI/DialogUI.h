@@ -52,6 +52,9 @@ private:
 	void InActiveDialogUI();
 
 public:
+	//kbj
+	bool GetIsActive();
+
 	void OpenDialog();
 
 public:

@@ -1,9 +1,10 @@
 #include "Share.fx"
 
-Texture2D tex : register(t10);
+Texture2DMS<float4> tex : register(t10);
+//Texture2D tex : register(t10);
 SamplerState clamp : register(s3);
 
-cbuffer FXAACBuffer : register(b13)
+cbuffer FXAACBuffer : register(b14)
 {
     float4 rcpFrame;
 };
@@ -59,6 +60,47 @@ float4 FxaaTexLod0(Texture2D tex, float2 pos)
 
 float4 main(PS_IN input) : SV_Target
 {
+    //==
+    float2  UV;
+
+    vso.ProjPos = float4(g_NullPos[VertexID], 0.f, 1.f);
+
+    UV.x = input.ProjPos.x / input.ProjPos.w * 0.5f + 0.5f;
+    UV.y = input.ProjPos.y / input.ProjPos.w * -0.5f + 0.5f;
+
+    int2 LoadPos = (int2)0;
+
+    LoadPos.x = (int)(UV.x * g_Resolution.x);
+    LoadPos.y = (int)(UV.y * g_Resolution.y);
+
+    float4 GBuffer1Color = g_GBuffer1Tex.Load(LoadPos, 0);
+
+    if (GBuffer1Color.a == 0.f)
+        clip(-1);
+
+    float4 GBuffer3Color = g_GBuffer3Tex.Load(LoadPos, 0);
+    float4 GBuffer2Color = g_GBuffer2Tex.Load(LoadPos, 0);
+    float4 GBuffer4Color = g_GBuffer4Tex.Load(LoadPos, 0);
+
+    //float4  ProjPos;
+
+    // 여기에 구성한 값은 출력되어 있는 물체의 w로 나누어준 값이 저장된것이다.
+    ProjPos.x = (UV.x * 2.f - 1.f) * GBuffer3Color.g;
+    ProjPos.y = (UV.y * -2.f + 1.f) * GBuffer3Color.g;
+    ProjPos.z = GBuffer3Color.r * GBuffer3Color.g;
+    ProjPos.w = GBuffer3Color.g;
+
+    // Normal은 뷰공간에 있으므로 뷰 공간의 위치를
+    // 구해준다.
+    float3 ViewPos;
+
+    ViewPos.x = ProjPos.x / g_Proj11;
+    ViewPos.y = ProjPos.y / g_Proj22;
+    ViewPos.z = GBuffer3Color.g;
+
+    float3  ViewNormal = GBuffer2Color.rgb;
+    //==
+
     //SEARCH MAP
     float3 rgbN = FxaaTexOff(tex, input.uv.xy, int2(0, -1)).xyz;
     float3 rgbW = FxaaTexOff(tex, input.uv.xy, int2(-1, 0)).xyz;

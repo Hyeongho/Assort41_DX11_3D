@@ -6,6 +6,7 @@
 #include "../GameObject/Jellyfish.h"
 #include "../GameObject/Fodder.h"
 #include "../GameObject/Hammer.h"
+#include "../GameObject/Object/JumpTree.h"
 #include "../GameObject/Duplicatotron.h"
 #include "../GameObject/Object/IceCube.h"
 #include "../GameObject/Npc/Squidward.h"
@@ -65,5 +66,10 @@ bool CJellyfishFieldSceneInfo::Init()
 
 	CIceCube* IceCube = m_Owner->CreateObject<CIceCube>("IceCube");
 	IceCube->SetWorldPosition(13800.f, 1400.f, 6300.f);
+
+
+	//CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
+	//JumpTree->SetWorldPosition(13850.f, 1400.f, 6300.f);
+
 	return true;
 }

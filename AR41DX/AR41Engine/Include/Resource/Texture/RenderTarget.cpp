@@ -38,7 +38,7 @@ bool CRenderTarget::CreateTarget(const std::string& Name,
 {
 	SetName(Name);
 
-	int	SampleCount = CDevice::GetInst()->GetSampleCount();
+	// int	SampleCount = CDevice::GetInst()->GetSampleCount(); 0325
 
 	// Target¿ë Texture »ý¼º
 	D3D11_TEXTURE2D_DESC	Desc = {};
@@ -47,7 +47,7 @@ bool CRenderTarget::CreateTarget(const std::string& Name,
 	Desc.Height = Height;
 	Desc.ArraySize = 1;
 	Desc.MipLevels = 1;
-	Desc.SampleDesc.Count = SampleCount;
+	Desc.SampleDesc.Count = 1;; // SampleCount; 0325
 	Desc.SampleDesc.Quality = 0;
 	Desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 	Desc.Format = PixelFormat;
@@ -82,7 +82,7 @@ bool CRenderTarget::CreateTarget(const std::string& Name,
 		DepthDesc.Height = Height;
 		DepthDesc.ArraySize = 1;
 		DepthDesc.MipLevels = 1;
-		DepthDesc.SampleDesc.Count = SampleCount;
+		DepthDesc.SampleDesc.Count = 1; //SampleCount; 0325
 		DepthDesc.SampleDesc.Quality = 0;
 		DepthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 		DepthDesc.Format = DepthFormat;

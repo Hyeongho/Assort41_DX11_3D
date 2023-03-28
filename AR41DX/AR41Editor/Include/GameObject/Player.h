@@ -7,37 +7,41 @@ struct PlayerData
 	int MaxHP; // 최대 HP;
 	int CurHP; // 현재 체력
 	int Socks; // 양말
-	int Fritter; // 뒤집개
-	int Glittering; // 반짝이
+	int Spatula; // 뒤집개
+	int ShinyFlower; // 반짝이
 
 	PlayerData() 
 		: MaxHP(5)
 		, CurHP(3)
 		, Socks(0)
-		, Fritter(0)
-		, Glittering(0)
+		, Spatula(0)
+		, ShinyFlower(0)
 	{
 	}
+
 	PlayerData& operator = (const PlayerData& v)
 	{
 		MaxHP = v.MaxHP;
 		CurHP = v.CurHP;
 		Socks = v.Socks;
-		Fritter = v.Fritter;
-		Glittering = v.Glittering;
+		Spatula = v.Spatula;
+		ShinyFlower = v.ShinyFlower;
 		return *this;
 	}
+
 	bool operator == (const PlayerData& v)	const
 	{
-		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering)
+		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Spatula != v.Spatula || ShinyFlower != v.ShinyFlower)
 		{
 			return false;
 		}
+
 		return true;
 	}
+
 	bool operator != (const PlayerData& v)	const
 	{
-		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Fritter != v.Fritter || Glittering != v.Glittering)
+		if (MaxHP != v.MaxHP || CurHP != v.CurHP || Socks != v.Socks || Spatula != v.Spatula || ShinyFlower != v.ShinyFlower)
 		{
 			return true;
 		}
@@ -51,14 +55,6 @@ enum class EMain_Character
 	Patrick,
 	Sandy,
 	Max,
-};
-
-enum class EKeyDir
-{
-	Up= 0x1,  // hex for 0000 0001 
-	Down = 0x2,  // hex for 0000 0010
-	Left = 0x4,  // hex for 0000 0100
-	Right = 0x8,  // hex for 0000 1000
 };
 
 class CPlayer : public CGameObject
@@ -79,6 +75,7 @@ protected:
 	CSharedPtr<class CColliderCube> m_HeadCube;	//spongebob head
 	CSharedPtr<class CColliderCube> m_TailCube;	//spongebob bash
 	CSharedPtr<class CColliderOBB3D> m_FrontCube;	//atk
+	CSharedPtr<class CParticleComponent> m_Particle;
 
 	CSharedPtr<class CWeapon>	m_Weapon;
 	CSharedPtr<class CMesh> m_ReserveMesh[(int)EMain_Character::Max];
@@ -93,7 +90,7 @@ protected:
 	CollisionResult m_WallCollision;	//벽이랑 부딪히고 있는경우
 	Vector3		m_RespawnPos; //kbj checkpoint
 	float m_Speed;
-	float m_CameraSpeed;
+	float m_InflictAngle;
 	int m_KeyCount;
 	int m_JumpCount;
 	bool m_IsStop;
@@ -106,6 +103,7 @@ protected:
 	// ========== sandy ==========
 	float m_SpaceTime;
 	float m_LassoDistance;
+
 public:
 	virtual void Destroy();
 	virtual void Start();
@@ -115,7 +113,7 @@ public:
 	virtual CPlayer* Clone() const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
-	virtual int InflictDamage(int damage);
+	virtual int InflictDamage(int damage = 1);
 	virtual void Reset();
 	bool SaveCharacter();
 	bool LoadCharacter();
@@ -128,6 +126,17 @@ private:
 	void LoadSpongebobAnim(); // 스폰지밥 리소스
 	void LoadPatrickAnim(); // 뚱이 리소스
 	void LoadSandyAnim(); // 다람이 리소스
+
+public :
+	int AddHp(); // 0을 반환하는 경우, HP증감이 없었음을 의미함.
+	int AddSock();
+	int AddSpatula();
+	int AddShinyFlower(int Count);
+	int AddItem(const EItemList& Item, int Count = 1);
+
+	bool SubSock(int Count);
+	bool SubSpatula(int Count);
+	bool SubShinyFlower(int Count);
 
 public:
 	void SetPlayerData(PlayerData Playerdata)
@@ -153,27 +162,33 @@ public:
 		m_PlayerUI->SetSocks(Socks);
 	}
 
-	void SetFritter(int Fritter)
+	void SetSpatula(int Spatula)
 	{
-		m_PlayerData.Fritter = Fritter;
-		m_PlayerUI->SetFritter(Fritter);
+		m_PlayerData.Spatula = Spatula;
+		m_PlayerUI->SetFritter(Spatula);
 	}
 
-	void SetGlittering(int Glittering)
+	void SetShinyFlower(int ShinyFlower)
 	{
-		m_PlayerData.Glittering = Glittering;
-		m_PlayerUI->SetGlitter(Glittering);
+		m_PlayerData.ShinyFlower = ShinyFlower;
+		m_PlayerUI->SetGlitter(ShinyFlower);
 	}
 
 	void SetRespawnPos(const Vector3& vec)
 	{
 		m_RespawnPos = vec;
 	}
+
 	void SetRespawnPos(float x, float y, float z)
 	{
 		m_RespawnPos.x = x;
 		m_RespawnPos.y = y;
 		m_RespawnPos.z = z;
+	}
+
+	void SetInflictAngle(float angle)
+	{
+		m_InflictAngle = angle;
 	}
 
 	void SetCanPickUp(bool b)
@@ -194,10 +209,7 @@ public:
 	void MoveBack();
 	void MoveLeft();
 	void MoveRight();
-	void KeyUpUp();
-	void KeyDownUp();
-	void KeyLeftUp();
-	void KeyRightUp();
+	void KeyUp();
 	void JumpDown();
 	void JumpPush(); 	// Sandy
 	void JumpUp(); 		// Sandy

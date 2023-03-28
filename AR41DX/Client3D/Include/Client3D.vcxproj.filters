@@ -105,9 +105,6 @@
     <ClCompile Include="GameObject\Player.cpp">
       <Filter>03. GameObject\01. Player</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Jellyfish.cpp">
-      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
-    </ClCompile>
     <ClCompile Include="UI\PauseUI.cpp">
       <Filter>05. UI</Filter>
     </ClCompile>
@@ -216,9 +213,6 @@
     <ClCompile Include="GameObject\Tikis\Tiki_Wood.cpp">
       <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\KingJellyfish.cpp">
-      <Filter>03. GameObject\02. Monster\03. Boss\01. KingJellyfish</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSponge.cpp">
       <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
     </ClCompile>
@@ -279,6 +273,18 @@
     <ClCompile Include="GameObject\Object\Gate.cpp">
       <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Object\Pool.cpp">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Jellyfish.cpp">
+      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\ElectricRing.cpp">
+      <Filter>03. GameObject\02. Monster\03. Boss\01. KingJellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\KingJellyfish.cpp">
+      <Filter>03. GameObject\02. Monster\03. Boss\01. KingJellyfish</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -304,9 +310,6 @@
     </ClInclude>
     <ClInclude Include="GameObject\Player.h">
       <Filter>03. GameObject\01. Player</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Jellyfish.h">
-      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
     </ClInclude>
     <ClInclude Include="UI\PauseUI.h">
       <Filter>05. UI</Filter>
@@ -428,9 +431,6 @@
     <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h">
       <Filter>03. GameObject\02. Monster\04. Tikis</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\KingJellyfish.h">
-      <Filter>03. GameObject\02. Monster\03. Boss\01. KingJellyfish</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSponge.h">
       <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
     </ClInclude>
@@ -490,6 +490,18 @@
     </ClInclude>
     <ClInclude Include="GameObject\Object\Gate.h">
       <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\Pool.h">
+      <Filter>03. GameObject\03. Objects\02. JellyfishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Jellyfish.h">
+      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\ElectricRing.h">
+      <Filter>03. GameObject\02. Monster\03. Boss\01. KingJellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\KingJellyfish.h">
+      <Filter>03. GameObject\02. Monster\03. Boss\01. KingJellyfish</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

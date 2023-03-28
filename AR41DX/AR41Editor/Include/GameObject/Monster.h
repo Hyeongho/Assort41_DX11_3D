@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "GameObject\GameObject.h"
 
@@ -14,8 +14,8 @@ protected:
 
 protected:
 	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
-	CSharedPtr<class CAnimation>		m_Animation;
-	CSharedPtr<class CRigidBody>		m_Rigid;
+	CSharedPtr<class CAnimation>				m_Animation;
+	CSharedPtr<class CRigidBody>				m_Rigid;
 
 protected:
 	bool	m_DetectRange;
@@ -53,5 +53,8 @@ public:
 	virtual CMonster* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+protected:
+	void CreateFlowers(int RandMin = 5, int RandMax = 12, int CreatePosRange = 100); // 반짝이 생성
 };
 

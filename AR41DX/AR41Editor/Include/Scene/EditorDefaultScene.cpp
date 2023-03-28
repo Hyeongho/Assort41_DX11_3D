@@ -2,7 +2,7 @@
 #include "EditorDefaultScene.h"
 #include "Scene/Scene.h"
 #include "Scene/SceneViewport.h"
-//#include "../UI/LoadingUI.h"
+#include "../UI/LoadingUI.h"
 #include "../UI/TitleSceneUI.h"
 #include "../UI/DialogUI.h"
 #include "../UI/InteractUI.h"

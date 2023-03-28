@@ -52,7 +52,7 @@ bool CRoboSpongeSceneInfo::Init()
 	TerrainObj->SetWorldPosition(0.f, 0.f, 0.f);
 
 	CRoboSponge* RoboSponge = m_Owner->CreateObject<CRoboSponge>("RoboSponge");
-	RoboSponge->SetWorldPosition(CenterPos.x, 600.f, CenterPos.y);
+	RoboSponge->SetWorldPosition(CenterPos.x, 1000.f, CenterPos.y);
 
 	float StandardPos = 50 * TerrainSize;
 
@@ -62,8 +62,13 @@ bool CRoboSpongeSceneInfo::Init()
 		std::string PlatformName = "Platform" + std::to_string(i);
 		
 		CCBL_Platform* Platform = m_Owner->CreateObject<CCBL_Platform>(PlatformName);
-		Platform->SetWorldPosition(CenterPos.x + StandardPos * sinf(Radian), 1200.f, CenterPos.y + StandardPos * cosf(Radian));
+		Platform->SetWorldPosition(CenterPos.x + StandardPos * sinf(Radian), 1800.f, CenterPos.y + StandardPos * cosf(Radian));
 		Platform->SetLookBoss(RoboSponge->GetWorldPos());
+
+		std::string TrampolineName = "Platform" + std::to_string(i);
+		CTrampoline* Trampoline = m_Owner->CreateObject<CTrampoline>(TrampolineName);
+		Trampoline->SetWorldPosition(CenterPos.x + StandardPos * 1.2 * sinf(Radian), 610.f, CenterPos.y + StandardPos * 1.2 * cosf(Radian));
+
 	}
 
 	CCBL_Floor* Floor = m_Owner->CreateObject<CCBL_Floor>("Floor");

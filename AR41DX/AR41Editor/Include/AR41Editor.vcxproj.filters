@@ -270,9 +270,6 @@
     <ClCompile Include="GameObject\Fodder.cpp">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Jellyfish.cpp">
-      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Monster.cpp">
       <Filter>03. GameObject\02. Monster</Filter>
     </ClCompile>
@@ -357,9 +354,6 @@
     <ClCompile Include="UI\TitleSceneUI.cpp">
       <Filter>05. UI\01. Menu</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object\BusStop.cpp">
-      <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\EditorDefaultScene.cpp">
       <Filter>02. Scene\05. Test</Filter>
     </ClCompile>
@@ -425,6 +419,42 @@
     </ClCompile>
     <ClCompile Include="GameObject\TeeterRock.cpp">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\Gate.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\JumpTree.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\TeleportBox.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\CheckPoint.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\PatrickObject.cpp">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\KingJellyfishSceneInfo.cpp">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\SpongebobMissile.cpp">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\IceCube.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\BB\BusStop.cpp">
+      <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\Pool.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\ElectricRing.cpp">
+      <Filter>03. GameObject\03. BossMonster\01. KingJellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Jellyfish.cpp">
+      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -560,9 +590,6 @@
     <ClInclude Include="GameObject\Fodder.h">
       <Filter>03. GameObject\02. Monster\01. Robot</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Jellyfish.h">
-      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Monster.h">
       <Filter>03. GameObject\02. Monster</Filter>
     </ClInclude>
@@ -659,9 +686,6 @@
     <ClInclude Include="UI\TitleSceneUI.h">
       <Filter>05. UI\01. Menu</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\BusStop.h">
-      <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\EditorDefaultScene.h">
       <Filter>02. Scene\05. Test</Filter>
     </ClInclude>
@@ -727,6 +751,42 @@
     </ClInclude>
     <ClInclude Include="GameObject\TeeterRock.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\Gate.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\JumpTree.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\TeleportBox.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\CheckPoint.h">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\PatrickObject.h">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\KingJellyfishSceneInfo.h">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\SpongebobMissile.h">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\IceCube.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\BB\BusStop.h">
+      <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\Pool.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\ElectricRing.h">
+      <Filter>03. GameObject\03. BossMonster\01. KingJellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Jellyfish.h">
+      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
