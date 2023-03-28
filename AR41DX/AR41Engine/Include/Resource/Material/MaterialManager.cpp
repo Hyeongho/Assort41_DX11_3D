@@ -152,20 +152,93 @@ bool CMaterialManager::Init()
 	Material->EnableBump();
 	Material->EnableSpecular();
 
+	// 거품
 	Material = CreateMaterial<CMaterial>("Bubble");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Bubble", TEXT("Particle/Bubbles50px.png"));
 	Material->SetShader("SpriteShader");
+
+	// tikis 사라질 때 생기는 반짝이
+	Material = CreateMaterial<CMaterial>("Glow");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Glow", TEXT("Particle/T_Blue_Glow_00.tga"));
+	Material->SetShader("SpriteShader");
+
+	// 로봇 스폰지밥 바닥 불2
+	Material = CreateMaterial<CMaterial>("Fire2");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Fire2", TEXT("Particle/flame2.png"));
+	Material->SetShader("SpriteShader");
+	Material->SetOpacity(0.7f);
+
+	// 포더, 햄머 폭발
+	Material = CreateMaterial<CMaterial>("Flare");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Flare", TEXT("Particle/light.png"));
+	Material->SetShader("SpriteShader");
+	Material->SetOpacity(0.8f);
+
+	// 샤워 물줄기
+	Material = CreateMaterial<CMaterial>("Shower");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Shower", TEXT("Particle/waterdrop.png"));
+	Material->SetShader("SpriteShader");
+	Material->SetOpacity(0.7f);
+
+	// 폭포 물과 바닥이 닿는 부분에 생기는 원
+	Material = CreateMaterial<CMaterial>("WaterRing");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterRing", TEXT("Particle/T_Waterdrop_01.tga"));
+	Material->SetShader("SpriteShader");
+	Material->SetOpacity(0.7f);
 
 	//Material = CreateMaterial<CMaterial>("ShockWave");
 	//Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.tga"));
 	//Material->SetShader("SpriteShader");
 
-	// 흐르는 텍스쳐
+	// 가로로 움직이는 텍스쳐
 	Material = CreateMaterial<CMaterial>("Effect");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Water", TEXT("Particle/T_Seafoam_BC.tga"));	
 	Material->SetShader("TranslationShader");
 	Material->SetRenderState("AlphaBlend");
 	Material->SetOpacity(0.5f);
+
+	// 세로로 움직이는 텍스쳐
+	Material = CreateMaterial<CMaterial>("WaterDrop");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterDrop", TEXT("Particle/T_Seafoam_BC.tga"));
+	Material->SetShader("DropShader");
+	Material->SetRenderState("AlphaBlend");
+	Material->SetOpacity(0.5f);
+
+	// 바다
+	Material = CreateMaterial<CMaterial>("Sea");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Sea", TEXT("Particle/sea.png"));
+	Material->SetShader("DropShader");
+	Material->SetRenderState("AlphaBlend");
+	Material->SetOpacity(0.8f);
+
+	// 폭포1 // 텍스쳐 변경 필요
+	Material = CreateMaterial<CMaterial>("WaterFall");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterFall", TEXT("waterfall.png"));
+	Material->SetShader("DropShader");
+	Material->SetRenderState("AlphaBlend");
+	//Material->SetOpacity(0.7f);
+
+	// 폭포2 // 텍스쳐 변경 필요
+	Material = CreateMaterial<CMaterial>("WaterFall2");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterFall2", TEXT("Waterfall2.png"));
+	Material->SetShader("DropShader");
+	Material->SetRenderState("AlphaBlend");
+	Material->SetOpacity(0.7f);
+
+	// 로봇 스폰지밥 발 부스터
+	Material = CreateMaterial<CMaterial>("RBSpongeBooster");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "RBSpongeBooster", TEXT("Particle/blueflame.png"));
+	Material->SetShader("DropShader");
+	//Material->SetRenderState("AlphaBlend");
+	Material->SetOpacity(0.7f);
+
+
+	// 다람이 헬멧
+	Material = CreateMaterial<CMaterial>("Hm");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Hm", TEXT("Hm.jpg"));
+	Material->SetShader("SpriteShader");
+	//Material->SetRenderState("AlphaBlend");
+	//Material->SetOpacity(0.5f);
 	return true;
 }
 

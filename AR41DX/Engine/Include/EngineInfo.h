@@ -648,3 +648,9 @@ struct TranslationCBuffer
 	float	TextureTranslation;
 	Vector3	TextureTranslationEmpty;
 };
+
+struct DropCBuffer
+{
+	float	Drop;
+	Vector3	DropEmpty;
+};
