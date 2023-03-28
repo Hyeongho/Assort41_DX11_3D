@@ -732,6 +732,11 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishfieldsSign", TEXT("Buildings/JellyfishField/JellyfishfieldsSign.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Water", TEXT("Buildings/JellyfishField/Water.msh"));
     
+    if (!CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JFBackground", TEXT("Objects/JellyfishFields/JFBackground.msh"), MESH_PATH))
+    {
+        CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JFBackground", TEXT("Objects/JellyfishFields/JFBackground.fbx"), MESH_PATH);
+    }
+
     /*
     더블나무 : 빨강, 노랑, 보라
     작은 나무 : 빨강, 보라
