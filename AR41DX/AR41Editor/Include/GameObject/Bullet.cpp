@@ -94,6 +94,11 @@ void CBullet::SetAngle(float f)
 
 void CBullet::CollisionBullet(const CollisionResult& result)
 {
+	std::string name = result.Dest->GetCollisionProfile()->Name;
+	if (name == "Monster")
+	{
+		result.Dest->GetOwner()->InflictDamage(1);
+	}
 	Destroy();
 }
 
