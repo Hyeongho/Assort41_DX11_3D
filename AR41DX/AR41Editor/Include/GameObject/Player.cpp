@@ -630,11 +630,12 @@ void CPlayer::MoveRight()
 
 void CPlayer::KeyUp()
 {
+	--m_KeyCount;
 	if (m_IsStop)
 	{
 		return;
 	}
-	if (--m_KeyCount == 0)
+	if (m_KeyCount == 0)
 	{
 		switch (m_MainCharacter)
 		{
