@@ -54,6 +54,9 @@ bool CBikiniCitySceneInfo::Init()
 
 	CTiki_Wood* Tiki_Wood = m_Owner->CreateObject<CTiki_Wood>("Tiki_Wood");
 	Tiki_Wood->SetWorldPosition(9300.f, 0.f, 14500.f);
+	//애니메이션 문제
+	//CInteractButton* InteractButton = m_Owner->CreateObject<CInteractButton>("InteractButton");
+	//InteractButton->SetWorldPosition(16500.f, 0.f, 12200.f);
 
 	CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
 	Patric->SetWorldPosition(15000.f, 0.f, 14000.f);
@@ -70,8 +73,8 @@ bool CBikiniCitySceneInfo::Init()
 
 	CInteractButton* InteractButton = m_Owner->CreateObject<CInteractButton>("InteractButton");
 	InteractButton->SetWorldPosition(9510.f, 0.f, 13450.f);
+	InteractButton->SetWorldRotationY(20.f);
 	InteractButton->SetInteractObject(EInteractObjectList::BusStop, "BusStop");
-	InteractButton->SetDir(EButtonDir::Horizon);
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");

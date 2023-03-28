@@ -3,7 +3,7 @@
 #include "../GameObject/Weapon.h"
 #include "../GameObject/Bullet.h"
 #include "../GameObject/PatrickObject.h"
-#include "../GameObject/KingJellyfish.h"
+//#include "../GameObject/KingJellyfish.h"
 #include "../GameObject/Jellyfish.h"
 #include "../GameObject/Fodder.h"
 #include "../GameObject/Hammer.h"
@@ -19,7 +19,6 @@
 #include "../GameObject/Tikis/Tiki_Wood.h"
 #include "../GameObject/Object/IceCube.h"
 #include "../GameObject/Object/Common/InteractButton.h"
-#include "../GameObject/Object/BB/BusStop.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 #include "../UI/TitleSceneUI.h"
@@ -50,7 +49,6 @@ void CDefaultSetting::Init()
 
 void CDefaultSetting::CreateCDO()
 {
-    //bikinicity
     CScene::CreateObjectCDO<CPlayer>("Player");
     CScene::CreateObjectCDO<CWeapon>("Weapon");
     CScene::CreateObjectCDO<CBullet>("Bullet");
@@ -58,25 +56,20 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateObjectCDO<CMrKrabs>("MrKrabs");
     CScene::CreateObjectCDO<CSquidward>("Squidward");
     CScene::CreateObjectCDO<CPatric>("Patric");
-    //CScene::CreateObjectCDO<CBusDriver>("BusDriver");
     CScene::CreateObjectCDO<CBusStop>("BusStop");
-    CScene::CreateObjectCDO<CInfoSign>("InfoSign");
     CScene::CreateObjectCDO<CTiki_Stone>("Tiki_Stone");
     CScene::CreateObjectCDO<CTiki_Thunder>("Tiki_Thunder");
     CScene::CreateObjectCDO<CTiki_Wood>("Tiki_Wood");
-    CScene::CreateObjectCDO<CInteractButton>("InteractButton");
+   // CScene::CreateObjectCDO<CInteractButton>("InteractButton");
 
-    //kingjellyfishfield
-    CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
+    //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
 
-    //jellyfishfield
     CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
     CScene::CreateObjectCDO<CFodder>("Fodder");
     //CScene::CreateObjectCDO<CHammer>("Hammer");
     //CScene::CreateObjectCDO<CDuplicatotron>("Duplicatotron");
     CScene::CreateObjectCDO<CIceCube>("IceCube");
 
-    //UI
     CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
     CScene::CreateUIWindowCDO<CPauseUI>("PauseUI");
     CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
@@ -142,7 +135,7 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("F3", VK_F3);
     CInput::GetInst()->AddBindKey("F4", VK_F4);     //editor component move
     CInput::GetInst()->AddBindKey("F5", VK_F5);     //editor pause
-    CInput::GetInst()->AddBindKey("F6", VK_F6);     // player reset
+    CInput::GetInst()->AddBindKey("F6", VK_F6);
     CInput::GetInst()->AddBindKey("F7", VK_F7);
     CInput::GetInst()->AddBindKey("F8", VK_F8);
     CInput::GetInst()->AddBindKey("F9", VK_F9);
