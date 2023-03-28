@@ -21,13 +21,15 @@
 
 DEFINITION_SINGLE(CRenderManager)
 
-CRenderManager::CRenderManager() 
+CRenderManager::CRenderManager()
 	: m_ShadowMapRS{}
 	, m_ShaderType(EShaderType::Default)
 	, m_TextureTranslation(0.f)
 {
 	m_RenderStateManager = new CRenderStateManager;
 	m_ShadowCBuffer = new CShadowConstantBuffer;
+	m_TranslationCBuffer = new CTranslationConstantBuffer; //
+
 }
 
 CRenderManager::~CRenderManager()
@@ -179,9 +181,9 @@ bool CRenderManager::Init()
 	m_DepthWriteDisable = m_RenderStateManager->FindRenderState<CDepthStencilState>("DepthWriteDisable");
 	m_LightAccBlend = m_RenderStateManager->FindRenderState<CBlendState>("LightAccBlend");
 
-	m_TranslationCBuffer = new CTranslationConstantBuffer;
+	//m_TranslationCBuffer = new CTranslationConstantBuffer; // 
 
-	m_TranslationCBuffer->Init();
+	//m_TranslationCBuffer->Init();
 
 	return true;
 }
@@ -280,8 +282,14 @@ void CRenderManager::Render3D(float DeltaTime)
 	// GBuffer와 Light를 합한 최종 화면을 만든다.
 	RenderScreen(DeltaTime);
 
+	// FXAA는 Post-Processing Effect라 카툰렌더링은 FXAA 이전에 만들어준다. 
+	RenderCartoon(DeltaTime);
+
 	// FXAA를 그려낸다. 
 	RenderFXAA(DeltaTime);
+
+	// MSAA
+	//RenderMultiSampling(DeltaTime);
 
 	// 완성된 타겟을 백버퍼에 출력한다.
 	RenderDeferred(DeltaTime);
@@ -480,7 +488,7 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 	RenderLayer* GBufferLayer = FindLayer("Default");
 
 	std::list<CSceneComponent*>	RenderList;
-	
+
 	auto	iter = GBufferLayer->RenderList.begin();
 	auto	iterEnd = GBufferLayer->RenderList.end();
 
@@ -819,6 +827,32 @@ void CRenderManager::RenderScreen(float DeltaTime)
 	m_ScreenBuffer->ResetTarget();
 }
 
+void CRenderManager::RenderCartoon(float DeltaTime)
+{
+	m_CartoonBuffer->ClearTarget();
+
+	m_CartoonBuffer->SetTarget();
+
+	m_FXAABuffer->SetTargetShader(10); 
+
+	m_DepthDisable->SetState();
+
+	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+
+	UINT	Offset = 0;
+
+	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+	Context->Draw(4, 0);
+
+	m_DepthDisable->ResetState();
+
+	m_FXAABuffer->ResetTargetShader(10);
+
+	m_CartoonBuffer->ResetTarget();
+}
+
 // m_FXAABuffer를 채워준다.
 void CRenderManager::RenderFXAA(float DeltaTime)
 {
@@ -826,10 +860,7 @@ void CRenderManager::RenderFXAA(float DeltaTime)
 
 	m_FXAABuffer->SetTarget();
 
-	//m_FXAABuffer->SetTargetShader(10); // 0324
-	m_ScreenBuffer->SetTargetShader(10); //0324
-
-	m_FXAAShader->SetShader();
+	m_ScreenBuffer->SetTargetShader(10); // 1.얘를 FXAA 로 넘겨줘야한다.
 
 	m_DepthDisable->SetState();
 
@@ -843,10 +874,8 @@ void CRenderManager::RenderFXAA(float DeltaTime)
 	Context->Draw(4, 0);
 
 	m_DepthDisable->ResetState();
-	//m_ScreenBuffer->ResetTargetShader(10); 0324
 
-
-	m_FXAABuffer->ResetTargetShader(10); // 0324
+	m_ScreenBuffer->ResetTargetShader(10);
 
 	m_FXAABuffer->ResetTarget();
 }
@@ -858,8 +887,6 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	m_DepthDisable->SetState();
 
 	m_FXAABuffer->SetTargetShader(21);
-	//else
-	   //m_ScreenBuffer->SetTargetShader(10);
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
@@ -1086,6 +1113,37 @@ void CRenderManager::RenderParticle(float DeltaTime)
 	m_vecGBuffer[2]->ResetTargetShader(14);
 }
 
+void CRenderManager::RenderMultiSampling(float DeltaTime)
+{
+	m_MSBuffer->ClearTarget();
+
+	m_MSBuffer->SetTarget();
+
+	//m_FXAABuffer->SetTargetShader(10); // 0324
+	m_ScreenBuffer->SetTargetShader(10); //0324
+
+	m_MSShader->SetShader();
+
+	m_DepthDisable->SetState();
+
+	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+
+	UINT	Offset = 0;
+
+	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+	Context->Draw(4, 0);
+
+	m_DepthDisable->ResetState();
+	//m_ScreenBuffer->ResetTargetShader(10); 0324
+
+
+	m_MSBuffer->ResetTargetShader(15); // 0324
+
+	m_MSBuffer->ResetTarget();
+}
+
 //void CRenderManager::RenderTranslation(float DeltaTime)
 //{
 //	m_DeferredRenderShader->SetShader();
@@ -1106,7 +1164,7 @@ void CRenderManager::RenderParticle(float DeltaTime)
 //
 //	m_DepthDisable->ResetState();
 //
-//	m_TranslationCBuffer->R
+//	m_TranslationCBuffer->ResetTarget();
 //}
 
 void CRenderManager::SetBlendFactor(const std::string& Name, float r, float g, float b, float a)
@@ -1114,7 +1172,7 @@ void CRenderManager::SetBlendFactor(const std::string& Name, float r, float g, f
 	m_RenderStateManager->SetBlendFactor(Name, r, g, b, a);
 }
 
-void CRenderManager::AddBlendInfo(const std::string& Name, bool BlendEnable, 
+void CRenderManager::AddBlendInfo(const std::string& Name, bool BlendEnable,
 	D3D11_BLEND SrcBlend, D3D11_BLEND DestBlend, D3D11_BLEND_OP BlendOp,
 	D3D11_BLEND SrcAlphBlend, D3D11_BLEND DestAlphBlend, D3D11_BLEND_OP BlendAlphOp,
 	UINT8 WriteMask)
@@ -1127,10 +1185,10 @@ bool CRenderManager::CreateBlendState(const std::string& Name, bool AlphaToCover
 	return m_RenderStateManager->CreateBlendState(Name, AlphaToCoverageEnable, IndependentBlendEnable);
 }
 
-bool CRenderManager::CreateDepthStencil(const std::string& Name, 
-	bool DepthEnable, D3D11_DEPTH_WRITE_MASK DepthWriteMask, 
-	D3D11_COMPARISON_FUNC DepthFunc, bool StencilEnable, 
-	UINT8 StencilReadMask, UINT8 StencilWriteMask, 
+bool CRenderManager::CreateDepthStencil(const std::string& Name,
+	bool DepthEnable, D3D11_DEPTH_WRITE_MASK DepthWriteMask,
+	D3D11_COMPARISON_FUNC DepthFunc, bool StencilEnable,
+	UINT8 StencilReadMask, UINT8 StencilWriteMask,
 	D3D11_DEPTH_STENCILOP_DESC FrontFace, D3D11_DEPTH_STENCILOP_DESC BackFace)
 {
 	return m_RenderStateManager->CreateDepthStencil(Name, DepthEnable,
@@ -1288,6 +1346,17 @@ void CRenderManager::CreateRenderTarget()
 	m_FXAABuffer->SetPos(Vector3(900.f, 0.f, 0.f));
 	m_FXAABuffer->SetScale(Vector3(200.f, 200.f, 1.f));
 	m_FXAABuffer->SetDebugRender(true);
+
+	// Cartoon 용
+	CResourceManager::GetInst()->CreateTarget("RenderCartoon", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	m_CartoonBuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderCartoon");
+
+	m_CartoonBuffer->SetPos(Vector3(1200.f, 0.f, 0.f));
+	m_CartoonBuffer->SetScale(Vector3(200.f, 200.f, 1.f));
+	m_CartoonBuffer->SetDebugRender(true);
+
+	m_TranslationCBuffer->Init();
 }
 
 bool CRenderManager::SortAlphaObject(CSceneComponent* Src, CSceneComponent* Dest)
@@ -1297,7 +1366,7 @@ bool CRenderManager::SortAlphaObject(CSceneComponent* Src, CSceneComponent* Dest
 	Vector3	DestPos = Dest->GetWorldPos();
 
 	//kbj - for saveload
-	Matrix ViewMatrix=CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
+	Matrix ViewMatrix = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
 	//Matrix ViewMatrix = Src->GetScene()->GetCameraManager()->GetCurrentCamera()->GetViewMatrix();
 
 	SrcPos = SrcPos.TransformCoord(ViewMatrix);

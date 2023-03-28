@@ -594,7 +594,7 @@ void CDefaultSetting::LoadEnemies()
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "FodderSkeleton", TEXT("Enemies/Fodder/SK_Enemy_Fodder.bne"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Fodder", TEXT("Enemies/Fodder/SK_Enemy_Fodder.msh"), MESH_PATH);
 
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "FodderSkeleton", TEXT("Enemies/Fodder/FodderMesh1.bne"), MESH_PATH);
+    //CResourceManager::GetInst()->LoadSkeleton(nullptr, "FodderSkeleton", TEXT("Enemies/Fodder/FodderMesh1.bne"), MESH_PATH);
     CResourceManager::GetInst()->SetMeshSkeleton("Fodder", "FodderSkeleton");
 
     CResourceManager::GetInst()->LoadAnimationSequence("Fodder_Walk", TEXT("Enemies/Fodder/Fodder_Walk.sqc"), MESH_PATH);
@@ -624,16 +624,25 @@ void CDefaultSetting::LoadEnemies()
     CResourceManager::GetInst()->LoadAnimationSequence("Hammer_LassoedStart", TEXT("Enemies/Hammer/Hammer_LassoedStart.sqc"), MESH_PATH);
 
 
-    // Duplicatotron    
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Duplicatotron", TEXT("Enemies/Duplicatotron/DuplicatotronMesh.msh"), MESH_PATH);
+    // Hammer_Debris
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "HammerDebris1", TEXT("Enemies/Hammer/Hammer_Debris1Mesh.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "HammerDebris2", TEXT("Enemies/Hammer/Hammer_Debris2Mesh.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "HammerDebris3", TEXT("Enemies/Hammer/Hammer_Debris3Mesh.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "HammerDebris4", TEXT("Enemies/Hammer/Hammer_Debris4Mesh.fbx"), MESH_PATH);
 
-    CResourceManager::GetInst()->LoadSkeleton(nullptr, "DuplicatotronMeshSkeleton", TEXT("Enemies/DuplicatotronMesh/DuplicatotronMesh.bne"), MESH_PATH);
+    // Duplicatotron    
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Duplicatotron", TEXT("Enemies/Duplicatotron/DuplicatotronMeshReal.fbx"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "DuplicatotronMeshSkeleton", TEXT("Enemies/DuplicatotronMesh/DuplicatotronMeshReal.bne"), MESH_PATH);
 
     CResourceManager::GetInst()->SetMeshSkeleton("Duplicatotron", "DuplicatotronSkeleton");
 
     CResourceManager::GetInst()->LoadAnimationSequence("Duplicatotron_Idle", TEXT("Enemies/Duplicatotron/Duplicatotron_Idle.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Duplicatotron_Destroyed", TEXT("Enemies/Duplicatotron/Duplicatotron_Destroyed.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Duplicatotron_SpawnEnemies", TEXT("Enemies/Duplicatotron/Duplicatotron_SpawnEnemies.sqc"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DuplicatotronCan", TEXT("Enemies/Duplicatotron/DuplicatotronCan.fbx"), MESH_PATH);
+
 }
 
 void CDefaultSetting::LoadMrKrabs()

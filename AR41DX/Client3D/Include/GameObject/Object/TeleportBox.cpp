@@ -21,12 +21,13 @@ CTeleportBox::CTeleportBox()    :
 
 CTeleportBox::CTeleportBox(const CTeleportBox& Obj)
 {
-    m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");/*
+    m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
     m_BoxWallCube1 = (CColliderOBB3D*)FindComponent("BoxWallCube1");
     m_BoxWallCube2 = (CColliderOBB3D*)FindComponent("BoxWallCube2");
     m_BoxWallCube3 = (CColliderOBB3D*)FindComponent("BoxWallCube3");
     m_BoxWallCube4 = (CColliderOBB3D*)FindComponent("BoxWallCube4");
-    m_BoxBottomCube = (CColliderOBB3D*)FindComponent("BoxBottomCube");*/
+    m_Box1BottomCube = (CColliderOBB3D*)FindComponent("Box1BottomCube");
+    m_Box2BottomCube = (CColliderOBB3D*)FindComponent("Box2BottomCube");
     m_DetectRange = (CColliderOBB3D*)FindComponent("DetectRange");
 }
 
@@ -56,66 +57,69 @@ bool CTeleportBox::Init()
 {
     CGameObject::Init();
 
-    m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");/*
+    m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
     m_BoxWallCube1 = CreateComponent<CColliderOBB3D>("BoxWallCube1");
     m_BoxWallCube2 = CreateComponent<CColliderOBB3D>("BoxWallCube2");
     m_BoxWallCube3 = CreateComponent<CColliderOBB3D>("BoxWallCube3");
-    m_BoxWallCube4 = CreateComponent<CColliderOBB3D>("BoxWallCube4");*/
+    m_BoxWallCube4 = CreateComponent<CColliderOBB3D>("BoxWallCube4");
     m_Box1BottomCube = CreateComponent<CColliderOBB3D>("Box1BottomCube");
     m_Box2BottomCube = CreateComponent<CColliderOBB3D>("Box2BottomCube");
     m_DetectRange = CreateComponent<CColliderOBB3D>("DetectRange");
 
     m_Mesh->SetMesh("TeleportBox");
+    SetRootComponent(m_Mesh);
 
-    //m_Mesh->AddChild(m_BoxWallCube1);
-    //m_Mesh->AddChild(m_BoxWallCube2);
-    //m_Mesh->AddChild(m_BoxWallCube3);
-    //m_Mesh->AddChild(m_BoxWallCube4);
+    m_Mesh->AddChild(m_DetectRange);
+    m_Mesh->AddChild(m_BoxWallCube1);
+    m_Mesh->AddChild(m_BoxWallCube2);
+    m_Mesh->AddChild(m_BoxWallCube3);
+    m_Mesh->AddChild(m_BoxWallCube4);
+
     if(m_BoxIndex == 1)
         m_Mesh->AddChild(m_Box1BottomCube);
 
     if(m_BoxIndex == 2)
         m_Mesh->AddChild(m_Box2BottomCube);
-    
-    m_Mesh->AddChild(m_DetectRange);                
+             
 
-    SetRootComponent(m_Mesh);
 
-    //// Back
-    //m_BoxWallCube1->SetCollisionProfile("Wall");
-    //m_BoxWallCube1->SetCubeSize(30.f, 30.f, 10.f);
-    //m_BoxWallCube1->AddRelativeRotationY(90.f);
-    //m_BoxWallCube1->SetRelativePosition(0.f, 0.f, -30.f);
+    //Back
+    m_BoxWallCube1->SetCollisionProfile("Wall");
+    m_BoxWallCube1->SetBoxHalfSize(100.f, 80.f, 3.f);
+    m_BoxWallCube1->SetRelativePosition(0.f, 90.f, 90.f);
 
-    //// Front
-    //m_BoxWallCube2->SetCollisionProfile("Wall");
-    //m_BoxWallCube2->SetCubeSize(30.f, 30.f, 10.f);
-    //m_BoxWallCube2->AddRelativeRotationY(90.f);
-    //m_BoxWallCube2->SetRelativePosition(0.f, 0.f, 30.f);
+    //Front
+    m_BoxWallCube2->SetCollisionProfile("Wall");
+    m_BoxWallCube2->SetBoxHalfSize(100.f, 80.f, 3.f);
+    m_BoxWallCube2->SetRelativePosition(0.f, 90.f, -90.f);
 
-    //// Left
-    //m_BoxWallCube3->SetCollisionProfile("Wall");
-    //m_BoxWallCube3->SetCubeSize(30.f, 30.f, 10.f);
-    //m_BoxWallCube3->AddRelativeRotationX(90.f);
-    //m_BoxWallCube3->SetRelativePosition(0.f, 0.f, -30.f);
+    //Left
+    m_BoxWallCube3->SetCollisionProfile("Wall");
+    m_BoxWallCube3->SetBoxHalfSize(100.f, 80.f, 3.f);
+    m_BoxWallCube3->SetRelativePosition(90.f, 90.f, 0.f);
+    m_BoxWallCube3->SetWorldRotationY(-90.f);
 
-    //// Right
-    //m_BoxWallCube4->SetCollisionProfile("Wall");
-    //m_BoxWallCube4->SetCubeSize(30.f, 30.f, 10.f);
-    //m_BoxWallCube4->AddRelativeRotationX(90.f);
-    //m_BoxWallCube4->SetRelativePosition(0.f, 0.f, -30.f);
+    // Right
+    m_BoxWallCube4->SetCollisionProfile("Wall");
+    m_BoxWallCube4->SetBoxHalfSize(100.f, 80.f, 3.f);
+    m_BoxWallCube4->SetRelativePosition(-90.f, 90.f, 0.f);
+    m_BoxWallCube4->SetWorldRotationY(-90.f);
 
     // Bottom
     m_Box1BottomCube->SetCollisionProfile("Wall");
-    m_Box1BottomCube->SetBoxHalfSize(100.f, 30.f, 100.f);
+    m_Box1BottomCube->SetBoxHalfSize(80.f, 50.f, 80.f);
+    m_Box1BottomCube->SetWorldPositionY(10.f);
 
     m_Box2BottomCube->SetCollisionProfile("Wall");
-    m_Box2BottomCube->SetBoxHalfSize(100.f, 30.f, 100.f);
+    m_Box2BottomCube->SetBoxHalfSize(80.f, 50.f, 80.f);
+    m_Box2BottomCube->SetWorldPositionY(10.f);
 
     // DetectRange
-    m_DetectRange->SetCollisionProfile("Wall");
+    m_DetectRange->SetCollisionProfile("DetectArea");
     m_DetectRange->SetBoxHalfSize(700.f, 10.f, 700.f);
     m_DetectRange->AddOffsetY(50.f);
+
+    m_DetectRange->SetRelativePosition(0.f, 0.f, 0.f);
 
     m_Animation = m_Mesh->SetAnimation<CAnimation>("TeleportBoxMesh");
 
@@ -123,12 +127,12 @@ bool CTeleportBox::Init()
     m_Animation->AddAnimation("TeleportBox_Opening", "TeleportBox_Opening", 1.f, 1.f, false);
     m_Animation->AddAnimation("TeleportBox_OpeningLoop", "TeleportBox_OpeningLoop", 1.f, 1.f, false);
 
-    //// TeleportBox->SetWorldPosition(18000.f, 0.f, 13500.f);
-    //if (m_BoxIndex == 1)
-    //    m_Mesh->SetWorldPosition(18000.f, 0.f, 13500.f);
+    // TeleportBox->SetWorldPosition(18000.f, 0.f, 13500.f);
+    if (m_BoxIndex == 1)
+        m_Mesh->SetWorldPosition(18000.f, 0.f, 13500.f);
 
-    //else
-    //    m_Mesh->SetWorldPosition(16500.f, 0.f, 13500.f);
+    else
+        m_Mesh->SetWorldPosition(16500.f, 0.f, 13500.f);
 
     return true;
 }
