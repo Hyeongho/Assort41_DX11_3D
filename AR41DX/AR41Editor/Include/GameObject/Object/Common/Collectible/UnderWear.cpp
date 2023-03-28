@@ -11,16 +11,12 @@ CUnderWear::CUnderWear()
 
 	m_ObjectTypeName = "UnderWear";
 
-	m_ColItemType = EColItemType::UnderWear;
+	m_ColItemType = EItemList::UnderWear;
 }
 
 CUnderWear::CUnderWear(const CUnderWear& Obj) :
 	CCollectibleItems(Obj)
 {
-	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
-	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
-
-	m_ColItemType = Obj.m_ColItemType;
 }
 
 CUnderWear::~CUnderWear()
@@ -79,19 +75,4 @@ void CUnderWear::Save(FILE* File)
 void CUnderWear::Load(FILE* File)
 {
 	CCollectibleItems::Load(File);
-}
-
-void CUnderWear::Collision_Player(const CollisionResult& result)
-{
-	CCollectibleItems::Collision_Player(result);
-
-	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
-
-	if (Player) {
-		// 플레이어 속옷(HP) 추가
-		// Player->AddUnderWear();
-	}
-
-	// 오브젝트 삭제처리
-	Destroy();
 }
