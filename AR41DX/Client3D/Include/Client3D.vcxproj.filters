@@ -285,6 +285,18 @@
     <ClCompile Include="GameObject\KingJellyfish.cpp">
       <Filter>03. GameObject\02. Monster\03. Boss\01. KingJellyfish</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\FodderDebris.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\01. Fodder</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\HammerDebris.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\02. Hammer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\JellyfishElectric.cpp">
+      <Filter>03. GameObject\02. Monster\03. Boss\01. KingJellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Dupli_Can.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\03. Duplicatotron</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -502,6 +514,18 @@
     </ClInclude>
     <ClInclude Include="GameObject\KingJellyfish.h">
       <Filter>03. GameObject\02. Monster\03. Boss\01. KingJellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\FodderDebris.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\01. Fodder</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\HammerDebris.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\02. Hammer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\JellyfishElectric.h">
+      <Filter>03. GameObject\02. Monster\03. Boss\01. KingJellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Dupli_Can.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\03. Duplicatotron</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
