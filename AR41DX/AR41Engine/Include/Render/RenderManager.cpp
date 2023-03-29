@@ -279,11 +279,9 @@ void CRenderManager::Render3D(float DeltaTime)
 	// MSAA
 	RenderNoMultiSampling(DeltaTime);
 	
-	if (m_FXAAOn)
-	{
-		// FXAA를 그려낸다. 
-		RenderFXAA(DeltaTime);
-	}
+	
+	// FXAA를 그려낸다. 
+	RenderFXAA(DeltaTime);
 
 	// 완성된 타겟을 백버퍼에 출력한다.
 	RenderDeferred(DeltaTime);
@@ -756,7 +754,7 @@ void CRenderManager::RenderLight(float DeltaTime)
 
 	CSceneManager::GetInst()->GetScene()->GetLightManager()->Render();
 
-	m_vecGBuffer[0]->SetTargetShader(14);
+	m_vecGBuffer[0]->ResetTargetShader(14);
 	m_vecGBuffer[1]->ResetTargetShader(15);
 	m_vecGBuffer[2]->ResetTargetShader(16);
 	m_vecGBuffer[3]->ResetTargetShader(17);
@@ -920,11 +918,7 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 
 	m_DepthDisable->SetState();
 	
-	if(m_FXAAOn)
-		m_FXAABuffer->SetTargetShader(21);
-
-	else
-		m_MSBuffer->SetTargetShader(21);
+	m_FXAABuffer->SetTargetShader(21);
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
@@ -938,11 +932,7 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 
 	m_DepthDisable->ResetState();
 
-	if (m_FXAAOn)
-		m_FXAABuffer->ResetTargetShader(21);
-
-	else
-		m_MSBuffer->ResetTargetShader(21);
+	m_FXAABuffer->ResetTargetShader(21);
 
 	// 디버그 모드일 경우 데칼 디버깅용 육면체를 출력한다.
 #ifdef _DEBUG

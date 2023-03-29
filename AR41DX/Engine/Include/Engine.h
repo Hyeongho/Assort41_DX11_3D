@@ -21,14 +21,6 @@ private:
 	float m_TimeScale; // 글로벌 타임 재생 배율(게임 전체의 시간을 조절할때 씀)
 	class CStructuredBuffer* m_RandomBuffer;
 
-	//fxaa
-
-	class CScene* m_Scene;
-
-	//fxaa
-public:
-	void FXAAOn();
-
 public:
 	class CGlobalConstantBuffer* GetGlobalCBuffer()	const
 	{

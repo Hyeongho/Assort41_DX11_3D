@@ -14,6 +14,7 @@ struct VS_OUTPUT_DEBUG
 };
 
 Texture2D<float4> g_TargetTex : register(t10);
+//Texture2DMS<float4> g_TargetMSTex : register(t10);
 
 
 // 인자로 VS_INPUT_COLOR를 쓰면 저 구조체에 지정된 입력 레지스터에서 값을

@@ -44,6 +44,7 @@ bool CTestSceneInfo::Init()
 	GlobalLightComponent->SetRelativeRotation(0, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
+
 	/*CGameObject* GlobalLightObj1 = m_Owner->CreateObject<CGameObject>("GlobalLight1");
 	CLightComponent* GlobalLightComponent1 = GlobalLightObj1->CreateComponent<CLightComponent>("GlobalLight1");
 	GlobalLightComponent1->SetLightType(ELightType::Direction);

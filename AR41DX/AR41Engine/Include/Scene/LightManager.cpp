@@ -5,6 +5,7 @@
 #include "../Resource/Shader/StructuredBuffer.h"
 #include "../Resource/ResourceManager.h"
 #include "../Resource/Shader/Shader.h"
+#include "../Resource/Shader/LightCelShader.h"
 #include "../Device.h"
 
 CLightManager::CLightManager()	:
@@ -79,7 +80,7 @@ bool CLightManager::Init()
 		(unsigned int)m_LightInfoBufferCount, 41, true,
 		(int)EShaderBufferType::Pixel);
 
-	m_LightAccShader = CResourceManager::GetInst()->FindShader("LightAccShader");
+	m_LightAccShader = CResourceManager::GetInst()->FindShader("LightAccShader"); 
 
 
 	//CGameObject* LightObj = m_Owner->CreateObject<CGameObject>("Light1");
