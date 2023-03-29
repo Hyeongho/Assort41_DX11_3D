@@ -50,22 +50,18 @@ bool CRoboSpongeSceneInfo::Init()
 
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
+	//TerrainComponent->CreateTerrain(800, 600, TerrainSize, TerrainSize, TEXT("LandScape/CBLab_Height.png"));
 	TerrainComponent->CreateTerrain(TerrainCount, TerrainCount, TerrainSize, TerrainSize, TEXT("LandScape/RoboSponge_Height.png"));
-	TerrainObj->SetWorldPosition(0.f, 0.f, 0.f);
-	TerrainComponent->GetSize();
 
 	CCBL_BaseMesh* BaseMesh = m_Owner->CreateObject<CCBL_BaseMesh>("BaseMesh");
 	BaseMesh->SetWorldPosition(CenterPos.x, 600.f, CenterPos.y);
 
 	CCBL_Floor* Floor = m_Owner->CreateObject<CCBL_Floor>("Floor");
-	Floor->SetWorldPosition(CenterPos.x, 605.f, CenterPos.y);
+	Floor->SetWorldPosition(CenterPos.x, 603.f, CenterPos.y);
 
 	CRoboSponge* RoboSponge = m_Owner->CreateObject<CRoboSponge>("RoboSponge");
 	RoboSponge->SetWorldPosition(CenterPos.x, 1000.f, CenterPos.y);
 	RoboSponge->SetMapCenter(CenterPos.x, 1000.f, CenterPos.y);
-
-	CRoboSponge_Knob* Knob = m_Owner->CreateObject<CRoboSponge_Knob>("Knob");
-	Knob->SetWorldPosition(5500.f, 800.f, 6000.f);
 
 	float StandardPos = 60 * TerrainSize;
 
@@ -75,7 +71,7 @@ bool CRoboSpongeSceneInfo::Init()
 		std::string PlatformName = "Platform" + std::to_string(i);
 		
 		CCBL_Platform* Platform = m_Owner->CreateObject<CCBL_Platform>(PlatformName);
-		Platform->SetWorldPosition(CenterPos.x + StandardPos * sinf(Radian), 1800.f, CenterPos.y + StandardPos * cosf(Radian));
+		Platform->SetWorldPosition(CenterPos.x + StandardPos * sinf(Radian), 2000.f, CenterPos.y + StandardPos * cosf(Radian));
 		Platform->SetLookBoss(RoboSponge->GetWorldPos());
 
 		std::string TrampolineName = "Platform" + std::to_string(i);
@@ -85,10 +81,9 @@ bool CRoboSpongeSceneInfo::Init()
 	}
 
 
-
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 	SetPlayerObject(Player);
-	Player->SetRespawnPos(TerrainSize * TerrainCount * 0.5f, 0.f, TerrainSize * TerrainCount * 0.5f);
+	Player->SetRespawnPos(CenterPos.x, 0.f, CenterPos.y);
 
 
 

@@ -3,6 +3,13 @@
 #include "../BossMonster.h"
 #include "RoboSponge_Knob.h"
 
+enum class ERS_Pattern {
+	AttackVertic,
+	AttackHoriz,
+	AttackWords,
+	End
+};
+
 enum class ELRCheck {
 	Left,
 	Right,
@@ -20,6 +27,8 @@ protected:
 	virtual ~CRoboSponge();
 
 private:
+	bool			m_ActionStart;
+
 	// HitPoint 관련
 	std::vector<CSharedPtr<CRoboSponge_Knob>> m_vecKnob;
 
@@ -35,13 +44,18 @@ private:
 
 	// Attack 관련
 	ELRCheck		m_LR; // 현재 기준으로 플레이어가 좌/우에 있는지를 판단하여 공격
+	float			m_CenterWaitTimer;
+	bool			m_CenterWait;
+	
+	ERS_Pattern		m_NowPattern;
+
 
 	// AttackHoriz 관련
 	bool			m_AttackHorizEnd;
 	float			m_AttackHorizEndTimer;
 
 	// AttackVertic 관련
-
+	int				m_VerticAttackMax;
 
 	// AtackWords 관련
 	bool			m_AttackWords;
@@ -57,8 +71,11 @@ public:
 	virtual void Load(FILE* File);
 
 private:
+	void ActionStart();
+
 	void AttackWords();			// AttackWords 행동 실행
 	void AttackVertric();		// AttackVertic 행동 실행
+	void AttackVerticEnd();		// AttackVertic을 끝낸 후, 보스의 연속 공격 혹은 돌아가기를 결정
 	void AttackHoriz();			// AttackHoriz 행동 실행
 	void AttackHorizEnd();		// AttackHoriz를 끝낸 후, 플레이어의 공격을 위한 보스의 대기 행동의 트리거 변수를 True로
 	void MoveToPlatform();		// 타겟 플랫폼으로 이동하는 행동의 트리거 변수를 True로
@@ -67,6 +84,9 @@ private:
 	void RollTargetPlatform();	// 타겟 플랫폼(m_TargetPlatformName)을 돌린다. 이 때, 좌우로만 돌린다.
 	void FindTargetPlatform();	// 타겟 플랫폼(m_TargetPlatformName)을 탐지한다. 타겟 플랫폼은 플레이어와 가장 가까운 플랫폼이다. 
 	void LookPlayer();			// 플레이어를 바라보게 한다.
+	void CountCenterWait();		// 액션 후 다음 액션까지 대기시키는 함수.
+
+	void PlayPattern(const ERS_Pattern& Pattern);	// 패턴 실행
 
 public:
 	void Damaged();
@@ -88,13 +108,20 @@ private : // Animation
 	void ChangeAnim_AttackVerticRStart();
 	void ChangeAnim_AttackWordsLoop();
 	void ChangeAnim_AttackWordsStart();
+	void ChangeAnim_AttackWordsConnect();
+	void ChangeAnim_AttackWordsConnect2();
 	void ChangeAnim_Hit1();
 	void ChangeAnim_Hit2();
 	void ChangeAnim_Hit2Pose();
 	void ChangeAnim_Idle();
+	void ChangeAnim_IdleReverse();
 	void ChangeAnim_VerticLHold();
 	void ChangeAnim_VerticRHold();
 	void ChangeAnim_Victory();
+
+private:
+	void SetHp1() { m_BossData->CurHP = 1; }
+	void SetHp4() { m_BossData->CurHP = 4; }
 
 
 };

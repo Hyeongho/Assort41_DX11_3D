@@ -255,6 +255,7 @@ enum class ENpcList // Npc 전체 리스트
 	Patric,
 	BusDriver,
 	InfoSign,
+	TaxiStop,
 	End
 };
 

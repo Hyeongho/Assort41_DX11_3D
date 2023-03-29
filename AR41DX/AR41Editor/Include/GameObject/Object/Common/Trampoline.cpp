@@ -52,14 +52,6 @@ bool CTrampoline::Init()
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
 
-
-	Vector2 Ratio = CDevice::GetInst()->GetHdRsRatio();
-	Ratio.x = 1.f / Ratio.x;
-	Ratio.y = 1.f / Ratio.y;
-
-	SetRelativeScale(Ratio);
-	m_Collider->SetRelativeScale(Ratio);
-
 	return true;
 }
 

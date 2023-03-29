@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "Scene/Scene.h"
 #include "../../Player.h"
+#include "../../BossMonster/RoboSponge/RoboSponge_Knob.h"
 
 CCBL_Platform::CCBL_Platform() :
 	m_Roll(false),
@@ -34,11 +35,23 @@ void CCBL_Platform::Start()
 	CGameObject::Start();
 
 #ifdef _DEBUG
-	//CInput::GetInst()->AddBindFunction<CCBL_Platform>("F1", Input_Type::Up, this, &CCBL_Platform::DebugF1, m_Scene);
-	//CInput::GetInst()->AddBindFunction<CCBL_Platform>("F2", Input_Type::Up, this, &CCBL_Platform::DebugF2, m_Scene);
-	//CInput::GetInst()->AddBindFunction<CCBL_Platform>("F3", Input_Type::Up, this, &CCBL_Platform::DebugF3, m_Scene);
-	//CInput::GetInst()->AddBindFunction<CCBL_Platform>("F4", Input_Type::Up, this, &CCBL_Platform::DebugF4, m_Scene);
+	CInput::GetInst()->AddBindFunction<CCBL_Platform>("F1", Input_Type::Up, this, &CCBL_Platform::DebugF1, m_Scene);
+	CInput::GetInst()->AddBindFunction<CCBL_Platform>("F2", Input_Type::Up, this, &CCBL_Platform::DebugF2, m_Scene);
+	CInput::GetInst()->AddBindFunction<CCBL_Platform>("F3", Input_Type::Up, this, &CCBL_Platform::DebugF3, m_Scene);
+	CInput::GetInst()->AddBindFunction<CCBL_Platform>("F4", Input_Type::Up, this, &CCBL_Platform::DebugF4, m_Scene);
 #endif // DEBUG
+
+	m_Collider->SetCollisionCallback<CCBL_Platform>(ECollision_Result::Collision, this, &CCBL_Platform::Collision_Rolling);
+
+	std::string KnobName = "Knob" + GetName();
+
+	m_Knob = m_Scene->CreateObject<CRoboSponge_Knob>(KnobName);
+	m_Knob->SetWorldPosition(GetWorldPos());
+	m_Knob->SetWorldPositionY(GetWorldPos().y + GetMeshSize().y * GetWorldScale().y * 0.5f);
+	m_Knob->SetWorldRotationX(90.f);
+	SetLookBoss();
+
+
 }
 
 bool CCBL_Platform::Init()
@@ -55,19 +68,16 @@ bool CCBL_Platform::Init()
 
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetCollisionProfile("Platform");
-	m_Collider->SetCollisionCallback<CCBL_Platform>(ECollision_Result::Collision, this, &CCBL_Platform::Collision_Rolling);
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
 
 
-	Vector2 Ratio = CDevice::GetInst()->GetHdRsRatio();
-	Ratio.x = 1.f / Ratio.x;
-	Ratio.y = 1.f / Ratio.y;
+	float Ratio = 0.66f;
 
-	SetRelativeScale(Ratio);
-	m_Collider->SetRelativeScale(Ratio);
+	SetRelativeScale(Ratio, Ratio, Ratio);
+	m_Collider->SetRelativeScale(Ratio, Ratio, Ratio);
 	
 	return true;
 }
@@ -143,6 +153,7 @@ void CCBL_Platform::Update(float DeltaTime)
 		}
 		else if (m_RollDir == ERollDir::Front || m_RollDir == ERollDir::Back) {
 			AddWorldRotationX(RotSpeed);
+			m_Knob->AddWorldRotationX(RotSpeed);
 		}
 
 		m_TotalRollDegree += abs(RotSpeed);
@@ -152,6 +163,8 @@ void CCBL_Platform::Update(float DeltaTime)
 
 		SetWorldRotationZ(0.f);
 		SetWorldRotationX(0.f);
+		m_Knob->SetWorldRotationZ(0.f);
+		m_Knob->SetWorldRotationX(90.f);
 	}
 }
 
@@ -182,13 +195,15 @@ void CCBL_Platform::Collision_Rolling(const CollisionResult& result)
 	}
 }
 
-void CCBL_Platform::SetLookBoss(const Vector3& BossPos)
+void CCBL_Platform::SetLookBoss()
 {
 	// Z축이 보스와 직교하도록 설정.
-	float Degree = atan2(GetWorldPos().z - BossPos.z, GetWorldPos().x - BossPos.x);
+	float Degree = atan2(GetWorldPos().z - m_BossPos.z, GetWorldPos().x - m_BossPos.x);
 	Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
 
 	SetWorldRotationY(Degree);
+
+	m_Knob->SetWorldRotationY(Degree);
 }
 
 void CCBL_Platform::Roll(const ERollDir& RollDir)
