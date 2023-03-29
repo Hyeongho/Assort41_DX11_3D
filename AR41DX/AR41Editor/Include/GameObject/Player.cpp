@@ -808,7 +808,7 @@ void CPlayer::JumpDown()
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
 	m_Rigid->SetGround(false);
 	m_Rigid->AddForce(0, 400.f);
-	m_Rigid->SetVelocityY(400.f);
+	m_Rigid->AddVelocity(Vector3(0.f,400.f,0.f)); 
 }
 
 void CPlayer::JumpPush()
