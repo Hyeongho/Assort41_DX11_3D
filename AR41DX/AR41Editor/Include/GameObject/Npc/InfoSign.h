@@ -37,8 +37,4 @@ public:
 	void SetInfoSingName(const std::string& Name) {
 		m_InfoSignName = Name;
 	}
-
-private:
-	void CreateSpatula();
-
 };

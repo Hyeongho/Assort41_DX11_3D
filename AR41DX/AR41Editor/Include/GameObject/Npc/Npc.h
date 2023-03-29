@@ -42,11 +42,16 @@ public:
 	virtual void Load(FILE* File);
 
 public :
-	virtual void ChangeAnimByName(const std::string& Name);
+	void ChangeAnimByName(const std::string& Name); // OnlyUse AnimNpc
 	virtual void StartDialog();
 
 private: // Collision
 	void Collision_Player(const CollisionResult& result);
 	void Release_Player(const CollisionResult& result);
+
+
+protected:
+	void CreateSock();
+	void CreateSpatula();
 };
 

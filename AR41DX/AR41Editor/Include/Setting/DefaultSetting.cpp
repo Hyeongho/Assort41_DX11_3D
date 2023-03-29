@@ -5,20 +5,29 @@
 #include "../GameObject/PatrickObject.h"
 #include "../GameObject/KingJellyfish.h"
 #include "../GameObject/Jellyfish.h"
+#include "../GameObject/ElectricRing.h"
+#include "../GameObject/JellyfishElectric.h"
+#include "../GameObject/Object/Pool.h"
 #include "../GameObject/Fodder.h"
 #include "../GameObject/Hammer.h"
 #include "../GameObject/Duplicatotron.h"
 #include "../GameObject/Npc/MrKrabs.h"
 #include "../GameObject/Npc/Patric.h"
 #include "../GameObject/Npc/Squidward.h"
-#include "../GameObject/Npc/TaxiDriver.h"
-#include "../GameObject/Npc/BusDriver.h"
+#include "../GameObject/Object/BB/BusStop.h"
 #include "../GameObject/Npc/InfoSign.h"
 #include "../GameObject/Tikis/Tiki_Stone.h"
 #include "../GameObject/Tikis/Tiki_Thunder.h"
 #include "../GameObject/Tikis/Tiki_Wood.h"
 #include "../GameObject/Object/IceCube.h"
 #include "../GameObject/Object/Common/InteractButton.h"
+#include "../GameObject/Dupli_Can.h"
+#include "../GameObject/FodderDebris.h"
+#include "../GameObject/HammerDebris.h"
+#include "../GameObject/Object/CheckPoint.h"
+#include "../GameObject/Object/Gate.h"
+#include "../GameObject/Object/JumpTree.h"
+#include "../GameObject/Object/TeleportBox.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 #include "../UI/TitleSceneUI.h"
@@ -60,14 +69,17 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateObjectCDO<CTiki_Stone>("Tiki_Stone");
     CScene::CreateObjectCDO<CTiki_Thunder>("Tiki_Thunder");
     CScene::CreateObjectCDO<CTiki_Wood>("Tiki_Wood");
-   // CScene::CreateObjectCDO<CInteractButton>("InteractButton");
-
-    //CScene::CreateObjectCDO<CKingJellyfish>("CKingJellyfish");
+    CScene::CreateObjectCDO<CInteractButton>("InteractButton");
+    CScene::CreateObjectCDO<CPool>("Pool");
+    CScene::CreateObjectCDO<CKingJellyfish>("KingJellyfish");
+    CScene::CreateObjectCDO<CElectricRing>("ElectricRing");
 
     CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
+    CScene::CreateObjectCDO<CJellyfishElectric>("JellyfishElectric");
+
     CScene::CreateObjectCDO<CFodder>("Fodder");
-    //CScene::CreateObjectCDO<CHammer>("Hammer");
-    //CScene::CreateObjectCDO<CDuplicatotron>("Duplicatotron");
+    CScene::CreateObjectCDO<CHammer>("Hammer");
+    CScene::CreateObjectCDO<CDuplicatotron>("Duplicatotron");
     CScene::CreateObjectCDO<CIceCube>("IceCube");
 
     CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
@@ -75,6 +87,15 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
     CScene::CreateUIWindowCDO<CInteractUI>("InteractUI");
     CScene::CreateUIWindowCDO<CDialogUI>("DialogUI");
+
+    CScene::CreateObjectCDO<CDupli_Can>("Dupli_Can");
+    CScene::CreateObjectCDO<CFodderDebris>("FodderDebris");
+    CScene::CreateObjectCDO<CHammerDebris>("HammerDebris");
+    CScene::CreateObjectCDO<CJumpTree>("JumpTree ");
+    CScene::CreateObjectCDO<CTeleportBox>("TeleportBox");
+    CScene::CreateObjectCDO<CCheckPoint>("CheckPoint");
+    CScene::CreateObjectCDO<CGate>("Gate");
+    CScene::CreateObjectCDO<CInfoSign>("InfoSign");
 }
 
 void CDefaultSetting::LoadResource()
@@ -187,7 +208,7 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateChannel("Trampoline", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Button", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("DetectArea", ECollision_Interaction::Collision);
-    CCollisionManager::GetInst()->CreateChannel("BusStop", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->CreateChannel("TikiBottom", ECollision_Interaction::Collision);
 
     CCollisionManager::GetInst()->CreateProfile("Player", "Player", true);
     CCollisionManager::GetInst()->CreateProfile("PlayerAttack", "PlayerAttack", true);
@@ -203,7 +224,7 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateProfile("Trampoline", "Trampoline", true);
     CCollisionManager::GetInst()->CreateProfile("Button", "Button", true);
     CCollisionManager::GetInst()->CreateProfile("DetectArea", "DetectArea", true);
-    CCollisionManager::GetInst()->CreateProfile("BusStop", "BusStop", true);
+    CCollisionManager::GetInst()->CreateProfile("TikiBottom", "TikiBottom", true);
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "PlayerAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "Player", ECollision_Interaction::Ignore);
@@ -223,6 +244,7 @@ void CDefaultSetting::SetCollision()
 
     CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "Player", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "TikiBottom", ECollision_Interaction::Collision);
 
     CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("Collectible", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Collectible", "Player", ECollision_Interaction::Collision);
@@ -244,6 +266,9 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "MonsterAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "Collectible", ECollision_Interaction::Ignore);
+	
+    CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("TikiBottom", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("TikiBottom", "Platform", ECollision_Interaction::Collision);
     
     CCollisionManager::GetInst()->CreateChannel("KingJellyfish", ECollision_Interaction::Collision);
 
@@ -263,7 +288,6 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Wall", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Collectible", ECollision_Interaction::Ignore);
-
 }
 
 void CDefaultSetting::LoadSound()
@@ -419,7 +443,7 @@ void CDefaultSetting::LoadPatrick()
     resourceManager->LoadAnimationSequence("Patrick_SlamEnd", TEXT("Patrick/Anim_Patrick_Slam_End.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Patrick_Hit", TEXT("Patrick\\anim_patrick_Hit.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Patrick_Death", TEXT("Patrick\\Anim_Patrick_Death_01.sqc"), MESH_PATH);
-    //전용 모션
+    
     resourceManager->LoadAnimationSequence("Patrick_PickUp", TEXT("Patrick/Patrick_PickUp.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Patrick_PickUpIdle", TEXT("Patrick/Patrick_PickUpIdle.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Patrick_PickUpWalk", TEXT("Patrick/Patrick_PickUpWalk.sqc"), MESH_PATH);
@@ -457,6 +481,7 @@ void CDefaultSetting::LoadSandy()
     resourceManager->LoadAnimationSequence("Sandy_Run", TEXT("Sandy/Sandy_Run.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Sandy_JumpDW", TEXT("Sandy/Sandy_JumpDW.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Sandy_JumpUp", TEXT("Sandy/Sandy_JumpUp.sqc"), MESH_PATH);
+
     //resourceManager->LoadAnimationSequence("Sandy_Jump_Landing_NonAdditive", TEXT("Sandy/Sandy_Jump_Landing_NonAdditive.sqc"), MESH_PATH);
     //resourceManager->LoadAnimationSequence("Sandy_DoubleJump", TEXT("Sandy/Sandy_DoubleJump.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Sandy_Karate_Chop", TEXT("Sandy/Sandy_Karate_Chop.sqc"), MESH_PATH);
@@ -486,6 +511,18 @@ void CDefaultSetting::LoadRoboSponge()
 
     CResourceManager::GetInst()->SetMeshSkeleton("Robo_Sponge", "Robo_Sponge_Skeleton");
 
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_1", "HitMarker1", Vector3(500.f, 2000.f, -350.f)); // Left Waist
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_2", "HitMarker2", Vector3(100.f, 100.f, 0.f)); // Right Waist
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_3", "HitMarker3", Vector3(100.f, 0.f, 100.f)); // Right Cheek
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_4", "HitMarker4", Vector3(100.f, 100.f, 100.f)); // Left Cheek
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_5", "HitMarker5", Vector3(0.f, 100.f, 0.f)); // Nose
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_6", "HitMarker6", Vector3(0.f, 100.f, 100.f)); // Left Forehead
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_7", "HitMarker7", Vector3(0.f, 0.f, 100.f)); // Right Forehead
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_8", "HitMarker8", Vector3(0.f, 0.f, 0.f)); // Left Pos
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_9", "HitMarker9", Vector3(0.f, 0.f, 0.f)); // Right Pos
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_10", "HitMarker10"); // Right Hand
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_11", "HitMarker11"); // Left Hand
+
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L_Pose", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L_Pose.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_R", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_R.sqc"), MESH_PATH);
@@ -508,6 +545,10 @@ void CDefaultSetting::LoadRoboSponge()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "KAH", TEXT("Robo_Sponge/AttackWords/KAH.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RAH", TEXT("Robo_Sponge/AttackWords/RAH.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "TAE", TEXT("Robo_Sponge/AttackWords/TAE.msh"), MESH_PATH);
+
+    // RoboSponge Socket Mesh
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GreenKnob", TEXT("Robo_Sponge/GreenKnob.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BrokenKnob", TEXT("Robo_Sponge/BorkenKnob.msh"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadKingJellyfish()
@@ -666,9 +707,7 @@ void CDefaultSetting::LoadMrKrabs()
 void CDefaultSetting::LoadSquidward()
 {
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Squidward", TEXT("Squidward/Squidward.msh"), MESH_PATH);
-
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "Squidward_Skeleton", TEXT("Squidward/Squidward.bne"), MESH_PATH);
-
     CResourceManager::GetInst()->SetMeshSkeleton("Squidward", "Squidward_Skeleton");
 
     CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Angry_Loop", TEXT("Squidward/Squidward_Angry_Loop.sqc"), MESH_PATH);
@@ -684,6 +723,15 @@ void CDefaultSetting::LoadSquidward()
     CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Sarcastic_Start", TEXT("Squidward/Squidward_Sarcastic_Start.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Talk", TEXT("Squidward/Squidward_Talk.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Talk_Idle", TEXT("Squidward/Squidward_Talk_Idle.sqc"), MESH_PATH);
+
+    // Squidward Bandage
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Squidward_Bandage", TEXT("Squidward/Cutscene/Squidward_Bandage.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "Squidward_Bandage_Skeleton", TEXT("Squidward/Cutscene/Squidward_Bandage.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("Squidward_Bandage", "Squidward_Bandage_Skeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Intro1", TEXT("Squidward/Cutscene/Squidward_Intro1.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Intro2", TEXT("Squidward/Cutscene/Squidward_Intro2.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Outro1", TEXT("Squidward/Cutscene/Squidward_Outro1.sqc"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadPatric_Npc()
@@ -780,6 +828,9 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     // 해파리 동산 맵 메쉬
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishfieldsSign", TEXT("Buildings/JellyfishField/JellyfishfieldsSign.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Water", TEXT("Buildings/JellyfishField/Water.msh"));
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldBoss", TEXT("Buildings/JellyfishField/JellyfishFieldBoss.msh"));
+
     
     if (!CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JFBackground", TEXT("Objects/JellyfishFields/JFBackground.msh"), MESH_PATH))
     {
@@ -806,6 +857,7 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Missile", TEXT("Objects/JellyfishFields/Missile.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Gate", TEXT("Objects/JellyfishFields/Gate.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "WaterFall", TEXT("Buildings/JellyfishField/WaterFall.msh"), MESH_PATH);
 
     // SM_JF_Teeter_Rock
     if (!CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SM_JF_Teeter_Rock_01", TEXT("Objects/JellyfishFields/SM_JF_Teeter_Rock_01.msh"), MESH_PATH))
@@ -859,6 +911,26 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->SetMeshSkeleton("Pufferfish", "PufferfishSkeleton");
 
     CResourceManager::GetInst()->LoadAnimationSequence("Pufferfish_Contact", TEXT("Objects/JellyfishFields/Puffer.sqc"), MESH_PATH);
+
+    // Grass
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Grass1", TEXT("Map/JFF/Grass1.msh"), MESH_PATH);
+
+    // TeleportBox
+    if (!CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "TeleportBox", TEXT("Objects/JellyfishFields/TeleportBoxMesh.msh"), MESH_PATH))
+    {
+        CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "TeleportBox", TEXT("Objects/JellyfishFields/TeleportBoxMesh.fbx"), MESH_PATH);
+    }
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "TeleportBoxSkeleton", TEXT("Objects/JellyfishFields/TeleportBoxMesh.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("TeleportBox", "TeleportBoxSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("TeleportBox_Opening", TEXT("Objects/JellyfishFields/TeleportBox_Opening.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("TeleportBox_OpeningLoop", TEXT("Objects/JellyfishFields/TeleportBox_OpeningLoop.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("TeleportBox_Closed", TEXT("Objects/JellyfishFields/TeleportBox_Closed.sqc"), MESH_PATH);
+    
+    // Gate
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GateArm", TEXT("Objects/JellyfishFields/GateArm.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GateBottom", TEXT("Objects/JellyfishFields/GateBottom.fbx"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadCBObjects()
@@ -906,4 +978,280 @@ void CDefaultSetting::LoadParticle()
     Particle->SetParticleMoveDir(Vector3(0.f, 1.f, 0.f));
     Particle->SetParticleMoveDirEnable(true);
     Particle->SetParticleMoveAngle(Vector3(0.f, 0.f, 5.f));
+
+    // 몬스터가 죽었을 때 생성되는 거품 파티클
+    CResourceManager::GetInst()->CreateParticle("MonsterBubble");
+
+    Particle = CResourceManager::GetInst()->FindParticle("MonsterBubble");
+
+    Particle->SetMaterial("Bubble");
+
+    Particle->SetParticleSpawnTime(0.01f);
+    Particle->SetParticleStartMin(Vector3(-50.f, -50.f, -50.f));
+    Particle->SetParticleStartMax(Vector3(50.f, 200.f, 50.f));
+    Particle->SetParticleSpawnCountMax(100);
+    Particle->SetParticleScaleMin(Vector3(5.f, 5.f, 5.f));
+    Particle->SetParticleScaleMax(Vector3(60.f, 60.f, 60.f));
+    Particle->SetParticleLifeTimeMin(1.f);
+    Particle->SetParticleLifeTimeMax(2.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleSpeedMin(120.f);
+    Particle->SetParticleSpeedMax(200.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(1.f, 1.f, 1.f));
+    Particle->SetParticleMoveDirEnable(true);
+    Particle->SetParticleMoveAngle(Vector3(-90.f, 5.f, 125.f));
+
+    // tikis가 사라질 때 생성되는 파티클
+    CResourceManager::GetInst()->CreateParticle("Glow");
+
+    Particle = CResourceManager::GetInst()->FindParticle("Glow");
+
+    Particle->SetMaterial("Glow");
+
+    Particle->SetParticleSpawnTime(0.01f);
+    Particle->SetParticleStartMin(Vector3(20.f, 20.f, 20.f));
+    Particle->SetParticleStartMax(Vector3(40.f, 40.f, 40.f));
+    Particle->SetParticleSpawnCountMax(5);
+    Particle->SetParticleScaleMin(Vector3(25.f, 25.f, 25.f));
+    Particle->SetParticleScaleMax(Vector3(30.f, 30.f, 30.f));
+    Particle->SetParticleLifeTimeMin(0.3f);
+    Particle->SetParticleLifeTimeMax(1.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 1.f, 0.f, 0.5f));
+    Particle->SetParticleColorMax(Vector4(1.f, 1.f, 0.f, 0.5f));
+    Particle->SetParticleSpeedMin(0.f);
+    Particle->SetParticleSpeedMax(2.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(1.f, 1.f, 1.f));
+    Particle->SetParticleMoveDirEnable(false);
+    Particle->SetParticleMoveAngle(Vector3(5.f, 5.f, 5.f));
+
+    // 로봇 스폰지밥 불 파티클
+    CResourceManager::GetInst()->CreateParticle("Fire");
+
+    Particle = CResourceManager::GetInst()->FindParticle("Fire");
+
+    Particle->SetMaterial("Fire");
+
+    Particle->SetParticleSpawnTime(0.01f);
+    Particle->SetParticleStartMin(Vector3(-250.f, 0.f, -250.f));
+    Particle->SetParticleStartMax(Vector3(250.f, 0.f, 250.f));
+    Particle->SetParticleSpawnCountMax(4);
+    Particle->SetParticleScaleMin(Vector3(800.f, 800.f, 800.f));
+    Particle->SetParticleScaleMax(Vector3(2400.f, 2400.f, 2400.f));
+    Particle->SetParticleLifeTimeMin(2.f);
+    Particle->SetParticleLifeTimeMax(4.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 1.f, 1.f, 0.5f));
+    Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 0.5f));
+    Particle->SetParticleSpeedMin(2.f);
+    Particle->SetParticleSpeedMax(4.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(-1.f, 0.f, 1.f));
+    Particle->SetParticleMoveDirEnable(true);
+    Particle->SetParticleMoveAngle(Vector3(45.f, 5.f, 45.f));
+
+    // 로봇 스폰지밥 불 파티클2
+    CResourceManager::GetInst()->CreateParticle("Fire2");
+
+    Particle = CResourceManager::GetInst()->FindParticle("Fire2");
+
+    Particle->SetMaterial("Fire2");
+
+    Particle->SetParticleSpawnTime(0.01f);
+    Particle->SetParticleStartMin(Vector3(-250.f, 0.f, -250.f));
+    Particle->SetParticleStartMax(Vector3(250.f, 0.f, 250.f));
+    Particle->SetParticleSpawnCountMax(4);
+    Particle->SetParticleScaleMin(Vector3(1800.f, 1800.f, 1800.f));
+    Particle->SetParticleScaleMax(Vector3(2400.f, 2400.f, 2400.f));
+    Particle->SetParticleLifeTimeMin(2.f);
+    Particle->SetParticleLifeTimeMax(4.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 1.f, 1.f, 0.5f));
+    Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 0.5f));
+    Particle->SetParticleSpeedMin(2.f);
+    Particle->SetParticleSpeedMax(4.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(-1.f, 0.f, 1.f));
+    Particle->SetParticleMoveDirEnable(true);
+    Particle->SetParticleMoveAngle(Vector3(45.f, 5.f, 45.f));
+
+    // 듀플리카토트론 폭발 파티클
+    CResourceManager::GetInst()->CreateParticle("Explosion");
+
+    Particle = CResourceManager::GetInst()->FindParticle("Explosion");
+
+    Particle->SetMaterial("Flare");
+
+    Particle->SetParticleSpawnTime(0.01f);
+    Particle->SetParticleStartMin(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleStartMax(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleSpawnCountMax(1);
+    Particle->SetParticleScaleMin(Vector3(1500.f, 1500.f, 1500.f));
+    Particle->SetParticleScaleMax(Vector3(1500.f, 1500.f, 1500.f));
+    Particle->SetParticleLifeTimeMin(3.f);
+    Particle->SetParticleLifeTimeMax(4.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 0.3f, 0.f, 1.f));
+    Particle->SetParticleColorMax(Vector4(1.f, 0.3f, 0.f, 1.f));
+    Particle->SetParticleSpeedMin(0.f);
+    Particle->SetParticleSpeedMax(2.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(0.f, -1.f, 0.f));
+    Particle->SetParticleMoveDirEnable(false);
+    Particle->SetParticleMoveAngle(Vector3(5.f, 5.f, 5.f));
+
+
+    // 듀플리카토트론 폭발직후 파티클
+    CResourceManager::GetInst()->CreateParticle("AfterExplosion");
+
+    Particle = CResourceManager::GetInst()->FindParticle("AfterExplosion");
+
+    Particle->SetMaterial("Glow");
+
+    Particle->SetParticleSpawnTime(0.01f);
+    Particle->SetParticleStartMin(Vector3(-50.f, -50.f, -50.f));
+    Particle->SetParticleStartMax(Vector3(50.f, 200.f, 50.f));
+    Particle->SetParticleSpawnCountMax(100);
+    Particle->SetParticleScaleMin(Vector3(15.f, 15.f, 15.f));
+    Particle->SetParticleScaleMax(Vector3(15.f, 30.f, 15.f));
+    Particle->SetParticleLifeTimeMin(1.f);
+    Particle->SetParticleLifeTimeMax(2.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 0.5f, 0.f, 1.f));
+    Particle->SetParticleColorMax(Vector4(1.f, 0.5f, 0.f, 1.f));
+    Particle->SetParticleSpeedMin(120.f);
+    Particle->SetParticleSpeedMax(200.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(1.f, 1.f, 1.f));
+    Particle->SetParticleMoveDirEnable(true);
+    Particle->SetParticleMoveAngle(Vector3(-90.f, 5.f, 125.f));
+
+    // 포더, 햄머 폭발 파티클
+    CResourceManager::GetInst()->CreateParticle("MonsterExplosion");
+
+    Particle = CResourceManager::GetInst()->FindParticle("MonsterExplosion");
+
+    Particle->SetMaterial("Flare");
+
+    Particle->SetParticleSpawnTime(0.01f);
+    Particle->SetParticleStartMin(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleStartMax(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleSpawnCountMax(1);
+    Particle->SetParticleScaleMin(Vector3(1500.f, 1500.f, 1500.f));
+    Particle->SetParticleScaleMax(Vector3(1500.f, 1500.f, 1500.f));
+    Particle->SetParticleLifeTimeMin(3.f);
+    Particle->SetParticleLifeTimeMax(4.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 1.f, 0.f, 1.f));
+    Particle->SetParticleColorMax(Vector4(1.f, 1.f, 0.f, 1.f));
+    Particle->SetParticleSpeedMin(0.f);
+    Particle->SetParticleSpeedMax(2.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(0.f, -1.f, 0.f));
+    Particle->SetParticleMoveDirEnable(false);
+    Particle->SetParticleMoveAngle(Vector3(5.f, 5.f, 5.f));
+
+    // 바다 윤슬
+    CResourceManager::GetInst()->CreateParticle("Glister");
+
+    Particle = CResourceManager::GetInst()->FindParticle("Glister");
+
+    Particle->SetMaterial("Glow");
+
+    Particle->SetParticleSpawnTime(0.1f);
+    Particle->SetParticleStartMin(Vector3(-2000.f, 0.f, -2000.f));
+    Particle->SetParticleStartMax(Vector3(2000.f, 10.f, 2000.f));
+    Particle->SetParticleSpawnCountMax(10000);
+    Particle->SetParticleScaleMin(Vector3(10.f, 50.f, 50.f));
+    Particle->SetParticleScaleMax(Vector3(70.f, 60.f, 100.f));
+    Particle->SetParticleLifeTimeMin(3.f);
+    Particle->SetParticleLifeTimeMax(4.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 1.f, 1.f, 0.f));
+    Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleSpeedMin(2.f);
+    Particle->SetParticleSpeedMax(4.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(1.f, 1.f, 1.f));
+    Particle->SetParticleMoveDirEnable(true);
+    Particle->SetParticleMoveAngle(Vector3(5.f, 5.f, 5.f));
+
+    // 폭포 물거품
+    CResourceManager::GetInst()->CreateParticle("Foam");
+
+    Particle = CResourceManager::GetInst()->FindParticle("Foam");
+
+    Particle->SetMaterial("Glow");
+
+    Particle->SetParticleSpawnTime(0.01f);
+    Particle->SetParticleStartMin(Vector3(-15.f, 0.f, -15.f));
+    Particle->SetParticleStartMax(Vector3(15.f, 0.f, 15.f));
+    Particle->SetParticleSpawnCountMax(1000);
+    Particle->SetParticleScaleMin(Vector3(10.f, 10.f, 10.f));
+    Particle->SetParticleScaleMax(Vector3(10.f, 10.f, 10.f));
+    Particle->SetParticleLifeTimeMin(1.5f);
+    Particle->SetParticleLifeTimeMax(2.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleSpeedMin(8.f);
+    Particle->SetParticleSpeedMax(10.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(0.f, 1.f, 0.f));
+    Particle->SetParticleMoveDirEnable(true);
+    Particle->SetParticleMoveAngle(Vector3(25.f, 0.f, 25.f));
+
+    // 샤워 물줄기
+    CResourceManager::GetInst()->CreateParticle("Shower");
+
+    Particle = CResourceManager::GetInst()->FindParticle("Shower");
+
+    Particle->SetMaterial("Shower");
+
+    Particle->SetParticleSpawnTime(0.01f);
+    Particle->SetParticleStartMin(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleStartMax(Vector3(50.f, 0.f, 50.f));
+    Particle->SetParticleSpawnCountMax(100);
+    Particle->SetParticleScaleMin(Vector3(50.f, 50.f, 50.f));
+    Particle->SetParticleScaleMax(Vector3(50.f, 50.f, 50.f));
+    Particle->SetParticleLifeTimeMin(4.f);
+    Particle->SetParticleLifeTimeMax(6.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleSpeedMin(15.f);
+    Particle->SetParticleSpeedMax(15.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(true);
+    Particle->SetParticleMoveDir(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleMoveDirEnable(false);
+    Particle->SetParticleMoveAngle(Vector3(0.f, 0.f, 0.f));
+
+    // 폭포 물과 바닥이 닿는 부분에 생기는 원
+    CResourceManager::GetInst()->CreateParticle("WaterRing");
+
+    Particle = CResourceManager::GetInst()->FindParticle("WaterRing");
+
+    Particle->SetMaterial("WaterRing");
+
+    Particle->SetParticleSpawnTime(0.05f);
+    Particle->SetParticleStartMin(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleStartMax(Vector3(10.f, 0.f, 10.f));
+    Particle->SetParticleSpawnCountMax(3);
+    Particle->SetParticleScaleMin(Vector3(200.f, 200.f, 200.f));
+    Particle->SetParticleScaleMax(Vector3(300.f, 300.f, 300.f));
+    Particle->SetParticleLifeTimeMin(4.f);
+    Particle->SetParticleLifeTimeMax(6.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleSpeedMin(2.f);
+    Particle->SetParticleSpeedMax(3.f);
+    Particle->SetParticleMoveEnable(false);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleMoveDirEnable(false);
+    Particle->SetParticleMoveAngle(Vector3(0.f, 0.f, 0.f));
 }

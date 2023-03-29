@@ -1301,7 +1301,7 @@ void CPlayer::ChangeSandy()
 
 void CPlayer::DebugF1()
 {
-	SetWorldPosition(16500.f, 0.f, 12200.f);
+	//SetWorldPosition(16500.f, 0.f, 12200.f);
 }
 
 void CPlayer::CollisionTest(const CollisionResult& result)

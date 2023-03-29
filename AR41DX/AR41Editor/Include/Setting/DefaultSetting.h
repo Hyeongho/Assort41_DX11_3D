@@ -39,6 +39,7 @@ private:
     void LoadSquidward();
     void LoadPatric_Npc();
     void LoadBus();
+    void LoadInfoSign();
     void LoadStaticNpcs();
 
     // Object
