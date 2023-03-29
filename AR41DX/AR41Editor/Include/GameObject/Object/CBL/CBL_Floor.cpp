@@ -7,7 +7,7 @@ CCBL_Floor::CCBL_Floor()
 {
 	SetTypeID<CCBL_Floor>();
 
-	m_ObjectTypeName = "CBL_Platform";
+	m_ObjectTypeName = "CBL_Floor";
 }
 
 CCBL_Floor::CCBL_Floor(const CCBL_Floor& Obj) :

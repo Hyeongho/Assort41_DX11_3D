@@ -41,15 +41,15 @@ void CPatric::Start()
 {
     CNpc::Start();
 
-#ifdef _DEBUG
-    CInput::GetInst()->AddBindFunction<CPatric>("F1", Input_Type::Up, this, &CPatric::ChangeAnim_Confused, m_Scene);
-    CInput::GetInst()->AddBindFunction<CPatric>("F2", Input_Type::Up, this, &CPatric::ChangeAnim_Default, m_Scene);
-    CInput::GetInst()->AddBindFunction<CPatric>("F3", Input_Type::Up, this, &CPatric::ChangeAnim_Excited, m_Scene);
-    CInput::GetInst()->AddBindFunction<CPatric>("F4", Input_Type::Up, this, &CPatric::ChangeAnim_Scowl_Start, m_Scene);
-    CInput::GetInst()->AddBindFunction<CPatric>("F5", Input_Type::Up, this, &CPatric::ChangeAnim_Talk, m_Scene);
-    CInput::GetInst()->AddBindFunction<CPatric>("F6", Input_Type::Up, this, &CPatric::ChangeAnim_Thinking_Start, m_Scene);
-    CInput::GetInst()->AddBindFunction<CPatric>("F7", Input_Type::Up, this, &CPatric::CreateSock, m_Scene);
-#endif // DEBUG
+//#ifdef _DEBUG
+//    CInput::GetInst()->AddBindFunction<CPatric>("F1", Input_Type::Up, this, &CPatric::ChangeAnim_Confused, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CPatric>("F2", Input_Type::Up, this, &CPatric::ChangeAnim_Default, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CPatric>("F3", Input_Type::Up, this, &CPatric::ChangeAnim_Excited, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CPatric>("F4", Input_Type::Up, this, &CPatric::ChangeAnim_Scowl_Start, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CPatric>("F5", Input_Type::Up, this, &CPatric::ChangeAnim_Talk, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CPatric>("F6", Input_Type::Up, this, &CPatric::ChangeAnim_Thinking_Start, m_Scene);
+//    CInput::GetInst()->AddBindFunction<CPatric>("F7", Input_Type::Up, this, &CPatric::CreateSock, m_Scene);
+//#endif // DEBUG
 
     CInput::GetInst()->AddBindFunction<CPatric>("F", Input_Type::Up, this, &CPatric::StartDialog, m_Scene);
 

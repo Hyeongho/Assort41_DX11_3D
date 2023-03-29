@@ -106,7 +106,7 @@ struct Resolution
 	unsigned int	Height;
 };
 
-// À§Ä¡, »ö»ó Á¤º¸¸¦ °¡Áö°í ÀÖ´Â Á¤Á¡.
+// ìœ„ì¹˜, ìƒ‰ìƒ ì •ë³´ë¥¼ ê°€ì§€ê³  ìˆëŠ” ì •ì .
 struct VertexColor
 {
 	Vector3	Pos;
@@ -126,9 +126,9 @@ struct VertexColor
 struct VertexBuffer
 {
 	ID3D11Buffer* Buffer;
-	int		Size;	// Á¤Á¡ 1°³ÀÇ Å©±â
-	int		Count;	// Á¤Á¡ °³¼ö
-	void* Data;		// Á¤Á¡ Á¤º¸
+	int		Size;	// ì •ì  1ê°œì˜ í¬ê¸°
+	int		Count;	// ì •ì  ê°œìˆ˜
+	void* Data;		// ì •ì  ì •ë³´
 
 	VertexBuffer() :
 		Buffer(nullptr),
@@ -148,10 +148,10 @@ struct VertexBuffer
 struct IndexBuffer
 {
 	ID3D11Buffer* Buffer;
-	int		Size;		// ÀÎµ¦½º 1°³ÀÇ Å©±â
-	int		Count;		// ÀÎµ¦½º °³¼ö
-	DXGI_FORMAT	Fmt;	// ÀÎµ¦½º Æ÷¸ä
-	void* Data;			// ÀÎµ¦½º Á¤º¸
+	int		Size;		// ì¸ë±ìŠ¤ 1ê°œì˜ í¬ê¸°
+	int		Count;		// ì¸ë±ìŠ¤ ê°œìˆ˜
+	DXGI_FORMAT	Fmt;	// ì¸ë±ìŠ¤ í¬ë©§
+	void* Data;			// ì¸ë±ìŠ¤ ì •ë³´
 
 	IndexBuffer() :
 		Buffer(nullptr),
@@ -199,7 +199,7 @@ struct GlobalCBuffer
 	Vector2 Empty;
 };
 
-// À§Ä¡, »ö»ó Á¤º¸¸¦ °¡Áö°í ÀÖ´Â Á¤Á¡.
+// ìœ„ì¹˜, ìƒ‰ìƒ ì •ë³´ë¥¼ ê°€ì§€ê³  ìˆëŠ” ì •ì .
 struct VertexUV
 {
 	Vector3	Pos;
@@ -542,7 +542,7 @@ public:
 	}
 };
 
-//±è¹üÁß UI°ü·Ã ±¸Á¶Ã¼
+//ê¹€ë²”ì¤‘ UIê´€ë ¨ êµ¬ì¡°ì²´
 struct HierarchyWindowName
 {
 	class CUIWindow* window;
@@ -575,23 +575,23 @@ struct HierarchyWidgetName
 
 struct ParticleCBuffer
 {
-	unsigned int    ParticleSpawnEnable;  // ÆÄÆ¼Å¬ »ı¼º ¿©ºÎ
-	Vector3  ParticleStartMin;     // ÆÄÆ¼Å¬ÀÌ »ı¼ºµÉ ¿µ¿ªÀÇ Min
-	Vector3  ParticleStartMax;     // ÆÄÆ¼Å¬ÀÌ »ı¼ºµÉ ¿µ¿ªÀÇ Max
-	unsigned int    ParticleSpawnCountMax;// »ı¼ºµÉ ÆÄÆ¼Å¬ÀÇ ÃÖ´ë °³¼ö
-	Vector3  ParticleScaleMin;     // »ı¼ºµÉ ÆÄÆ¼Å¬ Å©±âÀÇ Min
-	float   ParticleLifeTimeMin;  // ÆÄÆ¼Å¬ »ı¸íÀÇ ÃÖ¼Ò ½Ã°£
-	Vector3  ParticleScaleMax;     // »ı¼ºµÉ ÆÄÆ¼Å¬ Å©±âÀÇ Max
-	float   ParticleLifeTimeMax;  // ÆÄÆ¼Å¬ »ı¸íÀÇ ÃÖ´ë ½Ã°£
-	Vector4  ParticleColorMin;     // »ı¼ºµÉ ÆÄÆ¼Å¬ÀÇ »ö»ó Min
-	Vector4  ParticleColorMax;     // »ı¼ºµÉ ÆÄÆ¼Å¬ÀÇ »ö»ó Max
-	float   ParticleSpeedMin;     // ÆÄÆ¼Å¬ ÀÌµ¿ ¼Óµµ Min
-	float   ParticleSpeedMax;     // ÆÄÆ¼Å¬ ÀÌµ¿ ¼Óµµ Max
-	unsigned int     ParticleMoveEnable;   // ÀÌµ¿ ÇÒÁö ¸»Áö.
-	unsigned int    ParticleGravity;      // Áß·Â Àû¿ë ÇÒÁö ¸»Áö.
-	Vector3  ParticleMoveDir;      // ÀÌµ¿À» ÇÒ °æ¿ì ±âÁØÀÌ µÉ ¹æÇâ.
+	unsigned int    ParticleSpawnEnable;  // íŒŒí‹°í´ ìƒì„± ì—¬ë¶€
+	Vector3  ParticleStartMin;     // íŒŒí‹°í´ì´ ìƒì„±ë  ì˜ì—­ì˜ Min
+	Vector3  ParticleStartMax;     // íŒŒí‹°í´ì´ ìƒì„±ë  ì˜ì—­ì˜ Max
+	unsigned int    ParticleSpawnCountMax;// ìƒì„±ë  íŒŒí‹°í´ì˜ ìµœëŒ€ ê°œìˆ˜
+	Vector3  ParticleScaleMin;     // ìƒì„±ë  íŒŒí‹°í´ í¬ê¸°ì˜ Min
+	float   ParticleLifeTimeMin;  // íŒŒí‹°í´ ìƒëª…ì˜ ìµœì†Œ ì‹œê°„
+	Vector3  ParticleScaleMax;     // ìƒì„±ë  íŒŒí‹°í´ í¬ê¸°ì˜ Max
+	float   ParticleLifeTimeMax;  // íŒŒí‹°í´ ìƒëª…ì˜ ìµœëŒ€ ì‹œê°„
+	Vector4  ParticleColorMin;     // ìƒì„±ë  íŒŒí‹°í´ì˜ ìƒ‰ìƒ Min
+	Vector4  ParticleColorMax;     // ìƒì„±ë  íŒŒí‹°í´ì˜ ìƒ‰ìƒ Max
+	float   ParticleSpeedMin;     // íŒŒí‹°í´ ì´ë™ ì†ë„ Min
+	float   ParticleSpeedMax;     // íŒŒí‹°í´ ì´ë™ ì†ë„ Max
+	unsigned int     ParticleMoveEnable;   // ì´ë™ í• ì§€ ë§ì§€.
+	unsigned int    ParticleGravity;      // ì¤‘ë ¥ ì ìš© í• ì§€ ë§ì§€.
+	Vector3  ParticleMoveDir;      // ì´ë™ì„ í•  ê²½ìš° ê¸°ì¤€ì´ ë  ë°©í–¥.
 	unsigned int   ParticleMoveDirEnable;
-	Vector3  ParticleMoveAngle;    // ±âÁØÀÌ µÉ ¹æÇâÀ¸·ÎºÎÅÍ È¸ÀüÇÒ ÃÖ´ë °¢µµ.
+	Vector3  ParticleMoveAngle;    // ê¸°ì¤€ì´ ë  ë°©í–¥ìœ¼ë¡œë¶€í„° íšŒì „í•  ìµœëŒ€ ê°ë„.
 	float   ParticleEmpty2;
 
 	ParticleCBuffer() :
@@ -669,4 +669,22 @@ struct TranslationCBuffer
 {
 	float	TextureTranslation;
 	Vector3	TextureTranslationEmpty;
+};
+
+struct DropCBuffer
+{
+	float	Drop;
+	Vector3	DropEmpty;
+
+//struct MSCBuffer
+//{
+//
+};
+
+struct CartoonCBuffer
+{
+	Matrix worldViewProj;
+	float OutlineThickness;
+	Vector4 OutlineColor;
+	Vector3 Empty;
 };

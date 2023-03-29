@@ -1425,7 +1425,7 @@ void CPauseUI::SoundOptionUISFXMinus()
 	// 수치 조절 후 해당 값을 Text에 SetText
 	CResourceManager::GetInst()->SetVolume("Effect", volume - 10);   //Talk
 
-	Text->SetFloatText(volume - 10);
+	Text->SetIntText((int)volume - 10);
 }
 
 void CPauseUI::SoundOptionUISFXPlus()
@@ -1434,14 +1434,14 @@ void CPauseUI::SoundOptionUISFXPlus()
 
 	float volume = (float)_wtof(Text->GetText());
 
-	if (volume == 0.f)
+	if (volume == 100.f)
 	{
 		return;
 	}
 	// 수치 조절 후 해당 값을 Text에 SetText
 	CResourceManager::GetInst()->SetVolume("Effect", volume + 10);   //Talk
 
-	Text->SetFloatText(volume + 10);
+	Text->SetIntText((int)volume + 10);
 }
 
 void CPauseUI::SoundOptionUIMusic()
@@ -1466,7 +1466,7 @@ void CPauseUI::SoundOptionUIMusicMinus()
 	// 수치 조절 후 해당 값을 Text에 SetText
 	CResourceManager::GetInst()->SetVolume("BGM", volume - 10);   //Talk
 
-	Text->SetFloatText(volume - 10);
+	Text->SetIntText((int)volume - 10);
 }
 
 void CPauseUI::SoundOptionUIMusicPlus()
@@ -1475,14 +1475,14 @@ void CPauseUI::SoundOptionUIMusicPlus()
 
 	float volume = (float)_wtof(Text->GetText());
 
-	if (volume == 0.f)
+	if (volume == 100.f)
 	{
 		return;
 	}
 	// 수치 조절 후 해당 값을 Text에 SetText
 	CResourceManager::GetInst()->SetVolume("BGM", volume + 10);   //Talk
 
-	Text->SetFloatText(volume + 10);
+	Text->SetIntText((int)volume + 10);
 }
 
 void CPauseUI::SoundOptionUITalk()
@@ -1507,7 +1507,7 @@ void CPauseUI::SoundOptionUITalkMinus()
 	// 수치 조절 후 해당 값을 Text에 SetText
 	CResourceManager::GetInst()->SetVolume("UI", volume-10);   //Talk
 
-	Text->SetFloatText(volume-10);
+	Text->SetIntText((int)volume - 10);
 }
 
 void CPauseUI::SoundOptionUITalkPlus()
@@ -1523,7 +1523,7 @@ void CPauseUI::SoundOptionUITalkPlus()
 	// 수치 조절 후 해당 값을 Text에 SetText
 	CResourceManager::GetInst()->SetVolume("UI", volume+10);   //Talk
 
-	Text->SetFloatText(volume+10);
+	Text->SetIntText((int)volume + 10);
 }
 
 void CPauseUI::SoundOptionUIReset()
@@ -1558,7 +1558,7 @@ void CPauseUI::CameraOptionUISensitiveMinus()
 	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
 	Camera->SetCameraSpeed(volume-10.f);
 
-	Text->SetFloatText(volume - 10.f);
+	Text->SetIntText((int)volume - 10);
 }
 
 void CPauseUI::CameraOptionUISensitivePlus()
@@ -1575,7 +1575,7 @@ void CPauseUI::CameraOptionUISensitivePlus()
 	CCameraComponent* Camera = CSceneManager::GetInst()->GetScene()->GetCameraManager()->GetCurrentCamera();
 	Camera->SetCameraSpeed(volume + 10.f);
 
-	Text->SetFloatText(volume + 10.f);
+	Text->SetIntText((int)volume + 10);
 }
 
 void CPauseUI::CameraOptionUIXReverse()

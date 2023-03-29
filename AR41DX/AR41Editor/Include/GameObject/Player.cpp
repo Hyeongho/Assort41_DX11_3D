@@ -22,11 +22,11 @@
 #include "Resource/Animation/SkeletonSocket.h"
 #include "Animation/Animation.h"
 #include "../UI/PauseUI.h"
-#include "../UI/InteractUI.h"
+#include "../UI/DialogUI.h"
 
 CPlayer::CPlayer()
 	: m_Speed(500.f)
-	, m_CameraSpeed(150.f)
+	, m_InflictAngle(0.f)
 	, m_SpaceTime(1.f)
 	, m_LassoDistance(0.f)
 	, m_KeyCount(0)
@@ -45,7 +45,7 @@ CPlayer::CPlayer()
 CPlayer::CPlayer(const CPlayer& Obj) 
 	: CGameObject(Obj)
 	, m_Speed(Obj.m_Speed)
-	, m_CameraSpeed(Obj.m_CameraSpeed)
+	, m_InflictAngle(0.f)
 	, m_SpaceTime(1.f)
 	, m_LassoDistance(0.f)
 	, m_KeyCount(0)
@@ -296,7 +296,8 @@ int CPlayer::InflictDamage(int damage)
 			break;
 		}
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerHit");
-		float angle = GetWorldRot().y;
+		float angle = m_InflictAngle==0.f?  GetWorldRot().y: m_InflictAngle;
+		m_InflictAngle = 0.f;
 		m_Rigid->SetGround(false);
 		m_Rigid->AddForce(sinf(DegreeToRadian(angle))*400.f, 250.f, cosf(DegreeToRadian(angle))*400.f);
 		m_Rigid->SetVelocity(sinf(DegreeToRadian(angle))*400.f, 250.f, cosf(DegreeToRadian(angle))*400.f);
@@ -623,9 +624,9 @@ void CPlayer::MoveFront()
 		{
 			return;
 		}
-		else if (differ <= 100||(differ >=200 && differ < 250))
+		else if (differ <= 100||(differ >=200 && differ < 280))
 		{
-			float distance = m_Cube->GetInfo().Length[0] * 0.8f;
+			float distance = m_Cube->GetInfo().Length[0] * 0.85f;
 			//float distance = GetWorldPos().Distance(m_WallCollision.HitPoint);
 			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
 		}
@@ -657,9 +658,9 @@ void CPlayer::MoveBack()
 		{
 			return;
 		}
-		else if (differ <= 100 || (differ >= 200 && differ < 250))
+		else if (differ <= 100 || (differ >= 200 && differ < 280))
 		{
-			float distance = m_Cube->GetInfo().Length[0] * 0.8f;
+			float distance = m_Cube->GetInfo().Length[0] * 0.85f;
 			//float distance = GetWorldPos().Distance(m_WallCollision.HitPoint);
 			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
 		}
@@ -691,9 +692,9 @@ void CPlayer::MoveLeft()
 		{
 			return;
 		}
-		else if (differ <= 100 || (differ >= 200 && differ < 250))
+		else if (differ <= 100 || (differ >= 200 && differ < 280))
 		{
-			float distance = m_Cube->GetInfo().Length[0] * 0.8f;
+			float distance = m_Cube->GetInfo().Length[0] * 0.85f;
 			//float distance = GetWorldPos().Distance(m_WallCollision.HitPoint);
 			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
 		}
@@ -725,9 +726,9 @@ void CPlayer::MoveRight()
 		{
 			return;
 		}
-		else if (differ <= 100 || (differ >= 200 && differ < 250))
+		else if (differ <= 100 || (differ >= 200 && differ < 280))
 		{
-			float distance = m_Cube->GetInfo().Length[0] * 0.8f;
+			float distance = m_Cube->GetInfo().Length[0] * 0.85f;
 			//float distance = GetWorldPos().Distance(m_WallCollision.HitPoint);
 			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
 		}
@@ -747,11 +748,12 @@ void CPlayer::MoveRight()
 
 void CPlayer::KeyUp()
 {
+	--m_KeyCount;
 	if (m_IsStop)
 	{
 		return;
 	}
-	if (--m_KeyCount == 0)
+	if (m_KeyCount == 0)
 	{
 		switch (m_MainCharacter)
 		{
@@ -771,7 +773,7 @@ void CPlayer::KeyUp()
 
 void CPlayer::JumpDown()
 {
-	if(m_IsDoubleJump)
+	if(m_IsDoubleJump|| m_IsStop)
 	{
 		return;
 	}
@@ -810,7 +812,7 @@ void CPlayer::JumpPush()
 	{
 		return;
 	}
-	if(m_SpaceTime>0.f)
+	if(m_SpaceTime>0.f&&!m_Rigid->GetGround())
 	{
 		m_SpaceTime -= g_DeltaTime;
 		if (m_SpaceTime <= 0.f)
@@ -912,6 +914,10 @@ void CPlayer::CameraRotationKey()
 
 void CPlayer::Headbutt()
 {
+	if (m_IsStop)
+	{
+		return;
+	}
 	if (!m_Rigid->GetGround()|| CEngine::GetInst()->GetTimeScale() == 0.f)
 	{
 		return;
@@ -972,7 +978,11 @@ void CPlayer::IngameUI()
 
 void CPlayer::LClick()
 {
-	if (m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI")->GetIsActive()||
+	if (m_IsStop)
+	{
+		return;
+	}
+	if (m_Scene->GetViewport()->FindUIWindow<CDialogUI>("DialogUI")->GetIsActive()||
 		CEngine::GetInst()->GetTimeScale() == 0.f)
 	{
 		return;
@@ -986,7 +996,7 @@ void CPlayer::LClick()
 		m_Scene->GetResource()->SoundPlay("Spongebob_BubbleSpin");
 		m_Weapon->GetRootComponent()->SetEnable(true);
 		m_Particle->SetRelativePosition(-50.f, 50.f, -80.f);
-		m_Particle->SetParticle("SpongebobAtk");
+		m_Particle->ChangeParticle("SpongebobAtk");
 		break;
 	case EMain_Character::Patrick:
 	{
@@ -995,7 +1005,7 @@ void CPlayer::LClick()
 			return;
 		}
 		m_Scene->GetResource()->SoundPlay("Patrick_Attack");
-		m_Particle->SetParticle("PatrickAtk");
+		//m_Particle->ChangeParticle("PatrickAtk");
 		float angle = GetWorldRot().y-180.f;
 		m_Rigid->SetGround(false);
 		m_Rigid->AddForce(sinf(DegreeToRadian(angle)) * 150.f, 200.f, cosf(DegreeToRadian(angle)) * 150.f);
@@ -1003,7 +1013,7 @@ void CPlayer::LClick()
 		break;
 	}
 	case EMain_Character::Sandy:
-		//m_Particle->SetParticle("SpongebobAtk");
+		//m_Particle->ChangeParticle("SpongebobAtk");
 		if (m_Rigid->GetGround())
 		{
 			m_Scene->GetResource()->SoundPlay("Sandy_Chop");
@@ -1021,7 +1031,12 @@ void CPlayer::LClick()
 
 void CPlayer::RClickDown()
 {
-	if (CEngine::GetInst()->GetTimeScale() == 0.f)
+	if (m_IsStop)
+	{
+		return;
+	}
+	if (m_Scene->GetViewport()->FindUIWindow<CDialogUI>("DialogUI")->GetIsActive() ||
+		CEngine::GetInst()->GetTimeScale() == 0.f)
 	{
 		return;
 	}
@@ -1085,7 +1100,12 @@ void CPlayer::RClickDown()
 
 void CPlayer::RClickPush()
 {
-	if (!m_Rigid->GetGround()|| CEngine::GetInst()->GetTimeScale() == 0.f)
+	if (m_IsStop)
+	{
+		return;
+	}
+	if (m_Scene->GetViewport()->FindUIWindow<CDialogUI>("DialogUI")->GetIsActive() ||
+		CEngine::GetInst()->GetTimeScale() == 0.f|| !m_Rigid->GetGround())
 	{
 		return;
 	}
@@ -1129,8 +1149,8 @@ void CPlayer::RClickUp()
 void CPlayer::StartBash()
 {
 	m_Rigid->SetGravity(true);
-	m_Rigid->AddForce(0, -500.f);
-	m_Rigid->SetVelocityY(-500.f);
+	m_Rigid->AddForce(0, -2000.f);
+	m_Rigid->SetVelocityY(-2000.f);
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBashDw");
 }
 
@@ -1150,7 +1170,7 @@ void CPlayer::BashCheck()
 			m_Scene->GetResource()->SoundPlay("Sandy_BubbleBash");
 			break;
 		}
-		m_Particle->SetParticle("BashBubble");
+		m_Particle->ChangeParticle("BashBubble");
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBash");
 		m_TailCube->SetEnable(true);
 		m_IsStop = true;
@@ -1163,6 +1183,10 @@ void CPlayer::BashCheck()
 
 void CPlayer::ResetIdle()
 {
+	if (!m_Rigid->GetGround())
+	{
+		return;
+	}
 	if (m_MainCharacter == EMain_Character::Spongebob)
 	{
 		m_Weapon->GetRootComponent()->SetEnable(false);
@@ -1285,8 +1309,9 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 	std::string name = result.Dest->GetCollisionProfile()->Name;
 	if (name == "Wall")
 	{
-		float height = GetWorldPos().y- result.HitPoint.y;
-		if(height>=-11.f)
+		float height = GetWorldPos().y>m_PrevPos.y? GetWorldPos().y : m_PrevPos.y;
+		height-=result.HitPoint.y;
+		if(height>=-10.f)
 		{
 			m_OnCollision = true;
 			m_Rigid->SetGround(true);

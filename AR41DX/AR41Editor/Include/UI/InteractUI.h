@@ -28,9 +28,6 @@ protected:
 protected:
 	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapInteractUI;
 
-private:
-	bool m_IsActive;
-
 public:
 	virtual void Start();
 	virtual bool Init();
@@ -46,16 +43,6 @@ private :
 	void CreateInteractUI();
 
 public :
-	//kbj
-	bool GetIsActive() const
-	{
-		return m_IsActive;
-	}
-	//void SetIsActive(bool b)
-	//{
-	//	m_IsActive = b;
-	//}
-
 	void ActiveInteractUI();
 	void InActiveInteractUI();
 
