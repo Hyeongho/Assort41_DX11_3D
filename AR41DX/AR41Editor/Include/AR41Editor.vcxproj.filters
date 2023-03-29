@@ -49,9 +49,6 @@
     <Filter Include="03. GameObject\03. BossMonster\02. RoboSponge">
       <UniqueIdentifier>{1f4089af-6983-46bc-85ca-02bf0bc8389f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\03. BossMonster\02. RoboSponge\BT">
-      <UniqueIdentifier>{ddddf6a5-6141-4fd7-8fbe-4a0f172253e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\05. Npc\01. AnimNpc">
       <UniqueIdentifier>{9394a4b8-f90d-4977-99db-6eebab00f007}</UniqueIdentifier>
     </Filter>
@@ -300,18 +297,6 @@
     <ClCompile Include="GameObject\Weapon.cpp">
       <Filter>03. GameObject\01. Player</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackHoriz.cpp">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackVirtic.cpp">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackWords.cpp">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSpongeBT.cpp">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Npc\BusDriver.cpp">
       <Filter>03. GameObject\05. Npc\01. AnimNpc</Filter>
     </ClCompile>
@@ -486,6 +471,12 @@
     <ClCompile Include="GameObject\Dupli_Can.cpp">
       <Filter>03. GameObject\02. Monster\01. Robot\03. Duplicatotron</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSponge_AttackWords.cpp">
+      <Filter>03. GameObject\03. BossMonster\02. RoboSponge</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSponge_Knob.cpp">
+      <Filter>03. GameObject\03. BossMonster\02. RoboSponge</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorManager.h">
@@ -637,18 +628,6 @@
     </ClInclude>
     <ClInclude Include="GameObject\Weapon.h">
       <Filter>03. GameObject\01. Player</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackHoriz.h">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackVirtic.h">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeAttackWords.h">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSpongeBT.h">
-      <Filter>03. GameObject\03. BossMonster\02. RoboSponge\BT</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Npc\BusDriver.h">
       <Filter>03. GameObject\05. Npc\01. AnimNpc</Filter>
@@ -835,6 +814,12 @@
     </ClInclude>
     <ClInclude Include="GameObject\Dupli_Can.h">
       <Filter>03. GameObject\02. Monster\01. Robot\03. Duplicatotron</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSponge_AttackWords.h">
+      <Filter>03. GameObject\03. BossMonster\02. RoboSponge</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSponge_Knob.h">
+      <Filter>03. GameObject\03. BossMonster\02. RoboSponge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
