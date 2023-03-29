@@ -164,6 +164,31 @@ void CDefaultSetting::SetInput()
 
 void CDefaultSetting::SetCollision()
 {
+    /*Default,
+        Mouse,
+        Player,
+        PlayerAttack,
+        Monster,
+        MonsterAttack,
+        Ground,
+        Pool,
+        DetectArea,
+        Wall,
+        Collectible,
+        Platform,
+        Pufferfish,
+        Custom8,
+        Custom9,
+        Custom10,
+        Custom11,
+        Custom12,
+        Custom13,
+        Custom14,
+        Custom15,
+        Custom16,
+        Max*/
+
+    CCollisionManager::GetInst()->CreateChannel("Mouse", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Player", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("PlayerAttack", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Monster", ECollision_Interaction::Collision);

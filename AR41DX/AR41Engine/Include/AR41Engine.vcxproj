@@ -179,6 +179,8 @@
     <ClInclude Include="Resource\Shader\TileMapConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\TileMapShader.h" />
     <ClInclude Include="Resource\Shader\TransformConstantBuffer.h" />
+    <ClInclude Include="Resource\Shader\TranslationConstantBuffer.h" />
+    <ClInclude Include="Resource\Shader\TranslationShader.h" />
     <ClInclude Include="Resource\Shader\UIConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\UIProgressBarConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\UIProgressBarShader.h" />
@@ -372,6 +374,8 @@
     <ClCompile Include="Resource\Shader\TileMapConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\TileMapShader.cpp" />
     <ClCompile Include="Resource\Shader\TransformConstantBuffer.cpp" />
+    <ClCompile Include="Resource\Shader\TranslationConstantBuffer.cpp" />
+    <ClCompile Include="Resource\Shader\TranslationShader.cpp" />
     <ClCompile Include="Resource\Shader\UIConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\UIProgressBarConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\UIProgressBarShader.cpp" />
