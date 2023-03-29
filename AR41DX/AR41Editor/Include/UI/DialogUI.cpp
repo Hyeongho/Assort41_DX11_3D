@@ -156,6 +156,15 @@ void CDialogUI::InActiveDialogUI()
 		iter.second->SetEnable(false);
 }
 
+bool CDialogUI::GetIsActive()
+{
+	for (auto iter : m_mapDialogUI)
+	{
+		return iter.second->GetEnable();
+	}
+	return false;
+}
+
 void CDialogUI::OpenDialog()
 {
 	KeyLeftButton();

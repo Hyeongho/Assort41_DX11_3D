@@ -1,4 +1,4 @@
-#include "ShinyFlower.h"
+﻿#include "ShinyFlower.h"
 
 #include "Component/ColliderOBB3D.h"
 #include "Component/StaticMeshComponent.h"
@@ -13,24 +13,20 @@ CShinyFlower::CShinyFlower() :
 
 	m_ObjectTypeName = "ShinyFlower";
 
-	m_FlowerColor = EFlowerColor::Yellow;
-	m_ColItemType = EColItemType::ShinyFlower;
+	m_FlowerColor = EFlowerColor::End;
+	m_ColItemType = EItemList::ShinyFlower;
 }
 
 CShinyFlower::CShinyFlower(const CShinyFlower& Obj) :
 	CCollectibleItems(Obj)
 {
-	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
-	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
-
+	m_FlowerColor = Obj.m_FlowerColor;
 	m_FixedFlower = Obj.m_FixedFlower;
 
 	if (!m_FixedFlower) {
 		m_ColliderPlCheckRange = (CColliderOBB3D*)FindComponent("OBB3D");
 		m_FoundPlayer = false;
 	}
-
-	m_ColItemType = Obj.m_ColItemType;
 }
 
 CShinyFlower::~CShinyFlower()
@@ -76,7 +72,7 @@ bool CShinyFlower::Init()
 	m_Collider->SetInheritRotZ(true);
 
 
-	// �÷��̾� Ž���� �浹ü
+	// 플레이어 탐지용 충돌체
 	Vector3 ColSize(150.f, 150.f, 150.f);
 
 	m_ColliderPlCheckRange->SetBoxHalfSize(ColSize);
@@ -89,6 +85,7 @@ bool CShinyFlower::Init()
 	m_ColliderPlCheckRange->SetInheritRotZ(true);
 
 
+	// 컬러 랜덤으로 결정
 	SetRandColor();
 
 
@@ -99,7 +96,7 @@ void CShinyFlower::Update(float DeltaTime)
 {
 	CCollectibleItems::Update(DeltaTime);
 
-	// �÷��̾ ã���� ��.
+	// 플레이어를 찾았을 때.
 	if (m_FoundPlayer && !m_FixedFlower) {
 		CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
 
@@ -112,7 +109,7 @@ void CShinyFlower::Update(float DeltaTime)
 		
 		Dir.Normalize();
 
-		// m_MoveSpeed�� Monster Ŭ�������� 100.f�� �Ǿ��ִ�. �ӵ� 1.5�� ������.
+		// m_MoveSpeed는 Monster 클래스에서 100.f로 되어있다. 속도 1.5배 빠르게.
 		m_Mesh->AddWorldPosition(Dir * 500.f * g_DeltaTime);
 	}
 }
@@ -146,17 +143,17 @@ void CShinyFlower::Collision_Player(const CollisionResult& result)
 	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
 
 	if (Player) {
-		// �÷��̾� �ö�� ���� ����
-		// Player->AddFlowerCount(FlowerCount);
+		// 플레이어 플라워 갯수 증가
+		Player->AddShinyFlower(FlowerCount);
 	}
 	
-	// ���� ó��
+	// 사운드 처리
 	CSound* Sound = m_Scene->GetResource()->FindSound("GetShiny");
 
 	if (Sound)
 		Sound->Play();
 
-	// ������Ʈ ����ó��
+	// 오브젝트 삭제처리
 	Destroy();
 }
 

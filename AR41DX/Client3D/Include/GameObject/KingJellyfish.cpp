@@ -219,13 +219,13 @@ void CKingJellyfish::PostUpdate(float DeltaTime)
 
         m_AttackTime += g_DeltaTime;
 
-        m_Jellyfish->SetBoss(true);
 
         if (m_AttackTime > 1.f && m_JellyfishCount < 1)
         {
             m_Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
             m_Jellyfish->SetCount(1);
             ++m_JellyfishCount;
+            m_Jellyfish->SetBoss(true);
         }
 
         if (m_AttackTime > 2.5f && m_JellyfishCount >= 1 && m_JellyfishCount < 2)

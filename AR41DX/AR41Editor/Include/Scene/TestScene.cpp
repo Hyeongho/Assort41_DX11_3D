@@ -10,7 +10,7 @@
 #include "Component/LightComponent.h"
 #include "Component/TerrainComponent.h"
 #include "../GameObject/Player.h"
-#include "../GameObject/Object/BusStop.h"
+//#include "../GameObject/Object/BusStop.h"
 #include "../GameObject/Npc/MrKrabs.h"
 #include "../GameObject/Npc/BusDriver.h"
 #include "../GameObject/Tikis/Tiki_Wood.h"

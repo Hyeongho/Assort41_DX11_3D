@@ -11,16 +11,12 @@ CSock::CSock()
 
 	m_ObjectTypeName = "Sock";
 
-	m_ColItemType = EColItemType::Sock;
+	m_ColItemType = EItemList::Sock;
 }
 
 CSock::CSock(const CSock& Obj) :
 	CCollectibleItems(Obj)
 {
-	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
-	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
-
-	m_ColItemType = Obj.m_ColItemType;
 }
 
 CSock::~CSock()
@@ -80,19 +76,3 @@ void CSock::Load(FILE* File)
 {
 	CCollectibleItems::Load(File);
 }
-
-void CSock::Collision_Player(const CollisionResult& result)
-{
-	CCollectibleItems::Collision_Player(result);
-
-	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
-
-	if (Player) {
-		// 플레이어 양말 추가
-		// Player->AddSock();
-	}
-
-	// 오브젝트 삭제처리
-	Destroy();
-}
-

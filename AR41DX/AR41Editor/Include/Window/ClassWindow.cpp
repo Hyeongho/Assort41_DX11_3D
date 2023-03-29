@@ -28,6 +28,9 @@
 #include "Component/ColliderOBB2d.h"
 #include "Component/ColliderSphere2d.h"
 #include "Component/ColliderPixel.h"
+#include "Component/ColliderCube.h"
+#include "Component/ColliderOBB3d.h"
+#include "Component/ColliderSphere3d.h"
 #include "Component/RigidBody.h"
 #include "Component/LightComponent.h"
 #include "Component/AnimationMeshComponent.h"
@@ -35,6 +38,10 @@
 #include "Component/BillboardComponent.h"
 #include "Component/TerrainComponent.h"
 #include "Component/ParticleComponent.h"
+#include "Component/DecalComponent.h"
+#include "Component/NavigationAgent.h"
+#include "Component/NavigationAgent3D.h"
+#include "Component/BehaviorTree.h"
 
 CClassWindow::CClassWindow()
 {
@@ -171,6 +178,7 @@ void CClassWindow::ComponentCreateCallback()
 	std::string	Name;
 
 	CSceneComponent* NewComponent = nullptr;
+	CObjectComponent* ObjectComponent = nullptr;
 
 	if (m_SelectComponentItem == "SpriteComponent")
 	{
@@ -240,7 +248,21 @@ void CClassWindow::ComponentCreateCallback()
 		Name = "ColliderPixel(ColliderPixel)";
 		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CColliderPixel>("ColliderPixel");
 	}
-
+	else if (m_SelectComponentItem == "ColliderCube")
+	{
+		Name = "ColliderCube(ColliderCube)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CColliderCube>("ColliderCube");
+	}
+	else if (m_SelectComponentItem == "ColliderOBB3D")
+	{
+		Name = "ColliderOBB3D(ColliderOBB3D)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CColliderOBB3D>("ColliderOBB3D");
+	}
+	else if (m_SelectComponentItem == "ColliderSphere3D")
+	{
+		Name = "ColliderSphere3D(ColliderSphere3D)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CColliderSphere3D>("ColliderSphere3D");
+	}
 	else if (m_SelectComponentItem == "RigidBody")
 	{
 		Name = "RigidBody(RigidBody)";
@@ -263,8 +285,28 @@ void CClassWindow::ComponentCreateCallback()
 		Name = "BillboardComponent(BillboardComponent)";
 		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CBillboardComponent>("BillboardComponent");
 	}
+	else if (m_SelectComponentItem == "DecalComponent")
+	{
+		Name = "DecalComponent(DecalComponent)";
+		NewComponent = (CSceneComponent*)SelectObject->CreateComponent<CDecalComponent>("DecalComponent");
+	}
+	else if (m_SelectComponentItem == "NavigationAgent")
+	{
+		Name = "NavigationAgent(NavigationAgent)";
+		ObjectComponent = (CNavigationAgent*)SelectObject->CreateComponent<CNavigationAgent>("NavigationAgent");
+	}
+	else if (m_SelectComponentItem == "NavigationAgent3D")
+	{
+		Name = "NavigationAgent3D(NavigationAgent3D)";
+		ObjectComponent = (CNavigationAgent3D*)SelectObject->CreateComponent<CNavigationAgent3D>("NavigationAgent3D");
+	}
 
-	if (SelectComponent)
+	if (ObjectComponent)
+	{
+		std::string	ObjName = SelectObject->GetName() + "(" + SelectObject->GetObjectTypeName() + ")";
+		ComponentWindow->AddItem((CComponent*)ObjectComponent, Name, ObjName);
+	}
+	else if (SelectComponent)
 	{
 		std::string	ParentName = SelectComponent->GetName() + "(" + SelectComponent->GetComponentTypeName() + ")";
 		
@@ -272,7 +314,6 @@ void CClassWindow::ComponentCreateCallback()
 
 		ComponentWindow->AddItem((CComponent*)NewComponent, Name, ParentName);
 	}
-
 	else
 	{
 		std::string	ObjName = SelectObject->GetName() + "(" + SelectObject->GetObjectTypeName() + ")";
@@ -308,7 +349,8 @@ void CClassWindow::LoadGameObjectName()
 	// Editor의 GameObject폴더에 있는 파일을 읽어온다.
 	strcat_s(Directory, "Include/GameObject/");
 
-	for (const auto& file : std::filesystem::directory_iterator(Directory))
+	for (const auto& file : std::filesystem::recursive_directory_iterator(Directory))
+	//for (const auto& file : std::filesystem::directory_iterator(Directory))
 	{
 		char	Name[64] = {};
 		char	FullPath[MAX_PATH] = {};
@@ -318,7 +360,7 @@ void CClassWindow::LoadGameObjectName()
 
 		_splitpath_s(FullPath, nullptr, 0, nullptr, 0, Name, 64, Ext, _MAX_EXT);
 
-		if (strcmp(Ext, ".cpp") == 0)
+		if (strcmp(Ext, ".cpp") == 0|| Ext[0] == '\0')
 			continue;
 
 		m_ObjectList->AddItem(Name);

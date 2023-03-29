@@ -17,13 +17,15 @@ private:
 	CSharedPtr<class CColliderOBB3D>	m_AttackArea;
 	CSharedPtr<class CColliderOBB3D>	m_BodyCube;
 	CSharedPtr<class CColliderOBB3D>	m_WeaponCube;
+	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
+	CSharedPtr<class CRigidBody>		m_Rigid;
 
-	CSharedPtr<class CFodderBT>			m_FodderBT;
+	//CSharedPtr<class CFodderBT>			m_FodderBT;
 
-	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh1;
-	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh2;
-	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh3;
-	CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh4;
+	//CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh1;
+	//CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh2;
+	//CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh3;
+	//CSharedPtr<class CStaticMeshComponent>	m_DebrisMesh4;
 
 private:
 	bool	m_DetectOn;
@@ -68,8 +70,6 @@ private:
 	void Dead();
 	void Debris(); // ¿‹«ÿ∑Œ ∫Ø∞Ê.
 
-	void Test();
-
 private:
 	void Collision_Detect_ChaseOn(const CollisionResult& result);
 	void Release_Detect_ChaseOff(const CollisionResult& result);
@@ -79,5 +79,11 @@ private:
 
 	void Collision_WeaponAttack(const CollisionResult& result);
 	void Release_WeaponAttackOff(const CollisionResult& result);
+
+
+private: 
+	void MoveFront();
+	void MoveBack();
+
 
 };

@@ -69,16 +69,18 @@ bool CParticleManager::Init()
 	particle = FindParticle("PatrickAtk");
 	particle->SetMaterial("ShockWave");
 	particle->SetParticleSpawnTime(0.01f);
-	particle->SetParticleStartMin(Vector3(100.f, 50.f, 100.f));
-	particle->SetParticleStartMax(Vector3(100.f, 50.f, 100.f));
+	particle->SetParticleStartMin(Vector3(0.f, 50.f, 0.f));
+	particle->SetParticleStartMax(Vector3(0.f, 50.f, 0.f));
 	particle->SetParticleSpawnCountMax(1);
-	particle->SetParticleScaleMin(Vector3(100.f, 20.f, 100.f));
-	particle->SetParticleScaleMax(Vector3(100.f, 20.f, 100.f));
+	particle->SetParticleScaleMin(Vector3(300.f, 300.f, 300.f));
+	particle->SetParticleScaleMax(Vector3(300.f, 300.f, 300.f));
 	particle->SetParticleLifeTimeMin(1.f);
 	particle->SetParticleLifeTimeMax(1.f);
-	particle->SetParticleMoveEnable(false);
+	particle->SetParticleSpeedMin(100.f);
+	particle->SetParticleSpeedMax(100.f);
+	particle->SetParticleMoveEnable(true);
 	particle->SetParticleGravityEnable(false);
-	particle->SetParticleMoveDirEnable(false);
+	particle->SetParticleMoveDirEnable(true);
 	return true;
 }
 

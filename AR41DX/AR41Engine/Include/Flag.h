@@ -112,7 +112,6 @@ enum class ECollision_Channel
 	Collectible,
 	Platform,
 	Pufferfish,
-	Custom7,
 	Custom8,
 	Custom9,
 	Custom10,
@@ -256,6 +255,14 @@ enum class ENpcList // Npc 전체 리스트
 	Patric,
 	BusDriver,
 	InfoSign,
+	End
+};
+
+enum class EItemList { // 아이템 전체 리스트
+	GoldenSpatula,
+	ShinyFlower,
+	Sock,
+	UnderWear,
 	End
 };
 

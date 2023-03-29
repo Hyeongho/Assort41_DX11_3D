@@ -32,7 +32,11 @@ private:
 	std::vector<CSharedPtr<CRenderTarget>>	m_vecLightBuffer;
 
 	CSharedPtr<CRenderTarget> m_ScreenBuffer;
-	CSharedPtr<CRenderTarget> m_FXAABuffer; // FXAA ��?��?
+
+	CSharedPtr<CRenderTarget> m_FXAABuffer; // FXAA ©ö?¨¡?
+
+	//CSharedPtr<CRenderTarget> m_FXAABuffer; // FXAA ¹öÆÛ
+
 	CSharedPtr<CRenderTarget> m_MSBuffer;
 	CSharedPtr<CRenderTarget> m_CartoonBuffer;
 
@@ -95,6 +99,8 @@ private:
 	void RenderFXAA(float DeltaTime); // FXAA
 	void RenderDeferred(float DeltaTime);
 	void RenderParticle(float DeltaTime);
+
+	void RenderTranslation(float DeltaTime);
 	void RenderMultiSampling(float DeltaTime);
 
 public:

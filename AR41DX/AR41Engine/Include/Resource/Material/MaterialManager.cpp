@@ -152,35 +152,35 @@ bool CMaterialManager::Init()
 	Material->EnableBump();
 	Material->EnableSpecular();
 
-	// °ÅÇ°
+	// ï¿½ï¿½Ç°
 	Material = CreateMaterial<CMaterial>("Bubble");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Bubble", TEXT("Particle/Bubbles50px.png"));
 	Material->SetShader("SpriteShader");
 
-	// tikis »ç¶óÁú ¶§ »ý±â´Â ¹ÝÂ¦ÀÌ
+	// tikis ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¦ï¿½ï¿½
 	Material = CreateMaterial<CMaterial>("Glow");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Glow", TEXT("Particle/T_Blue_Glow_00.tga"));
 	Material->SetShader("SpriteShader");
 
-	// ·Îº¿ ½ºÆùÁö¹ä ¹Ù´Ú ºÒ2
+	// ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù´ï¿½ ï¿½ï¿½2
 	Material = CreateMaterial<CMaterial>("Fire2");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Fire2", TEXT("Particle/flame2.png"));
 	Material->SetShader("SpriteShader");
 	Material->SetOpacity(0.7f);
 
-	// Æ÷´õ, ÇÜ¸Ó Æø¹ß
+	// ï¿½ï¿½ï¿½, ï¿½Ü¸ï¿½ ï¿½ï¿½ï¿½
 	Material = CreateMaterial<CMaterial>("Flare");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Flare", TEXT("Particle/light.png"));
 	Material->SetShader("SpriteShader");
 	Material->SetOpacity(0.8f);
 
-	// »þ¿ö ¹°ÁÙ±â
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù±ï¿½
 	Material = CreateMaterial<CMaterial>("Shower");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Shower", TEXT("Particle/waterdrop.png"));
 	Material->SetShader("SpriteShader");
 	Material->SetOpacity(0.7f);
 
-	// ÆøÆ÷ ¹°°ú ¹Ù´ÚÀÌ ´ê´Â ºÎºÐ¿¡ »ý±â´Â ¿ø
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ÎºÐ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	Material = CreateMaterial<CMaterial>("WaterRing");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterRing", TEXT("Particle/T_Waterdrop_01.tga"));
 	Material->SetShader("SpriteShader");
@@ -190,42 +190,47 @@ bool CMaterialManager::Init()
 	//Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.tga"));
 	//Material->SetShader("SpriteShader");
 
-	// °¡·Î·Î ¿òÁ÷ÀÌ´Â ÅØ½ºÃÄ
+	// ï¿½ï¿½ï¿½Î·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½Ø½ï¿½ï¿½ï¿½
+	Material = CreateMaterial<CMaterial>("ShockWave");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.png"));
+	Material->SetShader("SpriteShader");
+
+	// ÃˆÃ¥Â¸Â£Â´Ã‚ Ã…Ã˜Â½ÂºÃƒÃ„
 	Material = CreateMaterial<CMaterial>("Effect");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Water", TEXT("Particle/T_Seafoam_BC.tga"));	
 	Material->SetShader("TranslationShader");
 	Material->SetRenderState("AlphaBlend");
 	Material->SetOpacity(0.5f);
 
-	// ¼¼·Î·Î ¿òÁ÷ÀÌ´Â ÅØ½ºÃÄ
+	// ï¿½ï¿½ï¿½Î·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½Ø½ï¿½ï¿½ï¿½
 	Material = CreateMaterial<CMaterial>("WaterDrop");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterDrop", TEXT("Particle/T_Seafoam_BC.tga"));
 	Material->SetShader("DropShader");
 	Material->SetRenderState("AlphaBlend");
 	Material->SetOpacity(0.5f);
 
-	// ¹Ù´Ù
+	// ï¿½Ù´ï¿½
 	Material = CreateMaterial<CMaterial>("Sea");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Sea", TEXT("Particle/sea.png"));
 	Material->SetShader("DropShader");
 	Material->SetRenderState("AlphaBlend");
 	Material->SetOpacity(0.8f);
 
-	// ÆøÆ÷1 // ÅØ½ºÃÄ º¯°æ ÇÊ¿ä
+	// ï¿½ï¿½ï¿½ï¿½1 // ï¿½Ø½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
 	Material = CreateMaterial<CMaterial>("WaterFall");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterFall", TEXT("waterfall.png"));
 	Material->SetShader("DropShader");
 	Material->SetRenderState("AlphaBlend");
 	//Material->SetOpacity(0.7f);
 
-	// ÆøÆ÷2 // ÅØ½ºÃÄ º¯°æ ÇÊ¿ä
+	// ï¿½ï¿½ï¿½ï¿½2 // ï¿½Ø½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
 	Material = CreateMaterial<CMaterial>("WaterFall2");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterFall2", TEXT("Waterfall2.png"));
 	Material->SetShader("DropShader");
 	Material->SetRenderState("AlphaBlend");
 	Material->SetOpacity(0.7f);
 
-	// ·Îº¿ ½ºÆùÁö¹ä ¹ß ºÎ½ºÅÍ
+	// ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Î½ï¿½ï¿½ï¿½
 	Material = CreateMaterial<CMaterial>("RBSpongeBooster");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "RBSpongeBooster", TEXT("Particle/blueflame.png"));
 	Material->SetShader("DropShader");
@@ -233,7 +238,7 @@ bool CMaterialManager::Init()
 	Material->SetOpacity(0.7f);
 
 
-	// ´Ù¶÷ÀÌ Çï¸ä
+	// ï¿½Ù¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	Material = CreateMaterial<CMaterial>("Hm");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Hm", TEXT("Hm.jpg"));
 	Material->SetShader("SpriteShader");

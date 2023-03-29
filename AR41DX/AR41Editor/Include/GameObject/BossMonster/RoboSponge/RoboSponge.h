@@ -21,8 +21,7 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
-
-private :
+private : // Animation
 	void ChangeAnim_AttackHorizL();
 	void ChangeAnim_AttackHorizLPose();
 	void ChangeAnim_AttackHorizR();
@@ -40,5 +39,7 @@ private :
 	void ChangeAnim_VerticLHold();
 	void ChangeAnim_VerticRHold();
 	void ChangeAnim_Victory();
+
+
 };
 

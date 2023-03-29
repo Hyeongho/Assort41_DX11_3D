@@ -454,7 +454,7 @@ bool CMesh::ConvertFBX(CFBXLoader* Loader, const char* FullPath)
 
 			CMaterial* Material = new CMaterial;
 
-			//김범중 매터리얼 이름 저장
+			//kbj Material Name
 			Material->SetName(Mtrl->Name);
 			Material->SetBaseColor(Mtrl->BaseColor);
 			Material->SetAmbientColor(Mtrl->AmbientColor);
@@ -463,7 +463,7 @@ bool CMesh::ConvertFBX(CFBXLoader* Loader, const char* FullPath)
 			Material->SetSpecularPower(Mtrl->Shininess);
 
 			Material->SetShader("MeshShader");
-			//김범중 메터리얼슬롯 비어있으면 더미텍스처 생성
+			//Kbj DummyTexture
 			SetMaterial(ContainerIndex, (int)i, Material);
 			// Texture
 			char    FileName[MAX_PATH] = {};
@@ -731,6 +731,7 @@ bool CMesh::LoadMesh(FILE* File)
 					color.w = 0.f;
 					Material->SetEmissiveColor(color);
 				}
+
 				else
 				{
 					Material->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);

@@ -15,8 +15,10 @@
 CRigidBodyWindow::CRigidBodyWindow()
 	: m_Gravity(nullptr)
 	, m_Ground(nullptr)
+	, m_Check(nullptr)
 	, m_Mass(nullptr)
 	, m_FricCoeff(nullptr)
+	, m_GravityForce(nullptr)
 	, m_Force{}
 	, m_Accel{}
 	, m_AccelA{}
@@ -37,6 +39,7 @@ void CRigidBodyWindow::SetSelectComponent(CRigidBody* component)
 	m_Ground->SetCheck(m_SelectRigidBody->GetGround());
 	m_Mass->SetFloat(m_SelectRigidBody->GetMass());
 	m_FricCoeff->SetFloat(m_SelectRigidBody->GetFricCoeff());
+	m_GravityForce->SetFloat(m_SelectRigidBody->GetGravityForce());
 	m_Force[0]->SetFloat(m_SelectRigidBody->GetForce().x);
 	m_Force[1]->SetFloat(m_SelectRigidBody->GetForce().y);
 	m_Force[2]->SetFloat(m_SelectRigidBody->GetForce().z);
@@ -67,6 +70,9 @@ bool CRigidBodyWindow::Init()
 	CEditorButton* button = CreateWidget<CEditorButton>("변경", 50.f, 30.f);
 	button->SetColor(29, 47, 73, 255);
 	button->SetClickCallback<CRigidBodyWindow>(this, &CRigidBodyWindow::RigidBodyChangeCallback);
+
+	m_Check = CreateWidget<CEditorCheckBox>("활성화 버튼");
+	line = CreateWidget<CEditorSameLine>("line");
 	m_Gravity = CreateWidget<CEditorCheckBox>("중력");
 	line = CreateWidget<CEditorSameLine>("line");
 	m_Ground = CreateWidget<CEditorCheckBox>("지형");
@@ -169,8 +175,12 @@ bool CRigidBodyWindow::Init()
 
 	m_Mass = CreateWidget<CEditorInput>("질량", 80.f, 30.f);
 	m_Mass->SetInputType(EImGuiInputType::Float);
+	line = CreateWidget<CEditorSameLine>("line");
 	m_FricCoeff = CreateWidget<CEditorInput>("마찰계수", 80.f, 30.f);
 	m_FricCoeff->SetInputType(EImGuiInputType::Float);
+
+	m_GravityForce = CreateWidget<CEditorInput>("중력값", 80.f, 30.f);
+	m_GravityForce->SetInputType(EImGuiInputType::Float);
 	return true;
 }
 
@@ -179,6 +189,30 @@ void CRigidBodyWindow::Update(float deltaTime)
 	CEditorWindow::Update(deltaTime);
 	if (m_SelectRigidBody)
 	{
+		if (m_Check->GetCheck())
+		{
+			m_Gravity->SetCheck(m_SelectRigidBody->GetGravity());
+			m_Ground->SetCheck(m_SelectRigidBody->GetGround());
+			m_Mass->SetFloat(m_SelectRigidBody->GetMass());
+			m_FricCoeff->SetFloat(m_SelectRigidBody->GetFricCoeff());
+			m_GravityForce->SetFloat(m_SelectRigidBody->GetGravityForce());
+			Vector3 vec3 = m_SelectRigidBody->GetForce();
+			m_Force[0]->SetFloat(vec3.x);
+			m_Force[1]->SetFloat(vec3.y);
+			m_Force[2]->SetFloat(vec3.z);
+			vec3 = m_SelectRigidBody->GetAccel();
+			m_Accel[0]->SetFloat(vec3.x);
+			m_Accel[1]->SetFloat(vec3.y);
+			m_Accel[2]->SetFloat(vec3.z);
+			vec3 = m_SelectRigidBody->GetAccelAlpha();
+			m_AccelA[0]->SetFloat(vec3.x);
+			m_AccelA[1]->SetFloat(vec3.y);
+			m_AccelA[2]->SetFloat(vec3.z);
+			vec3 = m_SelectRigidBody->GetVelocity();
+			m_Velocity[0]->SetFloat(vec3.x);
+			m_Velocity[1]->SetFloat(vec3.y);
+			m_Velocity[2]->SetFloat(vec3.z);
+		}
 		if (!m_SelectRigidBody->GetActive())
 		{
 			m_SelectRigidBody = nullptr;
@@ -196,6 +230,7 @@ void CRigidBodyWindow::RigidBodyChangeCallback()
 	m_SelectRigidBody->SetGround(m_Ground->GetCheck());
 	m_SelectRigidBody->SetMass(m_Mass->GetFloat());
 	m_SelectRigidBody->SetFricCoeff(m_FricCoeff->GetFloat());
+	m_SelectRigidBody->SetGravityForce(m_GravityForce->GetFloat());
 	m_SelectRigidBody->SetForce(m_Force[0]->GetFloat(), m_Force[1]->GetFloat(), m_Force[2]->GetFloat());
 	m_SelectRigidBody->SetAccel(m_Accel[0]->GetFloat(), m_Accel[1]->GetFloat(), m_Accel[2]->GetFloat());
 	m_SelectRigidBody->SetAccelAlpha(m_AccelA[0]->GetFloat(), m_AccelA[1]->GetFloat(), m_AccelA[2]->GetFloat());

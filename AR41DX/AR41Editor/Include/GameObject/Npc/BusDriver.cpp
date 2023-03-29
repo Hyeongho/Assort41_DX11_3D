@@ -54,8 +54,8 @@ void CBusDriver::Start()
     CNpc::Start();
 
 #ifdef _DEBUG
-    CInput::GetInst()->AddBindFunction<CBusDriver>("F1", Input_Type::Up, this, &CBusDriver::DebugKeyF1, m_Scene);
-    CInput::GetInst()->AddBindFunction<CBusDriver>("F2", Input_Type::Up, this, &CBusDriver::DebugKeyF2, m_Scene);
+    //CInput::GetInst()->AddBindFunction<CBusDriver>("F1", Input_Type::Up, this, &CBusDriver::DebugKeyF1, m_Scene);
+    //CInput::GetInst()->AddBindFunction<CBusDriver>("F2", Input_Type::Up, this, &CBusDriver::DebugKeyF2, m_Scene);
     CInput::GetInst()->AddBindFunction<CBusDriver>("F3", Input_Type::Up, this, &CBusDriver::DebugKeyF3, m_Scene);
 #endif // DEBUG
 
@@ -104,7 +104,8 @@ void CBusDriver::Update(float DeltaTime)
         }
 
         // 현재는 X이동만 가능하게끔 작업.
-        AddWorldPositionX(-1500.f * g_DeltaTime);
+        //AddWorldPositionX(-1500.f * g_DeltaTime);
+        AddWorldPositionZ(3000.f * g_DeltaTime);
 
         Vector3 DestCenter = m_Scene->FindObject("BusStop")->GetCenter();
 
@@ -114,7 +115,8 @@ void CBusDriver::Update(float DeltaTime)
                 return;
 
             // 현재는 X이동만 가능하게끔 작업.
-            if (m_Center.x <= DestCenter.x)
+            //if (m_Center.x <= DestCenter.x)
+            if (m_Center.z >= DestCenter.z)
                 m_BusState = EBusState::Stop;
         }
 
@@ -236,20 +238,20 @@ void CBusDriver::BusMoveCutScene()
 
 void CBusDriver::ChangeScene()
 {
-    if (m_PurposeScene == EMapList::End)
-        return;
+    //if (m_PurposeScene == EMapList::End)
+    //    return;
 
-    return;
+    //return;
 
     // 맵 변경
     CSceneManager::GetInst()->CreateNextScene();
-    CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity.scn");
+    CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "JellyFish.scn");
 
-    // 설정된 목적지별로 다른 씬 로딩
-    if (m_PurposeScene == EMapList::Jelly_Fish_Field)
-        CSceneManager::GetInst()->CreateSceneInfo<CJellyfishFieldSceneInfo>(false);
-    else if (m_PurposeScene == EMapList::Bikini_Bottom)
-        CSceneManager::GetInst()->CreateSceneInfo<CBikiniCitySceneInfo>(false);
+    //// 설정된 목적지별로 다른 씬 로딩
+    //if (m_PurposeScene == EMapList::Jelly_Fish_Field)
+    //    CSceneManager::GetInst()->CreateSceneInfo<CJellyfishFieldSceneInfo>(false);
+    //else if (m_PurposeScene == EMapList::Bikini_Bottom)
+    //    CSceneManager::GetInst()->CreateSceneInfo<CBikiniCitySceneInfo>(false);
 }
 
 void CBusDriver::DebugKeyF1()
