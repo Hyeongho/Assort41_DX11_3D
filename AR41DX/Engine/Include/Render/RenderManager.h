@@ -32,7 +32,11 @@ private:
 	std::vector<CSharedPtr<CRenderTarget>>	m_vecLightBuffer;
 
 	CSharedPtr<CRenderTarget> m_ScreenBuffer;
-	CSharedPtr<CRenderTarget> m_FXAABuffer; // FXAA ����
+
+	CSharedPtr<CRenderTarget> m_FXAABuffer; // FXAA ©ö?¨¡?
+
+	//CSharedPtr<CRenderTarget> m_FXAABuffer; // FXAA ¹öÆÛ
+
 	CSharedPtr<CRenderTarget> m_MSBuffer;
 	CSharedPtr<CRenderTarget> m_CartoonBuffer;
 
@@ -44,6 +48,7 @@ private:
 
 
 	class CTranslationConstantBuffer* m_TranslationCBuffer;
+	class CDropConstantBuffer* m_DropCBuffer;
 
 
 	CSharedPtr<CRenderTarget> m_ShadowMapTarget;
@@ -94,6 +99,7 @@ private:
 	void RenderFXAA(float DeltaTime); // FXAA
 	void RenderDeferred(float DeltaTime);
 	void RenderParticle(float DeltaTime);
+
 	void RenderTranslation(float DeltaTime);
 	void RenderMultiSampling(float DeltaTime);
 
@@ -130,6 +136,7 @@ private:
 	static bool SortLayer(RenderLayer* Src, RenderLayer* Dest);
 	static bool SortAlphaObject(class CSceneComponent* Src, class CSceneComponent* Dest);
 	float	m_TextureTranslation;
+	float	m_DropTexture;
 
 public:
 	void CreateRenderTarget();
@@ -139,4 +146,3 @@ private:
 
 	DECLARE_SINGLE(CRenderManager)
 };
-
