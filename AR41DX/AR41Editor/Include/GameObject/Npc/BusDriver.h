@@ -35,9 +35,6 @@ public:
 	virtual void Load(FILE* File);
 
 public:
-	virtual void StartDialog();
-
-public:
 	void SetPurposeScene(const EMapList& Map)
 	{
 		m_PurposeScene = Map;

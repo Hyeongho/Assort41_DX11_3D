@@ -8,12 +8,17 @@
 #include "Scene/Scene.h"
 #include "RoboSponge.h"
 #include "../../Player.h"
+#include "../../Object/CBL/CBL_Platform.h"
 
 
 CRoboSponge_AttackWords::CRoboSponge_AttackWords()
 {
-	m_AttackWordType = EAttackWordType::End;
+	m_AttackWordType = EAttackWordType::KAE;
 	m_MoveToPlatform = false;
+
+	m_AttackDelayTimer = 0.f;
+	m_StartTimer = false;
+	m_Drop = false;
 }
 
 CRoboSponge_AttackWords::CRoboSponge_AttackWords(const CRoboSponge_AttackWords& Obj)
@@ -50,7 +55,7 @@ bool CRoboSponge_AttackWords::Init()
 	m_Collider->SetCollisionProfile("MonsterAttack");
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
-	m_Collider->SetCollisionCallback<CRoboSponge_AttackWords>(ECollision_Result::Collision, this, &CRoboSponge_AttackWords::Collision_Player);
+	m_Collider->SetCollisionCallback<CRoboSponge_AttackWords>(ECollision_Result::Collision, this, &CRoboSponge_AttackWords::Collision);
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
@@ -61,6 +66,44 @@ bool CRoboSponge_AttackWords::Init()
 void CRoboSponge_AttackWords::Update(float DeltaTime)
 {
     CGameObject::Update(DeltaTime);
+
+	if (m_MoveToPlatform) {
+		// Move
+		float Dist = GetWorldPos().Distance(m_DestPos);
+
+		if (Dist >= 10.f) {
+			Vector3 Dir = m_DestPos - GetWorldPos();
+
+			Dir.Normalize();
+
+			AddWorldPosition(Dir * 300.f * g_DeltaTime);
+		}
+		else {
+			SetWorldPosition(m_DestPos);
+			m_AttackDelayTimer = 0.f;
+			m_MoveToPlatform = false;
+			m_StartTimer = true;
+		}
+	}
+
+	if (m_StartTimer) {
+		m_AttackDelayTimer += g_DeltaTime;
+
+		if (m_AttackDelayTimer >= 2.f) {
+			m_AttackDelayTimer = 0.f;
+
+			m_Drop = true;
+			m_StartTimer = false;
+		}
+	}
+
+	if (m_Drop) {
+		AddWorldPositionY(-600 * g_DeltaTime);
+
+		if (GetWorldPos().y <= 0.f) {
+			Destroy();
+		}
+	}
 }
 
 void CRoboSponge_AttackWords::PostUpdate(float DeltaTime)
@@ -83,11 +126,12 @@ void CRoboSponge_AttackWords::Load(FILE* File)
     CGameObject::Load(File);
 }
 
-void CRoboSponge_AttackWords::Collision_Player(const CollisionResult& result)
+void CRoboSponge_AttackWords::Collision(const CollisionResult& result)
 {
+	// Platform Front Roll
 
 
-
+	// Player Damage
 
 }
 
@@ -100,8 +144,8 @@ void CRoboSponge_AttackWords::SetWordType(EAttackWordType WordType)
 	case EAttackWordType::KAE:
 		strWordType = "KAE";
 		break;
-	case EAttackWordType::RAE:
-		strWordType = "RAE";
+	case EAttackWordType::RAH:
+		strWordType = "RAH";
 		break;
 	case EAttackWordType::TAE:
 		strWordType = "TAE";
@@ -110,8 +154,7 @@ void CRoboSponge_AttackWords::SetWordType(EAttackWordType WordType)
 
 	m_Mesh->SetMesh(strWordType);
 
-}
-
-void CRoboSponge_AttackWords::SetDestPos(Vector3 DestPos)
-{
+	// 아래 내용은 아마 하지 않아도 될 것으로 보임.
+	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
+	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 }

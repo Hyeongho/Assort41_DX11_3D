@@ -4,9 +4,8 @@
 
 enum class EAttackWordType {
 	KAE,
-	RAE,
-	TAE,
-	End
+	RAH,
+	TAE
 };
 
 class CRoboSponge_AttackWords :
@@ -28,6 +27,10 @@ private:
 	bool				m_MoveToPlatform;	// 이동 시작 처리
 	Vector3				m_DestPos;			// 목표 이동 지점
 
+	bool				m_StartTimer;		// 목표 지점 도착 후, 낙하까지의 대기시간 카운팅 트리거
+	float				m_AttackDelayTimer; // 목표 지점 도착 후, 낙하까지의 대기시간 카운팅(2s)
+	bool				m_Drop;				// 대기시간 카운팅 후, 낙하 트리거
+
 public:
 	virtual void Start();
 	virtual bool Init();
@@ -38,11 +41,11 @@ public:
 	virtual void Load(FILE* File);
 
 private: // Collision
-	void Collision_Player(const CollisionResult& result);
+	void Collision(const CollisionResult& result);
 
 public:
 	void SetWordType(EAttackWordType WordType);		// 워드 타입 설정
-	void SetDestPos(Vector3 DestPos);				// 이동 목표 지점 설정.
+	void SetDestPos(const Vector3& DestPos) { m_DestPos = DestPos; };	// 이동 목표 지점 설정.
 
 };
 

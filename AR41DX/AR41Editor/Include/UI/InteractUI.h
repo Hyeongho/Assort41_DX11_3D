@@ -10,7 +10,7 @@ enum class EInteractTarget {
 	Door,			// 기타 문
 	Gate,			// 차단기
 	Teleport_Box,	// 순간이동 박스
-	Bus_Stop,		// 버스 정류소
+	Bus,		// 버스 정류소
 	End
 };
 

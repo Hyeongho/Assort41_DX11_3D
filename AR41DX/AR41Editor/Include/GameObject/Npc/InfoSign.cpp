@@ -88,6 +88,9 @@ void CInfoSign::Update(float DeltaTime)
 		m_RotRight = true;
 	}
 
+	if (ZRot < -22 && ZRot > -338)
+		SetWorldRotationZ(-359.f);
+
 	if (m_RotLeft)
 		AddWorldRotationZ(g_DeltaTime * 70.f);
 	if (m_RotRight)

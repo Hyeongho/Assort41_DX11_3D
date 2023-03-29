@@ -22,6 +22,9 @@ public:
 	virtual void Load(FILE* File);
 
 public:
+	void SetBandageMode();
+
+public:
 	virtual void StartDialog();
 
 private: // Animation
@@ -39,5 +42,9 @@ private: // Animation
 	void ChangeAnim_Talk();
 	void ChangeAnim_Talk_Idle();
 	void ChangeAnim_Idle();
+
+	void ChangeAnim_Intro1();
+	void ChangeAnim_Intro2();
+	void ChangeAnim_Outro1();
 };
 

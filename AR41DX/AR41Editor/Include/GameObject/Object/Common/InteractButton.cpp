@@ -33,6 +33,8 @@ CInteractButton::~CInteractButton()
 void CInteractButton::Start()
 {
     CGameObject::Start();
+
+    m_Collider->SetCollisionCallback<CInteractButton>(ECollision_Result::Collision, this, &CInteractButton::Collision_Attacked);
 }
 
 bool CInteractButton::Init()
@@ -52,8 +54,6 @@ bool CInteractButton::Init()
 
 
     m_Collider->SetCollisionProfile("Button");
-    m_Collider->SetCollisionCallback<CInteractButton>(ECollision_Result::Collision, this, &CInteractButton::Collision_Attacked);
-
     m_Collider->SetInheritRotX(true);
     m_Collider->SetInheritRotY(true);
     m_Collider->SetInheritRotZ(true);

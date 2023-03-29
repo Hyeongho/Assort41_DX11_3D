@@ -42,6 +42,9 @@ CNpc::~CNpc()
 void CNpc::Start()
 {
 	CGameObject::Start();
+
+    m_Collider->SetCollisionCallback<CNpc>(ECollision_Result::Collision, this, &CNpc::Collision_Player);
+    m_Collider->SetCollisionCallback<CNpc>(ECollision_Result::Release, this, &CNpc::Release_Player);
 }
 
 bool CNpc::Init()
@@ -67,8 +70,6 @@ bool CNpc::Init()
 
 
     m_Collider->SetCollisionProfile("Npc");
-    m_Collider->SetCollisionCallback<CNpc>(ECollision_Result::Collision, this, &CNpc::Collision_Player);
-    m_Collider->SetCollisionCallback<CNpc>(ECollision_Result::Release, this, &CNpc::Release_Player);
     m_Collider->SetInheritRotX(true);
     m_Collider->SetInheritRotY(true);
     m_Collider->SetInheritRotZ(true);
@@ -124,6 +125,11 @@ void CNpc::Collision_Player(const CollisionResult& result)
             return;
 
         InteractUI->SetTarget(EInteractTarget::Npc);
+
+        if (m_NpcType == ENpcList::BusDriver) {
+            InteractUI->SetTarget(EInteractTarget::Bus);
+        }
+
         InteractUI->ActiveInteractUI();
         m_EnableDialog = true;
     }

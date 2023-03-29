@@ -10,6 +10,7 @@
 #include "../../Scene/LoadingSceneInfo.h"
 #include "../../UI/DialogUI.h"
 #include "../Object/BB/BusStop.h"
+#include "../Player.h"
 
 CBusDriver::CBusDriver()
 {
@@ -59,7 +60,7 @@ void CBusDriver::Start()
     CInput::GetInst()->AddBindFunction<CBusDriver>("F3", Input_Type::Up, this, &CBusDriver::DebugKeyF3, m_Scene);
 #endif // DEBUG
 
-    CInput::GetInst()->AddBindFunction<CBusDriver>("F", Input_Type::Up, this, &CBusDriver::StartDialog, m_Scene);
+    CInput::GetInst()->AddBindFunction<CBusDriver>("F", Input_Type::Up, this, &CBusDriver::MoveFromBusStop, m_Scene);
 
     CreateAnim();
 }
@@ -101,7 +102,8 @@ void CBusDriver::Update(float DeltaTime)
         }
 
         // 현재는 X이동만 가능하게끔 작업.
-        AddWorldPositionX(-1500.f * g_DeltaTime);
+        //AddWorldPositionX(-1500.f * g_DeltaTime);
+        AddWorldPositionZ(3000.f * g_DeltaTime);
 
         Vector3 DestCenter = m_Scene->FindObject("BusStop")->GetCenter();
 
@@ -141,24 +143,6 @@ void CBusDriver::Save(FILE* File)
 void CBusDriver::Load(FILE* File)
 {
     CNpc::Load(File);
-}
-
-void CBusDriver::StartDialog()
-{
-    if (!m_EnableDialog)
-        return;
-
-    CDialogUI* DialogUI = m_Scene->GetViewport()->FindUIWindow<CDialogUI>("DialogUI");
-
-    if (!DialogUI)
-        return;
-
-    DialogUI->SetDialogInfo(m_NpcMapPos, m_NpcType);
-    DialogUI->SetCurDialog("First_Contact");
-
-    DialogUI->OpenDialog();
-
-    m_DialogCount++;
 }
 
 void CBusDriver::MoveToBusStop(const Vector3& BusStopPos, const Vector3& BusStartPos)
@@ -240,9 +224,12 @@ void CBusDriver::BusMoveCutScene()
     // 버스가 멀어지는걸 관찰시키고, 버스가 특정 거리만큼 이동되면 장면을 전환.
     
     // 버스 정류소(BusStop)의 타겟암으로 카메라를 이동.
+    CBusStop* BusStop = (CBusStop*)m_Scene->FindObject("BusStop");
+    BusStop->CutSceneStart();
     
     // 플레이어의 움직임을 제한.
-
+    CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+    // Player->SetStop();
 }
 
 void CBusDriver::ChangeScene()
