@@ -21,6 +21,7 @@ CTikiBase::CTikiBase()
 CTikiBase::CTikiBase(const CTikiBase& Obj)
 	: CMonster(Obj)
 {
+	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
 	m_ColliderBottom = (CColliderOBB3D*)FindComponent("OBB3D");
 	m_ColliderTop = (CColliderOBB3D*)FindComponent("OBB3D");

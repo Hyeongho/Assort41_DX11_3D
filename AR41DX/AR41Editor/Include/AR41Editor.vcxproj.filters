@@ -139,11 +139,17 @@
     <Filter Include="03. GameObject\02. Monster\03. Tikis">
       <UniqueIdentifier>{020a7ceb-72b1-42b1-ba59-454eacb9d264}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\02. Monster\01. Robot\01. Fodder">
+      <UniqueIdentifier>{160dc8ed-f437-4c2b-8d9b-f7ff27bf7904}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\01. Robot\02. Hammer">
+      <UniqueIdentifier>{0261c37f-55e9-4538-96bc-be3f82d605ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\01. Robot\03. Duplicatotron">
+      <UniqueIdentifier>{d8d5eefe-4487-450d-bc33-7b6de25595a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="EditorManager.cpp">
       <Filter>01. Manager</Filter>
     </ClCompile>
@@ -264,12 +270,6 @@
     <ClCompile Include="GameObject\AI\Sequence.cpp">
       <Filter>06. AI</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Duplicatotron.cpp">
-      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Fodder.cpp">
-      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Monster.cpp">
       <Filter>03. GameObject\02. Monster</Filter>
     </ClCompile>
@@ -281,9 +281,6 @@
     </ClCompile>
     <ClCompile Include="GameObject\Tikis\Tiki_Wood.cpp">
       <Filter>03. GameObject\02. Monster\03. Tikis</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Hammer.cpp">
-      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
     </ClCompile>
     <ClCompile Include="UI\RapidXml\CXmlParser.cpp">
       <Filter>05. UI\02. InGame\RapidXml</Filter>
@@ -456,16 +453,43 @@
     <ClCompile Include="GameObject\Jellyfish.cpp">
       <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Npc\InfoSign.cpp">
+      <Filter>03. GameObject\05. Npc\02. StaticNpc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\JellyfishElectric.cpp">
+      <Filter>03. GameObject\03. BossMonster\01. KingJellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Tikis\TikiBase.cpp">
+      <Filter>03. GameObject\02. Monster\03. Tikis</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\CBL\CBL_Floor.cpp">
+      <Filter>03. GameObject\04. Object\04. ChumBucketLab\02. CBL</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Duplicatotron.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\03. Duplicatotron</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Fodder.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\01. Fodder</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Hammer.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\02. Hammer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\FodderDebris.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\01. Fodder</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\HammerDebris.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\02. Hammer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Dupli_Can.cpp">
+      <Filter>03. GameObject\02. Monster\01. Robot\03. Duplicatotron</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="EditorManager.h">
       <Filter>01. Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Window\ObjectWindow.h">
       <Filter>07. Window</Filter>
@@ -584,12 +608,6 @@
     <ClInclude Include="GameObject\AI\Sequence.h">
       <Filter>06. AI</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Duplicatotron.h">
-      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Fodder.h">
-      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Monster.h">
       <Filter>03. GameObject\02. Monster</Filter>
     </ClInclude>
@@ -601,9 +619,6 @@
     </ClInclude>
     <ClInclude Include="GameObject\Tikis\Tiki_Wood.h">
       <Filter>03. GameObject\02. Monster\03. Tikis</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Hammer.h">
-      <Filter>03. GameObject\02. Monster\01. Robot</Filter>
     </ClInclude>
     <ClInclude Include="UI\RapidXml\CXmlParser.h">
       <Filter>05. UI\02. InGame\RapidXml</Filter>
@@ -755,9 +770,6 @@
     <ClInclude Include="GameObject\Object\Gate.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\JumpTree.h">
-      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Object\TeleportBox.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
@@ -788,6 +800,42 @@
     <ClInclude Include="GameObject\Jellyfish.h">
       <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\Npc\InfoSign.h">
+      <Filter>03. GameObject\05. Npc\02. StaticNpc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\JumpTree.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\JellyfishElectric.h">
+      <Filter>03. GameObject\03. BossMonster\01. KingJellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Tikis\TikiBase.h">
+      <Filter>03. GameObject\02. Monster\03. Tikis</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\CBL\CBL_Floor.h">
+      <Filter>03. GameObject\04. Object\04. ChumBucketLab\02. CBL</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Duplicatotron.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\03. Duplicatotron</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Fodder.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\01. Fodder</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Hammer.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\02. Hammer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\FodderDebris.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\01. Fodder</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\HammerDebris.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\02. Hammer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Dupli_Can.h">
+      <Filter>03. GameObject\02. Monster\01. Robot\03. Duplicatotron</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Bin\SponegeBob.ico">
@@ -803,5 +851,9 @@
     <ResourceCompile Include="AR41Editor.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\..\Assort41_DX11_3D\AR41DX\Client3D\Include\GameObject\Player.cpp_bak" />
+    <None Include="..\..\..\..\..\Assort41_DX11_3D\AR41DX\Client3D\Include\GameObject\Player.h_bak" />
   </ItemGroup>
 </Project>

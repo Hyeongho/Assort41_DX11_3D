@@ -21,6 +21,13 @@
 #include "../GameObject/Tikis/Tiki_Wood.h"
 #include "../GameObject/Object/IceCube.h"
 #include "../GameObject/Object/Common/InteractButton.h"
+#include "../GameObject/Dupli_Can.h"
+#include "../GameObject/FodderDebris.h"
+#include "../GameObject/HammerDebris.h"
+#include "../GameObject/Object/CheckPoint.h"
+#include "../GameObject/Object/Gate.h"
+#include "../GameObject/Object/JumpTree.h"
+#include "../GameObject/Object/TeleportBox.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 #include "../UI/TitleSceneUI.h"
@@ -62,18 +69,17 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateObjectCDO<CTiki_Stone>("Tiki_Stone");
     CScene::CreateObjectCDO<CTiki_Thunder>("Tiki_Thunder");
     CScene::CreateObjectCDO<CTiki_Wood>("Tiki_Wood");
-   // CScene::CreateObjectCDO<CInteractButton>("InteractButton");
+    CScene::CreateObjectCDO<CInteractButton>("InteractButton");
     CScene::CreateObjectCDO<CPool>("Pool");
     CScene::CreateObjectCDO<CKingJellyfish>("KingJellyfish");
     CScene::CreateObjectCDO<CElectricRing>("ElectricRing");
-
 
     CScene::CreateObjectCDO<CJellyfish>("Jellyfish");
     CScene::CreateObjectCDO<CJellyfishElectric>("JellyfishElectric");
 
     CScene::CreateObjectCDO<CFodder>("Fodder");
-    //CScene::CreateObjectCDO<CHammer>("Hammer");
-    //CScene::CreateObjectCDO<CDuplicatotron>("Duplicatotron");
+    CScene::CreateObjectCDO<CHammer>("Hammer");
+    CScene::CreateObjectCDO<CDuplicatotron>("Duplicatotron");
     CScene::CreateObjectCDO<CIceCube>("IceCube");
 
     CScene::CreateUIWindowCDO<CPlayerUI>("PlayerUI");
@@ -81,6 +87,15 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
     CScene::CreateUIWindowCDO<CInteractUI>("InteractUI");
     CScene::CreateUIWindowCDO<CDialogUI>("DialogUI");
+
+    CScene::CreateObjectCDO<CDupli_Can>("Dupli_Can");
+    CScene::CreateObjectCDO<CFodderDebris>("FodderDebris");
+    CScene::CreateObjectCDO<CHammerDebris>("HammerDebris");
+    CScene::CreateObjectCDO<CJumpTree>("JumpTree ");
+    CScene::CreateObjectCDO<CTeleportBox>("TeleportBox");
+    CScene::CreateObjectCDO<CCheckPoint>("CheckPoint");
+    CScene::CreateObjectCDO<CGate>("Gate");
+    CScene::CreateObjectCDO<CInfoSign>("InfoSign");
 }
 
 void CDefaultSetting::LoadResource()
@@ -896,9 +911,25 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
 
     CResourceManager::GetInst()->LoadAnimationSequence("Pufferfish_Contact", TEXT("Objects/JellyfishFields/Puffer.sqc"), MESH_PATH);
 
-
     // Grass
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Grass1", TEXT("Map/JFF/Grass1.msh"), MESH_PATH);
+
+    // TeleportBox
+    if (!CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "TeleportBox", TEXT("Objects/JellyfishFields/TeleportBoxMesh.msh"), MESH_PATH))
+    {
+        CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "TeleportBox", TEXT("Objects/JellyfishFields/TeleportBoxMesh.fbx"), MESH_PATH);
+    }
+
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "TeleportBoxSkeleton", TEXT("Objects/JellyfishFields/TeleportBoxMesh.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("TeleportBox", "TeleportBoxSkeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("TeleportBox_Opening", TEXT("Objects/JellyfishFields/TeleportBox_Opening.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("TeleportBox_OpeningLoop", TEXT("Objects/JellyfishFields/TeleportBox_OpeningLoop.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("TeleportBox_Closed", TEXT("Objects/JellyfishFields/TeleportBox_Closed.sqc"), MESH_PATH);
+    
+    // Gate
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GateArm", TEXT("Objects/JellyfishFields/GateArm.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GateBottom", TEXT("Objects/JellyfishFields/GateBottom.fbx"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadCBObjects()

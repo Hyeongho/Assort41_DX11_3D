@@ -12,9 +12,18 @@ protected:
 	CDupli_Can(const CDupli_Can& Obj);
 	virtual ~CDupli_Can();
 
-protected:
+private:
 	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
 	CSharedPtr<class CColliderOBB3D>	m_Cube;
+	CSharedPtr<class CRigidBody>		m_Rigid;
+
+private:
+	float m_FallTime;
+	int m_CountHammer;
+	bool m_DefyingGravity;
+	bool m_SpawnOn;
+
+	CHammer* m_Hammers[3];
 
 public:
 	virtual void Start();
@@ -25,6 +34,18 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
-	void Collision_Ground(const CollisionResult& result);
+private:
+	void SpawnHammer();
+
+public:
+	void SetCountHammer(int CountHammer)
+	{
+		m_CountHammer = CountHammer;
+	}
+
+	int GetCountHammer()
+	{
+		return m_CountHammer;
+	}
 };
 
