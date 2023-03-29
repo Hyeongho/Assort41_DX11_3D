@@ -88,7 +88,7 @@ SamplerState g_PointSmp : register(s0);
 SamplerState g_LinearSmp : register(s1);
 SamplerState g_AnisotropicSmp : register(s2);
 SamplerState g_ClampSmp : register(s3); // FXAA Àü¿ë
-SamplerState g_PointClampSmp : register(s4); // Ä«Å÷·»´õ¸µ¿ë
+//SamplerState g_PointClampSmp : register(s4); // Ä«Å÷·»´õ¸µ¿ë
 
 Texture2D g_BaseTexture : register(t0);
 Texture2D g_NormalTexture : register(t1);
@@ -98,8 +98,9 @@ Texture2D g_RoughnessTexture : register(t4);
 Texture2D g_AOTexture : register(t5);
 Texture2D g_GlobalNoiseTexture : register(t6);
 Texture2D g_LUTTexture : register(t7);
-Texture2D g_InputMSTex : register(t8); // ¸ÖÆ¼»ùÇÃ¸µ
-//Texture2D<float4> DiffuseTexture : register(t9); // Ä«Å÷·»´õ¸µ¿ë
+Texture2DMS<float4> g_InputMSTex : register(t8); // ¸ÖÆ¼»ùÇÃ¸µ Off
+Texture2D<float4> DiffuseTexture : register(t9); // Ä«Å÷·»´õ¸µ¿ë
+Texture2DMS<float4> g_ScreenTex : register(t21);
 
 cbuffer Animation2D : register(b2)
 {

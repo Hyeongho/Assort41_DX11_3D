@@ -39,7 +39,7 @@ struct ParticleInfoShare
 StructuredBuffer<ParticleInfo> g_ParticleArray : register(t30);
 StructuredBuffer<ParticleInfoShare> g_ParticleShare : register(t31);
 
-Texture2DMS<float4> g_GBufferDepth : register(t14);
+Texture2D<float4> g_GBufferDepth : register(t14);
 
 VS_OUTPUT_PARTICLE ParticleVS(VS_INPUT_PARTICLE input)
 {
@@ -97,7 +97,9 @@ void ParticleGS(point VS_OUTPUT_PARTICLE input[1], inout TriangleStream<GS_OUTPU
 
     for (int i = 0; i < 4; i++)
     {
-        float3 ViewPos = mul(float4(g_ParticleArray[InstanceID].WorldPos, 1.f), g_matView);
+        //float3 ViewPos = mul(float4(g_ParticleArray[InstanceID].WorldPos, 1.f), g_matView);
+        float4 ClipPos = mul(float4(g_ParticleArray[InstanceID].WorldPos, 1.f), g_matView);
+        float3 ViewPos = ClipPos.xyz / ClipPos.w;
 
         // 뷰 공간에서의 카메라의 축은 월드축과 동일하다.
         ViewPos = ViewPos + g_ParticleLocalPos[i] * Scale * 0.5f;
@@ -138,7 +140,7 @@ float4 ParticlePS(GS_OUTPUT_PARTICLE input) : SV_TARGET
     LoadPos.x = (int)(UV.x * g_Resolution.x);
     LoadPos.y = (int)(UV.y * g_Resolution.y);
 
-    float4 GBufferDepth = g_GBufferDepth.Load(LoadPos, 0);
+    float4 GBufferDepth = g_GBufferDepth.Sample(g_LinearSmp, LoadPos / g_Resolution);
 
     float Alpha = 1.f;
 

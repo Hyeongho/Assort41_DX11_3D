@@ -179,6 +179,8 @@
     <ClInclude Include="Resource\Shader\TileMapConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\TileMapShader.h" />
     <ClInclude Include="Resource\Shader\TransformConstantBuffer.h" />
+    <ClInclude Include="Resource\Shader\TranslationConstantBuffer.h" />
+    <ClInclude Include="Resource\Shader\TranslationShader.h" />
     <ClInclude Include="Resource\Shader\UIConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\UIProgressBarConstantBuffer.h" />
     <ClInclude Include="Resource\Shader\UIProgressBarShader.h" />
@@ -372,6 +374,8 @@
     <ClCompile Include="Resource\Shader\TileMapConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\TileMapShader.cpp" />
     <ClCompile Include="Resource\Shader\TransformConstantBuffer.cpp" />
+    <ClCompile Include="Resource\Shader\TranslationConstantBuffer.cpp" />
+    <ClCompile Include="Resource\Shader\TranslationShader.cpp" />
     <ClCompile Include="Resource\Shader\UIConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\UIProgressBarConstantBuffer.cpp" />
     <ClCompile Include="Resource\Shader\UIProgressBarShader.cpp" />
@@ -580,10 +584,10 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NullVS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\Bin\Shader\ParticleRender.fx">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ParticleVS</EntryPointName>

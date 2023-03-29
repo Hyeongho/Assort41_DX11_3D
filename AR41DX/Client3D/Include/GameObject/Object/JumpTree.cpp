@@ -36,7 +36,6 @@ void CJumpTree::Start()
 
     m_TopCube->SetCollisionCallback<CJumpTree>(ECollision_Result::Collision, this, &CJumpTree::Collision_Bounce);
     m_TopCube->SetCollisionCallback<CJumpTree>(ECollision_Result::Release, this, &CJumpTree::Release_Bounce);
-
 }
 
 bool CJumpTree::Init()

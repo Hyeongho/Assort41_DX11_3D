@@ -78,6 +78,11 @@ CEngine::~CEngine()
 	CDevice::DestroyInst();
 }
 
+void CEngine::FXAAOn()
+{
+	CRenderManager::GetInst()->SetFXAAOn(false);
+}
+
 float CEngine::GetFPS() const
 {
 	return m_Timer->GetFPS();
@@ -195,6 +200,11 @@ bool CEngine::Init(HINSTANCE hInst, const TCHAR* Title,
 	m_RandomBuffer->SetShader(51, (int)EShaderBufferType::All);
 
 	CRenderManager::GetInst()->SetShaderType(EShaderType::CelShader);
+
+
+	//fxaa
+	CInput::GetInst()->AddBindFunction<CEngine>("8", Input_Type::Down, this, &CEngine::FXAAOn, m_Scene);
+
 
 	return true;
 }

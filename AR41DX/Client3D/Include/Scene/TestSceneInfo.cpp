@@ -44,6 +44,18 @@ bool CTestSceneInfo::Init()
 	GlobalLightComponent->SetRelativeRotation(0, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
+	/*CGameObject* GlobalLightObj1 = m_Owner->CreateObject<CGameObject>("GlobalLight1");
+	CLightComponent* GlobalLightComponent1 = GlobalLightObj1->CreateComponent<CLightComponent>("GlobalLight1");
+	GlobalLightComponent1->SetLightType(ELightType::Direction);
+	GlobalLightComponent1->SetRelativeRotation(0, 90.f, 0.f);
+	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj1);
+
+	CGameObject* GlobalLightObj2 = m_Owner->CreateObject<CGameObject>("GlobalLight2");
+	CLightComponent* GlobalLightComponent2 = GlobalLightObj2->CreateComponent<CLightComponent>("GlobalLight2");
+	GlobalLightComponent2->SetLightType(ELightType::Direction);
+	GlobalLightComponent2->SetRelativeRotation(0, 90.f, 0.f);
+	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj2);*/
+
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
@@ -53,14 +65,11 @@ bool CTestSceneInfo::Init()
 
 	//*CPufferfish* Cannon = m_Owner->CreateObject<CPufferfish>("Cannon");
 	//Cannon->SetWorldPosition(16500.f, 0.f, 12200.f);*/
-
-	//// 보원테스트 구간
-	//CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
-	//JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
-	//
-	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
-	TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);*/
-
+	CGameObject* ParticleObj = m_Owner->CreateObject<CGameObject>("Particle");
+	CParticleComponent* Particle = ParticleObj->CreateComponent<CParticleComponent>("ParticleComponent");
+	Particle->SetParticle("GroundBubble");
+	Particle->SetWorldPosition(16500.f, 300.f, 12200.f);
+	Particle->SetWorldRotationX(30.f);
 	// 보원테스트 구간
 	CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
 	JumpTree->SetWorldPosition(17000.f, 0.f, 12500.f);
@@ -78,8 +87,8 @@ bool CTestSceneInfo::Init()
 	//CGate* Gate = m_Owner->CreateObject<CGate>("Gate");
 	//Gate->SetWorldPosition(16800.f, 0.f, 13000.f);
 
-	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
-	Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
+	//CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
+	//Fodder->SetWorldPosition(17000.f, 0.f, 14000.f);
 
 
 	/*CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
@@ -98,11 +107,11 @@ bool CTestSceneInfo::Init()
 	//CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
 	//Patric->SetWorldPosition(16500.f, 0.f, 12200.f);
 
-	CPool* Pool = m_Owner->CreateObject<CPool>("Pool");
-	Pool->SetWorldPosition(16000, 0.f, 12200.f);
+	//CPool* Pool = m_Owner->CreateObject<CPool>("Pool");
+	//Pool->SetWorldPosition(16000, 0.f, 12200.f);
 
-	CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
-	KingJellyfish->SetWorldPosition(16500.f, 0.f, 13000.f);
+	//CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
+	//KingJellyfish->SetWorldPosition(16500.f, 0.f, 13000.f);
 
 
 	//CGameObject* GateArm = m_Owner->CreateObject<CGameObject>("GateArm");

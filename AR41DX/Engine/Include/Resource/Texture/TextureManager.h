@@ -30,7 +30,10 @@ public:
 
 	bool CreateTarget(const std::string& Name, unsigned int Width,
 		unsigned int Height, DXGI_FORMAT PixelFormat,
-		DXGI_FORMAT DepthFormat = DXGI_FORMAT_UNKNOWN);
+		DXGI_FORMAT DepthFormat = DXGI_FORMAT_UNKNOWN); 
+	bool CreateTargetNoMS(const std::string& Name, unsigned int Width,
+			unsigned int Height, DXGI_FORMAT PixelFormat,
+			DXGI_FORMAT DepthFormat = DXGI_FORMAT_UNKNOWN);
 	void Render();
 
 	class CTexture* FindTexture(const std::string& Name);

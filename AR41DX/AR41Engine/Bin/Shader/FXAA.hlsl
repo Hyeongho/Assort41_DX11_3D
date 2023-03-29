@@ -1,5 +1,5 @@
 
-SamplerState clamp : register(s3); // 임의로 추가., 0325
+//SamplerState clamp : register(s3); // 임의로 추가., 0325
 
 #ifndef __FXAA_HLSL__
 #define __FXAA_HLSL__
@@ -18,12 +18,12 @@ SamplerState clamp : register(s3); // 임의로 추가., 0325
 //Texture2D<float4> g_DeferredTex : register(t22);
 Texture2D<float4> g_DeferredTex : register(t10); // 현재화면
 
-cbuffer FXAACBuffer : register(b14) 
+cbuffer FXAACBuffer : register(b2) 
 {
 	float4 rcpFrame;
 };
 
-SamplerState FXAASampler : register(s4) 
+SamplerState FXAASampler : register(s3) // 원래 s5였다.
 {
 	Filter = MIN_MAG_LINEAR_MIP_POINT;
 	AddressU = Clamp;
@@ -83,7 +83,7 @@ float4 FXAAPS(in VS_OUTPUT_NULL input) : SV_Target{
 	float4 output = (float4)1.f;
 
 	//FxaaTex InputFXAATex = { g_BlurSmp, g_DeferredTex }; 0325 아래줄로 변경
-	FxaaTex InputFXAATex = { clamp, g_DeferredTex };
+	FxaaTex InputFXAATex = { FXAASampler, g_DeferredTex };
 	// float2 fxaaQualityRcpFrame = 1.f / g_GlobalResolution; 0325 아래줄로 변경
 	float2 fxaaQualityRcpFrame = 1.f / g_Resolution;
 

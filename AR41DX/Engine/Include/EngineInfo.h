@@ -671,10 +671,10 @@ struct TranslationCBuffer
 	Vector3	TextureTranslationEmpty;
 };
 
-//struct MSCBuffer
-//{
-//
-//};
+struct MSCBuffer
+{
+
+};
 
 struct CartoonCBuffer
 {

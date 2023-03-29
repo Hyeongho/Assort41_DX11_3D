@@ -354,9 +354,6 @@
     <ClCompile Include="UI\TitleSceneUI.cpp">
       <Filter>05. UI\01. Menu</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object\BusStop.cpp">
-      <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\EditorDefaultScene.cpp">
       <Filter>02. Scene\05. Test</Filter>
     </ClCompile>
@@ -455,6 +452,15 @@
     </ClCompile>
     <ClCompile Include="GameObject\Jellyfish.cpp">
       <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\JellyfishElectric.cpp">
+      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Tikis\TikiBase.cpp">
+      <Filter>03. GameObject\02. Monster\03. Tikis</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\BB\BusStop.cpp">
+      <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -686,9 +692,6 @@
     <ClInclude Include="UI\TitleSceneUI.h">
       <Filter>05. UI\01. Menu</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\BusStop.h">
-      <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\EditorDefaultScene.h">
       <Filter>02. Scene\05. Test</Filter>
     </ClInclude>
@@ -787,6 +790,15 @@
     </ClInclude>
     <ClInclude Include="GameObject\Jellyfish.h">
       <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\JellyfishElectric.h">
+      <Filter>03. GameObject\02. Monster\02. Jellyfish</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Tikis\TikiBase.h">
+      <Filter>03. GameObject\02. Monster\03. Tikis</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\BB\BusStop.h">
+      <Filter>03. GameObject\04. Object\02. BikiniBottom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

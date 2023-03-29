@@ -1,4 +1,3 @@
-
 #include "Share.fx"
 
 cbuffer ParticleCBuffer : register(b8)
@@ -227,7 +226,7 @@ void ParticleUpdateCS(int3 ThreadID : SV_DispatchThreadID)
             g_ParticleArray[ThreadID.x].WorldPos.z += MovePos.z;
 
             g_ParticleArray[ThreadID.x].WorldPos.y =
-                g_ParticleArray[ThreadID.x].FallStartY + 
+                g_ParticleArray[ThreadID.x].FallStartY +
                 Velocity - 0.5f * GRAVITY * g_ParticleArray[ThreadID.x].FallTime * g_ParticleArray[ThreadID.x].FallTime;
         }
 

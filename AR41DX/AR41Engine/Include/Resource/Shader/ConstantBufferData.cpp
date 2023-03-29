@@ -8,6 +8,8 @@ CConstantBufferData::CConstantBufferData()
 
 CConstantBufferData::CConstantBufferData(const CConstantBufferData& Buffer)
 {
+	SetConstantBuffer("MS");
+
 	m_Buffer = Buffer.m_Buffer;
 }
 

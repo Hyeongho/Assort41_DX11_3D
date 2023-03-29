@@ -82,8 +82,6 @@ bool CLightManager::Init()
 	m_LightAccShader = CResourceManager::GetInst()->FindShader("LightAccShader");
 
 
-
-
 	//CGameObject* LightObj = m_Owner->CreateObject<CGameObject>("Light1");
 
 	//CLightComponent* LightCom = LightObj->CreateComponent<CLightComponent>("Light");

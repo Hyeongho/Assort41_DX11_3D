@@ -203,6 +203,7 @@
     <ClCompile Include="GameObject\Fodder.cpp" />
     <ClCompile Include="GameObject\Hammer.cpp" />
     <ClCompile Include="GameObject\Jellyfish.cpp" />
+    <ClCompile Include="GameObject\JellyfishElectric.cpp" />
     <ClCompile Include="GameObject\KingJellyfish.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
     <ClCompile Include="GameObject\Npc\BusDriver.cpp" />
@@ -211,7 +212,7 @@
     <ClCompile Include="GameObject\Npc\Patric.cpp" />
     <ClCompile Include="GameObject\Npc\Squidward.cpp" />
     <ClCompile Include="GameObject\Npc\TaxiDriver.cpp" />
-    <ClCompile Include="GameObject\Object\BusStop.cpp" />
+    <ClCompile Include="GameObject\Object\BB\BusStop.cpp" />
     <ClCompile Include="GameObject\Object\CBL\CBL_Platform.cpp" />
     <ClCompile Include="GameObject\Object\CheckPoint.cpp" />
     <ClCompile Include="GameObject\Object\Common\Collectible\CollectibleItems.cpp" />
@@ -232,6 +233,7 @@
     <ClCompile Include="GameObject\Pufferfish.cpp" />
     <ClCompile Include="GameObject\TeeterRock.cpp" />
     <ClCompile Include="GameObject\SpongebobMissile.cpp" />
+    <ClCompile Include="GameObject\Tikis\TikiBase.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Stone.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Thunder.cpp" />
     <ClCompile Include="GameObject\Tikis\Tiki_Wood.cpp" />
@@ -309,15 +311,16 @@
     <ClInclude Include="GameObject\Fodder.h" />
     <ClInclude Include="GameObject\Hammer.h" />
     <ClInclude Include="GameObject\Jellyfish.h" />
+    <ClInclude Include="GameObject\JellyfishElectric.h" />
     <ClInclude Include="GameObject\KingJellyfish.h" />
     <ClInclude Include="GameObject\Monster.h" />
     <ClInclude Include="GameObject\Npc\BusDriver.h" />
     <ClInclude Include="GameObject\Npc\Npc.h" />
-    <ClInclude Include="GameObject\Object\BusStop.h" />
     <ClInclude Include="GameObject\Npc\MrKrabs.h" />
     <ClInclude Include="GameObject\Npc\Patric.h" />
     <ClInclude Include="GameObject\Npc\Squidward.h" />
     <ClInclude Include="GameObject\Npc\TaxiDriver.h" />
+    <ClInclude Include="GameObject\Object\BB\BusStop.h" />
     <ClInclude Include="GameObject\Object\CBL\CBL_Platform.h" />
     <ClInclude Include="GameObject\Object\CheckPoint.h" />
     <ClInclude Include="GameObject\Object\Common\Collectible\CollectibleItems.h" />
@@ -338,6 +341,7 @@
     <ClInclude Include="GameObject\Pufferfish.h" />
     <ClInclude Include="GameObject\TeeterRock.h" />
     <ClInclude Include="GameObject\SpongebobMissile.h" />
+    <ClInclude Include="GameObject\Tikis\TikiBase.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Stone.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Thunder.h" />
     <ClInclude Include="GameObject\Tikis\Tiki_Wood.h" />

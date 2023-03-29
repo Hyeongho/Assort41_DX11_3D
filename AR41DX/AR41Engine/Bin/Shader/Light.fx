@@ -3,16 +3,16 @@
 
 struct VS_OUTPUT_LIGHTACC
 {
-    float4	Pos : SV_POSITION;
-    float4	ProjPos : POSITION;
+    float4   Pos : SV_POSITION;
+    float4   ProjPos : POSITION;
     uint InstanceID : TEXCOORD;
 };
 
 struct PS_OUTPUT_LIGHTACC
 {
-    float4	Diffuse : SV_TARGET;
-    float4	Specular : SV_TARGET1;
-    float4	Emissive : SV_TARGET2;
+    float4   Diffuse : SV_TARGET;
+    float4   Specular : SV_TARGET1;
+    float4   Emissive : SV_TARGET2;
 };
 
 Texture2DMS<float4> g_GBuffer1Tex : register(t14);
@@ -24,7 +24,7 @@ Texture2DMS<float4> g_LightDiffuseTex : register(t18);
 Texture2DMS<float4> g_LightSpecularTex : register(t19);
 Texture2DMS<float4> g_LightEmissiveTex : register(t20);
 
-Texture2DMS<float4> g_ScreenTex : register(t21);
+//Texture2DMS<float4> g_ScreenTex : register(t21);
 Texture2DMS<float4> g_ShadowMapTex : register(t22);
 
 
@@ -43,18 +43,18 @@ cbuffer ShadowCBuffer : register(b13)
 
 struct LightInfo
 {
-    float4	LightColor;
-    int		LightLightType;
-    float3	LightPos;
-    float3	LightDir;
-    float	LightDistance;
-    float	LightAngleIn;
-    float	LightAngleOut;
-    float	LightAtt1;
-    float	LightAtt2;
-    float	LightAtt3;
+    float4   LightColor;
+    int      LightLightType;
+    float3   LightPos;
+    float3   LightDir;
+    float   LightDistance;
+    float   LightAngleIn;
+    float   LightAngleOut;
+    float   LightAtt1;
+    float   LightAtt2;
+    float   LightAtt3;
     float   LightIntensity;
-    float2	LightEmpty;
+    float2   LightEmpty;
 };
 
 StructuredBuffer<LightInfo> g_LightInfoArray : register(t41);
@@ -232,7 +232,7 @@ LightResult ComputeCelShaderLight(float3 ViewPos, float3 ViewNormal,
 VS_OUTPUT_LIGHTACC LightAccVS(uint VertexID : SV_VertexID,
     uint InstanceID : SV_InstanceID)
 {
-    VS_OUTPUT_LIGHTACC	output = (VS_OUTPUT_LIGHTACC)0;
+    VS_OUTPUT_LIGHTACC   output = (VS_OUTPUT_LIGHTACC)0;
 
     output.ProjPos = float4(g_NullPos[VertexID], 0.f, 1.f);
     output.Pos = output.ProjPos;
@@ -244,7 +244,7 @@ VS_OUTPUT_LIGHTACC LightAccVS(uint VertexID : SV_VertexID,
 
 PS_OUTPUT_LIGHTACC LightAccPS(VS_OUTPUT_LIGHTACC input)
 {
-    PS_OUTPUT_LIGHTACC	output = (PS_OUTPUT_LIGHTACC)0;
+    PS_OUTPUT_LIGHTACC   output = (PS_OUTPUT_LIGHTACC)0;
 
     // 로컬 위치 * 월드 * 뷰 * 투영 = 투영공간 위치
     // 투영공간위치 / 투영공간w 를 해서 -1 ~ 1 사이의 x, y 위치를 구하고
@@ -304,7 +304,7 @@ PS_OUTPUT_LIGHTACC LightAccPS(VS_OUTPUT_LIGHTACC input)
 
 PS_OUTPUT_LIGHTACC CelShaderAccPS(VS_OUTPUT_LIGHTACC input)
 {
-    PS_OUTPUT_LIGHTACC	output = (PS_OUTPUT_LIGHTACC)0;
+    PS_OUTPUT_LIGHTACC   output = (PS_OUTPUT_LIGHTACC)0;
 
     // 로컬 위치 * 월드 * 뷰 * 투영 = 투영공간 위치
     // 투영공간위치 / 투영공간w 를 해서 -1 ~ 1 사이의 x, y 위치를 구하고
@@ -367,8 +367,8 @@ PS_OUTPUT_LIGHTACC CelShaderAccPS(VS_OUTPUT_LIGHTACC input)
 
 struct VS_OUTPUT_SCREEN
 {
-    float4	Pos : SV_POSITION;
-    float4	ProjPos : POSITION;
+    float4   Pos : SV_POSITION;
+    float4   ProjPos : POSITION;
 };
 
 VS_OUTPUT_SCREEN ScreenVS(uint VertexID : SV_VertexID)
@@ -459,7 +459,7 @@ PS_OUTPUT_SINGLE ScreenPS(VS_OUTPUT_SCREEN input)
 
 VS_OUTPUT_SCREEN DeferredVS(uint VertexID : SV_VertexID)
 {
-    VS_OUTPUT_SCREEN	output = (VS_OUTPUT_SCREEN)0;
+    VS_OUTPUT_SCREEN   output = (VS_OUTPUT_SCREEN)0;
 
     output.ProjPos = float4(g_NullPos[VertexID], 0.f, 1.f);
     output.Pos = output.ProjPos;
@@ -469,7 +469,7 @@ VS_OUTPUT_SCREEN DeferredVS(uint VertexID : SV_VertexID)
 
 PS_OUTPUT_SINGLE DeferredPS(VS_OUTPUT_SCREEN input)
 {
-    PS_OUTPUT_SINGLE	output = (PS_OUTPUT_SINGLE)0;
+    PS_OUTPUT_SINGLE   output = (PS_OUTPUT_SINGLE)0;
 
     // 로컬 위치 * 월드 * 뷰 * 투영 = 투영공간 위치
     // 투영공간위치 / 투영공간w 를 해서 -1 ~ 1 사이의 x, y 위치를 구하고

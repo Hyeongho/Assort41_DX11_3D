@@ -17,6 +17,7 @@ struct RenderLayer
 class CRenderManager
 {
 private:
+	bool	m_FXAAOn;
 	std::vector<RenderLayer*>	m_RenderLayerList;
 	CRenderStateManager* m_RenderStateManager;
 	CSharedPtr<class CRenderState> m_AlphaBlend;
@@ -65,6 +66,11 @@ public:
 	void SetShaderType(EShaderType Type);
 
 public:
+	void SetFXAAOn(bool FXAAOn)
+	{
+		m_FXAAOn = FXAAOn;
+	}
+
 	const Resolution& GetShadowMapResolution()	const
 	{
 		return m_ShadowMapRS;
@@ -91,11 +97,11 @@ private:
 	void RenderLight(float DeltaTime);
 	void RenderScreen(float DeltaTime);
 	void RenderCartoon(float DeltaTime);
+	void RenderNoMultiSampling(float DeltaTime);
 	void RenderFXAA(float DeltaTime); // FXAA
 	void RenderDeferred(float DeltaTime);
 	void RenderParticle(float DeltaTime);
 	void RenderTranslation(float DeltaTime);
-	void RenderMultiSampling(float DeltaTime);
 
 public:
 	void SetBlendFactor(const std::string& Name, float r, float g, float b, float a);

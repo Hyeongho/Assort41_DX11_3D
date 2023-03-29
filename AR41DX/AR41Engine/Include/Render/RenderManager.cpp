@@ -25,6 +25,7 @@ CRenderManager::CRenderManager()
 	: m_ShadowMapRS{}
 	, m_ShaderType(EShaderType::Default)
 	, m_TextureTranslation(0.f)
+	, m_FXAAOn(true)
 {
 	m_RenderStateManager = new CRenderStateManager;
 	m_ShadowCBuffer = new CShadowConstantBuffer;
@@ -252,18 +253,8 @@ void CRenderManager::Render3D(float DeltaTime)
 {
 	// 인스턴싱으로 처리해야될 물체가 있을 경우 별도의 인스턴싱 리스트에
 	// 추가해주도록 한다.
-
-	// 하늘을 그린다.
-	CGameObject* SkyObj = CSceneManager::GetInst()->GetScene()->GetSky();
-
-	if (SkyObj)
-	{
-		SkyObj->GetRootComponent()->Render();
-	}
-
 	// ShadowMap 을 그려낸다.
 	RenderShadowMap(DeltaTime);
-
 
 	m_TextureTranslation += 0.05f * DeltaTime;
 
@@ -282,20 +273,32 @@ void CRenderManager::Render3D(float DeltaTime)
 	// GBuffer와 Light를 합한 최종 화면을 만든다.
 	RenderScreen(DeltaTime);
 
-	// FXAA는 Post-Processing Effect라 카툰렌더링은 FXAA 이전에 만들어준다. 
-	RenderCartoon(DeltaTime);
-
-	// FXAA를 그려낸다. 
-	RenderFXAA(DeltaTime);
+	//FXAA는 Post-Processing Effect라 카툰렌더링은 FXAA 이전에 만들어준다. 
+	//RenderCartoon(DeltaTime);
 
 	// MSAA
-	//RenderMultiSampling(DeltaTime);
+	RenderNoMultiSampling(DeltaTime);
+	
+	if (m_FXAAOn)
+	{
+		// FXAA를 그려낸다. 
+		RenderFXAA(DeltaTime);
+	}
 
 	// 완성된 타겟을 백버퍼에 출력한다.
 	RenderDeferred(DeltaTime);
 
 	// 파티클 출력
 	RenderParticle(DeltaTime);
+
+	// 하늘을 그린다.
+	CGameObject* SkyObj = CSceneManager::GetInst()->GetScene()->GetSky();
+
+	if (SkyObj)
+	{
+		SkyObj->GetRootComponent()->Render();
+	}
+
 }
 
 void CRenderManager::RenderShadowMap(float DeltaTime)
@@ -829,13 +832,43 @@ void CRenderManager::RenderScreen(float DeltaTime)
 
 void CRenderManager::RenderCartoon(float DeltaTime)
 {
-	m_CartoonBuffer->ClearTarget();
+	// cart원본을 ms로, ms 원본을 fxaa로 fxaa원본을 디퍼드로.
+	//*m_CartoonBuffer->ClearTarget();
 
-	m_CartoonBuffer->SetTarget();
+	//m_CartoonBuffer->SetTarget();
 
-	m_FXAABuffer->SetTargetShader(10);
+	//m_ScreenBuffer->SetTargetShader(21);
+
+	//m_DepthDisable->SetState();
+
+	//ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+
+	//UINT	Offset = 0;
+
+	//Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	//Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+	//Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+	//Context->Draw(4, 0);
+
+	//m_DepthDisable->ResetState();
+
+	//m_ScreenBuffer->ResetTargetShader(21);
+
+	//m_CartoonBuffer->ResetTarget();*/
+}
+
+void CRenderManager::RenderNoMultiSampling(float DeltaTime)
+{
+	// cart원본을 ms로, ms 원본을 fxaa로 fxaa원본을 디퍼드로.
+	m_MSBuffer->ClearTarget();
+
+	m_MSBuffer->SetTarget();
+
+	m_ScreenBuffer->SetTargetShader(8);
 
 	m_DepthDisable->SetState();
+
+	m_MSShader->SetShader();
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
@@ -848,21 +881,22 @@ void CRenderManager::RenderCartoon(float DeltaTime)
 
 	m_DepthDisable->ResetState();
 
-	m_FXAABuffer->ResetTargetShader(10);
+	m_ScreenBuffer->ResetTargetShader(8); 
 
-	m_CartoonBuffer->ResetTarget();
+	m_MSBuffer->ResetTarget();
 }
 
-// m_FXAABuffer를 채워준다.
 void CRenderManager::RenderFXAA(float DeltaTime)
 {
 	m_FXAABuffer->ClearTarget();
 
 	m_FXAABuffer->SetTarget();
 
-	m_ScreenBuffer->SetTargetShader(10); // 1.얘를 FXAA 로 넘겨줘야한다.
+	m_MSBuffer->SetTargetShader(10);
 
 	m_DepthDisable->SetState();
+
+	m_FXAAShader->SetShader();
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
@@ -875,7 +909,7 @@ void CRenderManager::RenderFXAA(float DeltaTime)
 
 	m_DepthDisable->ResetState();
 
-	m_ScreenBuffer->ResetTargetShader(10);
+	m_MSBuffer->ResetTargetShader(10);
 
 	m_FXAABuffer->ResetTarget();
 }
@@ -885,8 +919,12 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	m_DeferredRenderShader->SetShader();
 
 	m_DepthDisable->SetState();
+	
+	if(m_FXAAOn)
+		m_FXAABuffer->SetTargetShader(21);
 
-	m_FXAABuffer->SetTargetShader(21);
+	else
+		m_MSBuffer->SetTargetShader(21);
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
@@ -900,7 +938,11 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 
 	m_DepthDisable->ResetState();
 
-	m_FXAABuffer->ResetTargetShader(21);
+	if (m_FXAAOn)
+		m_FXAABuffer->ResetTargetShader(21);
+
+	else
+		m_MSBuffer->ResetTargetShader(21);
 
 	// 디버그 모드일 경우 데칼 디버깅용 육면체를 출력한다.
 #ifdef _DEBUG
@@ -1113,36 +1155,6 @@ void CRenderManager::RenderParticle(float DeltaTime)
 	m_vecGBuffer[2]->ResetTargetShader(14);
 }
 
-void CRenderManager::RenderMultiSampling(float DeltaTime)
-{
-	m_MSBuffer->ClearTarget();
-
-	m_MSBuffer->SetTarget();
-
-	//m_FXAABuffer->SetTargetShader(10); // 0324
-	m_ScreenBuffer->SetTargetShader(10); //0324
-
-	m_MSShader->SetShader();
-
-	m_DepthDisable->SetState();
-
-	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
-
-	UINT	Offset = 0;
-
-	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
-	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
-	Context->Draw(4, 0);
-
-	m_DepthDisable->ResetState();
-	//m_ScreenBuffer->ResetTargetShader(10); 0324
-
-
-	m_MSBuffer->ResetTargetShader(15); // 0324
-
-	m_MSBuffer->ResetTarget();
-}
 
 //void CRenderManager::RenderTranslation(float DeltaTime)
 //{
@@ -1336,25 +1348,30 @@ void CRenderManager::CreateRenderTarget()
 	m_ScreenShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ScreenShader");
 	m_DeferredRenderShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("DeferredRenderShader");
 
+	// NoMultiSampling
+	m_MSShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("MSShader"); 
+	CResourceManager::GetInst()->CreateTargetNoMS("RenderNoMS", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D24_UNORM_S8_UINT);
+
+	m_MSBuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderNoMS");
+
 	// FXAA 용
 	m_FXAAShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("FXAAShader");
-
-	CResourceManager::GetInst()->CreateTarget("RenderFXAA", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	CResourceManager::GetInst()->CreateTargetNoMS("RenderFXAA", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D24_UNORM_S8_UINT);
 
 	m_FXAABuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderFXAA");
-
 	m_FXAABuffer->SetPos(Vector3(900.f, 0.f, 0.f));
 	m_FXAABuffer->SetScale(Vector3(200.f, 200.f, 1.f));
 	m_FXAABuffer->SetDebugRender(true);
 
 	// Cartoon 용
-	CResourceManager::GetInst()->CreateTarget("RenderCartoon", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	/*m_CartoonShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("CartoonShader");
+	CResourceManager::GetInst()->CreateTargetNoMS("RenderCartoon", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	m_CartoonBuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderCartoon");
 
 	m_CartoonBuffer->SetPos(Vector3(1200.f, 0.f, 0.f));
 	m_CartoonBuffer->SetScale(Vector3(200.f, 200.f, 1.f));
-	m_CartoonBuffer->SetDebugRender(true);
+	m_CartoonBuffer->SetDebugRender(true);*/
 
 	m_TranslationCBuffer->Init();
 }

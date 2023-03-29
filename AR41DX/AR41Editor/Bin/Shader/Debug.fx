@@ -13,7 +13,7 @@ struct VS_OUTPUT_DEBUG
     float2 UV : TEXCOORD;
 };
 
-Texture2DMS<float4> g_TargetTex : register(t10);
+Texture2D<float4> g_TargetTex : register(t10);
 
 
 // 인자로 VS_INPUT_COLOR를 쓰면 저 구조체에 지정된 입력 레지스터에서 값을
@@ -39,7 +39,7 @@ PS_OUTPUT_SINGLE DebugPS(VS_OUTPUT_DEBUG input)
     Pos.x = (int)(input.UV.x * g_ShadowMapResolution.x);
     Pos.y = (int)(input.UV.y * g_ShadowMapResolution.y);
 
-    float4 Color = g_TargetTex.Load(Pos, 0);
+    float4 Color = g_TargetTex.Sample(g_LinearSmp, Pos / g_Resolution);
 
     if (Color.a == 0.f)
         clip(-1);
