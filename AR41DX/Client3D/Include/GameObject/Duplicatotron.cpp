@@ -7,6 +7,7 @@
 #include "Component/RigidBody.h"
 #include "Input.h"
 #include "Scene/Scene.h"
+#include "Scene/SceneManager.h"
 #include "Scene/CameraManager.h"
 #include "Device.h"
 #include "Resource/Material/Material.h"
@@ -110,52 +111,56 @@ void CDuplicatotron::PostUpdate(float DeltaTime)
 {
 	CMonster::PostUpdate(DeltaTime);
 
-	CHammer* Hammer = m_Scene->CreateObject<CHammer>("Hammer");
+	//CDupli_Can* Can = (CDupli_Can*)m_Scene->FindObject("Can");
 
-	if (Hammer->GetDead() == true)
+	//if (Can)
+	//{
+	//	// if Hammer is dead, spawn Dupli_can.
+	//	if (Can->GetLand())
+	//	{
+	//		m_Hammer = (CHammer*)m_Scene->FindObject("Hammer");
+	//	}
+	//}
+	
+
+	if (m_CountCan <= 3)
 	{
-		--m_CountCan; 
-		m_SpawnOn = true;
+		if (m_SpawnOn)
+		{
+			//m_CountCan = 0;
+			m_DelayTime += DeltaTime;
+
+			if (m_DelayTime >= 3.f && m_CountCan < 1)
+			{
+				++m_CountCan;
+
+				SpawnCan();
+
+				//m_DelayTime = 0.f;
+			}
+
+			if (m_DelayTime >= 5.f && m_CountCan < 2)
+			{
+				++m_CountCan;
+
+				SpawnCan();
+
+				//m_SpawnOn = false;
+
+			}
+
+			if (m_DelayTime >= 7.f && m_CountCan < 3)
+			{
+				++m_CountCan;
+
+				SpawnCan();
+
+				m_SpawnOn = false;
+
+			}
+		}
 	}
-
-	if (m_SpawnOn)
-	{
-		//m_CountCan = 0;
-
-		m_DelayTime += DeltaTime;
-		
-		if (m_DelayTime >= 3.f && m_CountCan < 1)
-		{
-			++m_CountCan;
-
-			SpawnCan();
-
-			//m_DelayTime = 0.f;
-		}
-
-		if (m_DelayTime >= 5.f && m_CountCan < 2)
-		{
-			++m_CountCan;
-
-			SpawnCan();
-
-			//m_SpawnOn = false;
-
-		}
-
-		if (m_DelayTime >= 7.f && m_CountCan < 3)
-		{
-			++m_CountCan;
-
-			SpawnCan();
-
-			m_SpawnOn = false;
-
-		}
-
-		
-		
-	}
+	
 }
 
 CDuplicatotron* CDuplicatotron::Clone() const
