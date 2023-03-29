@@ -757,8 +757,9 @@ void CPlayer::KeyUp()
 	{
 		return;
 	}
-	if (m_KeyCount == 0)
+	if (m_KeyCount <= 0)
 	{
+		m_KeyCount = 0;
 		switch (m_MainCharacter)
 		{
 		case EMain_Character::Spongebob:
