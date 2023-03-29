@@ -152,10 +152,45 @@ bool CMaterialManager::Init()
 	Material->EnableBump();
 	Material->EnableSpecular();
 
+	// ��ǰ
 	Material = CreateMaterial<CMaterial>("Bubble");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Bubble", TEXT("Particle/Bubbles50px.png"));
 	Material->SetShader("SpriteShader");
 
+	// tikis ����� �� ���� ��¦��
+	Material = CreateMaterial<CMaterial>("Glow");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Glow", TEXT("Particle/T_Blue_Glow_00.tga"));
+	Material->SetShader("SpriteShader");
+
+	// �κ� ������� �ٴ� ��2
+	Material = CreateMaterial<CMaterial>("Fire2");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Fire2", TEXT("Particle/flame2.png"));
+	Material->SetShader("SpriteShader");
+	Material->SetOpacity(0.7f);
+
+	// ���, �ܸ� ���
+	Material = CreateMaterial<CMaterial>("Flare");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Flare", TEXT("Particle/light.png"));
+	Material->SetShader("SpriteShader");
+	Material->SetOpacity(0.8f);
+
+	// ���� ���ٱ�
+	Material = CreateMaterial<CMaterial>("Shower");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Shower", TEXT("Particle/waterdrop.png"));
+	Material->SetShader("SpriteShader");
+	Material->SetOpacity(0.7f);
+
+	// ���� ���� �ٴ��� ��� �κп� ���� ��
+	Material = CreateMaterial<CMaterial>("WaterRing");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterRing", TEXT("Particle/T_Waterdrop_01.tga"));
+	Material->SetShader("SpriteShader");
+	Material->SetOpacity(0.7f);
+
+	//Material = CreateMaterial<CMaterial>("ShockWave");
+	//Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.tga"));
+	//Material->SetShader("SpriteShader");
+
+	// ���η� �����̴� �ؽ���
 	Material = CreateMaterial<CMaterial>("ShockWave");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.png"));
 	Material->SetShader("SpriteShader");
@@ -166,6 +201,49 @@ bool CMaterialManager::Init()
 	Material->SetShader("TranslationShader");
 	Material->SetRenderState("AlphaBlend");
 	Material->SetOpacity(0.5f);
+
+	// ���η� �����̴� �ؽ���
+	Material = CreateMaterial<CMaterial>("WaterDrop");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterDrop", TEXT("Particle/T_Seafoam_BC.tga"));
+	Material->SetShader("DropShader");
+	Material->SetRenderState("AlphaBlend");
+	Material->SetOpacity(0.5f);
+
+	// �ٴ�
+	Material = CreateMaterial<CMaterial>("Sea");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Sea", TEXT("Particle/sea.png"));
+	Material->SetShader("DropShader");
+	Material->SetRenderState("AlphaBlend");
+	Material->SetOpacity(0.8f);
+
+	// ����1 // �ؽ��� ���� �ʿ�
+	Material = CreateMaterial<CMaterial>("WaterFall");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterFall", TEXT("waterfall.png"));
+	Material->SetShader("DropShader");
+	Material->SetRenderState("AlphaBlend");
+	//Material->SetOpacity(0.7f);
+
+	// ����2 // �ؽ��� ���� �ʿ�
+	Material = CreateMaterial<CMaterial>("WaterFall2");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterFall2", TEXT("Waterfall2.png"));
+	Material->SetShader("DropShader");
+	Material->SetRenderState("AlphaBlend");
+	Material->SetOpacity(0.7f);
+
+	// �κ� ������� �� �ν���
+	Material = CreateMaterial<CMaterial>("RBSpongeBooster");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "RBSpongeBooster", TEXT("Particle/blueflame.png"));
+	Material->SetShader("DropShader");
+	//Material->SetRenderState("AlphaBlend");
+	Material->SetOpacity(0.7f);
+
+
+	// �ٶ��� ���
+	Material = CreateMaterial<CMaterial>("Hm");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Hm", TEXT("Hm.jpg"));
+	Material->SetShader("SpriteShader");
+	//Material->SetRenderState("AlphaBlend");
+	//Material->SetOpacity(0.5f);
 	return true;
 }
 

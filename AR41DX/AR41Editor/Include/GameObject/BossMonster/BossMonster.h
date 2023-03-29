@@ -58,5 +58,7 @@ public :
 	void SetBossData(const BossData& BossData);
 	void CreateBossUI();
 	
+public :
+	void BossDamaged(int Damage = 1);
 };
 

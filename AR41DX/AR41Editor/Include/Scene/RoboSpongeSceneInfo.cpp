@@ -13,7 +13,9 @@
 #include "../GameObject/Object/Common/Trampoline.h"
 #include "../GameObject/Object/CBL/CBL_Platform.h"
 #include "../GameObject/Object/CBL/CBL_Floor.h"
+#include "../GameObject/Object/CBL/CBL_BaseMesh.h"
 #include "../GameObject/BossMonster/RoboSponge/RoboSponge.h"
+#include "../GameObject/BossMonster/RoboSponge/RoboSponge_Knob.h"
 #include "../UI/TitleSceneUI.h"
 #include "../UI/InteractUI.h"
 #include "../UI/DialogUI.h"
@@ -42,7 +44,7 @@ bool CRoboSpongeSceneInfo::Init()
 	CDialogUI* Dialog = m_Owner->GetViewport()->CreateUIWindow<CDialogUI>("DialogUI");
 	CPauseUI* PauseUI = m_Owner->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
 
-	int TerrainCount = 300;
+	int TerrainCount = 400;
 	float TerrainSize = 40.f;
 	Vector2 CenterPos(TerrainCount / 2 * TerrainSize, TerrainCount / 2 * TerrainSize);
 
@@ -50,11 +52,22 @@ bool CRoboSpongeSceneInfo::Init()
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
 	TerrainComponent->CreateTerrain(TerrainCount, TerrainCount, TerrainSize, TerrainSize, TEXT("LandScape/RoboSponge_Height.png"));
 	TerrainObj->SetWorldPosition(0.f, 0.f, 0.f);
+	TerrainComponent->GetSize();
+
+	CCBL_BaseMesh* BaseMesh = m_Owner->CreateObject<CCBL_BaseMesh>("BaseMesh");
+	BaseMesh->SetWorldPosition(CenterPos.x, 600.f, CenterPos.y);
+
+	CCBL_Floor* Floor = m_Owner->CreateObject<CCBL_Floor>("Floor");
+	Floor->SetWorldPosition(CenterPos.x, 605.f, CenterPos.y);
 
 	CRoboSponge* RoboSponge = m_Owner->CreateObject<CRoboSponge>("RoboSponge");
 	RoboSponge->SetWorldPosition(CenterPos.x, 1000.f, CenterPos.y);
+	RoboSponge->SetMapCenter(CenterPos.x, 1000.f, CenterPos.y);
 
-	float StandardPos = 50 * TerrainSize;
+	CRoboSponge_Knob* Knob = m_Owner->CreateObject<CRoboSponge_Knob>("Knob");
+	Knob->SetWorldPosition(5500.f, 800.f, 6000.f);
+
+	float StandardPos = 60 * TerrainSize;
 
 	for (int i = 0; i < 12; i++) {
 		float Radian = i * 30.f * PI / 180.f;
@@ -67,17 +80,15 @@ bool CRoboSpongeSceneInfo::Init()
 
 		std::string TrampolineName = "Platform" + std::to_string(i);
 		CTrampoline* Trampoline = m_Owner->CreateObject<CTrampoline>(TrampolineName);
-		Trampoline->SetWorldPosition(CenterPos.x + StandardPos * 1.2 * sinf(Radian), 610.f, CenterPos.y + StandardPos * 1.2 * cosf(Radian));
+		Trampoline->SetWorldPosition(CenterPos.x + StandardPos * 1.2f * sinf(Radian), 610.f, CenterPos.y + StandardPos * 1.2f * cosf(Radian));
 
 	}
 
-	CCBL_Floor* Floor = m_Owner->CreateObject<CCBL_Floor>("Floor");
-	Floor->SetWorldPosition(CenterPos.x, 600.f, CenterPos.y);
 
 
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 	SetPlayerObject(Player);
-	Player->SetWorldPosition(TerrainSize * TerrainCount, 0.f, TerrainSize * TerrainCount);
+	Player->SetRespawnPos(TerrainSize * TerrainCount * 0.5f, 0.f, TerrainSize * TerrainCount * 0.5f);
 
 
 

@@ -35,11 +35,11 @@ bool CCBL_BaseMesh::Init()
 
 	m_Mesh->SetMesh("CBL_BaseMesh");
 
-	Vector2 Ratio = CDevice::GetInst()->GetHdRsRatio();
-	Ratio.x = 1.f / Ratio.x;
-	Ratio.y = 1.f / Ratio.y;
+	//Vector2 Ratio = CDevice::GetInst()->GetHdRsRatio();
+	//Ratio.x = 1.f / Ratio.x;
+	//Ratio.y = 1.f / Ratio.y;
 
-	SetRelativeScale(Ratio);
+	//SetRelativeScale(Ratio);
 
 
     return true;

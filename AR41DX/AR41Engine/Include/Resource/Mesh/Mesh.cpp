@@ -731,6 +731,7 @@ bool CMesh::LoadMesh(FILE* File)
 					color.w = 0.f;
 					Material->SetEmissiveColor(color);
 				}
+
 				else
 				{
 					Material->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
