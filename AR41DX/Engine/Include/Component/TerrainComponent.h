@@ -43,6 +43,10 @@ public:
     {
         return m_HeightMapY;
     }
+    float GetHeight() const
+    {
+        return m_Height;
+    }
 
     float GetDetailLevel() const;
 

@@ -19,10 +19,49 @@
 #include "Component/CameraComponent.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/ColliderSphere3D.h"
+#include "GameObject\SkySphere.h"
 #include "../GameObject\Player.h"
 #include "../GameObject\Bullet.h"
 #include "../GameObject\Monster.h"
 #include "../GameObject\Weapon.h"
+#include "../GameObject\SpongebobMissile.h"
+#include "../GameObject\PatrickObject.h"
+#include "../GameObject\KingJellyfish.h"
+#include "../GameObject\Jellyfish.h"
+#include "../GameObject\Hammer.h"
+#include "../GameObject\Fodder.h"
+#include "../GameObject\Duplicatotron.h"
+#include "../GameObject\Cannon.h"
+#include "../GameObject\TeeterRock.h"
+#include "../GameObject\Pufferfish.h"
+#include "../GameObject/BossMonster/RoboSponge/RoboSponge.h"
+#include "../GameObject/BossMonster/BossMonster.h"
+#include "../GameObject/Npc/Npc.h"
+#include "../GameObject/Npc/BusDriver.h"
+#include "../GameObject/Npc/InfoSign.h"
+#include "../GameObject/Npc/MrKrabs.h"
+#include "../GameObject/Npc/Patric.h"
+#include "../GameObject/Npc/Squidward.h"
+#include "../GameObject/Npc/TaxiDriver.h"
+#include "../GameObject/Object/BB/BusStop.h"
+#include "../GameObject/Object/CBL/CBL_Floor.h"
+#include "../GameObject/Object/CBL/CBL_Platform.h"
+#include "../GameObject/Object/Common/Collectible/CollectibleItems.h"
+#include "../GameObject/Object/Common/Collectible/Collectible_Bubble.h"
+#include "../GameObject/Object/Common/Collectible/GoldenSpatula.h"
+#include "../GameObject/Object/Common/Collectible/ShinyFlower.h"
+#include "../GameObject/Object/Common/Collectible/Sock.h"
+#include "../GameObject/Object/Common/Collectible/UnderWear.h"
+#include "../GameObject/Object/Common/InteractButton.h"
+#include "../GameObject/Object/Common/Trampoline.h"
+#include "../GameObject/Object/CheckPoint.h"
+#include "../GameObject/Object/Gate.h"
+#include "../GameObject/Object/IceCube.h"
+#include "../GameObject/Object/JumpTree.h"
+#include "../GameObject/Object/TeleportBox.h"
+#include "../GameObject/Tikis/Tiki_Stone.h"
+#include "../GameObject/Tikis/Tiki_Thunder.h"
+#include "../GameObject/Tikis/Tiki_Wood.h"
 
 CObjectWindow::CObjectWindow()
 	: m_Tree(nullptr)
@@ -551,6 +590,10 @@ class CGameObject* CObjectWindow::CreateObject(const std::string& name)
 	{
 		object = scene->CreateObject<CGameObject>(name);
 	}
+	else if (name == "SkySphere")
+	{
+		object = scene->CreateObject<CSkySphere>(name);
+	}
 	else if (name == "Player")
 	{
 		object = scene->CreateObject<CPlayer>(name);
@@ -566,6 +609,156 @@ class CGameObject* CObjectWindow::CreateObject(const std::string& name)
 	else if (name == "Weapon")
 	{
 		object = scene->CreateObject<CWeapon>(name);
+	}
+	//AddOn
+	else if (name == "SpongebobMissile")
+	{
+		object = scene->CreateObject<CSpongebobMissile>(name);
+	}
+	else if (name == "PatrickObject")
+	{
+		object = scene->CreateObject<CPatrickObject>(name);
+	}
+	else if (name == "KingJellyfish")
+	{
+		object = scene->CreateObject<CKingJellyfish>(name);
+	}
+	else if (name == "Jellyfish")
+	{
+		object = scene->CreateObject<CJellyfish>(name);
+	}
+	else if (name == "Hammer")
+	{
+		object = scene->CreateObject<CHammer>(name);
+	}
+	else if (name == "Fodder")
+	{
+		object = scene->CreateObject<CFodder>(name);
+	}
+	else if (name == "Duplicatotron")
+	{
+		object = scene->CreateObject<CDuplicatotron>(name);
+	}
+	else if (name == "Cannon")
+	{
+		object = scene->CreateObject<CCannon>(name);
+	}
+	else if (name == "TeeterRock")
+	{
+		object = scene->CreateObject<CTeeterRock>(name);
+	}
+	else if (name == "Pufferfish")
+	{
+		object = scene->CreateObject<CPufferfish>(name);
+	}
+	else if (name == "Robo_Sponge")
+	{
+		object = scene->CreateObject<CRoboSponge>(name);
+	}
+	else if (name == "BossMonster")
+	{
+		object = scene->CreateObject<CBossMonster>(name);
+	}
+	else if (name == "Npc")
+	{
+		object = scene->CreateObject<CNpc>(name);
+	}
+	else if (name == "BusDriver")
+	{
+		object = scene->CreateObject<CBusDriver>(name);
+	}
+	else if (name == "InfoSign")
+	{
+		object = scene->CreateObject<CInfoSign>(name);
+	}
+	else if (name == "MrKrabs")
+	{
+		object = scene->CreateObject<CMrKrabs>(name);
+	}
+	else if (name == "Patric")
+	{
+		object = scene->CreateObject<CPatric>(name);
+	}
+	else if (name == "Squidward")
+	{
+		object = scene->CreateObject<CSquidward>(name);
+	}
+	else if (name == "TaxiDriver")
+	{
+		object = scene->CreateObject<CTaxiDriver>(name);
+	}
+	else if (name == "BusStop")
+	{
+		object = scene->CreateObject<CBusStop>(name);
+	}
+	else if (name == "CBL_Floor")
+	{
+		object = scene->CreateObject<CCBL_Floor>(name);
+	}
+	else if (name == "CBL_Platform")
+	{
+		object = scene->CreateObject<CCBL_Platform>(name);
+	}
+	else if (name == "CollectibleItems")
+	{
+		object = scene->CreateObject<CCollectibleItems>(name);
+	}
+	//#include "../GameObject/Object/Common/Collectible/Collectible_Bubble.h"
+	else if (name == "GoldenSpatula")
+	{
+		object = scene->CreateObject<CGoldenSpatula>(name);
+	}
+	else if (name == "ShinyFlower")
+	{
+		object = scene->CreateObject<CShinyFlower>(name);
+	}
+	else if (name == "Sock")
+	{
+		object = scene->CreateObject<CSock>(name);
+	}
+	else if (name == "UnderWear")
+	{
+		object = scene->CreateObject<CUnderWear>(name);
+	}
+	else if (name == "InteractButton")
+	{
+		object = scene->CreateObject<CInteractButton>(name);
+	}
+	else if (name == "Trampoline")
+	{
+		object = scene->CreateObject<CTrampoline>(name);
+	}
+	else if (name == "CheckPoint")
+	{
+		//object = scene->CreateObject<CCheckPoint>(name);
+	}
+	else if (name == "Gate")
+	{
+		object = scene->CreateObject<CGate>(name);
+	}
+	else if (name == "IceCube")
+	{
+		object = scene->CreateObject<CIceCube>(name);
+	}
+	else if (name == "JumpTree")
+	{
+		object = scene->CreateObject<CJumpTree>(name);
+	}
+	else if (name == "TeleportBox")
+	{
+		object = scene->CreateObject<CTeleportBox>(name);
+	}
+	else if (name == "Tiki_Stone")
+	{
+		object = scene->CreateObject<CTiki_Stone>(name);
+	}
+	else if (name == "Tiki_Thunder")
+	{
+		object = scene->CreateObject<CTiki_Thunder>(name);
+	}
+	else if (name == "Tiki_Wood")
+	{
+		object = scene->CreateObject<CTiki_Wood>(name);
 	}
 	AddItem(object, name);
 	return object;

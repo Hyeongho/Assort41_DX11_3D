@@ -16,9 +16,8 @@ private:
 	CSharedPtr<class CStaticMeshComponent>		m_ArmMesh;
 	CSharedPtr<class CStaticMeshComponent>		m_BottomMesh;
 	CSharedPtr<class CAnimation>				m_Animation;
-	CSharedPtr<class CColliderCube>				m_ArmCube;
-	CSharedPtr<class CColliderCube>				m_BottomCube;
-	CSharedPtr<class CColliderCube>				m_DetectRange;
+	CSharedPtr<class CColliderOBB3D>			m_Cube;
+	CSharedPtr<class CColliderOBB3D>			m_DetectRange;
 
 private:
 	bool	m_OpenSesameOn;
@@ -33,6 +32,10 @@ public:
 	virtual void Load(FILE* File);
 
 private:
+	void ChangeScene();
+
+private:
 	void Collision_OpenSesame(const CollisionResult& result);
+	void Release_OpenSesameOff(const CollisionResult& result);
 };
 

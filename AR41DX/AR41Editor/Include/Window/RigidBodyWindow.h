@@ -5,6 +5,7 @@ class CRigidBodyWindow : public CEditorWindow
 {
 private:
 	friend class CEditorGUIManager;
+	class CEditorCheckBox* m_Check;
 	class CEditorCheckBox* m_Gravity;
 	class CEditorCheckBox* m_Ground;
 	class CEditorInput* m_Force[3];
@@ -15,6 +16,7 @@ private:
 	class CEditorInput* m_MinVelocity[3];
 	class CEditorInput* m_Mass;
 	class CEditorInput* m_FricCoeff;
+	class CEditorInput* m_GravityForce;
 	CSharedPtr<class CRigidBody>	m_SelectRigidBody;
 	void RigidBodyChangeCallback();
 protected:

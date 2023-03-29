@@ -18,8 +18,6 @@ protected:
 	CSharedPtr<class CRigidBody>		m_Rigid;
 
 protected:
-	bool	m_DetectRange;
-	bool	m_AttackRange;
 	float	m_MoveSpeed;
 	float	m_DeltaTime;
 	int		m_MonsterHP;
