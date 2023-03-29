@@ -1,0 +1,13 @@
+Squidward_Angry_Loop 50
+Squidward_Angry_Start 16
+Squidward_Annoyed_Loop 60
+Squidward_Annoyed_Start 10
+Squidward_Happy_Loop 60
+Squidward_Happy_Start 20
+Squidward_Hurt_Loop 52
+Squidward_Hurt_Start 18
+Squidward_Idle 40
+Squidward_Sarcastic_Loop 55
+Squidward_Sarcastic_Start 23
+Squidward_Talk 100
+Squidward_Talk_Idle 40

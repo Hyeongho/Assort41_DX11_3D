@@ -208,7 +208,7 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateChannel("Trampoline", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Button", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("DetectArea", ECollision_Interaction::Collision);
-    CCollisionManager::GetInst()->CreateChannel("BusStop", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->CreateChannel("TikiBottom", ECollision_Interaction::Collision);
 
     CCollisionManager::GetInst()->CreateProfile("Player", "Player", true);
     CCollisionManager::GetInst()->CreateProfile("PlayerAttack", "PlayerAttack", true);
@@ -224,7 +224,7 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateProfile("Trampoline", "Trampoline", true);
     CCollisionManager::GetInst()->CreateProfile("Button", "Button", true);
     CCollisionManager::GetInst()->CreateProfile("DetectArea", "DetectArea", true);
-    CCollisionManager::GetInst()->CreateProfile("BusStop", "BusStop", true);
+    CCollisionManager::GetInst()->CreateProfile("TikiBottom", "TikiBottom", true);
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "PlayerAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "Player", ECollision_Interaction::Ignore);
@@ -244,6 +244,7 @@ void CDefaultSetting::SetCollision()
 
     CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "Player", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Platform", "TikiBottom", ECollision_Interaction::Collision);
 
     CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("Collectible", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Collectible", "Player", ECollision_Interaction::Collision);
@@ -265,6 +266,9 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "MonsterAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("DetectArea", "Collectible", ECollision_Interaction::Ignore);
+	
+    CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("TikiBottom", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("TikiBottom", "Platform", ECollision_Interaction::Collision);
     
     CCollisionManager::GetInst()->CreateChannel("KingJellyfish", ECollision_Interaction::Collision);
 
@@ -284,7 +288,6 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Wall", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Collectible", ECollision_Interaction::Ignore);
-
 }
 
 void CDefaultSetting::LoadSound()
@@ -508,6 +511,18 @@ void CDefaultSetting::LoadRoboSponge()
 
     CResourceManager::GetInst()->SetMeshSkeleton("Robo_Sponge", "Robo_Sponge_Skeleton");
 
+    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_1", "HitMarker1", Vector3(500.f, 2000.f, -350.f)); // Left Waist
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_2", "HitMarker2", Vector3(100.f, 100.f, 0.f)); // Right Waist
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_3", "HitMarker3", Vector3(100.f, 0.f, 100.f)); // Right Cheek
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_4", "HitMarker4", Vector3(100.f, 100.f, 100.f)); // Left Cheek
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_5", "HitMarker5", Vector3(0.f, 100.f, 0.f)); // Nose
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_6", "HitMarker6", Vector3(0.f, 100.f, 100.f)); // Left Forehead
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_7", "HitMarker7", Vector3(0.f, 0.f, 100.f)); // Right Forehead
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_8", "HitMarker8", Vector3(0.f, 0.f, 0.f)); // Left Pos
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_9", "HitMarker9", Vector3(0.f, 0.f, 0.f)); // Right Pos
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_10", "HitMarker10"); // Right Hand
+    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_11", "HitMarker11"); // Left Hand
+
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L_Pose", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L_Pose.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_R", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_R.sqc"), MESH_PATH);
@@ -530,6 +545,10 @@ void CDefaultSetting::LoadRoboSponge()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "KAH", TEXT("Robo_Sponge/AttackWords/KAH.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "RAH", TEXT("Robo_Sponge/AttackWords/RAH.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "TAE", TEXT("Robo_Sponge/AttackWords/TAE.msh"), MESH_PATH);
+
+    // RoboSponge Socket Mesh
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GreenKnob", TEXT("Robo_Sponge/GreenKnob.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BrokenKnob", TEXT("Robo_Sponge/BorkenKnob.msh"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadKingJellyfish()
@@ -688,9 +707,7 @@ void CDefaultSetting::LoadMrKrabs()
 void CDefaultSetting::LoadSquidward()
 {
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Squidward", TEXT("Squidward/Squidward.msh"), MESH_PATH);
-
     CResourceManager::GetInst()->LoadSkeleton(nullptr, "Squidward_Skeleton", TEXT("Squidward/Squidward.bne"), MESH_PATH);
-
     CResourceManager::GetInst()->SetMeshSkeleton("Squidward", "Squidward_Skeleton");
 
     CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Angry_Loop", TEXT("Squidward/Squidward_Angry_Loop.sqc"), MESH_PATH);
@@ -706,6 +723,15 @@ void CDefaultSetting::LoadSquidward()
     CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Sarcastic_Start", TEXT("Squidward/Squidward_Sarcastic_Start.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Talk", TEXT("Squidward/Squidward_Talk.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Talk_Idle", TEXT("Squidward/Squidward_Talk_Idle.sqc"), MESH_PATH);
+
+    // Squidward Bandage
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "Squidward_Bandage", TEXT("Squidward/Cutscene/Squidward_Bandage.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadSkeleton(nullptr, "Squidward_Bandage_Skeleton", TEXT("Squidward/Cutscene/Squidward_Bandage.bne"), MESH_PATH);
+    CResourceManager::GetInst()->SetMeshSkeleton("Squidward_Bandage", "Squidward_Bandage_Skeleton");
+
+    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Intro1", TEXT("Squidward/Cutscene/Squidward_Intro1.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Intro2", TEXT("Squidward/Cutscene/Squidward_Intro2.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Squidward_Outro1", TEXT("Squidward/Cutscene/Squidward_Outro1.sqc"), MESH_PATH);
 }
 
 void CDefaultSetting::LoadPatric_Npc()
@@ -885,6 +911,9 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->SetMeshSkeleton("Pufferfish", "PufferfishSkeleton");
 
     CResourceManager::GetInst()->LoadAnimationSequence("Pufferfish_Contact", TEXT("Objects/JellyfishFields/Puffer.sqc"), MESH_PATH);
+
+    // Grass
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Grass1", TEXT("Map/JFF/Grass1.msh"), MESH_PATH);
 
     // TeleportBox
     if (!CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Animation, "TeleportBox", TEXT("Objects/JellyfishFields/TeleportBoxMesh.msh"), MESH_PATH))
