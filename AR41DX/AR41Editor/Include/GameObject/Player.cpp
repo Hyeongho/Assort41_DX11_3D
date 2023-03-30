@@ -1363,6 +1363,13 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 		BashCheck();
 	}
 
+	if (name == "Ground")
+	{
+		m_OnCollision = true;
+		m_Rigid->SetGround(true);
+		BashCheck();
+	}
+
 	//else if (name == "Monster"|| name == "MonsterAttack")
 	//{
 	//	InflictDamage(1);
@@ -1372,6 +1379,19 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 
 void CPlayer::CollisionTestOut(const CollisionResult& result)
 {
+	std::list<CCollider*> List = result.Src->GetPrevCollisionList();
+
+	auto iter = List.begin();
+	auto iterEnd = List.end();
+
+	for (; iter != iterEnd; iter++)
+	{
+		if ((*iter)->GetCollisionProfile()->Name == "Ground")
+		{
+			return;
+		}
+	}
+
 	m_WallCollision.Dest = nullptr;
 	m_WallCollision.Src = nullptr;
 	m_WallCollision.HitPoint = Vector3(0.f,0.f,0.f);
