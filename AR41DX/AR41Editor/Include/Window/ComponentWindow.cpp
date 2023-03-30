@@ -109,7 +109,7 @@ void CComponentWindow::ChangePos()
 	if (m_SelectComponent)
 	{
 		CSceneComponent* component = (CSceneComponent*)m_SelectComponent.Get();
-		Vector3 pos=CSceneManager::GetInst()->GetScene()->FindObject("Gizmo")->GetWorldPos();
+		Vector3 pos = CSceneManager::GetInst()->GetScene()->FindObject("Gizmo")->GetWorldPos();
 		component->SetWorldPosition(pos);
 	}
 	else if (m_SelectWidget)
@@ -279,9 +279,9 @@ void CComponentWindow::TreeCallback(CEditorTreeItem<class CComponent*>* node, co
 	}
 	else if (m_SelectComponent->GetComponentTypeName() == "ColliderCube")
 	{
-		CColliderCubeWindow* colliderCubeWindow = 
+		CColliderCubeWindow* colliderCubeWindow =
 			CEditorGUIManager::GetInst()->FindEditorWindow<CColliderCubeWindow>("ColliderCubeWindow");
-		if(colliderCubeWindow)
+		if (colliderCubeWindow)
 		{
 			colliderCubeWindow->SetSelectComponent((CCollider*)m_SelectComponent.Get());
 		}
@@ -360,6 +360,7 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 		{
 			animation3DWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CAnimation3DWindow>("Animation3DWindow");
 		}
+		animation3DWindow->Open();
 		animation3DWindow->SetSelectComponent((CAnimationMeshComponent*)m_SelectComponent.Get());
 	}
 	else if (m_SelectComponent->GetComponentTypeName() == "StaticMeshComponent")
@@ -388,6 +389,7 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 		{
 			terrainWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CTerrainWindow>("TerrainWindow");
 		}
+		terrainWindow->Open();
 		terrainWindow->SetSelectComponent((CTerrainComponent*)m_SelectComponent.Get());
 	}
 	else if (m_SelectComponent->GetComponentTypeName() == "ParticleComponent")
@@ -405,6 +407,7 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 		{
 			particleWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CParticleWindow>("ParticleWindow");
 		}
+		particleWindow->Open();
 		particleWindow->SetSelectComponent((CParticleComponent*)m_SelectComponent.Get());
 	}
 	else if (m_SelectComponent->GetComponentTypeName() == "CameraComponent")
@@ -414,6 +417,7 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 		{
 			cameraWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CCameraWindow>("CameraWindow");
 		}
+		cameraWindow->Open();
 		cameraWindow->SetSelectComponent((CCameraComponent*)m_SelectComponent.Get());
 	}
 	else if (m_SelectComponent->GetComponentTypeName() == "TargetArm")
@@ -424,6 +428,7 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 		{
 			targetArmWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CTargetArmWindow>("TargetArmWindow");
 		}
+		targetArmWindow->Open();
 		targetArmWindow->SetSelectComponent((CTargetArm*)m_SelectComponent.Get());
 	}
 	else if (m_SelectComponent->GetComponentTypeName() == "RigidBody")
@@ -433,6 +438,7 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 		{
 			rigidBody = CEditorGUIManager::GetInst()->CreateEditorWindow<CRigidBodyWindow>("RigidBodyWindow");
 		}
+		rigidBody->Open();
 		rigidBody->SetSelectComponent((CRigidBody*)m_SelectComponent.Get());
 	}
 	else if (m_SelectComponent->GetComponentTypeName() == "LightComponent")
@@ -442,6 +448,7 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 		{
 			light = CEditorGUIManager::GetInst()->CreateEditorWindow<CLightWindow>("LightWindow");
 		}
+		light->Open();
 		light->SetSelectComponent((CLightComponent*)m_SelectComponent.Get());
 	}
 	else if (m_SelectComponent->GetComponentTypeName() == "ColliderCube")
@@ -452,6 +459,7 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 		{
 			colliderCubeWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CColliderCubeWindow>("ColliderCubeWindow");
 		}
+		colliderCubeWindow->Open();
 		colliderCubeWindow->SetSelectComponent((CCollider*)m_SelectComponent.Get());
 	}
 	else if (m_SelectComponent->GetComponentTypeName() == "ColliderSphere3D")
@@ -460,9 +468,10 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 			CEditorGUIManager::GetInst()->FindEditorWindow<CColliderSphere3dWindow>("ColliderSphere3dWindow");
 		if (!colliderSphere3dWindow)
 		{
-			colliderSphere3dWindow = 
+			colliderSphere3dWindow =
 				CEditorGUIManager::GetInst()->CreateEditorWindow<CColliderSphere3dWindow>("ColliderSphere3dWindow");
 		}
+		colliderSphere3dWindow->Open();
 		colliderSphere3dWindow->SetSelectComponent((CCollider*)m_SelectComponent.Get());
 	}
 	else if (m_SelectComponent->GetComponentTypeName() == "ColliderOBB3D")
@@ -471,9 +480,10 @@ void CComponentWindow::TreeDCCallback(CEditorTreeItem<class CComponent*>* node, 
 			CEditorGUIManager::GetInst()->FindEditorWindow<CColliderObb3dWindow>("ColliderObb3dWindow");
 		if (!colliderObb3dWindow)
 		{
-			colliderObb3dWindow = 
+			colliderObb3dWindow =
 				CEditorGUIManager::GetInst()->CreateEditorWindow<CColliderObb3dWindow>("ColliderObb3dWindow");
 		}
+		colliderObb3dWindow->Open();
 		colliderObb3dWindow->SetSelectComponent((CCollider*)m_SelectComponent.Get());
 	}
 }
@@ -543,10 +553,11 @@ void CComponentWindow::WidgetDCCallback(CEditorTreeItem<class CUIWidget*>* node,
 	if (m_SelectWidget->GetWidgetTypeName() == "UIButton")
 	{
 		CUIButtonWindow* buttonWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CUIButtonWindow>("UIButtonWindow");
-		if(!buttonWindow)
+		if (!buttonWindow)
 		{
-			buttonWindow=CEditorGUIManager::GetInst()->CreateEditorWindow<CUIButtonWindow>("UIButtonWindow");
+			buttonWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CUIButtonWindow>("UIButtonWindow");
 		}
+		buttonWindow->Open();
 		buttonWindow->SetSelectWidget((CUIButton*)m_SelectWidget.Get());
 	}
 	else if (m_SelectWidget->GetWidgetTypeName() == "UIImage")
@@ -556,6 +567,7 @@ void CComponentWindow::WidgetDCCallback(CEditorTreeItem<class CUIWidget*>* node,
 		{
 			imgWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CUIImageWindow>("UIImageWindow");
 		}
+		imgWindow->Open();
 		imgWindow->SetSelectWidget((CUIImage*)m_SelectWidget.Get());
 	}
 	else if (m_SelectWidget->GetWidgetTypeName() == "UINumber")
@@ -565,6 +577,7 @@ void CComponentWindow::WidgetDCCallback(CEditorTreeItem<class CUIWidget*>* node,
 		{
 			numberWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CUINumberWindow>("UINumberWindow");
 		}
+		numberWindow->Open();
 		numberWindow->SetSelectWidget((CUINumber*)m_SelectWidget.Get());
 	}
 	else if (m_SelectWidget->GetWidgetTypeName() == "UIProgressBar")
@@ -575,6 +588,7 @@ void CComponentWindow::WidgetDCCallback(CEditorTreeItem<class CUIWidget*>* node,
 		{
 			barWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CUIProgressBarWindow>("UIProgressBarWindow");
 		}
+		barWindow->Open();
 		barWindow->SetSelectWidget((CUIProgressBar*)m_SelectWidget.Get());
 	}
 	else if (m_SelectWidget->GetWidgetTypeName() == "UIText")
@@ -584,6 +598,7 @@ void CComponentWindow::WidgetDCCallback(CEditorTreeItem<class CUIWidget*>* node,
 		{
 			textWindow = CEditorGUIManager::GetInst()->CreateEditorWindow<CUITextWindow>("UITextWindow");
 		}
+		textWindow->Open();
 		textWindow->SetSelectWidget((CUIText*)m_SelectWidget.Get());
 	}
 }

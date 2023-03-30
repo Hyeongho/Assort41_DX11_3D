@@ -240,6 +240,8 @@ void CScene::Start()
 {
 	m_Start = true;
 
+	m_SceneInfo->Start();
+
 	m_SkySphere = new CSkySphere;
 
 	m_SkySphere->SetName("Sky");
@@ -655,6 +657,13 @@ void CScene::GetAllGameObjectHierarchyName(std::vector<HierarchyObjectName>& vec
 
 		vecName.push_back(Names);
 	}
+}
+
+void CScene::CloneGameObject(CGameObject* object)
+{
+	object->SetScene(this);
+	m_ObjList.push_back(object);
+	object->Start();
 }
 
 CGameObject* CScene::FindObject(const std::string& Name)

@@ -191,6 +191,11 @@ public:
 		m_InflictAngle = angle;
 	}
 
+	void SetStop(bool b=true)
+	{
+		m_IsStop = b;
+	}
+
 	void SetCanPickUp(bool b)
 	{
 		m_CanPickUp = b;
@@ -240,5 +245,6 @@ public:
 
 
 	void DebugF1();
+	void DebugF8();
 };
 
