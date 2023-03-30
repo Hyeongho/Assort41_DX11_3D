@@ -186,6 +186,14 @@ bool CMaterialManager::Init()
 	Material->SetShader("SpriteShader");
 	Material->SetOpacity(0.7f);
 
+	// Jellyfish Attack
+	Material = CreateMaterial<CMaterial>("Lightning");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Lightning", TEXT("T_Lightning_Balt_01.tga"));
+	Material->SetShader("SpriteShader");
+	Material->SetBaseColor(1.f, 1.f, 1.f, 1.f);
+	//Material->SetOpacity(0.7f);
+
+
 	//Material = CreateMaterial<CMaterial>("ShockWave");
 	//Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.tga"));
 	//Material->SetShader("SpriteShader");

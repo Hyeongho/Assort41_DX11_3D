@@ -5,14 +5,16 @@
 #include "Scene/Scene.h"
 #include "Player.h"
 
-CElectricRing::CElectricRing()
+CElectricRing::CElectricRing() :
+    m_Time(0.f)
 {
     SetTypeID<CElectricRing>();
 
     m_ObjectTypeName = "ElectricRing";
 }
 
-CElectricRing::CElectricRing(const CElectricRing& Obj)
+CElectricRing::CElectricRing(const CElectricRing& Obj) : CGameObject(Obj)
+, m_Time(0.f)
 {
     m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
     m_Collider = (CColliderOBB3D*)FindComponent("Collider");
@@ -59,7 +61,7 @@ bool CElectricRing::Init()
     m_Collider->SetCollisionProfile("Monster");
     m_Collider->SetRelativePosition(0.f, 0.f, 0.f);
 
-    m_InnerCollider->SetBoxHalfSize(14.f, 30.f, 14.f);
+    m_InnerCollider->SetBoxHalfSize(14.f, 35.f, 14.f);
     m_InnerCollider->SetCollisionProfile("Monster");
     m_InnerCollider->SetRelativePosition(0.f, 0.f, 0.f);
 
@@ -96,19 +98,10 @@ void CElectricRing::PostUpdate(float DeltaTime)
 {
     CGameObject::PostUpdate(DeltaTime);
 
-    Vector3 RingSize = m_Mesh->GetMeshSize();
+    m_Time += DeltaTime;
 
-    if (RingSize.x > 400.f)
-    {
-        Destroy();
-    }
-
-    if (m_Attack)
-    {
-        m_Player->InflictDamage(1);
-
-        m_Attack = false;
-    }
+    if (m_Time > 6.f)
+        SetLifeTime(DeltaTime);
 }
 
 CElectricRing* CElectricRing::Clone() const
@@ -124,17 +117,15 @@ void CElectricRing::Save(FILE* File)
 void CElectricRing::Load(FILE* File)
 {
     CGameObject::Load(File);
-
-    m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
-    m_Collider = (CColliderOBB3D*)FindComponent("Collider");
-    m_InnerCollider = (CColliderOBB3D*)FindComponent("Collider");
 }
 
 void CElectricRing::Collision(const CollisionResult& result)
 {
     if (result.Dest->GetCollisionProfile()->Name == "Player")
     {
-        m_Attack = true;
+        result.Dest->GetOwner()->InflictDamage();
+        m_Collider->Destroy();
+        m_InnerCollider->Destroy();
     }
 }
 

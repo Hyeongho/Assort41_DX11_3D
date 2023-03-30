@@ -19,7 +19,7 @@ private:
 	CSharedPtr<class CColliderOBB3D>	m_InnerCollider;
 	CSharedPtr<class CPlayer>	m_Player;
 
-	bool	m_Attack;
+	float	m_Time;
 	Vector3	m_PlayerPos;
 
 public:

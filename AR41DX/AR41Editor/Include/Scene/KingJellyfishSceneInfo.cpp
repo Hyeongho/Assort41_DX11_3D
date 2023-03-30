@@ -37,22 +37,23 @@ bool CKingJellyfishSceneInfo::Init()
 
 	CGameObject* MapCollider = m_Owner->CreateObject<CGameObject>("MapCollider");
 	CColliderOBB3D* Collider = MapCollider->CreateComponent<CColliderOBB3D>("Collider");
-	Collider->SetBoxHalfSize(5000.f, 5000.f, 5000.f);
-	Collider->SetWorldPosition(10000.f, -1100.f, -100.f);
-	Collider->SetCollisionProfile("Platform");
+	Collider->SetWorldPosition(8750.f, -520.f, -1600.f);
+	Collider->SetBoxHalfSize(2500.f, 500.f, 2500.f);
+	Collider->SetCollisionProfile("Ground");
 
 	CPool* Pool = m_Owner->CreateObject<CPool>("Pool");
-	Pool->SetWorldPosition(10000.f, 0.f, -100);
+	Pool->SetWorldPosition(8800.f, 0.f, -1700.f);
+	Pool->SetWorldScale(1.f, 1.f, 1.f);
 
 	m_Owner->GetViewport()->CreateUIWindow<CDialogUI>("DialogUI");
 	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
 
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetRespawnPos(19000, 0.f, -100);
+	Player->SetRespawnPos(8800.f, 0.f, -1700.f);
 	SetPlayerObject(Player);
-	
-	//CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
-	//KingJellyfish->SetWorldPosition(10000.f, 0.f, 10000.f);
+
+	CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
+	KingJellyfish->SetWorldPosition(8800.f, 0.f, -1500.f);
 
 	//CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	//CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
