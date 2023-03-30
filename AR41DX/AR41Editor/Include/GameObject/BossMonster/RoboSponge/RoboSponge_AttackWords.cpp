@@ -143,14 +143,14 @@ void CRoboSponge_AttackWords::Collision(const CollisionResult& result)
 		if (!Player)
 			return;
 
-		Player->InflictDamage();
-
 		Vector3 PlayerPos = Player->GetWorldPos();
 
 		float Degree = atan2(GetWorldPos().z - PlayerPos.z, GetWorldPos().x - PlayerPos.x);
 		Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
 
 		Player->SetInflictAngle(Degree);
+
+		Player->InflictDamage();
 	}
 
 }
