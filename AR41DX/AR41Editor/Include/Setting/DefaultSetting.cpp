@@ -190,6 +190,8 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("MClick", VK_MBUTTON);
     CInput::GetInst()->AddBindKey("Del", VK_DELETE);
     CInput::GetInst()->SetKeyCtrl("Del", true);
+    CInput::GetInst()->AddBindKey("CtrlD", 'D');
+    CInput::GetInst()->SetKeyCtrl("CtrlD", true);
 }
 
 void CDefaultSetting::SetCollision()

@@ -157,6 +157,7 @@ public:
 	void Save(const char* FileName, const std::string& PathName);
 	void Load(const char* FileName, const std::string& PathName);
 	void GetAllGameObjectHierarchyName(std::vector<HierarchyObjectName>& vecName);
+	void CloneGameObject(CGameObject* object);
 
 public:
 	class CGameObject* FindObject(const std::string& Name);

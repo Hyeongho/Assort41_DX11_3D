@@ -46,6 +46,7 @@ public:
 	void LArrow();
 	void RArrow();
 	void PlaceObject();
+	void PlaceObjectAtPlayer();
 	class CGameObject* CreateObject(const std::string& name);
 };
 

@@ -98,6 +98,7 @@ void CPlayer::Start()
 	m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("F7", Input_Type::Down, this, &CPlayer::DebugF1, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F8", Input_Type::Down, this, &CPlayer::DebugF8, m_Scene);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
@@ -1310,6 +1311,32 @@ void CPlayer::DebugF1()
 {
 	InflictDamage(1);
 	//SetWorldPosition(16500.f, 0.f, 12200.f);
+}
+
+void CPlayer::DebugF8()
+{
+	if (m_MainCharacter == EMain_Character::Spongebob)
+	{
+		m_Weapon->GetRootComponent()->SetEnable(false);
+	}
+	if (m_Weapon->GetRootComponent()->GetEnable() &&
+		m_MainCharacter == EMain_Character::Patrick)
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerPickUpIdle");
+	}
+	else
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
+	}
+	m_HeadCube->SetEnable(false);
+	m_TailCube->SetEnable(false);
+	m_FrontCube->SetEnable(false);
+	m_Cube->SetEnable(true);
+	m_Particle->SetRelativePosition(0.f, 0.f, 0.f);
+	m_Particle->DeleteCurrentParticle();
+	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
+	m_IsDoubleJump = false;
+	m_IsStop = false;
 }
 
 void CPlayer::CollisionTest(const CollisionResult& result)
