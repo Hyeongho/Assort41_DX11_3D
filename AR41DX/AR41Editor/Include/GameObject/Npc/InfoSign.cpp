@@ -6,7 +6,7 @@
 #include "Scene/Scene.h"
 #include "../../UI/DialogUI.h"
 #include "../Object/Common/Collectible/GoldenSpatula.h"
-
+#include "../BossMonster/RoboSponge/RoboSponge.h"
 
 CInfoSign::CInfoSign()
 {
@@ -49,7 +49,7 @@ void CInfoSign::Start()
 {
 	CNpc::Start();
 
-	CInput::GetInst()->AddBindFunction<CInfoSign>("F", Input_Type::Up, this, &CInfoSign::StartDialog, m_Scene);
+	CInput::GetInst()->AddBindFunction<CInfoSign>("F", Input_Type::Up, this, &CInfoSign::InputF, m_Scene);
 }
 
 bool CInfoSign::Init()
@@ -88,8 +88,17 @@ void CInfoSign::Update(float DeltaTime)
 		m_RotRight = true;
 	}
 
-	if (ZRot < -22 && ZRot > -338)
-		SetWorldRotationZ(-359.f);
+	if ((ZRot < -22 && ZRot > -180) || (ZRot < 338 && ZRot > 180)) {
+		SetWorldRotationZ(-21.f);
+		m_RotLeft = false;
+		m_RotRight = true;
+	}
+
+	if ((ZRot > -338 && ZRot < -180) || (ZRot > 22 && ZRot < 180)) {
+		SetWorldRotationZ(-339.f);
+		m_RotLeft = true;
+		m_RotRight = false;
+	}
 
 	if (m_RotLeft)
 		AddWorldRotationZ(g_DeltaTime * 70.f);
@@ -123,6 +132,35 @@ void CInfoSign::StartDialog()
 		return;
 
 
+}
+
+void CInfoSign::InputF()
+{
+	if (!m_EnableDialog)
+		return;
+
+	if (m_NpcMapPos == EMapList::Bikini_Bottom) {
+		// MapChange To RoboSpongeSceneInfo
+
+	}
+	if (m_NpcMapPos == EMapList::Jelly_Fish_Field) {
+
+
+	}
+	if (m_NpcMapPos == EMapList::Chum_Bucketlab) {
+		CRoboSponge* RoboSponge = (CRoboSponge*)m_Scene->FindObject("RoboSponge");
+
+		if (RoboSponge) {
+			RoboSponge->ActionStart();
+		}
+
+
+		CSound* Sound = CResourceManager::GetInst()->FindSound("BossStage");
+
+		if (Sound)
+			Sound->Play();
+
+	}
 }
 
 void CInfoSign::DebugKeyF1()

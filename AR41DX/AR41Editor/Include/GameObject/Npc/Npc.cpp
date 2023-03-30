@@ -133,6 +133,14 @@ void CNpc::Collision_Player(const CollisionResult& result)
         if (m_NpcType == ENpcList::TaxiStop) {
             InteractUI->SetTarget(EInteractTarget::Taxi);
         }
+
+        if (m_NpcType == ENpcList::InfoSign && m_NpcMapPos == EMapList::Bikini_Bottom) {
+            InteractUI->SetTarget(EInteractTarget::InfoSign);
+        }
+
+        if (m_NpcType == ENpcList::InfoSign && m_NpcMapPos == EMapList::Chum_Bucketlab) {
+            InteractUI->SetTarget(EInteractTarget::InfoSign2);
+        }
         
 
         InteractUI->ActiveInteractUI();

@@ -1,4 +1,4 @@
-#include "TeleportBox.h"
+ï»¿#include "TeleportBox.h"
 #include "../Player.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/AnimationMeshComponent.h"
@@ -44,12 +44,12 @@ void CTeleportBox::Start()
     m_Box2BottomCube->SetCollisionCallback<CTeleportBox>(ECollision_Result::Collision, this, &CTeleportBox::Collision_Teleport);
 
 
-    // ¾Æ·¡ À§Ä¡ º¯°æ½Ã, Ãæµ¹ ÇÔ¼ö ³»¿¡¼­ÀÇ ÅÚ·¹Æ÷Æ® À§Ä¡ º¯°æµµ ÇØ¾ß ÇÑ´Ù. 
-    if (m_BoxIndex == 1)
-        m_Mesh->SetWorldPosition(18000.f, 0.f, 13500.f);
+    // ì•„ëž˜ ìœ„ì¹˜ ë³€ê²½ì‹œ, ì¶©ëŒ í•¨ìˆ˜ ë‚´ì—ì„œì˜ í…”ë ˆí¬íŠ¸ ìœ„ì¹˜ ë³€ê²½ë„ í•´ì•¼ í•œë‹¤. 
+    //if (m_BoxIndex == 1)
+    //    m_Mesh->SetWorldPosition(18000.f, 0.f, 13500.f);
 
-    if (m_BoxIndex == 2)
-        m_Mesh->SetWorldPosition(16500.f, 0.f, 13500.f);
+    //if (m_BoxIndex == 2)
+    //    m_Mesh->SetWorldPosition(16500.f, 0.f, 13500.f);
 }
 
 bool CTeleportBox::Init()
@@ -174,11 +174,13 @@ void CTeleportBox::Collision_Teleport(const CollisionResult& result)
 
         if (GetBoxIndex() == 1)
         {
-            // 300.f´Â ¹Ú½º ¿·À¸·Î ÀÌµ¿½ÃÅ°±âÀ§ÇÑ ÀÓÀÇÀÇ ¼ýÀÚ. 
-            Player->SetWorldPosition(16500.f + 300.f, 0.f, 13500.f);
+            // 300.fëŠ” ë°•ìŠ¤ ì˜†ìœ¼ë¡œ ì´ë™ì‹œí‚¤ê¸°ìœ„í•œ ìž„ì˜ì˜ ìˆ«ìž. 
+            //Player->SetWorldPosition(16500.f + 300.f, 0.f, 13500.f);
         }
 
-        if (GetBoxIndex() == 2)
-            Player->SetWorldPosition(18000.f + 300.f, 0.f, 13500.f);
+        if (GetBoxIndex() == 2) {
+            //Player->SetWorldPosition(18000.f + 300.f, 0.f, 13500.f);
+
+        }
     }
 }

@@ -10,10 +10,12 @@
 #include "Component/LightComponent.h"
 #include "Component/TerrainComponent.h"
 #include "../GameObject/Player.h"
+#include "../GameObject/Npc/InfoSign.h"
 #include "../GameObject/Object/Common/Trampoline.h"
 #include "../GameObject/Object/CBL/CBL_Platform.h"
 #include "../GameObject/Object/CBL/CBL_Floor.h"
 #include "../GameObject/Object/CBL/CBL_BaseMesh.h"
+#include "../GameObject/Object/Common/Collectible/UnderWear.h"
 #include "../GameObject/BossMonster/RoboSponge/RoboSponge.h"
 #include "../GameObject/BossMonster/RoboSponge/RoboSponge_Knob.h"
 #include "../UI/TitleSceneUI.h"
@@ -33,6 +35,7 @@ CRoboSpongeSceneInfo::~CRoboSpongeSceneInfo()
 bool CRoboSpongeSceneInfo::Init()
 {
 	CSceneInfo::Init();
+
 
 	CGameObject* GlobalLightObj = m_Owner->CreateObject<CGameObject>("GlobalLight");
 	CLightComponent* GlobalLightComponent = GlobalLightObj->CreateComponent<CLightComponent>("GlobalLight");
@@ -75,10 +78,16 @@ bool CRoboSpongeSceneInfo::Init()
 		Platform->SetWorldPosition(CenterPos.x + StandardPos * sinf(Radian), 2000.f, CenterPos.y + StandardPos * cosf(Radian));
 		Platform->SetLookBoss(RoboSponge->GetWorldPos());
 
-		std::string TrampolineName = "Platform" + std::to_string(i);
+		std::string TrampolineName = "Trampoline" + std::to_string(i);
 		CTrampoline* Trampoline = m_Owner->CreateObject<CTrampoline>(TrampolineName);
 		Trampoline->SetWorldPosition(CenterPos.x + StandardPos * 1.2f * sinf(Radian), 610.f, CenterPos.y + StandardPos * 1.2f * cosf(Radian));
 
+
+		if (i % 2 == 1) {
+			std::string Underwearname = "Underwear" + std::to_string(i);
+			CUnderWear* Underwear = m_Owner->CreateObject<CUnderWear>(Underwearname);
+			Underwear->SetWorldPosition(CenterPos.x + StandardPos * 0.8f * sinf(Radian), 610.f, CenterPos.y + StandardPos * 0.8f * cosf(Radian));
+		}
 	}
 
 
@@ -87,6 +96,10 @@ bool CRoboSpongeSceneInfo::Init()
 	Player->SetRespawnPos(CenterPos.x, 0.f, CenterPos.y);
 
 
+	CInfoSign* Infosign = m_Owner->CreateObject<CInfoSign>("InfoSign");
+	Infosign->SetWorldPosition(11000.f, 600.f, 6200.f);
+	Infosign->SetMapPos(EMapList::Chum_Bucketlab);
+	Infosign->SetWorldRotationY(90.f);
 
 	return true;
 }

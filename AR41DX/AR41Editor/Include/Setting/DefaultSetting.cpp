@@ -283,11 +283,8 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "Collectible", ECollision_Interaction::Ignore);
 
-    CCollisionManager::GetInst()->SetCollisionInteraction("Ground", "Ground", ECollision_Interaction::Ignore);
-    CCollisionManager::GetInst()->SetCollisionInteraction("Ground", "Platform", ECollision_Interaction::Ignore);
-    CCollisionManager::GetInst()->SetCollisionInteraction("Ground", "PlayerAttack", ECollision_Interaction::Ignore);
-    CCollisionManager::GetInst()->SetCollisionInteraction("Ground", "Wall", ECollision_Interaction::Ignore);
-    CCollisionManager::GetInst()->SetCollisionInteraction("Ground", "MonsterAttack", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("Ground", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Ground", "Player", ECollision_Interaction::Collision);
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Player", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "PlayerAttack", ECollision_Interaction::Ignore);
@@ -319,7 +316,7 @@ void CDefaultSetting::LoadSound()
     CResourceManager::GetInst()->LoadSound("BGM", "JellyfishField", false, "Map/MUS_JellyfishFieldsTheme.ogg", SOUND_PATH);
 
     // BossStage BGM
-    CResourceManager::GetInst()->LoadSound("BGM", "BossStage", false, "Map/MUS_BossFightTheme.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("BGM", "BossStage", true, "Map/MUS_BossFightTheme.ogg", SOUND_PATH);
 
     //Tile BGM
     CResourceManager::GetInst()->LoadSound("UI", "UI_Backward", false, "Sfx/UI/SFX_UI_Backward_001.ogg");
@@ -372,6 +369,15 @@ void CDefaultSetting::LoadSfx()
     CResourceManager::GetInst()->LoadSound("Effect", "CreateShiny7", false, "Sfx/Item/Shiny/SFX_ShinyThing_add_sparkle_003.ogg");
 
 
+    // Robo Sponge
+    CResourceManager::GetInst()->LoadSound("Effect", "RoboSponge_AttackVertic", false, "Sfx/Bosses/RoboSponge/SFX_RSB_ChopSwing_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "RoboSponge_AttackHoriz", false, "Sfx/Bosses/RoboSponge/SFX_RSB_Swipe.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "RoboSponge_AttackWords", false, "Sfx/Bosses/RoboSponge/SFX_RSB_KAH_Reso_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "RoboSponge_Explode", false, "Sfx/Bosses/RoboSponge/SFX_RSB_Explode_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "HitPlat1", false, "Sfx/Bosses/RoboSponge/SFX_RSB_HitPlat_V1_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "HitPlat2", false, "Sfx/Bosses/RoboSponge/SFX_RSB_HitPlat_V1_002.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "HitPlat3", false, "Sfx/Bosses/RoboSponge/SFX_RSB_HitPlat_V1_003.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "RoboSponge_Laugh", false, "Sfx/Bosses/RoboSponge/SFX_RSB_Laugh.ogg");
 
 }
 
