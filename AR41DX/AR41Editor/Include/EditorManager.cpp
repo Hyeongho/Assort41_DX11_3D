@@ -49,16 +49,17 @@ bool CEditorManager::Init(HINSTANCE hInst)
         return false;
     }
 
+
     CSceneInfo* Info = new CEditorDefaultScene;
     //CSceneInfo* Info = new CTitleSceneInfo;
     //CSceneInfo* Info = new CBikiniCitySceneInfo;
-    //CSceneInfo* Info = new CJellyfishFieldSceneInfo;
+    CSceneInfo* Info = new CJellyfishFieldSceneInfo;
     //CSceneInfo* Info = new CKingJellyfishSceneInfo;
 
     CScene::AddSceneInfoCDO("EditorDefaultScene", Info);
     //CScene::AddSceneInfoCDO("TitleSceneInfo", Info);
     //CScene::AddSceneInfoCDO("BikiniCitySceneInfo", Info);
-    //CScene::AddSceneInfoCDO("JellyfishFieldSceneInfo", Info);
+    CScene::AddSceneInfoCDO("JellyfishFieldSceneInfo", Info);
     //CScene::AddSceneInfoCDO("KingJellyfishSceneInfo", Info);
 
     CEngineShareSetting::Setting();
