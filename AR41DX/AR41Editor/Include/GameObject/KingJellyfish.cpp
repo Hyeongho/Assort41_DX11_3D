@@ -105,7 +105,7 @@ bool CKingJellyfish::Init()
     m_DetectCollision->SetBoxHalfSize(700.f, 500.f, 700.f);
     m_DetectCollision->SetRelativePosition(0.f, 500.f);
 
-    m_PoolCollision->SetBoxHalfSize(200.f, 200.f, 200.f);
+    m_PoolCollision->SetBoxHalfSize(50.f, 200.f, 50.f);
     m_PoolCollision->SetRelativePosition(0.f, 200.f);
 
     m_AttackCollision->SetCollisionProfile("Monster");
@@ -116,7 +116,7 @@ bool CKingJellyfish::Init()
     m_DetectCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::DetectCollision);
     m_PoolCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::PoolCollision);
 
-    m_EffectMesh->SetMaterial(0, "Effect");
+    m_EffectMesh->SetMaterial(0, "RBSpongeBooster");
     //std::string& Name = m_Mesh->GetSkeleton()->GetBone();
 
     //m_EffectMesh->GetSkeleton()->

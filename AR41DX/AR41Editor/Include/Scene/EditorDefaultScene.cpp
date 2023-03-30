@@ -40,6 +40,18 @@ bool CEditorDefaultScene::Init()
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
 	//m_Owner->GetViewport()->CreateUIWindow<CLoadingUI>("LoadingUI");
+
+	//m_Owner->GetViewport()->CreateUIWindow<CDialogUI>("DialogUI");
+	//m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
+
+	//CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
+	//Player->SetRespawnPos(10300.f, 255.f, 6500.f);
+	//SetPlayerObject(Player);
+
+	//CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
+	//CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
+	//TerrainComponent->SetHeight(1.f);
+	//TerrainComponent->CreateTerrain(800, 600, 40.f, 40.f, TEXT("LandScape/RobotSpongebob.png"));
 	return true;
 }
 
