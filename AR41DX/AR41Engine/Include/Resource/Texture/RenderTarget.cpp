@@ -38,7 +38,7 @@ bool CRenderTarget::CreateTarget(const std::string& Name,
 {
 	SetName(Name);
 
-	// int	SampleCount = CDevice::GetInst()->GetSampleCount(); 0325
+	 int	SampleCount = CDevice::GetInst()->GetSampleCount(); //0325
 
 	// Target侩 Texture 积己
 	D3D11_TEXTURE2D_DESC	Desc = {};
@@ -47,7 +47,7 @@ bool CRenderTarget::CreateTarget(const std::string& Name,
 	Desc.Height = Height;
 	Desc.ArraySize = 1;
 	Desc.MipLevels = 1;
-	Desc.SampleDesc.Count = 1;; // SampleCount; 0325
+	Desc.SampleDesc.Count = SampleCount; //0325
 	Desc.SampleDesc.Quality = 0;
 	Desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 	Desc.Format = PixelFormat;
@@ -82,7 +82,7 @@ bool CRenderTarget::CreateTarget(const std::string& Name,
 		DepthDesc.Height = Height;
 		DepthDesc.ArraySize = 1;
 		DepthDesc.MipLevels = 1;
-		DepthDesc.SampleDesc.Count = 1; //SampleCount; 0325
+		DepthDesc.SampleDesc.Count = SampleCount; // 0325
 		DepthDesc.SampleDesc.Quality = 0;
 		DepthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 		DepthDesc.Format = DepthFormat;
@@ -106,6 +106,85 @@ bool CRenderTarget::CreateTarget(const std::string& Name,
 	m_CBuffer->Init();
 
 	m_matProj	= DirectX::XMMatrixOrthographicOffCenterLH(0.f, (float)Width, 0.f,
+		(float)Height, 0.f, 1000.f);
+
+	m_CBuffer->SetProjMatrix(m_matProj);
+
+	m_Mesh = CResourceManager::GetInst()->FindMesh("LBUVRect");
+
+	return true;
+}
+
+bool CRenderTarget::CreateTargetNoMS(const std::string& Name, unsigned int Width, unsigned int Height, DXGI_FORMAT PixelFormat, DXGI_FORMAT DepthFormat)
+{
+	SetName(Name);
+
+   // Target侩 Texture 积己
+	D3D11_TEXTURE2D_DESC	Desc = {};
+
+	Desc.Width = Width;
+	Desc.Height = Height;
+	Desc.ArraySize = 1;
+	Desc.MipLevels = 1;
+	Desc.SampleDesc.Count = 1; 
+	Desc.SampleDesc.Quality = 0;
+	Desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	Desc.Format = PixelFormat;
+	Desc.Usage = D3D11_USAGE_DEFAULT;
+
+	if (FAILED(CDevice::GetInst()->GetDevice()->CreateTexture2D(&Desc, nullptr,
+		&m_TargetTex)))
+		return false;
+
+	TextureResourceInfo* Info = new TextureResourceInfo;
+
+	Info->Width = Width;
+	Info->Height = Height;
+	m_vecTextureInfo.push_back(Info);
+
+	m_TargetTex->QueryInterface(__uuidof(IDXGISurface),
+		(void**)&m_Surface);
+
+	if (FAILED(CDevice::GetInst()->GetDevice()->CreateShaderResourceView(
+		m_TargetTex, nullptr, &Info->SRV)))
+		return false;
+
+	if (FAILED(CDevice::GetInst()->GetDevice()->CreateRenderTargetView(m_TargetTex,
+		nullptr, &m_TargetView)))
+		return false;
+
+	if (DepthFormat != DXGI_FORMAT_UNKNOWN)
+	{
+		D3D11_TEXTURE2D_DESC	DepthDesc = {};
+
+		DepthDesc.Width = Width;
+		DepthDesc.Height = Height;
+		DepthDesc.ArraySize = 1;
+		DepthDesc.MipLevels = 1;
+		DepthDesc.SampleDesc.Count = 1;
+		DepthDesc.SampleDesc.Quality = 0;
+		DepthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		DepthDesc.Format = DepthFormat;
+		DepthDesc.Usage = D3D11_USAGE_DEFAULT;
+
+		ID3D11Texture2D* DepthTex = nullptr;
+
+		if (FAILED(CDevice::GetInst()->GetDevice()->CreateTexture2D(&DepthDesc, nullptr,
+			&DepthTex)))
+			return false;
+
+		if (FAILED(CDevice::GetInst()->GetDevice()->CreateDepthStencilView(DepthTex,
+			nullptr, &m_DepthView)))
+			return false;
+
+		SAFE_RELEASE(DepthTex);
+	}
+
+	m_CBuffer = new CTransformConstantBuffer;
+
+	m_CBuffer->Init();
+
+	m_matProj = DirectX::XMMatrixOrthographicOffCenterLH(0.f, (float)Width, 0.f,
 		(float)Height, 0.f, 1000.f);
 
 	m_CBuffer->SetProjMatrix(m_matProj);

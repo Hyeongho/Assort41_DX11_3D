@@ -37,17 +37,25 @@ CTestSceneInfo::~CTestSceneInfo()
 bool CTestSceneInfo::Init()
 {
 	CSceneInfo::Init();
-
+	//	m_LightInfo.Color = (0.98f, 0.89f, 0.23f, 0.f);
 	CGameObject* GlobalLightObj = m_Owner->CreateObject<CGameObject>("GlobalLight");
 	CLightComponent* GlobalLightComponent = GlobalLightObj->CreateComponent<CLightComponent>("GlobalLight");
-	GlobalLightComponent->SetLightType(ELightType::Direction);
+	GlobalLightComponent->SetLightType(ELightType::Spot);
 	GlobalLightComponent->SetRelativeRotation(0, 90.f, 0.f);
+	//GlobalLightComponent->SetLightColor(Vector4(0.98f, 0.89f, 0.23f, 1.f));
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
+
+
 
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
 	Player->SetWorldPosition(16500.f, 0.f, 12200.f);
 	SetPlayerObject(Player);
 
+	CGameObject* ParticleObj = m_Owner->CreateObject<CGameObject>("Particle");
+	CParticleComponent* Particle = ParticleObj->CreateComponent<CParticleComponent>("ParticleComponent");
+	Particle->SetParticle("GroundBubble");
+	Particle->SetWorldPosition(16500.f, 300.f, 12200.f);
+	Particle->SetWorldRotationX(30.f);
 	//CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
 	//TeeterRock->SetWorldPosition(16500.f, 0.f, 12200.f);
 
@@ -98,11 +106,11 @@ bool CTestSceneInfo::Init()
 	//CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
 	//Patric->SetWorldPosition(16500.f, 0.f, 12200.f);
 
-	CPool* Pool = m_Owner->CreateObject<CPool>("Pool");
-	Pool->SetWorldPosition(16000, 0.f, 12200.f);
+	//CPool* Pool = m_Owner->CreateObject<CPool>("Pool");
+	//Pool->SetWorldPosition(16000, 0.f, 12200.f);
 
-	CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
-	KingJellyfish->SetWorldPosition(16500.f, 0.f, 13000.f);
+	//CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
+	//KingJellyfish->SetWorldPosition(16500.f, 0.f, 13000.f);
 
 
 	//CGameObject* GateArm = m_Owner->CreateObject<CGameObject>("GateArm");

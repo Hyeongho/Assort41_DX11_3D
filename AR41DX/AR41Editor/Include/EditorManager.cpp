@@ -79,9 +79,9 @@ bool CEditorManager::Init(HINSTANCE hInst)
     // SceneInfo 
     //CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
     //CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
-    CSceneManager::GetInst()->CreateSceneInfo<CTitleSceneInfo>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CTitleSceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CBikiniCitySceneInfo>();
-    //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishFieldSceneInfo>();
+    CSceneManager::GetInst()->CreateSceneInfo<CJellyfishFieldSceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CKingJellyfishSceneInfo>();
 
     CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");

@@ -11,7 +11,7 @@ CLightComponent::CLightComponent() : m_CBuffer(nullptr)
 
 	m_ComponentTypeName = "LightComponent";
 
-	m_LightInfo.Color = Vector4::White;
+	m_LightInfo.Color = Vector4::Blue;
 }
 
 CLightComponent::CLightComponent(const CLightComponent& component) : CSceneComponent(component)
