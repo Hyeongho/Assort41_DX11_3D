@@ -20,4 +20,7 @@ public:
 	virtual CTaxiDriver* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+private:
+	void ChangeSceneToBB();
 };

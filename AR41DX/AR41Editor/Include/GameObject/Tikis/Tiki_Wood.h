@@ -26,6 +26,8 @@ protected:
 
 private :
 	void CreateAnim();
+
+private:
 	void ChangeAnim_Idle();
 	void ChangeAnim_Die();
 

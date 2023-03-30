@@ -1,9 +1,9 @@
 #include "MrKrabs.h"
 
-#include "Input.h"
 #include "Component/AnimationMeshComponent.h"
 #include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
+#include "Input.h"
 #include "../../UI/DialogUI.h"
 #include "../Object/Common/Collectible/GoldenSpatula.h"
 #include "../Player.h"

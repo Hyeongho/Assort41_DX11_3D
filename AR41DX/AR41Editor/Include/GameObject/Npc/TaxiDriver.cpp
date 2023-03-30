@@ -1,6 +1,10 @@
 #include "TaxiDriver.h"
 
 #include "Component/StaticMeshComponent.h"
+#include "Component/ColliderOBB3D.h"
+#include "Input.h"
+#include "Scene/SceneManager.h"
+#include "../../Scene/LoadingSceneInfo.h"
 
 CTaxiDriver::CTaxiDriver()
 {
@@ -8,10 +12,8 @@ CTaxiDriver::CTaxiDriver()
 
 	m_ObjectTypeName = "TaxiDriver";
 
-	m_DialogCount = 0;
-	m_NpcType = ENpcList::Squidward;
-	m_NpcMapPos = EMapList::Bikini_Bottom;
-	m_EnableDialog = false;
+	m_NpcType = ENpcList::TaxiStop;
+	m_NpcMapPos = EMapList::Jelly_Fish_Field;
 	m_NpcMeshType = MeshType::Static;
 }
 
@@ -20,10 +22,8 @@ CTaxiDriver::CTaxiDriver(const CTaxiDriver& Obj)
 {
 	m_StaticMesh = (CStaticMeshComponent*)FindComponent("Mesh");
 
-	m_DialogCount = Obj.m_DialogCount;
 	m_NpcType = Obj.m_NpcType;
 	m_NpcMapPos = Obj.m_NpcMapPos;
-	m_EnableDialog = Obj.m_EnableDialog;
 	m_NpcMeshType = Obj.m_NpcMeshType;
 }
 
@@ -33,29 +33,38 @@ CTaxiDriver::~CTaxiDriver()
 
 void CTaxiDriver::Start()
 {
-	CGameObject::Start();
+	CNpc::Start();
+
+	CInput::GetInst()->AddBindFunction<CTaxiDriver>("F", Input_Type::Up, this, &CTaxiDriver::ChangeSceneToBB, m_Scene);
 }
 
 bool CTaxiDriver::Init()
 {
-	CGameObject::Init();
+	CNpc::Init();
 
-	m_StaticMesh = CreateComponent<CStaticMeshComponent>("Mesh");
-	m_StaticMesh->SetMesh("Taxi");
+	m_StaticMesh->SetMesh("Taxi_Stop");
 
-	SetRootComponent(m_StaticMesh);
+	Vector3 ColSize = m_StaticMesh->GetMeshSize();
+
+	if (m_StaticMesh->GetMeshSize().x >= m_StaticMesh->GetMeshSize().z)
+		ColSize.z = m_StaticMesh->GetMeshSize().x;
+	else
+		ColSize.x = m_StaticMesh->GetMeshSize().z;
+
+	m_Collider->SetBoxHalfSize(ColSize / 2.f);
+	m_Collider->SetRelativePositionY(ColSize.y / 2.f);
 	
 	return true;
 }
 
 void CTaxiDriver::Update(float DeltaTime)
 {
-	CGameObject::Update(DeltaTime);
+	CNpc::Update(DeltaTime);
 }
 
 void CTaxiDriver::PostUpdate(float DeltaTime)
 {
-	CGameObject::PostUpdate(DeltaTime);
+	CNpc::PostUpdate(DeltaTime);
 }
 
 CTaxiDriver* CTaxiDriver::Clone() const
@@ -65,10 +74,17 @@ CTaxiDriver* CTaxiDriver::Clone() const
 
 void CTaxiDriver::Save(FILE* File)
 {
-	CGameObject::Save(File);
+	CNpc::Save(File);
 }
 
 void CTaxiDriver::Load(FILE* File)
 {
-	CGameObject::Load(File);
+	CNpc::Load(File);
+}
+
+void CTaxiDriver::ChangeSceneToBB()
+{
+	// ¸Ê º¯°æ
+	//CSceneManager::GetInst()->CreateNextScene();
+	//CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniBottom.scn");
 }

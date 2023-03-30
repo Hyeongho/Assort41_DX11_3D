@@ -3,7 +3,7 @@
 #include "GameObject\GameObject.h"
 
 class CJellyfishElectric :
-    public CGameObject
+	public CGameObject
 {
 	friend class CScene;
 	friend class CJellyfishElectric;
@@ -16,8 +16,15 @@ protected:
 private:
 	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
 	CSharedPtr<class CColliderSphere3D>	m_Collider;
-	bool	m_Attack;
+
 	float	m_AttackTime;
+
+public:
+	bool	m_Attack;
+	void SetAttack(bool Attack)
+	{
+		m_Attack = Attack;
+	}
 
 public:
 	virtual void Start();

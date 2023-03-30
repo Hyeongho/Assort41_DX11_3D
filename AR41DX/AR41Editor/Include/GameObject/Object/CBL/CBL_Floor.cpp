@@ -40,14 +40,6 @@ bool CCBL_Floor::Init()
 	m_OuterMesh->SetMesh("CBL_OuterFloor");
 
 
-	//Vector2 Ratio = CDevice::GetInst()->GetHdRsRatio();
-	//Ratio.x = 1.f / Ratio.x;
-	//Ratio.y = 1.f / Ratio.y;
-
-	//m_InnerMesh->SetRelativeScale(Ratio);
-	//m_OuterMesh->SetRelativeScale(Ratio);
-
-
 	return true;
 }
 

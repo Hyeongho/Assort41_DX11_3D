@@ -255,6 +255,7 @@ enum class ENpcList // Npc 전체 리스트
 	Patric,
 	BusDriver,
 	InfoSign,
+	TaxiStop,
 	End
 };
 
@@ -270,4 +271,13 @@ enum class EShaderType
 {
 	Default,
 	CelShader
+};
+
+enum class EFade_State
+{
+	Normal,
+	FadeIn_Start,
+	FadeIn_End,
+	FadeOut_Start,
+	FadeOut_End
 };
