@@ -374,6 +374,8 @@ void CKingJellyfish::PoolCollision(const CollisionResult& result)
         {
             m_Angry = false;
 
+            m_Jellyfish->SetBoss(true);
+
             m_SpawnJellyfish = true;
 
             m_Animation->ChangeAnimation("KingJellyfish_SpawnJellyfish");
@@ -386,6 +388,8 @@ void CKingJellyfish::PoolCollision(const CollisionResult& result)
             m_ReSpawn = false;
 
             m_SpawnJellyfish = true;
+
+            m_Jellyfish->SetBoss(true);
 
             m_Animation->ChangeAnimation("KingJellyfish_SpawnJellyfish");
 

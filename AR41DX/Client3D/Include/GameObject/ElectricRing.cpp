@@ -124,6 +124,10 @@ void CElectricRing::Save(FILE* File)
 void CElectricRing::Load(FILE* File)
 {
     CGameObject::Load(File);
+
+    m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
+    m_Collider = (CColliderOBB3D*)FindComponent("Collider");
+    m_InnerCollider = (CColliderOBB3D*)FindComponent("Collider");
 }
 
 void CElectricRing::Collision(const CollisionResult& result)
