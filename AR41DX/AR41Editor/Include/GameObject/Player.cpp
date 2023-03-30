@@ -98,6 +98,7 @@ void CPlayer::Start()
 	m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("F7", Input_Type::Down, this, &CPlayer::DebugF1, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F8", Input_Type::Down, this, &CPlayer::DebugF8, m_Scene);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
@@ -1312,6 +1313,21 @@ void CPlayer::DebugF1()
 	//SetWorldPosition(16500.f, 0.f, 12200.f);
 }
 
+void CPlayer::DebugF8()
+{
+	m_HeadCube->SetEnable(false);
+	m_TailCube->SetEnable(false);
+	m_FrontCube->SetEnable(false);
+	m_Particle->SetRelativePosition(0.f, 0.f, 0.f);
+	m_Particle->DeleteCurrentParticle();
+	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
+	m_IsDoubleJump = false;
+	m_IsStop = false;
+
+	m_Cube->SetEnable(false);
+	m_Anim[(int)m_MainCharacter]->Stop();
+}
+
 void CPlayer::CollisionTest(const CollisionResult& result)
 {
 	std::string name = result.Dest->GetCollisionProfile()->Name;
@@ -1331,6 +1347,27 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 			m_WallCollision = result;
 		}
 	}
+
+	if (name == "Platform")
+	{
+
+		if (GetWorldPos().y > m_PrevPos.y) {
+			m_Rigid->SetVelocity(0.f, 0.f, 0.f);
+
+			return;
+		}
+
+
+		m_OnCollision = true;
+		m_Rigid->SetGround(true);
+		BashCheck();
+	}
+
+	//else if (name == "Monster"|| name == "MonsterAttack")
+	//{
+	//	InflictDamage(1);
+	//}
+
 }
 
 void CPlayer::CollisionTestOut(const CollisionResult& result)

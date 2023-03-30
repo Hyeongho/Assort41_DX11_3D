@@ -33,9 +33,11 @@ void CRoboSponge_Knob::Start()
 	CGameObject::Start();
 
 #ifdef _DEBUG
-	CInput::GetInst()->AddBindFunction<CRoboSponge_Knob>("F1", Input_Type::Up, this, &CRoboSponge_Knob::DebugF1, m_Scene);
-	CInput::GetInst()->AddBindFunction<CRoboSponge_Knob>("F2", Input_Type::Up, this, &CRoboSponge_Knob::DebugF2, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CRoboSponge_Knob>("F1", Input_Type::Up, this, &CRoboSponge_Knob::DebugF1, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CRoboSponge_Knob>("F2", Input_Type::Up, this, &CRoboSponge_Knob::DebugF2, m_Scene);
 #endif
+
+	m_Collider->SetCollisionCallback<CRoboSponge_Knob>(ECollision_Result::Collision, this, &CRoboSponge_Knob::Collision_PlayerAttack);
 }
 
 bool CRoboSponge_Knob::Init()
@@ -53,14 +55,12 @@ bool CRoboSponge_Knob::Init()
 	m_Mesh->SetMesh("GreenKnob");
 
 
-	m_Collider->SetCollisionProfile("Monster");
+	m_Collider->SetCollisionProfile("Knob");
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
-	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
-	m_Collider->SetCollisionCallback<CRoboSponge_Knob>(ECollision_Result::Collision, this, &CRoboSponge_Knob::Collision_PlayerAttack);
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
-
+	//SetWorldRotationX(90.f);
 
 	return true;
 }
@@ -108,25 +108,32 @@ void CRoboSponge_Knob::BreakKnob()
 	CRoboSponge* RoboSponge = (CRoboSponge*)m_Scene->FindObject("RoboSponge");
 
 	if (RoboSponge) {
-		// RoboSponge->Attacked();
+		RoboSponge->Damaged();
 	}
 }
 
 void CRoboSponge_Knob::Collision_PlayerAttack(const CollisionResult& result)
 {
-	const std::string& DestName = result.Dest->GetCollisionProfile()->Name;
+	//const std::string& DestName = result.Dest->GetCollisionProfile()->Name;
 
-	if (strcmp("PlayerAttack", DestName.c_str()) == 0) {
+	//if (strcmp("PlayerAttack", DestName.c_str()) == 0) {
+	//	BreakKnob();
+	//}
+
+	CRoboSponge* RoboSponge = (CRoboSponge*)m_Scene->FindObject("RoboSponge");
+	bool BossAction = RoboSponge->GetBossAction();
+
+	if (m_KnobState == EKnobState::Normal && BossAction) {
 		BreakKnob();
 	}
 }
 
 void CRoboSponge_Knob::DebugF1()
 {
-	m_Mesh->SetMesh("GreenKnob");
+	//m_Mesh->SetMesh("GreenKnob");
 }
 
 void CRoboSponge_Knob::DebugF2()
 {
-	m_Mesh->SetMesh("BrokenKnob");
+	//m_Mesh->SetMesh("BrokenKnob");
 }

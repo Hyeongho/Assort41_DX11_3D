@@ -130,6 +130,11 @@ void CNpc::Collision_Player(const CollisionResult& result)
             InteractUI->SetTarget(EInteractTarget::Bus);
         }
 
+        if (m_NpcType == ENpcList::TaxiStop) {
+            InteractUI->SetTarget(EInteractTarget::Taxi);
+        }
+        
+
         InteractUI->ActiveInteractUI();
         m_EnableDialog = true;
     }

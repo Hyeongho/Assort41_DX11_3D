@@ -245,5 +245,6 @@ public:
 
 
 	void DebugF1();
+	void DebugF8();
 };
 

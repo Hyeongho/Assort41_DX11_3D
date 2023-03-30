@@ -15,7 +15,6 @@
 #include "GameObject/GameObject.h"
 //#include "GameObject/SkySphere.h"
 
-//김범중 클라이언트에서는 에디터 관련된 부분 컴파일 안돼게끔 하기위한 전처리문
 #ifdef __has_include
 #	if __has_include("../Window/ObjectWindow.h")
 #		include "../Window/ObjectWindow.h"
@@ -45,7 +44,8 @@ bool CLoadingSceneInfo::Init()
 	img->SetTexture("LoadingBG", TEXT("UI\\load_bg.tga"));
 	img->SetWorldScale(1920.f,1080.f);
 	img->SetPivot(0.f, 0.f);
-	img->SetWorldPosition(-960.f, -8.f);
+	img->SetWorldPosition(-960.f, -10.f);
+	img->GetMaterial(0)->SetBaseColor(0.f,0.f,0.f,1.f);
 	m_Particle = m_Owner->CreateObject<CGameObject>("Particle");
 	m_Particle->CreateComponent<CParticleComponent>("Particle");
 	m_Particle->SetEnable(false);

@@ -22,7 +22,7 @@ CPrimitiveComponent::CPrimitiveComponent(const CPrimitiveComponent& component)	:
 
 	m_Render = component.m_Render;
 
-	size_t	Size = m_vecMaterial.size();
+	size_t	Size = component.m_vecMaterial.size();
 
 	for (size_t i = 0; i < Size; i++)
 	{

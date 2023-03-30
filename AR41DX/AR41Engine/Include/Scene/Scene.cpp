@@ -659,6 +659,13 @@ void CScene::GetAllGameObjectHierarchyName(std::vector<HierarchyObjectName>& vec
 	}
 }
 
+void CScene::CloneGameObject(CGameObject* object)
+{
+	object->SetScene(this);
+	m_ObjList.push_back(object);
+	object->Start();
+}
+
 CGameObject* CScene::FindObject(const std::string& Name)
 {
 	auto	iter = m_ObjList.begin();
