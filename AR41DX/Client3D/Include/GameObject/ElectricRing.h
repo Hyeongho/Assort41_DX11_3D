@@ -5,8 +5,8 @@
 class CElectricRing :
 	public CGameObject
 {
-    friend class CScene;
-    friend class CKingJellyfish;
+	friend class CScene;
+	friend class CKingJellyfish;
 
 protected:
 	CElectricRing();
@@ -16,6 +16,11 @@ protected:
 private:
 	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
 	CSharedPtr<class CColliderOBB3D>	m_Collider;
+	CSharedPtr<class CColliderOBB3D>	m_InnerCollider;
+	CSharedPtr<class CPlayer>	m_Player;
+
+	bool	m_Attack;
+	Vector3	m_PlayerPos;
 
 public:
 	virtual void Start();
@@ -25,5 +30,10 @@ public:
 	virtual CElectricRing* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+private:
+	void Collision(const CollisionResult& result);
+	void InnerCollision(const CollisionResult& result);
+
 };
 

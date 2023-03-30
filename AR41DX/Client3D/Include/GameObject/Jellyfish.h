@@ -2,16 +2,6 @@
 
 #include "GameObject\GameObject.h"
 
-enum class EJellyfishDir
-{
-	ZP, // Z축 +방향
-	ZM, // Z축 -방향
-	XP, // X축 +방향
-	XM, // X축 -방향
-	ZPXP,
-	ZMXM
-};
-
 class CJellyfish :
 	public CGameObject
 {

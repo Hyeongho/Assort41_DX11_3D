@@ -24,7 +24,7 @@ CMrKrabs::CMrKrabs()
 CMrKrabs::CMrKrabs(const CMrKrabs& Obj) : CNpc(Obj)
 {
     m_AnimMesh = (CAnimationMeshComponent*)FindComponent("Mesh");
-    m_Animation = (CAnimation*)FindComponent("MrKrabsAnimation");
+    m_Animation = Obj.m_Animation;
 
     m_DialogCount = Obj.m_DialogCount;
     m_NpcType = Obj.m_NpcType;

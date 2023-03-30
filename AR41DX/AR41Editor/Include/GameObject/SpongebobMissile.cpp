@@ -105,7 +105,7 @@ void CSpongebobMissile::PostUpdate(float DeltaTime)
 	if (m_Anim->GetCurrentAnimationName() == "MissileIdle")
 	{
 		AddWorldPosition(sinf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime,
-						 tanh(DegreeToRadian(m_Arm->GetRelativeRot().x)) * -m_Speed * DeltaTime,
+						 tanh(DegreeToRadian(m_Arm->GetRelativeRot().x)) * -m_Speed *2.f* DeltaTime,
 						 cosf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime);
 		SetRelativeRotationY(m_Angle - 270.f);
 	}
