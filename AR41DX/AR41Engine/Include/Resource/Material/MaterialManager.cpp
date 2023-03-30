@@ -196,9 +196,9 @@ bool CMaterialManager::Init()
 	//Material->SetShader("SpriteShader");
 
 	// ���η� �����̴� �ؽ���
-	Material = CreateMaterial<CMaterial>("ShockWave");
+	/*Material = CreateMaterial<CMaterial>("ShockWave");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.png"));
-	Material->SetShader("SpriteShader");
+	Material->SetShader("SpriteShader");*/
 
 	Material = CreateMaterial<CMaterial>("blueflame");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "blueflame", TEXT("Particle/blueflame.png"));

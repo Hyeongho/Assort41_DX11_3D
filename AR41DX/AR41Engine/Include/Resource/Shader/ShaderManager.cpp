@@ -129,7 +129,7 @@ bool CShaderManager::Init()
 	CreateShader<CTranslationShader>("TranslationShader", true);
 
 
-	//CreateShader<CMSShader>("MSShader", true);
+	CreateShader<CMSShader>("MSShader", true);
 
 	CreateShader<CCartoonShader>("CartoonShader", true);
 
@@ -152,11 +152,10 @@ bool CShaderManager::Init()
 
 	CreateConstantBuffer("Shadow", sizeof(ShadowCBuffer), 13, (int)EShaderBufferType::Graphic);
 
-	CreateConstantBuffer("FXAA", sizeof(FXAACBuffer), 14, (int)EShaderBufferType::Pixel); 
+	CreateConstantBuffer("FXAA", sizeof(FXAACBuffer), 2, (int)EShaderBufferType::Pixel); 
 
 	CreateConstantBuffer("Translation", sizeof(TranslationCBuffer), 6);
 
-	//CreateConstantBuffer("MS", sizeof(MSCBuffer), 15, (int)EShaderBufferType::Pixel);
 	CreateConstantBuffer("Cartoon", sizeof(CartoonCBuffer), 15, (int)EShaderBufferType::Pixel);
 
 
