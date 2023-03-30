@@ -114,19 +114,26 @@ void CRoboSponge_Knob::BreakKnob()
 
 void CRoboSponge_Knob::Collision_PlayerAttack(const CollisionResult& result)
 {
-	const std::string& DestName = result.Dest->GetCollisionProfile()->Name;
+	//const std::string& DestName = result.Dest->GetCollisionProfile()->Name;
 
-	if (strcmp("PlayerAttack", DestName.c_str()) == 0) {
+	//if (strcmp("PlayerAttack", DestName.c_str()) == 0) {
+	//	BreakKnob();
+	//}
+
+	CRoboSponge* RoboSponge = (CRoboSponge*)m_Scene->FindObject("RoboSponge");
+	bool BossAction = RoboSponge->GetBossAction();
+
+	if (m_KnobState == EKnobState::Normal && BossAction) {
 		BreakKnob();
 	}
 }
 
 void CRoboSponge_Knob::DebugF1()
 {
-	m_Mesh->SetMesh("GreenKnob");
+	//m_Mesh->SetMesh("GreenKnob");
 }
 
 void CRoboSponge_Knob::DebugF2()
 {
-	m_Mesh->SetMesh("BrokenKnob");
+	//m_Mesh->SetMesh("BrokenKnob");
 }

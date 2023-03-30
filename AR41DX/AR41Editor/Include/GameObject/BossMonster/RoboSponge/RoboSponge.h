@@ -27,7 +27,12 @@ protected:
 	virtual ~CRoboSponge();
 
 private:
+	CSharedPtr<class CParticleComponent>	m_Particle;
+	CSharedPtr<class CColliderOBB3D>		m_Collider;
+
+private:
 	bool			m_ActionStart;
+	
 
 	// HitPoint 관련
 	std::vector<CSharedPtr<CRoboSponge_Knob>> m_vecKnob;
@@ -85,6 +90,7 @@ private:
 	void FindTargetPlatform();	// 타겟 플랫폼(m_TargetPlatformName)을 탐지한다. 타겟 플랫폼은 플레이어와 가장 가까운 플랫폼이다. 
 	void LookPlayer();			// 플레이어를 바라보게 한다.
 	void CountCenterWait();		// 액션 후 다음 액션까지 대기시키는 함수.
+	void RobotDeath();
 
 	void PlayPattern(const ERS_Pattern& Pattern);	// 패턴 실행
 
@@ -95,6 +101,8 @@ public:
 	void SetMapCenter(float x, float y, float z) { SetMapCenter(Vector3(x, y, z)); }
 	void SetMapCenter(const Vector2& MapCenterPoint) { SetMapCenter(Vector3(MapCenterPoint.x, 0.f, MapCenterPoint.y)); }
 	void SetMapCenter(float x, float y) { SetMapCenter(Vector2(x, y)); }
+
+	bool GetBossAction() { return m_ActionStart; }
 
 private : // Animation
 	void CreateAnim();
@@ -118,6 +126,7 @@ private : // Animation
 	void ChangeAnim_VerticLHold();
 	void ChangeAnim_VerticRHold();
 	void ChangeAnim_Victory();
+	void ChangeAnim_Death();
 
 private:
 	void SetHp1() { m_BossData->CurHP = 1; }

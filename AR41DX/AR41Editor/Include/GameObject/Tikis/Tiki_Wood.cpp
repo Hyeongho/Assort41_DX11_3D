@@ -16,7 +16,6 @@ CTiki_Wood::CTiki_Wood()
 CTiki_Wood::CTiki_Wood(const CTiki_Wood& Obj)
 	: CTikiBase(Obj)
 {
-	//m_Animation = (CAnimation*)FindComponent("TikiWoodAnimation");
 	m_Animation = Obj.m_Animation;
 }
 

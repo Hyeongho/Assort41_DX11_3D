@@ -191,7 +191,13 @@ void CCBL_Platform::Load(FILE* File)
 void CCBL_Platform::Collision_Rolling(const CollisionResult& result)
 {
 	if (m_Roll) { // 회전 도중 부딪히는 경우 플레이어에게 피해
+		std::string OwnerName = result.Dest->GetOwner()->GetName();
 
+		if (strcmp("Player", OwnerName.c_str()) == 0) {
+			CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+
+			Player->InflictDamage();
+		}
 	}
 }
 

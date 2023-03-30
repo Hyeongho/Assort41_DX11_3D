@@ -37,6 +37,7 @@ bool CRoboSpongeSceneInfo::Init()
 	CGameObject* GlobalLightObj = m_Owner->CreateObject<CGameObject>("GlobalLight");
 	CLightComponent* GlobalLightComponent = GlobalLightObj->CreateComponent<CLightComponent>("GlobalLight");
 	GlobalLightComponent->SetLightType(ELightType::Direction);
+	GlobalLightComponent->SetLightColor(Vector4::Black);
 	GlobalLightComponent->SetRelativeRotation(0.f, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 

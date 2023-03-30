@@ -17,7 +17,6 @@ CTiki_Stone::CTiki_Stone()
 CTiki_Stone::CTiki_Stone(const CTiki_Stone& Obj)
 	: CTikiBase(Obj)
 {
-	//m_Animation = (CAnimation*)FindComponent("TikiStoneAnimation");
 	m_Animation = Obj.m_Animation;
 }
 

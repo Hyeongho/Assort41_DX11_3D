@@ -17,7 +17,6 @@ CTiki_Thunder::CTiki_Thunder()
 CTiki_Thunder::CTiki_Thunder(const CTiki_Thunder& Obj)
 	: CTikiBase(Obj)
 {
-	//m_Animation = (CAnimation*)FindComponent("TikiThunderAnimation");
 	m_Animation = Obj.m_Animation;
 }
 

@@ -511,18 +511,6 @@ void CDefaultSetting::LoadRoboSponge()
 
     CResourceManager::GetInst()->SetMeshSkeleton("Robo_Sponge", "Robo_Sponge_Skeleton");
 
-    CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_1", "HitMarker1", Vector3(500.f, 2000.f, -350.f)); // Left Waist
-    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_2", "HitMarker2", Vector3(100.f, 100.f, 0.f)); // Right Waist
-    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_3", "HitMarker3", Vector3(100.f, 0.f, 100.f)); // Right Cheek
-    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_4", "HitMarker4", Vector3(100.f, 100.f, 100.f)); // Left Cheek
-    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_5", "HitMarker5", Vector3(0.f, 100.f, 0.f)); // Nose
-    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_6", "HitMarker6", Vector3(0.f, 100.f, 100.f)); // Left Forehead
-    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_7", "HitMarker7", Vector3(0.f, 0.f, 100.f)); // Right Forehead
-    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_8", "HitMarker8", Vector3(0.f, 0.f, 0.f)); // Left Pos
-    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_9", "HitMarker9", Vector3(0.f, 0.f, 0.f)); // Right Pos
-    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_10", "HitMarker10"); // Right Hand
-    //CResourceManager::GetInst()->AddSocket("Robo_Sponge_Skeleton", "jt_Hit_Marker_11", "HitMarker11"); // Left Hand
-
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_L_Pose", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_L_Pose.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Attack_Horiz_R", TEXT("Robo_Sponge/Robo_Sponge_Attack_Horiz_R.sqc"), MESH_PATH);
@@ -540,6 +528,7 @@ void CDefaultSetting::LoadRoboSponge()
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Vertic_L_Hold", TEXT("Robo_Sponge/Robo_Sponge_Vertic_L_Hold.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Vertic_R_Hold", TEXT("Robo_Sponge/Robo_Sponge_Vertic_R_Hold.sqc"), MESH_PATH);
     CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Victory", TEXT("Robo_Sponge/Robo_Sponge_Victory.sqc"), MESH_PATH);
+    CResourceManager::GetInst()->LoadAnimationSequence("Robo_Sponge_Death", TEXT("Robo_Sponge/Robo_Sponge_Death.sqc"), MESH_PATH);
 
     // RoboSponge Word Attack
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "KAH", TEXT("Robo_Sponge/AttackWords/KAH.msh"), MESH_PATH);

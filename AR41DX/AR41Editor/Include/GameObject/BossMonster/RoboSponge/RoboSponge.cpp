@@ -3,6 +3,8 @@
 #include "Animation/Animation.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/AnimationMeshComponent.h"
+#include "Component/ColliderOBB3D.h"
+#include "Component/ParticleComponent.h"
 #include "Device.h"
 #include "Engine.h"
 #include "Input.h"
@@ -71,6 +73,7 @@ CRoboSponge::CRoboSponge()
 CRoboSponge::CRoboSponge(const CRoboSponge& Obj)
 	: CBossMonster(Obj)
 {
+	m_Particle = (CParticleComponent*)FindComponent("Particle");
 }
 
 CRoboSponge::~CRoboSponge()
@@ -83,15 +86,16 @@ void CRoboSponge::Start()
 	CBossMonster::Start();
 
 #ifdef _DEBUG
-	CInput::GetInst()->AddBindFunction<CRoboSponge>("F1", Input_Type::Up, this, &CRoboSponge::MoveToPlatform, m_Scene);
-	CInput::GetInst()->AddBindFunction<CRoboSponge>("F2", Input_Type::Up, this, &CRoboSponge::AttackVertric, m_Scene);
-	CInput::GetInst()->AddBindFunction<CRoboSponge>("F3", Input_Type::Up, this, &CRoboSponge::AttackHoriz, m_Scene);
-	CInput::GetInst()->AddBindFunction<CRoboSponge>("F4", Input_Type::Up, this, &CRoboSponge::ChangeAnim_AttackWordsStart, m_Scene);
-	CInput::GetInst()->AddBindFunction<CRoboSponge>("F5", Input_Type::Up, this, &CRoboSponge::MoveToCenter, m_Scene);
-	CInput::GetInst()->AddBindFunction<CRoboSponge>("F6", Input_Type::Up, this, &CRoboSponge::SetHp1, m_Scene);
-	CInput::GetInst()->AddBindFunction<CRoboSponge>("F7", Input_Type::Up, this, &CRoboSponge::SetHp4, m_Scene);
-	CInput::GetInst()->AddBindFunction<CRoboSponge>("F8", Input_Type::Up, this, &CRoboSponge::ActionStart, m_Scene);
+	CInput::GetInst()->AddBindFunction<CRoboSponge>("F4", Input_Type::Up, this, &CRoboSponge::ChangeAnim_AttackHorizL, m_Scene);
+	CInput::GetInst()->AddBindFunction<CRoboSponge>("F5", Input_Type::Up, this, &CRoboSponge::ChangeAnim_AttackHorizLPose, m_Scene);
+	CInput::GetInst()->AddBindFunction<CRoboSponge>("F6", Input_Type::Up, this, &CRoboSponge::ChangeAnim_AttackHorizR, m_Scene);
+	CInput::GetInst()->AddBindFunction<CRoboSponge>("F7", Input_Type::Up, this, &CRoboSponge::ChangeAnim_AttackHorizRPose, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CRoboSponge>("F8", Input_Type::Up, this, &CRoboSponge::MoveToCenter, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CRoboSponge>("F9", Input_Type::Up, this, &CRoboSponge::ChangeAnim_AttackHorizLPose, m_Scene);
 #endif // _DEBUG
+	CInput::GetInst()->AddBindFunction<CRoboSponge>("F1", Input_Type::Up, this, &CRoboSponge::ActionStart, m_Scene);
+	CInput::GetInst()->AddBindFunction<CRoboSponge>("F2", Input_Type::Up, this, &CRoboSponge::SetHp1, m_Scene);
+	CInput::GetInst()->AddBindFunction<CRoboSponge>("F3", Input_Type::Up, this, &CRoboSponge::SetHp4, m_Scene);
 
 	// Animation
 	CreateAnim();
@@ -102,10 +106,14 @@ bool CRoboSponge::Init()
 	CBossMonster::Init();
 	
 	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+	m_Particle = CreateComponent<CParticleComponent>("Particle");
+	m_Collider = CreateComponent<CColliderOBB3D>("OBB3D");
 
 	SetRootComponent(m_Mesh);
 
 	m_Mesh->SetMesh("Robo_Sponge");
+	m_Mesh->AddChild(m_Particle);
+	m_Mesh->AddChild(m_Collider);
 
 
 	// SetBossData
@@ -117,19 +125,10 @@ bool CRoboSponge::Init()
 	// Animation
 	CreateAnim();
 
-
-	// Socket
-	//for (int i = 0; i < 12; i++) {
-	//	const std::string& KnobName = "HitMarker" + std::to_string(i + 1);
-
-	//	CRoboSponge_Knob* Knob = m_Scene->CreateObject<CRoboSponge_Knob>(KnobName);
-
-	//	AddChildToSocket(KnobName, Knob);
-
-	//	break;
-	//}
-
-
+	// Collider
+	m_Collider->SetBoxHalfSize(400.f, 100.f, 350.f);
+	m_Collider->SetRelativePosition(-1500.f, 1150.f, -1700.f);
+	m_Collider->SetRelativeRotationY(30);
 
 
 	float Ratio = 0.8f;
@@ -174,7 +173,10 @@ void CRoboSponge::Update(float DeltaTime)
 	}
 
 
-
+	// Particle
+	//m_Particle->SetParticle("Fire");
+	//m_Particle->SetMaterial(0, "blueflame");
+	//m_Particle->SetRelativePositionY(-m_Mesh->GetMeshSize().y / 2.f);
 
 	// Player를 바라보는 액션
 	if (m_ChasePlayer) {
@@ -514,6 +516,13 @@ void CRoboSponge::CountCenterWait()
 	m_CenterWait = true;
 }
 
+void CRoboSponge::RobotDeath()
+{
+	SetWorldPositionY(1200.f);
+
+	SetWorldRotationZ(180.f);
+}
+
 void CRoboSponge::PlayPattern(const ERS_Pattern& Pattern)
 {
 	switch (Pattern)
@@ -536,7 +545,11 @@ void CRoboSponge::Damaged()
 	m_BossData->CurHP -= 1;
 
 	if (m_BossData->CurHP < 1) {
+		SetWorldPosition(m_MapCenterPoint);
+
 		// 사망 컷인
+		ChangeAnim_Death();
+		m_ActionStart = false;
 	}
 }
 
@@ -576,11 +589,12 @@ void CRoboSponge::CreateAnim()
 	m_Animation->AddAnimation("Robo_Sponge_Vertic_L_Hold", "Robo_Sponge_Vertic_L_Hold", 9.f / 60.f, 1.f, false);
 	m_Animation->AddAnimation("Robo_Sponge_Vertic_R_Hold", "Robo_Sponge_Vertic_R_Hold", 9.f / 60.f, 1.f, false);
 	m_Animation->AddAnimation("Robo_Sponge_Victory", "Robo_Sponge_Victory", 55.f / 60.f, 1.f, false);
+	m_Animation->AddAnimation("Robo_Sponge_Death", "Robo_Sponge_Death", 1.f, 1.f / 9.f, false);
 
-	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_L", this, &CRoboSponge::ChangeAnim_AttackHorizLPose);
-	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_L_Pose", this, &CRoboSponge::AttackHorizEnd);
-	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_R", this, &CRoboSponge::ChangeAnim_AttackHorizRPose);
-	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_R_Pose", this, &CRoboSponge::AttackHorizEnd);
+	//m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_L", this, &CRoboSponge::ChangeAnim_AttackHorizLPose);
+	//m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_L_Pose", this, &CRoboSponge::AttackHorizEnd);
+	//m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_R", this, &CRoboSponge::ChangeAnim_AttackHorizRPose);
+	//m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_R_Pose", this, &CRoboSponge::AttackHorizEnd);
 
 	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Vertic_L_Start", this, &CRoboSponge::ChangeAnim_AttackVerticLLoop);
 	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Vertic_L_Loop", this, &CRoboSponge::ChangeAnim_VerticLHold);
@@ -594,10 +608,13 @@ void CRoboSponge::CreateAnim()
 	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Words_Connect2", this, &CRoboSponge::ChangeAnim_AttackWordsLoop);
 	//m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Words_Loop", this, &CRoboSponge::AttackWords);
 
+	m_Animation->SetCurrentEndFunction("Robo_Sponge_Hit1", this, &CRoboSponge::MoveToCenter);
 	m_Animation->SetCurrentEndFunction("Robo_Sponge_Hit2", this, &CRoboSponge::ChangeAnim_Hit2Pose);
 
 	m_Animation->SetCurrentEndFunction("Robo_Sponge_Idle", this, &CRoboSponge::ChangeAnim_IdleReverse);
 	m_Animation->SetCurrentEndFunction("Robo_Sponge_IdleReverse", this, &CRoboSponge::ChangeAnim_Idle);
+
+	m_Animation->SetCurrentEndFunction("Robo_Sponge_Death", this, &CRoboSponge::RobotDeath);
 
 
 	m_Animation->SetCurrentAnimation("Robo_Sponge_Idle");
@@ -707,4 +724,9 @@ void CRoboSponge::ChangeAnim_VerticRHold()
 void CRoboSponge::ChangeAnim_Victory()
 {
 	m_Animation->ChangeAnimation("Robo_Sponge_Victory");
+}
+
+void CRoboSponge::ChangeAnim_Death()
+{
+	m_Animation->ChangeAnimation("Robo_Sponge_Death");
 }
