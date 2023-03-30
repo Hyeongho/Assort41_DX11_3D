@@ -1,4 +1,4 @@
-#include "JellyfishFieldSceneInfo.h"
+#include "JellyfishField1SceneInfo.h"
 #include "Scene/Scene.h"
 #include "../GameObject/Player.h"
 #include "../GameObject/Monster.h"
@@ -15,19 +15,20 @@
 #include "Component/StaticMeshComponent.h"
 #include "Component/ParticleComponent.h"
 #include "Component/ColliderCube.h"
+#include "Component/ColliderOBB3D.h"
 #include "../UI/DialogUI.h"
 #include "../UI/InteractUI.h"
 
-CJellyfishFieldSceneInfo::CJellyfishFieldSceneInfo()
+CJellyfishField1SceneInfo::CJellyfishField1SceneInfo()
 {
-	m_ClassTypeName = "JellyfishFieldSceneInfo";
+    m_ClassTypeName = "JellyfishField1SceneInfo";
 }
 
-CJellyfishFieldSceneInfo::~CJellyfishFieldSceneInfo()
+CJellyfishField1SceneInfo::~CJellyfishField1SceneInfo()
 {
 }
 
-bool CJellyfishFieldSceneInfo::Init()
+bool CJellyfishField1SceneInfo::Init()
 {
 	CSceneInfo::Init();
 
@@ -41,22 +42,16 @@ bool CJellyfishFieldSceneInfo::Init()
 	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
 
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetRespawnPos(14000.f, 1500.f, 1600.f);
+	Player->SetRespawnPos(14000.f, 5000.f, 1600.f);
 	SetPlayerObject(Player);
 
-	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
+	/*CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
 	TerrainComponent->SetHeight(10.f);
-	TerrainComponent->CreateTerrain(360, 672, 60.f, 60.f, TEXT("LandScape/ZellyFishField.png"));
-	//TerrainComponent->ClearMaterial();
-	//TerrainComponent->AddMaterial("JellyfishField");
-
-	//CGameObject* TerrainObj2 = m_Owner->CreateObject<CGameObject>("TerrainObj2");
-	//CTerrainComponent* TerrainComponent2 = TerrainObj2->CreateComponent<CTerrainComponent>("TerrainComponent2");
-	//TerrainComponent2->SetHeight(50.f);
-	//TerrainComponent2->CreateTerrain(360, 672, 60.f, 60.f, TEXT("LandScape/ZellyFishField.png"));
-	////TerrainComponent->ClearMaterial();
-	////TerrainComponent->AddMaterial("JellyfishField");
+	TerrainComponent->CreateTerrain(715.f, 680.f, 60.f, 60.f, TEXT("LandScape/JellyfishField1_1.PNG"));*/
+	//TerrainComponent->SetWorldScale(1.f, 1.f, 1.f);
+	//TerrainComponent->SetWorldPosition(12000.f, 2100.f, 0.f);
+	//TerrainComponent->SetWorldRotation(5.f, 0.f, 0.f);
 
 	CGameObject* Water = m_Owner->CreateObject<CGameObject>("Water");
 	CStaticMeshComponent* WaterMesh = Water->CreateComponent<CStaticMeshComponent>("WaterMesh");
@@ -70,21 +65,31 @@ bool CJellyfishFieldSceneInfo::Init()
 	JellyfishFieldMesh->SetWorldScale(1.f, 1.f, 1.f);
 	JellyfishFieldMesh->SetWorldPosition(7000.f, 3500.f, 21000.f);
 
-	CFodder* Fodder = m_Owner->CreateObject<CFodder>("Fodder");
-	Fodder->SetWorldPosition(14700.f, 1450.f, 4200.f);
+	CGameObject* Platform1 = m_Owner->CreateObject<CGameObject>("Platform1");
+	CColliderOBB3D* OBB1 = Platform1->CreateComponent<CColliderOBB3D>("OBB1");
+	OBB1->SetBoxHalfSize(1000.f, 10.f, 1000.f);
+	OBB1->SetWorldPosition(14000.f, 2100.f, 1600.f);
+	OBB1->SetCollisionProfile("Ground");
 
-	//CHammer* Hammer = m_Owner->CreateObject<CHammer>("Hammer");
-	//CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
+	CGameObject* Platform2 = m_Owner->CreateObject<CGameObject>("Platform2");
+	CColliderOBB3D* OBB2 = Platform2->CreateComponent<CColliderOBB3D>("OBB2");
+	OBB2->SetBoxHalfSize(2000.f, 10.f, 2000.f);
+	OBB2->SetWorldPosition(14000.f, 1700.f, 4600.f);
+	OBB2->SetCollisionProfile("Ground");
 
-	CJellyfish* Jellyfish = m_Owner->CreateObject<CJellyfish>("Jellyfish");
-	Jellyfish->SetWorldPosition(13700.f, 1500.f, 4300.f);
+	CGameObject* Platform3 = m_Owner->CreateObject<CGameObject>("Platform3");
+	CColliderOBB3D* OBB3 = Platform3->CreateComponent<CColliderOBB3D>("OBB3");
+	OBB3->SetBoxHalfSize(1000.f, 10.f, 2000.f);
+	OBB3->SetWorldPosition(14000.f, 1700.f, 8000.f);
+	OBB3->SetWorldRotation(0.f, 45.f, 0.f);
+	OBB3->SetCollisionProfile("Ground");
 
-	CIceCube* IceCube = m_Owner->CreateObject<CIceCube>("IceCube");
-	IceCube->SetWorldPosition(13800.f, 1400.f, 6300.f);
-
-
-	//CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree");
-	//JumpTree->SetWorldPosition(13850.f, 1400.f, 6300.f);
+	CGameObject* Platform4 = m_Owner->CreateObject<CGameObject>("Platform4");
+	CColliderOBB3D* OBB4 = Platform4->CreateComponent<CColliderOBB3D>("OBB4");
+	OBB4->SetBoxHalfSize(2000.f, 10.f, 6000.f);
+	OBB4->SetWorldPosition(8000.f, 1700.f, 12000.f);
+	OBB3->SetWorldRotation(0.f, 60.f, 0.f);
+	OBB4->SetCollisionProfile("Ground");
 
 	return true;
 }

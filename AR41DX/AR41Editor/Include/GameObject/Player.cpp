@@ -1315,28 +1315,17 @@ void CPlayer::DebugF1()
 
 void CPlayer::DebugF8()
 {
-	if (m_MainCharacter == EMain_Character::Spongebob)
-	{
-		m_Weapon->GetRootComponent()->SetEnable(false);
-	}
-	if (m_Weapon->GetRootComponent()->GetEnable() &&
-		m_MainCharacter == EMain_Character::Patrick)
-	{
-		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerPickUpIdle");
-	}
-	else
-	{
-		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerIdle");
-	}
 	m_HeadCube->SetEnable(false);
 	m_TailCube->SetEnable(false);
 	m_FrontCube->SetEnable(false);
-	m_Cube->SetEnable(true);
 	m_Particle->SetRelativePosition(0.f, 0.f, 0.f);
 	m_Particle->DeleteCurrentParticle();
 	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
 	m_IsDoubleJump = false;
 	m_IsStop = false;
+
+	m_Cube->SetEnable(false);
+	m_Anim[(int)m_MainCharacter]->Stop();
 }
 
 void CPlayer::CollisionTest(const CollisionResult& result)
@@ -1374,6 +1363,13 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 		BashCheck();
 	}
 
+	if (name == "Ground")
+	{
+		m_OnCollision = true;
+		m_Rigid->SetGround(true);
+		BashCheck();
+	}
+
 	//else if (name == "Monster"|| name == "MonsterAttack")
 	//{
 	//	InflictDamage(1);
@@ -1383,6 +1379,19 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 
 void CPlayer::CollisionTestOut(const CollisionResult& result)
 {
+	std::list<CCollider*> List = result.Src->GetPrevCollisionList();
+
+	auto iter = List.begin();
+	auto iterEnd = List.end();
+
+	for (; iter != iterEnd; iter++)
+	{
+		if ((*iter)->GetCollisionProfile()->Name == "Ground")
+		{
+			return;
+		}
+	}
+
 	m_WallCollision.Dest = nullptr;
 	m_WallCollision.Src = nullptr;
 	m_WallCollision.HitPoint = Vector3(0.f,0.f,0.f);
