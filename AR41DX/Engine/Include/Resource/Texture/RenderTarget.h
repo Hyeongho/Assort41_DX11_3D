@@ -89,10 +89,7 @@ public:
 public:
 	bool CreateTarget(const std::string& Name, unsigned int Width,
 		unsigned int Height, DXGI_FORMAT PixelFormat,
-		DXGI_FORMAT DepthFormat = DXGI_FORMAT_UNKNOWN); 
-	bool CreateTargetNoMS(const std::string& Name, unsigned int Width,
-			unsigned int Height, DXGI_FORMAT PixelFormat,
-			DXGI_FORMAT DepthFormat = DXGI_FORMAT_D24_UNORM_S8_UINT);
+		DXGI_FORMAT DepthFormat = DXGI_FORMAT_UNKNOWN);
 	void ClearTarget();
 	void SetTarget(ID3D11DepthStencilView* DepthView);
 	void SetTarget();

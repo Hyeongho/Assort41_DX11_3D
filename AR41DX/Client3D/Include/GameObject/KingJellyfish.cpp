@@ -56,8 +56,6 @@ void CKingJellyfish::Start()
 
     m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Attack", this, &CKingJellyfish::OnGround);
     m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Damage", this, &CKingJellyfish::Angry);
-
-    m_PoolPos = m_Scene->FindObject("Pool")->GetWorldPos();
 }
 
 bool CKingJellyfish::Init()
@@ -138,7 +136,7 @@ bool CKingJellyfish::Init()
     CResourceManager::GetInst()->SoundPlay("KingJellyfish_Idle");
     CResourceManager::GetInst()->SetVolume(2.f);
 
-    
+    m_PoolPos = m_Scene->FindObject("Pool")->GetWorldPos();
 
     return true;
 }
