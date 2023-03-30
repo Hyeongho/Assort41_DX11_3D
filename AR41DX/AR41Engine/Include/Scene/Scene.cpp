@@ -240,6 +240,8 @@ void CScene::Start()
 {
 	m_Start = true;
 
+	m_SceneInfo->Start();
+
 	m_SkySphere = new CSkySphere;
 
 	m_SkySphere->SetName("Sky");
