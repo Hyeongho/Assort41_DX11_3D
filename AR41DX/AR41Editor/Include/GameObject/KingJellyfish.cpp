@@ -130,7 +130,6 @@ bool CKingJellyfish::Init()
     //m_Mesh->AddChild(m_EffectMesh);
     //m_Mesh->AddChild(m_AttackCollision);
 
-
     m_Animation = m_Mesh->SetAnimation<CAnimation>("KingJellyfishAnimation");
 
     m_Animation->AddAnimation("KingJellyfish_Idle", "KingJellyfish_Idle", 1.f, 0.5f, true);
@@ -139,9 +138,6 @@ bool CKingJellyfish::Init()
     m_Animation->AddAnimation("KingJellyfish_Damage", "KingJellyfish_Damage", 1.f, 0.5f, false);
     m_Animation->AddAnimation("KingJellyfish_OnGround", "KingJellyfish_OnGround", 1.f, 0.5, true);
     m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, true);
-
-    CResourceManager::GetInst()->SoundPlay("KingJellyfish_Idle");
-    CResourceManager::GetInst()->SetVolume(2.f);
 
     return true;
 }

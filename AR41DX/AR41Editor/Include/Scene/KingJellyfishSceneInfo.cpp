@@ -23,6 +23,9 @@ bool CKingJellyfishSceneInfo::Init()
 {
 	CSceneInfo::Init();
 
+	CResourceManager::GetInst()->SoundPlay("KingJellyfish_Idle");
+	CResourceManager::GetInst()->SetVolume(2.f);
+
 	CGameObject* GlobalLightObj = m_Owner->CreateObject<CGameObject>("GlobalLight");
 	CLightComponent* GlobalLightComponent = GlobalLightObj->CreateComponent<CLightComponent>("GlobalLight");
 	GlobalLightComponent->SetLightType(ELightType::Direction);
