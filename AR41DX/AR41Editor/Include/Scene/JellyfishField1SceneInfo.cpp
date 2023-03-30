@@ -69,13 +69,27 @@ bool CJellyfishField1SceneInfo::Init()
 	CColliderOBB3D* OBB1 = Platform1->CreateComponent<CColliderOBB3D>("OBB1");
 	OBB1->SetBoxHalfSize(1000.f, 10.f, 1000.f);
 	OBB1->SetWorldPosition(14000.f, 2100.f, 1600.f);
-	//OBB1->SetCollisionProfile("Platform");
+	OBB1->SetCollisionProfile("Ground");
 
 	CGameObject* Platform2 = m_Owner->CreateObject<CGameObject>("Platform2");
 	CColliderOBB3D* OBB2 = Platform2->CreateComponent<CColliderOBB3D>("OBB2");
 	OBB2->SetBoxHalfSize(2000.f, 10.f, 2000.f);
 	OBB2->SetWorldPosition(14000.f, 1700.f, 4600.f);
-	//OBB2->SetCollisionProfile("Platform");
+	OBB2->SetCollisionProfile("Ground");
+
+	CGameObject* Platform3 = m_Owner->CreateObject<CGameObject>("Platform3");
+	CColliderOBB3D* OBB3 = Platform3->CreateComponent<CColliderOBB3D>("OBB3");
+	OBB3->SetBoxHalfSize(1000.f, 10.f, 2000.f);
+	OBB3->SetWorldPosition(14000.f, 1700.f, 8000.f);
+	OBB3->SetWorldRotation(0.f, 45.f, 0.f);
+	OBB3->SetCollisionProfile("Ground");
+
+	CGameObject* Platform4 = m_Owner->CreateObject<CGameObject>("Platform4");
+	CColliderOBB3D* OBB4 = Platform4->CreateComponent<CColliderOBB3D>("OBB4");
+	OBB4->SetBoxHalfSize(2000.f, 10.f, 6000.f);
+	OBB4->SetWorldPosition(8000.f, 1700.f, 12000.f);
+	OBB3->SetWorldRotation(0.f, 60.f, 0.f);
+	OBB4->SetCollisionProfile("Ground");
 
 	return true;
 }
