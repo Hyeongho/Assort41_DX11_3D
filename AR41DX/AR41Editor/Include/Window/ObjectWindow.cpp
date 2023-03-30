@@ -357,6 +357,8 @@ void CObjectWindow::AddInput(CScene* scene)
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("DArrow", Input_Type::Push, this, &CObjectWindow::DArrow, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("LArrow", Input_Type::Push, this, &CObjectWindow::LArrow, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("RArrow", Input_Type::Push, this, &CObjectWindow::RArrow, scene);
+	CInput::GetInst()->AddBindFunction<CObjectWindow>("CtrlD", Input_Type::Down, this, &CObjectWindow::PlaceObjectAtPlayer, scene);
+
 	CComponentWindow* componentWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CComponentWindow>("ComponentWindow");
 	if (componentWindow)
 	{
@@ -580,6 +582,33 @@ void CObjectWindow::PlaceObject()
 	}
 	CGameObject* obj = CreateObject(objName);
 	obj->SetWorldPosition(m_Gizmo->GetWorldPos());
+}
+
+void CObjectWindow::PlaceObjectAtPlayer()
+{
+	if (!m_SelectObject)
+	{
+		return;
+	}
+	CGameObject* player = CSceneManager::GetInst()->GetScene()->GetPlayerObject();
+	if (!player)
+	{
+		return;
+	}
+	std::string objName = m_SelectObject->GetObjectTypeName();
+	CGameObject* obj = nullptr;
+	if (objName == "GameObject")
+	{
+		obj = m_SelectObject->Clone();
+		CSceneManager::GetInst()->GetScene()->CloneGameObject(obj);
+		//obj->Start();
+		AddItem(obj, m_SelectObject->GetName());
+	}
+	else
+	{
+		obj = CreateObject(objName);
+	}
+	obj->SetWorldPosition(player->GetWorldPos());
 }
 
 class CGameObject* CObjectWindow::CreateObject(const std::string& name)

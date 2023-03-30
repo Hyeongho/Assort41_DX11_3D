@@ -32,6 +32,10 @@ void CSceneInfo::LoadComplete()
 		m_PlayerObject = m_Owner->FindObject(m_PlayerObjectName);
 }
 
+void CSceneInfo::Start()
+{
+}
+
 bool CSceneInfo::Init()
 {
 	return true;
