@@ -63,6 +63,13 @@ void CParticleComponent::DeleteCurrentParticle()
 	}
 }
 
+void CParticleComponent::ChangeParticle(const std::string& Name)
+{
+	SetParticle(Name);
+	m_vecMaterial.clear();
+	AddMaterial(m_Particle->m_Material);
+}
+
 void CParticleComponent::SetSpawnTime(float Time)
 {
 	m_SpawnTimeMax = Time;

@@ -89,6 +89,11 @@ void CPatrickObject::SetAngle(float f)
 
 void CPatrickObject::CollisionObject(const CollisionResult& result)
 {
+	std::string name = result.Dest->GetCollisionProfile()->Name;
+	if (name == "Monster")
+	{
+		result.Dest->GetOwner()->InflictDamage(1);
+	}
 	Destroy();
 	//effect
 }

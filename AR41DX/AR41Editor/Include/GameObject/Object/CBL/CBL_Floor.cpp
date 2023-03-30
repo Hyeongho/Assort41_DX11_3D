@@ -7,7 +7,7 @@ CCBL_Floor::CCBL_Floor()
 {
 	SetTypeID<CCBL_Floor>();
 
-	m_ObjectTypeName = "CBL_Platform";
+	m_ObjectTypeName = "CBL_Floor";
 }
 
 CCBL_Floor::CCBL_Floor(const CCBL_Floor& Obj) :
@@ -38,13 +38,6 @@ bool CCBL_Floor::Init()
 
 	m_InnerMesh->SetMesh("CBL_InnerFloor");
 	m_OuterMesh->SetMesh("CBL_OuterFloor");
-
-
-	Vector2 Ratio = CDevice::GetInst()->GetHdRsRatio();
-	Ratio.x = 1.f / Ratio.x;
-	Ratio.y = 1.f / Ratio.y;
-
-	SetRelativeScale(Ratio);
 
 
 	return true;

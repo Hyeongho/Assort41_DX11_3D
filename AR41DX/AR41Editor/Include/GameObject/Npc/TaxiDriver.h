@@ -22,4 +22,5 @@ public:
 	virtual void Load(FILE* File);
 
 private:
+	void ChangeSceneToBB();
 };

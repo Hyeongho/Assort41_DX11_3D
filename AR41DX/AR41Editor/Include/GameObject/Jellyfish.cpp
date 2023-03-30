@@ -13,18 +13,25 @@
 
 CJellyfish::CJellyfish() :
     m_MonsterPos(0.f, 0.f, 0.f),
-    m_Chase(false)
+    m_Chase(false),
+    m_Count(0),
+    m_Boss(false)
 {
     SetTypeID<CJellyfish>();
 
     m_ObjectTypeName = "Jellyfish";
 }
 
-CJellyfish::CJellyfish(const CJellyfish& Obj)
+CJellyfish::CJellyfish(const CJellyfish& Obj) :
+    m_Animation(Obj.m_Animation),
+    m_MonsterPos(Obj.m_MonsterPos),
+    m_Chase(false),
+    m_Count(0),
+    m_Boss(false)
 {
     m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
     m_Cube = (CColliderCube*)FindComponent("Cube");
-    m_Detect = (CColliderCube*)FindComponent("Detect");
+    m_Detect = (CColliderCube*)FindComponent("Cube");
 }
 
 CJellyfish::~CJellyfish()
@@ -35,10 +42,9 @@ void CJellyfish::Start()
 {
     CGameObject::Start();
 
-    m_Cube->SetCollisionCallback<CJellyfish>(ECollision_Result::Collision, this, &CJellyfish::Collision);
-    m_Detect->SetCollisionCallback<CJellyfish>(ECollision_Result::Collision, this, &CJellyfish::DetectCollision);
-
     m_Animation->SetCurrentEndFunction<CJellyfish>("Jellyfish_Death", this, &CJellyfish::Dead);
+    m_Detect->SetCollisionCallback<CJellyfish>(ECollision_Result::Collision, this, &CJellyfish::DetectCollision);
+    m_Cube->SetCollisionCallback<CJellyfish>(ECollision_Result::Collision, this, &CJellyfish::Collision);
 }
 
 bool CJellyfish::Init()
@@ -47,7 +53,7 @@ bool CJellyfish::Init()
 
     m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
     m_Cube = CreateComponent<CColliderCube>("Cube");
-    m_Detect = CreateComponent<CColliderCube>("Detect");
+    m_Detect = CreateComponent<CColliderCube>("Cube");
 
     SetRootComponent(m_Mesh);
 
@@ -57,7 +63,7 @@ bool CJellyfish::Init()
     m_Mesh->SetMesh("Jellyfish");
 
     m_Cube->SetCubeSize(100.f, 100.f, 100.f);
-    m_Detect->SetCubeSize(200.f, 200.f, 200.f);
+    m_Detect->SetCubeSize(400.f, 200.f, 400.f);
 
     m_Cube->SetCollisionProfile("Monster");
     m_Detect->SetCollisionProfile("DetectArea");
@@ -69,12 +75,9 @@ bool CJellyfish::Init()
 
     if (m_Boss)
     {
-        CGameObject* KingJellyfish = m_Scene->FindObject("KingJellyfish");
+        CGameObject* CPool = m_Scene->FindObject("Pool");
 
-        if (KingJellyfish)
-        {
-            m_Mesh->SetWorldPosition(KingJellyfish->GetWorldPos());
-        }
+        SetWorldPosition(CPool->GetWorldPos());
     }
 
     return true;
@@ -109,7 +112,6 @@ void CJellyfish::Update(float DeltaTime)
         Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
 
         SetWorldRotationY(Degree);
-        SetWorldRotationX(-35.f);
 
         AddWorldPosition(Dir * g_DeltaTime * 60.f);
     }
@@ -118,15 +120,15 @@ void CJellyfish::Update(float DeltaTime)
     {
     case 1:
         AddWorldPositionX(g_DeltaTime * 60.f);
-        //SetWorldRotationX(30.f);
+        SetWorldRotationX(60.f);
         break;
     case 2:
         AddWorldPositionX(g_DeltaTime * -60.f);
-        //SetWorldRotationX(60.f);
+        SetWorldRotationX(120.f);
         break;
     case 3:
         AddWorldPositionZ(g_DeltaTime * 60.f);
-        //SetWorldRotationX(-35.f);
+        SetWorldRotationX(-120.f);
         break;
     case 4:
         AddWorldPositionZ(g_DeltaTime * -60.f);
@@ -153,6 +155,10 @@ void CJellyfish::Save(FILE* File)
 void CJellyfish::Load(FILE* File)
 {
     CGameObject::Load(File);
+
+    m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+    m_Cube = (CColliderCube*)FindComponent("Cube");
+    m_Detect = (CColliderCube*)FindComponent("Cube");
 }
 
 void CJellyfish::Collision(const CollisionResult& result)
@@ -162,6 +168,7 @@ void CJellyfish::Collision(const CollisionResult& result)
         CJellyfishElectric* JellyfishElectric = m_Scene->CreateObject<CJellyfishElectric>("JellyfishElectric");
 
         JellyfishElectric->SetWorldPosition(m_MonsterPos);
+        JellyfishElectric->SetAttack(true);
 
         CResourceManager::GetInst()->SoundPlay("Jellyfish_Attack");
     }
@@ -169,7 +176,6 @@ void CJellyfish::Collision(const CollisionResult& result)
     if (result.Dest->GetCollisionProfile()->Name == "PlayerAttack")
     {
         m_Animation->ChangeAnimation("Jellyfish_Death");
-
     }
 }
 

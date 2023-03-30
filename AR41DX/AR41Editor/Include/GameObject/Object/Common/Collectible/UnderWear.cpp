@@ -26,6 +26,8 @@ CUnderWear::~CUnderWear()
 void CUnderWear::Start()
 {
 	CCollectibleItems::Start();
+
+	m_Collider->SetCollisionCallback<CUnderWear>(ECollision_Result::Collision, this, &CUnderWear::Collision_Player);
 }
 
 bool CUnderWear::Init()
@@ -43,7 +45,6 @@ bool CUnderWear::Init()
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
-	m_Collider->SetCollisionCallback<CUnderWear>(ECollision_Result::Collision, this, &CUnderWear::Collision_Player);
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);

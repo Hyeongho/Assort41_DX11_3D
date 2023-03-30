@@ -17,7 +17,7 @@ CTiki_Thunder::CTiki_Thunder()
 CTiki_Thunder::CTiki_Thunder(const CTiki_Thunder& Obj)
 	: CTikiBase(Obj)
 {
-	m_Animation = (CAnimation*)FindComponent("TikiThunderAnimation");
+	m_Animation = Obj.m_Animation;
 }
 
 CTiki_Thunder::~CTiki_Thunder()
@@ -28,8 +28,11 @@ void CTiki_Thunder::Start()
 {
 	CTikiBase::Start();
 
-	if (!m_Animation)
-		CreateAnim();
+	CreateAnim();
+
+	m_Collider->SetCollisionCallback<CTiki_Thunder>(ECollision_Result::Collision, this, &CTiki_Thunder::Collision_PlayerAttack);
+	m_ColliderBottom->SetCollisionCallback<CTiki_Thunder>(ECollision_Result::Collision, this, &CTiki_Thunder::Collision_Tikis);
+	m_ColliderBottom->SetCollisionCallback<CTiki_Thunder>(ECollision_Result::Release, this, &CTiki_Thunder::Release_Tikis);
 }
 
 bool CTiki_Thunder::Init()
@@ -38,17 +41,34 @@ bool CTiki_Thunder::Init()
 
 	// 메쉬 세팅
 	m_Mesh->SetMesh("Tiki_Thunder");
-	m_Mesh->AddChild(m_Collider);
-	m_Mesh->AddChild(m_Rigid);
 
 	// 충돌체 세팅
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Monster");
-	m_Collider->SetCollisionCallback<CTiki_Thunder>(ECollision_Result::Collision, this, &CTiki_Thunder::Collision_PlayerAttack);
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
+
+
+	Vector3 TBColSize = m_Mesh->GetMeshSize() / 2.f;
+	TBColSize.y /= 10.f;
+
+	// 바닥 충돌체 생성
+	m_ColliderBottom->SetBoxHalfSize(TBColSize);
+	m_ColliderBottom->SetRelativePositionY(TBColSize.y / 2.f);
+	m_ColliderBottom->SetCollisionProfile("TikiBottom");
+	m_ColliderBottom->SetInheritRotX(true);
+	m_ColliderBottom->SetInheritRotY(true);
+	m_ColliderBottom->SetInheritRotZ(true);
+
+	// 위 충돌체 생성
+	m_ColliderTop->SetBoxHalfSize(TBColSize);
+	m_ColliderTop->SetRelativePositionY(m_Mesh->GetMeshSize().y - TBColSize.y / 2.f);
+	m_ColliderTop->SetCollisionProfile("Platform");
+	m_ColliderTop->SetInheritRotX(true);
+	m_ColliderTop->SetInheritRotY(true);
+	m_ColliderTop->SetInheritRotZ(true);
 
 	// 애니메이션 세팅
 	CreateAnim();
@@ -111,6 +131,10 @@ void CTiki_Thunder::Tiki_Die()
 
 void CTiki_Thunder::CreateAnim()
 {
+	if (m_Animation)
+		return;
+
+
 	m_Animation = m_Mesh->SetAnimation<CAnimation>("TikiThunderAnimation");
 	m_Animation->AddAnimation("Tiki_Thunder_Idle", "Tiki_Thunder_Idle", 1.f, 1.f, true);
 	m_Animation->AddAnimation("Tiki_Thunder_Die", "Tiki_Thunder_Die", 1.f, 1.f, false);
@@ -130,14 +154,19 @@ void CTiki_Thunder::ChangeAnim_Die()
 
 void CTiki_Thunder::Collision_PlayerAttack(const CollisionResult& result)
 {
-	// 사운드 처리
-	int RandNum = rand() % 3 + 1;
-	std::string TikiSound = "TikiThunderHit" + std::to_string(RandNum);
-	CSound* Sound = m_Scene->GetResource()->FindSound(TikiSound);
+	//if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::PlayerAttack) {
+	std::string ProfileName = result.Dest->GetCollisionProfile()->Name;
 
-	if (Sound)
-		Sound->Play();
+	if (strcmp("PlayerAttack", ProfileName.c_str()) == 0) {
+		// 사운드 처리
+		int RandNum = rand() % 3 + 1;
+		std::string TikiSound = "TikiThunderHit" + std::to_string(RandNum);
+		CSound* Sound = m_Scene->GetResource()->FindSound(TikiSound);
 
-	// 사망 애니메이션 변경, 애니메이션 종료 시 사망 처리
-	ChangeAnim_Die();
+		if (Sound)
+			Sound->Play();
+
+		// 사망 애니메이션 변경, 애니메이션 종료 시 사망 처리
+		ChangeAnim_Die();
+	}
 }

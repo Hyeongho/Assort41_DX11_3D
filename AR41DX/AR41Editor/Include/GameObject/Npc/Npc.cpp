@@ -6,6 +6,8 @@
 #include "Component/ColliderOBB3D.h"
 #include "../../UI/InteractUI.h"
 #include "../../UI/DialogUI.h"
+#include "../Object/Common/Collectible/Sock.h"
+#include "../Object/Common/Collectible/GoldenSpatula.h"
 
 CNpc::CNpc()
 {
@@ -23,6 +25,9 @@ CNpc::CNpc()
 CNpc::CNpc(const CNpc& Obj)
     : CGameObject(Obj)
 {
+    m_Collider = (CColliderOBB3D*)FindComponent("OBB3D");
+
+
     m_DialogCount = Obj.m_DialogCount;
     m_NpcType = Obj.m_NpcType;
     m_NpcMapPos = Obj.m_NpcMapPos;
@@ -37,6 +42,9 @@ CNpc::~CNpc()
 void CNpc::Start()
 {
 	CGameObject::Start();
+
+    m_Collider->SetCollisionCallback<CNpc>(ECollision_Result::Collision, this, &CNpc::Collision_Player);
+    m_Collider->SetCollisionCallback<CNpc>(ECollision_Result::Release, this, &CNpc::Release_Player);
 }
 
 bool CNpc::Init()
@@ -62,8 +70,6 @@ bool CNpc::Init()
 
 
     m_Collider->SetCollisionProfile("Npc");
-    m_Collider->SetCollisionCallback<CNpc>(ECollision_Result::Collision, this, &CNpc::Collision_Player);
-    m_Collider->SetCollisionCallback<CNpc>(ECollision_Result::Release, this, &CNpc::Release_Player);
     m_Collider->SetInheritRotX(true);
     m_Collider->SetInheritRotY(true);
     m_Collider->SetInheritRotZ(true);
@@ -98,6 +104,10 @@ void CNpc::Load(FILE* File)
 
 void CNpc::ChangeAnimByName(const std::string& Name)
 {
+    if (!m_Animation || !m_Animation->FindAnimation(Name))
+        return; 
+
+    m_Animation->ChangeAnimation(Name);
 }
 
 void CNpc::StartDialog()
@@ -115,6 +125,16 @@ void CNpc::Collision_Player(const CollisionResult& result)
             return;
 
         InteractUI->SetTarget(EInteractTarget::Npc);
+
+        if (m_NpcType == ENpcList::BusDriver) {
+            InteractUI->SetTarget(EInteractTarget::Bus);
+        }
+
+        if (m_NpcType == ENpcList::TaxiStop) {
+            InteractUI->SetTarget(EInteractTarget::Taxi);
+        }
+        
+
         InteractUI->ActiveInteractUI();
         m_EnableDialog = true;
     }
@@ -134,4 +154,24 @@ void CNpc::Release_Player(const CollisionResult& result)
         InteractUI->InActiveInteractUI();
         m_EnableDialog = false;
     }
+}
+
+void CNpc::CreateSock()
+{
+    std::string ObjName = "Sock_" + m_ObjectTypeName;
+
+    CSock* Sock = m_Scene->CreateObject<CSock>(ObjName);
+
+    Sock->SetWorldPosition(GetWorldPos());
+    Sock->SetWorldPositionZ(GetWorldPos().z - m_AnimMesh->GetMeshSize().z);
+}
+
+void CNpc::CreateSpatula()
+{
+    std::string ObjName = "GoldenSpatula_" + m_ObjectTypeName;
+
+    CGoldenSpatula* GoldenSpatula = m_Scene->CreateObject<CGoldenSpatula>(ObjName);
+
+    GoldenSpatula->SetWorldPosition(GetWorldPos());
+    GoldenSpatula->SetWorldPositionZ(GetWorldPos().z - m_AnimMesh->GetMeshSize().z);
 }

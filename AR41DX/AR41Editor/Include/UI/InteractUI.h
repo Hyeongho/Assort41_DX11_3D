@@ -10,7 +10,8 @@ enum class EInteractTarget {
 	Door,			// 기타 문
 	Gate,			// 차단기
 	Teleport_Box,	// 순간이동 박스
-	Bus_Stop,		// 버스 정류소
+	Bus,			// 버스 정류소
+	Taxi,			// 택시
 	End
 };
 
@@ -28,9 +29,6 @@ protected:
 protected:
 	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapInteractUI;
 
-private:
-	bool m_IsActive;
-
 public:
 	virtual void Start();
 	virtual bool Init();
@@ -46,16 +44,6 @@ private :
 	void CreateInteractUI();
 
 public :
-	//kbj
-	bool GetIsActive() const
-	{
-		return m_IsActive;
-	}
-	//void SetIsActive(bool b)
-	//{
-	//	m_IsActive = b;
-	//}
-
 	void ActiveInteractUI();
 	void InActiveInteractUI();
 

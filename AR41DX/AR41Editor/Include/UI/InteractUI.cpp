@@ -8,14 +8,12 @@
 #include "Input.h"
 
 CInteractUI::CInteractUI()
-	: m_IsActive(false)
 {
 	m_WindowTypeName = "InteractUI";
 }
 
 CInteractUI::CInteractUI(const CInteractUI& Window)
 	: CUIWindow(Window)
-	, m_IsActive(false)
 {
 }
 
@@ -117,14 +115,12 @@ void CInteractUI::ActiveInteractUI()
 {
 	for (auto iter : m_mapInteractUI)
 		iter.second->SetEnable(true);
-	m_IsActive = true;
 }
 
 void CInteractUI::InActiveInteractUI()
 {
 	for (auto iter : m_mapInteractUI)
 		iter.second->SetEnable(false);
-	m_IsActive = false;
 }
 
 void CInteractUI::SetTarget(EInteractTarget Target)
@@ -152,6 +148,12 @@ void CInteractUI::SetTarget(EInteractTarget Target)
 		break;
 	case EInteractTarget::Teleport_Box:
 		Text->SetText(TEXT("를 눌러 텔레포트 박스 사용하기"));
+		break;
+	case EInteractTarget::Bus:
+		Text->SetText(TEXT("를 눌러 해파리동산으로 이동하기"));
+		break;
+	case EInteractTarget::Taxi:
+		Text->SetText(TEXT("를 눌러 비키니 시티로 이동하기"));
 		break;
 	}
 }

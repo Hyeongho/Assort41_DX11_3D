@@ -6,6 +6,7 @@
 #include "Component/CameraComponent.h"
 //#include "Component/RigidBody.h"
 #include "Scene/Scene.h"
+#include "Scene/NavigationManager3D.h"
 
 CSpongebobMissile::CSpongebobMissile()
 	: m_Speed(1000.f)
@@ -75,7 +76,7 @@ bool CSpongebobMissile::Init()
 void CSpongebobMissile::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
-	Vector2 mouseMove = CInput::GetInst()->GetMouseMove() * m_Camera->GetCameraSpeed() * g_DeltaTime;
+	Vector2 mouseMove = CInput::GetInst()->GetMouseMove() * m_Camera->GetCameraSpeed() * g_DeltaTime*0.2f;
 	mouseMove.x = m_Camera->GetCameraHorizon() ? mouseMove.x : -mouseMove.x;
 	mouseMove.y = m_Camera->GetCameraVertical() ? mouseMove.y : -mouseMove.y;
 	m_Arm->AddRelativeRotationY(mouseMove.x);
@@ -89,6 +90,13 @@ void CSpongebobMissile::Update(float DeltaTime)
 		m_Arm->SetRelativeRotationX(-45.f);
 	}
 	m_Angle = m_Arm->GetRelativeRot().y;
+
+	CNavigationManager3D* Nav = (CNavigationManager3D*)m_Scene->GetNavigationManager();
+	float Y = Nav->GetHeight(GetWorldPos());
+	if (Y != FLT_MAX && GetWorldPos().y - Y < 0.f)
+	{
+		Destroy();
+	}
 }
 
 void CSpongebobMissile::PostUpdate(float DeltaTime)
@@ -97,8 +105,8 @@ void CSpongebobMissile::PostUpdate(float DeltaTime)
 	if (m_Anim->GetCurrentAnimationName() == "MissileIdle")
 	{
 		AddWorldPosition(sinf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime,
-			tanf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime*0.3f,
-			cosf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime);
+						 tanh(DegreeToRadian(m_Arm->GetRelativeRot().x)) * -m_Speed *2.f* DeltaTime,
+						 cosf(DegreeToRadian(m_Angle)) * m_Speed * DeltaTime);
 		SetRelativeRotationY(m_Angle - 270.f);
 	}
 }

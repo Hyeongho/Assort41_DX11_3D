@@ -22,11 +22,11 @@
 #include "Resource/Animation/SkeletonSocket.h"
 #include "Animation/Animation.h"
 #include "../UI/PauseUI.h"
-#include "../UI/InteractUI.h"
+#include "../UI/DialogUI.h"
 
 CPlayer::CPlayer()
 	: m_Speed(500.f)
-	, m_CameraSpeed(150.f)
+	, m_InflictAngle(0.f)
 	, m_SpaceTime(1.f)
 	, m_LassoDistance(0.f)
 	, m_KeyCount(0)
@@ -45,7 +45,7 @@ CPlayer::CPlayer()
 CPlayer::CPlayer(const CPlayer& Obj) 
 	: CGameObject(Obj)
 	, m_Speed(Obj.m_Speed)
-	, m_CameraSpeed(Obj.m_CameraSpeed)
+	, m_InflictAngle(0.f)
 	, m_SpaceTime(1.f)
 	, m_LassoDistance(0.f)
 	, m_KeyCount(0)
@@ -97,7 +97,8 @@ void CPlayer::Start()
 	}
 	m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Push, this, &CPlayer::DebugF1, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F7", Input_Type::Down, this, &CPlayer::DebugF1, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F8", Input_Type::Down, this, &CPlayer::DebugF8, m_Scene);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
@@ -259,7 +260,7 @@ int CPlayer::InflictDamage(int damage)
 	IngameUI();
 	m_IsStop = true;
 	m_Cube->SetEnable(false);
-	if (hp == 0)	//사망
+	if (hp <= 0)	//사망
 	{
 		switch (m_MainCharacter)
 		{
@@ -296,7 +297,8 @@ int CPlayer::InflictDamage(int damage)
 			break;
 		}
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerHit");
-		float angle = GetWorldRot().y;
+		float angle = m_InflictAngle==0.f?  GetWorldRot().y: m_InflictAngle;
+		m_InflictAngle = 0.f;
 		m_Rigid->SetGround(false);
 		m_Rigid->AddForce(sinf(DegreeToRadian(angle))*400.f, 250.f, cosf(DegreeToRadian(angle))*400.f);
 		m_Rigid->SetVelocity(sinf(DegreeToRadian(angle))*400.f, 250.f, cosf(DegreeToRadian(angle))*400.f);
@@ -365,6 +367,10 @@ bool CPlayer::LoadCharacter()
 	}
 	fread(&m_PlayerData.MaxHP, 4, 1, file);
 	fread(&m_PlayerData.CurHP, 4, 1, file);
+	if(m_PlayerData.CurHP<3)
+	{
+		m_PlayerData.CurHP = 3;
+	}
 	fread(&m_PlayerData.Socks, 4, 1, file);
 	fread(&m_PlayerData.Spatula, 4, 1, file);
 	fread(&m_PlayerData.ShinyFlower, 4, 1, file);
@@ -387,7 +393,7 @@ void CPlayer::LoadSpongebobAnim()
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashStart", "Spongebob_BashStart", 1.f, 2.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBashStart", this, &CPlayer::StartBash);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashDw", "Spongebob_BashDw", 1.f, 1.f, true);
-	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBash", "Spongebob_Bash", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBash", "Spongebob_Bash", 1.f, 2.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBash", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerHit", "Spongebob_Hit", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerHit", this, &CPlayer::ResetIdle);
@@ -417,7 +423,7 @@ void CPlayer::LoadPatrickAnim()
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerBashStart", "Patrick_SlamStart", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerBashStart", this, &CPlayer::StartBash);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerBashDw", "Patrick_SlamLoop", 1.f, 1.f, true);
-	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerBash", "Patrick_SlamEnd", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerBash", "Patrick_SlamEnd", 1.f, 2.f, false);
 	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerBash", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerHit", "Patrick_Hit", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerHit", this, &CPlayer::ResetIdle);
@@ -623,9 +629,9 @@ void CPlayer::MoveFront()
 		{
 			return;
 		}
-		else if (differ <= 100||(differ >=200 && differ < 250))
+		else if (differ <= 100||(differ >=200 && differ < 280))
 		{
-			float distance = m_Cube->GetInfo().Length[0] * 0.8f;
+			float distance = m_Cube->GetInfo().Length[0] * 0.85f;
 			//float distance = GetWorldPos().Distance(m_WallCollision.HitPoint);
 			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
 		}
@@ -657,9 +663,9 @@ void CPlayer::MoveBack()
 		{
 			return;
 		}
-		else if (differ <= 100 || (differ >= 200 && differ < 250))
+		else if (differ <= 100 || (differ >= 200 && differ < 280))
 		{
-			float distance = m_Cube->GetInfo().Length[0] * 0.8f;
+			float distance = m_Cube->GetInfo().Length[0] * 0.85f;
 			//float distance = GetWorldPos().Distance(m_WallCollision.HitPoint);
 			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
 		}
@@ -691,9 +697,9 @@ void CPlayer::MoveLeft()
 		{
 			return;
 		}
-		else if (differ <= 100 || (differ >= 200 && differ < 250))
+		else if (differ <= 100 || (differ >= 200 && differ < 280))
 		{
-			float distance = m_Cube->GetInfo().Length[0] * 0.8f;
+			float distance = m_Cube->GetInfo().Length[0] * 0.85f;
 			//float distance = GetWorldPos().Distance(m_WallCollision.HitPoint);
 			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
 		}
@@ -725,9 +731,9 @@ void CPlayer::MoveRight()
 		{
 			return;
 		}
-		else if (differ <= 100 || (differ >= 200 && differ < 250))
+		else if (differ <= 100 || (differ >= 200 && differ < 280))
 		{
-			float distance = m_Cube->GetInfo().Length[0] * 0.8f;
+			float distance = m_Cube->GetInfo().Length[0] * 0.85f;
 			//float distance = GetWorldPos().Distance(m_WallCollision.HitPoint);
 			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
 		}
@@ -747,12 +753,14 @@ void CPlayer::MoveRight()
 
 void CPlayer::KeyUp()
 {
+	--m_KeyCount;
 	if (m_IsStop)
 	{
 		return;
 	}
-	if (--m_KeyCount == 0)
+	if (m_KeyCount <= 0)
 	{
+		m_KeyCount = 0;
 		switch (m_MainCharacter)
 		{
 		case EMain_Character::Spongebob:
@@ -771,7 +779,7 @@ void CPlayer::KeyUp()
 
 void CPlayer::JumpDown()
 {
-	if(m_IsDoubleJump)
+	if(m_IsDoubleJump|| m_IsStop)
 	{
 		return;
 	}
@@ -801,7 +809,7 @@ void CPlayer::JumpDown()
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
 	m_Rigid->SetGround(false);
 	m_Rigid->AddForce(0, 400.f);
-	m_Rigid->SetVelocityY(400.f);
+	m_Rigid->AddVelocity(Vector3(0.f,400.f,0.f)); 
 }
 
 void CPlayer::JumpPush()
@@ -810,7 +818,7 @@ void CPlayer::JumpPush()
 	{
 		return;
 	}
-	if(m_SpaceTime>0.f)
+	if(m_SpaceTime>0.f&&!m_Rigid->GetGround())
 	{
 		m_SpaceTime -= g_DeltaTime;
 		if (m_SpaceTime <= 0.f)
@@ -912,6 +920,10 @@ void CPlayer::CameraRotationKey()
 
 void CPlayer::Headbutt()
 {
+	if (m_IsStop)
+	{
+		return;
+	}
 	if (!m_Rigid->GetGround()|| CEngine::GetInst()->GetTimeScale() == 0.f)
 	{
 		return;
@@ -921,8 +933,8 @@ void CPlayer::Headbutt()
 	m_Scene->GetResource()->SoundPlay("Spongebob_DoubleJump");
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
 	m_Rigid->SetGround(false);
-	m_Rigid->AddForce(0, 400.f);
-	m_Rigid->SetVelocityY(400.f);
+	m_Rigid->AddForce(0, 800.f);
+	m_Rigid->SetVelocityY(800.f);
 	m_HeadCube->SetEnable(true);
 }
 
@@ -972,7 +984,11 @@ void CPlayer::IngameUI()
 
 void CPlayer::LClick()
 {
-	if (m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI")->GetIsActive()||
+	if (m_IsStop)
+	{
+		return;
+	}
+	if (m_Scene->GetViewport()->FindUIWindow<CDialogUI>("DialogUI")->GetIsActive()||
 		CEngine::GetInst()->GetTimeScale() == 0.f)
 	{
 		return;
@@ -995,7 +1011,7 @@ void CPlayer::LClick()
 			return;
 		}
 		m_Scene->GetResource()->SoundPlay("Patrick_Attack");
-		m_Particle->SetParticle("PatrickAtk");
+		//m_Particle->ChangeParticle("PatrickAtk");
 		float angle = GetWorldRot().y-180.f;
 		m_Rigid->SetGround(false);
 		m_Rigid->AddForce(sinf(DegreeToRadian(angle)) * 150.f, 200.f, cosf(DegreeToRadian(angle)) * 150.f);
@@ -1003,7 +1019,7 @@ void CPlayer::LClick()
 		break;
 	}
 	case EMain_Character::Sandy:
-		//m_Particle->SetParticle("SpongebobAtk");
+		//m_Particle->ChangeParticle("SpongebobAtk");
 		if (m_Rigid->GetGround())
 		{
 			m_Scene->GetResource()->SoundPlay("Sandy_Chop");
@@ -1021,7 +1037,12 @@ void CPlayer::LClick()
 
 void CPlayer::RClickDown()
 {
-	if (CEngine::GetInst()->GetTimeScale() == 0.f)
+	if (m_IsStop)
+	{
+		return;
+	}
+	if (m_Scene->GetViewport()->FindUIWindow<CDialogUI>("DialogUI")->GetIsActive() ||
+		CEngine::GetInst()->GetTimeScale() == 0.f)
 	{
 		return;
 	}
@@ -1085,7 +1106,12 @@ void CPlayer::RClickDown()
 
 void CPlayer::RClickPush()
 {
-	if (!m_Rigid->GetGround()|| CEngine::GetInst()->GetTimeScale() == 0.f)
+	if (m_IsStop)
+	{
+		return;
+	}
+	if (m_Scene->GetViewport()->FindUIWindow<CDialogUI>("DialogUI")->GetIsActive() ||
+		CEngine::GetInst()->GetTimeScale() == 0.f|| !m_Rigid->GetGround())
 	{
 		return;
 	}
@@ -1129,8 +1155,8 @@ void CPlayer::RClickUp()
 void CPlayer::StartBash()
 {
 	m_Rigid->SetGravity(true);
-	m_Rigid->AddForce(0, -500.f);
-	m_Rigid->SetVelocityY(-500.f);
+	m_Rigid->AddForce(0, -10000.f);
+	m_Rigid->SetVelocityY(-10000.f);
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBashDw");
 }
 
@@ -1163,6 +1189,10 @@ void CPlayer::BashCheck()
 
 void CPlayer::ResetIdle()
 {
+	if (!m_Rigid->GetGround())
+	{
+		return;
+	}
 	if (m_MainCharacter == EMain_Character::Spongebob)
 	{
 		m_Weapon->GetRootComponent()->SetEnable(false);
@@ -1256,6 +1286,8 @@ void CPlayer::ChangeSandy()
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
+	m_Mesh->GetMaterial(1)->SetOpacity(0.5f);
+	m_Mesh->GetMaterial(1)->SetRenderState("AlphaBlend");
 	m_Anim[(int)m_MainCharacter]->Start();
 	m_TailCube->SetCubeSize(300.f, 50.f, 300.f);
 
@@ -1277,16 +1309,33 @@ void CPlayer::ChangeSandy()
 
 void CPlayer::DebugF1()
 {
-	SetWorldPosition(16500.f, 0.f, 12200.f);
+	InflictDamage(1);
+	//SetWorldPosition(16500.f, 0.f, 12200.f);
+}
+
+void CPlayer::DebugF8()
+{
+	m_HeadCube->SetEnable(false);
+	m_TailCube->SetEnable(false);
+	m_FrontCube->SetEnable(false);
+	m_Particle->SetRelativePosition(0.f, 0.f, 0.f);
+	m_Particle->DeleteCurrentParticle();
+	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
+	m_IsDoubleJump = false;
+	m_IsStop = false;
+
+	m_Cube->SetEnable(false);
+	m_Anim[(int)m_MainCharacter]->Stop();
 }
 
 void CPlayer::CollisionTest(const CollisionResult& result)
 {
 	std::string name = result.Dest->GetCollisionProfile()->Name;
-	if (name == "Wall")
+	if (name == "Wall"|| name == "Default")
 	{
-		float height = GetWorldPos().y- result.HitPoint.y;
-		if(height>=-11.f)
+		float height = GetWorldPos().y>m_PrevPos.y? GetWorldPos().y : m_PrevPos.y;
+		height-=result.HitPoint.y;
+		if(height>=-10.f)
 		{
 			m_OnCollision = true;
 			m_Rigid->SetGround(true);
@@ -1298,10 +1347,27 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 			m_WallCollision = result;
 		}
 	}
+
+	if (name == "Platform")
+	{
+
+		if (GetWorldPos().y > m_PrevPos.y) {
+			m_Rigid->SetVelocity(0.f, 0.f, 0.f);
+
+			return;
+		}
+
+
+		m_OnCollision = true;
+		m_Rigid->SetGround(true);
+		BashCheck();
+	}
+
 	//else if (name == "Monster"|| name == "MonsterAttack")
 	//{
 	//	InflictDamage(1);
 	//}
+
 }
 
 void CPlayer::CollisionTestOut(const CollisionResult& result)

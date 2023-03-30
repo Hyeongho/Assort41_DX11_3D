@@ -22,6 +22,7 @@ CShinyFlower::CShinyFlower(const CShinyFlower& Obj) :
 {
 	m_FlowerColor = Obj.m_FlowerColor;
 	m_FixedFlower = Obj.m_FixedFlower;
+	m_FoundPlayer = Obj.m_FoundPlayer;;
 
 	if (!m_FixedFlower) {
 		m_ColliderPlCheckRange = (CColliderOBB3D*)FindComponent("OBB3D");
@@ -46,6 +47,13 @@ void CShinyFlower::Start()
 		if (Sound)
 			Sound->Play();
 	}
+
+	// Load되어, Init의 SetRandColor가 실행되지 않은 경우
+	if (m_FlowerColor == EFlowerColor::End)
+		SetRandColor();
+
+
+	m_Collider->SetCollisionCallback<CShinyFlower>(ECollision_Result::Collision, this, &CShinyFlower::Collision_Player);
 }
 
 bool CShinyFlower::Init()
@@ -65,7 +73,6 @@ bool CShinyFlower::Init()
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
-	m_Collider->SetCollisionCallback<CShinyFlower>(ECollision_Result::Collision, this, &CShinyFlower::Collision_Player);
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
