@@ -23,6 +23,7 @@ CFodderDebris::CFodderDebris()  :
 }
 
 CFodderDebris::CFodderDebris(const CFodderDebris& Obj)
+    : CMonster(Obj)
 {
     m_FodderDebrisMesh1 = (CStaticMeshComponent*)FindComponent("FodderDebrisMesh1");
     m_FodderDebrisMesh2 = (CStaticMeshComponent*)FindComponent("FodderDebrisMesh2");

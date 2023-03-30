@@ -9,6 +9,7 @@ CPool::CPool()
 }
 
 CPool::CPool(const CPool& Obj)
+    : CGameObject(Obj)
 {
     m_Cube = (CColliderCube*)FindComponent("Cube");
 }
