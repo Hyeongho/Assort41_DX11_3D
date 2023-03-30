@@ -17,7 +17,6 @@ CTiki_Thunder::CTiki_Thunder()
 CTiki_Thunder::CTiki_Thunder(const CTiki_Thunder& Obj)
 	: CTikiBase(Obj)
 {
-	//m_Animation = (CAnimation*)FindComponent("TikiThunderAnimation");
 	m_Animation = Obj.m_Animation;
 }
 
@@ -30,6 +29,10 @@ void CTiki_Thunder::Start()
 	CTikiBase::Start();
 
 	CreateAnim();
+
+	m_Collider->SetCollisionCallback<CTiki_Thunder>(ECollision_Result::Collision, this, &CTiki_Thunder::Collision_PlayerAttack);
+	m_ColliderBottom->SetCollisionCallback<CTiki_Thunder>(ECollision_Result::Collision, this, &CTiki_Thunder::Collision_Tikis);
+	m_ColliderBottom->SetCollisionCallback<CTiki_Thunder>(ECollision_Result::Release, this, &CTiki_Thunder::Release_Tikis);
 }
 
 bool CTiki_Thunder::Init()
@@ -43,7 +46,6 @@ bool CTiki_Thunder::Init()
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Monster");
-	m_Collider->SetCollisionCallback<CTiki_Thunder>(ECollision_Result::Collision, this, &CTiki_Thunder::Collision_PlayerAttack);
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
@@ -53,22 +55,20 @@ bool CTiki_Thunder::Init()
 	TBColSize.y /= 10.f;
 
 	// 바닥 충돌체 생성
-	m_ColliderTop->SetBoxHalfSize(TBColSize);
-	m_ColliderTop->SetRelativePositionY(TBColSize.y / 2.f);
-	m_ColliderTop->SetCollisionProfile("TikiBottom");
-	m_ColliderTop->SetInheritRotX(true);
-	m_ColliderTop->SetInheritRotY(true);
-	m_ColliderTop->SetInheritRotZ(true);
-
-	// 위 충돌체 생성
 	m_ColliderBottom->SetBoxHalfSize(TBColSize);
-	m_ColliderBottom->SetRelativePositionY(m_Mesh->GetMeshSize().y - TBColSize.y / 2.f);
-	m_ColliderBottom->SetCollisionProfile("Platform");
-	m_ColliderBottom->SetCollisionCallback<CTiki_Thunder>(ECollision_Result::Collision, this, &CTiki_Thunder::Collision_Tikis);
-	m_ColliderBottom->SetCollisionCallback<CTiki_Thunder>(ECollision_Result::Release, this, &CTiki_Thunder::Release_Tikis);
+	m_ColliderBottom->SetRelativePositionY(TBColSize.y / 2.f);
+	m_ColliderBottom->SetCollisionProfile("TikiBottom");
 	m_ColliderBottom->SetInheritRotX(true);
 	m_ColliderBottom->SetInheritRotY(true);
 	m_ColliderBottom->SetInheritRotZ(true);
+
+	// 위 충돌체 생성
+	m_ColliderTop->SetBoxHalfSize(TBColSize);
+	m_ColliderTop->SetRelativePositionY(m_Mesh->GetMeshSize().y - TBColSize.y / 2.f);
+	m_ColliderTop->SetCollisionProfile("Platform");
+	m_ColliderTop->SetInheritRotX(true);
+	m_ColliderTop->SetInheritRotY(true);
+	m_ColliderTop->SetInheritRotZ(true);
 
 	// 애니메이션 세팅
 	CreateAnim();

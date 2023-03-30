@@ -16,7 +16,6 @@ CTiki_Wood::CTiki_Wood()
 CTiki_Wood::CTiki_Wood(const CTiki_Wood& Obj)
 	: CTikiBase(Obj)
 {
-	//m_Animation = (CAnimation*)FindComponent("TikiWoodAnimation");
 	m_Animation = Obj.m_Animation;
 }
 
@@ -28,7 +27,11 @@ void CTiki_Wood::Start()
 {
 	CTikiBase::Start();
 
-	CreateAnim();
+	CreateAnim(); 
+
+	m_Collider->SetCollisionCallback<CTiki_Wood>(ECollision_Result::Collision, this, &CTiki_Wood::Collision_PlayerAttack);
+	m_ColliderBottom->SetCollisionCallback<CTiki_Wood>(ECollision_Result::Collision, this, &CTiki_Wood::Collision_Tikis);
+	m_ColliderBottom->SetCollisionCallback<CTiki_Wood>(ECollision_Result::Release, this, &CTiki_Wood::Release_Tikis);
 }
 
 bool CTiki_Wood::Init()
@@ -38,11 +41,12 @@ bool CTiki_Wood::Init()
 	// 메쉬 세팅
 	m_Mesh->SetMesh("Tiki_Woods");
 
+
+
 	// 충돌체 세팅
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Monster");
-	m_Collider->SetCollisionCallback<CTiki_Wood>(ECollision_Result::Collision, this, &CTiki_Wood::Collision_PlayerAttack);
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
@@ -55,8 +59,6 @@ bool CTiki_Wood::Init()
 	m_ColliderBottom->SetBoxHalfSize(TBColSize);
 	m_ColliderBottom->SetRelativePositionY(TBColSize.y / 2.f);
 	m_ColliderBottom->SetCollisionProfile("TikiBottom");
-	m_ColliderBottom->SetCollisionCallback<CTiki_Wood>(ECollision_Result::Collision, this, &CTiki_Wood::Collision_Tikis);
-	m_ColliderBottom->SetCollisionCallback<CTiki_Wood>(ECollision_Result::Release, this, &CTiki_Wood::Release_Tikis);
 	m_ColliderBottom->SetInheritRotX(true);
 	m_ColliderBottom->SetInheritRotY(true);
 	m_ColliderBottom->SetInheritRotZ(true);

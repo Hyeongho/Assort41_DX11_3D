@@ -3,7 +3,7 @@
 #include "GameObject/GameObject.h"
 
 enum class EAttackWordType {
-	KAE,
+	KAH,
 	RAH,
 	TAE
 };
@@ -46,6 +46,7 @@ private: // Collision
 public:
 	void SetWordType(EAttackWordType WordType);		// 워드 타입 설정
 	void SetDestPos(const Vector3& DestPos) { m_DestPos = DestPos; };	// 이동 목표 지점 설정.
+	void FallWords(bool isFall = true) { m_MoveToPlatform = isFall; }
 
 };
 

@@ -39,7 +39,6 @@ void CTikiBase::Start()
 	CInput::GetInst()->AddBindFunction<CTikiBase>("F1", Input_Type::Up, this, &CTikiBase::DebugKeyF1, m_Scene);
 	CInput::GetInst()->AddBindFunction<CTikiBase>("F2", Input_Type::Up, this, &CTikiBase::DebugKeyF2, m_Scene);
 #endif // _DEBUG
-
 }
 
 bool CTikiBase::Init()

@@ -200,6 +200,10 @@ bool CMaterialManager::Init()
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.png"));
 	Material->SetShader("SpriteShader");
 
+	Material = CreateMaterial<CMaterial>("blueflame");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "blueflame", TEXT("Particle/blueflame.png"));
+	Material->SetShader("SpriteShader");
+
 	// Èå¸£´Â ÅØ½ºÃÄ
 	Material = CreateMaterial<CMaterial>("Effect");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Water", TEXT("Particle/T_Seafoam_BC.tga"));	
