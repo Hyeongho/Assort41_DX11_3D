@@ -42,14 +42,15 @@ bool CJellyfishElectric::Init()
 
     SetRootComponent(m_Mesh);
 
-    m_Mesh->SetWorldScale(500.f, 500.f, 500.f);
-
+    m_Mesh->SetWorldScale(150.f, 150.f, 150.f);
+    m_Mesh->GetMaterial(0)->SetRenderState("AlphaBlend");
+    m_Mesh->SetWorldPositionY(500.f);
     m_Mesh->AddChild(m_Collider);
 
-    m_Collider->SetRelativeScale(0.8f, 0.8f, 0.8f);
+    m_Collider->SetRelativePosition(0.f, 0.f, 0.f);
+    m_Collider->SetRelativeScale(3.f, 3.f, 3.f);
     m_Collider->SetCollisionProfile("MonsterAttack");
 
-    m_Collider->SetRelativePosition(0.f, 0.f, 0.f);
 
     return true;
 }
