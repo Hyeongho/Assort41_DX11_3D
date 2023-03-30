@@ -1323,6 +1323,23 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 			m_WallCollision = result;
 		}
 	}
+
+
+	if (name == "Platform")
+	{
+
+		if (GetWorldPos().y > m_PrevPos.y) {
+			m_Rigid->SetVelocity(0.f, 0.f, 0.f);
+
+			return;
+		}
+
+
+		m_OnCollision = true;
+		m_Rigid->SetGround(true);
+		BashCheck();
+	}
+
 	//else if (name == "Monster"|| name == "MonsterAttack")
 	//{
 	//	InflictDamage(1);

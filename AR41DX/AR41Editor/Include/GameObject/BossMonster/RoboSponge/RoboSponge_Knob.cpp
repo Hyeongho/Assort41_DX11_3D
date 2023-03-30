@@ -55,7 +55,7 @@ bool CRoboSponge_Knob::Init()
 	m_Mesh->SetMesh("GreenKnob");
 
 
-	m_Collider->SetCollisionProfile("Monster");
+	m_Collider->SetCollisionProfile("Knob");
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
