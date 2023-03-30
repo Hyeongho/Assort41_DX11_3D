@@ -125,17 +125,26 @@ void CMeshWindow::Update(float deltaTime)
 
 void CMeshWindow::MeshChangeCallback(const TCHAR* path)
 {
+	char fullPath[256];
 	char name[256];
 	char ext[256];
-	WideCharToMultiByte(CP_ACP, 0, path, _MAX_EXT, name, _MAX_EXT, NULL, NULL);
-	_splitpath_s(name, nullptr, 0, nullptr, 0, name, _MAX_EXT, ext, 256);
+	WideCharToMultiByte(CP_ACP, 0, path, _MAX_EXT, fullPath, _MAX_EXT, NULL, NULL);
+	_splitpath_s(fullPath, nullptr, 0, nullptr, 0, name, _MAX_EXT, ext, 256);
 	CResourceManager* resourceManager = CResourceManager::GetInst();
 	int meshType = m_MeshType->GetSelectIndex();
 	if (MeshType::Animation == (MeshType)meshType)
 	{
 		resourceManager->LoadMeshFullPath(nullptr, MeshType::Animation, name, path);
-		resourceManager->LoadSkeletonFullPath(nullptr, name, path);
+
+		std::string bneName= fullPath;
+		bneName = bneName.replace(bneName.size()-4, bneName.size(), ".bne");
+		size_t szlen = bneName.size();
+		TCHAR* bnePath = new TCHAR[szlen + 1];
+		bnePath[szlen] = 0;
+		std::copy(bneName.begin(), bneName.end(), bnePath);
+		resourceManager->LoadSkeletonFullPath(nullptr, name, bnePath);
 		resourceManager->SetMeshSkeleton(name, name);
+		SAFE_DELETE_ARRAY(bnePath);
 	}
 	else
 	{

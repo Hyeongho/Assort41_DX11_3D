@@ -190,6 +190,8 @@ void CDefaultSetting::SetInput()
     CInput::GetInst()->AddBindKey("MClick", VK_MBUTTON);
     CInput::GetInst()->AddBindKey("Del", VK_DELETE);
     CInput::GetInst()->SetKeyCtrl("Del", true);
+    CInput::GetInst()->AddBindKey("CtrlD", 'D');
+    CInput::GetInst()->SetKeyCtrl("CtrlD", true);
 }
 
 void CDefaultSetting::SetCollision()
@@ -820,6 +822,9 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldBoss", TEXT("Buildings/JellyfishField/JellyfishFieldBoss.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyFishFieldTestKKB", TEXT("Buildings/JellyfishField/JellyfishScene.msh"));
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField", TEXT("Buildings/JellyfishField/JellyfishField.msh"));
+
 
     
     if (!CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JFBackground", TEXT("Objects/JellyfishFields/JFBackground.msh"), MESH_PATH))
