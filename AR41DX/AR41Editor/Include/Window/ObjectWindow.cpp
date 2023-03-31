@@ -46,8 +46,8 @@
 #include "../GameObject/Object/BB/BusStop.h"
 #include "../GameObject/Object/CBL/CBL_Floor.h"
 #include "../GameObject/Object/CBL/CBL_Platform.h"
+#include "../GameObject/Object/JFF/Grass.h"
 #include "../GameObject/Object/Common/Collectible/CollectibleItems.h"
-#include "../GameObject/Object/Common/Collectible/Collectible_Bubble.h"
 #include "../GameObject/Object/Common/Collectible/GoldenSpatula.h"
 #include "../GameObject/Object/Common/Collectible/ShinyFlower.h"
 #include "../GameObject/Object/Common/Collectible/Sock.h"
@@ -351,13 +351,13 @@ void CObjectWindow::AddInput(CScene* scene)
 {
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("Del", Input_Type::Down, this, &CObjectWindow::Delete, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("LClick", Input_Type::Push, this, &CObjectWindow::MoveGizmo, scene);
-	CInput::GetInst()->AddBindFunction<CObjectWindow>("MClick", Input_Type::Down, this, &CObjectWindow::PlaceObject, scene);
+	CInput::GetInst()->AddBindFunction<CObjectWindow>("MClick", Input_Type::Down, this, &CObjectWindow::PlaceObjectAtPlayer, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("F5", Input_Type::Down, this, &CObjectWindow::Pause, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("UArrow", Input_Type::Push, this, &CObjectWindow::UArrow, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("DArrow", Input_Type::Push, this, &CObjectWindow::DArrow, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("LArrow", Input_Type::Push, this, &CObjectWindow::LArrow, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("RArrow", Input_Type::Push, this, &CObjectWindow::RArrow, scene);
-	CInput::GetInst()->AddBindFunction<CObjectWindow>("CtrlD", Input_Type::Down, this, &CObjectWindow::PlaceObjectAtPlayer, scene);
+	CInput::GetInst()->AddBindFunction<CObjectWindow>("CtrlD", Input_Type::Down, this, &CObjectWindow::PlaceObject, scene);
 
 	CComponentWindow* componentWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CComponentWindow>("ComponentWindow");
 	if (componentWindow)
@@ -732,7 +732,6 @@ class CGameObject* CObjectWindow::CreateObject(const std::string& name)
 	{
 		object = scene->CreateObject<CCollectibleItems>(name);
 	}
-	//#include "../GameObject/Object/Common/Collectible/Collectible_Bubble.h"
 	else if (name == "GoldenSpatula")
 	{
 		object = scene->CreateObject<CGoldenSpatula>(name);
@@ -759,7 +758,7 @@ class CGameObject* CObjectWindow::CreateObject(const std::string& name)
 	}
 	else if (name == "CheckPoint")
 	{
-		//object = scene->CreateObject<CCheckPoint>(name);
+		object = scene->CreateObject<CCheckPoint>(name);
 	}
 	else if (name == "Gate")
 	{
@@ -788,6 +787,10 @@ class CGameObject* CObjectWindow::CreateObject(const std::string& name)
 	else if (name == "Tiki_Wood")
 	{
 		object = scene->CreateObject<CTiki_Wood>(name);
+	}
+	else if (name == "Grass")
+	{
+		object = scene->CreateObject<CGrass>(name);
 	}
 	AddItem(object, name);
 	return object;

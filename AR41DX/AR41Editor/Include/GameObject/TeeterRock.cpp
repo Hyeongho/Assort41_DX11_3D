@@ -51,8 +51,8 @@ bool CTeeterRock::Init()
 
 	m_Mesh->SetMesh("SM_JF_Teeter_Rock_01");
 
-	m_LeftCube->AddWorldPositionX(-251.f);
-	m_RightCube->AddWorldPositionX(251.f);
+	m_LeftCube->AddWorldPositionX(( -1.f * m_Mesh->GetMeshSize().x / 4.f) + -1.f);
+	m_RightCube->AddWorldPositionX(m_Mesh->GetMeshSize().x / 4.f);
 
 	m_LeftCube->SetBoxHalfSize(m_Mesh->GetMeshSize() / 4.f);
 	m_RightCube->SetBoxHalfSize(m_Mesh->GetMeshSize() / 4.f);
@@ -95,6 +95,22 @@ void CTeeterRock::PostUpdate(float DeltaTime)
 		if (m_RightCollison)
 		{
 			AddWorldRotationZ(-10.f * DeltaTime);
+		}
+
+		if (!m_LeftCollison && !m_RightCollison)
+		{
+			if (GetWorldRot().z != 0.f)
+			{
+				if (GetWorldRot().z > 0.f)
+				{
+					AddWorldRotationZ(-10.f * DeltaTime);
+				}
+
+				else if (GetWorldRot().z > 0.f)
+				{
+					AddWorldRotationZ(10.f * DeltaTime);
+				}
+			}
 		}
 	}
 }

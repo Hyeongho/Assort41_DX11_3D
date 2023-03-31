@@ -19,9 +19,10 @@ private:
 
 private:
 	float m_FallTime;
-	int m_CountHammer;
+	int  m_CountHammer;
 	bool m_DefyingGravity;
 	bool m_SpawnOn;
+	bool m_Land;
 
 	CHammer* m_Hammers[3];
 
@@ -46,6 +47,16 @@ public:
 	int GetCountHammer()
 	{
 		return m_CountHammer;
+	}
+
+	void SetLand(int Land)
+	{
+		m_Land = Land;
+	}
+
+	int GetLand()
+	{
+		return m_Land;
 	}
 };
 

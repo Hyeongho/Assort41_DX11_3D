@@ -233,6 +233,26 @@ bool CTextureManager::CreateTarget(const std::string& Name,
 	return true;
 }
 
+bool CTextureManager::CreateTargetNoMS(const std::string& Name, unsigned int Width, unsigned int Height, DXGI_FORMAT PixelFormat, DXGI_FORMAT DepthFormat)
+{
+	CRenderTarget* Texture = (CRenderTarget*)FindTexture(Name);
+
+	if (Texture)
+		return true;
+
+	Texture = new CRenderTarget;
+
+	if (!Texture->CreateTargetNoMS(Name, Width, Height, PixelFormat, DepthFormat))
+	{
+		SAFE_DELETE(Texture);
+		return false;
+	}
+
+	m_mapTexture.insert(std::make_pair(Name, Texture));
+
+	return true;
+}
+
 void CTextureManager::Render()
 {
 	auto	iter = m_mapTexture.begin();

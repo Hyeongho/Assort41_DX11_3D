@@ -4,7 +4,7 @@
 
 
 class CFodderDebris :
-    public CMonster
+	public CMonster
 {
 	friend class CScene;
 
@@ -18,7 +18,7 @@ private:
 	CSharedPtr<class CStaticMeshComponent>		m_FodderDebrisMesh2;
 	CSharedPtr<class CStaticMeshComponent>		m_FodderDebrisMesh3;
 	CSharedPtr<class CStaticMeshComponent>		m_FodderDebrisMesh4;
-	
+
 	CSharedPtr<class CColliderOBB3D>			m_Mesh1Cube;
 	CSharedPtr<class CColliderOBB3D>			m_Mesh2Cube;
 	CSharedPtr<class CColliderOBB3D>			m_Mesh3Cube;

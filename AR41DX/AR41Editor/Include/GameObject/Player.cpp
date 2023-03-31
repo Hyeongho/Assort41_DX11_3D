@@ -54,6 +54,7 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	, m_OnCollision(false)
 	, m_CanPickUp(false)
 	, m_IsStop(false)
+	, m_Invincibility(false)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
@@ -97,8 +98,26 @@ void CPlayer::Start()
 	}
 	m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
 
+	if (m_Scene->GetName() == "BikiniCity")
+	{
+		m_Scene->GetResource()->SoundPlay("BikiniBottom");
+	}
+	else if (m_Scene->GetName() == "JellyFish")
+	{
+		m_Scene->GetResource()->SoundPlay("JellyfishField");
+	}
+	else if (m_Scene->GetName() == "KingJellyFish")
+	{
+		m_Scene->GetResource()->SoundPlay("BossStage");
+	}
+	else if (m_Scene->GetName() == "?")
+	{
+		m_Scene->GetResource()->SoundPlay("BossStage");
+	}
+
 	CInput::GetInst()->AddBindFunction<CPlayer>("F7", Input_Type::Down, this, &CPlayer::DebugF1, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F8", Input_Type::Down, this, &CPlayer::DebugF8, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F9", Input_Type::Down, this, &CPlayer::DebugF9, m_Scene);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
@@ -183,7 +202,7 @@ bool CPlayer::Init()
 
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
-	m_Rigid->SetGravity(true);
+	m_Rigid->SetGravity(false);
 
 	m_Cube->SetRelativePositionY(70.f);
 	m_Cube->SetCollisionProfile("Player");
@@ -255,6 +274,11 @@ void CPlayer::Load(FILE* File)
 
 int CPlayer::InflictDamage(int damage)
 {
+	if (m_Invincibility)
+	{
+		return m_PlayerData.CurHP;
+	}
+
 	int hp = --m_PlayerData.CurHP > 0? m_PlayerData.CurHP :0;
 	m_PlayerUI->SetHp(hp);
 	IngameUI();
@@ -1189,13 +1213,17 @@ void CPlayer::BashCheck()
 
 void CPlayer::ResetIdle()
 {
-	if (!m_Rigid->GetGround())
-	{
-		return;
-	}
 	if (m_MainCharacter == EMain_Character::Spongebob)
 	{
 		m_Weapon->GetRootComponent()->SetEnable(false);
+	}
+	m_FrontCube->SetEnable(false);
+	m_Particle->SetRelativePosition(0.f, 0.f, 0.f);
+	m_Particle->DeleteCurrentParticle();
+	if (!m_Rigid->GetGround())
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpDw");
+		return;
 	}
 	if (m_Weapon->GetRootComponent()->GetEnable() &&
 		m_MainCharacter == EMain_Character::Patrick)
@@ -1208,10 +1236,7 @@ void CPlayer::ResetIdle()
 	}
 	m_HeadCube->SetEnable(false);
 	m_TailCube->SetEnable(false);
-	m_FrontCube->SetEnable(false);
 	m_Cube->SetEnable(true);
-	m_Particle->SetRelativePosition(0.f, 0.f, 0.f);
-	m_Particle->DeleteCurrentParticle();
 	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
 	m_IsDoubleJump = false;
 	m_IsStop = false;
@@ -1328,6 +1353,19 @@ void CPlayer::DebugF8()
 	m_Anim[(int)m_MainCharacter]->Stop();
 }
 
+void CPlayer::DebugF9()
+{
+	if (m_Invincibility)
+	{
+		m_Invincibility = false;
+	}
+
+	else
+	{
+		m_Invincibility = true;
+	}
+}
+
 void CPlayer::CollisionTest(const CollisionResult& result)
 {
 	std::string name = result.Dest->GetCollisionProfile()->Name;
@@ -1379,16 +1417,29 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 
 void CPlayer::CollisionTestOut(const CollisionResult& result)
 {
+	if (result.Dest->GetName() == "InfoSignCollider")
+	{
+		return;
+	}
+
+	if (!result.Dest || !result.Src)
+	{
+		return;
+	}
+
 	std::list<CCollider*> List = result.Src->GetPrevCollisionList();
 
-	auto iter = List.begin();
-	auto iterEnd = List.end();
-
-	for (; iter != iterEnd; iter++)
+	if (!List.empty())
 	{
-		if ((*iter)->GetCollisionProfile()->Name == "Ground")
+		auto iter = List.begin();
+		auto iterEnd = List.end();
+
+		for (; iter != iterEnd; iter++)
 		{
-			return;
+			if ((*iter)->GetCollisionProfile()->Name == "Ground")
+			{
+				return;
+			}
 		}
 	}
 

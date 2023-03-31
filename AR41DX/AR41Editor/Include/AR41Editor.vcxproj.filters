@@ -477,6 +477,36 @@
     <ClCompile Include="GameObject\BossMonster\RoboSponge\RoboSponge_Knob.cpp">
       <Filter>03. GameObject\03. BossMonster\02. RoboSponge</Filter>
     </ClCompile>
+    <ClCompile Include="UI\Fade.cpp">
+      <Filter>05. UI\02. InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\JellyfishField1SceneInfo.cpp">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\JellyfishField2SceneInfo.cpp">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\JellyfishField3SceneInfo.cpp">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\JellyfishField4SceneInfo.cpp">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\JellyfishField5SceneInfo.cpp">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\JFF\Grass.cpp">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\BossUI.cpp">
+      <Filter>05. UI\02. InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\RoboSpongeSceneInfo.cpp">
+      <Filter>02. Scene\04. ChumBucketLab</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\CBL\CBL_BaseMesh.cpp">
+      <Filter>03. GameObject\04. Object\04. ChumBucketLab\02. CBL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorManager.h">
@@ -820,6 +850,36 @@
     </ClInclude>
     <ClInclude Include="GameObject\BossMonster\RoboSponge\RoboSponge_Knob.h">
       <Filter>03. GameObject\03. BossMonster\02. RoboSponge</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Fade.h">
+      <Filter>05. UI\02. InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyfishField1SceneInfo.h">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyfishField2SceneInfo.h">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyfishField3SceneInfo.h">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyfishField4SceneInfo.h">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JellyfishField5SceneInfo.h">
+      <Filter>02. Scene\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\JFF\Grass.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\BossUI.h">
+      <Filter>05. UI\02. InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\RoboSpongeSceneInfo.h">
+      <Filter>02. Scene\04. ChumBucketLab</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\CBL\CBL_BaseMesh.h">
+      <Filter>03. GameObject\04. Object\04. ChumBucketLab\02. CBL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

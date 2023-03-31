@@ -18,11 +18,13 @@ CCheckPoint::CCheckPoint()
 }
 
 CCheckPoint::CCheckPoint(const CCheckPoint& Obj)
+    : CGameObject(Obj)
 {
     m_FlagMesh = (CAnimationMeshComponent*)FindComponent("FlagMesh");
     //m_BottomMesh = (CStaticMeshComponent*)FindComponent("BottomMesh");
     m_CheckPointCube = (CColliderOBB3D*)FindComponent("CheckPointCube");
     m_DetectRange = (CColliderOBB3D*)FindComponent("DetectRange");
+    m_Animation = Obj.m_Animation;
 }
 
 CCheckPoint::~CCheckPoint()

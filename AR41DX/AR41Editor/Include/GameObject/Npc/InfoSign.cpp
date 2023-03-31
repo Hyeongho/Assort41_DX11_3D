@@ -54,7 +54,6 @@ void CInfoSign::Start()
 
 	CInput::GetInst()->AddBindFunction<CInfoSign>("F", Input_Type::Up, this, &CInfoSign::InputF, m_Scene);
 
-
 	if (m_Scene->GetName() == "BikiniCity")
 	{
 		m_Collider->SetName("InfoSignCollider");

@@ -12,9 +12,7 @@ protected:
 
 private:
 	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
-	CSharedPtr<class CAnimationMeshComponent>	m_EffectMesh;
 	CSharedPtr<class CAnimation>		m_Animation;
-	CSharedPtr<class CAnimation>		m_EffectMeshAnimation;
 	CSharedPtr<class CColliderOBB3D>	m_AttackCollision;
 	CSharedPtr<class CColliderOBB3D>	m_DetectCollision;
 	CSharedPtr<class CColliderOBB3D>	m_PoolCollision;
@@ -75,5 +73,6 @@ public:
 	void OnGround();
 	void Attack(); // 공격 패턴1, 땅으로 착지하며 원 모양의 충격파를 날림
 	void ReSpawn(); // 목욕탕으로 이동
+	void Cutscene();
 };
 

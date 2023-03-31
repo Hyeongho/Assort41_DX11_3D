@@ -32,19 +32,21 @@ private:
 	std::vector<CSharedPtr<CRenderTarget>>	m_vecLightBuffer;
 
 	CSharedPtr<CRenderTarget> m_ScreenBuffer;
-	CSharedPtr<CRenderTarget> m_FXAABuffer; // FXAA ¹öÆÛ
+	CSharedPtr<CRenderTarget> m_FXAABuffer; 
 	CSharedPtr<CRenderTarget> m_MSBuffer;
 	CSharedPtr<CRenderTarget> m_CartoonBuffer;
 
 	CSharedPtr<CGraphicShader> m_ScreenShader;
 	CSharedPtr<CGraphicShader> m_DeferredRenderShader;
-	CSharedPtr<CGraphicShader> m_FXAAShader; // FXAA
+	CSharedPtr<CGraphicShader> m_FXAAShader; 
 	CSharedPtr<CGraphicShader> m_MSShader;
 	CSharedPtr<CGraphicShader> m_CartoonShader;
 
 
 	class CTranslationConstantBuffer* m_TranslationCBuffer;
 
+	class CFXAAConstantBuffer* m_FXAACBuffer;
+	class CCartoonConstantBuffer* m_CartoonCBuffer;
 
 	CSharedPtr<CRenderTarget> m_ShadowMapTarget;
 
@@ -90,12 +92,12 @@ private:
 	void RenderDecal(float DeltaTime);
 	void RenderLight(float DeltaTime);
 	void RenderScreen(float DeltaTime);
-	void RenderCartoon(float DeltaTime);
+	void RenderNoMultiSampling(float DeltaTime);
 	void RenderFXAA(float DeltaTime); // FXAA
+	void RenderCartoon(float DeltaTime);
 	void RenderDeferred(float DeltaTime);
 	void RenderParticle(float DeltaTime);
 	void RenderTranslation(float DeltaTime);
-	void RenderMultiSampling(float DeltaTime);
 
 public:
 	void SetBlendFactor(const std::string& Name, float r, float g, float b, float a);

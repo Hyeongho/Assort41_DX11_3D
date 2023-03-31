@@ -58,7 +58,7 @@ bool CMaterialManager::Init()
 
 	Material->SetShader("SkyShader");
 
-	Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture", TEXT("Sky/Sky0222.dds"));
+	Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture", TEXT("Sky/sky0331.dds"));
 
 	//Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture", TEXT("Sky.dds"));
 
@@ -181,9 +181,9 @@ bool CMaterialManager::Init()
 
 	// ���� ���ٱ�
 	Material = CreateMaterial<CMaterial>("Shower");
-	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Shower", TEXT("Particle/waterdrop.png"));
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Shower", TEXT("Particle/T_JF_Shower_Drops_01.tga"));
 	Material->SetShader("SpriteShader");
-	Material->SetOpacity(0.7f);
+	Material->SetOpacity(0.8f);
 
 	// ���� ���� �ٴ��� ��� �κп� ���� ��
 	Material = CreateMaterial<CMaterial>("WaterRing");
@@ -191,14 +191,22 @@ bool CMaterialManager::Init()
 	Material->SetShader("SpriteShader");
 	Material->SetOpacity(0.7f);
 
+	// Jellyfish Attack
+	Material = CreateMaterial<CMaterial>("Lightning");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Lightning", TEXT("T_Lightning_Balt_01.tga"));
+	Material->SetShader("SpriteShader");
+	Material->SetBaseColor(1.f, 1.f, 1.f, 1.f);
+	//Material->SetOpacity(0.7f);
+
+
 	//Material = CreateMaterial<CMaterial>("ShockWave");
 	//Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.tga"));
 	//Material->SetShader("SpriteShader");
 
 	// ���η� �����̴� �ؽ���
-	Material = CreateMaterial<CMaterial>("ShockWave");
+	/*Material = CreateMaterial<CMaterial>("ShockWave");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.png"));
-	Material->SetShader("SpriteShader");
+	Material->SetShader("SpriteShader");*/
 
 	Material = CreateMaterial<CMaterial>("blueflame");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "blueflame", TEXT("Particle/blueflame.png"));
@@ -221,7 +229,7 @@ bool CMaterialManager::Init()
 	// �ٴ�
 	Material = CreateMaterial<CMaterial>("Sea");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Sea", TEXT("sea.png"));
-	Material->SetShader("DropShader");
+	Material->SetShader("SpriteShader");
 	Material->SetRenderState("AlphaBlend");
 	Material->SetOpacity(0.8f);
 

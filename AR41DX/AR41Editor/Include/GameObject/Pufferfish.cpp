@@ -26,6 +26,7 @@ CPufferfish::CPufferfish(const CPufferfish& Obj) : CGameObject(Obj)
 	m_Mesh = dynamic_cast<CAnimationMeshComponent*>(FindComponent("Mesh"));
 	m_Sphere = dynamic_cast<CColliderSphere3D*>(FindComponent("Sphere"));
 	m_Rigid = dynamic_cast<CRigidBody*>(FindComponent("Rigid"));
+	m_Animation = Obj.m_Animation;
 }
 
 CPufferfish::~CPufferfish()

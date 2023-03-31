@@ -12,7 +12,7 @@
 #include "../Scene/LoadingSceneInfo.h"
 #include "Scene/NavigationManager3D.h"
 
-CFodderDebris::CFodderDebris()  :
+CFodderDebris::CFodderDebris() :
     m_DefyingGravity(true),
     m_IsPopped(false),
     m_Mass(1.f)
@@ -101,22 +101,17 @@ bool CFodderDebris::Init()
 
     m_Fodder = (CFodder*)m_Scene->FindObject("Fodder");
 
-    if (!m_Fodder)
-    {
-        return false;
-    }
-
-    m_FodderDebrisMesh1->SetWorldPositionX(m_Fodder->GetWorldPos().x * 2.f); 
+    m_FodderDebrisMesh1->SetWorldPositionX(m_Fodder->GetWorldPos().x * 2.f);
     m_FodderDebrisMesh1->SetWorldPositionY(m_Fodder->GetWorldPos().y + 10.f);
     m_FodderDebrisMesh1->SetWorldPositionZ(m_Fodder->GetWorldPos().z);
 
-    m_FodderDebrisMesh2->SetRelativePosition(10.f, 10.f, 20.f); 
+    m_FodderDebrisMesh2->SetRelativePosition(10.f, 10.f, 20.f);
     m_FodderDebrisMesh2->SetRelativeRotation(10.f, 20.f, 20.f);
 
-    m_FodderDebrisMesh3->SetRelativePosition(20.f, 10.f, 20.f); 
+    m_FodderDebrisMesh3->SetRelativePosition(20.f, 10.f, 20.f);
     m_FodderDebrisMesh3->SetRelativeRotation(15.f, 20.f, 34.f);
 
-    m_FodderDebrisMesh4->SetRelativePosition(30.f, 10.f, 20.f); 
+    m_FodderDebrisMesh4->SetRelativePosition(30.f, 10.f, 20.f);
     m_FodderDebrisMesh4->SetRelativeRotation(24.f, 20.f, 10.f);
 
 
@@ -156,17 +151,21 @@ void CFodderDebris::Update(float DeltaTime)
     if (m_DefyingGravity)
     {
         m_Rigid->SetGround(false);
-        //m_Rigid->AddForce(0, 1.f);
+        m_Rigid->AddForce(100, 100.f);
         m_Rigid->SetVelocityY(250.f);
     }
-            
+
     float PosY = GetWorldPos().y;
-    
-    if (GetWorldPos().y >= 700.f)
+
+    if (GetWorldPos().y >= 480.f)
     {
         m_DefyingGravity = false;
-        m_Rigid->SetVelocityY(-200.f);
-        m_Rigid->AddForce(0, 70.f);
+        m_Rigid->SetVelocityY(-20.f);
+        m_Rigid->AddForce(300, 10.f, 0.f);
+        m_FodderDebrisMesh1->AddWorldPosition(100.f, 0.f, 0.f);
+        m_FodderDebrisMesh2->AddRelativePosition(-50.f, 0.f, 19.f);
+        m_FodderDebrisMesh3->AddRelativePosition(-40.f, 0.f, 5.f);
+        m_FodderDebrisMesh4->AddRelativePosition(-35.f, 0.f, 0.f);
     }
 
     // ¶¥¿¡ ÂøÁö
