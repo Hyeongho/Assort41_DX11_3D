@@ -11,6 +11,8 @@
 #include "Component/ParticleComponent.h"
 #include "../UI/DialogUI.h"
 #include "../UI/InteractUI.h"
+#include "../UI/KingJellyfishIntroUI.h"
+
 
 CKingJellyfishSceneInfo::CKingJellyfishSceneInfo()
 {
@@ -24,6 +26,8 @@ CKingJellyfishSceneInfo::~CKingJellyfishSceneInfo()
 bool CKingJellyfishSceneInfo::Init()
 {
 	CSceneInfo::Init();
+
+	//m_Owner->GetViewport()->CreateUIWindow<CKingJellyfishIntroUI>("KingJellyfishIntroUI");
 
 	CResourceManager::GetInst()->SoundPlay("KingJellyfish_Idle");
 	CResourceManager::GetInst()->SetVolume(2.f);
@@ -44,9 +48,7 @@ bool CKingJellyfishSceneInfo::Init()
 	CStaticMeshComponent* StaticMeshComponent = KingJellyfishMap->CreateComponent<CStaticMeshComponent>("KingJellyfishMap");
 	StaticMeshComponent->SetMesh("JellyfishFieldBoss");
 	StaticMeshComponent->SetMeshSize(1500.f, 1500.f, 1500.f);
-	//KingJellyfishMap->SetWorldPosition(15000.f, -5150.f, -8000.f);
 	KingJellyfishMap->SetWorldPosition(10000.f, -4885.f, -4000.f);
-
 
 	CGameObject* Water = m_Owner->CreateObject<CGameObject>("Water");
 	CStaticMeshComponent* BossWater = Water->CreateComponent<CStaticMeshComponent>("Water");
@@ -63,7 +65,7 @@ bool CKingJellyfishSceneInfo::Init()
 	CGameObject* WaterDrop = m_Owner->CreateObject<CGameObject>("WaterDrop");
 	CParticleComponent* WaterDropParticle = WaterDrop->CreateComponent<CParticleComponent>("WaterDropParticle");
 	WaterDropParticle->SetParticle("Shower");
-	WaterDropParticle->SetWorldPosition(3800.f, 800.f, 2300.f);
+	WaterDropParticle->SetWorldPosition(3800.f, 2200, 1800);
 
 	CPool* Pool = m_Owner->CreateObject<CPool>("Pool");
 	Pool->SetWorldPosition(3800.f, 265.f, 2300.f);
@@ -73,20 +75,11 @@ bool CKingJellyfishSceneInfo::Init()
 	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
 
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetRespawnPos(4500.f, 270.f, 2800.f);
+	Player->SetRespawnPos(5000.f, 270.f, 2700.f);
 	SetPlayerObject(Player);
 
 	CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
-	KingJellyfish->SetWorldPosition(3900.f, 250.f, 2500.f);
+	KingJellyfish->SetWorldPosition(4400.f, 250.f, 1600.f);
 
-	//CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
-	//CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
-	//TerrainComponent->CreateTerrain(807, 604, 40.f, 40.f, TEXT("LandScape/ZellyFishField4.png"));
-
-	//CGameObject* Water = m_Owner->CreateObject<CGameObject>("Water");
-	//CStaticMeshComponent* WaterMesh = Water->CreateComponent<CStaticMeshComponent>("WaterMesh");
-	//WaterMesh->SetMesh("Water");
-	//WaterMesh->SetWorldScale(2.f, 1.f, 2.f);
-	//WaterMesh->SetWorldPosition(10500.f, 700.f, 55000.f);
 	return true;
 }
