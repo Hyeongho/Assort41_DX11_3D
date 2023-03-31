@@ -47,13 +47,12 @@ void CFodder::Start()
 	CMonster::Start();
 
 	// 테스트용 키세팅
-	CInput::GetInst()->AddBindFunction<CFodder>("F", Input_Type::Down, this, &CFodder::Debris, m_Scene);
+	CInput::GetInst()->AddBindFunction<CFodder>("F", Input_Type::Down, this, &CFodder::Dead, m_Scene);
 
 	// 탐지범위에 플레이어가 들어올 시 Notice 애니메이션 후 Walk 로 변경.
 	//m_Animation->SetCurrentEndFunction("Fodder_Notice", this, &CFodder::Walk);
-	//m_Animation->SetCurrentEndFunction("Fodder_Dead", this, &CFodder::Debris);
+	m_Animation->SetCurrentEndFunction("Fodder_Dead", this, &CFodder::Debris);
 	m_Animation->SetCurrentEndFunction("Fodder_Attack", this, &CFodder::WeaponAttackOn);
-	m_Animation->AddCurrentNotify<CFodder>("Fodder_Attack", "Fodder_Attack", 14, this, &CFodder::AttackSound);
 
 	m_DetectArea->SetCollisionCallback<CFodder>(ECollision_Result::Collision, this, &CFodder::Collision_Detect_ChaseOn);
 	m_DetectArea->SetCollisionCallback<CFodder>(ECollision_Result::Release, this, &CFodder::Release_Detect_ChaseOff);
@@ -222,9 +221,9 @@ void CFodder::WeaponAttackOn()
 
 void CFodder::Dead()
 {
-	m_Mesh->AddWorldPositionZ(150.f * g_DeltaTime);
+	m_Mesh->AddWorldPositionZ(150.f);
 	m_Rigid->SetVelocity(0.f, 250.f, 200.f);
-	m_Rigid->AddForce(0.f, 100.f, 500.f);
+	m_Rigid->AddForce(0.f, 100.f, 100.f);
 	m_Animation->ChangeAnimation("Fodder_Dead");
 
 	SetMoveSpeed(0.f);
@@ -240,21 +239,13 @@ void CFodder::Debris()
 		m_Mesh->ClearMaterial();
 
 		CFodderDebris* Debris = m_Scene->CreateObject<CFodderDebris>("FodderDebris");
-		Debris->SetWorldPosition(FodderPos.x, FodderPos.y + 30.f, FodderPos.z);
+		Debris->SetWorldPosition(FodderPos.x, FodderPos.y + 500.f, FodderPos.z);
 	}
-}
-
-void CFodder::AttackSound()
-{
-	CResourceManager::GetInst()->SoundPlay("Fodder_Attack");
-	CResourceManager::GetInst()->SetVolume(10.f);
 }
 
 void CFodder::Collision_Detect_ChaseOn(const CollisionResult& result)
 {
-	std::string Name = result.Dest->GetCollisionProfile()->Name;
-
-	if (Name == "Player")
+	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
 	{
 		m_DetectOn = true;
 	}
@@ -264,9 +255,7 @@ void CFodder::Release_Detect_ChaseOff(const CollisionResult& result)
 {
 	if (result.Dest != nullptr)
 	{
-		std::string Name = result.Dest->GetCollisionProfile()->Name;
-
-		if (Name == "Player")
+		if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
 		{
 			m_DetectOn = false;
 		}
@@ -275,12 +264,9 @@ void CFodder::Release_Detect_ChaseOff(const CollisionResult& result)
 
 void CFodder::Collision_AttackOn(const CollisionResult& result)
 {
-	std::string Name = result.Dest->GetCollisionProfile()->Name;
-
-	if (Name == "Player")
+	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
 	{
 		m_AttackOn = true;
-
 	}
 }
 
@@ -289,9 +275,7 @@ void CFodder::Release_AttackOff(const CollisionResult& result)
 	// 플레이어가 사라졌을 때 대비
 	if (result.Dest != nullptr)
 	{
-		std::string Name = result.Dest->GetCollisionProfile()->Name;
-
-		if (Name == "Player")
+		if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
 		{
 			m_AttackOn = false;
 			m_Animation->ChangeAnimation("Fodder_Walk");
@@ -308,25 +292,14 @@ void CFodder::Collision_Body(const CollisionResult& result)
 	{
 		result.Dest->GetOwner()->InflictDamage(1);
 	}
-
-	if (Name == "PlayerAttack")
-	{
-
-		CResourceManager::GetInst()->SoundPlay("Ham_Hit");
-		CResourceManager::GetInst()->SetVolume(30.f);
-
-		Debris();
-	}
 }
 
 void CFodder::Collision_WeaponAttack(const CollisionResult& result)
 {
 	std::string Name = result.Dest->GetCollisionProfile()->Name;
 
-
 	if (Name == "Player" && m_WeaponAttack)
 	{
-
 		result.Dest->GetOwner()->InflictDamage(1);
 	}
 }

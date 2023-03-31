@@ -16,10 +16,8 @@
 #include "../Component/ParticleComponent.h"
 #include "../Component/DecalComponent.h"
 #include "../Resource/Shader/ShadowConstantBuffer.h"
-#include "../Resource/Shader/FXAAConstantBuffer.h"
 #include "../Component/Collider3D.h"
 #include "../Resource/Shader/TranslationConstantBuffer.h"
-#include "../Resource/Shader/CartoonConstantBuffer.h"
 
 DEFINITION_SINGLE(CRenderManager)
 
@@ -30,9 +28,8 @@ CRenderManager::CRenderManager()
 {
 	m_RenderStateManager = new CRenderStateManager;
 	m_ShadowCBuffer = new CShadowConstantBuffer;
-	m_FXAACBuffer = new CFXAAConstantBuffer;
-	//m_CartoonCBuffer = new CCartoonConstantBuffer;
-	m_TranslationCBuffer = new CTranslationConstantBuffer; 
+	m_TranslationCBuffer = new CTranslationConstantBuffer; //
+
 }
 
 CRenderManager::~CRenderManager()
@@ -57,7 +54,6 @@ CRenderManager::~CRenderManager()
 	}
 
 	SAFE_DELETE(m_RenderStateManager);
-	SAFE_DELETE(m_FXAACBuffer);
 	SAFE_DELETE(m_TranslationCBuffer);
 
 }
@@ -257,8 +253,17 @@ void CRenderManager::Render3D(float DeltaTime)
 	// 인스턴싱으로 처리해야될 물체가 있을 경우 별도의 인스턴싱 리스트에
 	// 추가해주도록 한다.
 
+	// 하늘을 그린다.
+	CGameObject* SkyObj = CSceneManager::GetInst()->GetScene()->GetSky();
+
+	if (SkyObj)
+	{
+		SkyObj->GetRootComponent()->Render();
+	}
+
 	// ShadowMap 을 그려낸다.
 	RenderShadowMap(DeltaTime);
+
 
 	m_TextureTranslation += 0.05f * DeltaTime;
 
@@ -277,26 +282,20 @@ void CRenderManager::Render3D(float DeltaTime)
 	// GBuffer와 Light를 합한 최종 화면을 만든다.
 	RenderScreen(DeltaTime);
 
-	RenderNoMultiSampling(DeltaTime);
+	// FXAA는 Post-Processing Effect라 카툰렌더링은 FXAA 이전에 만들어준다. 
+	RenderCartoon(DeltaTime);
 
 	// FXAA를 그려낸다. 
 	RenderFXAA(DeltaTime);
 
-	RenderCartoon(DeltaTime);
+	// MSAA
+	//RenderMultiSampling(DeltaTime);
 
 	// 완성된 타겟을 백버퍼에 출력한다.
 	RenderDeferred(DeltaTime);
 
 	// 파티클 출력
 	RenderParticle(DeltaTime);
-
-	// 하늘을 그린다.
-	CGameObject* SkyObj = CSceneManager::GetInst()->GetScene()->GetSky();
-
-	if (SkyObj)
-	{
-		SkyObj->GetRootComponent()->Render();
-	}
 }
 
 void CRenderManager::RenderShadowMap(float DeltaTime)
@@ -828,47 +827,19 @@ void CRenderManager::RenderScreen(float DeltaTime)
 	m_ScreenBuffer->ResetTarget();
 }
 
-//void CRenderManager::RenderCartoon(float DeltaTime)
-//{
-//	m_CartoonBuffer->ClearTarget();
-//
-//	m_CartoonBuffer->SetTarget();
-//
-//	m_FXAABuffer->SetTargetShader(10); 
-//
-//	m_DepthDisable->SetState();
-//
-//	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
-//
-//	UINT	Offset = 0;
-//
-//	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-//	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
-//	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
-//	Context->Draw(4, 0);
-//
-//	m_DepthDisable->ResetState();
-//
-//	m_FXAABuffer->ResetTargetShader(10);
-//
-//	m_CartoonBuffer->ResetTarget();
-//}
-
-void CRenderManager::RenderNoMultiSampling(float DeltaTime)
+void CRenderManager::RenderCartoon(float DeltaTime)
 {
-	m_MSBuffer->ClearTarget();
+	m_CartoonBuffer->ClearTarget();
 
-	m_MSBuffer->SetTarget();
+	m_CartoonBuffer->SetTarget();
 
-	m_ScreenBuffer->SetTargetShader(8);
+	m_FXAABuffer->SetTargetShader(10); 
 
 	m_DepthDisable->SetState();
 
-	m_MSShader->SetShader();
-
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
-	UINT   Offset = 0;
+	UINT	Offset = 0;
 
 	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
@@ -877,22 +848,21 @@ void CRenderManager::RenderNoMultiSampling(float DeltaTime)
 
 	m_DepthDisable->ResetState();
 
-	m_ScreenBuffer->ResetTargetShader(8);
+	m_FXAABuffer->ResetTargetShader(10);
 
-	m_MSBuffer->ResetTarget();
+	m_CartoonBuffer->ResetTarget();
 }
 
+// m_FXAABuffer를 채워준다.
 void CRenderManager::RenderFXAA(float DeltaTime)
 {
 	m_FXAABuffer->ClearTarget();
 
 	m_FXAABuffer->SetTarget();
 
-	m_MSBuffer->SetTargetShader(10); // 1.얘를 FXAA 로 넘겨줘야한다.
+	m_ScreenBuffer->SetTargetShader(10); // 1.얘를 FXAA 로 넘겨줘야한다.
 
 	m_DepthDisable->SetState();
-
-	m_FXAAShader->SetShader();
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
@@ -905,37 +875,9 @@ void CRenderManager::RenderFXAA(float DeltaTime)
 
 	m_DepthDisable->ResetState();
 
-	m_MSBuffer->ResetTargetShader(10);
+	m_ScreenBuffer->ResetTargetShader(10);
 
 	m_FXAABuffer->ResetTarget();
-}
-
-void CRenderManager::RenderCartoon(float DeltaTime)
-{
-	/*m_CartoonBuffer->ClearTarget();
-
-	m_CartoonBuffer->SetTarget();
-
-	m_FXAABuffer->SetTargetShader(9); 
-
-	m_DepthDisable->SetState();
-
-	m_CartoonShader->SetShader();
-
-	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
-
-	UINT   Offset = 0;
-
-	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
-	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
-	Context->Draw(4, 0);
-
-	m_DepthDisable->ResetState();
-
-	m_FXAABuffer->ResetTargetShader(9);
-
-	m_CartoonBuffer->ResetTarget();*/
 }
 
 void CRenderManager::RenderDeferred(float DeltaTime)
@@ -945,7 +887,6 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	m_DepthDisable->SetState();
 
 	m_FXAABuffer->SetTargetShader(21);
-	//m_CartoonBuffer->SetTargetShader(21);
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
@@ -960,7 +901,6 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	m_DepthDisable->ResetState();
 
 	m_FXAABuffer->ResetTargetShader(21);
-	//m_CartoonBuffer->ResetTargetShader(21);
 
 	// 디버그 모드일 경우 데칼 디버깅용 육면체를 출력한다.
 #ifdef _DEBUG
@@ -1173,36 +1113,36 @@ void CRenderManager::RenderParticle(float DeltaTime)
 	m_vecGBuffer[2]->ResetTargetShader(14);
 }
 
-//void CRenderManager::RenderMultiSampling(float DeltaTime)
-//{
-//	m_MSBuffer->ClearTarget();
-//
-//	m_MSBuffer->SetTarget();
-//
-//	//m_FXAABuffer->SetTargetShader(10); // 0324
-//	m_ScreenBuffer->SetTargetShader(10); //0324
-//
-//	m_MSShader->SetShader();
-//
-//	m_DepthDisable->SetState();
-//
-//	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
-//
-//	UINT	Offset = 0;
-//
-//	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-//	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
-//	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
-//	Context->Draw(4, 0);
-//
-//	m_DepthDisable->ResetState();
-//	//m_ScreenBuffer->ResetTargetShader(10); 0324
-//
-//
-//	m_MSBuffer->ResetTargetShader(15); // 0324
-//
-//	m_MSBuffer->ResetTarget();
-//}
+void CRenderManager::RenderMultiSampling(float DeltaTime)
+{
+	m_MSBuffer->ClearTarget();
+
+	m_MSBuffer->SetTarget();
+
+	//m_FXAABuffer->SetTargetShader(10); // 0324
+	m_ScreenBuffer->SetTargetShader(10); //0324
+
+	m_MSShader->SetShader();
+
+	m_DepthDisable->SetState();
+
+	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+
+	UINT	Offset = 0;
+
+	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+	Context->Draw(4, 0);
+
+	m_DepthDisable->ResetState();
+	//m_ScreenBuffer->ResetTargetShader(10); 0324
+
+
+	m_MSBuffer->ResetTargetShader(15); // 0324
+
+	m_MSBuffer->ResetTarget();
+}
 
 //void CRenderManager::RenderTranslation(float DeltaTime)
 //{
@@ -1385,54 +1325,36 @@ void CRenderManager::CreateRenderTarget()
 
 	m_ShadowMapTarget = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("ShadowMap");
 
-	m_ShadowMapTarget->SetPos(Vector3(200.f, 100.f, 0.f));
-	m_ShadowMapTarget->SetScale(Vector3(100.f, 100.f, 1.f));
+	m_ShadowMapTarget->SetPos(Vector3(300.f, 100.f, 0.f));
+	m_ShadowMapTarget->SetScale(Vector3(300.f, 300.f, 1.f));
 	m_ShadowMapTarget->SetDebugRender(true);
 
 	m_ShadowCBuffer->Init();
 
 	m_ShadowCBuffer->SetShadowResolution(Vector2((float)m_ShadowMapRS.Width, (float)m_ShadowMapRS.Height));
-	//m_ShadowCBuffer->SetShadowBias(0.3f);
 
 	m_ScreenShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ScreenShader");
 	m_DeferredRenderShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("DeferredRenderShader");
 
-
-	// No-MultiSampling
-	m_MSShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("MSShader");
-	CResourceManager::GetInst()->CreateTargetNoMS("RenderNoMS", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D24_UNORM_S8_UINT);
-	m_MSBuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderNoMS");
-	m_MSBuffer->SetPos(Vector3(200.f, 200.f, 0.f));
-	m_MSBuffer->SetScale(Vector3(100.f, 100.f, 1.f));
-
-	m_MSBuffer->SetDebugRender(true);
-
-	// FXAA
+	// FXAA 용
 	m_FXAAShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("FXAAShader");
 
-	CResourceManager::GetInst()->CreateTargetNoMS("RenderFXAA", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D24_UNORM_S8_UINT);
+	CResourceManager::GetInst()->CreateTarget("RenderFXAA", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	m_FXAABuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderFXAA");
 
-	m_FXAACBuffer->Init();
-
-	m_FXAABuffer->SetPos(Vector3(200.f, 300.f, 0.f));
-	m_FXAABuffer->SetScale(Vector3(100.f, 100.f, 1.f));
+	m_FXAABuffer->SetPos(Vector3(900.f, 0.f, 0.f));
+	m_FXAABuffer->SetScale(Vector3(200.f, 200.f, 1.f));
 	m_FXAABuffer->SetDebugRender(true);
 
-	// Cartoon
-	/*m_CartoonShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("CartoonShader");
-
-	CResourceManager::GetInst()->CreateTargetNoMS("RenderCartoon", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D24_UNORM_S8_UINT);
+	// Cartoon 용
+	CResourceManager::GetInst()->CreateTarget("RenderCartoon", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	m_CartoonBuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderCartoon");
 
-	m_CartoonCBuffer->Init();
-
-	m_CartoonBuffer->SetPos(Vector3(200.f, 400.f, 0.f));
-	m_CartoonBuffer->SetScale(Vector3(100.f, 100.f, 1.f));
-	m_CartoonBuffer->SetDebugRender(true);*/
-
+	m_CartoonBuffer->SetPos(Vector3(1200.f, 0.f, 0.f));
+	m_CartoonBuffer->SetScale(Vector3(200.f, 200.f, 1.f));
+	m_CartoonBuffer->SetDebugRender(true);
 
 	m_TranslationCBuffer->Init();
 }

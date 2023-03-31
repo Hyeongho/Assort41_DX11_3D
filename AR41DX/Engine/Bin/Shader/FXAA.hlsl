@@ -1,5 +1,5 @@
 
-//SamplerState clamp : register(s4); // 임의로 추가., 0325
+SamplerState clamp : register(s3); // 임의로 추가., 0325
 
 #ifndef __FXAA_HLSL__
 #define __FXAA_HLSL__
@@ -18,12 +18,12 @@
 //Texture2D<float4> g_DeferredTex : register(t22);
 Texture2D<float4> g_DeferredTex : register(t10); // 현재화면
 
-cbuffer FXAACBuffer : register(b2) 
+cbuffer FXAACBuffer : register(b14) 
 {
 	float4 rcpFrame;
 };
 
-SamplerState clamp : register(s4) 
+SamplerState FXAASampler : register(s4) 
 {
 	Filter = MIN_MAG_LINEAR_MIP_POINT;
 	AddressU = Clamp;

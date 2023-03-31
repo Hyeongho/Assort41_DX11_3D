@@ -146,21 +146,17 @@ void CFodderDebris::Update(float DeltaTime)
     if (m_DefyingGravity)
     {
         m_Rigid->SetGround(false);
-        m_Rigid->AddForce(100, 100.f);
+        //m_Rigid->AddForce(0, 1.f);
         m_Rigid->SetVelocityY(250.f);
     }
             
     float PosY = GetWorldPos().y;
     
-    if (GetWorldPos().y >= 480.f)
+    if (GetWorldPos().y >= 700.f)
     {
         m_DefyingGravity = false;
-        m_Rigid->SetVelocityY(-20.f);
-        m_Rigid->AddForce(300, 10.f, 0.f);
-        m_FodderDebrisMesh1->AddWorldPosition(100.f, 0.f, 0.f);
-        m_FodderDebrisMesh2->AddRelativePosition(-50.f, 0.f, 19.f);
-        m_FodderDebrisMesh3->AddRelativePosition(-40.f, 0.f, 5.f);
-        m_FodderDebrisMesh4->AddRelativePosition(-35.f, 0.f, 0.f);
+        m_Rigid->SetVelocityY(-200.f);
+        m_Rigid->AddForce(0, 70.f);
     }
 
     // ¶¥¿¡ ÂøÁö

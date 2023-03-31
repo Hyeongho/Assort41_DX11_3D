@@ -671,6 +671,7 @@ struct TranslationCBuffer
 	Vector3	TextureTranslationEmpty;
 };
 
+
 struct DropCBuffer
 {
 	float	Drop;

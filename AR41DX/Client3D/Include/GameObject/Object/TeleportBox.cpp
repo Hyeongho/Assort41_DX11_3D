@@ -176,9 +176,6 @@ void CTeleportBox::Collision_Teleport(const CollisionResult& result)
     {
         CPlayer* Player = (CPlayer*)CSceneManager::GetInst()->GetScene()->GetPlayerObject();
 
-        CResourceManager::GetInst()->SoundPlay("Box_Teleport");
-        CResourceManager::GetInst()->SetVolume(20.f);
-
         if (GetBoxIndex() == 1)
         {
             // 300.f는 박스 옆으로 이동시키기위한 임의의 숫자. 

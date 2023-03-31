@@ -28,26 +28,6 @@ private:
 	float	m_DelayTime;
 
 public:
-	void AddCountCan(int Num)
-	{
-		m_CountCan += Num;
-	}
-	
-	void SetSpawnOn(bool SpawnOn)
-	{
-		m_SpawnOn = SpawnOn;
-	}
-
-	void SetCountCan(int CountCan)
-	{
-		m_CountCan = CountCan;
-	}
-
-	int GetCountCan()
-	{
-	   return m_CountCan;
-	}
-
 	void SetDetectOn(bool DetectOn)
 	{
 		m_DetectOn = DetectOn;
@@ -74,6 +54,4 @@ private:
 	void Destroyed();
 	void SpawnAnimation();
 	void SpawnCan();
-	void IdleSound();
-	void SpawnSound();
 };

@@ -193,12 +193,6 @@ bool CResourceManager::CreateTarget(const std::string& Name,
 		PixelFormat, DepthFormat);
 }
 
-bool CResourceManager::CreateTargetNoMS(const std::string& Name, unsigned int Width, unsigned int Height, DXGI_FORMAT PixelFormat, DXGI_FORMAT DepthFormat)
-{
-	return m_TextureManager->CreateTargetNoMS(Name, Width, Height,
-		PixelFormat, DepthFormat);
-}
-
 void CResourceManager::RenderTexture()
 {
 	m_TextureManager->Render();

@@ -13,7 +13,6 @@
 #include "Animation/Animation.h"
 #include "Engine.h"
 #include "HammerDebris.h"
-#include "Duplicatotron.h"
 
 CHammer::CHammer() :
 	//m_Stunned(false)
@@ -48,7 +47,7 @@ void CHammer::Start()
 	CMonster::Start();
 
 	// 테스트용 키세팅
-	CInput::GetInst()->AddBindFunction<CHammer>("F", Input_Type::Down, this, &CHammer::Debris, m_Scene);
+	CInput::GetInst()->AddBindFunction<CHammer>("F", Input_Type::Down, this, &CHammer::Dead, m_Scene);
 
 	// 올가미 공격 당할시, Hammer_LassoedStart -> Hammer_Lassoed 로 변경
 	//m_Animation->SetCurrentEndFunction("Hammer_LassoedStart", this, &CHammer::Lassoed);
@@ -57,8 +56,6 @@ void CHammer::Start()
 	//m_Animation->SetCurrentEndFunction("Hammer_Notice", this, &CHammer::Walk);
 	m_Animation->SetCurrentEndFunction("Hammer_Dead", this, &CHammer::Debris);
 	m_Animation->SetCurrentEndFunction("Hammer_Attack", this, &CHammer::WeaponAttackOn);
-	m_Animation->AddCurrentNotify<CHammer>("Hammer_Attack", "Hammer_Attack", 14, this, &CHammer::AttackSound);
-
 
 	m_DetectArea->SetCollisionCallback<CHammer>(ECollision_Result::Collision, this, &CHammer::Collision_Detect_ChaseOn);
 	m_DetectArea->SetCollisionCallback<CHammer>(ECollision_Result::Release, this, &CHammer::Release_Detect_ChaseOff);
@@ -213,14 +210,6 @@ void CHammer::Save(FILE* File)
 void CHammer::Load(FILE* File)
 {
 	CMonster::Load(File);
-
-	m_DetectArea = (CColliderOBB3D*)FindComponent("DetectArea");
-	m_AttackArea = (CColliderOBB3D*)FindComponent("AttackArea");
-	m_BodyCube = (CColliderOBB3D*)FindComponent("BodyCube");
-	m_WeaponCube = (CColliderOBB3D*)FindComponent("WeaponCube");
-
-	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
-	m_Rigid = (CRigidBody*)FindComponent("Rigid");
 }
 
 void CHammer::Walk()
@@ -290,36 +279,22 @@ void CHammer::Dead()
 
 void CHammer::Debris()
 {
-	//if (!m_Scene->FindObject("HammerDebris"))
-	//{
+	if (!m_Scene->FindObject("HammerDebris"))
+	{
 		Vector3 HammerPos = GetWorldPos();
 
 		m_Mesh->Destroy();
-		m_Mesh->ClearMaterial();
-
 		m_Dead = true;
+		m_Mesh->ClearMaterial();
 
 		CHammerDebris* Debris = m_Scene->CreateObject<CHammerDebris>("HammerDebris");
 		Debris->SetWorldPosition(HammerPos.x, HammerPos.y + 500.f, HammerPos.z);
-
-		// --CountCan & SpawnHammers in Duplicatotron class.
-		CDuplicatotron* Duplicatotron = (CDuplicatotron*)m_Scene->FindObject("Duplicatotron");
-		Duplicatotron->AddCountCan(-1);
-		Duplicatotron->SetSpawnOn(true);
-	//}
-}
-
-void CHammer::AttackSound()
-{
-	CResourceManager::GetInst()->SoundPlay("Ham_Hit");
-	CResourceManager::GetInst()->SetVolume(30.f);
+	}
 }
 
 void CHammer::Collision_Detect_ChaseOn(const CollisionResult& result)
 {
-	std::string Name = result.Dest->GetCollisionProfile()->Name;
-
-	if (Name == "Player")
+	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
 	{
 		m_DetectOn = true;
 	}
@@ -329,9 +304,7 @@ void CHammer::Release_Detect_ChaseOff(const CollisionResult& result)
 {
 	if (result.Dest != nullptr)
 	{
-		std::string Name = result.Dest->GetCollisionProfile()->Name;
-
-		if (Name == "Player")
+		if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
 		{
 			m_DetectOn = false;
 		}
@@ -351,9 +324,7 @@ void CHammer::Release_AttackOff(const CollisionResult& result)
 	// 플레이어가 사라졌을 때 대비
 	if (result.Dest != nullptr)
 	{
-		std::string Name = result.Dest->GetCollisionProfile()->Name;
-
-		if (Name == "Player")
+		if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
 		{
 			m_AttackOn = false;
 			m_Animation->ChangeAnimation("Hammer_Walk");
@@ -369,13 +340,6 @@ void CHammer::Collision_Body(const CollisionResult& result)
 	if (Name == "Player")
 	{
 		result.Dest->GetOwner()->InflictDamage(1);
-	}
-
-	if (Name == "PlayerAttack")
-	{
-		CResourceManager::GetInst()->SoundPlay("Robot_Explode");
-		//CResourceManager::GetInst()->SetVolume(2.f);
-		Debris();
 	}
 }
 

@@ -69,7 +69,7 @@ bool CGate::Init()
     m_Cube->SetRelativePosition(-170.f, 80.f, 0.f);
 
     m_DetectRange->SetCollisionProfile("Wall");
-    m_DetectRange->SetBoxHalfSize(450.f, 30.f, 450.f);
+    m_DetectRange->SetBoxHalfSize(250.f, 0.f, 50.f);
     m_DetectRange->SetRelativePosition(-50.f, -30.f, 150.f);
 
     return true;
@@ -120,9 +120,6 @@ void CGate::ChangeScene()
 void CGate::Collision_OpenSesame(const CollisionResult& result)
 {
     m_OpenSesameOn = true;
-
-    CResourceManager::GetInst()->SoundPlay("Gate_Opening");
-    CResourceManager::GetInst()->SetVolume(20.f);
 }
 
 void CGate::Release_OpenSesameOff(const CollisionResult& result)
