@@ -27,7 +27,7 @@ bool CKingJellyfishSceneInfo::Init()
 {
 	CSceneInfo::Init();
 
-	m_Owner->GetViewport()->CreateUIWindow<CKingJellyfishIntroUI>("KingJellyfishIntroUI");
+	//m_Owner->GetViewport()->CreateUIWindow<CKingJellyfishIntroUI>("KingJellyfishIntroUI");
 
 	CResourceManager::GetInst()->SoundPlay("KingJellyfish_Idle");
 	CResourceManager::GetInst()->SetVolume(2.f);
@@ -50,10 +50,9 @@ bool CKingJellyfishSceneInfo::Init()
 	StaticMeshComponent->SetMeshSize(1500.f, 1500.f, 1500.f);
 	KingJellyfishMap->SetWorldPosition(10000.f, -4885.f, -4000.f);
 
-
 	CGameObject* Water = m_Owner->CreateObject<CGameObject>("Water");
 	CStaticMeshComponent* BossWater = Water->CreateComponent<CStaticMeshComponent>("Water");
-	BossWater->SetMesh("BossWater");
+	BossWater->SetMesh("BossMapWater");
 	BossWater->SetWorldPosition(3800.f, -25.f, 2300.f);
 	BossWater->GetMaterial(0)->SetOpacity(0.7f);
 	BossWater->GetMaterial(0)->SetRenderState("AlphaBlend");
@@ -66,7 +65,7 @@ bool CKingJellyfishSceneInfo::Init()
 	CGameObject* WaterDrop = m_Owner->CreateObject<CGameObject>("WaterDrop");
 	CParticleComponent* WaterDropParticle = WaterDrop->CreateComponent<CParticleComponent>("WaterDropParticle");
 	WaterDropParticle->SetParticle("Shower");
-	WaterDropParticle->SetWorldPosition(3800.f, 800.f, 2300.f);
+	WaterDropParticle->SetWorldPosition(3800.f, 2200, 1800);
 
 	CPool* Pool = m_Owner->CreateObject<CPool>("Pool");
 	Pool->SetWorldPosition(3800.f, 265.f, 2300.f);
@@ -76,11 +75,11 @@ bool CKingJellyfishSceneInfo::Init()
 	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
 
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetWorldPosition(5000.f, 270.f, 2600.f);
+	Player->SetWorldPosition(5000.f, 270.f, 2700.f);
 	SetPlayerObject(Player);
 
 	CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
-	KingJellyfish->SetWorldPosition(4800.f, 250.f, 1600.f);
+	KingJellyfish->SetWorldPosition(4400.f, 250.f, 1600.f);
 
 	return true;
 }

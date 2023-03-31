@@ -54,7 +54,10 @@ void CInfoSign::Start()
 
 	CInput::GetInst()->AddBindFunction<CInfoSign>("F", Input_Type::Up, this, &CInfoSign::InputF, m_Scene);
 
-	m_Collider->SetName("InfoSignCollider");
+	if (m_Scene->GetName() == "BikiniCity")
+	{
+		m_Collider->SetName("InfoSignCollider");
+	}
 }
 
 bool CInfoSign::Init()
@@ -147,10 +150,12 @@ void CInfoSign::InputF()
 	if (m_NpcMapPos == EMapList::Bikini_Bottom) {
 		// MapChange To RoboSpongeSceneInfo
 		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "Title.scn");
+		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "RoboSpongebob.scn");
 	}
 	if (m_NpcMapPos == EMapList::Jelly_Fish_Field) {
 
+		//CSceneManager::GetInst()->CreateNextScene();
+		//CSceneManager::GetInst()->CreateSceneInfo<CRoboSpongeSceneInfo>();
 
 	}
 	if (m_NpcMapPos == EMapList::Chum_Bucketlab) {
