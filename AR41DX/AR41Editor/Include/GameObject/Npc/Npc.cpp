@@ -1,6 +1,7 @@
 #include "Npc.h"
 
 #include "Scene/Scene.h"
+#include "Scene/SceneManager.h"
 #include "Component/AnimationMeshComponent.h"
 #include "Component/StaticMeshComponent.h"
 #include "Component/ColliderOBB3D.h"
@@ -95,11 +96,19 @@ CNpc* CNpc::Clone() const
 void CNpc::Save(FILE* File)
 {
 	CGameObject::Save(File);
+
+    fwrite(&m_NpcMapPos, sizeof(EMapList), 1, File);
+    fwrite(&m_NpcType, sizeof(ENpcList), 1, File);
+    fwrite(&m_NpcMeshType, sizeof(MeshType), 1, File);
 }
 
 void CNpc::Load(FILE* File)
 {
 	CGameObject::Load(File);
+
+    fread(&m_NpcMapPos, sizeof(EMapList), 1, File);
+    fread(&m_NpcType, sizeof(ENpcList), 1, File);
+    fread(&m_NpcMeshType, sizeof(MeshType), 1, File);
 }
 
 void CNpc::ChangeAnimByName(const std::string& Name)
@@ -151,10 +160,14 @@ void CNpc::Collision_Player(const CollisionResult& result)
 
 void CNpc::Release_Player(const CollisionResult& result)
 {
+    if (result.Src->GetName() == "InfoSignCollider")
+        return;
+
     const std::string& DestName = result.Dest->GetCollisionProfile()->Name;
 
     if (strcmp("Player", DestName.c_str()) == 0) {
-        CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
+        //CInteractUI* InteractUI = m_Scene->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
+        CInteractUI* InteractUI = CSceneManager::GetInst()->GetScene()->GetViewport()->FindUIWindow<CInteractUI>("InteractUI");
 
         if (!InteractUI)
             return;

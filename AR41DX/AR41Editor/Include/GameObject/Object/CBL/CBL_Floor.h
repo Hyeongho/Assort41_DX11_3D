@@ -15,7 +15,7 @@ protected:
 protected:
 	CSharedPtr<class CStaticMeshComponent>	m_InnerMesh;
 	CSharedPtr<class CStaticMeshComponent>	m_OuterMesh;
-	CSharedPtr<class CColliderOBB3D>		m_Collider;
+	//CSharedPtr<class CColliderOBB3D>		m_Collider;
 
 public:
 	virtual void Start();

@@ -11,6 +11,7 @@ CBossMonster::CBossMonster(const CBossMonster& Obj)
     : CGameObject(Obj)
 {
     m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+    m_Animation = Obj.m_Animation;
 
 }
 
