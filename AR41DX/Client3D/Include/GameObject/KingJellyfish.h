@@ -73,5 +73,6 @@ public:
 	void OnGround();
 	void Attack(); // 공격 패턴1, 땅으로 착지하며 원 모양의 충격파를 날림
 	void ReSpawn(); // 목욕탕으로 이동
+	void Cutscene();
 };
 

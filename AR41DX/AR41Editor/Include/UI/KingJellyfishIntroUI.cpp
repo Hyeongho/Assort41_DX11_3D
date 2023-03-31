@@ -163,7 +163,7 @@ bool CKingJellyfishIntroUI::Init()
     hr = pGraphBuilder->QueryInterface(IID_IMediaEvent, (void**)&pMediaEventEx);
 
     // Build the graph. IMPORTANT: Change this string to a file on your system.
-    hr = pGraphBuilder->RenderFile(L"C:\\0329\\Assort41_DX11_3D\\AR41DX\\AR41Editor\\Bin\\Animation2D\\demo.avi", NULL);
+    hr = pGraphBuilder->RenderFile(L"C:\\0329\\Assort41_DX11_3D\\AR41DX\\AR41Editor\\Bin\\Scene\\Cutscene\\1.avi", NULL);
     //ThrowIfError(hr);
     if (FAILED(hr))
         MessageBox(0, TEXT("ERROR - Could not Find the request file to play."), TEXT("ERROR !"), 0);

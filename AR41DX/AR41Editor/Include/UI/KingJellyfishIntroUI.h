@@ -31,6 +31,7 @@ public:
     void StopDirectShow();
     int  Stop();
 
+
 public:
   //  virtual void LoadComplete();
 
