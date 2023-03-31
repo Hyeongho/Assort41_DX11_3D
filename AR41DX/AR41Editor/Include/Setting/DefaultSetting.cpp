@@ -28,11 +28,19 @@
 #include "../GameObject/Object/Gate.h"
 #include "../GameObject/Object/JumpTree.h"
 #include "../GameObject/Object/TeleportBox.h"
+#include "../GameObject/BossMonster/RoboSponge/RoboSponge.h"
+#include "../GameObject/BossMonster/RoboSponge/RoboSponge_Knob.h"
+#include "../GameObject/Object/CBL/CBL_BaseMesh.h"
+#include "../GameObject/Object/CBL/CBL_Floor.h"
+#include "../GameObject/Object/CBL/CBL_Platform.h"
+#include "../GameObject/Object/Common/Trampoline.h"
+#include "../GameObject/Object/Common/Collectible/UnderWear.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 #include "../UI/TitleSceneUI.h"
 #include "../UI/InteractUI.h"
 #include "../UI/DialogUI.h"
+#include "../UI/BossUI.h"
 #include "Scene/Scene.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -87,6 +95,7 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
     CScene::CreateUIWindowCDO<CInteractUI>("InteractUI");
     CScene::CreateUIWindowCDO<CDialogUI>("DialogUI");
+    CScene::CreateUIWindowCDO<CBossUI>("BossUI");
 
     CScene::CreateObjectCDO<CDupli_Can>("Dupli_Can");
     CScene::CreateObjectCDO<CFodderDebris>("FodderDebris");
@@ -96,6 +105,14 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateObjectCDO<CCheckPoint>("CheckPoint");
     CScene::CreateObjectCDO<CGate>("Gate");
     CScene::CreateObjectCDO<CInfoSign>("InfoSign");
+
+    CScene::CreateObjectCDO<CRoboSponge>("Robo_Sponge");
+    CScene::CreateObjectCDO<CRoboSponge_Knob>("RoboSponge_Knob");
+    CScene::CreateObjectCDO<CCBL_BaseMesh>("CBL_BaseMesh");
+    CScene::CreateObjectCDO<CCBL_Floor>("CBL_Floor");
+    CScene::CreateObjectCDO<CCBL_Platform>("CBL_Platform");
+    CScene::CreateObjectCDO<CTrampoline>("Trampoline");
+    CScene::CreateObjectCDO<CUnderWear>("UnderWear");
 }
 
 void CDefaultSetting::LoadResource()

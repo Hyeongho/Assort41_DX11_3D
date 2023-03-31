@@ -46,21 +46,28 @@ void CBossUI::Render()
 
 CBossUI* CBossUI::Clone()
 {
-    return nullptr;
+    return new CBossUI(*this);
 }
 
 void CBossUI::Save(FILE* File)
 {
+    m_vecWidget.clear();
     CUIWindow::Save(File);
 }
 
 void CBossUI::Load(FILE* File)
 {
     CUIWindow::Load(File);
+
+    CreateBossUI();
 }
 
 void CBossUI::CreateBossUI()
 {
+    if (!m_mapBackUI.empty())
+        return;
+
+
     CUIImage* Image = CreateWidget<CUIImage>("BossUI_ImageBoss");
     m_mapBackUI.insert(std::make_pair("BossUI_ImageBoss", Image));
 
@@ -97,8 +104,8 @@ void CBossUI::CreateBossUI()
 void CBossUI::ActiveBossUI()
 {
     for (auto iter : m_mapBackUI)
-        iter.second->SetEnable(true); 
-    
+        iter.second->SetEnable(true);
+
     for (auto iter : m_mapHpUI)
         iter.second->SetEnable(true);
 }
@@ -150,7 +157,7 @@ void CBossUI::CreateBossUI(const BossData& BossData)
 
 
     BossUIPosX += BossUISizeX;
-    
+
     BossUISizeX *= 0.35f;
 
 

@@ -27,17 +27,8 @@ protected:
 	virtual ~CRoboSponge();
 
 private:
-	CSharedPtr<class CParticleComponent>	m_Particle;
-	CSharedPtr<class CColliderOBB3D>		m_Collider;
-
-private:
 	bool			m_ActionStart;
 	
-
-	// HitPoint 관련
-	std::vector<CSharedPtr<CRoboSponge_Knob>> m_vecKnob;
-
-
 	// Move 관련
 	Vector3			m_MapCenterPoint;
 

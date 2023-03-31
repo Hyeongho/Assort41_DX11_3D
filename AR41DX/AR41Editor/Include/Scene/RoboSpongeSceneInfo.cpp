@@ -73,6 +73,10 @@ bool CRoboSpongeSceneInfo::Init()
 		float Radian = i * 30.f * PI / 180.f;
 
 		std::string PlatformName = "Platform" + std::to_string(i);
+
+		std::string KnobName = "Knob" + PlatformName;
+
+		CRoboSponge_Knob* Knob = m_Owner->CreateObject<CRoboSponge_Knob>(KnobName);
 		
 		CCBL_Platform* Platform = m_Owner->CreateObject<CCBL_Platform>(PlatformName);
 		Platform->SetWorldPosition(CenterPos.x + StandardPos * sinf(Radian), 2000.f, CenterPos.y + StandardPos * cosf(Radian));
