@@ -961,6 +961,7 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GateBottom", TEXT("Objects/JellyfishFields/GateBottom.fbx"), MESH_PATH);
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BossWater", TEXT("Objects/JellyfishFields/BossWater.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BossMapWater", TEXT("Objects/JellyfishFields/BossWater.msh"));
 
     // Sound
     CResourceManager::GetInst()->LoadSound("Effect", "Box_Teleport", false, "Objects/Box_shuffle_open.ogg", SOUND_PATH);
