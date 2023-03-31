@@ -1380,6 +1380,11 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 
 void CPlayer::CollisionTestOut(const CollisionResult& result)
 {
+	if (result.Dest->GetName() == "InfoSignCollider")
+	{
+		return;
+	}
+
 	std::list<CCollider*> List = result.Src->GetPrevCollisionList();
 
 	auto iter = List.begin();
