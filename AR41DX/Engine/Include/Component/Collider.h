@@ -43,6 +43,11 @@ public:
         return m_Profile;
     }
 
+    std::list<CCollider*> GetPrevCollisionList() const
+    {
+        return m_PrevCollisionList;
+    }
+
 public:
     void AddSectionIndex(int Index)
     {

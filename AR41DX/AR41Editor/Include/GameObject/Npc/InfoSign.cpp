@@ -53,6 +53,7 @@ void CInfoSign::Start()
 	CNpc::Start();
 
 	CInput::GetInst()->AddBindFunction<CInfoSign>("F", Input_Type::Up, this, &CInfoSign::InputF, m_Scene);
+
 	m_Collider->SetName("InfoSignCollider");
 }
 
@@ -145,7 +146,6 @@ void CInfoSign::InputF()
 
 	if (m_NpcMapPos == EMapList::Bikini_Bottom) {
 		// MapChange To RoboSpongeSceneInfo
-		m_Collider->SetEnable(false);
 		CSceneManager::GetInst()->CreateNextScene(true);
 		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "Title.scn");
 	}

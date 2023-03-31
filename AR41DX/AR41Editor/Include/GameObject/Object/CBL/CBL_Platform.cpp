@@ -35,10 +35,10 @@ void CCBL_Platform::Start()
 	CGameObject::Start();
 
 #ifdef _DEBUG
-	CInput::GetInst()->AddBindFunction<CCBL_Platform>("F1", Input_Type::Up, this, &CCBL_Platform::DebugF1, m_Scene);
-	CInput::GetInst()->AddBindFunction<CCBL_Platform>("F2", Input_Type::Up, this, &CCBL_Platform::DebugF2, m_Scene);
-	CInput::GetInst()->AddBindFunction<CCBL_Platform>("F3", Input_Type::Up, this, &CCBL_Platform::DebugF3, m_Scene);
-	CInput::GetInst()->AddBindFunction<CCBL_Platform>("F4", Input_Type::Up, this, &CCBL_Platform::DebugF4, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CCBL_Platform>("F1", Input_Type::Up, this, &CCBL_Platform::DebugF1, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CCBL_Platform>("F2", Input_Type::Up, this, &CCBL_Platform::DebugF2, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CCBL_Platform>("F3", Input_Type::Up, this, &CCBL_Platform::DebugF3, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CCBL_Platform>("F4", Input_Type::Up, this, &CCBL_Platform::DebugF4, m_Scene);
 #endif // DEBUG
 
 	m_Collider->SetCollisionCallback<CCBL_Platform>(ECollision_Result::Collision, this, &CCBL_Platform::Collision_Rolling);
@@ -231,6 +231,14 @@ void CCBL_Platform::Roll(const ERollDir& RollDir)
 		m_RollDir = ERollDir::Back;
 		break;
 	}
+
+	int SoundNum = rand() % 3;
+	std::string SoundName = "HitPlat" + std::to_string(SoundNum + 1);
+
+	CSound* Sound = CResourceManager::GetInst()->FindSound(SoundName);
+
+	if (Sound)
+		Sound->Play();
 }
 
 void CCBL_Platform::DebugF1()
