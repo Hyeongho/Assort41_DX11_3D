@@ -39,6 +39,11 @@ bool CDupli_Can::Init()
 {
     CMonster::Init();
 
+    if (!m_Scene)
+    {
+        return false;
+    }
+
     m_Mesh = CreateComponent<CStaticMeshComponent>("Mesh");
     m_Cube = CreateComponent<CColliderOBB3D>("Cube");
     m_Rigid = CreateComponent<CRigidBody>("Rigid");

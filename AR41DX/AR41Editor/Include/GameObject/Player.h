@@ -104,6 +104,8 @@ protected:
 	float m_SpaceTime;
 	float m_LassoDistance;
 
+	bool m_Invincibility;
+
 public:
 	virtual void Destroy();
 	virtual void Start();
@@ -246,5 +248,6 @@ public:
 
 	void DebugF1();
 	void DebugF8();
+	void DebugF9();
 };
 

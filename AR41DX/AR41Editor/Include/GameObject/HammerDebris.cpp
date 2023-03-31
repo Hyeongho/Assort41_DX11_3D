@@ -47,6 +47,11 @@ bool CHammerDebris::Init()
 {
     CGameObject::Init();
 
+    if (!m_Scene)
+    {
+        return false;
+    }
+
     m_HammerDebrisMesh1 = CreateComponent<CStaticMeshComponent>("HammerDebrisMesh1");
     m_HammerDebrisMesh2 = CreateComponent<CStaticMeshComponent>("HammerDebrisMesh2");
     m_HammerDebrisMesh3 = CreateComponent<CStaticMeshComponent>("HammerDebrisMesh3");

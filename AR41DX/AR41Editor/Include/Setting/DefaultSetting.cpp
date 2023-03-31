@@ -875,7 +875,7 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Seaflower", TEXT("Objects/JellyfishFields/Seaflower.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BouncingTree", TEXT("Objects/JellyfishFields/BouncingTree.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Clam", TEXT("Objects/JellyfishFields/Clam.msh"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge2.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Missile", TEXT("Objects/JellyfishFields/Missile.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Gate", TEXT("Objects/JellyfishFields/Gate.msh"), MESH_PATH);
 
