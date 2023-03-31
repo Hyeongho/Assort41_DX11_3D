@@ -8,6 +8,9 @@
 #include "../Object/Common/Collectible/GoldenSpatula.h"
 #include "../BossMonster/RoboSponge/RoboSponge.h"
 
+#include "Scene/SceneManager.h"
+#include "../../Scene/LoadingSceneInfo.h"
+
 CInfoSign::CInfoSign()
 {
 	SetTypeID<CInfoSign>();
@@ -50,6 +53,8 @@ void CInfoSign::Start()
 	CNpc::Start();
 
 	CInput::GetInst()->AddBindFunction<CInfoSign>("F", Input_Type::Up, this, &CInfoSign::InputF, m_Scene);
+
+	m_Collider->SetName("InfoSignCollider");
 }
 
 bool CInfoSign::Init()
@@ -141,7 +146,8 @@ void CInfoSign::InputF()
 
 	if (m_NpcMapPos == EMapList::Bikini_Bottom) {
 		// MapChange To RoboSpongeSceneInfo
-
+		CSceneManager::GetInst()->CreateNextScene(true);
+		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "Title.scn");
 	}
 	if (m_NpcMapPos == EMapList::Jelly_Fish_Field) {
 

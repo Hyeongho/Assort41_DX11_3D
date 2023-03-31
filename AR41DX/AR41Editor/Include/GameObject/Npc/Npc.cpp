@@ -151,6 +151,11 @@ void CNpc::Collision_Player(const CollisionResult& result)
 
 void CNpc::Release_Player(const CollisionResult& result)
 {
+    if(result.Src->GetName()=="InfoSignCollider")
+    {
+        return;
+    }
+
     const std::string& DestName = result.Dest->GetCollisionProfile()->Name;
 
     if (strcmp("Player", DestName.c_str()) == 0) {
