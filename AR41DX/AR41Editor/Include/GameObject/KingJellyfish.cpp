@@ -100,6 +100,8 @@ bool CKingJellyfish::Init()
 
     m_Mesh->SetMesh("KingJellyfish");
 
+    m_Mesh->SetWorldPositionY(250.f);
+
     m_Mesh->AddChild(m_AttackCollision);
     m_Mesh->AddChild(m_DetectCollision);
     m_Mesh->AddChild(m_PoolCollision);
@@ -306,9 +308,9 @@ void CKingJellyfish::AttackCollision(const CollisionResult& result)
 
             Damage();
 
-            m_Angry = true;
+          //  m_Angry = true;
 
-            m_CollisionCount++;
+           // m_CollisionCount++;
         }
 
         if (m_OnGround)
@@ -317,10 +319,12 @@ void CKingJellyfish::AttackCollision(const CollisionResult& result)
 
             Damage();
 
-            m_Angry = true;
+           // m_Angry = true;
 
-            m_CollisionCount++;
+           // m_CollisionCount++;
         }
+
+
     }
 }
 
@@ -397,7 +401,7 @@ void CKingJellyfish::Angry()
 
     CResourceManager::GetInst()->SoundPlay("KingJellyfish_Angry");
 
-    m_Angry = true;
+    //m_Angry = true;
 }
 
 void CKingJellyfish::Attack()

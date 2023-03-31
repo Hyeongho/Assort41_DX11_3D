@@ -176,9 +176,9 @@ bool CMaterialManager::Init()
 
 	// ���� ���ٱ�
 	Material = CreateMaterial<CMaterial>("Shower");
-	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Shower", TEXT("Particle/waterdrop.png"));
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Shower", TEXT("Particle/T_JF_Shower_Drops_01.tga"));
 	Material->SetShader("SpriteShader");
-	Material->SetOpacity(0.7f);
+	Material->SetOpacity(0.8f);
 
 	// ���� ���� �ٴ��� ��� �κп� ���� ��
 	Material = CreateMaterial<CMaterial>("WaterRing");

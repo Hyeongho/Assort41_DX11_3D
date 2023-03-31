@@ -100,6 +100,8 @@ bool CKingJellyfish::Init()
 
     m_Mesh->SetMesh("KingJellyfish");
 
+    m_Mesh->SetWorldPositionY(250.f);
+
     m_Mesh->AddChild(m_AttackCollision);
     m_Mesh->AddChild(m_DetectCollision);
     m_Mesh->AddChild(m_PoolCollision);

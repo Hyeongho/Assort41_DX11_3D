@@ -12,7 +12,7 @@
 #include "JellyfishElectric.h"
 
 CJellyfish::CJellyfish() :
-    m_MonsterPos(8800.f, 0.f, -1700.f),
+    m_MonsterPos(3900.f, 250.f, 2500.f),
     m_Chase(false),
     m_Count(0),
     m_Boss(false)
@@ -73,7 +73,7 @@ bool CJellyfish::Init()
     m_Animation->AddAnimation("Jellyfish_Attack", "Jellyfish_Attack", 1.f, 1.f, true);
     m_Animation->AddAnimation("Jellyfish_Death", "Jellyfish_Death", 1.f, 1.f, false);
 
-    SetWorldPosition(8800.f, 0.f, -1700.f);
+    SetWorldPosition(3900.f, 250.f, 2500.f);
 
     return true;
 }
@@ -107,6 +107,7 @@ void CJellyfish::Update(float DeltaTime)
         Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
 
         SetWorldRotationY(Degree);
+        SetWorldRotationX(Degree);
 
         AddWorldPosition(Dir * g_DeltaTime * 60.f);
     }
@@ -115,19 +116,19 @@ void CJellyfish::Update(float DeltaTime)
     {
     case 1:
         AddWorldPositionX(g_DeltaTime * 60.f);
-        SetWorldRotationX(60.f);
+        SetWorldRotationZ(-30.f);
         break;
     case 2:
-        AddWorldPositionX(g_DeltaTime * -60.f);
-        SetWorldRotationX(120.f);
+        AddWorldPositionZ(g_DeltaTime * -60.f);
+        SetWorldRotationX(90.f);
         break;
     case 3:
-        AddWorldPositionZ(g_DeltaTime * 60.f);
-        SetWorldRotationX(-120.f);
+        AddWorldPositionX(g_DeltaTime * -60.f);
+        SetWorldRotationZ(30.f);
         break;
     case 4:
-        AddWorldPositionZ(g_DeltaTime * -60.f);
-        SetWorldRotationX(-60.f);
+        AddWorldPositionZ(g_DeltaTime * 60.f);
+        SetWorldRotationX(-90.f);
         break;
     }
 }
@@ -169,7 +170,7 @@ void CJellyfish::Collision(const CollisionResult& result)
 
     if (result.Dest->GetCollisionProfile()->Name == "PlayerAttack")
     {
-        m_Animation->ChangeAnimation("Jellyfish_Death");
+        Destroy();
     }
 }
 
