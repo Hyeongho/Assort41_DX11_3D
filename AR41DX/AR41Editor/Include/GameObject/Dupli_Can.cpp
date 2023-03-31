@@ -53,12 +53,14 @@ bool CDupli_Can::Init()
     m_Cube->SetBoxHalfSize(50.f, 50.f, 50.f);
     m_Cube->SetRelativePosition(0.f, 0.f, 0.f);
 
+    if (m_Scene)
+    {
+        CDuplicatotron* Duplicatotron = (CDuplicatotron*)m_Scene->FindObject("Duplicatotron");
 
-    CDuplicatotron* Duplicatotron = (CDuplicatotron*)m_Scene->FindObject("Duplicatotron");
+        Vector3 DuplicatotronPos = Duplicatotron->GetWorldPos();
 
-    Vector3 DuplicatotronPos = Duplicatotron->GetWorldPos();
-
-    m_Mesh->SetWorldPosition(DuplicatotronPos.x, DuplicatotronPos.y + 300.f, DuplicatotronPos.z + 200.f);
+        m_Mesh->SetWorldPosition(DuplicatotronPos.x, DuplicatotronPos.y + 300.f, DuplicatotronPos.z + 200.f);
+    }
 
     m_Rigid->SetGravity(true);
 

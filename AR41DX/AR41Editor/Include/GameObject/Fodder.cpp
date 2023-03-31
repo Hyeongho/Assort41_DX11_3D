@@ -74,7 +74,6 @@ bool CFodder::Init()
 
 	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
 
-
 	m_DetectArea = CreateComponent<CColliderOBB3D>("DetectArea");
 	m_AttackArea = CreateComponent<CColliderOBB3D>("AttackArea");
 	m_BodyCube = CreateComponent<CColliderOBB3D>("BodyCube");
@@ -188,7 +187,7 @@ void CFodder::Detect_Chase()
 	if (!Player)
 		return;
 
-	Vector3 FodderPos = CSceneManager::GetInst()->GetScene()->FindObject("Fodder")->GetWorldPos();
+	Vector3 FodderPos = GetWorldPos();
 	Vector3 PlayerPos = CSceneManager::GetInst()->GetScene()->GetPlayerObject()->GetWorldPos();
 
 	Vector3 Dir = PlayerPos - FodderPos;
@@ -235,11 +234,11 @@ void CFodder::Debris()
 	{
 		Vector3 FodderPos = GetWorldPos();
 
-		m_Mesh->Destroy();
-		m_Mesh->ClearMaterial();
-
 		CFodderDebris* Debris = m_Scene->CreateObject<CFodderDebris>("FodderDebris");
 		Debris->SetWorldPosition(FodderPos.x, FodderPos.y + 30.f, FodderPos.z);
+
+		m_Mesh->Destroy();
+		m_Mesh->ClearMaterial();
 	}
 }
 

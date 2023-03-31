@@ -109,14 +109,14 @@ bool CTeleportBox::Init()
 
     // Bottom
     m_Box1BottomCube->SetCollisionProfile("Wall");
-    m_Box1BottomCube->SetBoxHalfSize(100.f, 30.f, 100.f);
+    m_Box1BottomCube->SetBoxHalfSize(100.f, 50.f, 100.f);
 
     m_Box2BottomCube->SetCollisionProfile("Wall");
-    m_Box2BottomCube->SetBoxHalfSize(100.f, 30.f, 100.f);
+    m_Box2BottomCube->SetBoxHalfSize(100.f, 50.f, 100.f);
 
     // DetectRange
     m_DetectRange->SetCollisionProfile("Wall");
-    m_DetectRange->SetBoxHalfSize(700.f, 10.f, 700.f);
+    m_DetectRange->SetBoxHalfSize(700.f, 50.f, 700.f);
     m_DetectRange->AddOffsetY(50.f);
 
     m_Animation = m_Mesh->SetAnimation<CAnimation>("TeleportBoxMesh");

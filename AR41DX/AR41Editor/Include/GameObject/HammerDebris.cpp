@@ -41,6 +41,8 @@ CHammerDebris::~CHammerDebris()
 void CHammerDebris::Start()
 {
     CGameObject::Start();
+
+    m_Hammer = (CHammer*)m_Scene->FindObject("Hammer");
 }
 
 bool CHammerDebris::Init()
@@ -62,6 +64,7 @@ bool CHammerDebris::Init()
     m_Rigid = CreateComponent<CRigidBody>("Rigid");
 
     SetRootComponent(m_HammerDebrisMesh1);
+
 
     m_HammerDebrisMesh1->AddChild(m_HammerDebrisMesh2);
     m_HammerDebrisMesh1->AddChild(m_HammerDebrisMesh3);
@@ -88,12 +91,13 @@ bool CHammerDebris::Init()
     //m_ArmMesh->SetRelativePosition(0.f, 50.f, 0.f);
 
 
-    m_Hammer = (CHammer*)m_Scene->FindObject("Hammer");
-
-    m_HammerDebrisMesh1->SetWorldPositionX(m_Hammer->GetWorldPos().x * 2.f);
-    m_HammerDebrisMesh1->SetWorldPositionY(m_Hammer->GetWorldPos().y + 10.f);
-    m_HammerDebrisMesh1->SetWorldPositionZ(m_Hammer->GetWorldPos().z);
-
+    if (m_Scene) 
+    {
+        m_HammerDebrisMesh1->SetWorldPositionX(m_Hammer->GetWorldPos().x * 2.f);
+        m_HammerDebrisMesh1->SetWorldPositionY(m_Hammer->GetWorldPos().y + 10.f);
+        m_HammerDebrisMesh1->SetWorldPositionZ(m_Hammer->GetWorldPos().z);
+    }
+    
     m_HammerDebrisMesh2->SetRelativePosition(10.f, 10.f, 20.f);
     m_HammerDebrisMesh2->SetRelativeRotation(10.f, 20.f, 20.f);
 
