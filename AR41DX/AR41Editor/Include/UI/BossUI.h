@@ -1,7 +1,7 @@
 #pragma once
 
 #include "UI/UIWindow.h"
-#include "../GameObject/BossMonster.h"
+#include "../GameObject/BossMonster/BossMonster.h"
 
 class CBossUI :
 	public CUIWindow
@@ -31,7 +31,12 @@ public:
 private:
 	void CreateBossUI();
 
+public:
+	void ActiveBossUI();
+	void InActiveBossUI();
+
 public :
-	void CreateBossUI(BossData BossData);
+	void CreateBossUI(const BossData& BossData);
+	void SetDamage(int Hp);
 };
 

@@ -30,6 +30,10 @@ public:
 	virtual void StartDialog();
 
 private:
+	void InputF();
+
+
+private:
 	void DebugKeyF1();
 	void DebugKeyF2();
 

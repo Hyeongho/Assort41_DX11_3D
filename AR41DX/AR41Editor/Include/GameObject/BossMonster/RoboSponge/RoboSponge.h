@@ -75,9 +75,10 @@ public:
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
 
-private:
+public:
 	void ActionStart();
 
+private:
 	void AttackWords();			// AttackWords 행동 실행
 	void AttackVertric();		// AttackVertic 행동 실행
 	void AttackVerticEnd();		// AttackVertic을 끝낸 후, 보스의 연속 공격 혹은 돌아가기를 결정
@@ -129,8 +130,8 @@ private : // Animation
 	void ChangeAnim_Death();
 
 private:
-	void SetHp1() { m_BossData->CurHP = 1; }
-	void SetHp4() { m_BossData->CurHP = 4; }
+	void SetHp1();
+	void SetHp4(); 
 
 
 };

@@ -42,7 +42,7 @@ bool CGrass::Init()
     //int Rot = rand() % 360;
     //SetWorldRotationY((float)Rot);
 
-    SetWorldScale(0.2f, 0.2f, 0.2f);
+    SetWorldScale(0.4f, 0.1f, 0.4f);
 
     return true;
 }
