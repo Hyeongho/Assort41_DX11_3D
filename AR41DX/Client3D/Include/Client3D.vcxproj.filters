@@ -285,6 +285,9 @@
     <ClCompile Include="Scene\RoboSpongeSceneInfo.cpp">
       <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
     </ClCompile>
+    <ClCompile Include="UI\Fade.cpp">
+      <Filter>05. UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -502,6 +505,9 @@
     </ClInclude>
     <ClInclude Include="Scene\RoboSpongeSceneInfo.h">
       <Filter>03. GameObject\02. Monster\03. Boss\02. RoboSponge</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Fade.h">
+      <Filter>05. UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

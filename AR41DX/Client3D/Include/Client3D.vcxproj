@@ -223,6 +223,7 @@
     <ClCompile Include="Setting\DefaultSetting.cpp" />
     <ClCompile Include="Setting\EngineShareSetting.cpp" />
     <ClCompile Include="UI\DialogUI.cpp" />
+    <ClCompile Include="UI\Fade.cpp" />
     <ClCompile Include="UI\InteractUI.cpp" />
     <ClCompile Include="UI\LoadingUI.cpp" />
     <ClCompile Include="UI\PauseUI.cpp" />
@@ -293,6 +294,7 @@
     <ClInclude Include="Setting\DefaultSetting.h" />
     <ClInclude Include="Setting\EngineShareSetting.h" />
     <ClInclude Include="UI\DialogUI.h" />
+    <ClInclude Include="UI\Fade.h" />
     <ClInclude Include="UI\InteractUI.h" />
     <ClInclude Include="UI\LoadingUI.h" />
     <ClInclude Include="UI\PauseUI.h" />
