@@ -17,14 +17,7 @@ private:
 	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
 	CSharedPtr<class CColliderSphere3D>	m_Collider;
 
-	float	m_AttackTime;
-
-public:
-	bool	m_Attack;
-	void SetAttack(bool Attack)
-	{
-		m_Attack = Attack;
-	}
+	float	m_Time;
 
 public:
 	virtual void Start();

@@ -40,28 +40,27 @@ CKingJellyfish::CKingJellyfish()
     m_ObjectTypeName = "KingJellyfish";
 }
 
-CKingJellyfish::CKingJellyfish(const CKingJellyfish& Obj) :
-    m_Animation(Obj.m_Animation)
-    , m_AttackTime(0.f)
-    , m_Attack(false)
-    , m_MoveSpeed(0.f)
-    , m_CollisionCount(0)
-    , m_Collision(false)
-    , m_Angry(false)
-    , m_Idle(true)
-    , m_SpawnJellyfish(false)
-    , m_OnGround(false)
-    , m_Electric(false)
-    , m_Damage(false)
-    , m_Pool(false)
-    , m_ReSpawn(false)
-    , m_JellyfishCount(0)
-    , m_MonsterPos(0.f, 0.f, 0.f)
-    , m_PlayerPos(0.f, 0.f, 0.f)
-    , m_PoolPos(0.f, 0.f, 0.f)
+CKingJellyfish::CKingJellyfish(const CKingJellyfish& Obj) : CGameObject(Obj)
+, m_Animation(Obj.m_Animation)
+, m_AttackTime(0.f)
+, m_Attack(false)
+, m_MoveSpeed(0.f)
+, m_CollisionCount(0)
+, m_Collision(false)
+, m_Angry(false)
+, m_Idle(true)
+, m_SpawnJellyfish(false)
+, m_OnGround(false)
+, m_Electric(false)
+, m_Damage(false)
+, m_Pool(false)
+, m_ReSpawn(false)
+, m_JellyfishCount(0)
+, m_MonsterPos(0.f, 0.f, 0.f)
+, m_PlayerPos(0.f, 0.f, 0.f)
+, m_PoolPos(0.f, 0.f, 0.f)
 {
     m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
-    m_EffectMesh = (CAnimationMeshComponent*)FindComponent("Mesh");
     m_AttackCollision = (CColliderOBB3D*)FindComponent("Cube");
     m_DetectCollision = (CColliderOBB3D*)FindComponent("Cube");
     m_PoolCollision = (CColliderOBB3D*)FindComponent("Cube");
@@ -77,6 +76,15 @@ void CKingJellyfish::Start()
 
     m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Attack", this, &CKingJellyfish::OnGround);
     m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Damage", this, &CKingJellyfish::Angry);
+
+    m_AttackCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::AttackCollision);
+    m_DetectCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::DetectCollision);
+    m_PoolCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::PoolCollision);
+
+    if (m_Scene)
+    {
+        m_PoolPos = m_Scene->FindObject("Pool")->GetWorldPos();
+    }
 }
 
 bool CKingJellyfish::Init()
@@ -84,7 +92,6 @@ bool CKingJellyfish::Init()
     CGameObject::Init();
 
     m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
-    m_EffectMesh = CreateComponent<CAnimationMeshComponent>("Mesh");
     m_AttackCollision = CreateComponent<CColliderOBB3D>("Cube");
     m_DetectCollision = CreateComponent<CColliderOBB3D>("Cube");
     m_PoolCollision = CreateComponent<CColliderOBB3D>("Cube");
@@ -92,12 +99,12 @@ bool CKingJellyfish::Init()
     SetRootComponent(m_Mesh);
 
     m_Mesh->SetMesh("KingJellyfish");
-    m_EffectMesh->SetMesh("KingJellyfish");
+
+    m_Mesh->SetWorldPositionY(250.f);
 
     m_Mesh->AddChild(m_AttackCollision);
     m_Mesh->AddChild(m_DetectCollision);
     m_Mesh->AddChild(m_PoolCollision);
-    m_Mesh->AddChild(m_EffectMesh);
 
     m_AttackCollision->SetBoxHalfSize(350.f, 200.f, 350.f);
     m_AttackCollision->SetRelativePosition(0.f, 400.f);
@@ -112,11 +119,7 @@ bool CKingJellyfish::Init()
     m_DetectCollision->SetCollisionProfile("KingJellyfish");
     m_PoolCollision->SetCollisionProfile("Monster");
 
-    m_AttackCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::AttackCollision);
-    m_DetectCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::DetectCollision);
-    m_PoolCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::PoolCollision);
 
-    m_EffectMesh->SetMaterial(0, "RBSpongeBooster");
     //std::string& Name = m_Mesh->GetSkeleton()->GetBone();
 
     //m_EffectMesh->GetSkeleton()->
@@ -129,17 +132,6 @@ bool CKingJellyfish::Init()
     //m_Mesh->AddChild(m_EffectMesh);
     //m_Mesh->AddChild(m_AttackCollision);
 
-    auto iter = m_EffectMesh->GetMaterials()->begin();
-    auto iterEnd = m_EffectMesh->GetMaterials()->end();
-
-    for (; iter != iterEnd; iter++)
-    {
-        (*iter)->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
-    }
-
-
-    m_EffectMesh->SetRelativeScale(1.25f, 1.25f);
-
     m_Animation = m_Mesh->SetAnimation<CAnimation>("KingJellyfishAnimation");
 
     m_Animation->AddAnimation("KingJellyfish_Idle", "KingJellyfish_Idle", 1.f, 0.5f, true);
@@ -149,18 +141,6 @@ bool CKingJellyfish::Init()
     m_Animation->AddAnimation("KingJellyfish_OnGround", "KingJellyfish_OnGround", 1.f, 0.5, true);
     m_Animation->AddAnimation("KingJellyfish_SpawnJellyfish", "KingJellyfish_SpawnJellyfish", 1.f, 0.5, true);
 
-    //CSkeleton* Skeleton = m_Mesh->GetSkeleton();
-
-    //m_EffectMesh->GetAnimation()->SetSkeleton(Skeleton);
-
-    CResourceManager::GetInst()->SoundPlay("KingJellyfish_Idle");
-    CResourceManager::GetInst()->SetVolume(2.f);
-
-    if (m_Scene)
-    {
-        m_PoolPos = m_Scene->FindObject("Pool")->GetWorldPos();
-    }
-
     return true;
 }
 
@@ -168,11 +148,6 @@ void CKingJellyfish::Update(float DeltaTime)
 {
     CGameObject::Update(DeltaTime);
 
-    //m_Animation->ChangeAnimation("KingJellyfish_Idle");
-
-    ////m_EffectMeshAnimation->ChangeAnimation("KingJellyfish_Idle");
-
-    //m_EffectMesh->AddRelativePosition(m_Mesh->GetWorldPos());
     if (m_Scene)
     {
         m_MonsterPos = m_Mesh->GetWorldPos();
@@ -188,7 +163,7 @@ void CKingJellyfish::Update(float DeltaTime)
 
     //m_EffectMesh->SetMin(Vector3(m_EffectMesh.Get()->GetMin().x, MeshMaxY, m_EffectMesh.Get()->GetMin().z));
 
-    if (m_CollisionCount == 3)
+    if (m_CollisionCount == 2)
     {
         Destroy();
     }
@@ -246,30 +221,30 @@ void CKingJellyfish::PostUpdate(float DeltaTime)
 
         if (m_AttackTime > 1.f && m_JellyfishCount < 1)
         {
-            m_Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-            m_Jellyfish->SetCount(1);
-            m_Jellyfish->SetBoss(true);
+            CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
+            Jellyfish->SetCount(1);
+            Jellyfish->SetBoss(true);
             ++m_JellyfishCount;
         }
 
         if (m_AttackTime > 2.5f && m_JellyfishCount >= 1 && m_JellyfishCount < 2)
         {
-            m_Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-            m_Jellyfish->SetCount(2);
+            CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
+            Jellyfish->SetCount(2);
             ++m_JellyfishCount;
         }
 
         if (m_AttackTime > 4.f && m_JellyfishCount >= 2 && m_JellyfishCount < 3)
         {
-            m_Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-            m_Jellyfish->SetCount(3);
+            CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
+            Jellyfish->SetCount(3);
             ++m_JellyfishCount;
         }
 
         if (m_AttackTime > 5.5f && m_JellyfishCount >= 3 && m_JellyfishCount < 4)
         {
-            m_Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
-            m_Jellyfish->SetCount(4);
+            CJellyfish* Jellyfish = m_Scene->CreateObject<CJellyfish>("Jellyfish");
+            Jellyfish->SetCount(4);
             ++m_JellyfishCount;
         }
 
@@ -318,7 +293,6 @@ void CKingJellyfish::Load(FILE* File)
     CGameObject::Load(File);
 
     m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
-    m_EffectMesh = (CAnimationMeshComponent*)FindComponent("Mesh");
     m_AttackCollision = (CColliderOBB3D*)FindComponent("Cube");
     m_DetectCollision = (CColliderOBB3D*)FindComponent("Cube");
     m_PoolCollision = (CColliderOBB3D*)FindComponent("Cube");
@@ -334,9 +308,9 @@ void CKingJellyfish::AttackCollision(const CollisionResult& result)
 
             Damage();
 
-            m_Angry = true;
+          //  m_Angry = true;
 
-            m_CollisionCount++;
+           // m_CollisionCount++;
         }
 
         if (m_OnGround)
@@ -345,10 +319,12 @@ void CKingJellyfish::AttackCollision(const CollisionResult& result)
 
             Damage();
 
-            m_Angry = true;
+           // m_Angry = true;
 
-            m_CollisionCount++;
+           // m_CollisionCount++;
         }
+
+
     }
 }
 
@@ -425,7 +401,7 @@ void CKingJellyfish::Angry()
 
     CResourceManager::GetInst()->SoundPlay("KingJellyfish_Angry");
 
-    m_Angry = true;
+    //m_Angry = true;
 }
 
 void CKingJellyfish::Attack()

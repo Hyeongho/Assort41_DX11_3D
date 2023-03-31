@@ -12,9 +12,7 @@ protected:
 
 private:
 	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
-	CSharedPtr<class CAnimationMeshComponent>	m_EffectMesh;
 	CSharedPtr<class CAnimation>		m_Animation;
-	CSharedPtr<class CAnimation>		m_EffectMeshAnimation;
 	CSharedPtr<class CColliderOBB3D>	m_AttackCollision;
 	CSharedPtr<class CColliderOBB3D>	m_DetectCollision;
 	CSharedPtr<class CColliderOBB3D>	m_PoolCollision;

@@ -58,7 +58,7 @@ bool CMaterialManager::Init()
 
 	Material->SetShader("SkyShader");
 
-	Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture", TEXT("Sky/Sky0222.dds"));
+	Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture", TEXT("Sky/sky0331.dds"));
 
 	//Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture", TEXT("Sky.dds"));
 
@@ -181,15 +181,23 @@ bool CMaterialManager::Init()
 
 	// ���� ���ٱ�
 	Material = CreateMaterial<CMaterial>("Shower");
-	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Shower", TEXT("Particle/waterdrop.png"));
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Shower", TEXT("Particle/T_JF_Shower_Drops_01.tga"));
 	Material->SetShader("SpriteShader");
-	Material->SetOpacity(0.7f);
+	Material->SetOpacity(0.8f);
 
 	// ���� ���� �ٴ��� ��� �κп� ���� ��
 	Material = CreateMaterial<CMaterial>("WaterRing");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "WaterRing", TEXT("Particle/T_Waterdrop_01.tga"));
 	Material->SetShader("SpriteShader");
 	Material->SetOpacity(0.7f);
+
+	// Jellyfish Attack
+	Material = CreateMaterial<CMaterial>("Lightning");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Lightning", TEXT("T_Lightning_Balt_01.tga"));
+	Material->SetShader("SpriteShader");
+	Material->SetBaseColor(1.f, 1.f, 1.f, 1.f);
+	//Material->SetOpacity(0.7f);
+
 
 	//Material = CreateMaterial<CMaterial>("ShockWave");
 	//Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.tga"));

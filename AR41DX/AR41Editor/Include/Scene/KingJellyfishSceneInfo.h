@@ -6,6 +6,8 @@ class CKingJellyfishSceneInfo : public CSceneInfo
 public:
     CKingJellyfishSceneInfo();
     ~CKingJellyfishSceneInfo();
+
+public:
     virtual bool Init();
 };
 

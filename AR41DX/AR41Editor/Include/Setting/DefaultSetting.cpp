@@ -870,6 +870,11 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Missile", TEXT("Objects/JellyfishFields/Missile.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Gate", TEXT("Objects/JellyfishFields/Gate.msh"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "WaterFall", TEXT("Objects/JellyfishFields/WaterFall.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "TwoRock", TEXT("Objects/JellyfishFields/TwoRock.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "WaterFallSmall", TEXT("Objects/JellyfishFields/WaterfallSmall.fbx"), MESH_PATH);
+    
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "WaterFall", TEXT("Buildings/JellyfishField/WaterFall.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "WaterFallSmall", TEXT("Buildings/JellyfishField/WaterFallSmall.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "TwoRock", TEXT("Buildings/JellyfishField/TwoRock.msh"), MESH_PATH);

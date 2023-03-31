@@ -5,15 +5,15 @@
 #include "Scene/Scene.h"
 
 CJellyfishElectric::CJellyfishElectric() :
-    m_Attack(false),
-    m_AttackTime(0.f)
+    m_Time(0.f)
 {
     SetTypeID<CJellyfishElectric>();
 
     m_ObjectTypeName = "JellyfishElectric";
 }
 
-CJellyfishElectric::CJellyfishElectric(const CJellyfishElectric& Obj)
+CJellyfishElectric::CJellyfishElectric(const CJellyfishElectric& Obj) : CGameObject(Obj),
+m_Time(0.f)
 {
     m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
     m_Collider = (CColliderSphere3D*)FindComponent("Collider");
@@ -38,19 +38,19 @@ bool CJellyfishElectric::Init()
     m_Collider = CreateComponent<CColliderSphere3D>("Collider");
 
     m_Mesh->SetMesh("Jellyfish_Electric");
+    m_Mesh->SetMaterial(0, "Lightning");
 
     SetRootComponent(m_Mesh);
 
-    m_Mesh->SetWorldScale(50.f, 50.f, 50.f);
-    //m_Mesh->GetMaterial(0)->SetOpacity(0.1f);
-    //m_Mesh->GetMaterial(0)->SetRenderState("AlphaBlecnd");
-
+    m_Mesh->SetWorldScale(150.f, 150.f, 150.f);
+    m_Mesh->GetMaterial(0)->SetRenderState("AlphaBlend");
+    m_Mesh->SetWorldPositionY(500.f);
     m_Mesh->AddChild(m_Collider);
 
-    m_Collider->SetRelativeScale(0.8f, 0.8f, 0.8f);
-    m_Collider->SetCollisionProfile("Monster");
-
     m_Collider->SetRelativePosition(0.f, 0.f, 0.f);
+    m_Collider->SetRelativeScale(3.f, 3.f, 3.f);
+    m_Collider->SetCollisionProfile("MonsterAttack");
+
 
     return true;
 }
@@ -59,15 +59,10 @@ void CJellyfishElectric::Update(float DeltaTime)
 {
     CGameObject::Update(DeltaTime);
 
-    if (m_Attack)
-    {
-        m_AttackTime += DeltaTime;
+    m_Time += DeltaTime;
 
-        if (m_AttackTime > 2.f)
-        {
-            Destroy();
-        }
-    }
+    if (m_Time > 2.f)
+        SetLifeTime(DeltaTime);
 }
 
 void CJellyfishElectric::PostUpdate(float DeltaTime)
@@ -94,6 +89,7 @@ void CJellyfishElectric::Collision(const CollisionResult& result)
 {
     if (result.Dest->GetCollisionProfile()->Name == "Player")
     {
-        m_Attack = true;
+        result.Dest->GetOwner()->InflictDamage();
     }
 }
+
