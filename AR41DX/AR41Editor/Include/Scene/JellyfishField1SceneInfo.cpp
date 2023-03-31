@@ -71,8 +71,8 @@ bool CJellyfishField1SceneInfo::Init()
 	WaterMesh->SetWorldScale(3.f, 1.f, 3.f);
 	WaterMesh->SetWorldPosition(14000.f, 1350.f, 81000.f);
 
-	CGameObject* JellyfishField = m_Owner->CreateObject<CGameObject>("JellyfishField1");
-	CStaticMeshComponent* JellyfishFieldMesh = JellyfishField->CreateComponent<CStaticMeshComponent>("JellyfishField1");
+	CGameObject* JellyfishField = m_Owner->CreateObject<CGameObject>("JellyfishField");
+	CStaticMeshComponent* JellyfishFieldMesh = JellyfishField->CreateComponent<CStaticMeshComponent>("Mesh");
 	JellyfishFieldMesh->SetMesh("JellyfishField1");
 	JellyfishFieldMesh->SetWorldScale(1.f, 1.f, 1.f);
 	JellyfishFieldMesh->SetWorldPosition(7000.f, 3500.f, 21000.f);
