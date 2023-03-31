@@ -15,6 +15,7 @@
 #include "../../Object/CBL/CBL_Floor.h"
 #include "../../Object/CBL/CBL_Platform.h"
 #include "../../Player.h"
+#include "../../../UI/BossUI.h"
 
 
 /* RoboSponge Pattern
@@ -93,12 +94,17 @@ void CRoboSponge::Start()
 	//CInput::GetInst()->AddBindFunction<CRoboSponge>("F8", Input_Type::Up, this, &CRoboSponge::MoveToCenter, m_Scene);
 	//CInput::GetInst()->AddBindFunction<CRoboSponge>("F9", Input_Type::Up, this, &CRoboSponge::ChangeAnim_AttackHorizLPose, m_Scene);
 #endif // _DEBUG
-	CInput::GetInst()->AddBindFunction<CRoboSponge>("F1", Input_Type::Up, this, &CRoboSponge::ActionStart, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CRoboSponge>("F1", Input_Type::Up, this, &CRoboSponge::ActionStart, m_Scene);
 	CInput::GetInst()->AddBindFunction<CRoboSponge>("F2", Input_Type::Up, this, &CRoboSponge::SetHp1, m_Scene);
 	CInput::GetInst()->AddBindFunction<CRoboSponge>("F3", Input_Type::Up, this, &CRoboSponge::SetHp4, m_Scene);
 
 	// Animation
 	CreateAnim();
+
+	// UI
+	m_BossUI = m_Scene->GetViewport()->CreateUIWindow<CBossUI>("BossUI");
+	m_BossUI->CreateBossUI(*m_BossData);
+	m_BossUI->ActiveBossUI();
 }
 
 bool CRoboSponge::Init()
@@ -118,6 +124,7 @@ bool CRoboSponge::Init()
 
 	// SetBossData
 	m_BossData = new BossData;
+	m_BossData->Boss = EBossList::RoboSponge;
 	m_BossData->MaxHP = 10;
 	m_BossData->CurHP = 10;
 
@@ -126,9 +133,9 @@ bool CRoboSponge::Init()
 	CreateAnim();
 
 	// Collider
-	m_Collider->SetBoxHalfSize(400.f, 100.f, 350.f);
-	m_Collider->SetRelativePosition(-1500.f, 1150.f, -1700.f);
-	m_Collider->SetRelativeRotationY(30);
+	//m_Collider->SetBoxHalfSize(400.f, 100.f, 350.f);
+	//m_Collider->SetRelativePosition(-1500.f, 1150.f, -1700.f);
+	//m_Collider->SetRelativeRotationY(30);
 
 
 	float Ratio = 0.8f;
@@ -171,12 +178,6 @@ void CRoboSponge::Update(float DeltaTime)
 		m_CenterWait = false;
 		m_CenterWaitTimer = 0.f;
 	}
-
-
-	// Particle
-	//m_Particle->SetParticle("Fire");
-	//m_Particle->SetMaterial(0, "blueflame");
-	//m_Particle->SetRelativePositionY(-m_Mesh->GetMeshSize().y / 2.f);
 
 	// Player를 바라보는 액션
 	if (m_ChasePlayer) {
@@ -372,7 +373,10 @@ void CRoboSponge::AttackVertric()
 		ChangeAnim_AttackVerticRStart();
 	}
 
+	CSound* Sound = CResourceManager::GetInst()->FindSound("RoboSponge_AttackVertic");
 
+	if (Sound)
+		Sound->Play();
 }
 
 void CRoboSponge::AttackVerticEnd()
@@ -406,6 +410,12 @@ void CRoboSponge::AttackHoriz()
 	else if (m_LR == ELRCheck::Right) {
 		ChangeAnim_AttackHorizR();
 	}
+
+
+	CSound* Sound = CResourceManager::GetInst()->FindSound("RoboSponge_AttackHoriz");
+
+	if (Sound)
+		Sound->Play();
 }
 
 void CRoboSponge::AttackHorizEnd()
@@ -544,13 +554,28 @@ void CRoboSponge::Damaged()
 
 	m_BossData->CurHP -= 1;
 
-	if (m_BossData->CurHP < 1) {
+	if (m_BossData->CurHP == 1) {
 		SetWorldPosition(m_MapCenterPoint);
+
+		//if (m_BossUI)
+		//	m_BossUI->InActiveBossUI();
 
 		// 사망 컷인
 		ChangeAnim_Death();
 		m_ActionStart = false;
+
+		// 배경음악 종료
+		CSound* Sound = CResourceManager::GetInst()->FindSound("BossStage");
+
+		if (Sound)
+			Sound->Stop();
 	}
+	else {
+		if (m_BossUI)
+			m_BossUI->SetDamage(m_BossData->CurHP);
+	}
+
+
 }
 
 void CRoboSponge::Groggy()
@@ -591,10 +616,10 @@ void CRoboSponge::CreateAnim()
 	m_Animation->AddAnimation("Robo_Sponge_Victory", "Robo_Sponge_Victory", 55.f / 60.f, 1.f, false);
 	m_Animation->AddAnimation("Robo_Sponge_Death", "Robo_Sponge_Death", 1.f, 1.f / 9.f, false);
 
-	//m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_L", this, &CRoboSponge::ChangeAnim_AttackHorizLPose);
-	//m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_L_Pose", this, &CRoboSponge::AttackHorizEnd);
-	//m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_R", this, &CRoboSponge::ChangeAnim_AttackHorizRPose);
-	//m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_R_Pose", this, &CRoboSponge::AttackHorizEnd);
+	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_L", this, &CRoboSponge::ChangeAnim_AttackHorizLPose);
+	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_L_Pose", this, &CRoboSponge::AttackHorizEnd);
+	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_R", this, &CRoboSponge::ChangeAnim_AttackHorizRPose);
+	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Horiz_R_Pose", this, &CRoboSponge::AttackHorizEnd);
 
 	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Vertic_L_Start", this, &CRoboSponge::ChangeAnim_AttackVerticLLoop);
 	m_Animation->SetCurrentEndFunction("Robo_Sponge_Attack_Vertic_L_Loop", this, &CRoboSponge::ChangeAnim_VerticLHold);
@@ -670,6 +695,11 @@ void CRoboSponge::ChangeAnim_AttackWordsLoop()
 void CRoboSponge::ChangeAnim_AttackWordsStart()
 {
 	m_Animation->ChangeAnimation("Robo_Sponge_Attack_Words_Start");
+
+	CSound* Sound = CResourceManager::GetInst()->FindSound("RoboSponge_AttackWords");
+
+	if (Sound)
+		Sound->Play();
 }
 
 void CRoboSponge::ChangeAnim_AttackWordsConnect()
@@ -724,9 +754,37 @@ void CRoboSponge::ChangeAnim_VerticRHold()
 void CRoboSponge::ChangeAnim_Victory()
 {
 	m_Animation->ChangeAnimation("Robo_Sponge_Victory");
+
+	CSound* Sound = CResourceManager::GetInst()->FindSound("RoboSponge_Laugh");
+
+	if (Sound)
+		Sound->Play();
 }
 
 void CRoboSponge::ChangeAnim_Death()
 {
 	m_Animation->ChangeAnimation("Robo_Sponge_Death");
+
+	CSound* Sound = CResourceManager::GetInst()->FindSound("RoboSponge_Explode");
+
+	if (Sound)
+		Sound->Play();
+}
+
+void CRoboSponge::SetHp1()
+{
+	int num = m_BossData->CurHP - 2;
+
+	for (int i = 0; i < num; i++) {
+		Damaged();
+	}
+}
+
+void CRoboSponge::SetHp4()
+{
+	int num = m_BossData->CurHP - 4;
+
+	for (int i = 0; i < num; i++) {
+		Damaged();
+	}
 }

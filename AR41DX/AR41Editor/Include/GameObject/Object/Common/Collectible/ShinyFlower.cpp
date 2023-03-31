@@ -54,6 +54,7 @@ void CShinyFlower::Start()
 
 
 	m_Collider->SetCollisionCallback<CShinyFlower>(ECollision_Result::Collision, this, &CShinyFlower::Collision_Player);
+	m_ColliderPlCheckRange->SetCollisionCallback<CShinyFlower>(ECollision_Result::Collision, this, &CShinyFlower::Collision_Range);
 }
 
 bool CShinyFlower::Init()
@@ -85,7 +86,6 @@ bool CShinyFlower::Init()
 	m_ColliderPlCheckRange->SetBoxHalfSize(ColSize);
 	m_ColliderPlCheckRange->SetRelativePositionY(ColSize.y / 2.f);
 	m_ColliderPlCheckRange->SetCollisionProfile("Collectible");
-	m_ColliderPlCheckRange->SetCollisionCallback<CShinyFlower>(ECollision_Result::Collision, this, &CShinyFlower::Collision_Range);
 
 	m_ColliderPlCheckRange->SetInheritRotX(true);
 	m_ColliderPlCheckRange->SetInheritRotY(true);

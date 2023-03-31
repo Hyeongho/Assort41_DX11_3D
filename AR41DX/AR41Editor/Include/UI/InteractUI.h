@@ -12,6 +12,8 @@ enum class EInteractTarget {
 	Teleport_Box,	// 순간이동 박스
 	Bus,			// 버스 정류소
 	Taxi,			// 택시
+	InfoSign,		// 인포사인
+	InfoSign2,		// 인포사인
 	End
 };
 

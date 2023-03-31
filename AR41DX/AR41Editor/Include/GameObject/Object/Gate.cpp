@@ -18,6 +18,7 @@ CGate::CGate()  :
 }
 
 CGate::CGate(const CGate& Obj)
+    : CGameObject(Obj)
 {
     m_ArmMesh = (CStaticMeshComponent*)FindComponent("ArmMesh");
     m_BottomMesh = (CStaticMeshComponent*)FindComponent("BottomMesh");

@@ -94,7 +94,25 @@ void CBossUI::CreateBossUI()
     }
 }
 
-void CBossUI::CreateBossUI(BossData BossData)
+void CBossUI::ActiveBossUI()
+{
+    for (auto iter : m_mapBackUI)
+        iter.second->SetEnable(true); 
+    
+    for (auto iter : m_mapHpUI)
+        iter.second->SetEnable(true);
+}
+
+void CBossUI::InActiveBossUI()
+{
+    for (auto iter : m_mapBackUI)
+        iter.second->SetEnable(false);
+
+    for (auto iter : m_mapHpUI)
+        iter.second->SetEnable(false);
+}
+
+void CBossUI::CreateBossUI(const BossData& BossData)
 {
     float BossUISizeX = 200.f;
     float BossUISizeY = 200.f;
@@ -194,4 +212,11 @@ void CBossUI::CreateBossUI(BossData BossData)
     Image->SetPos(BossUIPosX, BossUIPosY);
 
     m_mapBackUI.insert(std::make_pair("BossUI_ImageHpBackRight", Image));
+}
+
+void CBossUI::SetDamage(int Hp)
+{
+    std::string HpName = "BossUI_ImageHP" + std::to_string(Hp);
+
+    m_mapHpUI.find(HpName)->second->SetEnable(false);
 }

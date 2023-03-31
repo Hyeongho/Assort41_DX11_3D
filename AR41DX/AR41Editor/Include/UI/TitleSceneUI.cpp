@@ -1040,9 +1040,9 @@ void CTitleSceneUI::CreateSaveSelectUI()
 	TextButton->SetSize(ButtonSizeX, ButtonSizeY);
 	TextButton->SetPos(ButtonPosX, ButtonPosY);
 
-	TextButton->SetText(EButtonState::Normal, TEXT("빈 슬롯"), FontSize, Vector4::Yellow);
-	TextButton->SetText(EButtonState::Hovered, TEXT("빈 슬롯"), FontSize, Vector4::White);
-	TextButton->SetText(EButtonState::Click, TEXT("빈 슬롯"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Normal, TEXT("저장1"), FontSize, Vector4::Yellow);
+	TextButton->SetText(EButtonState::Hovered, TEXT("저장1"), FontSize, Vector4::White);
+	TextButton->SetText(EButtonState::Click, TEXT("저장1"), FontSize, Vector4::White);
 
 	TextButton->SetSound(EButtonEventState::Hovered, "UI", "SaveSelectUI_ButtonSaveSLot1Hovered", false, "Sfx/UI/SFX_UI_Scroll_001.ogg");
 	TextButton->SetSound(EButtonEventState::Click, "UI", "SaveSelectUI_ButtonSaveSLot1Click", false, "Sfx/UI/SFX_UI_Forward.ogg");
