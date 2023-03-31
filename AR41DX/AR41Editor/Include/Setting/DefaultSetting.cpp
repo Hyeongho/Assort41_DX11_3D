@@ -689,6 +689,14 @@ void CDefaultSetting::LoadEnemies()
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DuplicatotronCan", TEXT("Enemies/Duplicatotron/DuplicatotronCan.fbx"), MESH_PATH);
 
+    // Sound
+    CResourceManager::GetInst()->LoadSound("Effect", "Fodder_Attack", false, "Enemies/Fodder_Attack.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "Ham_Hit", false, "Enemies/SFX_Ham_Hit_002.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "Robot_Explode", false, "Enemies/SFX_Robot_Explode_002.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "Dupli_idle", false, "Enemies/Dupli_idle.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "Dupli_full", false, "Enemies/Dupli_full.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "Dupli_destroy", false, "Enemies/Dupli_destroy.ogg", SOUND_PATH);
+
 }
 
 void CDefaultSetting::LoadMrKrabs()
@@ -953,6 +961,12 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GateBottom", TEXT("Objects/JellyfishFields/GateBottom.fbx"), MESH_PATH);
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BossWater", TEXT("Objects/JellyfishFields/BossWater.msh"));
+
+    // Sound
+    CResourceManager::GetInst()->LoadSound("Effect", "Box_Teleport", false, "Objects/Box_shuffle_open.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "Gate_Opening", false, "Objects/SFX_GateOpenLong_3sec.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "CheckPoint", false, "Objects/SFX_CheckPoint.ogg", SOUND_PATH);
+
 }
 
 void CDefaultSetting::LoadCBObjects()
