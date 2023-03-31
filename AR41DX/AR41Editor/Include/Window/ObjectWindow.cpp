@@ -352,7 +352,7 @@ void CObjectWindow::AddInput(CScene* scene)
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("Del", Input_Type::Down, this, &CObjectWindow::Delete, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("LClick", Input_Type::Push, this, &CObjectWindow::MoveGizmo, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("MClick", Input_Type::Down, this, &CObjectWindow::PlaceObjectAtPlayer, scene);
-	CInput::GetInst()->AddBindFunction<CObjectWindow>("F5", Input_Type::Down, this, &CObjectWindow::Pause, scene);
+	//CInput::GetInst()->AddBindFunction<CObjectWindow>("F5", Input_Type::Down, this, &CObjectWindow::Pause, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("UArrow", Input_Type::Push, this, &CObjectWindow::UArrow, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("DArrow", Input_Type::Push, this, &CObjectWindow::DArrow, scene);
 	CInput::GetInst()->AddBindFunction<CObjectWindow>("LArrow", Input_Type::Push, this, &CObjectWindow::LArrow, scene);

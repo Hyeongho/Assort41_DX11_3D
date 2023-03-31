@@ -61,8 +61,6 @@ bool CJellyfishField2SceneInfo::Init()
 	Player->SetRespawnPos(3700.f, 15000.f, 21300.f);
 	SetPlayerObject(Player);
 
-
-
 	CGameObject* Map = m_Owner->CreateObject<CGameObject>("Map");
 	CStaticMeshComponent* StaticMeshComponent = Map->CreateComponent<CStaticMeshComponent>("Mesh");
 	StaticMeshComponent->SetMesh("JellyFishFieldTestKKB");

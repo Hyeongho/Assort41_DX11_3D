@@ -117,7 +117,7 @@ void CPlayer::Start()
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("F7", Input_Type::Down, this, &CPlayer::DebugF1, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F8", Input_Type::Down, this, &CPlayer::DebugF8, m_Scene);
-	CInput::GetInst()->AddBindFunction<CPlayer>("F9", Input_Type::Down, this, &CPlayer::DebugF9, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F10", Input_Type::Down, this, &CPlayer::DebugF9, m_Scene);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
