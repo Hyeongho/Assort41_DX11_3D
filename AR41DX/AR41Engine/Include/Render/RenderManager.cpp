@@ -19,6 +19,7 @@
 #include "../Resource/Shader/FXAAConstantBuffer.h"
 #include "../Component/Collider3D.h"
 #include "../Resource/Shader/TranslationConstantBuffer.h"
+#include "../Resource/Shader/CartoonConstantBuffer.h"
 
 DEFINITION_SINGLE(CRenderManager)
 
@@ -30,6 +31,7 @@ CRenderManager::CRenderManager()
 	m_RenderStateManager = new CRenderStateManager;
 	m_ShadowCBuffer = new CShadowConstantBuffer;
 	m_FXAACBuffer = new CFXAAConstantBuffer;
+	//m_CartoonCBuffer = new CCartoonConstantBuffer;
 	m_TranslationCBuffer = new CTranslationConstantBuffer; 
 }
 
@@ -275,13 +277,12 @@ void CRenderManager::Render3D(float DeltaTime)
 	// GBuffer와 Light를 합한 최종 화면을 만든다.
 	RenderScreen(DeltaTime);
 
-	// FXAA는 Post-Processing Effect라 카툰렌더링은 FXAA 이전에 만들어준다. 
-	//RenderCartoon(DeltaTime);
-
 	RenderNoMultiSampling(DeltaTime);
 
 	// FXAA를 그려낸다. 
 	RenderFXAA(DeltaTime);
+
+	RenderCartoon(DeltaTime);
 
 	// 완성된 타겟을 백버퍼에 출력한다.
 	RenderDeferred(DeltaTime);
@@ -909,6 +910,34 @@ void CRenderManager::RenderFXAA(float DeltaTime)
 	m_FXAABuffer->ResetTarget();
 }
 
+void CRenderManager::RenderCartoon(float DeltaTime)
+{
+	/*m_CartoonBuffer->ClearTarget();
+
+	m_CartoonBuffer->SetTarget();
+
+	m_FXAABuffer->SetTargetShader(9); 
+
+	m_DepthDisable->SetState();
+
+	m_CartoonShader->SetShader();
+
+	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+
+	UINT   Offset = 0;
+
+	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+	Context->Draw(4, 0);
+
+	m_DepthDisable->ResetState();
+
+	m_FXAABuffer->ResetTargetShader(9);
+
+	m_CartoonBuffer->ResetTarget();*/
+}
+
 void CRenderManager::RenderDeferred(float DeltaTime)
 {
 	m_DeferredRenderShader->SetShader();
@@ -916,7 +945,7 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	m_DepthDisable->SetState();
 
 	m_FXAABuffer->SetTargetShader(21);
-	//m_MSBuffer->SetTargetShader(21);
+	//m_CartoonBuffer->SetTargetShader(21);
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
@@ -931,6 +960,7 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	m_DepthDisable->ResetState();
 
 	m_FXAABuffer->ResetTargetShader(21);
+	//m_CartoonBuffer->ResetTargetShader(21);
 
 	// 디버그 모드일 경우 데칼 디버깅용 육면체를 출력한다.
 #ifdef _DEBUG
@@ -1389,6 +1419,19 @@ void CRenderManager::CreateRenderTarget()
 	m_FXAABuffer->SetPos(Vector3(200.f, 300.f, 0.f));
 	m_FXAABuffer->SetScale(Vector3(100.f, 100.f, 1.f));
 	m_FXAABuffer->SetDebugRender(true);
+
+	// Cartoon
+	/*m_CartoonShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("CartoonShader");
+
+	CResourceManager::GetInst()->CreateTargetNoMS("RenderCartoon", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D24_UNORM_S8_UINT);
+
+	m_CartoonBuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderCartoon");
+
+	m_CartoonCBuffer->Init();
+
+	m_CartoonBuffer->SetPos(Vector3(200.f, 400.f, 0.f));
+	m_CartoonBuffer->SetScale(Vector3(100.f, 100.f, 1.f));
+	m_CartoonBuffer->SetDebugRender(true);*/
 
 
 	m_TranslationCBuffer->Init();

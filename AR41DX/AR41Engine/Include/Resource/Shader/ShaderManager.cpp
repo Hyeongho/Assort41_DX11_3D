@@ -156,7 +156,7 @@ bool CShaderManager::Init()
 
 	CreateConstantBuffer("Translation", sizeof(TranslationCBuffer), 6);
 
-	CreateConstantBuffer("Cartoon", sizeof(CartoonCBuffer), 15, (int)EShaderBufferType::Pixel);
+	CreateConstantBuffer("Cartoon", sizeof(CartoonCBuffer), 7, (int)EShaderBufferType::Pixel);
 
 
 	m_ColliderCBuffer = new CColliderConstantBuffer;

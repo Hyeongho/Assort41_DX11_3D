@@ -74,4 +74,6 @@ private:
 	void Destroyed();
 	void SpawnAnimation();
 	void SpawnCan();
+	void IdleSound();
+	void SpawnSound();
 };

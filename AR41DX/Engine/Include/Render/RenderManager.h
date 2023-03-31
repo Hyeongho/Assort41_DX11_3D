@@ -46,6 +46,7 @@ private:
 	class CTranslationConstantBuffer* m_TranslationCBuffer;
 
 	class CFXAAConstantBuffer* m_FXAACBuffer;
+	class CCartoonConstantBuffer* m_CartoonCBuffer;
 
 	CSharedPtr<CRenderTarget> m_ShadowMapTarget;
 
@@ -91,9 +92,9 @@ private:
 	void RenderDecal(float DeltaTime);
 	void RenderLight(float DeltaTime);
 	void RenderScreen(float DeltaTime);
-	//void RenderCartoon(float DeltaTime);
-	void RenderFXAA(float DeltaTime); // FXAA
 	void RenderNoMultiSampling(float DeltaTime);
+	void RenderFXAA(float DeltaTime); // FXAA
+	void RenderCartoon(float DeltaTime);
 	void RenderDeferred(float DeltaTime);
 	void RenderParticle(float DeltaTime);
 	void RenderTranslation(float DeltaTime);

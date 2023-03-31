@@ -46,6 +46,8 @@ void CDuplicatotron::Start()
 
 	//m_Animation->SetCurrentEndFunction("Duplicatotron_SpawnEnemies", this, &CDuplicatotron::SpawnCan);
 	m_Animation->SetCurrentEndFunction("Duplicatotron_Destroyed", this, &CDuplicatotron::Destroyed);
+	m_Animation->AddCurrentNotify<CDuplicatotron>("Duplicatotron_Idle", "Duplicatotron_Idle", 10, this, &CDuplicatotron::IdleSound);
+	m_Animation->AddCurrentNotify<CDuplicatotron>("Duplicatotron_SpawnEnemies", "Duplicatotron_SpawnEnemies", 16, this, &CDuplicatotron::SpawnSound);
 }
 
 bool CDuplicatotron::Init()
@@ -76,13 +78,13 @@ bool CDuplicatotron::Init()
 	//m_Mesh->AddChild(m_Rigid);
 	m_Mesh->SetWorldPosition(500.f, 0.f, 100.f);
 
-	//auto iter = m_Mesh->GetMaterials()->begin();
-	//auto iterEnd = m_Mesh->GetMaterials()->end();
+	auto iter = m_Mesh->GetMaterials()->begin();
+	auto iterEnd = m_Mesh->GetMaterials()->end();
 
-	//for (; iter != iterEnd; iter++)
-	//{
-	//	(*iter)->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
-	//}
+	for (; iter != iterEnd; iter++)
+	{
+		(*iter)->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
+	}
 
 	m_DetectArea->SetCollisionProfile("DetectArea");
 	m_DetectArea->SetBoxHalfSize(800.f, 400.f, 800.f);
@@ -208,6 +210,8 @@ void CDuplicatotron::Collision_Dead(const CollisionResult& result)
 
 	if (Name == "PlayerAttack")
 	{
+		CResourceManager::GetInst()->SoundPlay("Duplicatotron_Destroyed");
+		//CResourceManager::GetInst()->SetVolume(2.f);
 		m_Animation->ChangeAnimation("Duplicatotron_Destroyed");
 	}
 }
@@ -230,5 +234,17 @@ void CDuplicatotron::SpawnCan()
 	Vector3 Pos = GetWorldPos();
 
 	CDupli_Can* DupliCan = m_Scene->CreateObject<CDupli_Can>("Dupli_Can");
+}
+
+void CDuplicatotron::IdleSound()
+{
+	CResourceManager::GetInst()->SoundPlay("Dupli_idle");
+	CResourceManager::GetInst()->SetVolume(50.f);
+}
+
+void CDuplicatotron::SpawnSound()
+{
+	CResourceManager::GetInst()->SoundPlay("Dupli_full");
+	CResourceManager::GetInst()->SetVolume(50.f);
 }
 

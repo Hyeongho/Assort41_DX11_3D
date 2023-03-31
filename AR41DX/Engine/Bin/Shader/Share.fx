@@ -99,7 +99,7 @@ Texture2D g_AOTexture : register(t5);
 Texture2D g_GlobalNoiseTexture : register(t6);
 Texture2D g_LUTTexture : register(t7);
 Texture2DMS<float4> g_InputMSTex : register(t8); 
-Texture2D<float4> DiffuseTexture : register(t9); // Ä«Å÷·»´õ¸µ¿ë
+Texture2D<float4> g_CartoonTex : register(t9); // Ä«Å÷·»´õ¸µ¿ë
 Texture2DMS<float4> g_ScreenTex : register(t21);
 
 cbuffer Animation2D : register(b2)

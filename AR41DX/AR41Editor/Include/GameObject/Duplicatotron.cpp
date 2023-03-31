@@ -53,6 +53,14 @@ bool CDuplicatotron::Init()
 	m_Animation->AddAnimation("Duplicatotron_SpawnEnemies", "Duplicatotron_SpawnEnemies", 1.f, 1.f, false);
 	m_Animation->AddAnimation("Duplicatotron_Destroyed", "Duplicatotron_Destroyed", 1.f, 1.f, false);
 
+	auto iter = m_Mesh->GetMaterials()->begin();
+	auto iterEnd = m_Mesh->GetMaterials()->end();
+
+	for (; iter != iterEnd; iter++)
+	{
+		(*iter)->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
+	}
+
 	m_Rigid->SetGround(true);
 
 	return true;

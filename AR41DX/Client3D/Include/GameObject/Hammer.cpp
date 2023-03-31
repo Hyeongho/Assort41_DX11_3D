@@ -57,6 +57,8 @@ void CHammer::Start()
 	//m_Animation->SetCurrentEndFunction("Hammer_Notice", this, &CHammer::Walk);
 	m_Animation->SetCurrentEndFunction("Hammer_Dead", this, &CHammer::Debris);
 	m_Animation->SetCurrentEndFunction("Hammer_Attack", this, &CHammer::WeaponAttackOn);
+	m_Animation->AddCurrentNotify<CHammer>("Hammer_Attack", "Hammer_Attack", 14, this, &CHammer::AttackSound);
+
 
 	m_DetectArea->SetCollisionCallback<CHammer>(ECollision_Result::Collision, this, &CHammer::Collision_Detect_ChaseOn);
 	m_DetectArea->SetCollisionCallback<CHammer>(ECollision_Result::Release, this, &CHammer::Release_Detect_ChaseOff);
@@ -307,6 +309,12 @@ void CHammer::Debris()
 	//}
 }
 
+void CHammer::AttackSound()
+{
+	CResourceManager::GetInst()->SoundPlay("Ham_Hit");
+	CResourceManager::GetInst()->SetVolume(30.f);
+}
+
 void CHammer::Collision_Detect_ChaseOn(const CollisionResult& result)
 {
 	std::string Name = result.Dest->GetCollisionProfile()->Name;
@@ -365,6 +373,8 @@ void CHammer::Collision_Body(const CollisionResult& result)
 
 	if (Name == "PlayerAttack")
 	{
+		CResourceManager::GetInst()->SoundPlay("Robot_Explode");
+		//CResourceManager::GetInst()->SetVolume(2.f);
 		Debris();
 	}
 }

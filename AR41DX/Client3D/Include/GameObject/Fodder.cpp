@@ -53,6 +53,7 @@ void CFodder::Start()
 	//m_Animation->SetCurrentEndFunction("Fodder_Notice", this, &CFodder::Walk);
 	//m_Animation->SetCurrentEndFunction("Fodder_Dead", this, &CFodder::Debris);
 	m_Animation->SetCurrentEndFunction("Fodder_Attack", this, &CFodder::WeaponAttackOn);
+	m_Animation->AddCurrentNotify<CFodder>("Fodder_Attack", "Fodder_Attack", 14, this, &CFodder::AttackSound);
 
 	m_DetectArea->SetCollisionCallback<CFodder>(ECollision_Result::Collision, this, &CFodder::Collision_Detect_ChaseOn);
 	m_DetectArea->SetCollisionCallback<CFodder>(ECollision_Result::Release, this, &CFodder::Release_Detect_ChaseOff);
@@ -243,6 +244,12 @@ void CFodder::Debris()
 	}
 }
 
+void CFodder::AttackSound()
+{
+	CResourceManager::GetInst()->SoundPlay("Fodder_Attack");
+	CResourceManager::GetInst()->SetVolume(10.f);
+}
+
 void CFodder::Collision_Detect_ChaseOn(const CollisionResult& result)
 {
 	std::string Name = result.Dest->GetCollisionProfile()->Name;
@@ -273,6 +280,7 @@ void CFodder::Collision_AttackOn(const CollisionResult& result)
 	if (Name == "Player")
 	{
 		m_AttackOn = true;
+
 	}
 }
 
@@ -303,6 +311,10 @@ void CFodder::Collision_Body(const CollisionResult& result)
 
 	if (Name == "PlayerAttack")
 	{
+
+		CResourceManager::GetInst()->SoundPlay("Ham_Hit");
+		CResourceManager::GetInst()->SetVolume(30.f);
+
 		Debris();
 	}
 }
@@ -311,8 +323,10 @@ void CFodder::Collision_WeaponAttack(const CollisionResult& result)
 {
 	std::string Name = result.Dest->GetCollisionProfile()->Name;
 
+
 	if (Name == "Player" && m_WeaponAttack)
 	{
+
 		result.Dest->GetOwner()->InflictDamage(1);
 	}
 }
