@@ -54,8 +54,9 @@ bool CTeeterRock::Init()
 	m_LeftCube->AddWorldPositionX(-251.f);
 	m_RightCube->AddWorldPositionX(251.f);
 
-	m_LeftCube->SetBoxHalfSize(250.f, 50.f, 50.f);
-	m_RightCube->SetBoxHalfSize(250.f, 50.f, 50.f);
+	m_LeftCube->SetBoxHalfSize(m_Mesh->GetMeshSize() / 4.f);
+	m_RightCube->SetBoxHalfSize(m_Mesh->GetMeshSize() / 4.f);
+	//m_RightCube->SetBoxHalfSize(250.f, 50.f, 50.f);
 
 	m_Mesh->AddChild(m_LeftCube);
 	m_Mesh->AddChild(m_RightCube);

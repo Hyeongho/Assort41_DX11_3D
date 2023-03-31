@@ -83,7 +83,10 @@ void CTrampoline::Load(FILE* File)
 
 void CTrampoline::Collision_Bounce(const CollisionResult& result)
 {
-	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
+	std::string strDest = result.Dest->GetOwner()->GetName();
+
+	//if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
+	if(strcmp("Player", strDest.c_str()) == 0)
 	{
 		CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
 
@@ -95,7 +98,10 @@ void CTrampoline::Collision_Bounce(const CollisionResult& result)
 
 void CTrampoline::Release_Bounce(const CollisionResult& result)
 {
-	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
+	std::string strDest = result.Dest->GetOwner()->GetName();
+
+	//if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
+	if (strcmp("Player", strDest.c_str()) == 0)
 	{
 		CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
 

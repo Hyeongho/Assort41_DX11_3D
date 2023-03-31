@@ -5,9 +5,12 @@
 #include "../GameObject/Monster.h"
 #include "../GameObject/Jellyfish.h"
 #include "../GameObject/Fodder.h"
+#include "../GameObject/Object/Common/Trampoline.h"
 #include "../GameObject/Hammer.h"
 #include "../GameObject/Cannon.h"
 #include "../GameObject/Duplicatotron.h"
+#include "../GameObject/TeeterRock.h"
+#include "../GameObject/Object/Gate.h"
 #include "../GameObject/Object/JumpTree.h"
 #include "../GameObject/Object/IceCube.h"
 #include "../GameObject/Object/CheckPoint.h"
@@ -17,6 +20,8 @@
 #include "../GameObject/Npc/TaxiDriver.h"
 #include "../GameObject/Npc/InfoSign.h"
 #include "../GameObject/Tikis/Tiki_Wood.h"
+#include "../GameObject/Tikis/Tiki_Stone.h"
+#include "../GameObject/Tikis/Tiki_Thunder.h"
 #include "../GameObject/Object/Common/Collectible/ShinyFlower.h"
 #include "../GameObject/Object/Common/Collectible/GoldenSpatula.h"
 #include "../GameObject/Object/Common/Collectible/Sock.h"
@@ -53,7 +58,7 @@ bool CJellyfishField2SceneInfo::Init()
 	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
 
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetRespawnPos(8100.f, 15000.f, 21900.f);
+	Player->SetRespawnPos(4200.f, 15000.f, 21300.f);
 	SetPlayerObject(Player);
 
 
@@ -63,7 +68,7 @@ bool CJellyfishField2SceneInfo::Init()
 	StaticMeshComponent->SetMesh("JellyFishFieldTestKKB");
 	Map->SetWorldPosition(7000.f, 3500.f, 21000.f);
 
-	// Terrain Obj
+	// ±è±â¹é(Ground Collider Obj)
 	{
 		CGameObject* Ground = m_Owner->CreateObject<CGameObject>("Ground1");
 		CColliderOBB3D* OBB = Ground->CreateComponent<CColliderOBB3D>("OBB3D");
@@ -114,13 +119,65 @@ bool CJellyfishField2SceneInfo::Init()
 		OBB->SetCollisionProfile("Ground");
 	}
 
-	// Object
+	// ±è±â¹é(Monster)
+	{
+		CTiki_Stone* TikiStone = m_Owner->CreateObject<CTiki_Stone>("TikiStone");
+		TikiStone->SetWorldPosition(7000.f, 3500.f, 21000.f);
+
+
+	}
+
+
+	// ±è±â¹é(Object)
 	{
 		CTeleportBox* TeleportBox1 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
 		TeleportBox1->SetBoxIndex(2);
 		TeleportBox1->SetWorldScale(1.f, 1.f, 1.f);
 		TeleportBox1->SetWorldPosition(4000.f, 4600.f, 21100.f);
 
+		CTrampoline* Trampoline = m_Owner->CreateObject<CTrampoline>("Trampoline");
+		Trampoline->SetWorldPosition(11100.f, 5150.f, 26300.f);
+
+		CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
+		TeeterRock->SetWorldPosition(8100.f, 4500.f, 21900.f);
+		TeeterRock->SetWorldRotationY(320.f);
+
+		CGate* Gate = m_Owner->CreateObject<CGate>("Gate");
+		Gate->SetWorldPosition(8100.f, 4500.f, 21900.f);
+	}
+
+	// ±è±â¹é(Tree)
+	{
+		CGameObject* RedTree = m_Owner->CreateObject<CGameObject>("Stage6_RedTree1");
+		CStaticMeshComponent* RedTreeMesh = RedTree->CreateComponent<CStaticMeshComponent>("RedTreeMesh");
+		RedTreeMesh->SetMesh("RedTree");
+		RedTreeMesh->SetWorldPosition(10700.f, 5000.f, 24400.f);
+		RedTreeMesh->SetWorldScale(2.f, 2.f, 2.f);
+
+		CGameObject* PurpleTree = m_Owner->CreateObject<CGameObject>("Stage6_PurpleTree1");
+		CStaticMeshComponent* PurpleTreeMesh = PurpleTree->CreateComponent<CStaticMeshComponent>("PurpleTreeMesh");
+		PurpleTreeMesh->SetMesh("PurpleTree");
+		PurpleTreeMesh->SetWorldPosition(10750.f, 5000.f, 24100.f);
+		PurpleTreeMesh->SetWorldScale(3.f, 3.f, 3.f);
+
+		CGameObject* DoubleTree = m_Owner->CreateObject<CGameObject>("Stage6_DoubleTree1");
+		CStaticMeshComponent* DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh");
+		DoubleTreeMesh->SetMesh("DoubleTree");
+		DoubleTreeMesh->SetWorldPosition(10000.f, 5150.f, 26450.f);
+		DoubleTreeMesh->SetWorldRotationY(90.f);
+		DoubleTreeMesh->SetWorldScale(2.f, 2.f, 2.f);
+
+		CGameObject* DoubleTree_Y = m_Owner->CreateObject<CGameObject>("Stage6_DoubleTree_Y1");
+		CStaticMeshComponent* DoubleTree_YMesh = DoubleTree_Y->CreateComponent<CStaticMeshComponent>("DoubleTree_Y");
+		DoubleTree_YMesh->SetMesh("DoubleTree_Yellow");
+		DoubleTree_YMesh->SetWorldPosition(10400.f, 5150.f, 26700.f);
+		DoubleTree_YMesh->SetWorldScale(3.f, 3.f, 3.f);
+
+		CGameObject* DoubleTree_P = m_Owner->CreateObject<CGameObject>("Stage6_DoubleTree_P1");
+		CStaticMeshComponent* DoubleTree_PMesh = DoubleTree_P->CreateComponent<CStaticMeshComponent>("DoubleTree_P");
+		DoubleTree_PMesh->SetMesh("DoubleTree_Purple");
+		DoubleTree_PMesh->SetWorldPosition(12320.f, 1850.f, 16000.f);
+		DoubleTree_PMesh->SetWorldRotationY(100.f);
 	}
 
 
