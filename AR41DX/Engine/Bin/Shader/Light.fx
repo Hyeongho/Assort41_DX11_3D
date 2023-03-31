@@ -24,7 +24,7 @@ Texture2DMS<float4> g_LightDiffuseTex : register(t18);
 Texture2DMS<float4> g_LightSpecularTex : register(t19);
 Texture2DMS<float4> g_LightEmissiveTex : register(t20);
 
-Texture2DMS<float4> g_ScreenTex : register(t21);
+//Texture2DMS<float4> g_ScreenTex : register(t21);
 Texture2DMS<float4> g_ShadowMapTex : register(t22);
 
 
@@ -456,6 +456,7 @@ PS_OUTPUT_SINGLE ScreenPS(VS_OUTPUT_SCREEN input)
     return output;
 }
 
+Texture2DMS<float4> g_AfterTex : register(t21);
 
 VS_OUTPUT_SCREEN DeferredVS(uint VertexID : SV_VertexID)
 {
@@ -483,7 +484,7 @@ PS_OUTPUT_SINGLE DeferredPS(VS_OUTPUT_SCREEN input)
     LoadPos.x = (int)(UV.x * g_Resolution.x);
     LoadPos.y = (int)(UV.y * g_Resolution.y);
 
-    float4 ScreenColor = g_ScreenTex.Load(LoadPos, 0);
+    float4 ScreenColor = g_AfterTex.Load(LoadPos, 0);
 
     if (ScreenColor.a == 0.f)
     {

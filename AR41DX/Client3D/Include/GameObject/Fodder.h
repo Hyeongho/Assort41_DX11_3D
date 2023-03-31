@@ -69,6 +69,7 @@ private:
 	void WeaponAttackOn();
 	void Dead();
 	void Debris(); // ¿‹«ÿ∑Œ ∫Ø∞Ê.
+	void AttackSound();
 
 private:
 	void Collision_Detect_ChaseOn(const CollisionResult& result);
