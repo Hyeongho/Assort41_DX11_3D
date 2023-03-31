@@ -501,6 +501,12 @@
     <ClCompile Include="UI\BossUI.cpp">
       <Filter>05. UI\02. InGame</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\RoboSpongeSceneInfo.cpp">
+      <Filter>02. Scene\04. ChumBucketLab</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object\CBL\CBL_BaseMesh.cpp">
+      <Filter>03. GameObject\04. Object\04. ChumBucketLab\02. CBL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorManager.h">
@@ -868,6 +874,12 @@
     </ClInclude>
     <ClInclude Include="UI\BossUI.h">
       <Filter>05. UI\02. InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\RoboSpongeSceneInfo.h">
+      <Filter>02. Scene\04. ChumBucketLab</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\CBL\CBL_BaseMesh.h">
+      <Filter>03. GameObject\04. Object\04. ChumBucketLab\02. CBL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

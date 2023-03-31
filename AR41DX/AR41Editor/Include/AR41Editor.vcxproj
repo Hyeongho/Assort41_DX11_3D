@@ -215,6 +215,7 @@
     <ClCompile Include="GameObject\Npc\Squidward.cpp" />
     <ClCompile Include="GameObject\Npc\TaxiDriver.cpp" />
     <ClCompile Include="GameObject\Object\BB\BusStop.cpp" />
+    <ClCompile Include="GameObject\Object\CBL\CBL_BaseMesh.cpp" />
     <ClCompile Include="GameObject\Object\CBL\CBL_Floor.cpp" />
     <ClCompile Include="GameObject\Object\CBL\CBL_Platform.cpp" />
     <ClCompile Include="GameObject\Object\CheckPoint.cpp" />
@@ -253,6 +254,7 @@
     <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp" />
     <ClCompile Include="Scene\KingJellyfishSceneInfo.cpp" />
     <ClCompile Include="Scene\LoadingSceneInfo.cpp" />
+    <ClCompile Include="Scene\RoboSpongeSceneInfo.cpp" />
     <ClCompile Include="Scene\TestScene.cpp" />
     <ClCompile Include="Scene\TitleSceneInfo.cpp" />
     <ClCompile Include="Setting\DefaultSetting.cpp" />
@@ -334,6 +336,7 @@
     <ClInclude Include="GameObject\Npc\Squidward.h" />
     <ClInclude Include="GameObject\Npc\TaxiDriver.h" />
     <ClInclude Include="GameObject\Object\BB\BusStop.h" />
+    <ClInclude Include="GameObject\Object\CBL\CBL_BaseMesh.h" />
     <ClInclude Include="GameObject\Object\CBL\CBL_Floor.h" />
     <ClInclude Include="GameObject\Object\CBL\CBL_Platform.h" />
     <ClInclude Include="GameObject\Object\CheckPoint.h" />
@@ -371,6 +374,7 @@
     <ClInclude Include="Scene\JellyfishFieldSceneInfo.h" />
     <ClInclude Include="Scene\KingJellyfishSceneInfo.h" />
     <ClInclude Include="Scene\LoadingSceneInfo.h" />
+    <ClInclude Include="Scene\RoboSpongeSceneInfo.h" />
     <ClInclude Include="Scene\TestScene.h" />
     <ClInclude Include="Scene\TitleSceneInfo.h" />
     <ClInclude Include="Setting\DefaultSetting.h" />
