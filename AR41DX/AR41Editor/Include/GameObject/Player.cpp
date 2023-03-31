@@ -1402,16 +1402,24 @@ void CPlayer::CollisionTestOut(const CollisionResult& result)
 		return;
 	}
 
+	if (!result.Dest || !result.Src)
+	{
+		return;
+	}
+
 	std::list<CCollider*> List = result.Src->GetPrevCollisionList();
 
-	auto iter = List.begin();
-	auto iterEnd = List.end();
-
-	for (; iter != iterEnd; iter++)
+	if (!List.empty())
 	{
-		if ((*iter)->GetCollisionProfile()->Name == "Ground")
+		auto iter = List.begin();
+		auto iterEnd = List.end();
+
+		for (; iter != iterEnd; iter++)
 		{
-			return;
+			if ((*iter)->GetCollisionProfile()->Name == "Ground")
+			{
+				return;
+			}
 		}
 	}
 
