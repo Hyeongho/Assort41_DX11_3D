@@ -10,6 +10,7 @@
 #include "../../Scene/LoadingSceneInfo.h"
 #include "../../UI/DialogUI.h"
 #include "../Object/BB/BusStop.h"
+#include "../Player.h"
 
 CBusDriver::CBusDriver()
 {
@@ -32,7 +33,7 @@ CBusDriver::CBusDriver(const CBusDriver& Obj)
     : CNpc(Obj)
 {
     m_AnimMesh = (CAnimationMeshComponent*)FindComponent("Mesh");
-    m_Animation = (CAnimation*)FindComponent("BusDriverAnimation");
+    m_Animation = Obj.m_Animation;
 
     m_DialogCount = Obj.m_DialogCount;
     m_NpcType = Obj.m_NpcType;
@@ -59,7 +60,9 @@ void CBusDriver::Start()
     CInput::GetInst()->AddBindFunction<CBusDriver>("F3", Input_Type::Up, this, &CBusDriver::DebugKeyF3, m_Scene);
 #endif // DEBUG
 
-    CInput::GetInst()->AddBindFunction<CBusDriver>("F", Input_Type::Up, this, &CBusDriver::StartDialog, m_Scene);
+    CInput::GetInst()->AddBindFunction<CBusDriver>("F", Input_Type::Up, this, &CBusDriver::MoveFromBusStop, m_Scene);
+
+    CreateAnim();
 }
 
 bool CBusDriver::Init()
@@ -78,12 +81,7 @@ bool CBusDriver::Init()
     m_Collider->SetBoxHalfSize(ColSize / 2.f);
     m_Collider->SetRelativePositionY(ColSize.y / 2.f);
 
-    m_Animation = m_AnimMesh->SetAnimation<CAnimation>("BusDriverAnimation");
-
-    m_Animation->AddAnimation("Bus_Driver_Drive", "Bus_Driver_Drive", 1.f, 1.f, true);
-    m_Animation->AddAnimation("Bus_Driver_Stop", "Bus_Driver_Stop", 1.f, 1.f, false);
-
-    m_Animation->SetCurrentAnimation("Bus_Driver_Drive");
+    CreateAnim();
 
     return true;
 }
@@ -148,24 +146,6 @@ void CBusDriver::Load(FILE* File)
     CNpc::Load(File);
 }
 
-void CBusDriver::StartDialog()
-{
-    if (!m_EnableDialog)
-        return;
-
-    CDialogUI* DialogUI = m_Scene->GetViewport()->FindUIWindow<CDialogUI>("DialogUI");
-
-    if (!DialogUI)
-        return;
-
-    DialogUI->SetDialogInfo(m_NpcMapPos, m_NpcType);
-    DialogUI->SetCurDialog("First_Contact");
-
-    DialogUI->OpenDialog();
-
-    m_DialogCount++;
-}
-
 void CBusDriver::MoveToBusStop(const Vector3& BusStopPos, const Vector3& BusStartPos)
 {
     // Update 처리
@@ -203,6 +183,20 @@ void CBusDriver::MoveFromBusStop()
     BusMoveCutScene();
 }
 
+void CBusDriver::CreateAnim()
+{
+    if (m_Animation)
+        return;
+
+
+    m_Animation = m_AnimMesh->SetAnimation<CAnimation>("BusDriverAnimation");
+
+    m_Animation->AddAnimation("Bus_Driver_Drive", "Bus_Driver_Drive", 1.f, 1.f, true);
+    m_Animation->AddAnimation("Bus_Driver_Stop", "Bus_Driver_Stop", 1.f, 1.f, false);
+
+    m_Animation->SetCurrentAnimation("Bus_Driver_Drive");
+}
+
 void CBusDriver::ChangeAnim_Stop()
 {
     if (m_Animation)
@@ -231,9 +225,12 @@ void CBusDriver::BusMoveCutScene()
     // 버스가 멀어지는걸 관찰시키고, 버스가 특정 거리만큼 이동되면 장면을 전환.
     
     // 버스 정류소(BusStop)의 타겟암으로 카메라를 이동.
+    CBusStop* BusStop = (CBusStop*)m_Scene->FindObject("BusStop");
+    BusStop->CutSceneStart();
     
     // 플레이어의 움직임을 제한.
-
+    CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
+    // Player->SetStop();
 }
 
 void CBusDriver::ChangeScene()

@@ -18,6 +18,7 @@ CHammer::CHammer() :
 }
 
 CHammer::CHammer(const CHammer& Obj)
+	: CMonster(Obj)
 {
 }
 

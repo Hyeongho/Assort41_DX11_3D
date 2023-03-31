@@ -14,6 +14,8 @@ protected:
 
 protected:
 	CSharedPtr<class CStaticMeshComponent>	m_Mesh;
+	CSharedPtr<class CTargetArm> m_Arm;
+	CSharedPtr<class CCameraComponent> m_Camera;
 
 private:
 	EMapList	m_PurposeScene;
@@ -29,6 +31,7 @@ public:
 
 public :
 	void CallBus();
+	void CutSceneStart();
 
 public:
 	void SetPurposeScene(const EMapList& Map)

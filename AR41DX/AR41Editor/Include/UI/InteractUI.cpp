@@ -149,5 +149,17 @@ void CInteractUI::SetTarget(EInteractTarget Target)
 	case EInteractTarget::Teleport_Box:
 		Text->SetText(TEXT("를 눌러 텔레포트 박스 사용하기"));
 		break;
+	case EInteractTarget::Bus:
+		Text->SetText(TEXT("를 눌러 해파리동산으로 이동하기"));
+		break;
+	case EInteractTarget::Taxi:
+		Text->SetText(TEXT("를 눌러 비키니 시티로 이동하기"));
+		break;
+	case EInteractTarget::InfoSign:
+		Text->SetText(TEXT("를 눌러 미끼 식당 연구소로 이동하기"));
+		break;
+	case EInteractTarget::InfoSign2:
+		Text->SetText(TEXT("를 눌러 로봇 스폰지밥과 싸우기"));
+		break;
 	}
 }

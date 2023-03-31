@@ -9,7 +9,7 @@
 #include "Device.h"
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
-#include "../../Scene/LoadingSceneInfo.h"
+#include "../Scene/LoadingSceneInfo.h"
 #include "Scene/NavigationManager3D.h"
 
 CFodderDebris::CFodderDebris()  :

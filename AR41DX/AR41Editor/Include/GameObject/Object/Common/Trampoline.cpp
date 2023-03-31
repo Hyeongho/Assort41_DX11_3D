@@ -28,6 +28,9 @@ CTrampoline::~CTrampoline()
 void CTrampoline::Start()
 {
 	CGameObject::Start();
+
+	m_Collider->SetCollisionCallback<CTrampoline>(ECollision_Result::Collision, this, &CTrampoline::Collision_Bounce);
+	m_Collider->SetCollisionCallback<CTrampoline>(ECollision_Result::Release, this, &CTrampoline::Release_Bounce);
 }
 
 bool CTrampoline::Init()
@@ -45,20 +48,10 @@ bool CTrampoline::Init()
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Trampoline");
-	m_Collider->SetCollisionCallback<CTrampoline>(ECollision_Result::Collision, this, &CTrampoline::Collision_Bounce);
-	m_Collider->SetCollisionCallback<CTrampoline>(ECollision_Result::Release, this, &CTrampoline::Release_Bounce);
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
-
-
-	Vector2 Ratio = CDevice::GetInst()->GetHdRsRatio();
-	Ratio.x = 1.f / Ratio.x;
-	Ratio.y = 1.f / Ratio.y;
-
-	SetRelativeScale(Ratio);
-	m_Collider->SetRelativeScale(Ratio);
 
 	return true;
 }

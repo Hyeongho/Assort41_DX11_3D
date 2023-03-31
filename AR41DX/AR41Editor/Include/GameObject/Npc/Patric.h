@@ -22,10 +22,10 @@ public:
 	virtual void Load(FILE* File);
 
 public:
-	virtual void ChangeAnimByName(const std::string& Name);
 	virtual void StartDialog();
 
-private:
+private: // Animation
+	void CreateAnim();
 	void ChangeAnim_Confused();
 	void ChangeAnim_Default();
 	void ChangeAnim_Excited();
@@ -34,8 +34,5 @@ private:
 	void ChangeAnim_Talk();
 	void ChangeAnim_Thinking_Start();
 	void ChangeAnim_Thinking_Loop();
-
-private:
-	void CreateSock();
 };
 

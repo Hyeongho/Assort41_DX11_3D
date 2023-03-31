@@ -30,6 +30,10 @@ public:
 	virtual void StartDialog();
 
 private:
+	void InputF();
+
+
+private:
 	void DebugKeyF1();
 	void DebugKeyF2();
 
@@ -37,8 +41,4 @@ public:
 	void SetInfoSingName(const std::string& Name) {
 		m_InfoSignName = Name;
 	}
-
-private:
-	void CreateSpatula();
-
 };

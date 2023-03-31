@@ -21,6 +21,7 @@ CCannon::CCannon() : m_Time(0.f)
 CCannon::CCannon(const CCannon& Obj) : CGameObject(Obj)
 {
 	m_Mesh = dynamic_cast<CAnimationMeshComponent*>(FindComponent("Mesh"));
+	m_Animation = Obj.m_Animation;
 }
 
 CCannon::~CCannon()

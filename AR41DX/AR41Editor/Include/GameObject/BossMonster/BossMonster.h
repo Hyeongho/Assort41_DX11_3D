@@ -40,9 +40,9 @@ protected:
 protected:
 	CSharedPtr<class CAnimationMeshComponent>	m_Mesh;
 	CSharedPtr<class CAnimation>				m_Animation;
-	CSharedPtr<class CUIWindow>					m_BossUI;
+	CSharedPtr<class CBossUI>					m_BossUI;
 
-	BossData* m_BossData;
+	BossData*	m_BossData;
 
 public:
 	virtual void Start();
@@ -58,5 +58,7 @@ public :
 	void SetBossData(const BossData& BossData);
 	void CreateBossUI();
 	
+public :
+	void BossDamaged(int Damage = 1);
 };
 

@@ -90,7 +90,7 @@ void CCannon::Fire()
 	CPufferfish* Pufferfish = m_Scene->CreateObject<CPufferfish>("Cannon");
 	Pufferfish->SetWorldPosition(GetWorldPos());
 
-	Pufferfish->AddWorldRotation(GetWorldRot() * -1.f);
+	Pufferfish->AddWorldRotation(GetWorldRot());
 }
 
 void CCannon::Reload()

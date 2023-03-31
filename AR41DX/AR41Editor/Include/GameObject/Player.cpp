@@ -97,7 +97,25 @@ void CPlayer::Start()
 	}
 	m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("F1", Input_Type::Push, this, &CPlayer::DebugF1, m_Scene);
+	if (m_Scene->GetName() == "BikiniCity")
+	{
+		m_Scene->GetResource()->SoundPlay("BikiniBottom");
+	}
+	else if (m_Scene->GetName() == "JellyFish")
+	{
+		m_Scene->GetResource()->SoundPlay("JellyfishField");
+	}
+	else if (m_Scene->GetName() == "KingJellyFish")
+	{
+		m_Scene->GetResource()->SoundPlay("BossStage");
+	}
+	else if (m_Scene->GetName() == "?")
+	{
+		m_Scene->GetResource()->SoundPlay("BossStage");
+	}
+
+	CInput::GetInst()->AddBindFunction<CPlayer>("F7", Input_Type::Down, this, &CPlayer::DebugF1, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F8", Input_Type::Down, this, &CPlayer::DebugF8, m_Scene);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
@@ -259,7 +277,7 @@ int CPlayer::InflictDamage(int damage)
 	IngameUI();
 	m_IsStop = true;
 	m_Cube->SetEnable(false);
-	if (hp == 0)	//사망
+	if (hp <= 0)	//사망
 	{
 		switch (m_MainCharacter)
 		{
@@ -366,6 +384,10 @@ bool CPlayer::LoadCharacter()
 	}
 	fread(&m_PlayerData.MaxHP, 4, 1, file);
 	fread(&m_PlayerData.CurHP, 4, 1, file);
+	if(m_PlayerData.CurHP<3)
+	{
+		m_PlayerData.CurHP = 3;
+	}
 	fread(&m_PlayerData.Socks, 4, 1, file);
 	fread(&m_PlayerData.Spatula, 4, 1, file);
 	fread(&m_PlayerData.ShinyFlower, 4, 1, file);
@@ -388,7 +410,7 @@ void CPlayer::LoadSpongebobAnim()
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashStart", "Spongebob_BashStart", 1.f, 2.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBashStart", this, &CPlayer::StartBash);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBashDw", "Spongebob_BashDw", 1.f, 1.f, true);
-	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBash", "Spongebob_Bash", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerBash", "Spongebob_Bash", 1.f, 2.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerBash", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Spongebob]->AddAnimation("PlayerHit", "Spongebob_Hit", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Spongebob]->SetCurrentEndFunction<CPlayer>("PlayerHit", this, &CPlayer::ResetIdle);
@@ -418,7 +440,7 @@ void CPlayer::LoadPatrickAnim()
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerBashStart", "Patrick_SlamStart", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerBashStart", this, &CPlayer::StartBash);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerBashDw", "Patrick_SlamLoop", 1.f, 1.f, true);
-	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerBash", "Patrick_SlamEnd", 1.f, 1.f, false);
+	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerBash", "Patrick_SlamEnd", 1.f, 2.f, false);
 	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerBash", this, &CPlayer::ResetIdle);
 	m_Anim[(int)EMain_Character::Patrick]->AddAnimation("PlayerHit", "Patrick_Hit", 1.f, 1.f, false);
 	m_Anim[(int)EMain_Character::Patrick]->SetCurrentEndFunction<CPlayer>("PlayerHit", this, &CPlayer::ResetIdle);
@@ -753,8 +775,9 @@ void CPlayer::KeyUp()
 	{
 		return;
 	}
-	if (m_KeyCount == 0)
+	if (m_KeyCount <= 0)
 	{
+		m_KeyCount = 0;
 		switch (m_MainCharacter)
 		{
 		case EMain_Character::Spongebob:
@@ -803,7 +826,7 @@ void CPlayer::JumpDown()
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
 	m_Rigid->SetGround(false);
 	m_Rigid->AddForce(0, 400.f);
-	m_Rigid->SetVelocityY(400.f);
+	m_Rigid->AddVelocity(Vector3(0.f,400.f,0.f)); 
 }
 
 void CPlayer::JumpPush()
@@ -927,8 +950,8 @@ void CPlayer::Headbutt()
 	m_Scene->GetResource()->SoundPlay("Spongebob_DoubleJump");
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpUp");
 	m_Rigid->SetGround(false);
-	m_Rigid->AddForce(0, 400.f);
-	m_Rigid->SetVelocityY(400.f);
+	m_Rigid->AddForce(0, 800.f);
+	m_Rigid->SetVelocityY(800.f);
 	m_HeadCube->SetEnable(true);
 }
 
@@ -996,7 +1019,7 @@ void CPlayer::LClick()
 		m_Scene->GetResource()->SoundPlay("Spongebob_BubbleSpin");
 		m_Weapon->GetRootComponent()->SetEnable(true);
 		m_Particle->SetRelativePosition(-50.f, 50.f, -80.f);
-		m_Particle->ChangeParticle("SpongebobAtk");
+		m_Particle->SetParticle("SpongebobAtk");
 		break;
 	case EMain_Character::Patrick:
 	{
@@ -1149,8 +1172,8 @@ void CPlayer::RClickUp()
 void CPlayer::StartBash()
 {
 	m_Rigid->SetGravity(true);
-	m_Rigid->AddForce(0, -2000.f);
-	m_Rigid->SetVelocityY(-2000.f);
+	m_Rigid->AddForce(0, -10000.f);
+	m_Rigid->SetVelocityY(-10000.f);
 	m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBashDw");
 }
 
@@ -1170,7 +1193,7 @@ void CPlayer::BashCheck()
 			m_Scene->GetResource()->SoundPlay("Sandy_BubbleBash");
 			break;
 		}
-		m_Particle->ChangeParticle("BashBubble");
+		m_Particle->SetParticle("BashBubble");
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerBash");
 		m_TailCube->SetEnable(true);
 		m_IsStop = true;
@@ -1183,13 +1206,17 @@ void CPlayer::BashCheck()
 
 void CPlayer::ResetIdle()
 {
-	if (!m_Rigid->GetGround())
-	{
-		return;
-	}
 	if (m_MainCharacter == EMain_Character::Spongebob)
 	{
 		m_Weapon->GetRootComponent()->SetEnable(false);
+	}
+	m_FrontCube->SetEnable(false);
+	m_Particle->SetRelativePosition(0.f, 0.f, 0.f);
+	m_Particle->DeleteCurrentParticle();
+	if (!m_Rigid->GetGround())
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpDw");
+		return;
 	}
 	if (m_Weapon->GetRootComponent()->GetEnable() &&
 		m_MainCharacter == EMain_Character::Patrick)
@@ -1202,10 +1229,7 @@ void CPlayer::ResetIdle()
 	}
 	m_HeadCube->SetEnable(false);
 	m_TailCube->SetEnable(false);
-	m_FrontCube->SetEnable(false);
 	m_Cube->SetEnable(true);
-	m_Particle->SetRelativePosition(0.f, 0.f, 0.f);
-	m_Particle->DeleteCurrentParticle();
 	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
 	m_IsDoubleJump = false;
 	m_IsStop = false;
@@ -1280,6 +1304,8 @@ void CPlayer::ChangeSandy()
 	m_Mesh->SetAnimation(m_Anim[(int)m_MainCharacter]);
 	m_Mesh->ClearMaterial();
 	m_Mesh->SetMesh(m_ReserveMesh[(int)m_MainCharacter]);
+	m_Mesh->GetMaterial(1)->SetOpacity(0.5f);
+	m_Mesh->GetMaterial(1)->SetRenderState("AlphaBlend");
 	m_Anim[(int)m_MainCharacter]->Start();
 	m_TailCube->SetCubeSize(300.f, 50.f, 300.f);
 
@@ -1301,13 +1327,29 @@ void CPlayer::ChangeSandy()
 
 void CPlayer::DebugF1()
 {
-	SetWorldPosition(16500.f, 0.f, 12200.f);
+	InflictDamage(1);
+	//SetWorldPosition(16500.f, 0.f, 12200.f);
+}
+
+void CPlayer::DebugF8()
+{
+	m_HeadCube->SetEnable(false);
+	m_TailCube->SetEnable(false);
+	m_FrontCube->SetEnable(false);
+	m_Particle->SetRelativePosition(0.f, 0.f, 0.f);
+	m_Particle->DeleteCurrentParticle();
+	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
+	m_IsDoubleJump = false;
+	m_IsStop = false;
+
+	m_Cube->SetEnable(false);
+	m_Anim[(int)m_MainCharacter]->Stop();
 }
 
 void CPlayer::CollisionTest(const CollisionResult& result)
 {
 	std::string name = result.Dest->GetCollisionProfile()->Name;
-	if (name == "Wall")
+	if (name == "Wall"|| name == "Default")
 	{
 		float height = GetWorldPos().y>m_PrevPos.y? GetWorldPos().y : m_PrevPos.y;
 		height-=result.HitPoint.y;
@@ -1323,14 +1365,56 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 			m_WallCollision = result;
 		}
 	}
+
+	if (name == "Platform")
+	{
+
+		if (GetWorldPos().y > m_PrevPos.y) {
+			m_Rigid->SetVelocity(0.f, 0.f, 0.f);
+
+			return;
+		}
+
+
+		m_OnCollision = true;
+		m_Rigid->SetGround(true);
+		BashCheck();
+	}
+
+	if (name == "Ground")
+	{
+		m_OnCollision = true;
+		m_Rigid->SetGround(true);
+		BashCheck();
+	}
+
 	//else if (name == "Monster"|| name == "MonsterAttack")
 	//{
 	//	InflictDamage(1);
 	//}
+
 }
 
 void CPlayer::CollisionTestOut(const CollisionResult& result)
 {
+	if (result.Dest->GetName() == "InfoSignCollider")
+	{
+		return;
+	}
+
+	std::list<CCollider*> List = result.Src->GetPrevCollisionList();
+
+	auto iter = List.begin();
+	auto iterEnd = List.end();
+
+	for (; iter != iterEnd; iter++)
+	{
+		if ((*iter)->GetCollisionProfile()->Name == "Ground")
+		{
+			return;
+		}
+	}
+
 	m_WallCollision.Dest = nullptr;
 	m_WallCollision.Src = nullptr;
 	m_WallCollision.HitPoint = Vector3(0.f,0.f,0.f);

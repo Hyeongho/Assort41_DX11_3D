@@ -125,6 +125,11 @@ bool CMaterialManager::Init()
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "BikiniCity", TEXT("LandScape/T_BB_Sand_01_D.tga"));
 	Material->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
 
+	Material = CreateMaterial<CMaterial>("JellyfishField");
+	Material->SetShader("TerrainShader");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "JellyfishField", TEXT("LandScape/ROCK_01+MOSS.bmp"));
+	Material->SetEmissiveColor(1.f, 1.f, 1.f, 0.f);
+
 	Material = CreateMaterial<CMaterial>("Billboard");
 
 	Material->SetShader("BillboardShader");
@@ -203,6 +208,10 @@ bool CMaterialManager::Init()
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "ShockWave", TEXT("Particle/T_ShockWave.png"));
 	Material->SetShader("SpriteShader");
 
+	Material = CreateMaterial<CMaterial>("blueflame");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "blueflame", TEXT("Particle/blueflame.png"));
+	Material->SetShader("SpriteShader");
+
 	// Èå¸£´Â ÅØ½ºÃÄ
 	Material = CreateMaterial<CMaterial>("Effect");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Water", TEXT("Particle/T_Seafoam_BC.tga"));	
@@ -219,7 +228,7 @@ bool CMaterialManager::Init()
 
 	// �ٴ�
 	Material = CreateMaterial<CMaterial>("Sea");
-	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Sea", TEXT("Particle/sea.png"));
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Sea", TEXT("sea.png"));
 	Material->SetShader("DropShader");
 	Material->SetRenderState("AlphaBlend");
 	Material->SetOpacity(0.8f);
