@@ -97,7 +97,7 @@ void CBusStop::CallBus()
     Vector3 BusPos = GetWorldPos();
 
     //BusPos.x += 3000.f;
-    BusPos.z += 3000.f;
+    BusPos.z -= 3000.f;
 
     BusDriver->MoveToBusStop(GetWorldPos(), BusPos);
     BusDriver->SetPurposeScene(EMapList::Jelly_Fish_Field);

@@ -31,6 +31,10 @@ CRenderInstancing::~CRenderInstancing()
 
 void CRenderInstancing::Render()
 {
+	if(m_RenderList.empty())
+	{
+		return;
+	}
 	auto	iter = m_RenderList.begin();
 	auto	iterEnd = m_RenderList.end();
 

@@ -2,6 +2,7 @@
 
 #include "Component/AnimationMeshComponent.h"
 #include "Component/ColliderOBB3D.h"
+#include "Component/ParticleComponent.h"
 #include "Component/RigidBody.h"
 #include "Input.h"
 #include "Scene/Scene.h"
@@ -103,17 +104,24 @@ void CTiki_Thunder::Load(FILE* File)
 
 void CTiki_Thunder::Tiki_Die()
 {
-	// 폭발 파티클
-
-
 	// 플레이어가 가까이 있다면 피해 처리
 	CPlayer* Player = (CPlayer*)m_Scene->GetPlayerObject();
 
-	// 폭발 범위. 이 범위 내에 플레이어가 있다면 피해 처리.
-	float BombRange = 500.f;
+	if (Player) {
+		// 폭발 범위. 이 범위 내에 플레이어가 있다면 피해 처리.
+		float BombRange = 500.f;
 
-	if (BombRange >= Player->GetWorldPos().Distance(GetWorldPos()))
-		Player->InflictDamage();
+		if (BombRange >= Player->GetWorldPos().Distance(GetWorldPos())) {
+
+			Vector3 PlayerPos = Player->GetWorldPos();
+
+			float Degree = atan2(GetWorldPos().z - PlayerPos.z, GetWorldPos().x - PlayerPos.x);
+			Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
+
+			Player->SetInflictAngle(Degree);
+			Player->InflictDamage();
+		}
+	}
 
 
 	// 사운드 처리

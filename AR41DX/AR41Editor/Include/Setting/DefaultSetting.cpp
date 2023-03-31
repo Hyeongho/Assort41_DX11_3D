@@ -203,6 +203,7 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateChannel("Wall", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Platform", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Collectible", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->CreateChannel("Ground", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Pool", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Npc", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Trampoline", ECollision_Interaction::Collision);
@@ -210,6 +211,8 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateChannel("DetectArea", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("TikiBottom", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Knob", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->CreateChannel("KingJellyfish", ECollision_Interaction::Collision);
+
 
     CCollisionManager::GetInst()->CreateProfile("Player", "Player", true);
     CCollisionManager::GetInst()->CreateProfile("PlayerAttack", "PlayerAttack", true);
@@ -218,6 +221,7 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateProfile("Wall", "Wall", true);
     CCollisionManager::GetInst()->CreateProfile("Platform", "Platform", true);
     CCollisionManager::GetInst()->CreateProfile("Collectible", "Collectible", true);
+    CCollisionManager::GetInst()->CreateProfile("Ground", "Ground", true);
     CCollisionManager::GetInst()->CreateProfile("Pool", "Pool", true);
     CCollisionManager::GetInst()->CreateProfile("Npc", "Npc", true);
     CCollisionManager::GetInst()->CreateProfile("Trampoline", "Trampoline", true);
@@ -225,6 +229,8 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateProfile("DetectArea", "DetectArea", true);
     CCollisionManager::GetInst()->CreateProfile("TikiBottom", "TikiBottom", true);
     CCollisionManager::GetInst()->CreateProfile("Knob", "Knob", true);
+    CCollisionManager::GetInst()->CreateProfile("KingJellyfish", "KingJellyfish", true);
+
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "PlayerAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "Player", ECollision_Interaction::Ignore);
@@ -270,16 +276,15 @@ void CDefaultSetting::SetCollision()
 	
     CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("TikiBottom", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("TikiBottom", "Platform", ECollision_Interaction::Collision);
-    
-    CCollisionManager::GetInst()->CreateChannel("KingJellyfish", ECollision_Interaction::Collision);
-
-    CCollisionManager::GetInst()->CreateProfile("KingJellyfish", "KingJellyfish", true);
 
     CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "PlayerAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "MonsterAttack", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "Wall", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "Platform", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("KingJellyfish", "Collectible", ECollision_Interaction::Ignore);
+
+    CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("Ground", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Ground", "Player", ECollision_Interaction::Collision);
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "Player", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Pool", "PlayerAttack", ECollision_Interaction::Ignore);
@@ -311,7 +316,7 @@ void CDefaultSetting::LoadSound()
     CResourceManager::GetInst()->LoadSound("BGM", "JellyfishField", false, "Map/MUS_JellyfishFieldsTheme.ogg", SOUND_PATH);
 
     // BossStage BGM
-    CResourceManager::GetInst()->LoadSound("BGM", "BossStage", false, "Map/MUS_BossFightTheme.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("BGM", "BossStage", true, "Map/MUS_BossFightTheme.ogg", SOUND_PATH);
 
     //Tile BGM
     CResourceManager::GetInst()->LoadSound("UI", "UI_Backward", false, "Sfx/UI/SFX_UI_Backward_001.ogg");
@@ -364,6 +369,15 @@ void CDefaultSetting::LoadSfx()
     CResourceManager::GetInst()->LoadSound("Effect", "CreateShiny7", false, "Sfx/Item/Shiny/SFX_ShinyThing_add_sparkle_003.ogg");
 
 
+    // Robo Sponge
+    CResourceManager::GetInst()->LoadSound("Effect", "RoboSponge_AttackVertic", false, "Sfx/Bosses/RoboSponge/SFX_RSB_ChopSwing_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "RoboSponge_AttackHoriz", false, "Sfx/Bosses/RoboSponge/SFX_RSB_Swipe.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "RoboSponge_AttackWords", false, "Sfx/Bosses/RoboSponge/SFX_RSB_KAH_Reso_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "RoboSponge_Explode", false, "Sfx/Bosses/RoboSponge/SFX_RSB_Explode_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "HitPlat1", false, "Sfx/Bosses/RoboSponge/SFX_RSB_HitPlat_V1_001.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "HitPlat2", false, "Sfx/Bosses/RoboSponge/SFX_RSB_HitPlat_V1_002.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "HitPlat3", false, "Sfx/Bosses/RoboSponge/SFX_RSB_HitPlat_V1_003.ogg");
+    CResourceManager::GetInst()->LoadSound("Effect", "RoboSponge_Laugh", false, "Sfx/Bosses/RoboSponge/SFX_RSB_Laugh.ogg");
 
 }
 
@@ -825,7 +839,11 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField", TEXT("Buildings/JellyfishField/JellyfishField.msh"));
 
-
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField1", TEXT("Buildings/JellyfishField/JellyfishField1.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField2", TEXT("Buildings/JellyfishField/JellyfishField2.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField3", TEXT("Buildings/JellyfishField/JellyfishField3.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField4", TEXT("Buildings/JellyfishField/JellyfishField4.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField5", TEXT("Buildings/JellyfishField/JellyfishField5.msh"), MESH_PATH);
     
     if (!CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JFBackground", TEXT("Objects/JellyfishFields/JFBackground.msh"), MESH_PATH))
     {
@@ -852,7 +870,14 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Missile", TEXT("Objects/JellyfishFields/Missile.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Gate", TEXT("Objects/JellyfishFields/Gate.msh"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "WaterFall", TEXT("Objects/JellyfishFields/WaterFall.fbx"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "TwoRock", TEXT("Objects/JellyfishFields/TwoRock.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "WaterFallSmall", TEXT("Objects/JellyfishFields/WaterfallSmall.fbx"), MESH_PATH);
+    
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "WaterFall", TEXT("Buildings/JellyfishField/WaterFall.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "WaterFallSmall", TEXT("Buildings/JellyfishField/WaterFallSmall.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "TwoRock", TEXT("Buildings/JellyfishField/TwoRock.msh"), MESH_PATH);
 
     // SM_JF_Teeter_Rock
     if (!CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SM_JF_Teeter_Rock_01", TEXT("Objects/JellyfishFields/SM_JF_Teeter_Rock_01.msh"), MESH_PATH))
