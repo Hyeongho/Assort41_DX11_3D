@@ -202,7 +202,8 @@ bool CPlayer::Init()
 
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
-	m_Rigid->SetGravity(false);
+	//m_Rigid->SetGravity(false);
+	m_Rigid->SetGravity(true);
 
 	m_Cube->SetRelativePositionY(70.f);
 	m_Cube->SetCollisionProfile("Player");
