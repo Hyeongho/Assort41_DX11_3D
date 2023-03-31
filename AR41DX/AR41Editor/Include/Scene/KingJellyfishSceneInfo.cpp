@@ -52,7 +52,7 @@ bool CKingJellyfishSceneInfo::Init()
 
 	CGameObject* Water = m_Owner->CreateObject<CGameObject>("Water");
 	CStaticMeshComponent* BossWater = Water->CreateComponent<CStaticMeshComponent>("Water");
-	BossWater->SetMesh("BossWater");
+	BossWater->SetMesh("BossMapWater");
 	BossWater->SetWorldPosition(3800.f, -25.f, 2300.f);
 	BossWater->GetMaterial(0)->SetOpacity(0.7f);
 	BossWater->GetMaterial(0)->SetRenderState("AlphaBlend");

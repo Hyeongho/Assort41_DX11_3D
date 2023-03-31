@@ -86,6 +86,8 @@ void CKingJellyfish::Start()
     if (m_Scene)
     {
         m_PoolPos = m_Scene->FindObject("Pool")->GetWorldPos();
+        CStaticMeshComponent* terrain = (CStaticMeshComponent*)m_Scene->FindObject("TerrainObj")->GetRootComponent();
+        terrain->GetMaterial(0)->SetOpacity(0.f);
     }
 }
 
