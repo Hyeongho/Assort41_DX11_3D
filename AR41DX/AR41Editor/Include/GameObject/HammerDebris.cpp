@@ -22,6 +22,7 @@ CHammerDebris::CHammerDebris() :
 }
 
 CHammerDebris::CHammerDebris(const CHammerDebris& Obj)
+    : CMonster(Obj)
 {
     m_HammerDebrisMesh1 = (CStaticMeshComponent*)FindComponent("HammerDebrisMesh1");
     m_HammerDebrisMesh2 = (CStaticMeshComponent*)FindComponent("HammerDebrisMesh2");

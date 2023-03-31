@@ -20,6 +20,7 @@ CDuplicatotron::CDuplicatotron() :
 }
 
 CDuplicatotron::CDuplicatotron(const CDuplicatotron& Obj)
+	: CMonster(Obj)
 {
 }
 

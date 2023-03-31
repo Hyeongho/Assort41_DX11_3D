@@ -20,6 +20,7 @@ CTeleportBox::CTeleportBox() :
 }
 
 CTeleportBox::CTeleportBox(const CTeleportBox& Obj)
+    : CGameObject(Obj)
 {
     m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");/*
     m_BoxWallCube1 = (CColliderOBB3D*)FindComponent("BoxWallCube1");
@@ -28,6 +29,7 @@ CTeleportBox::CTeleportBox(const CTeleportBox& Obj)
     m_BoxWallCube4 = (CColliderOBB3D*)FindComponent("BoxWallCube4");
     m_BoxBottomCube = (CColliderOBB3D*)FindComponent("BoxBottomCube");*/
     m_DetectRange = (CColliderOBB3D*)FindComponent("DetectRange");
+    m_Animation = Obj.m_Animation;
 }
 
 CTeleportBox::~CTeleportBox()

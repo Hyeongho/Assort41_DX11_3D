@@ -1189,13 +1189,17 @@ void CPlayer::BashCheck()
 
 void CPlayer::ResetIdle()
 {
-	if (!m_Rigid->GetGround())
-	{
-		return;
-	}
 	if (m_MainCharacter == EMain_Character::Spongebob)
 	{
 		m_Weapon->GetRootComponent()->SetEnable(false);
+	}
+	m_FrontCube->SetEnable(false);
+	m_Particle->SetRelativePosition(0.f, 0.f, 0.f);
+	m_Particle->DeleteCurrentParticle();
+	if (!m_Rigid->GetGround())
+	{
+		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerJumpDw");
+		return;
 	}
 	if (m_Weapon->GetRootComponent()->GetEnable() &&
 		m_MainCharacter == EMain_Character::Patrick)
@@ -1208,10 +1212,7 @@ void CPlayer::ResetIdle()
 	}
 	m_HeadCube->SetEnable(false);
 	m_TailCube->SetEnable(false);
-	m_FrontCube->SetEnable(false);
 	m_Cube->SetEnable(true);
-	m_Particle->SetRelativePosition(0.f, 0.f, 0.f);
-	m_Particle->DeleteCurrentParticle();
 	m_Rigid->SetVelocity(0.f, 0.f, 0.f);
 	m_IsDoubleJump = false;
 	m_IsStop = false;

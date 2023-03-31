@@ -122,12 +122,13 @@ void CInteractButton::Collision_Attacked(const CollisionResult& result)
     {
     case EInteractObjectList::BusStop:
     {
-        CBusStop* BusStop = dynamic_cast<CBusStop*>(m_Scene->FindObject(m_InterObjName));
+        CBusStop* BusStop = dynamic_cast<CBusStop*>(m_Scene->FindObject("BusStop"));
 
         if (!BusStop)
             return;
 
         BusStop->CallBus();
+        m_Collider->SetEnable(false);
     }
     break;
     }

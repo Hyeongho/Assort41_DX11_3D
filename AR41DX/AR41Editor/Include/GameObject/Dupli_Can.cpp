@@ -19,6 +19,7 @@ CDupli_Can::CDupli_Can()	:
 }
 
 CDupli_Can::CDupli_Can(const CDupli_Can& Obj)
+    : CMonster(Obj)
 {
 	m_Mesh = (CStaticMeshComponent*)FindComponent("Mesh");
 	m_Cube = (CColliderOBB3D*)FindComponent("Cube");
