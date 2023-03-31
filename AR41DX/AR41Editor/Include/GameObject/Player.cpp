@@ -97,6 +97,23 @@ void CPlayer::Start()
 	}
 	m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
 
+	if (m_Scene->GetName() == "BikiniCity")
+	{
+		m_Scene->GetResource()->SoundPlay("BikiniBottom");
+	}
+	else if (m_Scene->GetName() == "JellyFish")
+	{
+		m_Scene->GetResource()->SoundPlay("JellyfishField");
+	}
+	else if (m_Scene->GetName() == "KingJellyFish")
+	{
+		m_Scene->GetResource()->SoundPlay("BossStage");
+	}
+	else if (m_Scene->GetName() == "?")
+	{
+		m_Scene->GetResource()->SoundPlay("BossStage");
+	}
+
 	CInput::GetInst()->AddBindFunction<CPlayer>("F7", Input_Type::Down, this, &CPlayer::DebugF1, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F8", Input_Type::Down, this, &CPlayer::DebugF8, m_Scene);
 
