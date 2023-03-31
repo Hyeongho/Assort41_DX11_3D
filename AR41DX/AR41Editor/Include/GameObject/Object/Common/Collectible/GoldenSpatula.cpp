@@ -26,6 +26,8 @@ CGoldenSpatula::~CGoldenSpatula()
 void CGoldenSpatula::Start()
 {
 	CCollectibleItems::Start();
+
+	m_Collider->SetCollisionCallback<CGoldenSpatula>(ECollision_Result::Collision, this, &CGoldenSpatula::Collision_Player);
 }
 
 bool CGoldenSpatula::Init()
@@ -44,8 +46,6 @@ bool CGoldenSpatula::Init()
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
-	m_Collider->SetCollisionCallback<CGoldenSpatula>(ECollision_Result::Collision, this, &CGoldenSpatula::Collision_Player);
-
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);

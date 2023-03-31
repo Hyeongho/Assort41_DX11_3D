@@ -35,9 +35,6 @@ public:
 	virtual void Load(FILE* File);
 
 public:
-	virtual void StartDialog();
-
-public:
 	void SetPurposeScene(const EMapList& Map)
 	{
 		m_PurposeScene = Map;
@@ -47,7 +44,8 @@ public: // Bus Control
 	void MoveToBusStop(const Vector3& BusStopPos, const Vector3& BusStartPos); // 버스 시작점으로부터 정류장으로 이동
 	void MoveFromBusStop(); // 버스 정류장으로부터 출발하여 이동
 
-private: // Change Animation
+private: // Animation
+	void CreateAnim();
 	void ChangeAnim_Stop();
 	void ChangeAnim_Drive();
 	

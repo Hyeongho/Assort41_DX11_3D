@@ -343,6 +343,12 @@
     <Filter Include="02. Resource\02. Shader\02. ShaderClass\20. Cartoon">
       <UniqueIdentifier>{e052a9b9-968b-49dc-a1ad-0107549879e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Resource\02. Shader\03. ConstantBuffer\16. Translation">
+      <UniqueIdentifier>{df830817-cd5c-441c-bc2d-0ad353bd5a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Resource\02. Shader\02. ShaderClass\21. Translation">
+      <UniqueIdentifier>{8e27825a-f962-40e0-b5b3-4337bb018d30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -969,6 +975,12 @@
     <ClInclude Include="Resource\Shader\CartoonShader.h">
       <Filter>02. Resource\02. Shader\02. ShaderClass\20. Cartoon</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\Shader\TranslationConstantBuffer.h">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\16. Translation</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Shader\TranslationShader.h">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\21. Translation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -1534,6 +1546,12 @@
     </ClCompile>
     <ClCompile Include="Resource\Shader\CartoonShader.cpp">
       <Filter>02. Resource\02. Shader\02. ShaderClass\20. Cartoon</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\TranslationConstantBuffer.cpp">
+      <Filter>02. Resource\02. Shader\03. ConstantBuffer\16. Translation</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Shader\TranslationShader.cpp">
+      <Filter>02. Resource\02. Shader\02. ShaderClass\21. Translation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

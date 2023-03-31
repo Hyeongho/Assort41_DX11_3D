@@ -19,11 +19,13 @@ CJumpTree::CJumpTree()
 }
 
 CJumpTree::CJumpTree(const CJumpTree& Obj)
+    : CGameObject(Obj)
 {
     m_TopMesh = (CAnimationMeshComponent*)FindComponent("TopMesh");
     m_BottomMesh = (CStaticMeshComponent*)FindComponent("BottomMesh");
     m_TopCube = (CColliderOBB3D*)FindComponent("TopCube");
     m_BottomCube = (CColliderOBB3D*)FindComponent("BottomCube");
+    m_Animation = Obj.m_Animation;
 }
 
 CJumpTree::~CJumpTree()

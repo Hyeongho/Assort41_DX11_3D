@@ -26,6 +26,8 @@ CSock::~CSock()
 void CSock::Start()
 {
 	CCollectibleItems::Start();
+
+	m_Collider->SetCollisionCallback<CSock>(ECollision_Result::Collision, this, &CSock::Collision_Player);
 }
 
 bool CSock::Init()
@@ -43,7 +45,6 @@ bool CSock::Init()
 	m_Collider->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
 	m_Collider->SetRelativePositionY(m_Mesh->GetMeshSize().y / 2.f);
 	m_Collider->SetCollisionProfile("Collectible");
-	m_Collider->SetCollisionCallback<CSock>(ECollision_Result::Collision, this, &CSock::Collision_Player);
 
 	m_Collider->SetInheritRotX(true);
 	m_Collider->SetInheritRotY(true);

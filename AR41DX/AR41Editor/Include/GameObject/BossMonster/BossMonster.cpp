@@ -10,6 +10,8 @@ CBossMonster::CBossMonster()
 CBossMonster::CBossMonster(const CBossMonster& Obj)
     : CGameObject(Obj)
 {
+    m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+
 }
 
 CBossMonster::~CBossMonster()
@@ -63,5 +65,9 @@ void CBossMonster::SetBossData(const BossData& BossData)
 }
 
 void CBossMonster::CreateBossUI()
+{
+}
+
+void CBossMonster::BossDamaged(int Damage)
 {
 }
