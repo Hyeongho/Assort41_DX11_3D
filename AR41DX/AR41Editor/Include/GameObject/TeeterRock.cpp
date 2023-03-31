@@ -51,7 +51,7 @@ bool CTeeterRock::Init()
 
 	m_Mesh->SetMesh("SM_JF_Teeter_Rock_01");
 
-	m_LeftCube->AddWorldPositionX(( -1.f * m_Mesh->GetMeshSize().x / 4.f) + 1.f);
+	m_LeftCube->AddWorldPositionX(( -1.f * m_Mesh->GetMeshSize().x / 4.f) + -1.f);
 	m_RightCube->AddWorldPositionX(m_Mesh->GetMeshSize().x / 4.f);
 
 	m_LeftCube->SetBoxHalfSize(m_Mesh->GetMeshSize() / 4.f);

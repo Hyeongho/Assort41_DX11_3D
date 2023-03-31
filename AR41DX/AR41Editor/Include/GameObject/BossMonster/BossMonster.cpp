@@ -12,10 +12,7 @@ CBossMonster::CBossMonster(const CBossMonster& Obj)
 {
     m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
     m_Animation = Obj.m_Animation;
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 }
 
 CBossMonster::~CBossMonster()

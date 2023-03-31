@@ -56,26 +56,16 @@ bool CEditorManager::Init(HINSTANCE hInst)
     }
 
 
-    //CSceneInfo* Info = new CEditorDefaultScene;
+    CSceneInfo* Info = new CEditorDefaultScene;
     //CSceneInfo* Info = new CTitleSceneInfo;
     //CSceneInfo* Info = new CBikiniCitySceneInfo;
     //CSceneInfo* Info = new CJellyfishFieldSceneInfo;
-    //CSceneInfo* Info = new CJellyfishField1SceneInfo;
-    //CSceneInfo* Info = new CJellyfishField2SceneInfo;
-    CSceneInfo* Info = new CJellyfishField3SceneInfo;
-    //CSceneInfo* Info = new CJellyfishFieldScene4Info;
-    //CSceneInfo* Info = new CJellyfishFieldScene5Info;
     //CSceneInfo* Info = new CKingJellyfishSceneInfo;
 
-    //CScene::AddSceneInfoCDO("EditorDefaultScene", Info);
+    CScene::AddSceneInfoCDO("EditorDefaultScene", Info);
     //CScene::AddSceneInfoCDO("TitleSceneInfo", Info);
     //CScene::AddSceneInfoCDO("BikiniCitySceneInfo", Info);
     //CScene::AddSceneInfoCDO("JellyfishFieldSceneInfo", Info);
-    //CScene::AddSceneInfoCDO("JellyfishField1SceneInfo", Info);
-    //CScene::AddSceneInfoCDO("JellyfishField2SceneInfo", Info);
-    CScene::AddSceneInfoCDO("CJellyfishField3SceneInfo", Info);
-    //CScene::AddSceneInfoCDO("CJellyfishField4SceneInfo", Info);
-    //CScene::AddSceneInfoCDO("CJellyfishField5SceneInfo", Info);
     //CScene::AddSceneInfoCDO("KingJellyfishSceneInfo", Info);
 
     CEngineShareSetting::Setting();
@@ -95,13 +85,13 @@ bool CEditorManager::Init(HINSTANCE hInst)
 
     // SceneInfo 
     //CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
-    //CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
+    CSceneManager::GetInst()->CreateSceneInfo<CEditorDefaultScene>();
     //CSceneManager::GetInst()->CreateSceneInfo<CTitleSceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CBikiniCitySceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishFieldSceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishField1SceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishField2SceneInfo>();
-    CSceneManager::GetInst()->CreateSceneInfo<CJellyfishField3SceneInfo>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishField3SceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishField4SceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishField5SceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CKingJellyfishSceneInfo>();

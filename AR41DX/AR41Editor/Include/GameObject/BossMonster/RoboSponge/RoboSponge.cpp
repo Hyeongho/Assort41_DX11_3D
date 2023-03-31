@@ -78,7 +78,6 @@ CRoboSponge::CRoboSponge()
 CRoboSponge::CRoboSponge(const CRoboSponge& Obj)
 	: CBossMonster(Obj)
 {
-<<<<<<< Updated upstream
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_ChasePlayer = Obj.m_ChasePlayer;
 	m_Animation = Obj.m_Animation;
@@ -86,12 +85,6 @@ CRoboSponge::CRoboSponge(const CRoboSponge& Obj)
 	m_LR = ELRCheck::End;
 
 	m_MapCenterPoint = Obj.m_MapCenterPoint;
-=======
-	m_Particle = (CParticleComponent*)FindComponent("Particle");
-	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
-	m_Animation = Obj.m_Animation;
-	m_BossData = Obj.m_BossData;
->>>>>>> Stashed changes
 }
 
 CRoboSponge::~CRoboSponge()
