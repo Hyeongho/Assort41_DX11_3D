@@ -37,7 +37,7 @@
 
 CJellyfishField2SceneInfo::CJellyfishField2SceneInfo()
 {
-    m_ClassTypeName = "JellyfishField1SceneInfo";
+    m_ClassTypeName = "JellyfishField2SceneInfo";
 }
 
 CJellyfishField2SceneInfo::~CJellyfishField2SceneInfo()
@@ -58,7 +58,7 @@ bool CJellyfishField2SceneInfo::Init()
 	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
 
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetRespawnPos(4200.f, 15000.f, 21300.f);
+	Player->SetRespawnPos(3700.f, 15000.f, 21300.f);
 	SetPlayerObject(Player);
 
 

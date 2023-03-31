@@ -107,7 +107,7 @@ void CJellyfish::Update(float DeltaTime)
         Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
 
         SetWorldRotationY(Degree);
-        SetWorldRotationX(Degree);
+
 
         AddWorldPosition(Dir * g_DeltaTime * 60.f);
     }

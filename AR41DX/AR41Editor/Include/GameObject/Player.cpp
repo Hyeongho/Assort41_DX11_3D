@@ -54,6 +54,7 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	, m_OnCollision(false)
 	, m_CanPickUp(false)
 	, m_IsStop(false)
+	, m_Invincibility(false)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
@@ -116,6 +117,7 @@ void CPlayer::Start()
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("F7", Input_Type::Down, this, &CPlayer::DebugF1, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F8", Input_Type::Down, this, &CPlayer::DebugF8, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F9", Input_Type::Down, this, &CPlayer::DebugF9, m_Scene);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
@@ -272,6 +274,11 @@ void CPlayer::Load(FILE* File)
 
 int CPlayer::InflictDamage(int damage)
 {
+	if (m_Invincibility)
+	{
+		return m_PlayerData.CurHP;
+	}
+
 	int hp = --m_PlayerData.CurHP > 0? m_PlayerData.CurHP :0;
 	m_PlayerUI->SetHp(hp);
 	IngameUI();
@@ -1344,6 +1351,19 @@ void CPlayer::DebugF8()
 
 	m_Cube->SetEnable(false);
 	m_Anim[(int)m_MainCharacter]->Stop();
+}
+
+void CPlayer::DebugF9()
+{
+	if (m_Invincibility)
+	{
+		m_Invincibility = false;
+	}
+
+	else
+	{
+		m_Invincibility = true;
+	}
 }
 
 void CPlayer::CollisionTest(const CollisionResult& result)

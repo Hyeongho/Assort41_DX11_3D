@@ -52,6 +52,11 @@ bool CFodderDebris::Init()
 {
     CGameObject::Init();
 
+    if (!m_Scene)
+    {
+        return false;
+    }
+
     m_FodderDebrisMesh1 = CreateComponent<CStaticMeshComponent>("FodderDebrisMesh1");
     m_FodderDebrisMesh2 = CreateComponent<CStaticMeshComponent>("FodderDebrisMesh2");
     m_FodderDebrisMesh3 = CreateComponent<CStaticMeshComponent>("FodderDebrisMesh3");

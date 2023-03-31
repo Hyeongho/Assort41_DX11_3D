@@ -875,7 +875,7 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Seaflower", TEXT("Objects/JellyfishFields/Seaflower.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BouncingTree", TEXT("Objects/JellyfishFields/BouncingTree.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Clam", TEXT("Objects/JellyfishFields/Clam.msh"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge2.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Missile", TEXT("Objects/JellyfishFields/Missile.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Gate", TEXT("Objects/JellyfishFields/Gate.msh"), MESH_PATH);
 
@@ -960,10 +960,13 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GateArm", TEXT("Objects/JellyfishFields/GateArm.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GateBottom", TEXT("Objects/JellyfishFields/GateBottom.fbx"), MESH_PATH);
 
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BossWater", TEXT("Objects/JellyfishFields/BossWater.msh"));
+
     // Sound
     CResourceManager::GetInst()->LoadSound("Effect", "Box_Teleport", false, "Objects/Box_shuffle_open.ogg", SOUND_PATH);
     CResourceManager::GetInst()->LoadSound("Effect", "Gate_Opening", false, "Objects/SFX_GateOpenLong_3sec.ogg", SOUND_PATH);
     CResourceManager::GetInst()->LoadSound("Effect", "CheckPoint", false, "Objects/SFX_CheckPoint.ogg", SOUND_PATH);
+
 }
 
 void CDefaultSetting::LoadCBObjects()
@@ -1287,4 +1290,28 @@ void CDefaultSetting::LoadParticle()
     Particle->SetParticleMoveDir(Vector3(0.f, 0.f, 0.f));
     Particle->SetParticleMoveDirEnable(false);
     Particle->SetParticleMoveAngle(Vector3(0.f, 0.f, 0.f));
+
+    // 샤워 물줄기
+    CResourceManager::GetInst()->CreateParticle("Shower");
+
+    Particle = CResourceManager::GetInst()->FindParticle("Shower");
+
+    Particle->SetMaterial("Shower");
+
+    Particle->SetParticleSpawnTime(0.01f);
+    Particle->SetParticleStartMin(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleStartMax(Vector3(5.f, 0.f, 5.f));
+    Particle->SetParticleSpawnCountMax(30);
+    Particle->SetParticleScaleMin(Vector3(1000.f, 1000.f, 1000.f));
+    Particle->SetParticleScaleMax(Vector3(1000.f, 1000.f, 1000.f));
+    Particle->SetParticleLifeTimeMin(4.f);
+    Particle->SetParticleLifeTimeMax(6.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleSpeedMin(5.f);
+    Particle->SetParticleSpeedMax(5.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(true);
+    Particle->SetParticleMoveDir(Vector3(0.f, 0.f, 0.f));
+
 }

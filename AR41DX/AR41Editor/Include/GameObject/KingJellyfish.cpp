@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "ElectricRing.h"
 #include "Jellyfish.h"
+#include "../UI/KingJellyfishOutroUI.h"
 
 
 CKingJellyfish::CKingJellyfish()
@@ -76,6 +77,7 @@ void CKingJellyfish::Start()
 
     m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Attack", this, &CKingJellyfish::OnGround);
     m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Damage", this, &CKingJellyfish::Angry);
+    m_Animation->SetCurrentEndFunction<CKingJellyfish>("KingJellyfish_Angry", this, &CKingJellyfish::Cutscene);
 
     m_AttackCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::AttackCollision);
     m_DetectCollision->SetCollisionCallback<CKingJellyfish>(ECollision_Result::Collision, this, &CKingJellyfish::DetectCollision);
@@ -84,6 +86,8 @@ void CKingJellyfish::Start()
     if (m_Scene)
     {
         m_PoolPos = m_Scene->FindObject("Pool")->GetWorldPos();
+        CStaticMeshComponent* terrain = (CStaticMeshComponent*)m_Scene->FindObject("TerrainObj")->GetRootComponent();
+        terrain->GetMaterial(0)->SetOpacity(0.f);
     }
 }
 
@@ -135,7 +139,7 @@ bool CKingJellyfish::Init()
     m_Animation = m_Mesh->SetAnimation<CAnimation>("KingJellyfishAnimation");
 
     m_Animation->AddAnimation("KingJellyfish_Idle", "KingJellyfish_Idle", 1.f, 0.5f, true);
-    m_Animation->AddAnimation("KingJellyfish_Angry", "KingJellyfish_Angry", 1.f, 0.5f, true);
+    m_Animation->AddAnimation("KingJellyfish_Angry", "KingJellyfish_Angry", 1.f, 0.5f, false);
     m_Animation->AddAnimation("KingJellyfish_Attack", "KingJellyfish_Attack", 1.f, 0.5f, false);
     m_Animation->AddAnimation("KingJellyfish_Damage", "KingJellyfish_Damage", 1.f, 0.5f, false);
     m_Animation->AddAnimation("KingJellyfish_OnGround", "KingJellyfish_OnGround", 1.f, 0.5, true);
@@ -438,4 +442,11 @@ void CKingJellyfish::ReSpawn()
     SetWorldRotationY(Degree);
 
     AddWorldPosition(Dir * g_DeltaTime * 100.f);
+}
+
+void CKingJellyfish::Cutscene()
+{
+   // m_Scene->GetViewport()->CreateUIWindow<CKingJellyfishOutroUI>("KingJellyfishOutroUI");
+
+   // m_Scene->GetViewport()->FindUIWindow<CKingJellyfishOutroUI>("KingJellyfishOutroUI")->Stop();
 }
