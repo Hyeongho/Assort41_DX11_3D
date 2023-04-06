@@ -37,6 +37,7 @@ CPlayer::CPlayer()
 	, m_OnCollision(false)
 	, m_CanPickUp(false)
 	, m_IsStop(false)
+	, m_DirVector(1.0f, 0.0f, 1.0f)
 {
 	SetTypeID<CPlayer>();
 	m_ObjectTypeName = "Player";
@@ -55,6 +56,7 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	, m_CanPickUp(false)
 	, m_IsStop(false)
 	, m_Invincibility(false)
+	, m_DirVector(1.0f, 1.0f, 1.0f)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
@@ -73,6 +75,9 @@ CPlayer::~CPlayer()
 	{
 		SaveCharacter();
 	}
+
+	m_Rigid->Destroy();
+	m_Rigid = nullptr;
 }
 
 void CPlayer::Destroy()
@@ -646,14 +651,18 @@ void CPlayer::MoveFront()
 	{
 		return;
 	}
+
 	float angle = m_Camera->GetWorldRot().y;
+
 	if (m_WallCollision.Dest)
 	{
-		int differ = (int)abs(GetWorldRot().y-angle)%360;
+		int differ = (int)abs(GetWorldRot().y - angle) % 360;
+
 		if(differ>100&&differ<200)
 		{
 			return;
 		}
+
 		else if (differ <= 100||(differ >=200 && differ < 280))
 		{
 			float distance = m_Cube->GetInfo().Length[0] * 0.85f;
@@ -661,17 +670,41 @@ void CPlayer::MoveFront()
 			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
 		}
 	}
+
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
 	}
+
 	else if(m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerPickUpIdle")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerPickUpWalk");
 	}
-	SetWorldRotationY(angle+180.f);
-	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
-	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
+
+	std::list<CCollider*> List = m_Cube->GetPrevCollisionList();
+
+	if (!List.empty())
+	{
+		auto iter = List.begin();
+		auto iterEnd = List.end();
+
+		for (; iter != iterEnd; iter++)
+		{
+			if (((*iter)->GetCollisionProfile()->Name == "Ground") && ((*iter)->GetWorldRot().z > 0.f || (*iter)->GetWorldRot().z < 0.f))
+			{
+				Vector3 DirRot = (*iter)->GetWorldRot();
+				Matrix MatRot;
+				MatRot.Rotation(DirRot);
+				m_DirVector = m_DirVector.TransformCoord(MatRot);
+				break;
+			}
+		}
+	}
+
+	SetWorldRotationY(angle + 180.f);
+	AddWorldPositionX((sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime) * m_DirVector.x);
+	AddWorldPositionZ((cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime) * m_DirVector.z);
+	AddWorldPositionY(m_Speed * g_DeltaTime * m_DirVector.y);
 }
 
 void CPlayer::MoveBack()
@@ -1406,6 +1439,7 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 	{
 		m_OnCollision = true;
 		m_Rigid->SetGround(true);
+
 		BashCheck();
 	}
 
@@ -1419,11 +1453,6 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 void CPlayer::CollisionTestOut(const CollisionResult& result)
 {
 	if (result.Dest->GetName() == "InfoSignCollider")
-	{
-		return;
-	}
-
-	if (!result.Dest || !result.Src)
 	{
 		return;
 	}
@@ -1447,18 +1476,41 @@ void CPlayer::CollisionTestOut(const CollisionResult& result)
 	m_WallCollision.Dest = nullptr;
 	m_WallCollision.Src = nullptr;
 	m_WallCollision.HitPoint = Vector3(0.f,0.f,0.f);
-	m_Rigid->SetGround(false);
-	m_OnCollision = false;
+
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
 		m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
+
+		if (m_Rigid)
+		{
+			m_Rigid->SetGround(false);
+		}
+
+		m_OnCollision = false;
+
 		break;
 	case EMain_Character::Patrick:
 		m_Scene->GetResource()->SoundStop("Patrick_Step");
+
+		if (m_Rigid)
+		{
+			m_Rigid->SetGround(false);
+		}
+
+		m_OnCollision = false;
+
 		break;
 	case EMain_Character::Sandy:
 		m_Scene->GetResource()->SoundStop("Sandy_Walk");
+
+		if (m_Rigid)
+		{
+			m_Rigid->SetGround(false);
+		}
+
+		m_OnCollision = false;
+
 		break;
 	}
 }
