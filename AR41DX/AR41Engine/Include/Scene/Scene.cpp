@@ -274,7 +274,10 @@ void CScene::Update(float DeltaTime)
 	if (m_SceneInfo)
 		m_SceneInfo->Update(DeltaTime);
 
-	m_SkySphere->Update(DeltaTime);
+	if(m_SkySphere)
+	{
+		m_SkySphere->Update(DeltaTime);
+	}
 
 	auto	iter = m_ObjList.begin();
 	auto	iterEnd = m_ObjList.end();
@@ -308,7 +311,10 @@ void CScene::PostUpdate(float DeltaTime)
 	if (m_SceneInfo)
 		m_SceneInfo->PostUpdate(DeltaTime);
 
-	m_SkySphere->PostUpdate(DeltaTime);
+	if (m_SkySphere)
+	{
+		m_SkySphere->PostUpdate(DeltaTime);
+	}
 
 	auto	iter = m_ObjList.begin();
 	auto	iterEnd = m_ObjList.end();

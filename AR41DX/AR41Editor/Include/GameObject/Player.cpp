@@ -71,6 +71,13 @@ CPlayer::CPlayer(const CPlayer& Obj)
 
 CPlayer::~CPlayer()
 {
+	if (m_Scene)
+	{
+		m_Scene->GetResource()->SoundStop("BikiniBottom");
+		m_Scene->GetResource()->SoundStop("JellyfishField");
+		m_Scene->GetResource()->SoundStop("BossStage");
+		m_Scene->GetResource()->SoundStop("BossStage");
+	}
 	if (m_LoadData != m_PlayerData)
 	{
 		SaveCharacter();
