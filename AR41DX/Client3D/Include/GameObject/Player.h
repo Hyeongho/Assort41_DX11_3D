@@ -78,6 +78,9 @@ protected:
 	CSharedPtr<class CPlayerUI>	m_PlayerUI;
 	CSharedPtr<class CPauseUI>	m_PauseUI;
 
+	Vector3 m_DirVector;
+	Vector3 m_DirRotation;
+
 protected:
 	PlayerData m_PlayerData;
 	PlayerData m_LoadData;

@@ -15,7 +15,7 @@
 #include "ElectricRing.h"
 #include "Jellyfish.h"
 #include "../UI/KingJellyfishOutroUI.h"
-
+#include "../UI/Fade.h"
 
 CKingJellyfish::CKingJellyfish()
     : m_AttackTime(0.f)
@@ -404,6 +404,20 @@ void CKingJellyfish::Angry()
     m_Animation->ChangeAnimation("KingJellyfish_Angry");
 
     CResourceManager::GetInst()->SoundPlay("KingJellyfish_Angry");
+
+    CFade* Fade = m_Scene->GetViewport()->FindUIWindow<CFade>("Fade");
+
+    if (!Fade)
+    {
+        return;
+    }
+
+    else
+    {
+        Fade->SetEnable(true);
+        Fade->SetNextScene(ENext_Scene::BikiniCity);
+        Fade->SetState(EFade_State::FadeOut_Start);
+    }
 
     //m_Angry = true;
 }

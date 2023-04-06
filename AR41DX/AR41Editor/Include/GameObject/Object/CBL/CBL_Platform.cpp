@@ -46,6 +46,12 @@ void CCBL_Platform::Start()
 	std::string KnobName = "Knob" + GetName();
 
 	m_Knob = (CRoboSponge_Knob*)m_Scene->FindObject(KnobName);
+
+	if (!m_Knob)
+	{
+		return;
+	}
+
 	m_Knob->SetWorldPosition(GetWorldPos());
 	m_Knob->SetWorldPositionY(GetWorldPos().y + GetMeshSize().y * GetWorldScale().y * 0.5f);
 	m_Knob->SetWorldRotationX(90.f);
