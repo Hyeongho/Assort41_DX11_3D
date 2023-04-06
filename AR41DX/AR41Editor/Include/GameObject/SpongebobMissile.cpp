@@ -59,6 +59,8 @@ bool CSpongebobMissile::Init()
 
 	m_Mesh->SetMesh("SpongebobMissile");
 	m_Mesh->SetPivot(0.5f, 0.5f);
+	m_Mesh->SetMaterial(0, "Bubble");
+	m_Mesh->GetMaterial(0)->SetRenderState("AlphaBlend");
 
 	m_Body->SetCollisionProfile("PlayerAttack");
 	m_Body->SetCollisionCallback<CSpongebobMissile>(ECollision_Result::Collision, this, &CSpongebobMissile::CollisionOn);

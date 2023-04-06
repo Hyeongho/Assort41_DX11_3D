@@ -159,8 +159,14 @@ bool CMaterialManager::Init()
 
 	// ��ǰ
 	Material = CreateMaterial<CMaterial>("Bubble");
-	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Bubble", TEXT("Particle/Bubbles50px.png"));
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Bubble", TEXT("Particle/Bubble_05.tga"));
 	Material->SetShader("SpriteShader");
+
+	Material = CreateMaterial<CMaterial>("MissileBubble");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "MissileBubble", TEXT("Bubble_04.tga"));
+	Material->SetShader("SpriteShader");
+	Material->SetRenderState("AlphaBlend");
+	Material->SetOpacity(1.f);
 
 	// tikis ����� �� ���� ��¦��
 	Material = CreateMaterial<CMaterial>("Glow");
@@ -261,6 +267,14 @@ bool CMaterialManager::Init()
 	Material->SetShader("SpriteShader");
 	//Material->SetRenderState("AlphaBlend");
 	//Material->SetOpacity(0.5f);
+
+	//Smoke
+	Material = CreateMaterial<CMaterial>("Smoke");
+	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Smoke", TEXT("Particle/smoke2.png"));
+	Material->SetShader("SpriteShader");
+	Material->SetRenderState("ALphaBlend");
+	Material->SetOpacity(0.7f);
+
 	return true;
 }
 

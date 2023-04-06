@@ -385,7 +385,7 @@ void CDefaultSetting::LoadSpongebob()
 {
 // Spongebob
     CResourceManager* resourceManager = CResourceManager::GetInst();
-    resourceManager->LoadMesh(nullptr, MeshType::Animation, "SpongebobWand", TEXT("Spongebob\\wand_bubble_wand.msh"));
+    resourceManager->LoadMesh(nullptr, MeshType::Animation, "SpongebobWand", TEXT("Spongebob\\wand.msh"));
     resourceManager->LoadSkeleton(nullptr, "SpongebobWandSkeleton", TEXT("Spongebob\\wand_bubble_wand.bne"), MESH_PATH);
     resourceManager->SetMeshSkeleton("SpongebobWand", "SpongebobWandSkeleton");
 
@@ -413,8 +413,8 @@ void CDefaultSetting::LoadSpongebob()
     resourceManager->LoadAnimationSequence("Spongebob_MissileLoop", TEXT("Spongebob\\Anim_Spongebob_Cruise_Missile_Release_Loop.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("Spongebob_MissileStart", TEXT("Spongebob\\Anim_Spongebob_Cruise_Missile_Release_Start.sqc"), MESH_PATH);
 
-    resourceManager->LoadMesh(nullptr, MeshType::Animation, "SpongebobMissile", TEXT("Cruise_Missile\\SK_CruiseMissle.msh"));
-    resourceManager->LoadSkeleton(nullptr, "SpongebobMissileSkeleton", TEXT("Cruise_Missile\\SK_CruiseMissle.bne"), MESH_PATH);
+    resourceManager->LoadMesh(nullptr, MeshType::Animation, "SpongebobMissile", TEXT("Cruise_Missile\\Missile.fbx"));
+    resourceManager->LoadSkeleton(nullptr, "SpongebobMissileSkeleton", TEXT("Cruise_Missile\\Missile.bne"), MESH_PATH);
     resourceManager->SetMeshSkeleton("SpongebobMissile", "SpongebobMissileSkeleton");
     resourceManager->LoadAnimationSequence("SpongebobMissile_Idle", TEXT("Cruise_Missile\\Anim_Cruise_Missile_Idle.sqc"), MESH_PATH);
     resourceManager->LoadAnimationSequence("SpongebobMissile_Start", TEXT("Cruise_Missile\\Anim_Cruise_Missile_Start.sqc"), MESH_PATH);
@@ -833,6 +833,7 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     // 해파리 동산 맵 메쉬
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishfieldsSign", TEXT("Buildings/JellyfishField/JellyfishfieldsSign.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Water", TEXT("Buildings/JellyfishField/Water.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BossMapWater", TEXT("Objects/JellyfishFields/BossWater.msh"));
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldBoss", TEXT("Buildings/JellyfishField/JellyfishFieldBoss.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyFishFieldTestKKB", TEXT("Buildings/JellyfishField/JellyfishScene.msh"));
@@ -1234,21 +1235,21 @@ void CDefaultSetting::LoadParticle()
 
     Particle->SetParticleSpawnTime(0.01f);
     Particle->SetParticleStartMin(Vector3(0.f, 0.f, 0.f));
-    Particle->SetParticleStartMax(Vector3(50.f, 0.f, 50.f));
-    Particle->SetParticleSpawnCountMax(100);
-    Particle->SetParticleScaleMin(Vector3(50.f, 50.f, 50.f));
-    Particle->SetParticleScaleMax(Vector3(50.f, 50.f, 50.f));
+    Particle->SetParticleStartMax(Vector3(5.f, 0.f, 5.f));
+    Particle->SetParticleSpawnCountMax(30);
+    Particle->SetParticleScaleMin(Vector3(1000.f, 1000.f, 1000.f));
+    Particle->SetParticleScaleMax(Vector3(1000.f, 1000.f, 1000.f));
     Particle->SetParticleLifeTimeMin(4.f);
     Particle->SetParticleLifeTimeMax(6.f);
     Particle->SetParticleColorMin(Vector4(1.f, 1.f, 1.f, 1.f));
     Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 1.f));
-    Particle->SetParticleSpeedMin(15.f);
-    Particle->SetParticleSpeedMax(15.f);
+    Particle->SetParticleSpeedMin(5.f);
+    Particle->SetParticleSpeedMax(5.f);
     Particle->SetParticleMoveEnable(true);
     Particle->SetParticleGravityEnable(true);
     Particle->SetParticleMoveDir(Vector3(0.f, 0.f, 0.f));
     Particle->SetParticleMoveDirEnable(false);
-    Particle->SetParticleMoveAngle(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleMoveAngle(Vector3(5.f, 0.f, 5.f));
 
     // 폭포 물과 바닥이 닿는 부분에 생기는 원
     CResourceManager::GetInst()->CreateParticle("WaterRing");
@@ -1266,6 +1267,31 @@ void CDefaultSetting::LoadParticle()
     Particle->SetParticleLifeTimeMin(4.f);
     Particle->SetParticleLifeTimeMax(6.f);
     Particle->SetParticleColorMin(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleSpeedMin(2.f);
+    Particle->SetParticleSpeedMax(3.f);
+    Particle->SetParticleMoveEnable(false);
+    Particle->SetParticleGravityEnable(false);
+    Particle->SetParticleMoveDir(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleMoveDirEnable(false);
+    Particle->SetParticleMoveAngle(Vector3(0.f, 0.f, 0.f));
+
+    // Smoke
+    CResourceManager::GetInst()->CreateParticle("Smoke");
+
+    Particle = CResourceManager::GetInst()->FindParticle("Smoke");
+
+    Particle->SetMaterial("Smoke");
+
+    Particle->SetParticleSpawnTime(0.05f);
+    Particle->SetParticleStartMin(Vector3(-100.f, -100.f, -100.f));
+    Particle->SetParticleStartMax(Vector3(100.f, 100.f, 100.f));
+    Particle->SetParticleSpawnCountMax(100);
+    Particle->SetParticleScaleMin(Vector3(100.f, 100.f, 100.f));
+    Particle->SetParticleScaleMax(Vector3(300.f, 300.f, 300.f));
+    Particle->SetParticleLifeTimeMin(2.f);
+    Particle->SetParticleLifeTimeMax(4.f);
+    Particle->SetParticleColorMin(Vector4(0.f, 0.f, 0.f, 0.f));
     Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 1.f));
     Particle->SetParticleSpeedMin(2.f);
     Particle->SetParticleSpeedMax(3.f);

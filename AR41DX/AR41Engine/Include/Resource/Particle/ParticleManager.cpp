@@ -34,7 +34,7 @@ bool CParticleManager::Init()
 	CreateParticle("SpongebobAtk");
 	particle = FindParticle("SpongebobAtk");
 	particle->SetMaterial("Bubble");
-	particle->SetParticleSpawnTime(0.01f);
+	particle->SetParticleSpawnTime(0.008f);
 	particle->SetParticleSpawnCountMax(1000);
 	particle->SetParticleScaleMin(Vector3(10.f, 10.f, 10.f));
 	particle->SetParticleScaleMax(Vector3(40.f, 40.f, 40.f));
