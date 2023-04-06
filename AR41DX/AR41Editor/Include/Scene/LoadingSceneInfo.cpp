@@ -13,7 +13,7 @@
 //#include "Component/BillboardComponent.h"
 //#include "Component/TileMapComponent.h"
 #include "GameObject/GameObject.h"
-//#include "GameObject/SkySphere.h"
+#include "GameObject/SkySphere.h"
 
 #ifdef __has_include
 #	if __has_include("../Window/ObjectWindow.h")
@@ -26,7 +26,7 @@ CLoadingSceneInfo::CLoadingSceneInfo()
 	: m_LoadingThread(nullptr)
 	, m_LoadingQueue(nullptr)
 	, m_LoadingUI(nullptr)
-	, m_StartTime(3.f)
+	, m_StartTime(0.f)
 {
 	m_ClassTypeName = "LoadingSceneInfo";
 }
@@ -39,29 +39,35 @@ CLoadingSceneInfo::~CLoadingSceneInfo()
 bool CLoadingSceneInfo::Init()
 {
 	m_LoadingUI = m_Owner->GetViewport()->CreateUIWindow<CLoadingUI>("LoadingUI");
-	CGameObject* bg= m_Owner->CreateObject<CGameObject>("BG");
+	CGameObject* bg = m_Owner->CreateObject<CGameObject>("BG");
 	CSpriteComponent* img = bg->CreateComponent<CSpriteComponent>("BG");
 	img->SetTexture("LoadingBG", TEXT("UI\\load_bg.tga"));
-	img->SetWorldScale(1920.f,1080.f);
-	img->SetPivot(0.f, 0.f);
-	img->SetWorldPosition(-960.f, -10.f);
-	img->GetMaterial(0)->SetBaseColor(0.f,0.f,0.f,1.f);
+	img->SetWorldScale(1920.f, 1080.f);
+	img->SetWorldPosition(-960.f, -540.f);
 	m_Particle = m_Owner->CreateObject<CGameObject>("Particle");
 	m_Particle->CreateComponent<CParticleComponent>("Particle");
 	m_Particle->SetEnable(false);
-	m_Particle->SetLifeTime(m_StartTime+3.f);
-    return true;
+	return true;
 }
 
 void CLoadingSceneInfo::Update(float DeltaTime)
 {
 	CSceneInfo::Update(DeltaTime);
-	m_StartTime -= DeltaTime;
-	if (m_StartTime < 0.f)
+	if (m_Owner->GetSky())
+	{
+		m_Owner->ClearSky();
+	}
+	m_StartTime += DeltaTime;
+	if (m_StartTime > 3.f && m_StartTime < 100.f)
 	{
 		m_Owner->GetResource()->SoundPlay("LoadingUI");
 		m_Particle->SetEnable(true);
 		m_StartTime = 100.f;
+	}
+	else if (m_StartTime > 103.f)
+	{
+		CParticleComponent* particle = (CParticleComponent*)m_Particle->GetRootComponent();
+		particle->DeleteCurrentParticle();
 	}
 
 	// Queue에 데이터가 있을 경우 받아와서 처리한다.

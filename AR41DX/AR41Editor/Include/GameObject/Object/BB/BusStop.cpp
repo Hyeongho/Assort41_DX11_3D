@@ -106,11 +106,6 @@ void CBusStop::CallBus()
 
 void CBusStop::CutSceneStart()
 {
-    m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
-
-    m_Arm->SetRelativePositionX(100.f);
-    m_Arm->SetRelativePositionZ(-100.f);
-    m_Arm->SetWorldPositionY(1200.f);
 
     CBusDriver* BusDriver = (CBusDriver*)m_Scene->FindObject("BusDriver");
 
@@ -121,6 +116,16 @@ void CBusStop::CutSceneStart()
 
     float Degree = atan2(GetWorldPos().z - BusPos.z, GetWorldPos().x - BusPos.x);
     Degree = fabs(Degree * 180.f / PI - 180.f) - 90.f;
+
+
+    return;
+
+
+    m_Scene->GetCameraManager()->SetCurrentCamera(m_Camera);
+
+    m_Arm->SetRelativePositionX(100.f);
+    m_Arm->SetRelativePositionZ(-100.f);
+    m_Arm->SetWorldPositionY(1200.f);
 
     m_Camera->SetWorldRotationY(-Degree);
 }

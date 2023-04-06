@@ -16,8 +16,10 @@
 #include "../Component/ParticleComponent.h"
 #include "../Component/DecalComponent.h"
 #include "../Resource/Shader/ShadowConstantBuffer.h"
+#include "../Resource/Shader/FXAAConstantBuffer.h"
 #include "../Component/Collider3D.h"
 #include "../Resource/Shader/TranslationConstantBuffer.h"
+#include "../Resource/Shader/CartoonConstantBuffer.h"
 
 DEFINITION_SINGLE(CRenderManager)
 
@@ -28,8 +30,9 @@ CRenderManager::CRenderManager()
 {
 	m_RenderStateManager = new CRenderStateManager;
 	m_ShadowCBuffer = new CShadowConstantBuffer;
-	m_TranslationCBuffer = new CTranslationConstantBuffer; //
-
+	m_FXAACBuffer = new CFXAAConstantBuffer;
+	//m_CartoonCBuffer = new CCartoonConstantBuffer;
+	m_TranslationCBuffer = new CTranslationConstantBuffer; 
 }
 
 CRenderManager::~CRenderManager()
@@ -54,6 +57,7 @@ CRenderManager::~CRenderManager()
 	}
 
 	SAFE_DELETE(m_RenderStateManager);
+	SAFE_DELETE(m_FXAACBuffer);
 	SAFE_DELETE(m_TranslationCBuffer);
 
 }
@@ -234,8 +238,8 @@ void CRenderManager::Render(float DeltaTime)
 		Render3D(DeltaTime);
 	}
 
-	// 2D, 3D ¹°Ã¼¸¦ ¸ğµÎ Ãâ·ÂÇß´Ù¸é UI¸¦ Ãâ·ÂÇØÁØ´Ù.
-	// ±íÀÌ¹öÆÛ¸¦ ¾È¾²°í ¾ËÆÄºí·»µå¸¦ Àû¿ëÇÑ´Ù.
+	// 2D, 3D ë¬¼ì²´ë¥¼ ëª¨ë‘ ì¶œë ¥í–ˆë‹¤ë©´ UIë¥¼ ì¶œë ¥í•´ì¤€ë‹¤.
+	// ê¹Šì´ë²„í¼ë¥¼ ì•ˆì“°ê³  ì•ŒíŒŒë¸”ë Œë“œë¥¼ ì ìš©í•œë‹¤.
 	m_AlphaBlend->SetState();
 	m_DepthDisable->SetState();
 
@@ -250,52 +254,50 @@ void CRenderManager::Render(float DeltaTime)
 
 void CRenderManager::Render3D(float DeltaTime)
 {
-	// ÀÎ½ºÅÏ½ÌÀ¸·Î Ã³¸®ÇØ¾ßµÉ ¹°Ã¼°¡ ÀÖÀ» °æ¿ì º°µµÀÇ ÀÎ½ºÅÏ½Ì ¸®½ºÆ®¿¡
-	// Ãß°¡ÇØÁÖµµ·Ï ÇÑ´Ù.
+	// ì¸ìŠ¤í„´ì‹±ìœ¼ë¡œ ì²˜ë¦¬í•´ì•¼ë  ë¬¼ì²´ê°€ ìˆì„ ê²½ìš° ë³„ë„ì˜ ì¸ìŠ¤í„´ì‹± ë¦¬ìŠ¤íŠ¸ì—
+	// ì¶”ê°€í•´ì£¼ë„ë¡ í•œë‹¤.
 
-	// ÇÏ´ÃÀ» ±×¸°´Ù.
+	// ShadowMap ì„ ê·¸ë ¤ë‚¸ë‹¤.
+	RenderShadowMap(DeltaTime);
+
+	//m_TextureTranslation += 0.05f * DeltaTime;
+
+
+	//m_TranslationCBuffer->SetTextureTranslation(m_TextureTranslation);
+	//m_TranslationCBuffer->UpdateBuffer();
+
+	// GBufferë¥¼ ê·¸ë ¤ë‚¸ë‹¤.
+	RenderGBuffer(DeltaTime);
+
+	// Decalì„ ê·¸ë ¤ë‚¸ë‹¤.
+	RenderDecal(DeltaTime);
+
+	// ì¡°ëª… ì²˜ë¦¬ëœ ì •ë³´ë¥¼ ê·¸ë ¤ë‚¸ë‹¤.
+	RenderLight(DeltaTime);
+
+	// GBufferì™€ Lightë¥¼ í•©í•œ ìµœì¢… í™”ë©´ì„ ë§Œë“ ë‹¤.
+	RenderScreen(DeltaTime);
+
+	RenderNoMultiSampling(DeltaTime);
+
+	// FXAAë¥¼ ê·¸ë ¤ë‚¸ë‹¤. 
+	RenderFXAA(DeltaTime);
+
+	RenderCartoon(DeltaTime);
+
+	// ì™„ì„±ëœ íƒ€ê²Ÿì„ ë°±ë²„í¼ì— ì¶œë ¥í•œë‹¤.
+	RenderDeferred(DeltaTime);
+
+	// íŒŒí‹°í´ ì¶œë ¥
+	RenderParticle(DeltaTime);
+
+	// í•˜ëŠ˜ì„ ê·¸ë¦°ë‹¤.
 	CGameObject* SkyObj = CSceneManager::GetInst()->GetScene()->GetSky();
 
 	if (SkyObj)
 	{
 		SkyObj->GetRootComponent()->Render();
 	}
-
-	// ShadowMap À» ±×·Á³½´Ù.
-	RenderShadowMap(DeltaTime);
-
-
-	//m_TextureTranslation += 0.05f * DeltaTime;
-
-	//m_TranslationCBuffer->SetTextureTranslation(m_TextureTranslation);
-	//m_TranslationCBuffer->UpdateBuffer();
-
-	// GBuffer¸¦ ±×·Á³½´Ù.
-	RenderGBuffer(DeltaTime);
-
-	// DecalÀ» ±×·Á³½´Ù.
-	RenderDecal(DeltaTime);
-
-	// Á¶¸í Ã³¸®µÈ Á¤º¸¸¦ ±×·Á³½´Ù.
-	RenderLight(DeltaTime);
-
-	// GBuffer¿Í Light¸¦ ÇÕÇÑ ÃÖÁ¾ È­¸éÀ» ¸¸µç´Ù.
-	RenderScreen(DeltaTime);
-
-	// FXAA´Â Post-Processing Effect¶ó Ä«Å÷·»´õ¸µÀº FXAA ÀÌÀü¿¡ ¸¸µé¾îÁØ´Ù. 
-	RenderCartoon(DeltaTime);
-
-	// FXAA¸¦ ±×·Á³½´Ù. 
-	RenderFXAA(DeltaTime);
-
-	// MSAA
-	//RenderMultiSampling(DeltaTime);
-
-	// ¿Ï¼ºµÈ Å¸°ÙÀ» ¹é¹öÆÛ¿¡ Ãâ·ÂÇÑ´Ù.
-	RenderDeferred(DeltaTime);
-
-	// ÆÄÆ¼Å¬ Ãâ·Â
-	RenderParticle(DeltaTime);
 }
 
 void CRenderManager::RenderShadowMap(float DeltaTime)
@@ -345,7 +347,7 @@ void CRenderManager::RenderShadowMap(float DeltaTime)
 			continue;
 		}
 
-		// ÀÎ½ºÅÏ½ÌÀÌ µÇ´Â ¹°Ã¼µéÀ» ÆÇ´ÜÇÑ´Ù.
+		// ì¸ìŠ¤í„´ì‹±ì´ ë˜ëŠ” ë¬¼ì²´ë“¤ì„ íŒë‹¨í•œë‹¤.
 		if ((*iter)->GetSceneComponentType() == SceneComponentType::Primitive)
 		{
 			CMesh* Mesh = ((CPrimitiveComponent*)iter->Get())->GetMesh();
@@ -356,7 +358,7 @@ void CRenderManager::RenderShadowMap(float DeltaTime)
 
 				Instancing = FindInstancing(Mesh);
 
-				// Pool¿¡¼­ ¾ò¾î¿Â´Ù.
+				// Poolì—ì„œ ì–»ì–´ì˜¨ë‹¤.
 				if (!Instancing)
 				{
 					if (m_EmptyPoolList.empty())
@@ -411,7 +413,7 @@ void CRenderManager::RenderShadowMap(float DeltaTime)
 		iter++;
 	}
 
-	// ÀÎ½ºÅÏ½ÌÀÌ ¾Æ´Ñ ¹°Ã¼¸¦ ±×·Á³½´Ù.
+	// ì¸ìŠ¤í„´ì‹±ì´ ì•„ë‹Œ ë¬¼ì²´ë¥¼ ê·¸ë ¤ë‚¸ë‹¤.
 	auto iter1 = m_NormalRenderList.begin();
 	auto iter1End = m_NormalRenderList.end();
 
@@ -459,7 +461,7 @@ void CRenderManager::RenderShadowMap(float DeltaTime)
 
 void CRenderManager::RenderGBuffer(float DeltaTime)
 {
-	// GBuffer TargetÀ» Áö¿öÁØ´Ù.
+	// GBuffer Targetì„ ì§€ì›Œì¤€ë‹¤.
 	size_t	Size = m_vecGBuffer.size();
 
 	for (size_t i = 0; i < Size; i++)
@@ -467,7 +469,7 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 		m_vecGBuffer[i]->ClearTarget();
 	}
 
-	// GBuffer TargetÀ» ÁöÁ¤ÇÑ´Ù.
+	// GBuffer Targetì„ ì§€ì •í•œë‹¤.
 	std::vector<ID3D11RenderTargetView*>	vecTargetView;
 	std::vector<ID3D11RenderTargetView*>	vecPrevTargetView;
 
@@ -484,7 +486,7 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 
 	CDevice::GetInst()->GetContext()->OMSetRenderTargets((UINT)Size, &vecTargetView[0], DepthView);
 
-	// GBuffer¿¡ ±×¸± ³»¿ëÀ» Ãâ·ÂÇÑ´Ù.
+	// GBufferì— ê·¸ë¦´ ë‚´ìš©ì„ ì¶œë ¥í•œë‹¤.
 	RenderLayer* GBufferLayer = FindLayer("Default");
 
 	std::list<CSceneComponent*>	RenderList;
@@ -513,7 +515,7 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 			continue;
 		}
 
-		// ÀÎ½ºÅÏ½ÌÀÌ µÇ´Â ¹°Ã¼µéÀ» ÆÇ´ÜÇÑ´Ù.
+		// ì¸ìŠ¤í„´ì‹±ì´ ë˜ëŠ” ë¬¼ì²´ë“¤ì„ íŒë‹¨í•œë‹¤.
 		if ((*iter)->GetSceneComponentType() ==
 			SceneComponentType::Primitive)
 		{
@@ -525,7 +527,7 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 
 				Instancing = FindInstancing(Mesh);
 
-				// Pool¿¡¼­ ¾ò¾î¿Â´Ù.
+				// Poolì—ì„œ ì–»ì–´ì˜¨ë‹¤.
 				if (!Instancing)
 				{
 					if (m_EmptyPoolList.empty())
@@ -581,7 +583,7 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 		++iter;
 	}
 
-	// ÀÎ½ºÅÏ½ÌÀÌ ¾Æ´Ñ ¹°Ã¼¸¦ ±×·Á³½´Ù.
+	// ì¸ìŠ¤í„´ì‹±ì´ ì•„ë‹Œ ë¬¼ì²´ë¥¼ ê·¸ë ¤ë‚¸ë‹¤.
 	auto iter1 = m_NormalRenderList.begin();
 	auto iter1End = m_NormalRenderList.end();
 
@@ -634,10 +636,10 @@ void CRenderManager::RenderGBuffer(float DeltaTime)
 
 void CRenderManager::RenderDecal(float DeltaTime)
 {
-	// DecalBuffer TargetÀ» Áö¿öÁØ´Ù.
+	// DecalBuffer Targetì„ ì§€ì›Œì¤€ë‹¤.
 	size_t	Size = m_vecDecalBuffer.size();
 
-	// DecalBuffer TargetÀ» ÁöÁ¤ÇÑ´Ù.
+	// DecalBuffer Targetì„ ì§€ì •í•œë‹¤.
 	std::vector<ID3D11RenderTargetView*> vecTargetView;
 	std::vector<ID3D11RenderTargetView*> vecPrevTargetView;
 
@@ -716,7 +718,7 @@ void CRenderManager::RenderDecal(float DeltaTime)
 
 void CRenderManager::RenderLight(float DeltaTime)
 {
-	// Light TargetÀ» Áö¿öÁØ´Ù.
+	// Light Targetì„ ì§€ì›Œì¤€ë‹¤.
 	size_t	Size = m_vecLightBuffer.size();
 
 	for (size_t i = 0; i < Size; ++i)
@@ -724,7 +726,7 @@ void CRenderManager::RenderLight(float DeltaTime)
 		m_vecLightBuffer[i]->ClearTarget();
 	}
 
-	// Light TargetÀ» ÁöÁ¤ÇÑ´Ù.
+	// Light Targetì„ ì§€ì •í•œë‹¤.
 	std::vector<ID3D11RenderTargetView*>	vecTargetView;
 	std::vector<ID3D11RenderTargetView*>	vecPrevTargetView;
 
@@ -827,42 +829,43 @@ void CRenderManager::RenderScreen(float DeltaTime)
 	m_ScreenBuffer->ResetTarget();
 }
 
-void CRenderManager::RenderCartoon(float DeltaTime)
+//void CRenderManager::RenderCartoon(float DeltaTime)
+//{
+//	m_CartoonBuffer->ClearTarget();
+//
+//	m_CartoonBuffer->SetTarget();
+//
+//	m_FXAABuffer->SetTargetShader(10); 
+//
+//	m_DepthDisable->SetState();
+//
+//	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+//
+//	UINT	Offset = 0;
+//
+//	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+//	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+//	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+//	Context->Draw(4, 0);
+//
+//	m_DepthDisable->ResetState();
+//
+//	m_FXAABuffer->ResetTargetShader(10);
+//
+//	m_CartoonBuffer->ResetTarget();
+//}
+
+void CRenderManager::RenderNoMultiSampling(float DeltaTime)
 {
-	m_CartoonBuffer->ClearTarget();
+	m_MSBuffer->ClearTarget();
 
-	m_CartoonBuffer->SetTarget();
+	m_MSBuffer->SetTarget();
 
-	m_FXAABuffer->SetTargetShader(10); 
+	m_ScreenBuffer->SetTargetShader(8);
 
 	m_DepthDisable->SetState();
 
-	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
-
-	UINT	Offset = 0;
-
-	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
-	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
-	Context->Draw(4, 0);
-
-	m_DepthDisable->ResetState();
-
-	m_FXAABuffer->ResetTargetShader(10);
-
-	m_CartoonBuffer->ResetTarget();
-}
-
-// m_FXAABuffer¸¦ Ã¤¿öÁØ´Ù.
-void CRenderManager::RenderFXAA(float DeltaTime)
-{
-	m_FXAABuffer->ClearTarget();
-
-	m_FXAABuffer->SetTarget();
-
-	m_ScreenBuffer->SetTargetShader(10); // 1.¾ê¸¦ FXAA ·Î ³Ñ°ÜÁà¾ßÇÑ´Ù.
-
-	m_DepthDisable->SetState();
+	m_MSShader->SetShader();
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
@@ -875,9 +878,65 @@ void CRenderManager::RenderFXAA(float DeltaTime)
 
 	m_DepthDisable->ResetState();
 
-	m_ScreenBuffer->ResetTargetShader(10);
+	m_ScreenBuffer->ResetTargetShader(8);
+
+	m_MSBuffer->ResetTarget();
+}
+
+void CRenderManager::RenderFXAA(float DeltaTime)
+{
+	m_FXAABuffer->ClearTarget();
+
+	m_FXAABuffer->SetTarget();
+
+	m_MSBuffer->SetTargetShader(10); // 1.ì–˜ë¥¼ FXAA ë¡œ ë„˜ê²¨ì¤˜ì•¼í•œë‹¤.
+
+	m_DepthDisable->SetState();
+
+	m_FXAAShader->SetShader();
+
+	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+
+	UINT   Offset = 0;
+
+	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+	Context->Draw(4, 0);
+
+	m_DepthDisable->ResetState();
+
+	m_MSBuffer->ResetTargetShader(10);
 
 	m_FXAABuffer->ResetTarget();
+}
+
+void CRenderManager::RenderCartoon(float DeltaTime)
+{
+	/*m_CartoonBuffer->ClearTarget();
+
+	m_CartoonBuffer->SetTarget();
+
+	m_FXAABuffer->SetTargetShader(9); 
+
+	m_DepthDisable->SetState();
+
+	m_CartoonShader->SetShader();
+
+	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+
+	UINT   Offset = 0;
+
+	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+	Context->Draw(4, 0);
+
+	m_DepthDisable->ResetState();
+
+	m_FXAABuffer->ResetTargetShader(9);
+
+	m_CartoonBuffer->ResetTarget();*/
 }
 
 void CRenderManager::RenderDeferred(float DeltaTime)
@@ -887,6 +946,7 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	m_DepthDisable->SetState();
 
 	m_FXAABuffer->SetTargetShader(21);
+	//m_CartoonBuffer->SetTargetShader(21);
 
 	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
 
@@ -901,8 +961,9 @@ void CRenderManager::RenderDeferred(float DeltaTime)
 	m_DepthDisable->ResetState();
 
 	m_FXAABuffer->ResetTargetShader(21);
+	//m_CartoonBuffer->ResetTargetShader(21);
 
-	// µğ¹ö±× ¸ğµåÀÏ °æ¿ì µ¥Ä® µğ¹ö±ë¿ë À°¸éÃ¼¸¦ Ãâ·ÂÇÑ´Ù.
+	// ë””ë²„ê·¸ ëª¨ë“œì¼ ê²½ìš° ë°ì¹¼ ë””ë²„ê¹…ìš© ìœ¡ë©´ì²´ë¥¼ ì¶œë ¥í•œë‹¤.
 #ifdef _DEBUG
 
 	{
@@ -1000,7 +1061,7 @@ void CRenderManager::RenderParticle(float DeltaTime)
 			continue;
 		}
 
-		// ÀÎ½ºÅÏ½ÌÀÌ µÇ´Â ¹°Ã¼µéÀ» ÆÇ´ÜÇÑ´Ù.
+		// ì¸ìŠ¤í„´ì‹±ì´ ë˜ëŠ” ë¬¼ì²´ë“¤ì„ íŒë‹¨í•œë‹¤.
 		if ((*iter)->GetSceneComponentType() == SceneComponentType::Primitive && !(*iter)->CheckTypeID<CParticleComponent>())
 		{
 			CMesh* Mesh = ((CPrimitiveComponent*)iter->Get())->GetMesh();
@@ -1011,7 +1072,7 @@ void CRenderManager::RenderParticle(float DeltaTime)
 
 				Instancing = FindInstancing(Mesh);
 
-				// Pool¿¡¼­ ¾ò¾î¿Â´Ù.
+				// Poolì—ì„œ ì–»ì–´ì˜¨ë‹¤.
 				if (!Instancing)
 				{
 					if (m_EmptyPoolList.empty())
@@ -1066,7 +1127,7 @@ void CRenderManager::RenderParticle(float DeltaTime)
 		iter++;
 	}
 
-	// ÀÎ½ºÅÏ½ÌÀÌ ¾Æ´Ñ ¹°Ã¼¸¦ ±×·Á³½´Ù.
+	// ì¸ìŠ¤í„´ì‹±ì´ ì•„ë‹Œ ë¬¼ì²´ë¥¼ ê·¸ë ¤ë‚¸ë‹¤.
 	auto	iter1 = RenderList.begin();
 	auto	iter1End = RenderList.end();
 
@@ -1113,36 +1174,36 @@ void CRenderManager::RenderParticle(float DeltaTime)
 	m_vecGBuffer[2]->ResetTargetShader(14);
 }
 
-void CRenderManager::RenderMultiSampling(float DeltaTime)
-{
-	m_MSBuffer->ClearTarget();
-
-	m_MSBuffer->SetTarget();
-
-	//m_FXAABuffer->SetTargetShader(10); // 0324
-	m_ScreenBuffer->SetTargetShader(10); //0324
-
-	m_MSShader->SetShader();
-
-	m_DepthDisable->SetState();
-
-	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
-
-	UINT	Offset = 0;
-
-	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
-	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
-	Context->Draw(4, 0);
-
-	m_DepthDisable->ResetState();
-	//m_ScreenBuffer->ResetTargetShader(10); 0324
-
-
-	m_MSBuffer->ResetTargetShader(15); // 0324
-
-	m_MSBuffer->ResetTarget();
-}
+//void CRenderManager::RenderMultiSampling(float DeltaTime)
+//{
+//	m_MSBuffer->ClearTarget();
+//
+//	m_MSBuffer->SetTarget();
+//
+//	//m_FXAABuffer->SetTargetShader(10); // 0324
+//	m_ScreenBuffer->SetTargetShader(10); //0324
+//
+//	m_MSShader->SetShader();
+//
+//	m_DepthDisable->SetState();
+//
+//	ID3D11DeviceContext* Context = CDevice::GetInst()->GetContext();
+//
+//	UINT	Offset = 0;
+//
+//	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+//	Context->IASetVertexBuffers(0, 0, nullptr, nullptr, &Offset);
+//	Context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
+//	Context->Draw(4, 0);
+//
+//	m_DepthDisable->ResetState();
+//	//m_ScreenBuffer->ResetTargetShader(10); 0324
+//
+//
+//	m_MSBuffer->ResetTargetShader(15); // 0324
+//
+//	m_MSBuffer->ResetTarget();
+//}
 
 //void CRenderManager::RenderTranslation(float DeltaTime)
 //{
@@ -1203,7 +1264,7 @@ bool CRenderManager::SortLayer(RenderLayer* Src, RenderLayer* Dest)
 
 void CRenderManager::CreateRenderTarget()
 {
-	// ÀÎ½ºÅÏ½Ì¿ë ¸Ş¸ğ¸® Ç® »ı¼º
+	// ì¸ìŠ¤í„´ì‹±ìš© ë©”ëª¨ë¦¬ í’€ ìƒì„±
 	m_vecInstancingPool.resize(30);
 
 	size_t	Size = m_vecInstancingPool.size();
@@ -1325,43 +1386,61 @@ void CRenderManager::CreateRenderTarget()
 
 	m_ShadowMapTarget = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("ShadowMap");
 
-	m_ShadowMapTarget->SetPos(Vector3(300.f, 100.f, 0.f));
-	m_ShadowMapTarget->SetScale(Vector3(300.f, 300.f, 1.f));
+	m_ShadowMapTarget->SetPos(Vector3(200.f, 100.f, 0.f));
+	m_ShadowMapTarget->SetScale(Vector3(100.f, 100.f, 1.f));
 	m_ShadowMapTarget->SetDebugRender(true);
 
 	m_ShadowCBuffer->Init();
 
 	m_ShadowCBuffer->SetShadowResolution(Vector2((float)m_ShadowMapRS.Width, (float)m_ShadowMapRS.Height));
+	//m_ShadowCBuffer->SetShadowBias(0.3f);
 
 	m_ScreenShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("ScreenShader");
 	m_DeferredRenderShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("DeferredRenderShader");
 
-	// FXAA ¿ë
+
+	// No-MultiSampling
+	m_MSShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("MSShader");
+	CResourceManager::GetInst()->CreateTargetNoMS("RenderNoMS", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D24_UNORM_S8_UINT);
+	m_MSBuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderNoMS");
+	m_MSBuffer->SetPos(Vector3(200.f, 200.f, 0.f));
+	m_MSBuffer->SetScale(Vector3(100.f, 100.f, 1.f));
+
+	m_MSBuffer->SetDebugRender(true);
+
+	// FXAA
 	m_FXAAShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("FXAAShader");
 
-	CResourceManager::GetInst()->CreateTarget("RenderFXAA", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	CResourceManager::GetInst()->CreateTargetNoMS("RenderFXAA", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D24_UNORM_S8_UINT);
 
 	m_FXAABuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderFXAA");
 
-	m_FXAABuffer->SetPos(Vector3(900.f, 0.f, 0.f));
-	m_FXAABuffer->SetScale(Vector3(200.f, 200.f, 1.f));
+	m_FXAACBuffer->Init();
+
+	m_FXAABuffer->SetPos(Vector3(200.f, 300.f, 0.f));
+	m_FXAABuffer->SetScale(Vector3(100.f, 100.f, 1.f));
 	m_FXAABuffer->SetDebugRender(true);
 
-	// Cartoon ¿ë
-	CResourceManager::GetInst()->CreateTarget("RenderCartoon", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	// Cartoon
+	/*m_CartoonShader = (CGraphicShader*)CResourceManager::GetInst()->FindShader("CartoonShader");
+
+	CResourceManager::GetInst()->CreateTargetNoMS("RenderCartoon", RS.Width, RS.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D24_UNORM_S8_UINT);
 
 	m_CartoonBuffer = (CRenderTarget*)CResourceManager::GetInst()->FindTexture("RenderCartoon");
 
-	m_CartoonBuffer->SetPos(Vector3(1200.f, 0.f, 0.f));
-	m_CartoonBuffer->SetScale(Vector3(200.f, 200.f, 1.f));
-	m_CartoonBuffer->SetDebugRender(true);
+	m_CartoonCBuffer->Init();
+
+	m_CartoonBuffer->SetPos(Vector3(200.f, 400.f, 0.f));
+	m_CartoonBuffer->SetScale(Vector3(100.f, 100.f, 1.f));
+	m_CartoonBuffer->SetDebugRender(true);*/
+
 
 	m_TranslationCBuffer->Init();
 }
 
 bool CRenderManager::SortAlphaObject(CSceneComponent* Src, CSceneComponent* Dest)
 {
-	// ºä°ø°£ÀÇ z°ªÀ» ºñ±³ÇÑ´Ù.
+	// ë·°ê³µê°„ì˜ zê°’ì„ ë¹„êµí•œë‹¤.
 	Vector3	SrcPos = Src->GetWorldPos();
 	Vector3	DestPos = Dest->GetWorldPos();
 

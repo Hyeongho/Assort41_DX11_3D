@@ -37,6 +37,7 @@ CPlayer::CPlayer()
 	, m_OnCollision(false)
 	, m_CanPickUp(false)
 	, m_IsStop(false)
+	, m_DirVector(1.0f, 0.0f, 1.0f)
 {
 	SetTypeID<CPlayer>();
 	m_ObjectTypeName = "Player";
@@ -54,6 +55,8 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	, m_OnCollision(false)
 	, m_CanPickUp(false)
 	, m_IsStop(false)
+	, m_Invincibility(false)
+	, m_DirVector(1.0f, 1.0f, 1.0f)
 {
 	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
@@ -68,10 +71,20 @@ CPlayer::CPlayer(const CPlayer& Obj)
 
 CPlayer::~CPlayer()
 {
+	if (m_Scene)
+	{
+		m_Scene->GetResource()->SoundStop("BikiniBottom");
+		m_Scene->GetResource()->SoundStop("JellyfishField");
+		m_Scene->GetResource()->SoundStop("BossStage");
+		m_Scene->GetResource()->SoundStop("BossStage");
+	}
 	if (m_LoadData != m_PlayerData)
 	{
 		SaveCharacter();
 	}
+
+	m_Rigid->Destroy();
+	m_Rigid = nullptr;
 }
 
 void CPlayer::Destroy()
@@ -116,6 +129,7 @@ void CPlayer::Start()
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("F7", Input_Type::Down, this, &CPlayer::DebugF1, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("F8", Input_Type::Down, this, &CPlayer::DebugF8, m_Scene);
+	CInput::GetInst()->AddBindFunction<CPlayer>("F9", Input_Type::Down, this, &CPlayer::DebugF9, m_Scene);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("W", Input_Type::Push, this, &CPlayer::MoveFront, m_Scene);
 	CInput::GetInst()->AddBindFunction<CPlayer>("S", Input_Type::Push, this, &CPlayer::MoveBack, m_Scene);
@@ -200,7 +214,8 @@ bool CPlayer::Init()
 
 	m_Arm->SetTargetOffset(0.f, 150.f, 0.f);
 
-	m_Rigid->SetGravity(false);
+	//m_Rigid->SetGravity(false);
+	m_Rigid->SetGravity(true);
 
 	m_Cube->SetRelativePositionY(70.f);
 	m_Cube->SetCollisionProfile("Player");
@@ -272,6 +287,11 @@ void CPlayer::Load(FILE* File)
 
 int CPlayer::InflictDamage(int damage)
 {
+	if (m_Invincibility)
+	{
+		return m_PlayerData.CurHP;
+	}
+
 	int hp = --m_PlayerData.CurHP > 0? m_PlayerData.CurHP :0;
 	m_PlayerUI->SetHp(hp);
 	IngameUI();
@@ -638,14 +658,18 @@ void CPlayer::MoveFront()
 	{
 		return;
 	}
+
 	float angle = m_Camera->GetWorldRot().y;
+
 	if (m_WallCollision.Dest)
 	{
-		int differ = (int)abs(GetWorldRot().y-angle)%360;
+		int differ = (int)abs(GetWorldRot().y - angle) % 360;
+
 		if(differ>100&&differ<200)
 		{
 			return;
 		}
+
 		else if (differ <= 100||(differ >=200 && differ < 280))
 		{
 			float distance = m_Cube->GetInfo().Length[0] * 0.85f;
@@ -653,17 +677,41 @@ void CPlayer::MoveFront()
 			AddWorldPosition(GetWorldAxis(AXIS_Z) * distance);
 		}
 	}
+
 	if (m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerIdle")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
 	}
+
 	else if(m_Anim[(int)m_MainCharacter]->GetCurrentAnimationName() == "PlayerPickUpIdle")
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerPickUpWalk");
 	}
-	SetWorldRotationY(angle+180.f);
-	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
-	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
+
+	std::list<CCollider*> List = m_Cube->GetPrevCollisionList();
+
+	if (!List.empty())
+	{
+		auto iter = List.begin();
+		auto iterEnd = List.end();
+
+		for (; iter != iterEnd; iter++)
+		{
+			if (((*iter)->GetCollisionProfile()->Name == "Ground") && ((*iter)->GetWorldRot().z > 0.f || (*iter)->GetWorldRot().z < 0.f))
+			{
+				Vector3 DirRot = (*iter)->GetWorldRot();
+				Matrix MatRot;
+				MatRot.Rotation(DirRot);
+				m_DirVector = m_DirVector.TransformCoord(MatRot);
+				break;
+			}
+		}
+	}
+
+	SetWorldRotationY(angle + 180.f);
+	AddWorldPositionX((sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime) * m_DirVector.x);
+	AddWorldPositionZ((cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime) * m_DirVector.z);
+	AddWorldPositionY(m_Speed * g_DeltaTime * m_DirVector.y);
 }
 
 void CPlayer::MoveBack()
@@ -1346,6 +1394,19 @@ void CPlayer::DebugF8()
 	m_Anim[(int)m_MainCharacter]->Stop();
 }
 
+void CPlayer::DebugF9()
+{
+	if (m_Invincibility)
+	{
+		m_Invincibility = false;
+	}
+
+	else
+	{
+		m_Invincibility = true;
+	}
+}
+
 void CPlayer::CollisionTest(const CollisionResult& result)
 {
 	std::string name = result.Dest->GetCollisionProfile()->Name;
@@ -1385,6 +1446,7 @@ void CPlayer::CollisionTest(const CollisionResult& result)
 	{
 		m_OnCollision = true;
 		m_Rigid->SetGround(true);
+
 		BashCheck();
 	}
 
@@ -1404,32 +1466,58 @@ void CPlayer::CollisionTestOut(const CollisionResult& result)
 
 	std::list<CCollider*> List = result.Src->GetPrevCollisionList();
 
-	auto iter = List.begin();
-	auto iterEnd = List.end();
-
-	for (; iter != iterEnd; iter++)
+	if (!List.empty())
 	{
-		if ((*iter)->GetCollisionProfile()->Name == "Ground")
+		auto iter = List.begin();
+		auto iterEnd = List.end();
+
+		for (; iter != iterEnd; iter++)
 		{
-			return;
+			if ((*iter)->GetCollisionProfile()->Name == "Ground")
+			{
+				return;
+			}
 		}
 	}
 
 	m_WallCollision.Dest = nullptr;
 	m_WallCollision.Src = nullptr;
 	m_WallCollision.HitPoint = Vector3(0.f,0.f,0.f);
-	m_Rigid->SetGround(false);
-	m_OnCollision = false;
+
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
 		m_Scene->GetResource()->SoundStop("Spongebob_WalkLeft");
+
+		if (m_Rigid)
+		{
+			m_Rigid->SetGround(false);
+		}
+
+		m_OnCollision = false;
+
 		break;
 	case EMain_Character::Patrick:
 		m_Scene->GetResource()->SoundStop("Patrick_Step");
+
+		if (m_Rigid)
+		{
+			m_Rigid->SetGround(false);
+		}
+
+		m_OnCollision = false;
+
 		break;
 	case EMain_Character::Sandy:
 		m_Scene->GetResource()->SoundStop("Sandy_Walk");
+
+		if (m_Rigid)
+		{
+			m_Rigid->SetGround(false);
+		}
+
+		m_OnCollision = false;
+
 		break;
 	}
 }

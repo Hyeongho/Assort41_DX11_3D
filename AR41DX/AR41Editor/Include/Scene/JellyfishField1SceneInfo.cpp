@@ -71,8 +71,8 @@ bool CJellyfishField1SceneInfo::Init()
 	WaterMesh->SetWorldScale(3.f, 1.f, 3.f);
 	WaterMesh->SetWorldPosition(14000.f, 1350.f, 81000.f);
 
-	CGameObject* JellyfishField = m_Owner->CreateObject<CGameObject>("JellyfishField1");
-	CStaticMeshComponent* JellyfishFieldMesh = JellyfishField->CreateComponent<CStaticMeshComponent>("JellyfishField1");
+	CGameObject* JellyfishField = m_Owner->CreateObject<CGameObject>("JellyfishField");
+	CStaticMeshComponent* JellyfishFieldMesh = JellyfishField->CreateComponent<CStaticMeshComponent>("Mesh");
 	JellyfishFieldMesh->SetMesh("JellyfishField1");
 	JellyfishFieldMesh->SetWorldScale(1.f, 1.f, 1.f);
 	JellyfishFieldMesh->SetWorldPosition(7000.f, 3500.f, 21000.f);
@@ -241,21 +241,6 @@ bool CJellyfishField1SceneInfo::Init()
 	}
 
 
-	// Grass Test
-	{
-		for (int i = 0; i < 100; i++) {
-			CGrass* Grass = m_Owner->CreateObject<CGrass>("Grass" + std::to_string(i + 1));
-			float PosX = 15000.f;
-			float PosZ = 9000.f;
-
-			int x = i % 10;
-			int z = i / 10;
-
-			Grass->SetWorldPosition(PosX + x * 40.f, 1800.f, PosZ + z * 40.f);
-		}
-	}
-
-
 	// ±è¹üÁß(Tree) -> Stage 1
 	{
 		CJumpTree* JumpTree = m_Owner->CreateObject<CJumpTree>("JumpTree1");
@@ -390,6 +375,7 @@ bool CJellyfishField1SceneInfo::Init()
 		OBJ->SetWorldPosition(18000.f, 500.f, 6700.f);
 		OBJ->SetWorldScale(2.f, 2.f, 2.f);
 	}
+
 
 	// ±èº¸¿ø(Object)
 	{

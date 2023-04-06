@@ -4,6 +4,7 @@
 #include "Component/ColliderOBB3D.h"
 #include "Component/TargetArm.h"
 #include "Component/CameraComponent.h"
+#include "Component/BillboardComponent.h"
 //#include "Component/RigidBody.h"
 #include "Scene/Scene.h"
 #include "Scene/NavigationManager3D.h"
@@ -25,6 +26,7 @@ CSpongebobMissile::CSpongebobMissile(const CSpongebobMissile& obj)
 	m_Body = (CColliderOBB3D*)FindComponent("Body");
 	m_Arm = (CTargetArm*)FindComponent("Arm");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
+	m_Crosshair = (CBillboardComponent*)FindComponent("Crosshair");
 }
 
 CSpongebobMissile::~CSpongebobMissile()
@@ -52,10 +54,12 @@ bool CSpongebobMissile::Init()
 	m_Body = CreateComponent<CColliderOBB3D>("Body");
 	m_Arm = CreateComponent<CTargetArm>("Arm");
 	m_Camera = CreateComponent<CCameraComponent>("Camera");
+	m_Crosshair=CreateComponent<CBillboardComponent>("Crosshair");
 
 	m_Mesh->AddChild(m_Body);
 	m_Mesh->AddChild(m_Arm);
 	m_Arm->AddChild(m_Camera);
+	m_Mesh->AddChild(m_Crosshair);
 
 	m_Mesh->SetMesh("SpongebobMissile");
 	m_Mesh->SetPivot(0.5f, 0.5f);
@@ -67,6 +71,14 @@ bool CSpongebobMissile::Init()
 
 	m_Camera->SetInheritRotX(true);
 	m_Camera->SetInheritRotY(true);
+
+	m_Crosshair->SetRelativePosition(-100.f, 0.f, 0.f);
+	m_Crosshair->SetInheritRotX(true);
+	//m_Crosshair->SetInheritRotY(true);
+	//m_Crosshair->SetInheritRotZ(true);
+	m_Crosshair->GetMaterial(0)->SetTexture(0, 0, (int)EShaderBufferType::Pixel, "Crosshair"
+		, TEXT("UI\\cruise_missle_crosshair.tga"));
+	m_Crosshair->SetRelativeScale(100.f, 100.f);
 
 	m_Anim = m_Mesh->SetAnimation<CAnimation>("SpongebobMissileAnimation");
 	m_Anim->AddAnimation("MissileStart", "SpongebobMissile_Start", 1.f, 1.f, false);

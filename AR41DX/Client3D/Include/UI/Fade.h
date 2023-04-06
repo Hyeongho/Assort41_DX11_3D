@@ -8,6 +8,8 @@ enum class ENext_Scene
 	TitleScene, 
 	BikiniCity, 
 	JellyfishField, 
+	JellyfishField1, 
+	JellyfishField2, 
 	KingJellyfish, 
 	ChumBucketLab
 };

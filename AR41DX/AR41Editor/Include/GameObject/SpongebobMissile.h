@@ -9,6 +9,7 @@ private:
 	CSharedPtr<class CColliderOBB3D> m_Body;
 	CSharedPtr<class CTargetArm> m_Arm;
 	CSharedPtr<class CCameraComponent> m_Camera;
+	CSharedPtr<class CBillboardComponent> m_Crosshair;
 	CSharedPtr<class CAnimation> m_Anim;
 	float m_Speed;
 	float m_Angle;

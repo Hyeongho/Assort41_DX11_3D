@@ -28,11 +28,19 @@
 #include "../GameObject/Object/Gate.h"
 #include "../GameObject/Object/JumpTree.h"
 #include "../GameObject/Object/TeleportBox.h"
+#include "../GameObject/BossMonster/RoboSponge/RoboSponge.h"
+#include "../GameObject/BossMonster/RoboSponge/RoboSponge_Knob.h"
+#include "../GameObject/Object/CBL/CBL_BaseMesh.h"
+#include "../GameObject/Object/CBL/CBL_Floor.h"
+#include "../GameObject/Object/CBL/CBL_Platform.h"
+#include "../GameObject/Object/Common/Trampoline.h"
+#include "../GameObject/Object/Common/Collectible/UnderWear.h"
 #include "../UI/PlayerUI.h"
 #include "../UI/PauseUI.h"
 #include "../UI/TitleSceneUI.h"
 #include "../UI/InteractUI.h"
 #include "../UI/DialogUI.h"
+#include "../UI/BossUI.h"
 #include "Scene/Scene.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -87,6 +95,7 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateUIWindowCDO<CTitleSceneUI>("TitleSceneUI");
     CScene::CreateUIWindowCDO<CInteractUI>("InteractUI");
     CScene::CreateUIWindowCDO<CDialogUI>("DialogUI");
+    CScene::CreateUIWindowCDO<CBossUI>("BossUI");
 
     CScene::CreateObjectCDO<CDupli_Can>("Dupli_Can");
     CScene::CreateObjectCDO<CFodderDebris>("FodderDebris");
@@ -96,6 +105,14 @@ void CDefaultSetting::CreateCDO()
     CScene::CreateObjectCDO<CCheckPoint>("CheckPoint");
     CScene::CreateObjectCDO<CGate>("Gate");
     CScene::CreateObjectCDO<CInfoSign>("InfoSign");
+
+    CScene::CreateObjectCDO<CRoboSponge>("Robo_Sponge");
+    CScene::CreateObjectCDO<CRoboSponge_Knob>("RoboSponge_Knob");
+    CScene::CreateObjectCDO<CCBL_BaseMesh>("CBL_BaseMesh");
+    CScene::CreateObjectCDO<CCBL_Floor>("CBL_Floor");
+    CScene::CreateObjectCDO<CCBL_Platform>("CBL_Platform");
+    CScene::CreateObjectCDO<CTrampoline>("Trampoline");
+    CScene::CreateObjectCDO<CUnderWear>("UnderWear");
 }
 
 void CDefaultSetting::LoadResource()
@@ -689,6 +706,14 @@ void CDefaultSetting::LoadEnemies()
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "DuplicatotronCan", TEXT("Enemies/Duplicatotron/DuplicatotronCan.fbx"), MESH_PATH);
 
+    // Sound
+    CResourceManager::GetInst()->LoadSound("Effect", "Fodder_Attack", false, "Enemies/Fodder_Attack.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "Ham_Hit", false, "Enemies/SFX_Ham_Hit_002.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "Robot_Explode", false, "Enemies/SFX_Robot_Explode_002.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "Dupli_idle", false, "Enemies/Dupli_idle.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "Dupli_full", false, "Enemies/Dupli_full.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "Dupli_destroy", false, "Enemies/Dupli_destroy.ogg", SOUND_PATH);
+
 }
 
 void CDefaultSetting::LoadMrKrabs()
@@ -868,7 +893,7 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Seaflower", TEXT("Objects/JellyfishFields/Seaflower.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BouncingTree", TEXT("Objects/JellyfishFields/BouncingTree.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Clam", TEXT("Objects/JellyfishFields/Clam.msh"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge2.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Missile", TEXT("Objects/JellyfishFields/Missile.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Gate", TEXT("Objects/JellyfishFields/Gate.msh"), MESH_PATH);
 
@@ -952,6 +977,15 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     // Gate
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GateArm", TEXT("Objects/JellyfishFields/GateArm.fbx"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GateBottom", TEXT("Objects/JellyfishFields/GateBottom.fbx"), MESH_PATH);
+
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BossWater", TEXT("Objects/JellyfishFields/BossWater.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BossMapWater", TEXT("Objects/JellyfishFields/BossWater.msh"));
+
+    // Sound
+    CResourceManager::GetInst()->LoadSound("Effect", "Box_Teleport", false, "Objects/Box_shuffle_open.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "Gate_Opening", false, "Objects/SFX_GateOpenLong_3sec.ogg", SOUND_PATH);
+    CResourceManager::GetInst()->LoadSound("Effect", "CheckPoint", false, "Objects/SFX_CheckPoint.ogg", SOUND_PATH);
+
 }
 
 void CDefaultSetting::LoadCBObjects()
@@ -1276,6 +1310,7 @@ void CDefaultSetting::LoadParticle()
     Particle->SetParticleMoveDirEnable(false);
     Particle->SetParticleMoveAngle(Vector3(0.f, 0.f, 0.f));
 
+
     // Smoke
     CResourceManager::GetInst()->CreateParticle("Smoke");
 
@@ -1300,4 +1335,28 @@ void CDefaultSetting::LoadParticle()
     Particle->SetParticleMoveDir(Vector3(0.f, 0.f, 0.f));
     Particle->SetParticleMoveDirEnable(false);
     Particle->SetParticleMoveAngle(Vector3(0.f, 0.f, 0.f));
+
+    // 샤워 물줄기
+    CResourceManager::GetInst()->CreateParticle("Shower");
+
+    Particle = CResourceManager::GetInst()->FindParticle("Shower");
+
+    Particle->SetMaterial("Shower");
+
+    Particle->SetParticleSpawnTime(0.01f);
+    Particle->SetParticleStartMin(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleStartMax(Vector3(5.f, 0.f, 5.f));
+    Particle->SetParticleSpawnCountMax(30);
+    Particle->SetParticleScaleMin(Vector3(1000.f, 1000.f, 1000.f));
+    Particle->SetParticleScaleMax(Vector3(1000.f, 1000.f, 1000.f));
+    Particle->SetParticleLifeTimeMin(4.f);
+    Particle->SetParticleLifeTimeMax(6.f);
+    Particle->SetParticleColorMin(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 1.f));
+    Particle->SetParticleSpeedMin(5.f);
+    Particle->SetParticleSpeedMax(5.f);
+    Particle->SetParticleMoveEnable(true);
+    Particle->SetParticleGravityEnable(true);
+    Particle->SetParticleMoveDir(Vector3(0.f, 0.f, 0.f));
+
 }

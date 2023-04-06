@@ -782,9 +782,6 @@
     <ClInclude Include="GameObject\Object\TeleportBox.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object\CheckPoint.h">
-      <Filter>03. GameObject\01. Player</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\PatrickObject.h">
       <Filter>03. GameObject\01. Player</Filter>
     </ClInclude>
@@ -880,6 +877,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Object\CBL\CBL_BaseMesh.h">
       <Filter>03. GameObject\04. Object\04. ChumBucketLab\02. CBL</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object\CheckPoint.h">
+      <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

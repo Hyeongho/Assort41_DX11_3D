@@ -47,15 +47,19 @@ bool CTeeterRock::Init()
 	m_LeftCube = CreateComponent<CColliderOBB3D>("LeftCube");
 	m_RightCube = CreateComponent<CColliderOBB3D>("RightCube");
 
+	m_LeftCube->SetCollisionProfile("Ground");
+	m_RightCube->SetCollisionProfile("Ground");
+
 	SetRootComponent(m_Mesh);
 
 	m_Mesh->SetMesh("SM_JF_Teeter_Rock_01");
 
-	m_LeftCube->AddWorldPositionX(-251.f);
-	m_RightCube->AddWorldPositionX(251.f);
+	m_LeftCube->AddWorldPositionX(( -1.f * m_Mesh->GetMeshSize().x / 4.f) + -1.f);
+	m_RightCube->AddWorldPositionX(m_Mesh->GetMeshSize().x / 4.f);
 
-	m_LeftCube->SetBoxHalfSize(250.f, 50.f, 50.f);
-	m_RightCube->SetBoxHalfSize(250.f, 50.f, 50.f);
+	m_LeftCube->SetBoxHalfSize(m_Mesh->GetMeshSize() / 4.f);
+	m_RightCube->SetBoxHalfSize(m_Mesh->GetMeshSize() / 4.f);
+	//m_RightCube->SetBoxHalfSize(250.f, 50.f, 50.f);
 
 	m_Mesh->AddChild(m_LeftCube);
 	m_Mesh->AddChild(m_RightCube);
@@ -94,6 +98,22 @@ void CTeeterRock::PostUpdate(float DeltaTime)
 		if (m_RightCollison)
 		{
 			AddWorldRotationZ(-10.f * DeltaTime);
+		}
+
+		if (!m_LeftCollison && !m_RightCollison)
+		{
+			if (GetWorldRot().z != 0.f)
+			{
+				if (GetWorldRot().z > 0.f)
+				{
+					AddWorldRotationZ(-10.f * DeltaTime);
+				}
+
+				else if (GetWorldRot().z > 0.f)
+				{
+					AddWorldRotationZ(10.f * DeltaTime);
+				}
+			}
 		}
 	}
 }

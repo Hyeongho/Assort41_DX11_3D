@@ -14,7 +14,7 @@ CRoboSponge_Knob::CRoboSponge_Knob()
 {
 	SetTypeID<CRoboSponge_Knob>();
 
-	m_ObjectTypeName = "Robo_Sponge";
+	m_ObjectTypeName = "RoboSponge_Knob";
 }
 
 CRoboSponge_Knob::CRoboSponge_Knob(const CRoboSponge_Knob& Obj) :

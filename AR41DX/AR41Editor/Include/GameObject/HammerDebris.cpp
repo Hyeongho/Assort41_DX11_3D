@@ -22,7 +22,6 @@ CHammerDebris::CHammerDebris() :
 }
 
 CHammerDebris::CHammerDebris(const CHammerDebris& Obj)
-    : CMonster(Obj)
 {
     m_HammerDebrisMesh1 = (CStaticMeshComponent*)FindComponent("HammerDebrisMesh1");
     m_HammerDebrisMesh2 = (CStaticMeshComponent*)FindComponent("HammerDebrisMesh2");
@@ -93,6 +92,7 @@ bool CHammerDebris::Init()
     //m_HammerDebris1->SetWorldPosition(130.f, 50.f, 150.f);
     //m_ArmMesh->SetRelativePosition(0.f, 50.f, 0.f);
 
+
     m_Hammer = (CHammer*)m_Scene->FindObject("Hammer");
 
     m_HammerDebrisMesh1->SetWorldPositionX(m_Hammer->GetWorldPos().x * 2.f);
@@ -148,11 +148,15 @@ void CHammerDebris::Update(float DeltaTime)
 
     float PosY = GetWorldPos().y;
 
-    if (GetWorldPos().y >= 700.f)
+    if (GetWorldPos().y >= 480.f)
     {
         m_DefyingGravity = false;
-        m_Rigid->SetVelocityY(-200.f);
-        m_Rigid->AddForce(0, 70.f);
+        m_Rigid->SetVelocityY(-20.f);
+        m_Rigid->AddForce(300, 10.f, 0.f);
+        m_HammerDebrisMesh1->AddWorldPosition(100.f, 0.f, 0.f);
+        m_HammerDebrisMesh2->AddRelativePosition(-50.f, 0.f, 19.f);
+        m_HammerDebrisMesh3->AddRelativePosition(-40.f, 0.f, 5.f);
+        m_HammerDebrisMesh4->AddRelativePosition(-35.f, 0.f, 0.f);
     }
 
     // ¶¥¿¡ ÂøÁö

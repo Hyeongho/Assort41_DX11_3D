@@ -11,7 +11,8 @@ CDupli_Can::CDupli_Can()	:
     m_FallTime(0.f),
     m_DefyingGravity(true),
     m_CountHammer(0),
-    m_SpawnOn(true)
+    m_SpawnOn(true),
+    m_Land(false)
 {
 	SetTypeID<CDupli_Can>();
 
@@ -57,7 +58,7 @@ bool CDupli_Can::Init()
 
 	Vector3 DuplicatotronPos = Duplicatotron->GetWorldPos();
 
-	m_Mesh->SetWorldPosition(DuplicatotronPos.x, DuplicatotronPos.y + 200.f, DuplicatotronPos.z + 400.f);
+	m_Mesh->SetWorldPosition(DuplicatotronPos.x, DuplicatotronPos.y + 300.f, DuplicatotronPos.z + 200.f);
 
     m_Rigid->SetGravity(true);
 
@@ -75,25 +76,50 @@ void CDupli_Can::Update(float DeltaTime)
     // °øÁß¿¡ ¶¹À» ¶§
     if (m_DefyingGravity)
     {
+        m_Land = false;
+
         m_Rigid->SetGround(false);
         //m_Rigid->AddForce(0, 1.f);
-        m_Rigid->SetVelocityY(350.f);
+        m_Rigid->SetVelocityY(550.f);
         AddWorldPosition(GetWorldAxis(AXIS_Z) * 300.f * DeltaTime);
-    }
 
-    float PosY = GetWorldPos().y;
+        float PosY = GetWorldPos().y;
+    }
 
     if (GetWorldPos().y >= 1200.f)
     {
+        m_Land = false;
+
         m_DefyingGravity = false;
-        m_Rigid->SetVelocityY(-200.f);
-        AddWorldPosition(GetWorldAxis(AXIS_Z) * 300.f * DeltaTime);
-        m_Rigid->AddForce(0, 70.f);
+        m_Rigid->SetVelocity(100.f, -300.f);
+        //AddWorldPosition(GetWorldAxis(AXIS_Z) * 500.f * DeltaTime);
+
+        //AddWorldPosition(GetWorldAxis(AXIS_X) * 300.f * DeltaTime);
+        m_Rigid->AddForce(100.f, 370.f);
+
+       
     }
+
+    if (!m_DefyingGravity && !m_Land)
+    {
+        //m_DefyingGravity = false;
+
+        m_Rigid->SetVelocity(200.f, -200.f);
+        //AddWorldPosition(GetWorldAxis(AXIS_Z) * 500.f * DeltaTime);
+
+        //AddWorldPosition(GetWorldAxis(AXIS_Z) * 500.f * DeltaTime);
+
+        //AddWorldPosition(GetWorldAxis(AXIS_X) * 300.f * DeltaTime);
+        m_Rigid->AddForce(500.f, 370.f);
+    }
+    
+    
 
     // ¶¥¿¡ ÂøÁö
     if (Y != FLT_MAX && GetWorldPos().y - Y < m_Mesh->GetMeshSize().y / 2.f && m_Mesh)
     {
+        m_Land = true;
+
         if (m_CountHammer == 2)
             m_SpawnOn = true;
 

@@ -35,6 +35,7 @@ public:
 
 protected:
 	class CScene* m_Scene;
+	class CSceneViewport* m_Owner;
 	std::string		m_ObjectTypeName;
 	int		m_ComponentSerialNumber;
 
@@ -49,6 +50,11 @@ public:
 	const std::string& GetObjectTypeName()	const
 	{
 		return m_ObjectTypeName;
+	}
+
+	class CSceneViewport* GetViewport() const
+	{
+		return m_Owner;
 	}
 
 public:

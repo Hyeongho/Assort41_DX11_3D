@@ -290,5 +290,6 @@ bool CJellyfishFieldSceneInfo::Init()
 	CoconutTreeCube->SetRelativePositionY(300.f);
 	CoconutTreeCube->SetCubeSize(160.f, 600.f, 200.f);
 	CoconutTreeCube->SetCollisionProfile("Wall");
+
 	return true;
 }
