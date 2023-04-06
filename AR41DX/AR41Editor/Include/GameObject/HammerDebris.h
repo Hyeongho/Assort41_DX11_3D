@@ -12,7 +12,7 @@ protected:
 	CHammerDebris(const CHammerDebris& Obj);
 	virtual ~CHammerDebris();
 
-private:
+protected:
 	CSharedPtr<class CStaticMeshComponent>		m_HammerDebrisMesh1;
 	CSharedPtr<class CStaticMeshComponent>		m_HammerDebrisMesh2;
 	CSharedPtr<class CStaticMeshComponent>		m_HammerDebrisMesh3;
@@ -22,6 +22,12 @@ private:
 	CSharedPtr<class CColliderOBB3D>			m_Mesh2Cube;
 	CSharedPtr<class CColliderOBB3D>			m_Mesh3Cube;
 	CSharedPtr<class CColliderOBB3D>			m_Mesh4Cube;
+
+	CSharedPtr<class CRigidBody>	m_Rigid1;
+	CSharedPtr<class CRigidBody>	m_Rigid2;
+	CSharedPtr<class CRigidBody>	m_Rigid3;
+	CSharedPtr<class CRigidBody>	m_Rigid4;
+
 
 
 private:
