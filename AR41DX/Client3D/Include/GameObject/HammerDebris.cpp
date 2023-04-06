@@ -65,7 +65,7 @@ bool CHammerDebris::Init()
 
     //m_Cube = CreateComponent<CColliderOBB3D>("Cube");
 
-    m_Rigid = CreateComponent<CRigidBody>("Rigid");
+    //m_Rigid = CreateComponent<CRigidBody>("Rigid");
 
     m_Rigid1 = CreateComponent<CRigidBody>("Rigid1");
     m_Rigid2 = CreateComponent<CRigidBody>("Rigid2");

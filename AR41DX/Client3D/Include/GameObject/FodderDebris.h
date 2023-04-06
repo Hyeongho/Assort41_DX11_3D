@@ -13,7 +13,7 @@ protected:
 	CFodderDebris(const CFodderDebris& Obj);
 	virtual ~CFodderDebris();
 
-private:
+protected:
 	CSharedPtr<class CStaticMeshComponent>		m_FodderDebrisMesh1;
 	CSharedPtr<class CStaticMeshComponent>		m_FodderDebrisMesh2;
 	CSharedPtr<class CStaticMeshComponent>		m_FodderDebrisMesh3;
@@ -24,6 +24,10 @@ private:
 	CSharedPtr<class CColliderOBB3D>			m_Mesh3Cube;
 	CSharedPtr<class CColliderOBB3D>			m_Mesh4Cube;
 
+	CSharedPtr<class CRigidBody>	m_Rigid1;
+	CSharedPtr<class CRigidBody>	m_Rigid2;
+	CSharedPtr<class CRigidBody>	m_Rigid3;
+	CSharedPtr<class CRigidBody>	m_Rigid4;
 
 	//
 	float m_Velocity[3];
