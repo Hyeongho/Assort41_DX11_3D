@@ -1484,6 +1484,11 @@ void CPlayer::CollisionTestOut(const CollisionResult& result)
 	m_WallCollision.Src = nullptr;
 	m_WallCollision.HitPoint = Vector3(0.f,0.f,0.f);
 
+	if (!m_Scene)
+	{
+		return;
+	}
+
 	switch (m_MainCharacter)
 	{
 	case EMain_Character::Spongebob:
@@ -1518,6 +1523,9 @@ void CPlayer::CollisionTestOut(const CollisionResult& result)
 
 		m_OnCollision = false;
 
+		break;
+
+	default:
 		break;
 	}
 }

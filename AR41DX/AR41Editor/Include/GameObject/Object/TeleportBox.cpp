@@ -9,6 +9,7 @@
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "TeleportBox.h"
+#include "../../UI/Fade.h"
 
 
 CTeleportBox::CTeleportBox() :
@@ -178,10 +179,39 @@ void CTeleportBox::Collision_Teleport(const CollisionResult& result)
         {
             // 300.f는 박스 옆으로 이동시키기위한 임의의 숫자. 
             //Player->SetWorldPosition(16500.f + 300.f, 0.f, 13500.f);
+
+            CFade* Fade = m_Scene->GetViewport()->FindUIWindow<CFade>("Fade");
+
+            if (!Fade)
+            {
+                return;
+            }
+
+            else
+            {
+                Fade->SetEnable(true);
+                Fade->SetNextScene(ENext_Scene::JellyfishField2);
+                Fade->SetState(EFade_State::FadeOut_Start);
+            }
         }
 
-        if (GetBoxIndex() == 2) {
+        else if (GetBoxIndex() == 2) 
+        {
             //Player->SetWorldPosition(18000.f + 300.f, 0.f, 13500.f);
+
+            CFade* Fade = m_Scene->GetViewport()->FindUIWindow<CFade>("Fade");
+
+            if (!Fade)
+            {
+                return;
+            }
+
+            else
+            {
+                Fade->SetEnable(true);
+                Fade->SetNextScene(ENext_Scene::JellyfishField1);
+                Fade->SetState(EFade_State::FadeOut_Start);
+            }
 
         }
     }

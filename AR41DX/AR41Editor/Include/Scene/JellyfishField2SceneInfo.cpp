@@ -34,6 +34,7 @@
 #include "Component/ColliderOBB3D.h"
 #include "../UI/DialogUI.h"
 #include "../UI/InteractUI.h"
+#include "../UI/Fade.h"
 
 CJellyfishField2SceneInfo::CJellyfishField2SceneInfo()
 {
@@ -42,6 +43,11 @@ CJellyfishField2SceneInfo::CJellyfishField2SceneInfo()
 
 CJellyfishField2SceneInfo::~CJellyfishField2SceneInfo()
 {
+}
+
+void CJellyfishField2SceneInfo::Start()
+{
+	m_Fade->SetState(EFade_State::FadeIn_Start);
 }
 
 bool CJellyfishField2SceneInfo::Init()
@@ -180,6 +186,7 @@ bool CJellyfishField2SceneInfo::Init()
 		DoubleTree_PMesh->SetWorldRotationY(100.f);
 	}
 
+	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
 
     return true;
 }

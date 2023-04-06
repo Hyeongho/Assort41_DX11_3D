@@ -253,7 +253,9 @@
     <ClCompile Include="Scene\JellyfishField5SceneInfo.cpp" />
     <ClCompile Include="Scene\JellyfishFieldSceneInfo.cpp" />
     <ClCompile Include="Scene\KingJellyfishSceneInfo.cpp" />
+    <ClCompile Include="Scene\LoadingBikiniCity.cpp" />
     <ClCompile Include="Scene\LoadingSceneInfo.cpp" />
+    <ClCompile Include="Scene\LoadingSceneThread.cpp" />
     <ClCompile Include="Scene\RoboSpongeSceneInfo.cpp" />
     <ClCompile Include="Scene\TestScene.cpp" />
     <ClCompile Include="Scene\TitleSceneInfo.cpp" />
@@ -373,7 +375,9 @@
     <ClInclude Include="Scene\JellyfishField5SceneInfo.h" />
     <ClInclude Include="Scene\JellyfishFieldSceneInfo.h" />
     <ClInclude Include="Scene\KingJellyfishSceneInfo.h" />
+    <ClInclude Include="Scene\LoadingBikiniCity.h" />
     <ClInclude Include="Scene\LoadingSceneInfo.h" />
+    <ClInclude Include="Scene\LoadingSceneThread.h" />
     <ClInclude Include="Scene\RoboSpongeSceneInfo.h" />
     <ClInclude Include="Scene\TestScene.h" />
     <ClInclude Include="Scene\TitleSceneInfo.h" />

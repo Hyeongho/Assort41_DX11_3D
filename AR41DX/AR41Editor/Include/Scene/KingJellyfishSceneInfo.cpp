@@ -38,8 +38,6 @@ bool CKingJellyfishSceneInfo::Init()
 	CResourceManager::GetInst()->SoundPlay("KingJellyfish_Idle");
 	CResourceManager::GetInst()->SetVolume(2.f);
 
-	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
-
 	CGameObject* GlobalLightObj = m_Owner->CreateObject<CGameObject>("GlobalLight");
 	CLightComponent* GlobalLightComponent = GlobalLightObj->CreateComponent<CLightComponent>("GlobalLight");
 	GlobalLightComponent->SetLightType(ELightType::Direction);
@@ -88,6 +86,8 @@ bool CKingJellyfishSceneInfo::Init()
 
 	CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
 	KingJellyfish->SetWorldPosition(4400.f, 250.f, 1600.f);
+
+	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
 
 	return true;
 }

@@ -20,6 +20,7 @@
 #include "Component/ParticleComponent.h"
 #include "Component/ColliderCube.h"
 #include "Component/ColliderOBB3D.h"
+#include "../UI/Fade.h"
 
 CBikiniCitySceneInfo::CBikiniCitySceneInfo()
 {
@@ -28,6 +29,11 @@ CBikiniCitySceneInfo::CBikiniCitySceneInfo()
 
 CBikiniCitySceneInfo::~CBikiniCitySceneInfo()
 {
+}
+
+void CBikiniCitySceneInfo::Start()
+{
+	m_Fade->SetState(EFade_State::FadeIn_Start);
 }
 
 bool CBikiniCitySceneInfo::Init()
@@ -275,5 +281,8 @@ bool CBikiniCitySceneInfo::Init()
 		particle->SetParticle("GroundBubble");
 		PariticleObj->SetWorldPosition((float)x, 0.f, (float)z);
 	}
+
+	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
+
 	return true;
 }

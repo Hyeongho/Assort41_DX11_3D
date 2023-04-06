@@ -89,17 +89,38 @@ void CFade::PostUpdate(float DeltaTime)
 
 			case ENext_Scene::BikiniCity:
 				CSceneManager::GetInst()->CreateNextScene(true);
-				CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "Kbj_test2.scn", "Kbj_test1.scn");
+				CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity");
 
 				break;
 
 			case ENext_Scene::JellyfishField:
+				CSceneManager::GetInst()->CreateNextScene(true);
+				CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "JellyfishField");
+
+				break;
+
+			case ENext_Scene::JellyfishField1:
+				CSceneManager::GetInst()->CreateNextScene(true);
+				CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "JellyFishField1");
+
+				break;
+
+			case ENext_Scene::JellyfishField2:
+				CSceneManager::GetInst()->CreateNextScene(true);
+				CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "JellyFishField2");
+
 				break;
 
 			case ENext_Scene::KingJellyfish:
+				CSceneManager::GetInst()->CreateNextScene(true);
+				CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "KingJellyfish");
+
 				break;
 
 			case ENext_Scene::ChumBucketLab:
+				CSceneManager::GetInst()->CreateNextScene(true);
+				CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "ChumBucketLab");
+
 				break;
 
 			default:

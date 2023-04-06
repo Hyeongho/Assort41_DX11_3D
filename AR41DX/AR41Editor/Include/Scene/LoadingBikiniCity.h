@@ -1,16 +1,16 @@
 #pragma once
 
-#include "Scene\SceneInfo.h"
+#include "Scene/SceneInfo.h"
 
-class CLoadingSceneInfo :
+class CLoadingBikiniCity :
     public CSceneInfo
 {
 public:
-    CLoadingSceneInfo();
-    ~CLoadingSceneInfo();
+    CLoadingBikiniCity();
+    ~CLoadingBikiniCity();
 
 private:
-    class CLoadingSceneThread* m_LoadingThread;
+    class CLoadingThread* m_LoadingThread;
     class CThreadQueue* m_LoadingQueue;
     class CLoadingUI* m_LoadingUI;
     CSharedPtr<CGameObject>	m_Particle;

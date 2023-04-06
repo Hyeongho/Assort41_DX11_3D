@@ -22,6 +22,7 @@
 #include "../UI/InteractUI.h"
 #include "../UI/DialogUI.h"
 #include "../UI/PauseUI.h"
+#include "../UI/Fade.h"
 
 CRoboSpongeSceneInfo::CRoboSpongeSceneInfo()
 {
@@ -30,6 +31,11 @@ CRoboSpongeSceneInfo::CRoboSpongeSceneInfo()
 
 CRoboSpongeSceneInfo::~CRoboSpongeSceneInfo()
 {
+}
+
+void CRoboSpongeSceneInfo::Start()
+{
+	m_Fade->SetState(EFade_State::FadeIn_Start);
 }
 
 bool CRoboSpongeSceneInfo::Init()
@@ -104,6 +110,8 @@ bool CRoboSpongeSceneInfo::Init()
 	Infosign->SetWorldPosition(11000.f, 600.f, 6200.f);
 	Infosign->SetMapPos(EMapList::Chum_Bucketlab);
 	Infosign->SetWorldRotationY(90.f);
+
+	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
 
 	return true;
 }

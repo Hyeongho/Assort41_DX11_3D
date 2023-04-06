@@ -188,7 +188,13 @@ void CFodder::Detect_Chase()
 	if (!Player)
 		return;
 
-	Vector3 FodderPos = CSceneManager::GetInst()->GetScene()->FindObject("Fodder")->GetWorldPos();
+	Vector3 FodderPos;
+
+	if (CSceneManager::GetInst()->GetScene()->FindObject("Fodder"))
+	{
+		FodderPos = CSceneManager::GetInst()->GetScene()->FindObject("Fodder")->GetWorldPos();
+	}
+
 	Vector3 PlayerPos = CSceneManager::GetInst()->GetScene()->GetPlayerObject()->GetWorldPos();
 
 	Vector3 Dir = PlayerPos - FodderPos;
