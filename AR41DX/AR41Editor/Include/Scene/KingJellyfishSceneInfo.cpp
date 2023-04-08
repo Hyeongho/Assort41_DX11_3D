@@ -36,7 +36,7 @@ bool CKingJellyfishSceneInfo::Init()
 	//m_Owner->GetViewport()->CreateUIWindow<CKingJellyfishIntroUI>("KingJellyfishIntroUI");
 
 	CResourceManager::GetInst()->SoundPlay("KingJellyfish_Idle");
-	CResourceManager::GetInst()->SetVolume(2.f);
+	CResourceManager::GetInst()->SetVolume(30.f);
 
 	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
 
