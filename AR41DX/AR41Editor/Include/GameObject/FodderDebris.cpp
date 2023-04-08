@@ -104,20 +104,24 @@ bool CFodderDebris::Init()
     m_Acceleration[1] = -9.81f;
     m_Acceleration[2] = 0.f;
 
-    m_Fodder = (CFodder*)m_Scene->FindObject("Fodder");
+    if (m_Fodder)
+    {
+        m_Fodder = (CFodder*)m_Scene->FindObject("Fodder");
 
-    m_FodderDebrisMesh1->SetWorldPositionX(m_Fodder->GetWorldPos().x * 2.f);
-    m_FodderDebrisMesh1->SetWorldPositionY(m_Fodder->GetWorldPos().y + 10.f);
-    //m_FodderDebrisMesh1->SetWorldPositionZ(m_Fodder->GetWorldPos().z);
+        m_FodderDebrisMesh1->SetWorldPositionX(m_Fodder->GetWorldPos().x * 2.f);
+        m_FodderDebrisMesh1->SetWorldPositionY(m_Fodder->GetWorldPos().y + 10.f);
+        //m_FodderDebrisMesh1->SetWorldPositionZ(m_Fodder->GetWorldPos().z);
 
-    m_FodderDebrisMesh2->SetRelativePosition(10.f, 10.f, 20.f);
-    //m_FodderDebrisMesh2->SetRelativeRotation(10.f, 20.f, 20.f);
+        m_FodderDebrisMesh2->SetRelativePosition(10.f, 10.f, 20.f);
+        //m_FodderDebrisMesh2->SetRelativeRotation(10.f, 20.f, 20.f);
 
-    m_FodderDebrisMesh3->SetRelativePosition(20.f, 10.f, 20.f);
-    //m_FodderDebrisMesh3->SetRelativeRotation(15.f, 20.f, 34.f);
+        m_FodderDebrisMesh3->SetRelativePosition(20.f, 10.f, 20.f);
+        //m_FodderDebrisMesh3->SetRelativeRotation(15.f, 20.f, 34.f);
 
-    m_FodderDebrisMesh4->SetRelativePosition(30.f, 10.f, 20.f);
-    //m_FodderDebrisMesh4->SetRelativeRotation(24.f, 20.f, 10.f);
+        m_FodderDebrisMesh4->SetRelativePosition(30.f, 10.f, 20.f);
+        //m_FodderDebrisMesh4->SetRelativeRotation(24.f, 20.f, 10.f);
+    }
+        
 
 
     m_Mesh1Cube->SetCollisionProfile("Monster");

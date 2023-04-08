@@ -98,22 +98,25 @@ bool CHammerDebris::Init()
     //m_HammerDebris1->SetWorldPosition(130.f, 50.f, 150.f);
     //m_ArmMesh->SetRelativePosition(0.f, 50.f, 0.f);
 
+    if (m_Hammer)
+    {
+        m_Hammer = (CHammer*)m_Scene->FindObject("Hammer");
 
-    m_Hammer = (CHammer*)m_Scene->FindObject("Hammer");
+        m_HammerDebrisMesh1->SetWorldPositionX(m_Hammer->GetWorldPos().x);
+        m_HammerDebrisMesh1->SetWorldPositionY(m_Hammer->GetWorldPos().y);
+        m_HammerDebrisMesh1->SetWorldPositionZ(m_Hammer->GetWorldPos().z);
+        m_HammerDebrisMesh1->SetWorldRotationZ(50.f);
 
-    m_HammerDebrisMesh1->SetWorldPositionX(m_Hammer->GetWorldPos().x);
-    m_HammerDebrisMesh1->SetWorldPositionY(m_Hammer->GetWorldPos().y);
-    m_HammerDebrisMesh1->SetWorldPositionZ(m_Hammer->GetWorldPos().z);
-    m_HammerDebrisMesh1->SetWorldRotationZ(50.f);
+        m_HammerDebrisMesh2->SetRelativePosition(-150.f, 0.f, 100.f); // 머리
+        //m_HammerDebrisMesh2->SetRelativeRotation(10.f, 20.f, 20.f);
 
-    m_HammerDebrisMesh2->SetRelativePosition(-150.f, 0.f, 100.f); // 머리
-    //m_HammerDebrisMesh2->SetRelativeRotation(10.f, 20.f, 20.f);
+        m_HammerDebrisMesh3->SetRelativePosition(-200.f, 0.f, -120.f);
+        //m_HammerDebrisMesh3->SetRelativeRotation(15.f, 100.f, 34.f);
 
-    m_HammerDebrisMesh3->SetRelativePosition(-200.f, 0.f, -120.f);
-    //m_HammerDebrisMesh3->SetRelativeRotation(15.f, 100.f, 34.f);
-
-    m_HammerDebrisMesh4->SetRelativePosition(-70.f, 0.f, 20.f);
-    //m_HammerDebrisMesh4->SetRelativeRotation(24.f, 50.f, 10.f);
+        m_HammerDebrisMesh4->SetRelativePosition(-70.f, 0.f, 20.f);
+        //m_HammerDebrisMesh4->SetRelativeRotation(24.f, 50.f, 10.f);
+    }
+    
 
 
     m_Mesh1Cube->SetCollisionProfile("Monster");

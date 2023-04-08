@@ -830,6 +830,7 @@ void CDefaultSetting::LoadCollectibleItems()
 
 void CDefaultSetting::LoadBuildings()
 {
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomMesh", TEXT("Buildings/BikiniBottom/BikiniBottomWTexture.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomRoad", TEXT("Buildings/BikiniBottom/BikiniBottomRoad.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PineAppleHouse", TEXT("Buildings/BikiniBottom/PineAppleHouse.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PatrickHouse", TEXT("Buildings/BikiniBottom/PatrickHouse.msh"));
