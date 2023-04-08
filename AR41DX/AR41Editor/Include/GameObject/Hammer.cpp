@@ -92,8 +92,6 @@ bool CHammer::Init()
 	m_BodyCube = CreateComponent<CColliderOBB3D>("BodyCube");
 	m_WeaponCube = CreateComponent<CColliderOBB3D>("WeaponCube");
 
-
-
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
 
 	SetRootComponent(m_Mesh);
