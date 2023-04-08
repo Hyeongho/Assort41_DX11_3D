@@ -29,6 +29,7 @@
 #include "Component/ColliderOBB3D.h"
 #include "../UI/DialogUI.h"
 #include "../UI/InteractUI.h"
+#include "../UI/Fade.h"
 
 CJellyfishField1SceneInfo::CJellyfishField1SceneInfo()
 {
@@ -37,6 +38,11 @@ CJellyfishField1SceneInfo::CJellyfishField1SceneInfo()
 
 CJellyfishField1SceneInfo::~CJellyfishField1SceneInfo()
 {
+}
+
+void CJellyfishField1SceneInfo::Start()
+{
+	m_Fade->SetState(EFade_State::FadeIn_Start);
 }
 
 bool CJellyfishField1SceneInfo::Init()
@@ -406,6 +412,8 @@ bool CJellyfishField1SceneInfo::Init()
 		IceCube->SetWorldPosition(10800.00f, 2514.21f, 11290.00f);
 		IceCube->SetWorldRotationZ(10.f);
 	}
+
+	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
 
 	return true;
 }

@@ -12,7 +12,7 @@
 #include "../UI/DialogUI.h"
 #include "../UI/InteractUI.h"
 #include "../UI/KingJellyfishIntroUI.h"
-
+#include "../UI/Fade.h"
 
 CKingJellyfishSceneInfo::CKingJellyfishSceneInfo()
 {
@@ -21,6 +21,12 @@ CKingJellyfishSceneInfo::CKingJellyfishSceneInfo()
 
 CKingJellyfishSceneInfo::~CKingJellyfishSceneInfo()
 {
+	
+}
+
+void CKingJellyfishSceneInfo::Start()
+{
+	m_Fade->SetState(EFade_State::FadeIn_Start);
 }
 
 bool CKingJellyfishSceneInfo::Init()
@@ -80,6 +86,8 @@ bool CKingJellyfishSceneInfo::Init()
 
 	CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
 	KingJellyfish->SetWorldPosition(4400.f, 250.f, 1600.f);
+
+	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
 
 	return true;
 }

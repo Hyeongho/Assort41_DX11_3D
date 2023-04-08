@@ -4,11 +4,13 @@
 
 enum class ENext_Scene
 {
-	None, 
-	TitleScene, 
-	BikiniCity, 
-	JellyfishField, 
-	KingJellyfish, 
+	None,
+	TitleScene,
+	BikiniCity,
+	JellyfishField,
+	JellyfishField1,
+	JellyfishField2,
+	KingJellyfish,
 	ChumBucketLab
 };
 

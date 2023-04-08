@@ -10,6 +10,7 @@
 #include "UI/UIText.h"
 #include "UI/UIImage.h"
 #include "UI/UITextButton.h"
+#include "Fade.h"
 
 #include "../Scene/LoadingSceneInfo.h"
 
@@ -1836,34 +1837,99 @@ void CTitleSceneUI::GameStart()
 
 	// 현재는 임의로 씬 변경하여, 메인 씬 실행하도록 작업
 
+	CFade* Fade = m_Owner->FindUIWindow<CFade>("Fade");
+
 	if (m_NowUIMode == EUIMode::Continue)
 	{
-		// 이어하기 모드 상태
-		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity.scn");
+		if (!Fade)
+		{
+			CSceneManager::GetInst()->CreateNextScene(true);
+
+			//CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false);
+			CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity");
+		}
+
+		else
+		{
+			Fade->SetEnable(true);
+			Fade->SetNextScene(ENext_Scene::BikiniCity);
+			Fade->SetState(EFade_State::FadeOut_Start);
+		}
 	}
+
 	else if (m_NowUIMode == EUIMode::NewGame)
 	{
 		// 새 게임 상태
-		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity.scn");
+
+		if (!Fade)
+		{
+			CSceneManager::GetInst()->CreateNextScene(true);
+
+			//CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false);
+			CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity");
+		}
+
+		else
+		{
+			Fade->SetEnable(true);
+			Fade->SetNextScene(ENext_Scene::BikiniCity);
+			Fade->SetState(EFade_State::FadeOut_Start);
+		}
 	}
 
 	switch (m_SaveSelected)
 	{
 	case EUISaveList::First:
-		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity.scn");
+		if (!Fade)
+		{
+			CSceneManager::GetInst()->CreateNextScene(true);
+
+			//CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false);
+			CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity");
+		}
+
+		else
+		{
+			Fade->SetEnable(true);
+			Fade->SetNextScene(ENext_Scene::BikiniCity);
+			Fade->SetState(EFade_State::FadeOut_Start);
+		}
 
 		break;
+
 	case EUISaveList::Second:
-		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity.scn");
+		if (!Fade)
+		{
+			CSceneManager::GetInst()->CreateNextScene(true);
+
+			//CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false);
+			CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity");
+		}
+
+		else
+		{
+			Fade->SetEnable(true);
+			Fade->SetNextScene(ENext_Scene::BikiniCity);
+			Fade->SetState(EFade_State::FadeOut_Start);
+		}
 
 		break;
+
 	case EUISaveList::Third:
-		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity.scn");
+		if (!Fade)
+		{
+			CSceneManager::GetInst()->CreateNextScene(true);
+
+			//CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false);
+			CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity");
+		}
+
+		else
+		{
+			Fade->SetEnable(true);
+			Fade->SetNextScene(ENext_Scene::BikiniCity);
+			Fade->SetState(EFade_State::FadeOut_Start);
+		}
 
 		break;
 	}

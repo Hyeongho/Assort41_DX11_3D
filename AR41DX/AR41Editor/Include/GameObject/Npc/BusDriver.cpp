@@ -9,6 +9,7 @@
 #include "../../Scene/BikiniCitySceneInfo.h"
 #include "../../Scene/LoadingSceneInfo.h"
 #include "../../UI/DialogUI.h"
+#include "../../UI/Fade.h"
 #include "../Object/BB/BusStop.h"
 #include "../Player.h"
 
@@ -241,8 +242,22 @@ void CBusDriver::ChangeScene()
     //return;
 
     // 맵 변경
-    CSceneManager::GetInst()->CreateNextScene();
-    CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "KingJellyFish.scn");
+    /*CSceneManager::GetInst()->CreateNextScene();
+    CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "KingJellyFish.scn");*/
+
+    CFade* Fade = m_Scene->GetViewport()->FindUIWindow<CFade>("Fade");
+
+    if (!Fade)
+    {
+        return;
+    }
+
+    else
+    {
+        Fade->SetEnable(true);
+        Fade->SetNextScene(ENext_Scene::JellyfishField1);
+        Fade->SetState(EFade_State::FadeOut_Start);
+    }
 
     //// 설정된 목적지별로 다른 씬 로딩
     //if (m_PurposeScene == EMapList::Jelly_Fish_Field)

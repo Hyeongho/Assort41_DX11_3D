@@ -2,6 +2,7 @@
 
 #include "Scene/Scene.h"
 #include "../UI/TitleSceneUI.h"
+#include "../UI/Fade.h"
 
 CTitleSceneInfo::CTitleSceneInfo()
 {
@@ -10,6 +11,11 @@ CTitleSceneInfo::CTitleSceneInfo()
 
 CTitleSceneInfo::~CTitleSceneInfo()
 {
+}
+
+void CTitleSceneInfo::Start()
+{
+	m_Fade->SetState(EFade_State::FadeIn_Start);
 }
 
 bool CTitleSceneInfo::Init()
@@ -26,6 +32,7 @@ bool CTitleSceneInfo::Init()
 		Sound->Play();
 
 	m_Owner->GetViewport()->CreateUIWindow<CTitleSceneUI>("TitleSceneUI");
+	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
 
 
 	// Background Charactor

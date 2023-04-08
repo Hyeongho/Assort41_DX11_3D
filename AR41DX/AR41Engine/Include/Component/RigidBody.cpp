@@ -46,8 +46,9 @@ void CRigidBody::Move()
 }
 
 void CRigidBody::SetGround(bool b)
-{
+{	
 	m_Ground = b;
+
 	if (m_Ground && m_Gravity)
 	{
 		m_Velocity = Vector3(m_Velocity.x, 0.f, m_Velocity.z);

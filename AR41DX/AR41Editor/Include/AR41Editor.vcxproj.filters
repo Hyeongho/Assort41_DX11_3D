@@ -507,6 +507,12 @@
     <ClCompile Include="GameObject\Object\CBL\CBL_BaseMesh.cpp">
       <Filter>03. GameObject\04. Object\04. ChumBucketLab\02. CBL</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\LoadingBikiniCity.cpp">
+      <Filter>02. Scene\02. BikiniBottom</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\LoadingSceneThread.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorManager.h">
@@ -880,6 +886,12 @@
     </ClInclude>
     <ClInclude Include="GameObject\Object\CheckPoint.h">
       <Filter>03. GameObject\04. Object\03. JellyFishField</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\LoadingBikiniCity.h">
+      <Filter>02. Scene\02. BikiniBottom</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\LoadingSceneThread.h">
+      <Filter>02. Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

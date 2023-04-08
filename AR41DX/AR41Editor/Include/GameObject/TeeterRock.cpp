@@ -47,6 +47,9 @@ bool CTeeterRock::Init()
 	m_LeftCube = CreateComponent<CColliderOBB3D>("LeftCube");
 	m_RightCube = CreateComponent<CColliderOBB3D>("RightCube");
 
+	m_LeftCube->SetCollisionProfile("Ground");
+	m_RightCube->SetCollisionProfile("Ground");
+
 	SetRootComponent(m_Mesh);
 
 	m_Mesh->SetMesh("SM_JF_Teeter_Rock_01");

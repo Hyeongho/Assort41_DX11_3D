@@ -10,10 +10,9 @@
 #include "Editor/EditorGUIManager.h"
 #include "Component/ParticleComponent.h"
 #include "Component/SpriteComponent.h"
-//#include "Component/BillboardComponent.h"
-//#include "Component/TileMapComponent.h"
 #include "GameObject/GameObject.h"
 #include "GameObject/SkySphere.h"
+#include "../Scene/LoadingSceneThread.h"
 
 #ifdef __has_include
 #	if __has_include("../Window/ObjectWindow.h")
@@ -111,9 +110,9 @@ void CLoadingSceneInfo::Update(float DeltaTime)
 void CLoadingSceneInfo::SceneChangeComplete()
 {
 	// 로딩 스레드 생성
-	m_LoadingThread = CThreadManager::GetInst()->Create<CLoadingThread>("Loading");
+	m_LoadingThread = CThreadManager::GetInst()->Create<CLoadingSceneThread>("Loading");
 
-	m_LoadingThread->SetLoadingSceneFileName(m_FileName);
+	m_LoadingThread->SetLoadingSceneNextSceneName(m_FileName);
 
 	m_LoadingQueue = m_LoadingThread->GetQueue();
 

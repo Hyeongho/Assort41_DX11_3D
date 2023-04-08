@@ -106,6 +106,9 @@ protected:
 
 	bool m_Invincibility;
 
+	Vector3 m_DirVector;
+	Vector3 m_DirRotation;
+
 public:
 	virtual void Destroy();
 	virtual void Start();

@@ -9,7 +9,11 @@ public:
     CJellyfishField2SceneInfo();
     ~CJellyfishField2SceneInfo();
 
+private:
+    class CFade* m_Fade;
+
 public:
+    virtual void Start();
     virtual bool Init();
 };
 

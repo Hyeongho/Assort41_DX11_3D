@@ -5,6 +5,7 @@
 #include "Component/ColliderOBB3D.h"
 #include "Scene/Scene.h"
 #include "../../UI/DialogUI.h"
+#include "../../UI/Fade.h"
 #include "../Object/Common/Collectible/GoldenSpatula.h"
 #include "../BossMonster/RoboSponge/RoboSponge.h"
 
@@ -149,15 +150,31 @@ void CInfoSign::InputF()
 
 	if (m_NpcMapPos == EMapList::Bikini_Bottom) {
 		// MapChange To RoboSpongeSceneInfo
-		CSceneManager::GetInst()->CreateNextScene(true);
-		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "RoboSpongebob.scn");
+		/*CSceneManager::GetInst()->CreateNextScene(true);
+		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "RoboSpongebob.scn");*/
+
+		CFade* Fade = m_Scene->GetViewport()->FindUIWindow<CFade>("Fade");
+
+		if (!Fade)
+		{
+			return;
+		}
+
+		else
+		{
+			Fade->SetEnable(true);
+			Fade->SetNextScene(ENext_Scene::ChumBucketLab);
+			Fade->SetState(EFade_State::FadeOut_Start);
+		}
 	}
+
 	if (m_NpcMapPos == EMapList::Jelly_Fish_Field) {
 
 		//CSceneManager::GetInst()->CreateNextScene();
 		//CSceneManager::GetInst()->CreateSceneInfo<CRoboSpongeSceneInfo>();
 
 	}
+
 	if (m_NpcMapPos == EMapList::Chum_Bucketlab) {
 		CRoboSponge* RoboSponge = (CRoboSponge*)m_Scene->FindObject("RoboSponge");
 

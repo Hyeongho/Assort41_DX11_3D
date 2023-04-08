@@ -34,6 +34,7 @@ CPlayer::CPlayer()
 	, m_SlamDown(false)
 	, m_IsLoading(false)
 	, m_IsDoubleJump(false)
+	, m_DirVector(1.0f, 1.0f, 1.0f)
 {
 	SetTypeID<CPlayer>();
 
@@ -439,10 +440,32 @@ void CPlayer::MoveFront()
 	{
 		m_Anim[(int)m_MainCharacter]->ChangeAnimation("PlayerWalk");
 	}
+
+	std::list<CCollider*> List = m_Cube->GetPrevCollisionList();
+
+	if (!List.empty())
+	{
+		auto iter = List.begin();
+		auto iterEnd = List.end();
+
+		for (; iter != iterEnd; iter++)
+		{
+			if (((*iter)->GetCollisionProfile()->Name == "Ground") && (*iter)->GetWorldRot().z > 0.f)
+			{
+				Vector3 DirRot = (*iter)->GetWorldRot();
+				Matrix MatRot;
+				MatRot.Rotation(DirRot);
+				m_DirVector = m_DirVector.TransformCoord(MatRot);
+				break;
+			}
+		}
+	}
+
 	float angle = m_Camera->GetWorldRot().y;
 	SetWorldRotationY(angle + 180.f);
-	AddWorldPositionX(sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
-	AddWorldPositionZ(cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime);
+	AddWorldPositionX((sinf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime) * m_DirVector.x);
+	AddWorldPositionZ((cosf(DegreeToRadian(angle)) * m_Speed * g_DeltaTime) * m_DirVector.z);
+	AddWorldPositionY(m_Speed * g_DeltaTime * m_DirVector.y);
 }
 
 void CPlayer::MoveBack()
