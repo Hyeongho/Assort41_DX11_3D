@@ -84,6 +84,7 @@ void CColliderSphere3D::Render()
 {
 	CCollider3D::Render();
 
+#ifdef _DEBUG
 	m_WireFrame->SetState();
 
 	Matrix	matScale, matTranslate, matWorld;
@@ -116,6 +117,8 @@ void CColliderSphere3D::Render()
 	m_Mesh->Render();
 
 	m_WireFrame->ResetState();
+#endif // DEBUG
+
 }
 
 void CColliderSphere3D::RenderDebug()
