@@ -9,6 +9,7 @@
 #include "Resource/Material/Material.h"
 #include "Animation/Animation.h"
 #include "../../Scene/LoadingSceneInfo.h"
+#include "../../UI/Fade.h"
 
 CGate::CGate() :
     m_OpenSesameOn(false)
@@ -112,9 +113,19 @@ void CGate::Load(FILE* File)
 void CGate::ChangeScene()
 {
     // 로딩 Scene을 생성한다.
-    CSceneManager::GetInst()->CreateNextScene(true);
+    CFade* Fade = m_Scene->GetViewport()->FindUIWindow<CFade>("Fade");
 
-    CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false);
+    if (!Fade)
+    {
+        return;
+    }
+
+    else
+    {
+        Fade->SetEnable(true);
+        Fade->SetNextScene(ENext_Scene::KingJellyfish);
+        Fade->SetState(EFade_State::FadeOut_Start);
+    }
 }
 
 void CGate::Collision_OpenSesame(const CollisionResult& result)

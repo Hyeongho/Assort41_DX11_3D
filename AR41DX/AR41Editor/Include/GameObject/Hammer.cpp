@@ -232,7 +232,7 @@ void CHammer::Detect_Chase()
 	if (!Player)
 		return;
 
-	Vector3 HammerPos = CSceneManager::GetInst()->GetScene()->FindObject("Hammer")->GetWorldPos();
+	Vector3 HammerPos = GetWorldPos();
 	Vector3 PlayerPos = CSceneManager::GetInst()->GetScene()->GetPlayerObject()->GetWorldPos();
 
 	Vector3 Dir = PlayerPos - HammerPos;

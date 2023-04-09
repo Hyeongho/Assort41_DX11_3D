@@ -72,6 +72,8 @@ bool CEditorManager::Init(HINSTANCE hInst)
 
     CEngine::SetWndProcCallback<CEditorManager>(this, &CEditorManager::WndProc);
 
+#ifdef DEBUG
+
     CEditorGUIManager::GetInst()->CreateEditorWindow<CObjectWindow>("ObjectWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CClassWindow>("ClassWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CComponentWindow>("ComponentWindow");
@@ -82,6 +84,9 @@ bool CEditorManager::Init(HINSTANCE hInst)
     CEditorGUIManager::GetInst()->CreateEditorWindow<CPathWindow>("PathWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMaterialWindow>("MaterialWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CMeshWindow>("MeshWindow");
+
+#endif // DEBUG
+
 
     // SceneInfo 
     //CSceneManager::GetInst()->CreateSceneInfo<CTestScene>();
@@ -94,6 +99,7 @@ bool CEditorManager::Init(HINSTANCE hInst)
     //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishField3SceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishField4SceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CJellyfishField5SceneInfo>();
+    //CSceneManager::GetInst()->CreateSceneInfo<CKingJellyfishSceneInfo>();
     //CSceneManager::GetInst()->CreateSceneInfo<CKingJellyfishSceneInfo>();
 
     CObjectWindow* objectWindow = CEditorGUIManager::GetInst()->FindEditorWindow<CObjectWindow>("ObjectWindow");

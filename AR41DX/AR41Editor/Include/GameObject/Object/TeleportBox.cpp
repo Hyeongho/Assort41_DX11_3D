@@ -110,10 +110,10 @@ bool CTeleportBox::Init()
 
     // Bottom
     m_Box1BottomCube->SetCollisionProfile("Wall");
-    m_Box1BottomCube->SetBoxHalfSize(100.f, 30.f, 100.f);
+    m_Box1BottomCube->SetBoxHalfSize(m_Mesh->GetMeshSize());
 
     m_Box2BottomCube->SetCollisionProfile("Wall");
-    m_Box2BottomCube->SetBoxHalfSize(100.f, 30.f, 100.f);
+    m_Box2BottomCube->SetBoxHalfSize(m_Mesh->GetMeshSize());
 
     // DetectRange
     m_DetectRange->SetCollisionProfile("Wall");
@@ -197,21 +197,21 @@ void CTeleportBox::Collision_Teleport(const CollisionResult& result)
 
         else if (GetBoxIndex() == 2) 
         {
-            //Player->SetWorldPosition(18000.f + 300.f, 0.f, 13500.f);
+            ////Player->SetWorldPosition(18000.f + 300.f, 0.f, 13500.f);
 
-            CFade* Fade = m_Scene->GetViewport()->FindUIWindow<CFade>("Fade");
+            //CFade* Fade = m_Scene->GetViewport()->FindUIWindow<CFade>("Fade");
 
-            if (!Fade)
-            {
-                return;
-            }
+            //if (!Fade)
+            //{
+            //    return;
+            //}
 
-            else
-            {
-                Fade->SetEnable(true);
-                Fade->SetNextScene(ENext_Scene::JellyfishField1);
-                Fade->SetState(EFade_State::FadeOut_Start);
-            }
+            //else
+            //{
+            //    Fade->SetEnable(true);
+            //    Fade->SetNextScene(ENext_Scene::JellyfishField1);
+            //    Fade->SetState(EFade_State::FadeOut_Start);
+            //}
 
         }
     }

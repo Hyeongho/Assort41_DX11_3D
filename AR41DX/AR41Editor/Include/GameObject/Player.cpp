@@ -1488,7 +1488,7 @@ void CPlayer::CollisionTestOut(const CollisionResult& result)
 		}
 	}
 
-	if (result.Dest->GetName() == "Wall")
+	if (result.Dest->GetCollisionProfile()->Name == "Wall")
 	{
 		m_WallCollision.Dest = nullptr;
 		m_WallCollision.Src = nullptr;

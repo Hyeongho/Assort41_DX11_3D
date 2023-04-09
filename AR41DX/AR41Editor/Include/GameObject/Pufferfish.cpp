@@ -38,6 +38,10 @@ void CPufferfish::Start()
 	CGameObject::Start();
 
 	m_Sphere->SetCollisionCallback<CPufferfish>(ECollision_Result::Collision, this, &CPufferfish::CollisionTest);
+
+	m_Rigid->SetGround(false);
+	m_Rigid->AddForce(0, 1000.f, 0.f);
+	m_Rigid->SetVelocityY(1000.f);
 }
 
 bool CPufferfish::Init()
@@ -119,7 +123,7 @@ void CPufferfish::PostUpdate(float DeltaTime)
 {
 	CGameObject::PostUpdate(DeltaTime);
 
-	AddWorldPosition(GetWorldAxis(AXIS_Z) * 300.f * DeltaTime);
+	AddWorldPosition(GetWorldAxis(AXIS_X) * 500.f * DeltaTime);
 	m_Mesh->AddWorldRotationX(300.f * DeltaTime);
 }
 
