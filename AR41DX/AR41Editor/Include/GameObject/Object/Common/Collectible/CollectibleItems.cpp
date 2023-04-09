@@ -4,6 +4,7 @@
 #include "Component/StaticMeshComponent.h"
 #include "../../../Player.h"
 #include "Scene/Scene.h"
+#include "Collectible_Bubble.h"
 
 CCollectibleItems::CCollectibleItems()
 {
@@ -30,11 +31,16 @@ CCollectibleItems::~CCollectibleItems()
 void CCollectibleItems::Start()
 {
     CGameObject::Start();
+
+    m_Bubble = m_Scene->CreateObject<CCollectible_Bubble>("Bubble");
 }
 
 bool CCollectibleItems::Init()
 {
     CGameObject::Init();
+
+
+
 
     return true;
 }

@@ -33,6 +33,9 @@ CLoadingSceneInfo::CLoadingSceneInfo()
 CLoadingSceneInfo::~CLoadingSceneInfo()
 {
 	m_Owner->GetResource()->SoundStop("LoadingUI");
+
+	CParticleComponent* particle = (CParticleComponent*)m_Particle->GetRootComponent();
+	particle->DeleteCurrentParticle();
 }
 
 bool CLoadingSceneInfo::Init()
@@ -56,18 +59,20 @@ void CLoadingSceneInfo::Update(float DeltaTime)
 	{
 		m_Owner->ClearSky();
 	}
+
 	m_StartTime += DeltaTime;
+
 	if (m_StartTime > 3.f && m_StartTime < 100.f)
 	{
 		m_Owner->GetResource()->SoundPlay("LoadingUI");
 		m_Particle->SetEnable(true);
 		m_StartTime = 100.f;
 	}
-	else if (m_StartTime > 103.f)
-	{
-		CParticleComponent* particle = (CParticleComponent*)m_Particle->GetRootComponent();
-		particle->DeleteCurrentParticle();
-	}
+	//else if (m_StartTime > 103.f)
+	//{
+	//	//CParticleComponent* particle = (CParticleComponent*)m_Particle->GetRootComponent();
+	//	//particle->DeleteCurrentParticle();
+	//}
 
 	// Queue에 데이터가 있을 경우 받아와서 처리한다.
 	if (!m_LoadingQueue->empty())

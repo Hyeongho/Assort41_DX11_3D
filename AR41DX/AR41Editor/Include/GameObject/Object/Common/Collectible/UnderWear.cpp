@@ -28,6 +28,14 @@ void CUnderWear::Start()
 	CCollectibleItems::Start();
 
 	m_Collider->SetCollisionCallback<CUnderWear>(ECollision_Result::Collision, this, &CUnderWear::Collision_Player);
+
+
+	m_Mesh->AddChild(m_Bubble);
+	float ySize = m_Mesh->GetMeshSize().y;
+	m_Bubble->SetRelativePositionY(ySize / 2.f);
+	m_Bubble->SetInheritRotX(true);
+	m_Bubble->SetInheritRotY(true);
+	m_Bubble->SetInheritRotZ(true);
 }
 
 bool CUnderWear::Init()

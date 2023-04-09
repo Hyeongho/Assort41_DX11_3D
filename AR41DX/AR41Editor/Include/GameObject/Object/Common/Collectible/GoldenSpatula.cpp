@@ -28,6 +28,14 @@ void CGoldenSpatula::Start()
 	CCollectibleItems::Start();
 
 	m_Collider->SetCollisionCallback<CGoldenSpatula>(ECollision_Result::Collision, this, &CGoldenSpatula::Collision_Player);
+
+
+	m_Mesh->AddChild(m_Bubble);
+	float ySize = m_Mesh->GetMeshSize().y;
+	m_Bubble->SetRelativePositionY(ySize / 2.f);
+	m_Bubble->SetInheritRotX(true);
+	m_Bubble->SetInheritRotY(true);
+	m_Bubble->SetInheritRotZ(true);
 }
 
 bool CGoldenSpatula::Init()
