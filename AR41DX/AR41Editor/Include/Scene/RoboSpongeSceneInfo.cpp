@@ -23,6 +23,7 @@
 #include "../UI/DialogUI.h"
 #include "../UI/PauseUI.h"
 #include "../UI/Fade.h"
+#include "../UI/CreditUI.h"
 
 CRoboSpongeSceneInfo::CRoboSpongeSceneInfo()
 {
@@ -50,9 +51,12 @@ bool CRoboSpongeSceneInfo::Init()
 	GlobalLightComponent->SetRelativeRotation(0.f, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
-	CInteractUI* InteractUI = m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
-	CDialogUI* Dialog = m_Owner->GetViewport()->CreateUIWindow<CDialogUI>("DialogUI");
-	CPauseUI* PauseUI = m_Owner->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
+
+	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
+	m_Owner->GetViewport()->CreateUIWindow<CDialogUI>("DialogUI");
+	m_Owner->GetViewport()->CreateUIWindow<CPauseUI>("PauseUI");
+	m_Owner->GetViewport()->CreateUIWindow<CCreditUI>("CreditUI");
+
 
 	int TerrainCount = 400;
 	float TerrainSize = 40.f;
@@ -96,7 +100,7 @@ bool CRoboSpongeSceneInfo::Init()
 		if (i % 2 == 1) {
 			std::string Underwearname = "Underwear" + std::to_string(i);
 			CUnderWear* Underwear = m_Owner->CreateObject<CUnderWear>(Underwearname);
-			Underwear->SetWorldPosition(CenterPos.x + StandardPos * 0.8f * sinf(Radian), 610.f, CenterPos.y + StandardPos * 0.8f * cosf(Radian));
+			Underwear->SetWorldPosition(CenterPos.x + StandardPos * 0.8f * sinf(Radian), 640.f, CenterPos.y + StandardPos * 0.8f * cosf(Radian));
 		}
 	}
 

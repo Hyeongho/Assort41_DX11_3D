@@ -3,6 +3,7 @@
 #include "Scene/Scene.h"
 #include "../UI/TitleSceneUI.h"
 #include "../UI/Fade.h"
+#include "../UI/CreditUI.h"
 
 CTitleSceneInfo::CTitleSceneInfo()
 {
@@ -33,6 +34,7 @@ bool CTitleSceneInfo::Init()
 
 	m_Owner->GetViewport()->CreateUIWindow<CTitleSceneUI>("TitleSceneUI");
 	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
+	m_Owner->GetViewport()->CreateUIWindow<CCreditUI>("CreditUI");
 
 	// Background Charactor
 

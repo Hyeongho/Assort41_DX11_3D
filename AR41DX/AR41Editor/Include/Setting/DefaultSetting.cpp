@@ -816,7 +816,7 @@ void CDefaultSetting::LoadCommonObj()
 
 void CDefaultSetting::LoadCollectibleItems()
 {
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Collectible_Bubble", TEXT("Object/Common/Collectible_Bubble.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Collectible_Bubble", TEXT("Object/Common/Bubble.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GoldenSpatula", TEXT("Object/Common/GoldenSpatula.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Sock", TEXT("Object/Common/Sock.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "UnderWear", TEXT("Object/Common/UnderWear.msh"), MESH_PATH);

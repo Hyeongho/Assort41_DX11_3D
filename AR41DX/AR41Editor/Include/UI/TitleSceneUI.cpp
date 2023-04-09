@@ -11,6 +11,7 @@
 #include "UI/UIImage.h"
 #include "UI/UITextButton.h"
 #include "Fade.h"
+#include "CreditUI.h"
 
 #include "../Scene/LoadingSceneInfo.h"
 
@@ -123,14 +124,12 @@ void CTitleSceneUI::CreaeteAllUI()
 	CreateOptionCameraUI();
 	CreateSaveSelectUI();
 	CreateControlUI();
-	CreateCreditsUI();
 
 	InActiveOptionUI();
 	InActiveOptionSoundUI();
 	InActiveOptionCameraUI();
 	InActiveSaveSelectUI();
 	InActiveControlUI();
-	InActiveCreditsUI();
 }
 
 void CTitleSceneUI::CreateBackgroundUI()
@@ -1217,68 +1216,6 @@ void CTitleSceneUI::CreateControlUI()
 	m_mapControlUI.insert(std::make_pair("ControlUI_TextGuideBackward", Text));
 }
 
-void CTitleSceneUI::CreateCreditsUI()
-{
-	Resolution	RS = CDevice::GetInst()->GetResolution();
-
-	Vector2 BackBoardSize = m_mapBackUI.find("BackUI_BackBoard")->second->GetSize();
-	Vector2 BackBoardPos = m_mapBackUI.find("BackUI_BackBoard")->second->GetPos();
-
-	float ButtonSizeX = BackBoardSize.x / 2.f;
-	float ButtonSizeY = 50.f;
-
-	float ButtonPosX = BackBoardPos.x + BackBoardSize.x / 2.f - ButtonSizeX / 2.f;
-	float ButtonPosY = RS.Height / 2.f;
-
-	float ButtonYInterval = ButtonSizeY + 10.f;
-
-
-	CUIText* Text = CreateWidget<CUIText>("CreditsUI_Text");
-
-	Text->SetSize(ButtonSizeX, ButtonSizeY);
-	Text->SetAlignH(Text_Align_H::Center);
-	Text->SetPos(ButtonPosX, ButtonPosY);
-	Text->SetFontSize(30.f);
-	Text->SetText(TEXT("제작진"));
-	Text->SetColor(Vector4::Black);
-
-	m_mapCreditsUI.insert(std::make_pair("CreditsUI_Text", Text));
-
-
-
-
-	// 하단 가이드
-	float GuideSizeX = 25.f;
-	float GuideSizeY = 25.f;
-
-
-	float GuidePosX = BackBoardPos.x + BackBoardSize.x / 2.f - GuideSizeX * 3.f / 2.f;
-	float GuidePosY = 10.f;
-
-
-	CUIImage* Image = CreateWidget<CUIImage>("CreditsUI_ImageGuideBackward");
-
-	Image->SetTexture("KeyGuideMouseRight", TEXT("UI/Key/Mouse_Right.tga"));
-
-	Image->SetSize(GuideSizeX * 2.f / 3.f, GuideSizeY);
-	Image->SetPos(GuidePosX, GuidePosY);
-
-	m_mapCreditsUI.insert(std::make_pair("CreditsUI_ImageGuideBackward", Image));
-
-
-
-	Text = CreateWidget<CUIText>("CreditsUI_TextGuideBackward");
-
-	Text->SetSize(GuideSizeX * 2.f, GuideSizeY);
-	Text->SetAlignH(Text_Align_H::Center);
-	Text->SetPos(GuidePosX + 25.f, GuidePosY);
-	Text->SetFontSize(20.f);
-	Text->SetText(TEXT("뒤로"));
-	Text->SetColor(Vector4::Black);
-
-	m_mapCreditsUI.insert(std::make_pair("CreditsUI_TextGuideBackward", Text));
-}
-
 void CTitleSceneUI::ActiveMainUI()
 {
 	for (auto iter : m_mapMainUI)
@@ -1315,12 +1252,6 @@ void CTitleSceneUI::ActiveControlUI()
 		iter.second->SetEnable(true);
 }
 
-void CTitleSceneUI::ActiveCreditsUI()
-{
-	for (auto iter : m_mapCreditsUI)
-		iter.second->SetEnable(true);
-}
-
 void CTitleSceneUI::InActiveMainUI()
 {
 	for (auto iter : m_mapMainUI)
@@ -1354,12 +1285,6 @@ void CTitleSceneUI::InActiveSaveSelectUI()
 void CTitleSceneUI::InActiveControlUI()
 {
 	for (auto iter : m_mapControlUI)
-		iter.second->SetEnable(false);
-}
-
-void CTitleSceneUI::InActiveCreditsUI()
-{
-	for (auto iter : m_mapCreditsUI)
 		iter.second->SetEnable(false);
 }
 
@@ -1401,7 +1326,6 @@ void CTitleSceneUI::KeyRightButton()
 				InActiveControlUI();
 				break;
 			case EUIMode::Credit:
-				InActiveCreditsUI();
 				break;
 			case EUIMode::Option:
 				InActiveOptionUI();
@@ -1744,9 +1668,7 @@ void CTitleSceneUI::MainUICredits()
 {
 	m_NowUIMode = EUIMode::Credit;
 
-	// 크레딧 실행
-	InActiveMainUI();
-	ActiveCreditsUI();
+	m_Scene->GetViewport()->FindUIWindow<CCreditUI>("CreditUI")->CreditPlay();
 }
 
 void CTitleSceneUI::MainUIQuit()

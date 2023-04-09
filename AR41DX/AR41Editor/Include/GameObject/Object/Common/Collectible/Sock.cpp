@@ -28,6 +28,14 @@ void CSock::Start()
 	CCollectibleItems::Start();
 
 	m_Collider->SetCollisionCallback<CSock>(ECollision_Result::Collision, this, &CSock::Collision_Player);
+
+
+	m_Mesh->AddChild(m_Bubble);
+	float ySize = m_Mesh->GetMeshSize().y;
+	m_Bubble->SetRelativePositionY(ySize / 2.f);
+	m_Bubble->SetInheritRotX(true);
+	m_Bubble->SetInheritRotY(true);
+	m_Bubble->SetInheritRotZ(true);
 }
 
 bool CSock::Init()
@@ -50,6 +58,7 @@ bool CSock::Init()
 	m_Collider->SetInheritRotY(true);
 	m_Collider->SetInheritRotZ(true);
 
+	
 	return true;
 }
 
