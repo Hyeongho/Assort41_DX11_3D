@@ -41,7 +41,7 @@ bool CBikiniCitySceneInfo::Init()
 	CGameObject* GlobalLightObj = m_Owner->CreateObject<CGameObject>("GlobalLight");
 	CLightComponent* GlobalLightComponent = GlobalLightObj->CreateComponent<CLightComponent>("GlobalLight");
 	GlobalLightComponent->SetLightType(ELightType::Direction);
-	GlobalLightComponent->SetRelativeRotation(0, 90.f, 0.f);
+	GlobalLightComponent->SetRelativeRotation(45.f, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
 	m_Owner->GetViewport()->CreateUIWindow<CDialogUI>("DialogUI");
@@ -61,6 +61,10 @@ bool CBikiniCitySceneInfo::Init()
 	CTiki_Wood* Tiki_Wood = m_Owner->CreateObject<CTiki_Wood>("Tiki_Wood");
 	Tiki_Wood->SetWorldPosition(9300.f, 0.f, 14500.f);
 
+	Tiki_Wood = m_Owner->CreateObject<CTiki_Wood>("Tiki_Wood1");
+	Tiki_Wood->SetWorldPosition(14569.97f, 0.f, 13102.94f);
+
+
 	CPatric* Patric = m_Owner->CreateObject<CPatric>("Patric");
 	Patric->SetWorldPosition(15000.f, 0.f, 14000.f);
 
@@ -74,6 +78,13 @@ bool CBikiniCitySceneInfo::Init()
 	CBusStop* BusStop = m_Owner->CreateObject<CBusStop>("BusStop");
 	BusStop->SetWorldPosition(9200.f, 0.f, 13400.f);
 
+	CGameObject* Jellyfishfieldsign = m_Owner->CreateObject<CGameObject>("Jellyfishfieldsign");
+	CStaticMeshComponent* JellyfishfieldsignMesh = Jellyfishfieldsign->CreateComponent<CStaticMeshComponent>("JellyfishfieldsignMesh");
+	JellyfishfieldsignMesh->SetMesh("Jellyfishfieldsign");
+	//JellyfishfieldsignMesh->SetWorldScale(0.3f, 0.f, 0.3f);
+	JellyfishfieldsignMesh->SetWorldPosition(9949.63f, 0.f, 12793.74f);
+	JellyfishfieldsignMesh->SetWorldRotationY(-45.f);
+
 	CInteractButton* InteractButton = m_Owner->CreateObject<CInteractButton>("InteractButton");
 	InteractButton->SetWorldPosition(9510.f, 0.f, 13450.f);
 	InteractButton->SetInteractObject(EInteractObjectList::BusStop, "BusStop");
@@ -82,12 +93,21 @@ bool CBikiniCitySceneInfo::Init()
 	CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
 	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
 	TerrainComponent->CreateTerrain(680, 631, 40.f, 40.f, TEXT("LandScape/BikiniCity_Height.png"));
+	TerrainComponent->GetMaterial(0)->SetOpacity(0.f);
 
-	CGameObject* Road = m_Owner->CreateObject<CGameObject>("Road");
-	CStaticMeshComponent* RoadMesh = Road->CreateComponent<CStaticMeshComponent>("RoadMesh");
-	RoadMesh->SetMesh("BikiniBottomRoad");
-	RoadMesh->SetWorldScale(0.3f, 0.3f, 0.3f);
-	RoadMesh->SetWorldPosition(12000.f, -40.f, 13250.f);
+	/*CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
+	CTerrainComponent* TerrainComponent = TerrainObj->CreateComponent<CTerrainComponent>("TerrainComponent");
+	TerrainComponent->CreateTerrain(1292, 1382, 40.f, 40.f, TEXT("LandScape/BikiniBottom_WT.png"));
+	TerrainObj->SetWorldScale(0.3f, 0.f, 0.3f);
+	TerrainObj->SetWorldPosition(20000.f, -150.f, 4900.f);
+	TerrainObj->SetWorldRotationY(-90.f);*/
+	//TerrainComponent->CreateTerrain(680, 631, 40.f, 40.f, TEXT("LandScape/BikiniCity_Height.png"));
+
+	CGameObject* BBObj = m_Owner->CreateObject<CGameObject>("BBObj");
+	CStaticMeshComponent* BBMesh = BBObj->CreateComponent<CStaticMeshComponent>("BBMesh");
+	BBMesh->SetMesh("BikiniBottomMesh");
+	BBMesh->SetWorldScale(0.3f, 0.f, 0.3f);
+	BBMesh->SetWorldPosition(12000.f, 10.f, 13250.f);
 
 	CGameObject* PatrickHouse = m_Owner->CreateObject<CGameObject>("PatrickHouse");
 	CStaticMeshComponent* PatrickHouseMesh = PatrickHouse->CreateComponent<CStaticMeshComponent>("PatrickHouseMesh");
@@ -118,6 +138,11 @@ bool CBikiniCitySceneInfo::Init()
 	PineAppleHouseCube->SetBoxHalfSize(PineAppleHouseMesh->GetMeshSize() * 0.5f);
 	PineAppleHouseCube->SetRelativePositionY(PineAppleHouseMesh->GetMeshSize().y * 0.5f);
 	PineAppleHouseCube->SetCollisionProfile("Wall");
+
+	CGameObject* Seaflower = m_Owner->CreateObject<CGameObject>("Seaflower");
+	CStaticMeshComponent* SeaflowerMesh = Seaflower->CreateComponent<CStaticMeshComponent>("SeaflowerMesh");
+	SeaflowerMesh->SetMesh("Seaflower");
+	SeaflowerMesh->SetWorldPosition(17100.f, 0.f, 13400.f);
 
 	CGameObject* ChumBucket = m_Owner->CreateObject<CGameObject>("ChumBucket");
 	CStaticMeshComponent* ChumBucketMesh = ChumBucket->CreateComponent<CStaticMeshComponent>("ChumBucketMesh");
@@ -215,7 +240,7 @@ bool CBikiniCitySceneInfo::Init()
 	CGameObject* Missile = m_Owner->CreateObject<CGameObject>("Missile");
 	CStaticMeshComponent* MissileMesh = Missile->CreateComponent<CStaticMeshComponent>("MissileMesh");
 	MissileMesh->SetMesh("Missile");
-	MissileMesh->SetWorldPosition(14470.f, 0.f, 15800.f);
+	MissileMesh->SetWorldPosition(13316.08f, 0.f, 14804.86f);
 	MissileMesh->SetWorldScale(3.f, 3.f, 3.f);
 	CColliderOBB3D* MissileCube = Missile->CreateComponent<CColliderOBB3D>("MissileCube");
 	MissileMesh->AddChild(MissileCube);
@@ -257,20 +282,100 @@ bool CBikiniCitySceneInfo::Init()
 	CStaticMeshComponent* DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh");
 	DoubleTreeMesh->SetMesh("DoubleTree");
 	DoubleTreeMesh->SetWorldPosition(11300.f, 0.f, 16000.f);
+	DoubleTree->SetWorldScale(2.0f, 2.0f, 2.0f);
+
 	DoubleTree = m_Owner->CreateObject<CGameObject>("DoubleTree1");
 	DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh1");
-	DoubleTreeMesh->SetMesh("DoubleTree");
-	DoubleTreeMesh->SetWorldPosition(12100.f, 0.f, 16000.f);
+	DoubleTreeMesh->SetMesh("DoubleTree_Purple");
+	DoubleTreeMesh->SetWorldPosition(12100.f, 0.f, 16300.f);
 	DoubleTreeMesh->SetWorldRotationY(90.f);
+	DoubleTree->SetWorldScale(2.0f, 2.0f, 2.0f);
+
+
+	DoubleTree = m_Owner->CreateObject<CGameObject>("DoubleTree2");
+	DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh2");
+	DoubleTreeMesh->SetMesh("DoubleTree_Yellow");
+	DoubleTreeMesh->SetWorldPosition(9615.98f, 0.f, 15570.54f);
+	DoubleTreeMesh->SetWorldRotationY(90.f);
+	DoubleTree->SetWorldScale(2.0f, 2.0f, 2.0f);
+
+	DoubleTree = m_Owner->CreateObject<CGameObject>("DoubleTree3");
+	DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh3");
+	DoubleTreeMesh->SetMesh("DoubleTree_Yellow");
+	DoubleTreeMesh->SetWorldPosition(13975.61f, 0.f, 12794.09f);
+	DoubleTreeMesh->SetWorldRotationY(90.f);
+	DoubleTree->SetWorldScale(2.0f, 2.0f, 2.0f);
+
+	DoubleTree = m_Owner->CreateObject<CGameObject>("DoubleTree4");
+	DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh4");
+	DoubleTreeMesh->SetMesh("Seaflower");
+	DoubleTreeMesh->SetWorldPosition(13845.21f, 0.f, 12946.34f);
+	DoubleTreeMesh->SetWorldRotationY(90.f);
+	DoubleTree->SetWorldScale(1.0f, 1.0f, 1.0f);
+
+	DoubleTree = m_Owner->CreateObject<CGameObject>("DoubleTree5");
+	DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh5");
+	DoubleTreeMesh->SetMesh("DoubleTree_Purple");
+	DoubleTreeMesh->SetWorldPosition(17071.30f, 0.f, 11940.25f);
+	DoubleTree->SetWorldScale(2.0f, 2.0f, 2.0f);
+
+	DoubleTree = m_Owner->CreateObject<CGameObject>("DoubleTree6");
+	DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh6");
+	DoubleTreeMesh->SetMesh("DoubleTree_Red");
+	DoubleTreeMesh->SetWorldPosition(10118.15f, 0.f, 12134.60f);
+	DoubleTree->SetWorldScale(2.0f, 2.0f, 2.0f);
+
+	DoubleTree = m_Owner->CreateObject<CGameObject>("DoubleTree6");
+	DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh6");
+	DoubleTreeMesh->SetMesh("DoubleTree_Red");
+	DoubleTreeMesh->SetWorldPosition(10118.15f, 0.f, 12134.60f);
+	DoubleTree->SetWorldScale(2.0f, 2.0f, 2.0f);
+
+	DoubleTree = m_Owner->CreateObject<CGameObject>("DoubleTree7");
+	DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh7");
+	DoubleTreeMesh->SetMesh("SmallTree_Purple");
+	DoubleTreeMesh->SetWorldPosition(13753.74f, 0.f, 13433.06f);
+	DoubleTree->SetWorldScale(2.0f, 2.0f, 2.0f);
+
+	DoubleTree = m_Owner->CreateObject<CGameObject>("DoubleTree8");
+	DoubleTreeMesh = DoubleTree->CreateComponent<CStaticMeshComponent>("DoubleTreeMesh8");
+	DoubleTreeMesh->SetMesh("Seaflower");
+	DoubleTreeMesh->SetWorldPosition(17098.46f, 0.f, 12077.07f);
+	DoubleTree->SetWorldScale(1.0f, 1.0f, 1.0f);
+
+	CGameObject* SmallTree = m_Owner->CreateObject<CGameObject>("SmallTree");
+	CStaticMeshComponent* SmallTreeMesh = SmallTree->CreateComponent<CStaticMeshComponent>("SmallTreeMesh");
+	SmallTreeMesh->SetMesh("SmallTree_Red");
+	SmallTreeMesh->SetWorldPosition(11300.f, 0.f, 16000.f);
+	SmallTree->SetWorldScale(1.0f, 1.0f, 1.0f);
+	
+	SmallTree = m_Owner->CreateObject<CGameObject>("SmallTree1");
+	SmallTreeMesh = SmallTree->CreateComponent<CStaticMeshComponent>("SmallTreeMesh1");
+	SmallTreeMesh->SetMesh("SmallTree_Purple");
+	SmallTreeMesh->SetWorldPosition(15382.15f, 0.f, 11727.04f);
+	SmallTree->SetWorldScale(1.0f, 1.0f, 1.0f);
+
+	SmallTree = m_Owner->CreateObject<CGameObject>("SmallTree1");
+	SmallTreeMesh = SmallTree->CreateComponent<CStaticMeshComponent>("SmallTreeMesh1");
+	SmallTreeMesh->SetMesh("SmallTree_Red");
+	SmallTreeMesh->SetWorldPosition(8122.58f, 0.f, 14704.44f);
+	SmallTree->SetWorldScale(2.2f, 2.2f, 2.2f);
+
+	CGameObject* RedTree1 = m_Owner->CreateObject<CGameObject>("RedTree1");
+	CStaticMeshComponent* RedTreeMesh1 = RedTree1->CreateComponent<CStaticMeshComponent>("RedTreeMesh1");
+	RedTreeMesh1->SetMesh("RedTree");
+	RedTreeMesh1->SetWorldPosition(12996.68f, 0.f, 13110.89f);
+
 
 	CGameObject* CoconutTree = m_Owner->CreateObject<CGameObject>("CoconutTree");
 	CStaticMeshComponent* CoconutTreeMesh = CoconutTree->CreateComponent<CStaticMeshComponent>("CoconutTreeMesh");
 	CoconutTreeMesh->SetMesh("CoconutTree");
-	CoconutTreeMesh->SetWorldPosition(11800.f, 0.f, 16000.f);
+	CoconutTreeMesh->SetWorldPosition(12666.12f, 0.f, 15394.38f);
+
 	CoconutTree = m_Owner->CreateObject<CGameObject>("CoconutTree1");
 	CoconutTreeMesh = CoconutTree->CreateComponent<CStaticMeshComponent>("CoconutTreeMesh1");
 	CoconutTreeMesh->SetMesh("CoconutTree");
-	CoconutTreeMesh->SetWorldPosition(12300.f, 0.f, 16000.f);
+	CoconutTreeMesh->SetWorldPosition(12996.68f, 0.f, 13110.89f);
 
 	for (int i = 0; i < 10; ++i)
 	{
@@ -281,6 +386,24 @@ bool CBikiniCitySceneInfo::Init()
 		particle->SetParticle("GroundBubble");
 		PariticleObj->SetWorldPosition((float)x, 0.f, (float)z);
 	}
+
+	CGameObject* Mountain = m_Owner->CreateObject<CGameObject>("Mountain");
+	CStaticMeshComponent* MountainMesh = Mountain->CreateComponent<CStaticMeshComponent>("MountainMesh");
+	MountainMesh->SetMesh("Mountain");
+	MountainMesh->SetWorldPosition(7081.32f, 0.f, 8064.23f);
+	MountainMesh->SetWorldScale(0.3f, 0.3f, 0.3f);
+
+	CGameObject* SandCastle = m_Owner->CreateObject<CGameObject>("SandCastle");
+	CStaticMeshComponent* SandCastleMesh = Mountain->CreateComponent<CStaticMeshComponent>("SandCastleMesh");
+	SandCastleMesh->SetMesh("SandCastle");
+	SandCastleMesh->SetWorldPosition(6674.17f, 0.f, 17409.38f);
+	SandCastleMesh->SetWorldScale(1.f, 1.f, 1.f);
+
+	CGameObject* DutchmanObj = m_Owner->CreateObject<CGameObject>("DutchmanObj");
+	CStaticMeshComponent* DutchmanObjMesh = DutchmanObj->CreateComponent<CStaticMeshComponent>("DutchmanObjMesh");
+	DutchmanObjMesh->SetMesh("Dutchman");
+	DutchmanObjMesh->SetWorldScale(0.1f, 0.1f, 0.1f);
+	DutchmanObjMesh->SetWorldPosition(17257.03f, 0.f, 6439.80f);
 
 	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
 

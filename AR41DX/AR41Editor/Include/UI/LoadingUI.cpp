@@ -34,8 +34,10 @@ bool CLoadingUI::Init()
 {
     CUIWindow::Init();
     m_LoadingCircle = CreateWidget<CUIImage>("LoadingCircle");
-    m_LoadingCircle->SetPos(1220.f, 60.f);
-    m_LoadingCircle->SetSize(100.f, 100.f);
+    m_LoadingCircle->SetPos(1200.f, 40.f);
+    m_LoadingCircle->SetSize(40.f, 40.f);
+    //m_LoadingCircle->SetPos(1220.f, 60.f);
+    //m_LoadingCircle->SetSize(100.f, 100.f);
     m_LoadingCircle->SetPivot(0.5f, 0.5f);
     m_LoadingCircle->SetTexture("LoadingCircle", TEXT("UI\\loadingcircle.png"));
 

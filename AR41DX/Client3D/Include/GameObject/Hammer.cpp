@@ -304,8 +304,12 @@ void CHammer::Debris()
 
 		// --CountCan & SpawnHammers in Duplicatotron class.
 		CDuplicatotron* Duplicatotron = (CDuplicatotron*)m_Scene->FindObject("Duplicatotron");
-		Duplicatotron->AddCountCan(-1);
-		Duplicatotron->SetSpawnOn(true);
+		if (Duplicatotron)
+		{
+			Duplicatotron->AddCountCan(-1);
+			Duplicatotron->SetSpawnOn(true);
+		}
+		
 	//}
 }
 

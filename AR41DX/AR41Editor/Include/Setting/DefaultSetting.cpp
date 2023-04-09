@@ -830,6 +830,7 @@ void CDefaultSetting::LoadCollectibleItems()
 
 void CDefaultSetting::LoadBuildings()
 {
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomMesh", TEXT("Buildings/BikiniBottom/BBReal.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BikiniBottomRoad", TEXT("Buildings/BikiniBottom/BikiniBottomRoad.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PineAppleHouse", TEXT("Buildings/BikiniBottom/PineAppleHouse.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "PatrickHouse", TEXT("Buildings/BikiniBottom/PatrickHouse.msh"));
@@ -851,6 +852,13 @@ void CDefaultSetting::LoadBuildings()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "CoconutTree", TEXT("Buildings/BikiniBottom/CoconutTree.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SM_BB_FloatSign_01", TEXT("Buildings/BikiniBottom/SM_BB_FloatSign_01.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "fountain", TEXT("Buildings/BikiniBottom/fountain.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Mountain", TEXT("Buildings/BikiniBottom/Mountain.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SandCastle", TEXT("Buildings/BikiniBottom/CastleReal.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Dutchman", TEXT("Buildings/BikiniBottom/dutchman.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Jellyfishfieldsign", TEXT("Buildings/BikiniBottom/Jellyfishfieldsign.msh"));
+
+
+
 }
 
 void CDefaultSetting::LoadJellyfishFieldsObj()
@@ -892,7 +900,7 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "SmallTree_Purple", TEXT("Objects/JellyfishFields/SmallTree_Purple.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Seaflower", TEXT("Objects/JellyfishFields/Seaflower.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "BouncingTree", TEXT("Objects/JellyfishFields/BouncingTree.msh"), MESH_PATH);
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Clam", TEXT("Objects/JellyfishFields/Clam.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Clam", TEXT("sObjects/JellyfishFields/Clam.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Bridge", TEXT("Objects/JellyfishFields/Bridge2.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Missile", TEXT("Objects/JellyfishFields/Missile.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Gate", TEXT("Objects/JellyfishFields/Gate.msh"), MESH_PATH);
