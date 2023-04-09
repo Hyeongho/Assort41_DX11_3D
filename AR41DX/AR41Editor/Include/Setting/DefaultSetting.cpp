@@ -229,6 +229,7 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateChannel("TikiBottom", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("Knob", ECollision_Interaction::Collision);
     CCollisionManager::GetInst()->CreateChannel("KingJellyfish", ECollision_Interaction::Collision);
+    CCollisionManager::GetInst()->CreateChannel("Teeter", ECollision_Interaction::Collision);
 
 
     CCollisionManager::GetInst()->CreateProfile("Player", "Player", true);
@@ -247,6 +248,7 @@ void CDefaultSetting::SetCollision()
     CCollisionManager::GetInst()->CreateProfile("TikiBottom", "TikiBottom", true);
     CCollisionManager::GetInst()->CreateProfile("Knob", "Knob", true);
     CCollisionManager::GetInst()->CreateProfile("KingJellyfish", "KingJellyfish", true);
+    CCollisionManager::GetInst()->CreateProfile("Teeter", "Teeter", true);
 
 
     CCollisionManager::GetInst()->SetCollisionInteraction("Player", "PlayerAttack", ECollision_Interaction::Ignore);
@@ -312,6 +314,9 @@ void CDefaultSetting::SetCollision()
 
     CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("Knob", ECollision_Interaction::Ignore);
     CCollisionManager::GetInst()->SetCollisionInteraction("Knob", "PlayerAttack", ECollision_Interaction::Collision);
+
+    CCollisionManager::GetInst()->SetCollisionInteractionAllChannel("Teeter", ECollision_Interaction::Ignore);
+    CCollisionManager::GetInst()->SetCollisionInteraction("Teeter", "Player", ECollision_Interaction::Collision);
 }
 
 void CDefaultSetting::LoadSound()

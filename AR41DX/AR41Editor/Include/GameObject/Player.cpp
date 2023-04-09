@@ -58,7 +58,7 @@ CPlayer::CPlayer(const CPlayer& Obj)
 	, m_Invincibility(false)
 	, m_DirVector(1.0f, 1.0f, 1.0f)
 {
-	m_Mesh = (CAnimationMeshComponent*)FindComponent("Mesh");
+	m_Mesh = (CAnimationMeshComponent*)FindComponent("PlayerMesh");
 	m_Camera = (CCameraComponent*)FindComponent("Camera");
 	m_Arm = (CTargetArm*)FindComponent("Arm");
 	m_Rigid = (CRigidBody*)FindComponent("Rigid");
@@ -181,7 +181,7 @@ bool CPlayer::Init()
 {
 	CGameObject::Init();
 
-	m_Mesh = CreateComponent<CAnimationMeshComponent>("Mesh");
+	m_Mesh = CreateComponent<CAnimationMeshComponent>("PlayerMesh");
 	m_Camera = CreateComponent<CCameraComponent>("Camera");
 	m_Arm = CreateComponent<CTargetArm>("Arm");
 	m_Rigid = CreateComponent<CRigidBody>("Rigid");
@@ -618,6 +618,14 @@ void CPlayer::LoadCheck()
 	LoadCharacter();
 }
 
+CSharedPtr<class CRigidBody> CPlayer::GetRigidBody() const
+{
+	if (m_Rigid)
+	{
+		return m_Rigid;
+	}
+}
+
 void CPlayer::KeyDown()
 {
 	if (m_IsStop || !m_Rigid->GetGround())
@@ -690,7 +698,7 @@ void CPlayer::MoveFront()
 
 		for (; iter != iterEnd; iter++)
 		{
-			if (((*iter)->GetCollisionProfile()->Name == "Ground") && ((*iter)->GetWorldRot().z > 0.f || (*iter)->GetWorldRot().z < 0.f))
+			if (((*iter)->GetCollisionProfile()->Name == "Teeter") && ((*iter)->GetWorldRot().z > 0.f || (*iter)->GetWorldRot().z < 0.f))
 			{
 				Vector3 DirRot = (*iter)->GetWorldRot();
 				Matrix MatRot;
@@ -1473,9 +1481,12 @@ void CPlayer::CollisionTestOut(const CollisionResult& result)
 		}
 	}
 
-	m_WallCollision.Dest = nullptr;
-	m_WallCollision.Src = nullptr;
-	m_WallCollision.HitPoint = Vector3(0.f,0.f,0.f);
+	if (result.Dest->GetName() == "Wall")
+	{
+		m_WallCollision.Dest = nullptr;
+		m_WallCollision.Src = nullptr;
+		m_WallCollision.HitPoint = Vector3(0.f, 0.f, 0.f);
+	}
 
 	switch (m_MainCharacter)
 	{

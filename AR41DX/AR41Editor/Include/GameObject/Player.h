@@ -109,6 +109,8 @@ protected:
 	Vector3 m_DirVector;
 	Vector3 m_DirRotation;
 
+	bool m_Teeter;
+
 public:
 	virtual void Destroy();
 	virtual void Start();
@@ -211,6 +213,8 @@ public:
 	{
 		return m_PlayerData;
 	}
+
+	CSharedPtr<class CRigidBody> GetRigidBody() const;
 
 public:
 	//공통
