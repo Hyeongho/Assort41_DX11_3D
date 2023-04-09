@@ -22,6 +22,9 @@ private:
 	bool m_LeftCollison;
 	bool m_RightCollison;
 
+	bool m_IsColl;
+	float m_Time;
+
 public:
 	virtual void Start();
 	virtual bool Init();

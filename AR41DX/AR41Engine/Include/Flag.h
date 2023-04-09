@@ -112,7 +112,7 @@ enum class ECollision_Channel
 	Collectible,
 	Platform,
 	Pufferfish,
-	Custom8,
+	Teeter,
 	Custom9,
 	Custom10,
 	Custom11,
@@ -255,6 +255,7 @@ enum class ENpcList // Npc 전체 리스트
 	Patric,
 	BusDriver,
 	InfoSign,
+	TaxiStop,
 	End
 };
 
