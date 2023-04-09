@@ -33,6 +33,11 @@ CFodderDebris::CFodderDebris(const CFodderDebris& Obj)
     m_Mesh2Cube = (CColliderOBB3D*)FindComponent("Mesh2Cube");
     m_Mesh3Cube = (CColliderOBB3D*)FindComponent("Mesh3Cube");
     m_Mesh4Cube = (CColliderOBB3D*)FindComponent("Mesh4Cube");
+
+    m_Rigid1 = (CRigidBody*)FindComponent("Rigid1");
+    m_Rigid2 = (CRigidBody*)FindComponent("Rigid2");
+    m_Rigid3 = (CRigidBody*)FindComponent("Rigid3");
+    m_Rigid4 = (CRigidBody*)FindComponent("Rigid4");
 }
 
 CFodderDebris::~CFodderDebris()
@@ -48,11 +53,6 @@ bool CFodderDebris::Init()
 {
     CGameObject::Init();
 
-    if (!m_Scene)
-    {
-        return false;
-    }
-
     m_FodderDebrisMesh1 = CreateComponent<CStaticMeshComponent>("FodderDebrisMesh1");
     m_FodderDebrisMesh2 = CreateComponent<CStaticMeshComponent>("FodderDebrisMesh2");
     m_FodderDebrisMesh3 = CreateComponent<CStaticMeshComponent>("FodderDebrisMesh3");
@@ -63,23 +63,28 @@ bool CFodderDebris::Init()
     m_Mesh3Cube = CreateComponent<CColliderOBB3D>("Mesh3Cube");
     m_Mesh4Cube = CreateComponent<CColliderOBB3D>("Mesh4Cube");
 
-    m_Rigid = CreateComponent<CRigidBody>("Rigid");
+    //m_Rigid = CreateComponent<CRigidBody>("Rigid");
+
+    m_Rigid1 = CreateComponent<CRigidBody>("Rigid1");
+    m_Rigid2 = CreateComponent<CRigidBody>("Rigid2");
+    m_Rigid3 = CreateComponent<CRigidBody>("Rigid3");
+    m_Rigid4 = CreateComponent<CRigidBody>("Rigid4");
 
     SetRootComponent(m_FodderDebrisMesh1);
 
     m_FodderDebrisMesh1->AddChild(m_FodderDebrisMesh2);
     m_FodderDebrisMesh1->AddChild(m_FodderDebrisMesh3);
     m_FodderDebrisMesh1->AddChild(m_FodderDebrisMesh4);
-    m_FodderDebrisMesh1->AddChild(m_Rigid);
+    m_FodderDebrisMesh1->AddChild(m_Rigid1);
     m_FodderDebrisMesh1->AddChild(m_Mesh1Cube);
 
-    m_FodderDebrisMesh2->AddChild(m_Rigid);
+    m_FodderDebrisMesh2->AddChild(m_Rigid2);
     m_FodderDebrisMesh2->AddChild(m_Mesh2Cube);
 
-    m_FodderDebrisMesh3->AddChild(m_Rigid);
+    m_FodderDebrisMesh3->AddChild(m_Rigid3);
     m_FodderDebrisMesh3->AddChild(m_Mesh3Cube);
 
-    m_FodderDebrisMesh4->AddChild(m_Rigid);
+    m_FodderDebrisMesh4->AddChild(m_Rigid4);
     m_FodderDebrisMesh4->AddChild(m_Mesh4Cube);
 
     m_FodderDebrisMesh1->SetMesh("FodderDebris1");
@@ -99,20 +104,24 @@ bool CFodderDebris::Init()
     m_Acceleration[1] = -9.81f;
     m_Acceleration[2] = 0.f;
 
-    m_Fodder = (CFodder*)m_Scene->FindObject("Fodder");
+    if (m_Fodder)
+    {
+        m_Fodder = (CFodder*)m_Scene->FindObject("Fodder");
 
-    m_FodderDebrisMesh1->SetWorldPositionX(m_Fodder->GetWorldPos().x * 2.f);
-    m_FodderDebrisMesh1->SetWorldPositionY(m_Fodder->GetWorldPos().y + 10.f);
-    m_FodderDebrisMesh1->SetWorldPositionZ(m_Fodder->GetWorldPos().z);
+        m_FodderDebrisMesh1->SetWorldPositionX(m_Fodder->GetWorldPos().x * 2.f);
+        m_FodderDebrisMesh1->SetWorldPositionY(m_Fodder->GetWorldPos().y + 10.f);
+        //m_FodderDebrisMesh1->SetWorldPositionZ(m_Fodder->GetWorldPos().z);
 
-    m_FodderDebrisMesh2->SetRelativePosition(10.f, 10.f, 20.f);
-    m_FodderDebrisMesh2->SetRelativeRotation(10.f, 20.f, 20.f);
+        m_FodderDebrisMesh2->SetRelativePosition(10.f, 10.f, 20.f);
+        //m_FodderDebrisMesh2->SetRelativeRotation(10.f, 20.f, 20.f);
 
-    m_FodderDebrisMesh3->SetRelativePosition(20.f, 10.f, 20.f);
-    m_FodderDebrisMesh3->SetRelativeRotation(15.f, 20.f, 34.f);
+        m_FodderDebrisMesh3->SetRelativePosition(20.f, 10.f, 20.f);
+        //m_FodderDebrisMesh3->SetRelativeRotation(15.f, 20.f, 34.f);
 
-    m_FodderDebrisMesh4->SetRelativePosition(30.f, 10.f, 20.f);
-    m_FodderDebrisMesh4->SetRelativeRotation(24.f, 20.f, 10.f);
+        m_FodderDebrisMesh4->SetRelativePosition(30.f, 10.f, 20.f);
+        //m_FodderDebrisMesh4->SetRelativeRotation(24.f, 20.f, 10.f);
+    }
+        
 
 
     m_Mesh1Cube->SetCollisionProfile("Monster");
@@ -134,7 +143,10 @@ bool CFodderDebris::Init()
     //m_Rigid->SetVelocity(0.f, 0.f, 0.f);
     //m_Rigid->SetAccel(0.f, 0.f, 0.f);
 
-    m_Rigid->SetGravity(true);
+    m_Rigid1->SetGravity(true);
+    m_Rigid2->SetGravity(true);
+    m_Rigid3->SetGravity(true);
+    m_Rigid4->SetGravity(true);
 
     return true;
 }
@@ -150,9 +162,21 @@ void CFodderDebris::Update(float DeltaTime)
     // °øÁß¿¡ ¶¹À» ¶§
     if (m_DefyingGravity)
     {
-        m_Rigid->SetGround(false);
-        m_Rigid->AddForce(100, 100.f);
-        m_Rigid->SetVelocityY(250.f);
+        m_Rigid1->SetGround(false);
+        m_Rigid1->AddForce(100, 100.f);
+        m_Rigid1->SetVelocityY(230.f);
+
+        m_Rigid2->SetGround(false);
+        m_Rigid2->AddForce(110, 150.f);
+        m_Rigid2->SetVelocityY(240.f);
+
+        m_Rigid3->SetGround(false);
+        m_Rigid3->AddForce(120, 80.f);
+        m_Rigid3->SetVelocityY(260.f);
+
+        m_Rigid4->SetGround(false);
+        m_Rigid4->AddForce(130, 150.f);
+        m_Rigid4->SetVelocityY(250.f);
     }
 
     float PosY = GetWorldPos().y;
@@ -160,21 +184,40 @@ void CFodderDebris::Update(float DeltaTime)
     if (GetWorldPos().y >= 480.f)
     {
         m_DefyingGravity = false;
-        m_Rigid->SetVelocityY(-20.f);
-        m_Rigid->AddForce(300, 10.f, 0.f);
-        m_FodderDebrisMesh1->AddWorldPosition(100.f, 0.f, 0.f);
-        m_FodderDebrisMesh2->AddRelativePosition(-50.f, 0.f, 19.f);
-        m_FodderDebrisMesh3->AddRelativePosition(-40.f, 0.f, 5.f);
-        m_FodderDebrisMesh4->AddRelativePosition(-35.f, 0.f, 0.f);
+
+        m_Rigid1->SetVelocity(100.f, -20.f);
+        m_Rigid1->AddForce(300, 30.f, 0.f);
+
+        m_Rigid2->SetVelocity(70.f, -100.f);
+        m_Rigid2->AddForce(100, 10.f, 0.f);
+
+        m_Rigid3->SetVelocity(300.f, -20.f);
+        m_Rigid3->AddForce(200, 10.f, 0.f);
+
+        m_Rigid4->SetVelocity(250.f, -20.f);
+        m_Rigid4->AddForce(300, 10.f, 0.f);
     }
 
     // ¶¥¿¡ ÂøÁö
     if (Y != FLT_MAX && GetWorldPos().y - Y < m_FodderDebrisMesh1->GetMeshSize().y / 2.f && m_FodderDebrisMesh1)
     {
         SetWorldPositionY(Y + m_FodderDebrisMesh1->GetMeshSize().y / 2.f);
-        m_Rigid->SetGround(true);
-        m_Rigid->SetVelocityY(0.f);
-        m_Rigid->AddForce(0, 0.f);
+
+        m_Rigid1->SetGround(true);
+        m_Rigid1->SetVelocityY(0.f);
+        m_Rigid1->AddForce(0, 0.f);
+
+        m_Rigid2->SetGround(true);
+        m_Rigid2->SetVelocityY(0.f);
+        m_Rigid2->AddForce(0, 0.f);
+
+        m_Rigid3->SetGround(true);
+        m_Rigid3->SetVelocityY(0.f);
+        m_Rigid3->AddForce(0, 0.f);
+
+        m_Rigid4->SetGround(true);
+        m_Rigid4->SetVelocityY(0.f);
+        m_Rigid4->AddForce(0, 0.f);
     }
 }
 

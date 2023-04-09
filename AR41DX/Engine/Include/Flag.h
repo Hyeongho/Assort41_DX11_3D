@@ -112,7 +112,7 @@ enum class ECollision_Channel
 	Collectible,
 	Platform,
 	Pufferfish,
-	Custom8,
+	Teeter,
 	Custom9,
 	Custom10,
 	Custom11,

@@ -9,8 +9,10 @@
 #include "Animation/Animation.h"
 #include "Component/ColliderCube.h"
 #include "Component/ColliderOBB3D.h"
+#include "Component/RigidBody.h"
+#include "Player.h"
 
-CTeeterRock::CTeeterRock() : m_LeftCollison(false), m_RightCollison(false)
+CTeeterRock::CTeeterRock() : m_LeftCollison(false), m_RightCollison(false), m_IsColl(false), m_Time(0.f)
 {
 	SetTypeID<CTeeterRock>();
 
@@ -47,12 +49,14 @@ bool CTeeterRock::Init()
 	m_LeftCube = CreateComponent<CColliderOBB3D>("LeftCube");
 	m_RightCube = CreateComponent<CColliderOBB3D>("RightCube");
 
-	m_LeftCube->SetCollisionProfile("Ground");
+	m_LeftCube->SetCollisionProfile("Ground");	
 	m_RightCube->SetCollisionProfile("Ground");
 
 	SetRootComponent(m_Mesh);
 
-	m_Mesh->SetMesh("SM_JF_Teeter_Rock_01");
+	m_Mesh->SetMesh("SM_JF_Teeter_Rock_02");
+
+	//m_Mesh->GetMaterial(0)->SetOpacity(0.f);
 
 	m_LeftCube->AddWorldPositionX(( -1.f * m_Mesh->GetMeshSize().x / 4.f) + -1.f);
 	m_RightCube->AddWorldPositionX(m_Mesh->GetMeshSize().x / 4.f);
@@ -85,6 +89,11 @@ void CTeeterRock::Update(float DeltaTime)
 void CTeeterRock::PostUpdate(float DeltaTime)
 {
 	CGameObject::PostUpdate(DeltaTime);
+
+	if (m_IsColl)
+	{
+		m_Time += DeltaTime;
+	}
 
 	CGameObject* Object = m_Scene->GetPlayerObject();
 
@@ -137,7 +146,28 @@ void CTeeterRock::LeftCollisonPlayer(const CollisionResult& result)
 {
 	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
 	{
+		if (!m_IsColl)
+		{
+			m_IsColl = true;
+		}
+
 		m_LeftCollison = true;
+
+		/*if (!m_Mesh->FindComponent("PlayerMesh"))
+		{
+			CSceneComponent* Component = result.Dest->GetOwner()->GetRootComponent();
+
+			m_Mesh->AddChild(Component);
+
+			Component->SetWorldPosition(Vector3(Component->GetWorldPos().x, Component->GetWorldPos().y - 1, Component->GetWorldPos().z));
+
+			CPlayer* Player = dynamic_cast<CPlayer*>(m_Scene->GetPlayerObject());
+
+			if (Player)
+			{
+				Player->GetRigidBody()->SetGround(true);
+			}
+		}*/
 	}
 }
 
@@ -145,7 +175,28 @@ void CTeeterRock::RightCollisonPlayer(const CollisionResult& result)
 {
 	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
 	{
+		if (!m_IsColl)
+		{
+			m_IsColl = true;
+		}
+
 		m_RightCollison = true;
+
+		/*if (!m_Mesh->FindComponent("PlayerMesh"))
+		{
+			CSceneComponent* Component = result.Dest->GetOwner()->GetRootComponent();
+
+			m_Mesh->AddChild(Component);
+
+			Component->SetWorldPosition(Vector3(Component->GetWorldPos().x, Component->GetWorldPos().y - 1, Component->GetWorldPos().z));
+
+			CPlayer* Player = dynamic_cast<CPlayer*>(m_Scene->GetPlayerObject());
+
+			if (Player)
+			{
+				Player->GetRigidBody()->SetGround(true);
+			}
+		}*/
 	}
 }
 
@@ -153,6 +204,12 @@ void CTeeterRock::LeftReleasePlayer(const CollisionResult& result)
 {
 	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
 	{
+		if (m_IsColl)
+		{
+			m_IsColl = false;
+			m_Time = 0.f;
+		}
+
 		m_LeftCollison = false;
 	}
 }
@@ -161,6 +218,12 @@ void CTeeterRock::RightReleasePlayer(const CollisionResult& result)
 {
 	if (result.Dest->GetCollisionProfile()->Channel->Channel == ECollision_Channel::Player)
 	{
+		if (m_IsColl)
+		{
+			m_IsColl = false;
+			m_Time = 0.f;
+		}
+
 		m_RightCollison = false;
 	}
 }
