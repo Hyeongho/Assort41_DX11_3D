@@ -55,6 +55,9 @@ bool CJellyfishField1SceneInfo::Init()
 	GlobalLightComponent->SetRelativeRotation(0, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
 
+	CResourceManager::GetInst()->SoundPlay("JellyfishField");
+	CResourceManager::GetInst()->SetVolume(30.f);
+
 	m_Owner->GetViewport()->CreateUIWindow<CDialogUI>("DialogUI");
 	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
 

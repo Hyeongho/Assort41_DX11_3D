@@ -513,6 +513,9 @@
     <ClCompile Include="Scene\LoadingSceneThread.cpp">
       <Filter>02. Scene</Filter>
     </ClCompile>
+    <ClCompile Include="UI\CreditUI.cpp">
+      <Filter>05. UI\01. Menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorManager.h">
@@ -892,6 +895,9 @@
     </ClInclude>
     <ClInclude Include="Scene\LoadingSceneThread.h">
       <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\CreditUI.h">
+      <Filter>05. UI\01. Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

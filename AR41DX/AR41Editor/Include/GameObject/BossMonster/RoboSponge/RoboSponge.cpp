@@ -16,6 +16,7 @@
 #include "../../Object/CBL/CBL_Platform.h"
 #include "../../Player.h"
 #include "../../../UI/BossUI.h"
+#include "../../../UI/CreditUI.h"
 
 
 /* RoboSponge Pattern
@@ -104,7 +105,6 @@ void CRoboSponge::Start()
 	//CInput::GetInst()->AddBindFunction<CRoboSponge>("F8", Input_Type::Up, this, &CRoboSponge::MoveToCenter, m_Scene);
 	//CInput::GetInst()->AddBindFunction<CRoboSponge>("F9", Input_Type::Up, this, &CRoboSponge::ChangeAnim_AttackHorizLPose, m_Scene);
 #endif // _DEBUG
-	//CInput::GetInst()->AddBindFunction<CRoboSponge>("F1", Input_Type::Up, this, &CRoboSponge::ActionStart, m_Scene);
 	CInput::GetInst()->AddBindFunction<CRoboSponge>("F9", Input_Type::Up, this, &CRoboSponge::SetHp1, m_Scene);
 	CInput::GetInst()->AddBindFunction<CRoboSponge>("F10", Input_Type::Up, this, &CRoboSponge::SetHp4, m_Scene);
 
@@ -589,9 +589,17 @@ void CRoboSponge::CountCenterWait()
 
 void CRoboSponge::RobotDeath()
 {
-	SetWorldPositionY(1200.f);
+	CCreditUI* CreditUI = m_Scene->GetViewport()->FindUIWindow<CCreditUI>("CreditUI");
 
-	SetWorldRotationZ(180.f);
+	if (CreditUI)
+		CreditUI = m_Scene->GetViewport()->CreateUIWindow<CCreditUI>("CreditUI");
+
+	CreditUI->SetIsEnd();
+	CreditUI->CreditPlay();
+
+	//SetWorldPositionY(1200.f);
+
+	//SetWorldRotationZ(180.f);
 }
 
 void CRoboSponge::PlayPattern(const ERS_Pattern& Pattern)
@@ -618,11 +626,9 @@ void CRoboSponge::Damaged()
 	if (m_BossData->CurHP == 1) {
 		SetWorldPosition(m_MapCenterPoint);
 
-		//if (m_BossUI)
-		//	m_BossUI->InActiveBossUI();
+		if (m_BossUI)
+			m_BossUI->InActiveBossUI();
 
-		// »ç¸Á ÄÆÀÎ
-		ChangeAnim_Death();
 		m_ActionStart = false;
 
 		// ¹è°æÀ½¾Ç Á¾·á
@@ -630,6 +636,9 @@ void CRoboSponge::Damaged()
 
 		if (Sound)
 			Sound->Stop();
+
+		// »ç¸Á ÄÆÀÎ
+		ChangeAnim_Death();
 	}
 	else {
 		if (m_BossUI)

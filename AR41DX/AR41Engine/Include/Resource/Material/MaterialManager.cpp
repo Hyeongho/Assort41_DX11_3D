@@ -55,10 +55,13 @@ bool CMaterialManager::Init()
 
 
 	Material = CreateMaterial<CMaterial>("Sky");
-
 	Material->SetShader("SkyShader");
-
 	Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture", TEXT("Sky/sky0331.dds"));
+
+	Material = CreateMaterial<CMaterial>("Sky2");
+	Material->SetShader("SkyShader");
+	Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture2", TEXT("Sky/sky0409.dds"));
+
 
 	//Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture", TEXT("Sky.dds"));
 

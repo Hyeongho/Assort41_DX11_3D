@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 #include "UI\UIWindow.h"
 
-enum class EUIMode // Å¸ÀÌÆ² ¸Ş´º¿¡¼­ ÇöÀç ¸Ş´º ¸ğµå¸¦ Ã¼Å©ÇÏ±â À§ÇÑ ÇÃ·¡±×
+enum class EUIMode // íƒ€ì´í‹€ ë©”ë‰´ì—ì„œ í˜„ì¬ ë©”ë‰´ ëª¨ë“œë¥¼ ì²´í¬í•˜ê¸° ìœ„í•œ í”Œë˜ê·¸
 {
 	Main,
 	Continue,
@@ -15,7 +15,7 @@ enum class EUIMode // Å¸ÀÌÆ² ¸Ş´º¿¡¼­ ÇöÀç ¸Ş´º ¸ğµå¸¦ Ã¼Å©ÇÏ±â À§ÇÑ ÇÃ·¡±×
 	End
 };
 
-enum class EMainList // Å¸ÀÌÆ² ¸ŞÀÎ ¸Ş´º¿¡¼­ ÇöÀç Ä¿¼­°¡ °¡ ÀÖ´Â(¼±ÅÃµÈ) ¸Ş´º¸¦ Ã¼Å©ÇÏ±â À§ÇÑ ÇÃ·¡±×
+enum class EMainList // íƒ€ì´í‹€ ë©”ì¸ ë©”ë‰´ì—ì„œ í˜„ì¬ ì»¤ì„œê°€ ê°€ ìˆëŠ”(ì„ íƒëœ) ë©”ë‰´ë¥¼ ì²´í¬í•˜ê¸° ìœ„í•œ í”Œë˜ê·¸
 {
 	Continue,
 	NewGame,
@@ -26,14 +26,14 @@ enum class EMainList // Å¸ÀÌÆ² ¸ŞÀÎ ¸Ş´º¿¡¼­ ÇöÀç Ä¿¼­°¡ °¡ ÀÖ´Â(¼±ÅÃµÈ) ¸Ş´º¸¦ 
 	End
 };
 
-enum class EUIOptionList // Å¸ÀÌÆ² ¿É¼Ç ¸Ş´º¿¡¼­ ÇöÀç Ä¿¼­°¡ °¡ ÀÖ´Â(¼±ÅÃµÈ) ¸Ş´º¸¦ Ã¼Å©ÇÏ±â À§ÇÑ ÇÃ·¡±×
+enum class EUIOptionList // íƒ€ì´í‹€ ì˜µì…˜ ë©”ë‰´ì—ì„œ í˜„ì¬ ì»¤ì„œê°€ ê°€ ìˆëŠ”(ì„ íƒëœ) ë©”ë‰´ë¥¼ ì²´í¬í•˜ê¸° ìœ„í•œ í”Œë˜ê·¸
 {
 	Sound,
 	Camera,
 	End
 };
 
-enum class EUISaveList // Å¸ÀÌÆ² ¼¼ÀÌºê ¼±ÅÃ ¸Ş´º¿¡¼­ ÇöÀç Ä¿¼­°¡ °¡ ÀÖ´Â(¼±ÅÃµÈ) ¸Ş´º¸¦ Ã¼Å©ÇÏ±â À§ÇÑ ÇÃ·¡±×
+enum class EUISaveList // íƒ€ì´í‹€ ì„¸ì´ë¸Œ ì„ íƒ ë©”ë‰´ì—ì„œ í˜„ì¬ ì»¤ì„œê°€ ê°€ ìˆëŠ”(ì„ íƒëœ) ë©”ë‰´ë¥¼ ì²´í¬í•˜ê¸° ìœ„í•œ í”Œë˜ê·¸
 {
 	First,
 	Second,
@@ -41,7 +41,7 @@ enum class EUISaveList // Å¸ÀÌÆ² ¼¼ÀÌºê ¼±ÅÃ ¸Ş´º¿¡¼­ ÇöÀç Ä¿¼­°¡ °¡ ÀÖ´Â(¼±ÅÃµÈ
 	End
 };
 
-enum class EUISoundList // Å¸ÀÌÆ² »ç¿îµå ¿É¼Ç ¸Ş´º¿¡¼­ ÇöÀç Ä¿¼­°¡ °¡ ÀÖ´Â(¼±ÅÃµÈ) ¸Ş´º¸¦ Ã¼Å©ÇÏ±â À§ÇÑ ÇÃ·¡±×
+enum class EUISoundList // íƒ€ì´í‹€ ì‚¬ìš´ë“œ ì˜µì…˜ ë©”ë‰´ì—ì„œ í˜„ì¬ ì»¤ì„œê°€ ê°€ ìˆëŠ”(ì„ íƒëœ) ë©”ë‰´ë¥¼ ì²´í¬í•˜ê¸° ìœ„í•œ í”Œë˜ê·¸
 {
 	SFX,
 	Music,
@@ -50,7 +50,7 @@ enum class EUISoundList // Å¸ÀÌÆ² »ç¿îµå ¿É¼Ç ¸Ş´º¿¡¼­ ÇöÀç Ä¿¼­°¡ °¡ ÀÖ´Â(¼±ÅÃµ
 	End
 };
 
-enum class EUICameraList // Å¸ÀÌÆ² Ä«¸Ş¶ó ¿É¼Ç ¸Ş´º¿¡¼­ ÇöÀç Ä¿¼­°¡ °¡ ÀÖ´Â(¼±ÅÃµÈ) ¸Ş´º¸¦ Ã¼Å©ÇÏ±â À§ÇÑ ÇÃ·¡±×
+enum class EUICameraList // íƒ€ì´í‹€ ì¹´ë©”ë¼ ì˜µì…˜ ë©”ë‰´ì—ì„œ í˜„ì¬ ì»¤ì„œê°€ ê°€ ìˆëŠ”(ì„ íƒëœ) ë©”ë‰´ë¥¼ ì²´í¬í•˜ê¸° ìœ„í•œ í”Œë˜ê·¸
 {
 	Sensitive,
 	XReverse,
@@ -71,22 +71,21 @@ protected:
 	virtual ~CTitleSceneUI();
 
 protected:
-	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapBackUI;				// ¹é±×¶ó¿îµå UI ÁıÇÕ ¸Ê
-	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapMainUI;				// ¸ŞÀÎ ¸Ş´º UI ÁıÇÕ ¸Ê
-	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapSaveSelectUI;		// ¼¼ÀÌºê ¼±ÅÃ UI ÁıÇÕ ¸Ê
-	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapOptionUI;			// ¿É¼Ç ¸Ş´º UI ÁıÇÕ ¸Ê
-	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapSoundOptionUI;		// »ç¿îµå ¿É¼Ç ¸Ş´º UI ÁıÇÕ ¸Ê
-	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapCameraOptionUI;		// Ä«¸Ş¶ó ¿É¼Ç ¸Ş´º UI ÁıÇÕ ¸Ê
-	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapControlUI;			// Á¶ÀÛ¹ı UI ÁıÇÕ ¸Ê
-	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapCreditsUI;			// Å©·¹µ÷ UI ÁıÇÕ ¸Ê
+	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapBackUI;				// ë°±ê·¸ë¼ìš´ë“œ UI ì§‘í•© ë§µ
+	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapMainUI;				// ë©”ì¸ ë©”ë‰´ UI ì§‘í•© ë§µ
+	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapSaveSelectUI;		// ì„¸ì´ë¸Œ ì„ íƒ UI ì§‘í•© ë§µ
+	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapOptionUI;			// ì˜µì…˜ ë©”ë‰´ UI ì§‘í•© ë§µ
+	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapSoundOptionUI;		// ì‚¬ìš´ë“œ ì˜µì…˜ ë©”ë‰´ UI ì§‘í•© ë§µ
+	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapCameraOptionUI;		// ì¹´ë©”ë¼ ì˜µì…˜ ë©”ë‰´ UI ì§‘í•© ë§µ
+	std::unordered_map<std::string, CSharedPtr<CUIWidget>> m_mapControlUI;			// ì¡°ì‘ë²• UI ì§‘í•© ë§µ
 
 private :
-	EUIMode			m_NowUIMode;		// ÇöÀç UI
-	EMainList		m_MainSelected;		// ¸ŞÀÎ ¸Ş´º¿¡¼­ ÇöÀç ¼±ÅÃµÈ UI
-	EUIOptionList	m_OptionSelected;	// ¿É¼Ç ¸Ş´º¿¡¼­ ÇöÀç ¼±ÅÃµÈ UI
-	EUISaveList		m_SaveSelected;		// °è¼Ó/»õ·ÎÇÏ±â ¸Ş´º¿¡¼­ ÇöÀç ¼±ÅÃµÈ UI
-	EUISoundList	m_SoundSelected;	// »ç¿îµå ¿É¼Ç ¸Ş´º¿¡¼­ ÇöÀç ¼±ÅÃµÈ UI
-	EUICameraList	m_CameraSelected;	// Ä«¸Ş¶ó ¿É¼Ç ¸Ş´º¿¡¼­ ÇöÀç ¼±ÅÃµÈ UI
+	EUIMode			m_NowUIMode;		// í˜„ì¬ UI
+	EMainList		m_MainSelected;		// ë©”ì¸ ë©”ë‰´ì—ì„œ í˜„ì¬ ì„ íƒëœ UI
+	EUIOptionList	m_OptionSelected;	// ì˜µì…˜ ë©”ë‰´ì—ì„œ í˜„ì¬ ì„ íƒëœ UI
+	EUISaveList		m_SaveSelected;		// ê³„ì†/ìƒˆë¡œí•˜ê¸° ë©”ë‰´ì—ì„œ í˜„ì¬ ì„ íƒëœ UI
+	EUISoundList	m_SoundSelected;	// ì‚¬ìš´ë“œ ì˜µì…˜ ë©”ë‰´ì—ì„œ í˜„ì¬ ì„ íƒëœ UI
+	EUICameraList	m_CameraSelected;	// ì¹´ë©”ë¼ ì˜µì…˜ ë©”ë‰´ì—ì„œ í˜„ì¬ ì„ íƒëœ UI
 
 public:
 	virtual void Start();
@@ -107,7 +106,6 @@ private :
 	void CreateOptionCameraUI();
 	void CreateSaveSelectUI();
 	void CreateControlUI();
-	void CreateCreditsUI();
 
 	void ActiveMainUI();
 	void ActiveOptionUI();
@@ -115,7 +113,6 @@ private :
 	void ActiveOptionCameraUI();
 	void ActiveSaveSelectUI();
 	void ActiveControlUI();
-	void ActiveCreditsUI();
 
 	void InActiveMainUI();
 	void InActiveOptionUI();
@@ -123,18 +120,17 @@ private :
 	void InActiveOptionCameraUI();
 	void InActiveSaveSelectUI();
 	void InActiveControlUI();
-	void InActiveCreditsUI();
 
 private: // Mouse/KeyBoard Control
-	void KeyLeftButton();	// ¸¶¿ì½º ¿Ş¹öÆ° Å¬¸¯
-	void KeyRightButton();	// ¸¶¿ì½º ¿ì¹öÆ° Å¬¸¯
+	void KeyLeftButton();	// ë§ˆìš°ìŠ¤ ì™¼ë²„íŠ¼ í´ë¦­
+	void KeyRightButton();	// ë§ˆìš°ìŠ¤ ìš°ë²„íŠ¼ í´ë¦­
 	
-	void KeyUp();			// À§ È­»ìÇ¥/w ÀÔ·Â
-	void KeyDown();			// ¾Æ·¡ È­»ìÇ¥/s ÀÔ·Â
-	void KeyLeft();			// ÁÂ È­»ìÇ¥/a ÀÔ·Â
-	void KeyRight();		// ¿ì È­»ìÇ¥/d ÀÔ·Â
-	void KeySpace();		// ½ºÆäÀÌ½º¹Ù ÀÔ·Â
-	void KeyBack();			// Esc ÀÔ·Â
+	void KeyUp();			// ìœ„ í™”ì‚´í‘œ/w ì…ë ¥
+	void KeyDown();			// ì•„ë˜ í™”ì‚´í‘œ/s ì…ë ¥
+	void KeyLeft();			// ì¢Œ í™”ì‚´í‘œ/a ì…ë ¥
+	void KeyRight();		// ìš° í™”ì‚´í‘œ/d ì…ë ¥
+	void KeySpace();		// ìŠ¤í˜ì´ìŠ¤ë°” ì…ë ¥
+	void KeyBack();			// Esc ì…ë ¥
 
 private : // Main Menu UI Func
 	void MainUIContinue();
@@ -155,7 +151,7 @@ private: // SaveSelect Menu UI Func
 	void SaveSelectUISaveSlot1Hoverd();
 	void SaveSelectUISaveSlot2Hoverd();
 	void SaveSelectUISaveSlot3Hoverd();
-	void GameStart();		// °ÔÀÓ ½ÃÀÛ
+	void GameStart();		// ê²Œì„ ì‹œì‘
 
 private : // Option Menu UI Func
 	void OptionUISound();

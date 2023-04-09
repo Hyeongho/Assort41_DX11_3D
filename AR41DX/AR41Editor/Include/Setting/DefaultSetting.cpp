@@ -816,7 +816,7 @@ void CDefaultSetting::LoadCommonObj()
 
 void CDefaultSetting::LoadCollectibleItems()
 {
-    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Collectible_Bubble", TEXT("Object/Common/Collectible_Bubble.msh"), MESH_PATH);
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Collectible_Bubble", TEXT("Object/Common/Bubble.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "GoldenSpatula", TEXT("Object/Common/GoldenSpatula.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "Sock", TEXT("Object/Common/Sock.msh"), MESH_PATH);
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "UnderWear", TEXT("Object/Common/UnderWear.msh"), MESH_PATH);
@@ -1353,12 +1353,12 @@ void CDefaultSetting::LoadParticle()
 
     Particle->SetParticleSpawnTime(0.01f);
     Particle->SetParticleStartMin(Vector3(0.f, 0.f, 0.f));
-    Particle->SetParticleStartMax(Vector3(5.f, 0.f, 5.f));
+    Particle->SetParticleStartMax(Vector3(5.f, 5.f, 5.f));
     Particle->SetParticleSpawnCountMax(30);
     Particle->SetParticleScaleMin(Vector3(1000.f, 1000.f, 1000.f));
     Particle->SetParticleScaleMax(Vector3(1000.f, 1000.f, 1000.f));
-    Particle->SetParticleLifeTimeMin(4.f);
-    Particle->SetParticleLifeTimeMax(6.f);
+    Particle->SetParticleLifeTimeMin(6.f);
+    Particle->SetParticleLifeTimeMax(8.f);
     Particle->SetParticleColorMin(Vector4(1.f, 1.f, 1.f, 1.f));
     Particle->SetParticleColorMax(Vector4(1.f, 1.f, 1.f, 1.f));
     Particle->SetParticleSpeedMin(5.f);
@@ -1366,5 +1366,7 @@ void CDefaultSetting::LoadParticle()
     Particle->SetParticleMoveEnable(true);
     Particle->SetParticleGravityEnable(true);
     Particle->SetParticleMoveDir(Vector3(0.f, 0.f, 0.f));
+    Particle->SetParticleMoveDirEnable(false);
+    Particle->SetParticleMoveAngle(Vector3(5.f, 0.f, 5.f));
 
 }

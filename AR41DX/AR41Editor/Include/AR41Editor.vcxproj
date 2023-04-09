@@ -262,6 +262,7 @@
     <ClCompile Include="Setting\DefaultSetting.cpp" />
     <ClCompile Include="Setting\EngineShareSetting.cpp" />
     <ClCompile Include="UI\BossUI.cpp" />
+    <ClCompile Include="UI\CreditUI.cpp" />
     <ClCompile Include="UI\DialogUI.cpp" />
     <ClCompile Include="UI\Fade.cpp" />
     <ClCompile Include="UI\InteractUI.cpp" />
@@ -384,6 +385,7 @@
     <ClInclude Include="Setting\DefaultSetting.h" />
     <ClInclude Include="Setting\EngineShareSetting.h" />
     <ClInclude Include="UI\BossUI.h" />
+    <ClInclude Include="UI\CreditUI.h" />
     <ClInclude Include="UI\DialogUI.h" />
     <ClInclude Include="UI\Fade.h" />
     <ClInclude Include="UI\InteractUI.h" />

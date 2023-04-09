@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "GameObject\GameObject.h"
+#include "Collectible_Bubble.h"
 
 class CCollectibleItems
 	: public CGameObject
@@ -14,8 +15,9 @@ protected:
 
 protected:
 	CSharedPtr<class CStaticMeshComponent>		m_Mesh;
-	CSharedPtr<class CStaticMeshComponent>		m_Bubble;
 	CSharedPtr<class CColliderOBB3D>			m_Collider;
+
+	CSharedPtr<class CCollectible_Bubble>		m_Bubble;
 
 protected :
 	EItemList	m_ColItemType;

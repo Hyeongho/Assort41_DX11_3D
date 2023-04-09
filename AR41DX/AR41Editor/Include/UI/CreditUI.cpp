@@ -4,6 +4,9 @@
 #include "Engine.h"
 #include "Input.h"
 #include "PathManager.h"
+#include "../Scene/LoadingSceneInfo.h"
+#include "Scene/SceneManager.h"
+#include "Scene/Scene.h"
 
 #include <iostream>
 #include <fstream>
@@ -14,6 +17,7 @@ CCreditUI::CCreditUI()
 
 	m_Start = false;
 	m_ScrollSpeed = 50.f;
+	m_IsMenu = true;
 }
 
 CCreditUI::CCreditUI(const CCreditUI& Window)
@@ -32,14 +36,15 @@ void CCreditUI::Start()
 	CUIWindow::Start();
 
 #ifdef _DEBUG
-	CInput::GetInst()->AddBindFunction<CCreditUI>("F1", Input_Type::Up, this, &CCreditUI::ActiveAllUI, m_Scene);
-	CInput::GetInst()->AddBindFunction<CCreditUI>("F2", Input_Type::Up, this, &CCreditUI::InActiveAllUI, m_Scene);
-	CInput::GetInst()->AddBindFunction<CCreditUI>("F3", Input_Type::Up, this, &CCreditUI::CreditPlay, m_Scene);
-	CInput::GetInst()->AddBindFunction<CCreditUI>("F4", Input_Type::Up, this, &CCreditUI::CreditStop, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CCreditUI>("F1", Input_Type::Up, this, &CCreditUI::ActiveAllUI, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CCreditUI>("F2", Input_Type::Up, this, &CCreditUI::InActiveAllUI, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CCreditUI>("F3", Input_Type::Up, this, &CCreditUI::CreditPlay, m_Scene);
+	//CInput::GetInst()->AddBindFunction<CCreditUI>("F4", Input_Type::Up, this, &CCreditUI::CreditStop, m_Scene);
 #endif // DEBUG
 
 	CInput::GetInst()->AddBindFunction<CCreditUI>("Space", Input_Type::Push, this, &CCreditUI::SpacePush, m_Scene);
 	CInput::GetInst()->AddBindFunction<CCreditUI>("Space", Input_Type::Up, this, &CCreditUI::SpaceUp, m_Scene);
+	CInput::GetInst()->AddBindFunction<CCreditUI>("Esc", Input_Type::Up, this, &CCreditUI::EscPush, m_Scene);
 }
 
 bool CCreditUI::Init()
@@ -69,8 +74,7 @@ void CCreditUI::Update(float DeltaTime)
 		m_TextUI->SetPos(Pos);
 
 		if (Pos.y >= 0.f) {
-			// 타이틀 씬으로 돌아가기
-
+			EscPush();
 		}
 
 	}
@@ -128,6 +132,17 @@ void CCreditUI::SpacePush()
 void CCreditUI::SpaceUp()
 {
 	m_ScrollSpeed = 50.f;
+}
+
+void CCreditUI::EscPush()
+{
+	CreditStop();
+
+	// 보스 잡고 출력 중이었다면 타이틀 씬으로 이동.
+	if (!m_IsMenu) {
+		CSceneManager::GetInst()->CreateNextScene(true);
+		CSceneManager::GetInst()->CreateSceneInfo<CLoadingSceneInfo>(false, "BikiniCity");
+	}
 }
 
 void CCreditUI::ActiveAllUI()

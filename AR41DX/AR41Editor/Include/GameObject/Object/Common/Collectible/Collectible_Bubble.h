@@ -23,5 +23,10 @@ public:
 	virtual CCollectible_Bubble* Clone()    const;
 	virtual void Save(FILE* File);
 	virtual void Load(FILE* File);
+
+private:
+	void DebugF1();
+	void DebugF2();
+	void DebugF3();
 };
 
