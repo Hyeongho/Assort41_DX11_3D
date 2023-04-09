@@ -62,7 +62,7 @@ bool CJellyfishField1SceneInfo::Init()
 	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
 
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetRespawnPos(14000.f, 15000.f, 900.f);
+	Player->SetRespawnPos(14000.f, 3500.f, 900.f);
 	SetPlayerObject(Player);
 
 	/*CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
@@ -89,7 +89,7 @@ bool CJellyfishField1SceneInfo::Init()
 
 	CGameObject* Map = m_Owner->CreateObject<CGameObject>("Map");
 	CStaticMeshComponent* StaticMeshComponent = Map->CreateComponent<CStaticMeshComponent>("Mesh");
-	StaticMeshComponent->SetMesh("JellyFishFieldTestKKB");
+	StaticMeshComponent->SetMesh("mapTest");
 	Map->SetWorldPosition(7000.f, 3500.f, 21000.f);
 
 
@@ -409,7 +409,7 @@ bool CJellyfishField1SceneInfo::Init()
 		CTeleportBox* TeleportBox1 = m_Owner->CreateObject<CTeleportBox>("TeleportBox");
 		TeleportBox1->SetBoxIndex(1);
 		TeleportBox1->SetWorldScale(1.f, 1.f, 1.f);
-		TeleportBox1->SetWorldPosition(14000.f, 1700.f, 10000.f);
+		TeleportBox1->SetWorldPosition(14000.f, 1800.f, 10000.f);
 
 		CIceCube* IceCube = m_Owner->CreateObject<CIceCube>("IceCube");
 		IceCube->SetWorldPosition(10800.00f, 2514.21f, 11290.00f);
