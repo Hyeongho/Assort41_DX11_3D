@@ -62,7 +62,9 @@ bool CJellyfishField1SceneInfo::Init()
 	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");
 
 	CPlayer* Player = m_Owner->CreateObject<CPlayer>("Player");
-	Player->SetRespawnPos(14000.f, 3000.f, 900.f);
+
+	Player->SetRespawnPos(14000.f, 3500.f, 900.f);
+
 	SetPlayerObject(Player);
 
 	/*CGameObject* TerrainObj = m_Owner->CreateObject<CGameObject>("TerrainObj");
@@ -89,7 +91,7 @@ bool CJellyfishField1SceneInfo::Init()
 
 	CGameObject* Map = m_Owner->CreateObject<CGameObject>("Map");
 	CStaticMeshComponent* StaticMeshComponent = Map->CreateComponent<CStaticMeshComponent>("Mesh");
-	StaticMeshComponent->SetMesh("JellyFishFieldTestKKB");
+	StaticMeshComponent->SetMesh("mapTest");
 	Map->SetWorldPosition(7000.f, 3500.f, 21000.f);
 
 

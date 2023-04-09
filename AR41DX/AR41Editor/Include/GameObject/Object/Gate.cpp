@@ -88,6 +88,8 @@ void CGate::Update(float DeltaTime)
     {
         m_OpenSesameOn = false;
 
+        m_Scene->GetResource()->SoundStop("JellyfishField");
+
         ChangeScene();
     }
 }

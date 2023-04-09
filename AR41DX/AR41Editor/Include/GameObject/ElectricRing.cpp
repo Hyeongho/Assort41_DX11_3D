@@ -100,7 +100,7 @@ void CElectricRing::PostUpdate(float DeltaTime)
 
     m_Time += DeltaTime;
 
-    if (m_Time > 6.f)
+    if (m_Time > 3.f)
         SetLifeTime(DeltaTime);
 }
 

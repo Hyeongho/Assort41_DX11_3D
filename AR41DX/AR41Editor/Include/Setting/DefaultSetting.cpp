@@ -875,6 +875,7 @@ void CDefaultSetting::LoadJellyfishFieldsObj()
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishFieldBoss", TEXT("Buildings/JellyfishField/JellyfishFieldBoss.msh"));
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyFishFieldTestKKB", TEXT("Buildings/JellyfishField/JellyfishScene.msh"));
+    CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "mapTest", TEXT("Buildings/JellyfishField/mapTest.msh"), MESH_PATH);
 
     CResourceManager::GetInst()->LoadMesh(nullptr, MeshType::Static, "JellyfishField", TEXT("Buildings/JellyfishField/JellyfishField.msh"));
 
