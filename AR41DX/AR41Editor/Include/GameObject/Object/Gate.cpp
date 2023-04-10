@@ -57,6 +57,8 @@ bool CGate::Init()
     m_BottomMesh->AddChild(m_DetectRange);
     m_BottomMesh->AddChild(m_Cube);
 
+    m_BottomMesh->AddRelativeRotationY(90.f);
+    m_ArmMesh->AddRelativeRotationY(90.f);
     m_ArmMesh->SetRelativePositionY(0.f);
     //m_ArmMesh->SetPivot(70.f,-50.f,0.f);
 

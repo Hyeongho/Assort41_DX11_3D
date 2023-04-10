@@ -21,6 +21,7 @@
 #include "Component/ColliderCube.h"
 #include "Component/ColliderOBB3D.h"
 #include "../UI/Fade.h"
+//#include "GameObject/SkySphere.h"
 
 CBikiniCitySceneInfo::CBikiniCitySceneInfo()
 {
@@ -33,6 +34,8 @@ CBikiniCitySceneInfo::~CBikiniCitySceneInfo()
 
 void CBikiniCitySceneInfo::Start()
 {
+	//m_Owner->SetSkyMaterial("Sky2");
+
 	m_Fade->SetState(EFade_State::FadeIn_Start);
 }
 
@@ -43,6 +46,9 @@ bool CBikiniCitySceneInfo::Init()
 	GlobalLightComponent->SetLightType(ELightType::Direction);
 	GlobalLightComponent->SetRelativeRotation(45.f, 90.f, 0.f);
 	m_Owner->GetLightManager()->SetGlobalLightObject(GlobalLightObj);
+
+	CResourceManager::GetInst()->SoundPlay("BikiniBottom");
+	CResourceManager::GetInst()->SetVolume(30.f);
 
 	m_Owner->GetViewport()->CreateUIWindow<CDialogUI>("DialogUI");
 	m_Owner->GetViewport()->CreateUIWindow<CInteractUI>("InteractUI");

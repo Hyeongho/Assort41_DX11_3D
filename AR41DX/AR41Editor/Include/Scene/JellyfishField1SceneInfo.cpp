@@ -30,6 +30,7 @@
 #include "../UI/DialogUI.h"
 #include "../UI/InteractUI.h"
 #include "../UI/Fade.h"
+#include "GameObject/SkySphere.h"
 
 CJellyfishField1SceneInfo::CJellyfishField1SceneInfo()
 {
@@ -42,6 +43,8 @@ CJellyfishField1SceneInfo::~CJellyfishField1SceneInfo()
 
 void CJellyfishField1SceneInfo::Start()
 {
+	m_Owner->SetSkyMaterial("Sky");
+
 	m_Fade->SetState(EFade_State::FadeIn_Start);
 }
 
@@ -75,12 +78,12 @@ bool CJellyfishField1SceneInfo::Init()
 	//TerrainComponent->SetWorldPosition(12000.f, 2100.f, 0.f);
 	//TerrainComponent->SetWorldRotation(5.f, 0.f, 0.f);
 
-	CGameObject* Water = m_Owner->CreateObject<CGameObject>("Water");
+	/*CGameObject* Water = m_Owner->CreateObject<CGameObject>("Water");
 	CStaticMeshComponent* WaterMesh = Water->CreateComponent<CStaticMeshComponent>("WaterMesh");
 	WaterMesh->SetMesh("Water");
 	WaterMesh->SetMaterial(0, "Sea");
 	WaterMesh->SetWorldScale(3.f, 1.f, 3.f);
-	WaterMesh->SetWorldPosition(14000.f, 1350.f, 81000.f);
+	WaterMesh->SetWorldPosition(14000.f, 1350.f, 81000.f);*/
 
 	CGameObject* JellyfishField = m_Owner->CreateObject<CGameObject>("JellyfishField");
 	CStaticMeshComponent* JellyfishFieldMesh = JellyfishField->CreateComponent<CStaticMeshComponent>("Mesh");

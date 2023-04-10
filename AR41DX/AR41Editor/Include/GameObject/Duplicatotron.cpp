@@ -136,7 +136,11 @@ void CDuplicatotron::PostUpdate(float DeltaTime)
 			{
 				++m_CountCan;
 
-				SpawnCan();
+				//SpawnCan();
+
+
+				CHammer* Hammer = m_Scene->CreateObject<CHammer>("Hammer");
+				Hammer->SetWorldPosition(GetWorldPos());
 
 				//m_DelayTime = 0.f;
 			}
@@ -145,7 +149,10 @@ void CDuplicatotron::PostUpdate(float DeltaTime)
 			{
 				++m_CountCan;
 
-				SpawnCan();
+				//SpawnCan();
+
+				CHammer* Hammer = m_Scene->CreateObject<CHammer>("Hammer");
+				Hammer->SetWorldPosition(GetWorldPos());
 
 				//m_SpawnOn = false;
 
@@ -155,7 +162,10 @@ void CDuplicatotron::PostUpdate(float DeltaTime)
 			{
 				++m_CountCan;
 
-				SpawnCan();
+				//SpawnCan();
+
+				CHammer* Hammer = m_Scene->CreateObject<CHammer>("Hammer");
+				Hammer->SetWorldPosition(GetWorldPos());
 
 				m_SpawnOn = false;
 

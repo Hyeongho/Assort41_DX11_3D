@@ -144,7 +144,7 @@ public:
 	void SetSkyTexture(const std::string& Name, const TCHAR* FileName,
 		const std::string& PathName = TEXTURE_PATH);
 	void ClearSky();
-
+	void SetSkyMaterial(const std::string& Name);
 
 public:
 	void Start();

@@ -1619,7 +1619,6 @@ void CTransform::SetShadowMapTransform()
 {
 	m_CBuffer->SetWorldMatrix(m_matWorld);
 
-
 	// 광원의 위치에서 바라보는 그림자 맵용 뷰행렬을 이용한다.
 	Matrix	matView = m_Scene->GetCameraManager()->GetCurrentCamera()->GetShadowViewMatrix();
 

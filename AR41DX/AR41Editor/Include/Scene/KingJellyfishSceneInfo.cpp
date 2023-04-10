@@ -13,6 +13,7 @@
 #include "../UI/InteractUI.h"
 #include "../UI/KingJellyfishIntroUI.h"
 #include "../UI/Fade.h"
+#include "GameObject/SkySphere.h"
 
 CKingJellyfishSceneInfo::CKingJellyfishSceneInfo()
 {
@@ -26,6 +27,8 @@ CKingJellyfishSceneInfo::~CKingJellyfishSceneInfo()
 
 void CKingJellyfishSceneInfo::Start()
 {
+	m_Owner->SetSkyMaterial("Sky");
+
 	m_Fade->SetState(EFade_State::FadeIn_Start);
 }
 
@@ -34,6 +37,8 @@ bool CKingJellyfishSceneInfo::Init()
 	CSceneInfo::Init();
 
 	//m_Owner->GetViewport()->CreateUIWindow<CKingJellyfishIntroUI>("KingJellyfishIntroUI");
+
+	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
 
 	CResourceManager::GetInst()->SoundPlay("KingJellyfish_Idle");
 	CResourceManager::GetInst()->SetVolume(30.f);
@@ -86,8 +91,6 @@ bool CKingJellyfishSceneInfo::Init()
 
 	CKingJellyfish* KingJellyfish = m_Owner->CreateObject<CKingJellyfish>("KingJellyfish");
 	KingJellyfish->SetWorldPosition(4400.f, 250.f, 1600.f);
-
-	m_Fade = m_Owner->GetViewport()->CreateUIWindow<CFade>("Fade");
 
 	return true;
 }

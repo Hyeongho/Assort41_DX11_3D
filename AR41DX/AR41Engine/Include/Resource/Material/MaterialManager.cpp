@@ -55,11 +55,11 @@ bool CMaterialManager::Init()
 
 
 	Material = CreateMaterial<CMaterial>("Sky");
-	Material->SetShader("SkyShader");
+	Material->SetShader("SkyShader1");
 	Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture", TEXT("Sky/sky0331.dds"));
 
 	/*Material = CreateMaterial<CMaterial>("Sky2");
-	Material->SetShader("SkyShader");
+	Material->SetShader("SkyShader2");
 	Material->AddTexture(10, (int)EShaderBufferType::Pixel, "SkyTexture2", TEXT("Sky/sky0409.dds"));*/
 
 
@@ -239,8 +239,8 @@ bool CMaterialManager::Init()
 	Material = CreateMaterial<CMaterial>("Sea");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Sea", TEXT("sea.png"));
 	Material->SetShader("SpriteShader");
-	Material->SetRenderState("AlphaBlend");
-	Material->SetOpacity(0.8f);
+	//Material->SetRenderState("AlphaBlend");
+	//Material->SetOpacity(0.8f);
 
 	// ����1 // �ؽ��� ���� �ʿ�
 	Material = CreateMaterial<CMaterial>("WaterFall");

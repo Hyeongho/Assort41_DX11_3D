@@ -35,6 +35,7 @@
 #include "../UI/DialogUI.h"
 #include "../UI/InteractUI.h"
 #include "../UI/Fade.h"
+#include "GameObject/SkySphere.h"
 
 CJellyfishField2SceneInfo::CJellyfishField2SceneInfo()
 {
@@ -47,6 +48,8 @@ CJellyfishField2SceneInfo::~CJellyfishField2SceneInfo()
 
 void CJellyfishField2SceneInfo::Start()
 {
+	m_Owner->SetSkyMaterial("Sky");
+
 	m_Fade->SetState(EFade_State::FadeIn_Start);
 }
 
@@ -130,7 +133,9 @@ bool CJellyfishField2SceneInfo::Init()
 		CTiki_Stone* TikiStone = m_Owner->CreateObject<CTiki_Stone>("TikiStone");
 		TikiStone->SetWorldPosition(7000.f, 3500.f, 21000.f);
 
-
+		CDuplicatotron* Duplicatotron = m_Owner->CreateObject<CDuplicatotron>("Duplicatotron");
+		Duplicatotron->SetWorldPosition(11100.f, 5150.f, 26300.f);
+		Duplicatotron->SetWorldRotationY(90.f);
 	}
 
 
@@ -145,11 +150,11 @@ bool CJellyfishField2SceneInfo::Init()
 		Trampoline->SetWorldPosition(11100.f, 5150.f, 26300.f);
 
 		CTeeterRock* TeeterRock = m_Owner->CreateObject<CTeeterRock>("TeeterRock");
-		TeeterRock->SetWorldPosition(8100.f, 4500.f, 21900.f);
+		TeeterRock->SetWorldPosition(8100.f, 4510.f, 21900.f);
 		TeeterRock->SetWorldRotationY(320.f);
 
 		CGate* Gate = m_Owner->CreateObject<CGate>("Gate");
-		Gate->SetWorldPosition(8100.f, 4500.f, 21900.f);
+		Gate->SetWorldPosition(12600.f, 5600.f, 26000.f);
 	}
 
 	// ±è±â¹é(Tree)

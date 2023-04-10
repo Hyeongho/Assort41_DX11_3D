@@ -18,6 +18,7 @@ private:
 
 public:
 	void SetSkyTexture(const std::string& Name, const TCHAR* FileName, const std::string& PathName = TEXTURE_PATH);
+	void SetMaterial(const std::string& Name);
 
 public:
 	virtual void Start();

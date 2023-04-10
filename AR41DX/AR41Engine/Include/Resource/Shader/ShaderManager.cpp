@@ -92,7 +92,8 @@ bool CShaderManager::Init()
 	CreateShader<CAnimationUpdateShader>("AnimationUpdateShader", true);
 
 
-	CreateShader<CSkyShader>("SkyShader", true);
+	CreateShader<CSkyShader>("SkyShader1", true);
+	CreateShader<CSkyShader>("SkyShader2", true);
 
 
 	CreateShader<CTerrainShader>("TerrainShader", true);

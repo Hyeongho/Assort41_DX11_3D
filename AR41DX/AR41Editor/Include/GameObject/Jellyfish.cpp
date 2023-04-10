@@ -120,7 +120,7 @@ void CJellyfish::Update(float DeltaTime)
         break;
     case 2:
         AddWorldPositionZ(g_DeltaTime * -60.f);
-        SetWorldRotationX(90.f);
+        SetWorldRotationX(-90.f);
         break;
     case 3:
         AddWorldPositionX(g_DeltaTime * -60.f);
@@ -128,7 +128,7 @@ void CJellyfish::Update(float DeltaTime)
         break;
     case 4:
         AddWorldPositionZ(g_DeltaTime * 60.f);
-        SetWorldRotationX(-90.f);
+        SetWorldRotationX(90.f);
         break;
     }
 }

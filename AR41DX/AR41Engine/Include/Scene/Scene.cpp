@@ -236,11 +236,14 @@ void CScene::ClearSky()
 	m_SkySphere = nullptr;
 }
 
+void CScene::SetSkyMaterial(const std::string& Name)
+{
+	m_SkySphere->SetMaterial(Name);
+}
+
 void CScene::Start()
 {
 	m_Start = true;
-
-	m_SceneInfo->Start();
 
 	m_SkySphere = new CSkySphere;
 
@@ -248,6 +251,8 @@ void CScene::Start()
 	m_SkySphere->SetScene(this);
 
 	m_SkySphere->Init();
+
+	m_SceneInfo->Start();
 
 	auto	iter = m_ObjList.begin();
 	auto	iterEnd = m_ObjList.end();

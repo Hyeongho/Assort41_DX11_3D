@@ -72,7 +72,7 @@ bool CEditorManager::Init(HINSTANCE hInst)
 
     CEngine::SetWndProcCallback<CEditorManager>(this, &CEditorManager::WndProc);
 
-#ifdef DEBUG
+#ifdef _DEBUG
 
     CEditorGUIManager::GetInst()->CreateEditorWindow<CObjectWindow>("ObjectWindow");
     CEditorGUIManager::GetInst()->CreateEditorWindow<CClassWindow>("ClassWindow");

@@ -26,6 +26,25 @@ void CSkySphere::SetSkyTexture(const std::string& Name, const TCHAR* FileName, c
 	m_Material->SetTexture(0, 0, (int)EShaderBufferType::Pixel, Name, FileName, PathName);
 }
 
+void CSkySphere::SetMaterial(const std::string& Name)
+{
+	m_Mesh->ClearMaterial();
+
+	if (m_Scene)
+	{
+		m_Material = m_Scene->GetResource()->FindMaterial(Name);
+	}
+
+	else
+	{
+		m_Material = CResourceManager::GetInst()->FindMaterial(Name);
+	}
+
+	m_Mesh->AddMaterial(m_Material);
+
+	m_Material = m_Mesh->GetMaterial(0);
+}
+
 void CSkySphere::Start()
 {
 	CGameObject::Start();

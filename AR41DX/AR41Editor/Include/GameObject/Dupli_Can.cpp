@@ -55,8 +55,9 @@ bool CDupli_Can::Init()
     m_Mesh->AddChild(m_Cube);
     m_Mesh->AddChild(m_Rigid);
 
-    m_Cube->SetBoxHalfSize(50.f, 50.f, 50.f);
+    m_Cube->SetBoxHalfSize(m_Mesh->GetMeshSize() / 2.f);
     m_Cube->SetRelativePosition(0.f, 0.f, 0.f);
+    m_Cube->SetCollisionCallback<CDupli_Can>(ECollision_Result::Collision, this, &CDupli_Can::Collision_Ground);
 
 
     CDuplicatotron* Duplicatotron = (CDuplicatotron*)m_Scene->FindObject("Duplicatotron");
@@ -115,10 +116,13 @@ void CDupli_Can::Update(float DeltaTime)
         //AddWorldPosition(GetWorldAxis(AXIS_Z) * 500.f * DeltaTime);
 
         //AddWorldPosition(GetWorldAxis(AXIS_X) * 300.f * DeltaTime);
-        m_Rigid->AddForce(500.f, 370.f);
+        //m_Rigid->AddForce(500.f, 370.f);
+        m_Rigid->AddForce(300.f, 370.f);
     }
 
 
+
+    return;
 
     // ¶¥¿¡ ÂøÁö
     if (Y != FLT_MAX && GetWorldPos().y - Y < m_Mesh->GetMeshSize().y / 2.f && m_Mesh)
@@ -176,4 +180,22 @@ void CDupli_Can::SpawnHammer()
 
         ++m_CountHammer;
     }
+}
+
+void CDupli_Can::Collision_Ground(const CollisionResult& result)
+{
+    if (!m_SpawnOn)
+        return;
+
+    SetWorldPositionY(5150.f);
+    m_Rigid->SetGround(true);
+    m_Rigid->SetVelocityY(0.f);
+    m_Rigid->AddForce(0, 0.f);
+
+    SpawnHammer();
+
+    m_SpawnOn = false;
+
+
+    m_Mesh->Destroy();
 }
