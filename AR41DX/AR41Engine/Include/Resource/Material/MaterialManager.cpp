@@ -239,8 +239,8 @@ bool CMaterialManager::Init()
 	Material = CreateMaterial<CMaterial>("Sea");
 	Material->AddTexture(0, (int)EShaderBufferType::Pixel, "Sea", TEXT("sea.png"));
 	Material->SetShader("SpriteShader");
-	Material->SetRenderState("AlphaBlend");
-	Material->SetOpacity(0.8f);
+	//Material->SetRenderState("AlphaBlend");
+	//Material->SetOpacity(0.8f);
 
 	// ����1 // �ؽ��� ���� �ʿ�
 	Material = CreateMaterial<CMaterial>("WaterFall");
